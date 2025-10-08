@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+
+# Environnements
+.venv/
+venv/
+env/
+
+# Jupyter/Notebook
+.ipynb_checkpoints/
+
+# Streamlit secrets (ne jamais committer)
+.streamlit/secrets.toml
+
+# OS/IDE
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
