@@ -32,16 +32,6 @@ def _load_sources():
     df_pap_statut_semaine = load_df_pap_statut_semaine()
     
     sources = {
-        "PAP importés/autonomes": (
-            df_pap,
-            {
-                "date_col": "passage_pap",
-                "group_col": "import",
-                "force_granularite": None,
-                "force_cumulatif": None,
-                "objectif": None,
-            },
-        ),
         "🌟 North Star": (
             df_pap_statut_semaine,
             {
@@ -50,6 +40,16 @@ def _load_sources():
                 "force_granularite": 'W',
                 "force_cumulatif": False,
                 "objectif": 500,
+            },
+        ),
+        "PAP importés/autonomes": (
+            df_pap,
+            {
+                "date_col": "passage_pap",
+                "group_col": "import",
+                "force_granularite": None,
+                "force_cumulatif": None,
+                "objectif": None,
             },
         ),
     }
