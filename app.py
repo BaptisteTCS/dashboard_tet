@@ -19,15 +19,22 @@ from utils.data import (
 st.set_page_config(
     page_title="Dashboard PAP",
     page_icon="📊",
-    layout="wide"
+    layout="wide",
+    initial_sidebar_state="expanded"
 )
 
 
-st.title("Dashboard PAP – Migration Datalore → Streamlit")
-st.write("""
-Cette application reprend les principales visualisations du notebook Datalore et les expose en pages Streamlit.
-Utilisez le menu de gauche pour naviguer. Les données sont chargées via `utils/data.py` – adaptez ces fonctions à votre source (SQL, CSV, API).
-""")
+st.markdown(
+    """
+    <div style="padding: 14px 18px; background: linear-gradient(90deg,#3B82F6, #60A5FA); border-radius: 12px; color: white;">
+      <h1 style="margin: 0; font-size: 28px;">Dashboard PAP</h1>
+      <p style="margin: 6px 0 0; opacity: 0.95;">Migration Datalore → Streamlit • Visualisations clés et exploration interactive</p>
+    </div>
+    """,
+    unsafe_allow_html=True,
+)
+st.write("")
+st.info("Utilisez le menu à gauche pour naviguer entre les pages. Les données proviennent de votre base Postgres.")
 
 st.sidebar.success("Choisissez une page dans le menu Pages")
 

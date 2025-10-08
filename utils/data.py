@@ -16,6 +16,11 @@ def load_df_pap() -> pd.DataFrame:
     df = read_table("pap_date_passage")
     return df
 
+def load_df_pap_statut_semaine() -> pd.DataFrame:
+    # Dérivé de df_pap: première apparition par collectivite_id
+    df = read_table("pap_statut_semaine")
+    return df
+
 
 def load_df_ct() -> pd.DataFrame:
     # Dérivé de df_pap: première apparition par collectivite_id

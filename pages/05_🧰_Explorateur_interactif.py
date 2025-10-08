@@ -3,7 +3,7 @@ import pandas as pd
 
 from utils.data import (
     load_df_pap,
-    load_df_pap_notes,
+    load_df_pap_statut_semaine,
 )
 from utils.analytics import (
     compute_totals_by_period,
@@ -14,15 +14,23 @@ from utils.plots import plot_area_with_totals
 
 
 st.set_page_config(page_title="Explorateur interactif", page_icon="🧰", layout="wide")
-st.title("🧰 Explorateur interactif")
-st.caption("Sélectionnez une source, une granularité et le type d'affichage.")
+st.markdown(
+    """
+    <div style=\"padding: 10px 14px; background: #F6F8FB; border: 1px solid #E5E7EB; border-radius: 12px; margin-bottom: 18px;\">
+      <h2 style=\"margin: 0; font-size: 28px; color: #0F172A;\">🧰 Explorateur interactif</h2>
+      <p style=\"margin: 6px 0 0; color: #374151;\">Sélectionnez une source, une granularité et le type d'affichage.</p>
+    </div>
+    """,
+    unsafe_allow_html=True,
+)
 
 
 @st.cache_data(show_spinner=False)
 def _load_sources():
     # mappe un nom lisible vers (DataFrame, params par défaut)
     df_pap = load_df_pap()
-    df_pap_notes = load_df_pap_notes()
+    df_pap_statut_semaine = load_df_pap_statut_semaine()
+    
     sources = {
         "PAP importés/autonomes": (
             df_pap,
@@ -34,24 +42,14 @@ def _load_sources():
                 "objectif": None,
             },
         ),
-        "Évolution des plans d'actions par type": (
-            df_pap,
-            {
-                "date_col": "passage_pap",
-                "group_col": "nom_plan",
-                "force_granularite": None,
-                "force_cumulatif": None,
-                "objectif": None,
-            },
-        ),
-        "🌟 Évolution des scores (NS Rétention)": (
-            df_pap_notes,
+        "🌟 North Star": (
+            df_pap_statut_semaine,
             {
                 "date_col": "semaine",
-                "group_col": "score_groupe",  # présumé présent dans df_pap_notes
-                "force_granularite": "W",
+                "group_col": "statut",
+                "force_granularite": 'W',
                 "force_cumulatif": False,
-                "objectif": None,
+                "objectif": 500,
             },
         ),
     }
@@ -59,27 +57,48 @@ def _load_sources():
 
 
 sources = _load_sources()
-col_left, col_right = st.columns([1, 3])
+col_left, col_right = st.columns([1, 3], gap="large")
 with col_left:
-    selection = st.selectbox("Donnée:", options=list(sources.keys()))
+    with st.container(border=True):
+        st.subheader("Données", divider="blue")
+        selection = st.selectbox("Sélection", options=list(sources.keys()))
     df, params = sources[selection]
 
-    # Widgets équivalents avec overrides possibles
-    min_date = st.date_input("Date de début", value=pd.to_datetime("2025-01-01").date())
+    with st.container(border=True):
+        st.subheader("Paramètres", divider="blue")
+        min_date = st.date_input("Date de début", value=pd.to_datetime("2025-01-01").date())
 
     if params["force_granularite"] is not None:
         time_granularity = params["force_granularite"]
         st.text(f"Granularité: {time_granularity} (forcée)")
     else:
-        time_granularity = st.radio("Granularité:", options=[("Semaine", "W"), ("Mois", "M")], format_func=lambda x: x[0])[1]
+        gran_label = st.segmented_control(
+            "Granularité",
+            options=["Semaine", "Mois"],
+            default="Mois",
+        )
+        gran_map = {"Semaine": "W", "Mois": "M"}
+        time_granularity = gran_map.get(gran_label, "M")
 
     if params["force_cumulatif"] is not None:
         cumulatif = params["force_cumulatif"]
         st.text(f"Type: {'Cumulé' if cumulatif else 'Brut'} (forcé)")
     else:
-        cumulatif = st.radio("Type:", options=[("Brut", False), ("Cumulé", True)], format_func=lambda x: x[0])[1]
+        type_label = st.segmented_control(
+            "Type",
+            options=["Brut", "Cumulé"],
+            default="Brut",
+        )
+        cumulatif = True if type_label == "Cumulé" else False
 
-    view = st.radio("Affichage:", options=[("Graphe", "graph"), ("Tableau", "table")], format_func=lambda x: x[0])[1]
+    with st.container(border=True):
+        st.subheader("Affichage", divider="blue")
+        view_label = st.segmented_control(
+            "Mode",
+            options=["Graphe", "Tableau"],
+            default="Graphe",
+        )
+        view = "graph" if view_label == "Graphe" else "table"
 
 with col_right:
     # Affichage
@@ -94,7 +113,9 @@ with col_right:
             values_graph=True,
             objectif=params.get("objectif"),
         )
-        st.plotly_chart(fig, use_container_width=True)
+        with st.container(border=True):
+            st.subheader("Résultat", divider="blue")
+            st.plotly_chart(fig, use_container_width=True)
     else:
         df_totals = compute_totals_by_period(
             df=df,
@@ -106,6 +127,8 @@ with col_right:
         )
         df_totals = date_to_month(df_totals)
         table_fig = display_totals_table(df_totals)
-        st.plotly_chart(table_fig, use_container_width=True)
+        with st.container(border=True):
+            st.subheader("Résultat", divider="blue")
+            st.plotly_chart(table_fig, use_container_width=True)
 
 
