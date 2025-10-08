@@ -45,6 +45,7 @@ Schémas attendus:
 
 Si vous partez de SQL, vous pouvez utiliser `sqlalchemy`/`psycopg` et retourner des DataFrame pandas.
 
+
 ## Personnalisation
 
 - Couleurs, tailles, et formats des graphiques: modifiez `utils/plots.py`

@@ -1,4 +1,5 @@
 import pandas as pd
+from .db import read_table
 
 
 # Remplacez ces loaders par vos vraies sources (SQL, CSV, API).
@@ -6,10 +7,14 @@ import pandas as pd
 
 
 def load_df_pap() -> pd.DataFrame:
-    # Colonnes attendues: passage_pap (datetime), nom_plan, plan, collectivite_id, nom, import
-    return pd.DataFrame(columns=[
-        'passage_pap', 'nom_plan', 'plan', 'collectivite_id', 'nom', 'import'
-    ])
+    """Charge la table des passages PAP depuis la base Postgres.
+
+    La table source est "pap_date_passage" (schéma par défaut). Elle doit contenir
+    au moins les colonnes utilisées par les graphiques: passage_pap, nom_plan,
+    plan, collectivite_id, nom, import.
+    """
+    df = read_table("pap_date_passage")
+    return df
 
 
 def load_df_ct() -> pd.DataFrame:
@@ -21,12 +26,8 @@ def load_df_ct() -> pd.DataFrame:
 
 def load_df_pap_notes() -> pd.DataFrame:
     # Colonnes: semaine (datetime), plan_id, collectivite_id, score, scores détaillés
-    return pd.DataFrame(columns=[
-        'semaine', 'plan_id', 'collectivite_id', 'score',
-        'score_pilotabilite', 'score_indicateur', 'score_objectif',
-        'score_referentiel', 'score_avancement', 'score_budget',
-        'nom_ct', 'nom', 'c_referentiel'
-    ])
+    df = read_table("pap_note")
+    return df
 
 
 def load_df_plan_pilote() -> pd.DataFrame:
