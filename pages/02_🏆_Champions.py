@@ -1,11 +1,13 @@
 import streamlit as st
 import pandas as pd
+from datetime import datetime
 
 from utils.data import load_df_pap_notes
 from utils.plots import radar_spider_graph_plotly_with_comparison
 
 
-st.title("🫡 Les champions de la semaine")
+# Configuration de la page
+st.set_page_config(layout="wide")
 
 df_notes = load_df_pap_notes()
 
@@ -17,28 +19,123 @@ if df_notes.empty:
 semaines = sorted(df_notes['semaine'].dropna().unique(), reverse=True)[:2]
 df_2 = df_notes[df_notes['semaine'].isin(semaines)].copy()
 
-if len(semaines) < 2:
-    st.warning("Pas assez d'historique pour comparaison semaine N / N-1.")
+# Titre avec la date de la dernière semaine
+if len(semaines) > 0:
+    derniere_semaine = pd.to_datetime(semaines[0])
+    semaine_str = derniere_semaine.strftime("%d/%m/%Y")
+    st.title(f"🏆 Top 10 des Champions de la semaine du {semaine_str}")
+else:
+    st.title("🏆 Top 10 des Champions")
 
+st.markdown("### Les collectivités qui ont le plus progressé cette semaine")
+st.markdown("---")
+
+if len(semaines) < 2:
+    st.warning("⚠️ Pas assez d'historique pour comparer les semaines N et N-1.")
+    st.stop()
+
+# Calcul des différences de scores
 df_pivot = df_2.pivot(index=['collectivite_id', 'plan_id'], columns='semaine', values='score')
+
 if df_pivot.shape[1] >= 2:
     df_pivot['difference_score'] = df_pivot.iloc[:, 1] - df_pivot.iloc[:, 0]
     df_diff = df_pivot[['difference_score']].reset_index()
-    top_rows = df_diff.sort_values(by='difference_score', ascending=False).head(5)
-
-    for _, top_row in top_rows.iterrows():
-        plan_id = top_row['plan_id']
-        diff = top_row['difference_score']
-
-        df_plan = df_2[df_2['plan_id'] == plan_id].sort_values(by='semaine', ascending=False)
-        if len(df_plan) < 2:
-            continue
-        row = df_plan.iloc[0]
-        row_precedente = df_plan.iloc[1]
-
-        fig = radar_spider_graph_plotly_with_comparison(row, row_precedente, diff)
-        st.plotly_chart(fig, use_container_width=False)
+    top_rows = df_diff.sort_values(by='difference_score', ascending=False).head(10)
+    
+    if top_rows.empty or top_rows['difference_score'].max() <= 0:
+        st.info("ℹ️ Aucune progression significative détectée cette semaine.")
+        st.stop()
+    
+    
+    # Badges de classement
+    badges = {1: "🥇", 2: "🥈", 3: "🥉", 4: "4️⃣", 5: "5️⃣", 6: "6️⃣", 7: "7️⃣", 8: "8️⃣", 9: "9️⃣", 10: "10"}
+    
+    # Affichage en galerie (2 colonnes)
+    rank = 1
+    for idx in range(0, len(top_rows), 2):
+        cols = st.columns(2)
+        
+        for col_idx, col in enumerate(cols):
+            row_idx = idx + col_idx
+            if row_idx < len(top_rows):
+                top_row = top_rows.iloc[row_idx]
+                plan_id = top_row['plan_id']
+                diff = top_row['difference_score']
+                
+                df_plan = df_2[df_2['plan_id'] == plan_id].sort_values(by='semaine', ascending=False)
+                if len(df_plan) < 2:
+                    continue
+                    
+                row = df_plan.iloc[0]
+                row_precedente = df_plan.iloc[1]
+                
+                with col:
+                    
+                    # Header avec badge et infos (tronqué pour éviter le décalage)
+                    collectivite_nom = row['nom_ct']
+                    plan_nom = row['nom']
+                    
+                    # Tronquer si trop long pour éviter les décalages
+                    titre_complet = f"{collectivite_nom} - {plan_nom}"
+                    if len(titre_complet) > 50:
+                        titre_affiche = titre_complet[:47] + "..."
+                    else:
+                        titre_affiche = titre_complet
+                    
+                    st.markdown(f"### {badges.get(rank, '🏅')} {titre_affiche}")
+                    
+                    # Metrics
+                    col_metric1, col_metric2, col_metric3 = st.columns(3)
+                    with col_metric1:
+                        st.metric(
+                            "Score actuel",
+                            f"{round(row['score'], 2)}",
+                            delta=f"+{round(diff, 2)}"
+                        )
+                    with col_metric2:
+                        st.metric(
+                            "Score précédent",
+                            f"{round(row_precedente['score'], 2)}"
+                        )
+                    with col_metric3:
+                        progression_pct = (diff / row_precedente['score'] * 100) if row_precedente['score'] > 0 else 0
+                        st.metric(
+                            "Progression",
+                            f"+{round(progression_pct, 1)}%"
+                        )
+                    
+                    # Infos collectivité
+                    with st.expander("ℹ️ Détails de la collectivité", expanded=False):
+                        st.write(f"**Collectivité :** {row['nom_ct']}")
+                        st.write(f"**Plan :** {row['nom']}")
+                        st.write(f"**Type :** {row.get('type_collectivite', 'N/A')}")
+                        st.write(f"**Région :** {row.get('region_name', 'N/A')}")
+                        st.write(f"**Population :** {int(row.get('population_totale', 0)):,} habitants".replace(',', ' '))
+                    
+                    # Graphe radar avec comparaison
+                    fig = radar_spider_graph_plotly_with_comparison(row, row_precedente, diff)
+                    st.plotly_chart(fig, use_container_width=True)
+                    
+                    st.markdown("---")
+                    
+                rank += 1
+    
+    # Statistiques globales en bas
+    st.markdown("---")
+    st.markdown("### 📊 Statistiques globales")
+    col_stat1, col_stat2, col_stat3, col_stat4 = st.columns(4)
+    
+    with col_stat1:
+        st.metric("Meilleure progression", f"+{round(top_rows['difference_score'].max(), 2)}")
+    with col_stat2:
+        st.metric("Progression moyenne (Top 10)", f"+{round(top_rows['difference_score'].mean(), 2)}")
+    with col_stat3:
+        nb_total_progressions = len(df_diff[df_diff['difference_score'] > 0])
+        st.metric("Collectivités en progression", nb_total_progressions)
+    with col_stat4:
+        st.metric("Semaines comparées", f"{len(semaines)}")
+    
 else:
-    st.info("Données insuffisantes pour calculer la différence de score.")
+    st.info("ℹ️ Données insuffisantes pour calculer la différence de score.")
 
 

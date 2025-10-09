@@ -78,9 +78,7 @@ def radar_spider_graph_plotly_with_comparison(row: pd.Series, row_precedente: pd
         ),
         showlegend=True,
         legend=dict(orientation='h', yanchor='bottom', y=-0.2, xanchor='center', x=0.5),
-        title=f"{row.get('nom_ct', 'Collectivité')} - {row.get('nom', 'Plan')}<br>"
-              f"{round(row.get('score', np.mean(values[:-1])), 2)} / 5 "
-              f"({'+' if diff and diff >= 0 else ''}{round(diff, 2) if diff is not None else '–'})"
+        title=""
     )
 
     return fig
@@ -140,7 +138,7 @@ def radar_spider_graph_plotly(row: pd.Series):
             )
         ),
         showlegend=False,
-        title=f"{row.get('nom_ct')} : {round(row.get('score', np.mean(values[:-1])), 2)} / 5"
+        title=f"Score : {round(row.get('score', np.mean(values[:-1])), 2)} / 5"
     )
 
     return fig
