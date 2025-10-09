@@ -4,6 +4,9 @@ import pandas as pd
 from utils.data import (
     load_df_pap,
     load_df_pap_statut_semaine,
+    load_df_pap_notes_summed,
+    load_df_typologie_fiche,
+    load_df_airtable_pipeline_semaine,
 )
 from utils.analytics import (
     compute_totals_by_period,
@@ -16,9 +19,8 @@ from utils.plots import plot_area_with_totals
 st.set_page_config(page_title="Explorateur interactif", page_icon="🧰", layout="wide")
 st.markdown(
     """
-    <div style=\"padding: 10px 14px; background: #F6F8FB; border: 1px solid #E5E7EB; border-radius: 12px; margin-bottom: 18px;\">
-      <h2 style=\"margin: 0; font-size: 28px; color: #0F172A;\">🧰 Explorateur interactif</h2>
-      <p style=\"margin: 6px 0 0; color: #374151;\">Sélectionnez une source, une granularité et le type d'affichage.</p>
+    <div style=\"padding: 10px 14px; margin-bottom: 18px;\">
+      <h2 style=\"margin: 0; font-size: 40px;\">🧰 Explorateur interactif</h2>
     </div>
     """,
     unsafe_allow_html=True,
@@ -30,9 +32,14 @@ def _load_sources():
     # mappe un nom lisible vers (DataFrame, params par défaut)
     df_pap = load_df_pap()
     df_pap_statut_semaine = load_df_pap_statut_semaine()
-    
+    df_pap_notes_summed = load_df_pap_notes_summed()
+    df_typologie_fiche = load_df_typologie_fiche()
+    df_airtable_pipeline_semaine = load_df_airtable_pipeline_semaine()
+
+    print(df_pap_notes_summed.head(20))
+
     sources = {
-        "🌟 North Star": (
+        "🌟 North Star 1 - Activation": (
             df_pap_statut_semaine,
             {
                 "date_col": "semaine",
@@ -42,12 +49,53 @@ def _load_sources():
                 "objectif": 500,
             },
         ),
+        "🌟 North Star 2 - Rétention : Somme des scores": (
+            df_pap_notes_summed,
+            {
+                "date_col": "semaine",
+                "group_col": "type_score",
+                "force_granularite": 'W',
+                "force_cumulatif": False,
+                "objectif": None,
+                "use_values_col": "somme",
+            },
+        ),
         "PAP importés/autonomes": (
             df_pap,
             {
                 "date_col": "passage_pap",
                 "group_col": "import",
                 "force_granularite": None,
+                "force_cumulatif": None,
+                "objectif": None,
+            },
+        ),
+        "Evolution des plans par type": (
+            df_pap,
+            {
+                "date_col": "passage_pap",
+                "group_col": "nom_plan",
+                "force_granularite": None,
+                "force_cumulatif": None,
+                "objectif": None,
+            },
+        ),
+        "Evolution des fiches actions par type": (
+            df_typologie_fiche,
+            {
+                "date_col": "modified_at",
+                "group_col": "type",
+                "force_granularite": None,
+                "force_cumulatif": None,
+                "objectif": None,
+            },
+        ),
+        "Evolution du nombre de CT par pipeline (bizdev)": (
+            df_airtable_pipeline_semaine[df_airtable_pipeline_semaine['pipeline'] != 'A acquérir'],
+            {
+                "date_col": "semaine",
+                "group_col": "pipeline",
+                "force_granularite": 'W',
                 "force_cumulatif": None,
                 "objectif": None,
             },
@@ -70,7 +118,7 @@ with col_left:
 
     if params["force_granularite"] is not None:
         time_granularity = params["force_granularite"]
-        st.text(f"Granularité: {time_granularity} (forcée)")
+        st.text(f"Granularité: forcée")
     else:
         gran_label = st.segmented_control(
             "Granularité",
@@ -82,7 +130,7 @@ with col_left:
 
     if params["force_cumulatif"] is not None:
         cumulatif = params["force_cumulatif"]
-        st.text(f"Type: {'Cumulé' if cumulatif else 'Brut'} (forcé)")
+        st.text(f"Type: forcé")
     else:
         type_label = st.segmented_control(
             "Type",
@@ -100,9 +148,20 @@ with col_left:
         )
         view = "graph" if view_label == "Graphe" else "table"
 
+    # Debug expander
+    with st.expander("🐛 Debug - Voir les données brutes"):
+        st.write(f"**Source sélectionnée :** {selection}")
+        st.write(f"**Shape du DataFrame :** {df.shape}")
+        st.write(f"**Colonnes :** {list(df.columns)}")
+        st.write(f"**Types de données :**")
+        st.write(df.dtypes)
+        st.write("**Aperçu des données (20 premières lignes) :**")
+        st.dataframe(df.head(20), use_container_width=True)
+
 with col_right:
     # Affichage
     if view == "graph":
+        
         fig = plot_area_with_totals(
             df=df,
             date_col=params["date_col"],
@@ -112,6 +171,7 @@ with col_right:
             min_date=pd.to_datetime(min_date).strftime('%Y-%m-%d'),
             values_graph=True,
             objectif=params.get("objectif"),
+            use_values_col=params.get("use_values_col") if params.get("use_values_col") else None,
         )
         with st.container(border=True):
             st.subheader("Résultat", divider="blue")
@@ -130,5 +190,3 @@ with col_right:
         with st.container(border=True):
             st.subheader("Résultat", divider="blue")
             st.plotly_chart(table_fig, use_container_width=True)
-
-

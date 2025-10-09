@@ -159,20 +159,32 @@ def plot_area_with_totals(
     y_title: str = "",
     values_graph: bool = True,
     objectif: float | None = None,
-    title: str = ""
+    title: str = "",
+    use_values_col: str | None = None
 ):
     df = df.copy()
     df[date_col] = pd.to_datetime(df[date_col]).dt.tz_localize(None)
     df['periode'] = df[date_col].dt.to_period(time_granularity).dt.to_timestamp()
 
     if group_col:
-        grouped = df.groupby(['periode', group_col]).size().unstack(fill_value=0)
+        if use_values_col:
+            # Cas où les valeurs sont déjà sommées
+            grouped = df.groupby(['periode', group_col])[use_values_col].sum().unstack(fill_value=0)
+        else:
+            # Cas standard: compter les lignes
+            grouped = df.groupby(['periode', group_col]).size().unstack(fill_value=0)
         total_by_type = grouped.sum().sort_values(ascending=False)
         grouped = grouped[total_by_type.index]
     else:
-        grouped = df.groupby('periode').size().to_frame('Total')
+        if use_values_col:
+            # Cas où les valeurs sont déjà sommées
+            grouped = df.groupby('periode')[use_values_col].sum().to_frame('Total')
+        else:
+            # Cas standard: compter les lignes
+            grouped = df.groupby('periode').size().to_frame('Total')
 
     data_to_plot = grouped.cumsum() if cumulatif else grouped
+    
     data_to_plot = data_to_plot[data_to_plot.index >= pd.to_datetime(min_date)]
 
     df_melt = data_to_plot.reset_index().melt(
@@ -238,7 +250,7 @@ def plot_area_with_totals(
 
     fig.update_layout(
         width=1000,
-        height=500,
+        height=630,
         legend_title_text=legend_title if group_col else None,
         hovermode="x unified",
         template="simple_white",
@@ -249,19 +261,25 @@ def plot_area_with_totals(
             'x': 0.5,
             'xanchor': 'center',
             'yanchor': 'top'
-        }
+        },
     )
 
     if values_graph:
+        # Utiliser une couleur qui fonctionne bien sur les deux thèmes
+        # Bleu foncé avec bordure blanche pour la lisibilité
+        text_color = '#9A9A9A'  
+        
+        display_values = totaux['total']
+            
         fig.add_trace(
             go.Scatter(
                 x=totaux['periode'],
                 y=totaux['total'] * 1.02,
-                text=totaux['total'],
+                text=display_values,
                 mode='text',
                 textposition='top left',
                 showlegend=False,
-                textfont=dict(color='grey', size=10),
+                textfont=dict(color=text_color, size=14),
                 hoverinfo='skip'
             )
         )

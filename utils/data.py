@@ -22,36 +22,47 @@ def load_df_pap_statut_semaine() -> pd.DataFrame:
     return df
 
 
-def load_df_ct() -> pd.DataFrame:
-    # Dérivé de df_pap: première apparition par collectivite_id
-    return pd.DataFrame(columns=[
-        'collectivite_id', 'passage_pap', 'nom', 'import'
-    ])
-
-
 def load_df_pap_notes() -> pd.DataFrame:
     # Colonnes: semaine (datetime), plan_id, collectivite_id, score, scores détaillés
     df = read_table("pap_note")
     return df
 
+def load_df_pap_notes_summed() -> pd.DataFrame:
 
-def load_df_plan_pilote() -> pd.DataFrame:
-    # Colonnes: created_at (datetime), user_id, plan_id, collectivite_id, nom
-    return pd.DataFrame(columns=['created_at', 'user_id', 'plan_id', 'collectivite_id', 'nom'])
+    df = read_table("pap_note")
+
+    df_scores = (
+        df.groupby('semaine')[[
+            'score_pilotabilite', 'score_budget', 'score_indicateur',
+            'score_objectif', 'score_avancement', 'score_referentiel'
+        ]]
+        .sum()
+        .reset_index()
+        .melt(
+            id_vars='semaine',
+            var_name='type_score',
+            value_name='somme'
+        )
+    )
+
+    d = {'score_pilotabilite' : 'Pilotabilité',
+        'score_objectif' : 'Objectif',
+        'score_indicateur' : 'Indicateur',
+        'score_referentiel' : 'Référentiel',
+        'score_budget' : 'Budget',
+        'score_avancement' : 'Avancement'}
+
+    df_scores['type_score'] = df_scores['type_score'].map(d)
+    df_scores['semaine'] = pd.to_datetime(df_scores['semaine'])
+    df_scores['somme'] = round(df_scores['somme'], 0).astype(int)
+
+    return df_scores
 
 
-def load_df_plan_referent() -> pd.DataFrame:
-    # Colonnes: created_at (datetime), user_id, plan_id, collectivite_id, nom
-    return pd.DataFrame(columns=['created_at', 'user_id', 'plan_id', 'collectivite_id', 'nom'])
+def load_df_typologie_fiche() -> pd.DataFrame:
+    df = read_table("evolution_typologie_fa")
+    return df
 
-
-def load_df_sharing() -> pd.DataFrame:
-    # Colonnes: created_at (datetime), collectivite_id
-    return pd.DataFrame(columns=['created_at', 'collectivite_id'])
-
-
-def load_df_score_indicateur() -> pd.DataFrame:
-    # Colonnes: collectivite_id, action_id
-    return pd.DataFrame(columns=['collectivite_id', 'action_id'])
-
-
+def load_df_airtable_pipeline_semaine() -> pd.DataFrame:
+    df = read_table("airtable_sync_semaine", columns=['semaine', 'pipeline'])
+    return df

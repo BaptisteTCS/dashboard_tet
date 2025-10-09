@@ -7,12 +7,7 @@ from utils.plots import (
 )
 from utils.data import (
     load_df_pap,
-    load_df_ct,
-    load_df_pap_notes,
-    load_df_plan_pilote,
-    load_df_plan_referent,
-    load_df_sharing,
-    load_df_score_indicateur
+    load_df_pap_notes
 )
 
 
