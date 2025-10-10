@@ -5,7 +5,7 @@ from utils.data import load_df_pap_notes
 from utils.plots import radar_spider_graph_plotly
 
 
-st.title("✨ Tableau de bord des collectivités")
+st.title("🥐 Tableau de bord des collectivités")
 
 # Charger les données
 df_notes = load_df_pap_notes()

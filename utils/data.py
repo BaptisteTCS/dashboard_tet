@@ -52,7 +52,6 @@ def load_df_pap_notes_summed() -> pd.DataFrame:
 
     return df_scores
 
-
 def load_df_typologie_fiche() -> pd.DataFrame:
     df = read_table("evolution_typologie_fa")
     return df
@@ -65,4 +64,8 @@ def load_df_pap_notes() -> pd.DataFrame:
     df_notes = read_table("pap_note", columns=['collectivite_id', 'plan_id', 'nom', 'nom_ct', 'score_pilotabilite', 'score_budget', 'score_indicateur', 'score_objectif', 'score_avancement', 'score_referentiel', 'c_referentiel', 'score', 'semaine'])
     df_ct = read_table("collectivite", columns=['collectivite_id', 'type_collectivite', 'nature_collectivite', 'region_name', 'departement_name', 'population_totale'])
     df = pd.merge(df_notes, df_ct, on='collectivite_id', how='left')
+    return df
+
+def load_df_collectivite() -> pd.DataFrame:
+    df = read_table("collectivite", columns=['collectivite_id', 'type_collectivite', 'nature_collectivite', 'region_name', 'departement_name', 'population_totale'])
     return df
