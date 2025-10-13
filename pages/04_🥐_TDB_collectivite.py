@@ -70,12 +70,6 @@ selected_pop_range = st.sidebar.slider(
 # === APPLICATION DES FILTRES ===
 filtered_df = pap_note.copy()
 
-# Filtre par nom
-if search_name:
-    filtered_df = filtered_df[
-        filtered_df['nom_ct'].str.contains(search_name, case=False, na=False)
-    ]
-
 # Filtre par type
 if selected_types:
     filtered_df = filtered_df[filtered_df['type_collectivite'].isin(selected_types)]

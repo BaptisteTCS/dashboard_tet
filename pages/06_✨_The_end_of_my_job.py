@@ -72,13 +72,17 @@ st.markdown("""
 
 # Sidebar avec options
 with st.sidebar:
-    st.markdown("### 💡 Exemples")
-    st.markdown("""
-    - Nombre de FA avec pilote
-    - Collectivités avec un PCAET en 2024
-    - Top 10 des plus gros plans
-    - Nombre de plans créés par mois
-    """)
+    st.markdown("### ⚙️ Configuration")
+    model_choice = st.selectbox(
+        "Modèle",
+        ["gpt-5", "gpt-5-mini", "gpt-5-nano"],
+        index=1,  # gpt-5-mini par défaut
+        help="Par défaut gpt-5-mini, gpt-5 est plus performant"
+    )
+    
+    st.markdown("---")
+    
+    st.warning("⚠️ **Attention :** L'IA ne conserve pas l'historique des conversations. Chaque question est traitée indépendamment, sans mémoire des messages précédents.")
     
     st.markdown("---")
     st.info("📝 Cette IA est directement connectée à la base de données de TET. Elle ne connait *encore* certaines notions comme les PAP par exemple.")
@@ -123,7 +127,7 @@ if user_request:
         with st.spinner("Génération de la requête..."):
             try:
                 # Configuration du modèle
-                model = "gpt-5-mini"
+                model = model_choice
                 max_output_tokens = 50000
                 
                 # Construction du prompt
