@@ -16,13 +16,6 @@ pap_note = df_notes.sort_values(by='semaine', ascending=False).drop_duplicates(s
 # === SIDEBAR - FILTRES DE RECHERCHE ===
 st.sidebar.header("🔍 Filtres de recherche")
 
-# Filtre par nom de collectivité
-search_name = st.sidebar.text_input(
-    "Rechercher par nom de collectivité",
-    placeholder="Tapez le nom...",
-    help="Recherche insensible à la casse"
-)
-
 # Filtre par type de collectivité
 types_available = sorted(pap_note['type_collectivite'].dropna().unique().tolist())
 selected_types = st.sidebar.multiselect(
