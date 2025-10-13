@@ -1,0 +1,310 @@
+,indicateur
+0,Production d’énergie renouvelable du territoire
+1, Production annuelle d’électricité photovoltaïque
+2, Puissance photovoltaïque installée
+3, Puissance photovoltaïque installée par habitant (Wc/hab)
+4, Centrales photovoltaïques mises en service
+5, Production d'électricité renouvelable - éolien
+6, Puissance d'éolien installée
+7, Production d'électricité renouvelable - hydroélectricité
+8, Production de biogaz issu de la méthanisation
+9, Valorisation énergétique du biogaz des centres de stockage des déchets
+10, Production de chaleur/froid renouvelable
+11, Taux d'énergie renouvelable et de récupération (ENR&R) des réseaux de chaleur sur le territoire (en %)
+12, Taux de couverture des besoins de chaleur du territoire par les réseaux de chaleur ENR&R (en %)
+13, Réseau de chaleur : production annuelle et rendement
+14, Linéaire de réseau de chaleur réalisé
+15, Nombre d'équivalents logements raccordés au réseau de chaleur
+16, Consommation énergétique du réseau de chaleur
+17, Part de la production d’énergie renouvelable sur la consommation énergétique
+18, Part de la consommation énergétique finale issue des EnR-R
+19, Part de la production d'électricité renouvelable sur la consommation d'électricité
+20, Part de la production d'énergie renouvelable chaleur/froid sur la consommation chaleur/froid
+21, Production d'énergie renouvelable (EnR) par filière
+22," Puissance des installations électriques par filière (solaire, hydraulique, éolien, géothermie, bioénergies, etc.)"
+23, Part d'énergie dite verte dans le mix énergétique
+24, Nombre de projets d’énergie citoyenne
+25, Puissance installée liées aux projets d’énergie citoyenne
+26, Consommation énergétique finale du territoire
+27, Consommation énergétique finale par habitant
+28, Consommation d'énergie du secteur résidentiel
+29, Consommation d'énergie du secteur tertiaire
+30, Consommation énergétique - transports
+31, Consommation énergétique - agriculture
+32, Consommation énergétique - industrie hors branche énergie
+33, Consommation énergétique - électricité
+34, Consommation énergétique - gaz
+35, Consommation énergétique - chaleur/rafraîchissement
+36, Consommation énergétique - combustible liquide
+37, Consommation énergétique - combustible solide
+38, Consommation énergétique - vapeur
+39, Consommation énergétique - autre vecteur
+40, Consommation énergétique - déchets
+41, Consommation énergétique des bâtiments publics
+42, Consommation énergétique des bâtiments publics par m²
+43, Consommation énergétique des bâtiments publics par habitant
+44, Consommation énergétique de l'éclairage public
+45, % de points lumineux LED
+46, Economie d’énergie réalisée sur l’éclairage public
+47, Déclaration annuelle sur OPERAT (respect du décret tertiaire)
+48, Diagnostic énergétique des bâtiments publics
+49, Nombre de bâtiments publics rénovés (dont tertiaires)
+50, Part d’énergie verte dans la conso totale électricité et gaz des bâtiments publics
+51, Taux d’achat d’électricité renouvelable pour les bâtiments et équipements de la collectivité
+52, Taux de production d'électricité renouvelable - patrimoine collectivité
+53, Consommation de chaleur/froid ENR&R - patrimoine collectivité
+54, Part des besoins couverts en chaleur et froid par les ENR&R - patrimoine collectivité
+55, Part de matériaux biosourcés et locaux dans le patrimoine public
+56," Budget énergie de la collectivité (bâtiments, éclairage public, véhicules)"
+57, Budget climat-air-énergie
+58, Budget climat-air-énergie par habitant
+59, Budget installations ENR publiques
+60, Budget travaux rénovation énergétique patrimoine public
+61, Budget infrastructures et aménagements
+62, Budget gestion des déchets
+63, Budget politique cyclable
+64, Budget politique cyclable par habitant
+65, Budget communication/sensibilisation climat-air-énergie
+66, Budget études/expertises MDE/ENR/qualité de l'air/adaptation au changement climatique
+67, Aides financières accordées aux particuliers et acteurs privés
+68, Aides financières accordées aux particuliers et acteurs privés par habitant
+69, Achats publics avec considération environnementale
+70, Part des marchés contenant des clauses environnementales
+71, Part verte du budget d'investissement de la collectivité
+72, Ressources humaines dédiées climat-air-énergie
+73, Nombre d’élus et d’agents formés sur les enjeux climat-air-énergie
+74," Manifestations et actions sur climat, air, énergie"
+75," Consultations sur climat, air, énergie"
+76, Budget projets de coopération
+77," Part du budget coopération climat, air, énergie"
+78, Emissions de gaz à effet de serre totales (bilan GES)
+79, Emissions de gaz à effet de serre par habitant
+80, Emissions de GES des bâtiments publics sur le territoire
+81, Emissions de gaz à effet de serre - résidentiel
+82, Emissions de gaz à effet de serre - tertiaire
+83, Emissions de gaz à effet de serre - transport routier
+84," Emissions de gaz à effet de serre - ""autres transports"""
+85, Emissions de gaz à effet de serre - agriculture
+86, Emissions de gaz à effet de serre - déchets
+87, Emissions de gaz à effet de serre - industrie hors branche énergie
+88, Emissions de gaz à effet de serre de l'industrie branche énergie
+89, Emissions de gaz à effet de serre - Installations de Stockage de Déchets Non-Dangereux
+90, CO2 évité
+91, Évolution des émissions de NOx
+92, Évolution des émissions de PM10
+93," Évolution des émissions de PM2,5"
+94, Emissions de Nox
+95, Emissions de Nox - Transport routier
+96, Emissions de Nox - Autres transports
+97, Emissions de Nox - Résidentiel
+98, Emissions de Nox - Tertiaire
+99, Emissions de Nox - Agriculture
+100, Emissions de Nox - Déchets
+101, Emissions de Nox - Industrie hors branche énergie
+102, Emissions de Nox - Industrie branche énergie
+103, Emissions de PM10
+104, Emissions de PM10 - Résidentiel
+105, Emissions de PM10 - Tertiaire
+106, Emissions de PM10 - Transport routier
+107, Emissions de PM10 - Autres transports
+108, Emissions de PM10 - Agriculture
+109, Emissions de PM10 - Déchets
+110, Emissions de PM10 - Industrie hors branche énergie
+111, Emissions de PM10 - Industrie branche énergie
+112," Emissions de PM2,5"
+113," Emissions de PM2,5 - Résidentiel"
+114," Emissions de PM2,5 - Tertiaire"
+115," Emissions de PM2,5 - Transport routier"
+116," Emissions de PM2,5 - Autres transports"
+117," Emissions de PM2,5 - Agriculture"
+118," Emissions de PM2,5 - Déchets"
+119," Emissions de PM2,5 - Industrie hors branche énergie"
+120," Emissions de PM2,5 - Industrie branche énergie"
+121, Emissions de SO2
+122, Emissions de SO2 - Résidentiel
+123, Emissions de SO2 - Tertiaire
+124, Emissions de SO2 - Transport routier
+125, Emissions de SO2 - Autres transports
+126, Emissions de SO2 - Agriculture
+127, Emissions de SO2 - Déchets
+128, Emissions de SO2 - Industrie hors branche énergie
+129, Emissions de SO2 - Industrie branche énergie
+130, Emissions de COV
+131, Emissions de COV - Résidentiel
+132, Emissions de COV - Tertiaire
+133, Emissions de COV - Transport routier
+134, Emissions de COV - Autres transports
+135, Emissions de COV - Déchets
+136, Emissions de COV - Industrie hors branche énergie
+137, Emissions de COV - Industrie branche énergie
+138, Emissions de NH3
+139, Emissions de NH3 - Résidentiel
+140, Emissions de NH3 - Tertiaire
+141, Emissions de NH3 - Transport routier
+142, Emissions de NH3 - Autres transports
+143, Emissions de NH3 - Agriculture
+144, Emissions de NH3 - Déchets
+145, Emissions de NH3 - Industrie hors branche énergie
+146, Emissions de NH3 - Industrie branche énergie
+147, Jours de pollution à l'ozone
+148, Nombre de jours de dépassement des seuils PM10
+149," Part de la population exposée aux polluants NO2, PM10, PM2,5 (niveaux actuels, valeurs limites 2030, recommandations OMS)"
+150, Consommation d'eau - ménages
+151," Consommation d'eau des bâtiments publics (administratifs, enseignement, culturels et sportifs)"
+152, Économie d'eau potable
+153, Taux de fuite sur les réseaux d’eau
+154, Consommation énergétique du système d'alimentation en eau potable
+155, Rendement du système d'alimentation en eau potable
+156, Consommation énergétique des stations d'épuration
+157, Nombre de stations d’épuration améliorées
+158, Conformité des STEP
+159, Nombre de communes engagées dans la gestion intégrée des eaux pluviales
+160, Eaux pluviales : schéma directeur adopté
+161, m² désimperméabilisés
+162, Prélèvements d'eau par usage
+163, Linéaire de haies plantées (km)
+164, Nombre d’arbres plantés sur le territoire
+165, Surface totale renaturée ou végétalisée
+166, Nombre de mares créées et restaurées
+167, Couverture arborée (zone urbaine)
+168, Linéaire de cours d'eau restauré
+169, Part de la surface forestière certifiée
+170, Surface en éco-pâturage
+171, Surface identifiée pour recevoir de la compensation écologique
+172, Nombre d'espaces laissés à la biodiversité
+173, Part des cours d’eau en bon état écologique (%)
+174, Surface annuelle artificialisée
+175," Artificialisation par destination (habitat, activité, infrastructures, mixte, inconnue)"
+176, Superficie ENAF consommés entre 2021 et 2031
+177, Surface consommée à destination habitat (zone U et AU)
+178, Part de la surface artificialisée
+179, Compacité des formes urbaines
+180, Part des surfaces construites ou réhabilitées sur des sites en reconversion
+181, Fragmentation des milieux naturels
+182, Zones à risque naturel
+183, Surfaces agricoles et naturelles
+184, Part du foncier en friche
+185, Part de la surface agricole utile en agriculture biologique (AB) ou en conversion
+186, Part de la SAU dédiée à la production de légumes
+187, Nombre d'exploitations agricoles
+188, Nombre d’exploitations biologiques
+189, Pourcentage d’agriculteurs accompagnés dans l’évolution de leurs pratiques agroécologiques
+190, Part des exploitations agricoles exemplaires sur le plan écologique
+191, Nombre de marchés en circuit courts
+192, Nombre de circuits courts identifiés sur le territoire
+193, Nombre d’outils collectifs de vente où les agriculteurs sont parties-prenantes
+194, Part de produits locaux de saison dans la restauration collective
+195, Part des cantines respectant les obligations EGalim
+196," Taux d’approvisionnement en produits durables et de qualité dans la restauration collective, dont produits bio"
+197, Taux d’approvisionnement en produits biologiques dans la restauration collective
+198, Part de menus végétariens dans la restauration collective publique
+199, Consommation de viande dans la restauration collective publique
+200, Gaspillage alimentaire dans la restauration collective publique
+201, Alimentation sous signe de qualité dans la restauration collective publique
+202, Nombre de cantines
+203, Part de restaurants collectifs ayant réalisé leur télédéclaration
+204, Production de déchets (hors déblais et gravats)
+205, Production de déchets (avec déblais et gravats)
+206, Production Ordures ménagères résiduelles
+207, Production de déchets collectés sélectivement
+208, Production de déchets emballages collectés sélectivement
+209, Production de déchets verre collectés sélectivement
+210, Tonnage annuel de biodéchets collectés
+211, Quantité de biodéchets valorisés localement
+212, Valorisation énergétique des biodéchets
+213, Production de déchets occasionnels
+214, Mode de transport des DMA
+215, Ratio de déchets ménagers et assimilés collectés sur le territoire (en kg/hab/an) - Selon Pop
+216, Couverture de la population par la Tarification Incitative
+217, Taux de couverture de la population en déchetteries
+218, Tonnage de déchets incinérés
+219, Rendement énergétique UIOM
+220, Mise en décharge des DMA
+221," Réutilisation, recyclage et valorisation des DMA"
+222, Recyclage des déchets du BTP
+223, Recyclage des déchets organiques
+224, Recyclage des déchets matières
+225, Part de déchets non valorisés en déchèterie
+226, Ressources - Déchets - Quantité de déchets verts collectée
+227, Ressources - Déchets - Nombre de kilomètres comptabilisés pour la collecte de déchets organiques
+228, Nombre de composteurs mis à disposition (collectifs et individuels)
+229, Nombre de foyers desservis par une collecte des biodéchets
+230, Part des biodéchets dans les OM
+231," Nombre de structures de réemploi, location et réparation identifiées et documentées"
+232, Taux de réemploi
+233, Taux d'objets réparés
+234, Économies réalisées par l'amélioration du tri
+235, Nombre de prêts de broyeurs à végétaux
+236, Budget Économie Circulaire
+237, Formation Économie Circulaire
+238, Services de la collectivité formés à l'Economie Circulaire
+239, Mise en place de boucles locales d'économie circulaire
+240, Entreprises engagées dans les synergies d'EIT
+241, Synergies d'EIT opérationnelles sur le territoire
+242, Activité de réemploi et/ou de réutilisation dans l'activité économique
+243, Activité de l'allongement de la durée d'usage dans l'activité économique
+244, Entreprises ou établissements sensibilisées ou accompagnées sur l'EFC
+245, Actions de la collectivité en EFC
+246," Financement des projets de recherche, d'innovation ou d'expérimentation"
+247," Accompagnement des projets de recherche, d'innovation ou d'expérimentation"
+248, Co-conception des stratégies ou politiques de la collectivité avec prisme ECi
+249, Co-construction d'action Économie circulaire dans les compétences de la collectivité
+250, Nombre de logements rénovés énergétiquement
+251, Nombre de rénovations globales
+252, Gain énergétique médian des projets de rénovation
+253, Économies d'énergies liées à la rénovation de l'habitat
+254, Nombre de ménages bénéficiaires d'une aide à la rénovation énergétique
+255, Nombre de logements énergivores réhabilités
+256, Part de logements améliorant leur étiquette DPE et climat vers B
+257, Nombre de DPE mis à jour
+258, Nombre de logements sociaux créés
+259, Nombre de logements sortis de vacance
+260, Classement DPE du parc de logement privé
+261, Part de bâtiments =<100 kWhep/m².an
+262, Part de bâtiments >=701 kWhep/m².an
+263, Taux de vacance par zone d'activité
+264, Part des résidences principales modifiant leur système de chauffage au bois
+265, Séquestration nette de CO2 dans les sols et la forêt
+266," Part modale par mode de déplacement (voitures, transports en commun, vélos, piétons, deux-roues motorisés)"
+267, Part des déplacements en autosolisme
+268, Fréquentation des transports en commun
+269, Maillage du territoire par les transports en commun
+270, Nombre de stations de transports en commun
+271," Linéaire d’aménagements cyclables (pistes, bandes, voies vertes, double sens)"
+272, Linéaire d'aménagements cyclables pour 1000 hab
+273, Linéaire de voies bus partagées
+274, Nombre de parkings relais mis en place
+275, Stationnement public voiture par habitant
+276, Places de parking vélo
+277, Stationnement vélo pour 100 habitants
+278, Nombre de places de stationnement vélo créés autour des gares
+279, Nombre total de véhicules en autopartage
+280, Nombre d'usagers du covoiturage sur le territoire
+281, Passagers transportés en covoiturage de courte distance
+282, Nombre de trajets quotidiens en covoiturage
+283, Nombre de km économisés annuellement grâce au covoiturage
+284, Taux de remplissage par véhicule
+285, Nombre de bornes de recharge ouvertes au public
+286, Taux d’utilisation des IRVE
+287, Fourniture d'électricité IRVE portage public
+288, Nombre d'utilisateurs différents sur les bornes IRVE portage public
+289, Emissions de GES évitées IRVE portage public
+290," Part du parc de véhicules propres (électrique, hybride, hydrogène)"
+291, Nombre de VE acquis dans la flotte de véhicules
+292, Nombre d’agents bénéficiant du forfait mobilités durables
+293, Montant annuel du Forfait Mobilité Durable
+294, Plan de déplacements Entreprise ou Administration
+295, Plan de déplacements Etablissements Scolaires ou un pédibus/vélobus
+296, Couverture des Plans de déplacements
+297, Part de voiries « apaisées »
+298, Part de voiries aménagées pour les cycles
+299," Distance moyenne domicile-travail par mode (voitures, transports en commun, vélos y compris VAE, deux roues motorisé, marche)"
+300, Télétravail - % d'emplois pouvant être télétravaillés y ayant effectivement recours
+301, Nombre de kilomètres évités grâce au télétravail
+302, Consommation annuelle d'énergie des véhicules
+303, Consommation annuelle d'énergie des véhicules par agent
+304, Consommation annuelle d'énergie des véhicules par km
+305, Consommation annuelle de carburants pour les véhicules Voies Publiques
+306, Mix énergétique des régies et SEM fournisseur d'électricité
+307, Hébergements labellisés Ecolabel européen
+308, Population
