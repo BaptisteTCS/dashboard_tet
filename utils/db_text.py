@@ -61,8 +61,6 @@ collectivite_bucket — relations :
 collectivite_relations — relations :
   public.collectivite_relations.id → public.collectivite.id
   public.collectivite_relations.parent_id → public.collectivite.id
-commune — relations :
-  public.commune.collectivite_id → public.collectivite.id
 cot — relations :
   public.cot.collectivite_id → public.collectivite.id
   public.cot.signataire → public.collectivite.id
@@ -246,8 +244,6 @@ public.collectivite_carte_identite: collectivite_id (integer), is_cot (boolean),
 public.collectivite_identite: type (ARRAY), population (ARRAY), id (integer), localisation (ARRAY)
 public.collectivite_niveau_acces: niveau_acces (USER-DEFINED), access_restreint (boolean), est_auditeur (boolean), nom (character varying), collectivite_id (integer)
 public.collectivite_relations: id (integer), parent_id (integer)
-public.commune: code (character varying), collectivite_id (integer), id (integer), nom (character varying)
-public.comparaison_scores_audit: collectivite_id (integer), pre_audit (USER-DEFINED), referentiel (USER-DEFINED), action_id (character varying), courant (USER-DEFINED)
 public.cot: actif (boolean), signataire (integer), collectivite_id (integer)
 public.effet_attendu: notice (text), nom (text), id (integer)
 public.fiche_action: modified_at (timestamp with time zone), piliers_eci (ARRAY), description (character varying), titre (character varying), id (integer), created_by (uuid), temps_de_mise_en_oeuvre_id (integer), participation_citoyenne_type (character varying), participation_citoyenne (text), instance_gouvernance (text), restreint (boolean), modified_by (uuid), created_at (timestamp with time zone), collectivite_id (integer), maj_termine (boolean), notes_complementaires (character varying), calendrier (character varying), amelioration_continue (boolean), date_fin_provisoire (timestamp with time zone), date_debut (timestamp with time zone), niveau_priorite (USER-DEFINED), statut (USER-DEFINED), budget_previsionnel (numeric), financements (text), ressources (character varying), cibles (ARRAY), resultats_attendus (ARRAY), objectifs (character varying)
