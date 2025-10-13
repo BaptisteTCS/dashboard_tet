@@ -87,7 +87,7 @@ with col1:
 
 with col2:
     st.metric(
-        "Nouvelles collectivités",
+        "Nouvelles collectivités PAP",
         nouvelles_ct_s1,
         delta=f"{diff_ct:+d}",
         delta_color="normal"
@@ -164,7 +164,7 @@ with col_graph2:
 st.markdown("---")
 
 # === NOUVELLES COLLECTIVITÉS DE LA SEMAINE S-1 ===
-st.markdown("## 🆕 Liste des nouvelles collectivités")
+st.markdown("## 🆕 Liste des nouvelles collectivités PAP")
 
 # Collectivités uniques de S-1
 collectivites_s1 = df_s1.groupby('collectivite_id').agg({
