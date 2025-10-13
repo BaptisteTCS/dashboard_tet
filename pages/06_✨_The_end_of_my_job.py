@@ -1,7 +1,7 @@
 import streamlit as st
 from openai import OpenAI
 from utils.db_text import tables_text, relations_text
-from utils.db import get_engine_staging, get_engine
+from utils.db import get_engine_prod, get_engine
 import pandas as pd
 from sqlalchemy import text
 import re
@@ -13,24 +13,6 @@ st.set_page_config(layout="wide", page_title="SQL AI Assistant", page_icon="✨"
 
 # === FONCTIONS DE LOGGING ===
 @st.cache_resource(show_spinner=False)
-def init_ai_answers_table():
-    """Crée la table ai_answers si elle n'existe pas"""
-    try:
-        engine = get_engine()
-        with engine.connect() as conn:
-            conn.execute(text("""
-                CREATE TABLE IF NOT EXISTS ai_answers (
-                    id SERIAL PRIMARY KEY,
-                    question TEXT NOT NULL,
-                    sql TEXT NOT NULL,
-                    reponse JSONB,
-                    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-                )
-            """))
-            conn.commit()
-    except Exception as e:
-        st.error(f"Erreur lors de l'initialisation de la table ai_answers : {e}")
-
 
 def log_ai_answer(question: str, sql: str, reponse: dict):
     """Enregistre une réponse de l'IA dans la base de données"""
@@ -54,9 +36,6 @@ def log_ai_answer(question: str, sql: str, reponse: dict):
         # On ne veut pas bloquer l'utilisateur si le logging échoue
         st.warning(f"⚠️ Impossible d'enregistrer la requête : {e}")
 
-
-# Initialiser la table au démarrage
-init_ai_answers_table()
 
 # Initialisation de l'historique de session
 if "messages" not in st.session_state:
@@ -211,7 +190,7 @@ en te basant sur le schéma de base de données et la question utilisateur ci-de
                 else:
                     st.markdown("**📊 Résultats**")
                     try:
-                        engine = get_engine_staging()
+                        engine = get_engine_prod()
                         with engine.connect() as conn:
                             df = pd.read_sql_query(text(sql_query), conn)
                         
