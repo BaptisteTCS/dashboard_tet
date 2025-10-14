@@ -1,15 +1,4 @@
 import streamlit as st
-from utils.plots import (
-    radar_spider_graph_plotly_with_comparison,
-    radar_spider_graph_plotly,
-    plot_area_with_totals,
-    indicator
-)
-from utils.data import (
-    load_df_pap,
-    load_df_pap_notes
-)
-
 
 st.set_page_config(
     page_title="Dashboard TET",
