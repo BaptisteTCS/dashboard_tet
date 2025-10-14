@@ -48,12 +48,51 @@ df_invitees_active = df_invitees_active.merge(
 ############################
 st.markdown("---")
 st.markdown("## 🌟 Indicateurs clés sur les 30 derniers jours")
-st.markdown("### Événements Calendly")
+
+st.markdown("### Reach Collectivités")
 
 today = pd.Timestamp.today().normalize()
 cur_start = today - pd.Timedelta(days=30)
 prev_start = cur_start - pd.Timedelta(days=30)
 prev_end = cur_start - pd.Timedelta(seconds=1)
+
+# Préparation des dates pour le reach
+df_biz = df_bizdev_contact_collectivite.copy()
+if not df_biz.empty:
+    df_biz['date_contact'] = pd.to_datetime(df_biz['date_contact'], errors='coerce').dt.tz_localize(None)
+
+reach_cur = df_biz[(df_biz['date_contact'] >= cur_start) & (df_biz['date_contact'] <= today)] if not df_biz.empty else df_biz
+reach_prev = df_biz[(df_biz['date_contact'] >= prev_start) & (df_biz['date_contact'] <= prev_end)] if not df_biz.empty else df_biz
+
+total_reach_cur = int(len(reach_cur))
+total_reach_prev = int(len(reach_prev))
+delta_reach = ("+∞%" if total_reach_prev == 0 and total_reach_cur > 0 else
+               "0%" if total_reach_prev == 0 else
+               f"{((total_reach_cur - total_reach_prev) / total_reach_prev * 100):+.0f}%")
+
+ct_reach_cur = int(reach_cur['collectivite_id'].nunique()) if not reach_cur.empty else 0
+ct_reach_prev = int(reach_prev['collectivite_id'].nunique()) if not reach_prev.empty else 0
+delta_ct = ("+∞%" if ct_reach_prev == 0 and ct_reach_cur > 0 else
+            "0%" if ct_reach_prev == 0 else
+            f"{((ct_reach_cur - ct_reach_prev) / ct_reach_prev * 100):+.0f}%")
+
+col_r1, col_r2 = st.columns(2)
+with col_r1:
+    st.metric(
+        label="Reach total",
+        value=total_reach_cur,
+        delta=delta_reach,
+        delta_color="normal"
+    )
+with col_r2:
+    st.metric(
+        label="Collectivités atteintes",
+        value=ct_reach_cur,
+        delta=delta_ct,
+        delta_color="normal"
+    )
+
+st.markdown("### Événements Calendly")
 
 # Filtrages
 events_cur = df_calendly_events[(df_calendly_events['start_time'] >= cur_start) & (df_calendly_events['start_time'] <= today)]
@@ -111,44 +150,6 @@ else:
                     delta=row['Δ participants'],
                     delta_color="normal"
                 )
-
-st.markdown("### Reach Collectivités")
-
-# Préparation des dates pour le reach
-df_biz = df_bizdev_contact_collectivite.copy()
-if not df_biz.empty:
-    df_biz['date_contact'] = pd.to_datetime(df_biz['date_contact'], errors='coerce').dt.tz_localize(None)
-
-reach_cur = df_biz[(df_biz['date_contact'] >= cur_start) & (df_biz['date_contact'] <= today)] if not df_biz.empty else df_biz
-reach_prev = df_biz[(df_biz['date_contact'] >= prev_start) & (df_biz['date_contact'] <= prev_end)] if not df_biz.empty else df_biz
-
-total_reach_cur = int(len(reach_cur))
-total_reach_prev = int(len(reach_prev))
-delta_reach = ("+∞%" if total_reach_prev == 0 and total_reach_cur > 0 else
-               "0%" if total_reach_prev == 0 else
-               f"{((total_reach_cur - total_reach_prev) / total_reach_prev * 100):+.0f}%")
-
-ct_reach_cur = int(reach_cur['collectivite_id'].nunique()) if not reach_cur.empty else 0
-ct_reach_prev = int(reach_prev['collectivite_id'].nunique()) if not reach_prev.empty else 0
-delta_ct = ("+∞%" if ct_reach_prev == 0 and ct_reach_cur > 0 else
-            "0%" if ct_reach_prev == 0 else
-            f"{((ct_reach_cur - ct_reach_prev) / ct_reach_prev * 100):+.0f}%")
-
-col_r1, col_r2 = st.columns(2)
-with col_r1:
-    st.metric(
-        label="Reach total",
-        value=total_reach_cur,
-        delta=delta_reach,
-        delta_color="normal"
-    )
-with col_r2:
-    st.metric(
-        label="Collectivités atteintes",
-        value=ct_reach_cur,
-        delta=delta_ct,
-        delta_color="normal"
-    )
 
 ###############
 # === FOCUS ===
