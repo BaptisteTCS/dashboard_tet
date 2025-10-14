@@ -27,7 +27,7 @@ st.markdown(
 )
 
 
-@st.cache_data(show_spinner=False)
+@st.cache_data(show_spinner=False)  
 def _load_sources():
     # mappe un nom lisible vers (DataFrame, params par défaut)
     df_pap = load_df_pap()
@@ -186,7 +186,7 @@ with col_right:
             min_date=pd.to_datetime(min_date).strftime('%Y-%m-%d'),
         )
         df_totals = date_to_month(df_totals)
-        table_fig = display_totals_table(df_totals)
         with st.container(border=True):
             st.subheader("Résultat", divider="blue")
-            st.plotly_chart(table_fig, use_container_width=True)
+            st.info("Astuce: vous pouvez trier le tableau en cliquant sur les en-têtes de colonnes.")
+            st.dataframe(df_totals, use_container_width=True)
