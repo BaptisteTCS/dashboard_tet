@@ -29,7 +29,7 @@ else:
         objectif=None,
         title='Plans avec pilote'
     )
-    st.plotly_chart(fig5, use_container_width=True)
+    st.plotly_chart(fig5, width='stretch')
     st.plotly_chart(indicator(df_5.nom.nunique(), 'Collectivités utilisant la feature'))
 
 df_6 = load_df_plan_referent().copy()
@@ -48,7 +48,7 @@ else:
         objectif=None,
         title='Plans avec référent'
     )
-    st.plotly_chart(fig6, use_container_width=True)
+    st.plotly_chart(fig6, width='stretch')
     st.plotly_chart(indicator(df_6.nom.nunique(), 'Collectivités utilisant la feature'))
 
 st.header("Partages de fiches")
@@ -67,7 +67,7 @@ else:
         objectif=None,
         title='Partages de fiches (1 valeur = 1 partage)'
     )
-    st.plotly_chart(fig7, use_container_width=True)
+    st.plotly_chart(fig7, width='stretch')
     st.plotly_chart(indicator(df_7.collectivite_id.nunique(), 'Collectivités utilisant la feature'))
 
 

@@ -87,7 +87,7 @@ for message in st.session_state.messages:
                     st.info("Aucun résultat trouvé")
                 else:
                     st.caption(f"{message['row_count']} ligne(s)")
-                    st.dataframe(message["dataframe"], use_container_width=True)
+                    st.dataframe(message["dataframe"], width='stretch')
 
 # Zone de saisie en bas (style chat)
 user_request = st.chat_input("Ex: Affiche-moi toutes les collectivités qui ont un PAP PCAET créé en 2024")
@@ -211,7 +211,7 @@ en te basant sur le schéma de base de données et la question utilisateur ci-de
                             )
                         else:
                             st.caption(f"{len(df)} ligne(s)")
-                            st.dataframe(df, use_container_width=True)
+                            st.dataframe(df, width='stretch')
                             assistant_message["row_count"] = len(df)
                             assistant_message["dataframe"] = df
                             
