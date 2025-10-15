@@ -114,7 +114,7 @@ if df_pivot.shape[1] >= 2:
                     
                     # Graphe radar avec comparaison
                     fig = radar_spider_graph_plotly_with_comparison(row, row_precedente, diff)
-                    st.plotly_chart(fig, use_container_width=True)
+                    st.plotly_chart(fig, width='stretch')
                     
                     st.markdown("---")
                     

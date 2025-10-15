@@ -193,6 +193,6 @@ else:
                         
                         # Graphe radar
                         fig = radar_spider_graph_plotly(row)
-                        st.plotly_chart(fig, use_container_width=True)
+                        st.plotly_chart(fig, width='stretch')
 
 

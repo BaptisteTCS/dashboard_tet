@@ -156,7 +156,7 @@ with col_left:
         st.write(f"**Types de données :**")
         st.write(df.dtypes)
         st.write("**Aperçu des données (20 premières lignes) :**")
-        st.dataframe(df.head(20), use_container_width=True)
+        st.dataframe(df.head(20), width='stretch')
 
 with col_right:
     # Affichage
@@ -175,7 +175,7 @@ with col_right:
         )
         with st.container(border=True):
             st.subheader("Résultat", divider="blue")
-            st.plotly_chart(fig, use_container_width=True)
+            st.plotly_chart(fig, width='stretch')
     else:
         df_totals = compute_totals_by_period(
             df=df,
@@ -189,4 +189,4 @@ with col_right:
         with st.container(border=True):
             st.subheader("Résultat", divider="blue")
             st.info("Astuce: vous pouvez trier le tableau en cliquant sur les en-têtes de colonnes.")
-            st.dataframe(df_totals, use_container_width=True)
+            st.dataframe(df_totals, width='stretch')

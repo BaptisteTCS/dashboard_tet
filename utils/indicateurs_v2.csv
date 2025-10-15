@@ -21,7 +21,7 @@
 19, Part de la production d'électricité renouvelable sur la consommation d'électricité
 20, Part de la production d'énergie renouvelable chaleur/froid sur la consommation chaleur/froid
 21, Production d'énergie renouvelable (EnR) par filière
-22," Puissance des installations électriques par filière (solaire, hydraulique, éolien, géothermie, bioénergies, etc.)"
+22, Puissance des installations électriques par filière (solaire - hydraulique - éolien - géothermie - bioénergies - etc.)
 23, Part d'énergie dite verte dans le mix énergétique
 24, Nombre de projets d’énergie citoyenne
 25, Puissance installée liées aux projets d’énergie citoyenne
@@ -35,10 +35,6 @@
 33, Consommation énergétique - électricité
 34, Consommation énergétique - gaz
 35, Consommation énergétique - chaleur/rafraîchissement
-36, Consommation énergétique - combustible liquide
-37, Consommation énergétique - combustible solide
-38, Consommation énergétique - vapeur
-39, Consommation énergétique - autre vecteur
 40, Consommation énergétique - déchets
 41, Consommation énergétique des bâtiments publics
 42, Consommation énergétique des bâtiments publics par m²
@@ -174,7 +170,7 @@
 172, Nombre d'espaces laissés à la biodiversité
 173, Part des cours d’eau en bon état écologique (%)
 174, Surface annuelle artificialisée
-175," Artificialisation par destination (habitat, activité, infrastructures, mixte, inconnue)"
+175, Artificialisation par destination (habitat - activité - infrastructure -mixte - inconnue)
 176, Superficie ENAF consommés entre 2021 et 2031
 177, Surface consommée à destination habitat (zone U et AU)
 178, Part de la surface artificialisée

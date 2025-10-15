@@ -138,7 +138,7 @@ with col_graph1:
         )
         fig_s1.update_traces(textposition='outside')
         fig_s1.update_layout(showlegend=False, height=450)
-        st.plotly_chart(fig_s1, use_container_width=True)
+        st.plotly_chart(fig_s1, width='stretch')
     else:
         st.info("Pas de données pour S-1")
 
@@ -157,7 +157,7 @@ with col_graph2:
         )
         fig_import_s1.update_traces(textposition='inside', textinfo='percent+label+value')
         fig_import_s1.update_layout(height=450)
-        st.plotly_chart(fig_import_s1, use_container_width=True)
+        st.plotly_chart(fig_import_s1, width='stretch')
     else:
         st.info("Pas de données pour S-1")
 
@@ -190,7 +190,7 @@ collectivites_s1['Population'] = collectivites_s1['Population'].fillna(0).astype
 # Affichage du tableau
 st.dataframe(
     collectivites_s1[['Nom', 'Plans', 'Statut Import', 'Type', 'Nature', 'Région', 'Département', 'Population']],
-    use_container_width=True,
+    width='stretch',
     hide_index=True,
     height=400
 )
