@@ -1,0 +1,509 @@
+indicateurs:
+
+- api_nom_cube: distance_moyenne_domicile_travail_com
+  ID: '141'
+  api_nom_axe: mode_transport
+
+  type_collectivite:
+  - commune
+  - epci
+  - ept
+  - departement
+  - region
+
+  correspondance_indicateurs:
+    s_45.aa: Voiture
+    s_45.ab: Transports en commun
+    s_45.ac: Vélo
+    s_45.ad: Deux-roues motorisé
+    s_45.ae: Marche
+
+  metadata:
+    source_id: insee
+    nom_donnees: Distance moyenne domicile-travail par mode de transport
+    diffuseur: Ecolab
+    producteur: INSEE
+    methodologie: Plus d'infos 
+      [ici](https://www.data.gouv.fr/fr/datasets/distance-moyenne-domicile-travail-par-mode-de-transport/informations/)
+    limites: ''
+    date_version: '2025-04-29 00:00:00'
+
+  source:
+    id: insee
+    libelle: INSEE
+    ordre_affichage: '1'
+  ratio: 1
+
+
+
+- api_nom_cube: surfaces_agricoles_com
+  ID: '23'
+  api_nom_axe: ''
+
+  type_collectivite:
+  - commune
+  - epci
+  - departement
+  - region
+  - ept
+  correspondance_indicateurs: cae_59
+
+  metadata:
+    source_id: agencebio
+    nom_donnees: Part de la surface agricole en agriculture biologique dans la surface agricole utile
+    diffuseur: Ecolab
+    producteur: Agence Bio
+    methodologie: Plus d'infos 
+      [ici](https://www.data.gouv.fr/fr/datasets/part-de-la-surface-agricole-en-agriculture-biologique-dans-la-surface-agricole-utile/)
+    limites: ''
+    date_version: '2025-06-30 00:00:00'
+
+  source:
+    id: agencebio
+    libelle: Agence Bio
+    ordre_affichage: '1'
+  ratio: 100
+
+
+
+- api_nom_cube: lineaire_cyclable_habitant_com
+  ID: '133'
+  api_nom_axe: type_amenagement
+
+  type_collectivite:
+  - commune
+  - epci
+  - departement
+  - region
+  - ept
+  correspondance_indicateurs:
+    cae_44.aa: pistes cyclables
+    cae_44.ab: voies vertes
+    cae_44.ac: bandes cyclables
+    cae_44.ad: voies bus partagées
+    cae_44.ae: double-sens cyclables
+    cae_44.af: aménagements mixtes
+    cae_44.ag: autre
+
+  metadata:
+    source_id: geovelo
+    nom_donnees: Linéaire d'aménagements cyclables pour 1000 hab
+    diffuseur: Ecolab
+    producteur: GEOVELO
+    methodologie: Plus d'infos 
+      [ici](https://www.data.gouv.fr/fr/datasets/lineaire-damenagements-cyclables-pour-1000-hab/informations/)
+    limites: ''
+    date_version: '2025-04-29 00:00:00'
+
+  source:
+    id: geovelo
+    libelle: GEOVELO
+    ordre_affichage: '1'
+
+  ratio: 1
+
+
+
+- api_nom_cube: emission_ges_secteur_com
+  ID: '1'
+  api_nom_axe: secteur
+
+  type_collectivite:
+  - commune
+  - epci
+  - departement
+  - region
+  - ept
+  correspondance_indicateurs:
+    cae_1.c: Résidentiel
+    cae_1.d: Tertiaire
+    cae_1.g: Agriculture
+    cae_1.h: Déchets
+    cae_1.i: Industrie hors énergie
+    cae_1.k: Transports
+    cae_1.j: Energie
+
+  metadata:
+    source_id: citepa
+    nom_donnees: Pouvoir de réchauffement global par secteur
+    diffuseur: CITEPA
+    producteur: CITEPA
+    methodologie: Plus d'infos 
+      [ici](https://www.data.gouv.fr/fr/datasets/pouvoir-de-rechauffement-global-par-secteur/informations/)
+    limites: ''
+    date_version: '2025-04-29 00:00:00'
+
+  source:
+    id: citepa
+    libelle: CITEPA
+    ordre_affichage: '3'
+
+  ratio: 0.001
+
+
+
+- api_nom_cube: emission_ges_hab_com
+  ID: '2'
+  api_nom_axe: ''
+
+  type_collectivite:
+  - commune
+  - epci
+  - departement
+  - region
+  - ept
+  correspondance_indicateurs: cae_1.b
+
+  metadata:
+    source_id: citepa
+    nom_donnees: Pouvoir de réchauffement global par habitant
+    diffuseur: CITEPA
+    producteur: CITEPA
+    methodologie: Plus d''infos 
+      [ici](https://www.data.gouv.fr/fr/datasets/pouvoir-de-rechauffement-global-par-habitant/)
+    limites: ''
+    date_version: '2025-04-29 00:00:00'
+
+  source:
+    id: citepa
+    libelle: CITEPA
+    ordre_affichage: '3'
+
+  ratio: 1
+
+
+
+- api_nom_cube: parts_modales_actifs_com
+  ID: '1053'
+  api_nom_axe: mode_transport
+
+  type_collectivite:
+  - commune
+  - epci
+  - departement
+  - region
+  - ept
+  correspondance_indicateurs:
+    cae_35: pied
+    cae_36: vélo
+    cae_37: transports en commun
+    cae_5: voiture
+    mode_deux_roues: deux-roues motorisés
+
+  metadata:
+    source_id: insee
+    nom_donnees: Parts modales des déplacements Domicile-Travail
+    diffuseur: Ecolab
+    producteur: INSEE
+    methodologie: Plus d'infos 
+      [ici](https://www.data.gouv.fr/fr/datasets/parts-modales-des-deplacements-domicile-travail/informations/)
+    limites: ''
+    date_version: '2025-04-29 00:00:00'
+
+  source:
+    id: insee
+    libelle: INSEE
+    ordre_affichage: '1'
+
+  ratio: 100
+
+
+- api_nom_cube: prelevement_eau_usage_com
+  ID: '638'
+  api_nom_axe: usage
+
+  type_collectivite:
+  - commune
+  - epci
+  - departement
+  - region
+  - ept
+  correspondance_indicateurs:
+    eau_1.a: agriculture
+    eau_1.b: alimentation des canaux
+    eau_1.c: eau potable
+    eau_1.d: industrie et autres usages économiques
+    eau_1.e: refroidissement des centrales électriques
+    eau_1.f: production d électricité (barrages hydro-électriques)
+
+  metadata:
+    source_id: eau_france
+    nom_donnees: Prélèvements d'eau par usage
+    diffuseur: Ecolab
+    producteur: Eau France
+    methodologie: Plus d'infos 
+      [ici](https://www.data.gouv.fr/datasets/prelevements-deau-par-usage/informations/)
+    limites: ''
+    date_version: '2025-06-18 00:00:00'
+
+  source:
+    id: eau_france
+    libelle: Eau France
+    ordre_affichage: '1'
+
+  ratio: 1
+
+
+- api_nom_cube: logements_com
+  ID: '555'
+  api_nom_axe: type_logement
+
+  type_collectivite:
+  - commune
+  - epci
+  - ept
+  - departement
+  - region
+
+  correspondance_indicateurs:
+    cae_9.ba: Individuel groupes
+    cae_9.bb: Collectif
+
+  metadata:
+    source_id: ecolab
+    nom_donnees: Part de nouveaux logements créés collectivement sur total 
+      autorisés
+    diffuseur: Ecolab
+    producteur: Ecolab
+    methodologie: Plus d'infos 
+      [ici](https://www.data.gouv.fr/datasets/part-de-nouveaux-logements-crees-collectivement-sur-total-autorises/)
+    limites: ''
+    date_version: '2025-06-18 00:00:00'
+
+  source:
+    id: ecolab
+    libelle: Ecolab
+    ordre_affichage: '1'
+
+  ratio: 100
+
+
+- api_nom_cube: covoit_km_eco_com
+  ID: '134'
+  api_nom_axe: ''
+
+  type_collectivite:
+  - commune
+  - epci
+  - departement
+  - region
+  - ept
+  correspondance_indicateurs: covoiturage
+
+  metadata:
+    source_id: rpc
+    nom_donnees: Nombre de km économisés annuellement grâce au covoiturage
+    diffuseur: Ecolab
+    producteur: Registre de Preuve de Covoiturage
+    methodologie: Plus d'infos 
+      [ici](https://www.data.gouv.fr/datasets/nombre-de-km-economises-annuellement-grace-au-covoiturage/informations/)
+    limites: ''
+    date_version: '2025-06-18 00:00:00'
+
+  source:
+    id: rpc
+    libelle: Registre de Preuve de Covoiturage
+    ordre_affichage: '1'
+
+  ratio: 1
+
+
+- api_nom_cube: puissance_elec_installee_com
+  ID: '636'
+  api_nom_axe: vecteur
+
+  type_collectivite: &id001
+  - commune
+  - epci
+  - departement
+  - region
+  - ept
+  correspondance_indicateurs:
+    energie.a: Eolien
+    energie.b: Solaire
+    energie.c: Hydraulique
+    energie.d: Géothermie
+    energie.e: Energies Marines
+    energie.f: Bioénergies
+    energie.g: Nucléaire
+    energie.h: Stockage non hydraulique
+    energie.i: Thermique non renouvelable
+    energie.j: Autre
+
+  metadata:
+    source_id: odre
+    nom_donnees: Puissance des installations électriques
+    diffuseur: ODRE, Ecolab
+    producteur: RTE, Enedis, EDF SEI, ELD
+    methodologie: Plus d'infos 
+      [ici](https://www.data.gouv.fr/datasets/puissance-des-installations-electriques/)
+    limites: ''
+    date_version: '2025-06-29 00:00:00'
+
+  source:
+    id: odre
+    libelle: ODRE
+    ordre_affichage: '1'
+
+  ratio: 1
+
+
+- api_nom_cube: puissance_elec_installee_com
+  ID: '899'
+  api_nom_axe: vecteur
+
+  type_collectivite: *id001
+  correspondance_indicateurs:
+    cae_26.aa: Photovoltaïque
+    cae_26.ab: Thermodynamique
+    cae_26.ac: Batterie
+
+  metadata:
+    source_id: odre
+    nom_donnees: Puissance solaire installée
+    diffuseur: ODRE, Ecolab
+    producteur: RTE, Enedis, EDF SEI, ELD
+    methodologie: Plus d'infos 
+      [ici](https://www.data.gouv.fr/datasets/puissance-solaire-installee/informations/)
+    limites: ''
+    date_version: '2025-05-05 00:00:00'
+
+  source:
+    id: odre
+    libelle: ODRE
+    ordre_affichage: '1'
+
+  ratio: 1
+
+
+- api_nom_cube: puissance_elec_installee_com
+  ID: '898'
+  api_nom_axe: vecteur
+
+  type_collectivite: *id001
+  correspondance_indicateurs:
+    eolien.a: Terrestre
+    eolien.b: En mer posé
+    eolien.c: Autre
+    eolien.d: En mer flottant
+
+  metadata:
+    source_id: odre
+    nom_donnees: Puissance d'éolien installée
+    diffuseur: ODRE, Ecolab
+    producteur: RTE, Enedis, EDF SEI, ELD
+    methodologie: Plus d'infos 
+      [ici](https://www.data.gouv.fr/datasets/puissance-deolien-installee/)
+    limites: ''
+    date_version: '2025-05-05 00:00:00'
+
+  source:
+    id: odre
+    libelle: ODRE
+    ordre_affichage: '1'
+
+  ratio: 1
+
+
+- api_nom_cube: macantine_region
+  ID: '827'
+  api_nom_axe: ''
+
+  type_collectivite: &id002
+  - region
+  correspondance_indicateurs: cantine_1
+
+  metadata:
+    source_id: macantine
+    nom_donnees: Nombre de cantines
+    diffuseur: Ecolab
+    producteur: Ma Cantine
+    methodologie: Plus d'infos 
+      [ici](https://ecologie.data.gouv.fr/datasets/685a99ab7ab7dda79c0315ba)
+    limites: ''
+    date_version: '2025-06-26 00:00:00'
+
+  source:
+    id: macantine
+    libelle: Ma Cantine
+    ordre_affichage: '1'
+
+  ratio: 1
+
+
+
+- api_nom_cube: macantine_region
+  ID: '679'
+  api_nom_axe: ''
+
+  type_collectivite: *id002
+  correspondance_indicateurs: cantine_4
+
+  metadata:
+    source_id: macantine
+    nom_donnees: Part des cantines respectant les obligations EGalim
+    diffuseur: Ecolab
+    producteur: Ma Cantine
+    methodologie: Plus d'infos 
+      [ici](https://ecologie.data.gouv.fr/datasets/685a99a9e3d7d24940dcda3f)
+    limites: ''
+    date_version: '2025-06-26 00:00:00'
+
+  source:
+    id: macantine
+    libelle: Ma Cantine
+    ordre_affichage: '1'
+
+  ratio: 1
+
+
+- api_nom_cube: macantine_region
+  ID: '763'
+  api_nom_axe: ''
+
+  type_collectivite: *id002
+  correspondance_indicateurs: cantine_3
+
+  metadata:
+    source_id: macantine
+    nom_donnees: Taux d’approvisionnement en produits biologiques dans la 
+      restauration collective
+    diffuseur: Ecolab
+    producteur: Ma Cantine
+    methodologie: Plus d'infos 
+      [ici](https://ecologie.data.gouv.fr/datasets/685aa6651fa4750c94368eb5)
+    limites: ''
+    date_version: '2025-06-26 00:00:00'
+
+  source:
+    id: macantine
+    libelle: Ma Cantine
+    ordre_affichage: '1'
+
+  ratio: 1
+
+
+- api_nom_cube: macantine_region
+  ID: '764'
+  api_nom_axe: ''
+
+  type_collectivite: *id002
+  correspondance_indicateurs: cantine_2
+
+  metadata:
+    source_id: macantine
+    nom_donnees: Taux d’approvisionnement en produits durables et de qualité 
+      dans la restauration collective, dont produits bio
+    diffuseur: Ecolab
+    producteur: Ma Cantine
+    methodologie: Plus d'infos 
+      [ici](https://ecologie.data.gouv.fr/datasets/685aa66c93b46026a7391fe0)
+    limites: ''
+    date_version: '2025-06-26 00:00:00'
+
+  source:
+    id: macantine
+    libelle: Ma Cantine
+    ordre_affichage: '1'
+
+  ratio: 1
