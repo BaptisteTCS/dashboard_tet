@@ -51,7 +51,7 @@ df_invitees_active = df_invitees_active.merge(
 st.markdown("---")
 st.markdown("## 🔑 Indicateurs clés sur les 30 derniers jours")
 
-st.markdown("### Reach Collectivités")
+st.markdown("### Prise de contacts")
 
 today = pd.Timestamp.today().normalize()
 cur_start = today - pd.Timedelta(days=30)
@@ -81,7 +81,7 @@ delta_ct = ("+∞%" if ct_reach_prev == 0 and ct_reach_cur > 0 else
 col_r1, col_r2 = st.columns(2)
 with col_r1:
     st.metric(
-        label="Reach total",
+        label="Contacts",
         value=total_reach_cur,
         delta=delta_reach,
         delta_color="normal"
@@ -236,7 +236,7 @@ if not df_biz_reach_filtre.empty:
         if affichage_type == "Graphe":
             # Graphe selon le niveau d'agrégation
             df_plot = df_agg_mois[df_agg_mois['Mois'] != 'Total'].copy()
-            
+             
             if niveau_agregation == "Brut":
                 fig_reach = px.line(df_plot, x='Mois', y='Reach brut', title="Évolution du reach brut par mois")
                 fig_reach.update_layout(xaxis_title="Mois", yaxis_title="Reach brut")

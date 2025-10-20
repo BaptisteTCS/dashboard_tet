@@ -16,11 +16,11 @@ from utils.analytics import (
 from utils.plots import plot_area_with_totals
 
 
-st.set_page_config(page_title="Explorateur interactif", page_icon="🧰", layout="wide")
+st.set_page_config(page_title="North Star & Metrics", page_icon="🌟", layout="wide")
 st.markdown(
     """
     <div style=\"padding: 10px 14px; margin-bottom: 18px;\">
-      <h2 style=\"margin: 0; font-size: 40px;\">🧰 Explorateur interactif</h2>
+      <h2 style=\"margin: 0; font-size: 40px;\">🌟 North Star & Metrics</h2>
     </div>
     """,
     unsafe_allow_html=True,
