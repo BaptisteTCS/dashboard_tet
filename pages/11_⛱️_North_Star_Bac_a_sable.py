@@ -135,8 +135,6 @@ st.info(
     f"une **{map_type_donnees[type_donnees]}** dans les **{window} dernières semaines**."
 )
 
-st.markdown("---")
-
 # === CALCUL DES RÉSULTATS ===
 with st.spinner("🔄 Calcul en cours..."):
     # Sélection du DataFrame approprié
