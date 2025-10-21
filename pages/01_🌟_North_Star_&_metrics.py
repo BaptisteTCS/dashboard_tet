@@ -8,6 +8,7 @@ from utils.data import (
     load_df_typologie_fiche,
     load_df_airtable_pipeline_semaine,
     load_df_pap_statut_semaine_12_mois,
+    load_df_fa_pilotable_12_mois_statut_semaine,
 )
 from utils.analytics import (
     compute_totals_by_period,
@@ -36,21 +37,11 @@ def _load_sources():
     df_pap_notes_summed = load_df_pap_notes_summed()
     df_typologie_fiche = load_df_typologie_fiche()
     df_airtable_pipeline_semaine = load_df_airtable_pipeline_semaine()
-    df_pap_statut_semaine_12_mois = load_df_pap_statut_semaine_12_mois()
+    df_fa_pilotable_12_mois_statut_semaine = load_df_fa_pilotable_12_mois_statut_semaine()
 
     sources = {
         "🌟 North Star 1 - Activation": (
             df_pap_statut_semaine,
-            {
-                "date_col": "semaine",
-                "group_col": "statut",
-                "force_granularite": 'W',
-                "force_cumulatif": False,
-                "objectif": 500,
-            },
-        ),
-        "🌟 North Star 1 - Activation (12 mois)": (
-            df_pap_statut_semaine_12_mois,
             {
                 "date_col": "semaine",
                 "group_col": "statut",
@@ -68,6 +59,16 @@ def _load_sources():
                 "force_cumulatif": False,
                 "objectif": None,
                 "use_values_col": "somme",
+            },
+        ),
+        "🌟 FA pilotable 12 mois": (
+            df_fa_pilotable_12_mois_statut_semaine,
+            {
+                "date_col": "semaine",
+                "group_col": "statut",
+                "force_granularite": 'W',
+                "force_cumulatif": False,
+                "objectif": None,
             },
         ),
         "PAP importés/autonomes": (

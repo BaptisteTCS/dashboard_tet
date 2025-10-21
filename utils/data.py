@@ -81,3 +81,15 @@ def load_df_contribution_semaine() -> pd.DataFrame:
 def load_df_activite_semaine() -> pd.DataFrame:
     df = read_table("activite_semaine")
     return df
+
+def load_df_fa_pilotable_12_mois_statut_semaine() -> pd.DataFrame:
+    df = read_table("fa_pilotable_12_mois_statut_semaine")
+    return df
+
+def load_df_fa_pilotable() -> pd.DataFrame:
+    df = read_table("fa_pilotable")
+    return df
+
+def load_df_fa_contribution_semaine() -> pd.DataFrame:
+    df = read_table("fa_contribution_semaine")
+    return df
