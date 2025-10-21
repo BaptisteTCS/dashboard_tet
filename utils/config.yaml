@@ -36,21 +36,18 @@ indicateurs:
 
 
 
-- api_nom_cube: surfaces_agricoles_com
+- api_nom_cube: surface_bio_epci
   ID: '23'
   api_nom_axe: ''
 
   type_collectivite:
-  - commune
   - epci
-  - departement
-  - region
-  - ept
   correspondance_indicateurs: cae_59
 
   metadata:
     source_id: agencebio
-    nom_donnees: Part de la surface agricole en agriculture biologique dans la surface agricole utile
+    nom_donnees: Part de la surface agricole en agriculture biologique dans la 
+      surface agricole utile
     diffuseur: Ecolab
     producteur: Agence Bio
     methodologie: Plus d'infos 
@@ -405,12 +402,12 @@ indicateurs:
   ratio: 1
 
 
-- api_nom_cube: macantine_region
+- api_nom_cube: macantine_epci
   ID: '827'
   api_nom_axe: ''
 
-  type_collectivite: &id002
-  - region
+  type_collectivite:
+  - epci
   correspondance_indicateurs: cantine_1
 
   metadata:
@@ -432,11 +429,12 @@ indicateurs:
 
 
 
-- api_nom_cube: macantine_region
+- api_nom_cube: macantine_epci
   ID: '679'
   api_nom_axe: ''
 
-  type_collectivite: *id002
+  type_collectivite:
+  - epci
   correspondance_indicateurs: cantine_4
 
   metadata:
@@ -457,11 +455,12 @@ indicateurs:
   ratio: 1
 
 
-- api_nom_cube: macantine_region
+- api_nom_cube: macantine_epci
   ID: '763'
   api_nom_axe: ''
 
-  type_collectivite: *id002
+  type_collectivite:
+  - epci
   correspondance_indicateurs: cantine_3
 
   metadata:
@@ -483,11 +482,12 @@ indicateurs:
   ratio: 1
 
 
-- api_nom_cube: macantine_region
+- api_nom_cube: macantine_epci
   ID: '764'
   api_nom_axe: ''
 
-  type_collectivite: *id002
+  type_collectivite:
+  - epci
   correspondance_indicateurs: cantine_2
 
   metadata:
@@ -507,3 +507,28 @@ indicateurs:
     ordre_affichage: '1'
 
   ratio: 1
+- api_nom_cube: emission_moy_co2_hebdo_dom_trav_com
+  ID: '1084'
+  api_nom_axe: mode_transport
+  type_collectivite:
+  - commune
+  - epci
+  - departement
+  - region
+  - ept
+  correspondance_indicateurs: dist_dt_co2
+  metadata:
+    source_id: sdes
+    nom_donnees: Emissions de CO2 moyennes par personne et par semaine pour les 
+      déplacements domicile-travail
+    diffuseur: Ecolab
+    producteur: SDES / INSEE
+    methodologie: Plus d'infos 
+      [ici](https://ecologie.data.gouv.fr/indicators/6895bfb71930a5b1cff0e980)
+    limites: "''"
+    date_version: '2025-10-10'
+  source:
+    id: sdes
+    libelle: SDES
+    ordre_affichage: '1'
+  ratio: 1.0

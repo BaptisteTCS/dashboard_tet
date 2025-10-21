@@ -7,6 +7,7 @@ from utils.data import (
     load_df_pap_notes_summed,
     load_df_typologie_fiche,
     load_df_airtable_pipeline_semaine,
+    load_df_pap_statut_semaine_12_mois,
 )
 from utils.analytics import (
     compute_totals_by_period,
@@ -20,7 +21,7 @@ st.set_page_config(page_title="North Star & Metrics", page_icon="🌟", layout="
 st.markdown(
     """
     <div style=\"padding: 10px 14px; margin-bottom: 18px;\">
-      <h2 style=\"margin: 0; font-size: 40px;\">🌟 North Star & Metrics</h2>
+      <h2 style=\"margin: 0; font-size: 40px;\">🌟 North Star & metrics</h2>
     </div>
     """,
     unsafe_allow_html=True,
@@ -35,12 +36,21 @@ def _load_sources():
     df_pap_notes_summed = load_df_pap_notes_summed()
     df_typologie_fiche = load_df_typologie_fiche()
     df_airtable_pipeline_semaine = load_df_airtable_pipeline_semaine()
-
-    print(df_pap_notes_summed.head(20))
+    df_pap_statut_semaine_12_mois = load_df_pap_statut_semaine_12_mois()
 
     sources = {
         "🌟 North Star 1 - Activation": (
             df_pap_statut_semaine,
+            {
+                "date_col": "semaine",
+                "group_col": "statut",
+                "force_granularite": 'W',
+                "force_cumulatif": False,
+                "objectif": 500,
+            },
+        ),
+        "🌟 North Star 1 - Activation (12 mois)": (
+            df_pap_statut_semaine_12_mois,
             {
                 "date_col": "semaine",
                 "group_col": "statut",
