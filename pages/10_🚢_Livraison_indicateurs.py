@@ -131,6 +131,29 @@ def load_preprod_data(df_staged):
         return pd.DataFrame()
 
 
+def get_valid_collectivite_ids_preprod():
+    """Récupère la liste des collectivite_id valides depuis la table collectivite en preprod.
+    
+    Returns:
+        set: Ensemble des collectivite_id valides
+    """
+    engine_preprod = get_engine_pre_prod()
+    
+    try:
+        query = text("SELECT id FROM collectivite")
+        
+        with engine_preprod.connect() as conn:
+            df = pd.read_sql_query(query, conn)
+        
+        valid_ids = set(df['id'].tolist())
+        st.info(f"✅ {len(valid_ids)} collectivités valides trouvées en pré-prod")
+        
+        return valid_ids
+    except Exception as e:
+        st.error(f"❌ Erreur lors de la récupération des collectivités pré-prod : {str(e)}")
+        return set()
+
+
 def livrer_en_preprod(comparison, df_staged, progress_container=None):
     """Fait l'upsert des données staging vers la pré-prod via API.
     
@@ -138,6 +161,9 @@ def livrer_en_preprod(comparison, df_staged, progress_container=None):
     - Nouveaux indicateurs
     - Nouvelles années
     - Données avec résultats différents
+    
+    Filtre automatiquement les données pour ne garder que les collectivite_id
+    qui existent en pré-prod (évite les violations de clé étrangère).
     
     Args:
         comparison: Résultats de la comparaison staging vs pré-prod
@@ -172,6 +198,27 @@ def livrer_en_preprod(comparison, df_staged, progress_container=None):
         return {'nb_total': 0, 'success': True, 'message': 'Aucune donnée à livrer (tout est déjà à jour)'}
     
     df_to_send = pd.concat(dfs_to_send, ignore_index=True)
+    
+    # Filtrer pour ne garder que les collectivite_id qui existent en pré-prod
+    nb_lignes_avant = len(df_to_send)
+    nb_lignes_filtrees = 0
+    valid_collectivite_ids = get_valid_collectivite_ids_preprod()
+    
+    if valid_collectivite_ids:
+        df_to_send = df_to_send[df_to_send['collectivite_id'].isin(valid_collectivite_ids)]
+        nb_lignes_apres = len(df_to_send)
+        nb_lignes_filtrees = nb_lignes_avant - nb_lignes_apres
+        
+        if nb_lignes_filtrees > 0:
+            st.warning(f"⚠️ {nb_lignes_filtrees} ligne(s) filtrée(s) (collectivités inexistantes en pré-prod)")
+        
+        if nb_lignes_apres == 0:
+            return {
+                'nb_total': 0, 
+                'nb_filtered': nb_lignes_filtrees,
+                'success': True, 
+                'message': f'Aucune donnée à livrer après filtrage des collectivités ({nb_lignes_filtrees} lignes filtrées)'
+            }
     
     try:
         # Récupérer les credentials depuis les secrets
@@ -252,20 +299,20 @@ def livrer_en_preprod(comparison, df_staged, progress_container=None):
                 failed_batches += 1
                 
                 # Logger l'erreur dans la console
-                #print(f"\n{'='*80}")
-                #print(f"❌ ERREUR - Batch {batch_num}/{total_batches} échoué (HTTP {response.status_code})")
-                #print(f"{'='*80}")
+                print(f"\n{'='*80}")
+                print(f"❌ ERREUR - Batch {batch_num}/{total_batches} échoué (HTTP {response.status_code})")
+                print(f"{'='*80}")
                 
-                #try:
-                    #error_json = response.json()
-                    #print("Réponse API (JSON):")
-                    #import json
-                    #print(json.dumps(error_json, indent=2, ensure_ascii=False))
-                # except:
-                    #print("Réponse serveur (texte):")
-                    #print(response.text)
+                try:
+                    error_json = response.json()
+                    print("Réponse API (JSON):")
+                    import json
+                    print(json.dumps(error_json, indent=2, ensure_ascii=False))
+                except:
+                    print("Réponse serveur (texte):")
+                    print(response.text)
                 
-                #print(f"{'='*80}\n")
+                print(f"{'='*80}\n")
                 
                 if progress_container:
                     status_text.error(f"❌ Batch {batch_num}/{total_batches} échoué (HTTP {response.status_code}) - voir console pour détails")
@@ -287,6 +334,7 @@ def livrer_en_preprod(comparison, df_staged, progress_container=None):
             'nb_total': total_rows,
             'nb_inserted': total_inserted,
             'nb_batches': total_batches,
+            'nb_filtered': nb_lignes_filtrees,
             'failed_batches': failed_batches,
             'success': success,
             'message': message
@@ -296,6 +344,7 @@ def livrer_en_preprod(comparison, df_staged, progress_container=None):
         return {
             'nb_total': 0,
             'nb_inserted': 0,
+            'nb_filtered': nb_lignes_filtrees if 'nb_lignes_filtrees' in locals() else 0,
             'success': False,
             'message': f'Erreur lors de la livraison : {str(e)}'
         }
@@ -687,13 +736,25 @@ if st.session_state.analysis_done and st.session_state.df_staged is not None:
             if result['success']:
                 st.success(f"✅ {result['message']}")
                 
-                col_stat1, col_stat2, col_stat3 = st.columns(3)
-                with col_stat1:
-                    st.metric("📊 Total de lignes", f"{result['nb_total']:,}")
-                with col_stat2:
-                    st.metric("📤 Lignes insérées", f"{result['nb_inserted']:,}")
-                with col_stat3:
-                    st.metric("📦 Batches envoyés", result.get('nb_batches', 0))
+                # Afficher les statistiques avec ou sans le filtrage
+                if result.get('nb_filtered', 0) > 0:
+                    col_stat1, col_stat2, col_stat3, col_stat4 = st.columns(4)
+                    with col_stat1:
+                        st.metric("📊 Total de lignes", f"{result['nb_total']:,}")
+                    with col_stat2:
+                        st.metric("📤 Lignes insérées", f"{result['nb_inserted']:,}")
+                    with col_stat3:
+                        st.metric("🚫 Lignes filtrées", f"{result['nb_filtered']:,}")
+                    with col_stat4:
+                        st.metric("📦 Batches envoyés", result.get('nb_batches', 0))
+                else:
+                    col_stat1, col_stat2, col_stat3 = st.columns(3)
+                    with col_stat1:
+                        st.metric("📊 Total de lignes", f"{result['nb_total']:,}")
+                    with col_stat2:
+                        st.metric("📤 Lignes insérées", f"{result['nb_inserted']:,}")
+                    with col_stat3:
+                        st.metric("📦 Batches envoyés", result.get('nb_batches', 0))
                 
                 st.info("💡 Vous pouvez relancer l'analyse pour vérifier que les données ont bien été livrées.")
             else:

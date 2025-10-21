@@ -69,3 +69,15 @@ def load_df_calendly_invitees() -> pd.DataFrame:
 def load_df_bizdev_contact_collectivite() -> pd.DataFrame:
     df = read_table("bizdev_contact_collectivite")
     return df
+
+def load_df_pap_statut_semaine_12_mois() -> pd.DataFrame:
+    df = read_table("pap_statut_semaine_12_mois")
+    return df
+
+def load_df_contribution_semaine() -> pd.DataFrame:
+    df = read_table("contribution_semaine")
+    return df
+
+def load_df_activite_semaine() -> pd.DataFrame:
+    df = read_table("activite_semaine")
+    return df

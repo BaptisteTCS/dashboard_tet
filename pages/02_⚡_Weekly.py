@@ -10,7 +10,7 @@ from utils.data import (
 
 
 st.set_page_config(layout="wide")
-st.title("⚡ Dashboard Weekly")
+st.title("⚡ Weekly")
 
 # === CHARGEMENT DES DONNÉES ===
 df_pap = load_df_pap()

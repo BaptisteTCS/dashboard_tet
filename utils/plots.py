@@ -277,7 +277,7 @@ def plot_area_with_totals(
                 mode='text',
                 textposition='top left',
                 showlegend=False,
-                textfont=dict(color=text_color, size=14),
+                textfont=dict(color=text_color, size=12),
                 hoverinfo='skip'
             )
         )
