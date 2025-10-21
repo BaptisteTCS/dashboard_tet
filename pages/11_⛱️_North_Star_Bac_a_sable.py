@@ -21,7 +21,7 @@ st.set_page_config(page_title="North Star Bac à sable", page_icon="⛱️", lay
 # === EN-TÊTE ===
 st.markdown(
     """
-    <div style="padding: 10px 14px; margin-bottom: 18px;">
+    <div style="padding: 5px 5px; margin-bottom: 5px;">
       <h2 style="margin: 0; font-size: 40px;">⛱️ North Star - Bac à Sable</h2>
       <p style="margin-top: 8px; color: gray; font-size: 16px;">
         Expérimentez avec différents paramètres pour analyser l'impact sur la North Star
@@ -107,13 +107,12 @@ st.markdown("---")
 col_param1, col_param2 = st.columns(2)
 
 with col_param1:
-    st.markdown("**Type de données**")
+    st.markdown("**Type d'activité sur les plans d'actions**")
     type_donnees = st.segmented_control(
         "Type de données",
-        options=["🎯 Activité", "📊 Contribution"],
-        default="🎯 Activité",
-        label_visibility="collapsed",
-        help="Choisissez entre les données de contribution ou d'activité des collectivités"
+        options=["🍿 Visite", "📝 Contribution"],
+        default="🍿 Visite",
+        label_visibility="collapsed"
     )
 
 with col_param2:
@@ -128,7 +127,7 @@ with col_param2:
         help="Nombre de semaines pour la fenêtre glissante d'analyse"
     )
 
-map_type_donnees = {"📊 Contribution": "contribution", "🎯 Activité": "activité"}
+map_type_donnees = {"📝 Contribution": "contribution", "🍿 Visite": "visite"}
 
 st.info(
     f"💡 Une collectivité est considérée comme active si elle a eu au moins "
@@ -138,12 +137,12 @@ st.info(
 # === CALCUL DES RÉSULTATS ===
 with st.spinner("🔄 Calcul en cours..."):
     # Sélection du DataFrame approprié
-    if type_donnees == "📊 Contribution":
+    if type_donnees == "📝 Contribution":
         df_selected = df_contribution_semaine[["semaine", "collectivite_id"]]
         titre_graph = f"North Star - Contribution (fenêtre de {window} semaines)"
     else:
         df_selected = df_activite_semaine[["semaine", "collectivite_id"]]
-        titre_graph = f"North Star - Activité (fenêtre de {window} semaines)"
+        titre_graph = f"North Star - Visite (fenêtre de {window} semaines)"
     
     # Calcul du statut
     ct_pap_statut_semaine = compute_statut_pap(
@@ -156,12 +155,12 @@ with st.spinner("🔄 Calcul en cours..."):
     ct_pap_statut_semaine['semaine'] = pd.to_datetime(ct_pap_statut_semaine['semaine'])
 
 # === AFFICHAGE DES RÉSULTATS ===
-col_left, col_right = st.columns([1, 2])
+col_left, col_right = st.columns([1, 3])
 
 with col_left:
     # Métriques récapitulatives
     with st.container(border=True):
-        st.subheader("📈 Métriques", divider="green")
+        st.subheader("💡 Impact sur les PAP", divider="green")
         
         # Statistiques actuelles
         derniere_semaine = ct_pap_statut_semaine['semaine'].max()
@@ -171,19 +170,20 @@ with col_left:
         
         nb_actifs = len(donnees_derniere_semaine[donnees_derniere_semaine['statut'] == 'actif'])
         nb_inactifs = len(donnees_derniere_semaine[donnees_derniere_semaine['statut'] == 'inactif'])
+
         total = nb_actifs + nb_inactifs
+
         delta = (nb_actifs-nb_pap_actifs_actuels)/nb_pap_actifs_actuels * 100 if total > 0 else 0
         
         st.markdown(f"**Dernière semaine ({derniere_semaine.strftime('%d/%m/%Y')}) :**")
         
         st.metric("✅ Actifs", nb_actifs, delta=f"{delta:.1f}% (par rapport au PAP 3 mois)")
         st.metric("❌ Inactifs", nb_inactifs)
-        st.metric("📊 Total", total)
 
 with col_right:
     # Affichage du graphique
     with st.container(border=True):
-        st.subheader("📊 Résultats", divider="blue")
+        st.subheader("✨ Résultats", divider="blue")
         
         fig = plot_area_with_totals(
             df=ct_pap_statut_semaine,
