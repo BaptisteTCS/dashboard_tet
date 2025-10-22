@@ -507,6 +507,8 @@ indicateurs:
     ordre_affichage: '1'
 
   ratio: 1
+
+  
 - api_nom_cube: emission_moy_co2_hebdo_dom_trav_com
   ID: '1084'
   api_nom_axe: mode_transport
