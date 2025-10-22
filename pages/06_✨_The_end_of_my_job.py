@@ -131,7 +131,10 @@ en te basant sur le schéma de base de données et la question utilisateur ci-de
 - N'utilise que des commandes SELECT, jamais INSERT, UPDATE ou DELETE.
 
 ### Informations importantes :
-- Les plans (ou plan d'action) sont contenus dans la table axe (lorsque id=plan)
+- Les plans (ou plan d'action) sont contenus dans la table axe (lorsque id=plan), le lien est fait avec les fiches actions par fiche_action_axe
+- Un indicateur est "personnalisé" lorsque que indicateur_definition.collectivite_id est non null
+- Un indicateur est "open data" lorsque indicateur_valeur.metadonnee_id est non null et indicateur_valeur.resultat est non null
+- Le budget d'investissement pour une fiche action est dans fiche_action_budget avec type='investissement'
 
 ### Question utilisateur :
 {user_request}
@@ -188,7 +191,7 @@ en te basant sur le schéma de base de données et la question utilisateur ci-de
                         }
                     )
                 else:
-                    st.markdown("**📊 Résultats**")
+                    st.markdown("**✨ Résultats**")
                     try:
                         engine = get_engine_prod()
                         with engine.connect() as conn:
