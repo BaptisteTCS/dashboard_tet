@@ -199,19 +199,26 @@ def plot_area_with_totals(
     totaux = data_to_plot.sum(axis=1).reset_index().iloc[1:].reset_index(drop=True)
     totaux.columns = ['periode', 'total']
 
-    if colors is None:
-        if group_col:
-            if df[group_col].nunique() < 6:
-                colors = ["#A4E7C7", "#FFD0BB", "#F7C59F", "#7C77B9", "#92B4EC"]
-            else:
-                colors = [
-                    "#E1E1FD", "#96C7DA", "#D9D9D9", "#E4CDEE", "#FEF1D8",
-                    "#F7B1C2", "#A4E7C7", "#FFD0BB", "#C3C3FB", "#EEEEEE",
-                    "#FFB595", "#D8EEFE", "#FBE7B5", "#B8D6F7"
-                ]
-
     if group_col:
-        color_map = {col: colors[i % len(colors)] for i, col in enumerate(data_to_plot.columns)}
+        group_list = set(df[group_col].unique())
+        # Mapping spécifique pour actif/inactif
+        if group_list == {'actif', 'inactif'}:
+            color_map = {
+                'actif': "#A4E7C7",
+                'inactif': "#FFD0BB"
+            }
+        else:
+            # Pour les autres cas, utiliser une palette par défaut
+            if colors is None:
+                if df[group_col].nunique() < 6:
+                    colors = ["#A4E7C7", "#FFD0BB", "#F7C59F", "#7C77B9", "#92B4EC"]
+                else:
+                    colors = [
+                        "#E1E1FD", "#96C7DA", "#D9D9D9", "#E4CDEE", "#FEF1D8",
+                        "#F7B1C2", "#A4E7C7", "#FFD0BB", "#C3C3FB", "#EEEEEE",
+                        "#FFB595", "#D8EEFE", "#FBE7B5", "#B8D6F7"
+                    ]
+            color_map = {col: colors[i % len(colors)] for i, col in enumerate(data_to_plot.columns)}
     else:
         color_map = None
 
