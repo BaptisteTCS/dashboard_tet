@@ -135,6 +135,8 @@ en te basant sur le schéma de base de données et la question utilisateur ci-de
 - Un indicateur est "personnalisé" lorsque que indicateur_definition.collectivite_id est non null
 - Un indicateur est "open data" lorsque indicateur_valeur.metadonnee_id est non null et indicateur_valeur.resultat est non null
 - Le budget d'investissement pour une fiche action est dans fiche_action_budget avec type='investissement'
+- Dans notre langage courant, on appelle "action" ce qui est en fait une "mesure" ou "mesure du référentiel"
+- Une fiche action liée à une fiche action se trouve dans la table fiche_action_lien et une fiche action lié à une mesure se trouve dans la table fiche_action_action
 
 ### Question utilisateur :
 {user_request}
