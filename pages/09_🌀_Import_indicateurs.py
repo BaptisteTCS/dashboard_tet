@@ -594,7 +594,7 @@ def formater_pour_tet_v2(df: pd.DataFrame, indic: dict, date_min: str = '1990-01
     )
     
     # Sélectionner les colonnes essentielles
-    colonnes_necessaires = ['indicateur_id', 'collectivite_id', 'date_valeur', 'resultat']
+    colonnes_necessaires = ['indicateur_id', 'collectivite_id', 'date_valeur', 'resultat', 'identifiant_referentiel', 'api_nom_cube']
     df_format_tet_v2 = df_format[colonnes_necessaires].copy()
     
     # Supprimer les NaN et appliquer le ratio pour convertir les unités
@@ -1296,6 +1296,10 @@ try:
                         ]
                         .iloc[0]
                     )
+
+                    df_final['identifiant_referentiel'] = indic['correspondance_indicateurs']
+                
+                df_final['api_nom_cube'] = indic['api_nom_cube']
                 
                 # Formatage au format TET v2
                 date_min_str = '1990-01-01'

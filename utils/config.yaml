@@ -508,7 +508,7 @@ indicateurs:
 
   ratio: 1
 
-  
+
 - api_nom_cube: emission_moy_co2_hebdo_dom_trav_com
   ID: '1084'
   api_nom_axe: mode_transport
@@ -518,7 +518,10 @@ indicateurs:
   - departement
   - region
   - ept
-  correspondance_indicateurs: dist_dt_co2
+  correspondance_indicateurs:
+    dist_dt_co2.a: Deux-roues motorisé
+    dist_dt_co2.b: Transports en commun
+    dist_dt_co2.c: Voiture
   metadata:
     source_id: sdes
     nom_donnees: Emissions de CO2 moyennes par personne et par semaine pour les 
@@ -533,4 +536,4 @@ indicateurs:
     id: sdes
     libelle: SDES
     ordre_affichage: '1'
-  ratio: 1.0
+  ratio: 0.001

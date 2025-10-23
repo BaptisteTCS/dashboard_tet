@@ -60,11 +60,16 @@ if st is not None:
         return _create_sqlalchemy_engine("database_prod")
     
     @st.cache_resource(show_spinner=False)
+    def get_engine_prod_writing():
+        return _create_sqlalchemy_engine("database_prod_writing")
+    
+    @st.cache_resource(show_spinner=False)
     def get_engine_pre_prod():
         return _create_sqlalchemy_engine("database_pre_prod")
 else:  # pragma: no cover
     _ENGINE = None
     _ENGINE_PROD = None
+    _ENGINE_PROD_WRITING = None
     _ENGINE_PRE_PROD = None
 
     def get_engine():  # type: ignore
@@ -78,6 +83,12 @@ else:  # pragma: no cover
         if _ENGINE_PROD is None:
             _ENGINE_PROD = _create_sqlalchemy_engine("database_prod")
         return _ENGINE_PROD
+    
+    def get_engine_prod_writing():  # type: ignore
+        global _ENGINE_PROD_WRITING
+        if _ENGINE_PROD_WRITING is None:
+            _ENGINE_PROD_WRITING = _create_sqlalchemy_engine("database_prod_writing")
+        return _ENGINE_PROD_WRITING
     
     def get_engine_pre_prod():  # type: ignore
         global _ENGINE_PRE_PROD

@@ -2,20 +2,23 @@ import streamlit as st
 import pandas as pd
 import requests
 import time
+import yaml
 from sqlalchemy import text
-from utils.db import get_engine, get_engine_pre_prod
+from utils.db import get_engine, get_engine_prod, get_engine_prod_writing
 
 # Configuration de la page
 st.set_page_config(layout="wide")
-st.title("🚢 Livraison des indicateurs en pre-prod")
+st.title("🚢🚨 Livraison des indicateurs en PRODUCTION")
 
 st.markdown("""
 Cette page compare les données **staging** (table `indicateurs_valeurs_olap`) 
-avec les données en **pré-production** (table `indicateur_valeur`) pour identifier :
+avec les données en **production** (table `indicateur_valeur`) pour identifier :
 - 🆕 Les nouveaux indicateurs à importer
 - 📅 Les nouvelles années pour des indicateurs existants
 - 🔄 Les données à mettre à jour
 """)
+
+st.error("⚠️ **ATTENTION : Cette page effectue des modifications en PRODUCTION !**")
 
 st.markdown("---")
 
@@ -24,7 +27,7 @@ st.markdown("---")
 # ==========================
 
 def load_staged_data():
-    """Charge les données de la table indicateurs_valeurs_olap."""
+    """Charge les données de la table indicateurs_valeurs_olap avec l'identifiant_referentiel et api_nom_cube."""
     engine = get_engine()
     
     try:
@@ -34,7 +37,9 @@ def load_staged_data():
                 indicateur_id,
                 metadonnee_id,
                 date_valeur,
-                resultat
+                resultat,
+                api_nom_cube,
+                identifiant_referentiel
             FROM indicateurs_valeurs_olap
         """)
         
@@ -50,9 +55,252 @@ def load_staged_data():
         return pd.DataFrame()
 
 
+def transform_staged_for_prod(df_staged):
+    """Transforme les données staged pour les adapter à la production.
+    
+    Effectue deux transformations principales :
+    1. Mapping des indicateur_id via identifiant_referentiel
+    2. Mapping des metadonnee_id (avec insertion en prod si nécessaire)
+    
+    Args:
+        df_staged: DataFrame avec les données staging (IDs preprod)
+    
+    Returns:
+        DataFrame avec les IDs prod
+    """
+    if df_staged.empty:
+        return df_staged
+    
+    # Vérifier que les engines sont bien configurés
+    try:
+        engine_prod = get_engine_prod()
+        engine_prod_writing = get_engine_prod_writing()
+    except Exception as e:
+        st.error(f"❌ Erreur de configuration des engines de base de données : {str(e)}")
+        st.error("Vérifiez que les secrets 'database_prod' et 'database_prod_writing' sont bien configurés dans .streamlit/secrets.toml")
+        return pd.DataFrame()
+    
+    df_result = df_staged.copy()
+    
+    # ============================================
+    # 1. MAPPING DES INDICATEUR_ID
+    # ============================================
+    
+    st.info("🔄 Mapping des indicateur_id (preprod → prod)...")
+    
+    try:        
+        # Charger le mapping depuis production
+        with engine_prod.connect() as conn:
+            mapping_prod = pd.read_sql_query(
+                text("SELECT id as indicateur_id_prod, identifiant_referentiel FROM indicateur_definition WHERE collectivite_id IS NULL"),
+                conn
+            )
+
+        mapping_dict = dict(zip(mapping_prod["identifiant_referentiel"], mapping_prod["indicateur_id_prod"]))
+        
+        # Appliquer le mapping
+        df_result['indicateur_id'] = df_result['identifiant_referentiel'].map(mapping_dict)
+        
+        st.success(f"✅ Mapping indicateur_id effectué : {len(mapping_dict)} indicateurs")
+        
+    except Exception as e:
+        st.error(f"❌ Erreur lors du mapping des indicateur_id : {str(e)}")
+        return pd.DataFrame()
+    
+    # ============================================
+    # 2. CHARGEMENT DU YAML
+    # ============================================
+    
+    st.info("🔄 Chargement du fichier de configuration YAML...")
+    
+    try:
+        # Charger le fichier YAML
+        with open('utils/config.yaml', 'r', encoding='utf-8') as f:
+            config = yaml.safe_load(f)
+        
+        indicateurs_yaml = config['indicateurs']
+        st.success(f"✅ {len(indicateurs_yaml)} indicateurs chargés depuis le YAML")
+        
+        # Créer un dictionnaire pour accès rapide par api_nom_cube
+        yaml_by_cube = {indic['api_nom_cube']: indic for indic in indicateurs_yaml}
+        
+        st.info(f"📋 {len(yaml_by_cube)} cubes trouvés dans le YAML")
+        
+    except Exception as e:
+        st.error(f"❌ Erreur lors du chargement du YAML : {str(e)}")
+        import traceback
+        st.error(traceback.format_exc())
+        return pd.DataFrame()
+    
+    # ============================================
+    # 3. INSERTION DES SOURCES ET METADONNEES EN PROD
+    # ============================================
+    
+    st.info("🔄 Insertion/vérification des sources et métadonnées en prod...")
+    
+    try:
+        # Récupérer les api_nom_cube uniques de nos données
+        cubes = df_result['api_nom_cube'].unique().tolist()
+        
+        # Dictionnaire pour stocker le mapping api_nom_cube -> metadonnee_id_prod
+        dict_mapping_meta = {}
+        nb_sources_inserees = 0
+        nb_sources_existantes = 0
+        nb_meta_insertions = 0
+        nb_meta_updates = 0
+        
+        sources_traitees = set()  # Pour éviter de traiter la même source plusieurs fois
+        
+        for cube in cubes:
+            # Récupérer les infos depuis le YAML
+            if cube not in yaml_by_cube:
+                st.warning(f"⚠️ Cube '{cube}' non trouvé dans le YAML, ignoré")
+                continue
+            
+            indic_yaml = yaml_by_cube[cube]
+            source_info = indic_yaml['source']
+            metadata_info = indic_yaml['metadata']
+            
+            # ====================================
+            # A. INSERTION/VERIFICATION DE LA SOURCE
+            # ====================================
+            source_id = source_info['id']
+            
+            if source_id not in sources_traitees:
+                sources_traitees.add(source_id)
+                
+                try:
+                    with engine_prod_writing.begin() as conn:
+                        # Vérifier si la source existe déjà
+                        check_query = text("""
+                            SELECT 1 FROM indicateur_source WHERE id = :id
+                        """)
+                        result = conn.execute(check_query, {"id": source_id}).first()
+                        
+                        if result is None:
+                            # Insertion si la source n'existe pas encore
+                            insert_query = text("""
+                                INSERT INTO indicateur_source (id, libelle, ordre_affichage)
+                                VALUES (:id, :libelle, :ordre_affichage)
+                            """)
+                            conn.execute(insert_query, {
+                                "id": source_id,
+                                "libelle": source_info["libelle"],
+                                "ordre_affichage": source_info["ordre_affichage"]
+                            })
+                            nb_sources_inserees += 1
+                        else:
+                            nb_sources_existantes += 1
+                except Exception as conn_error:
+                    st.error(f"❌ Erreur de connexion à la base prod lors de l'insertion de la source '{source_id}' : {str(conn_error)}")
+                    st.error("Vérifiez que le secret 'database_prod_writing' est correctement configuré dans .streamlit/secrets.toml")
+                    raise
+            
+            # ====================================
+            # B. INSERTION/UPDATE DE LA METADONNEE
+            # ====================================
+            
+            # Clé d'unicité
+            cle = {
+                "source_id": metadata_info["source_id"],
+                "nom_donnees": metadata_info["nom_donnees"]
+            }
+            
+            # Colonnes à mettre à jour si ligne déjà existante
+            update_fields = {
+                "date_version": metadata_info["date_version"],
+                "methodologie": metadata_info["methodologie"],
+                "limites": metadata_info["limites"]
+            }
+            
+            # Utiliser engine_prod pour la lecture
+            with engine_prod.connect() as conn_read:
+                # 1. Recherche d'une ligne existante selon la clé logique
+                result = conn_read.execute(text("""
+                    SELECT id FROM indicateur_source_metadonnee
+                    WHERE source_id = :source_id
+                    AND nom_donnees = :nom_donnees
+                    LIMIT 1;
+                """), cle).first()
+            
+            # Utiliser engine_prod_writing pour l'écriture
+            with engine_prod_writing.begin() as conn_write:
+                if result is None:
+                    # 2. Si aucune ligne existante → INSERT
+                    meta_dict = {
+                        "source_id": metadata_info["source_id"],
+                        "date_version": metadata_info["date_version"],
+                        "nom_donnees": metadata_info["nom_donnees"],
+                        "diffuseur": metadata_info["diffuseur"],
+                        "producteur": metadata_info["producteur"],
+                        "methodologie": metadata_info["methodologie"],
+                        "limites": metadata_info["limites"]
+                    }
+                    
+                    result = conn_write.execute(text("""
+                        INSERT INTO indicateur_source_metadonnee (
+                            source_id, date_version, nom_donnees, diffuseur,
+                            producteur, methodologie, limites
+                        ) VALUES (
+                            :source_id, :date_version, :nom_donnees, :diffuseur,
+                            :producteur, :methodologie, :limites
+                        ) RETURNING id;
+                    """), meta_dict).first()
+                    
+                    id_prod = result[0]
+                    dict_mapping_meta[cube] = id_prod
+                    nb_meta_insertions += 1
+                    
+                else:
+                    # 3. Si ligne existante → UPDATE
+                    id_prod = result[0]
+                    update_fields["id"] = id_prod
+                    
+                    conn_write.execute(text("""
+                        UPDATE indicateur_source_metadonnee
+                        SET date_version = :date_version,
+                            methodologie = :methodologie,
+                            limites = :limites
+                        WHERE id = :id;
+                    """), update_fields)
+                    
+                    dict_mapping_meta[cube] = id_prod
+                    nb_meta_updates += 1
+        
+        # Appliquer le mapping
+        df_result['metadonnee_id'] = df_result['api_nom_cube'].map(dict_mapping_meta)
+        
+        st.success(f"✅ Sources : {nb_sources_inserees} insertion(s), {nb_sources_existantes} existante(s)")
+        st.success(f"✅ Métadonnées : {nb_meta_insertions} insertion(s), {nb_meta_updates} mise(s) à jour")
+        
+    except Exception as e:
+        st.error(f"❌ Erreur lors de l'insertion des sources/métadonnées : {str(e)}")
+        import traceback
+        st.error(traceback.format_exc())
+        return pd.DataFrame()
+    
+    # Vérifier qu'il n'y a pas de valeurs nulles après transformation
+    if df_result['indicateur_id'].isna().any() or df_result['metadonnee_id'].isna().any():
+        nb_nulls = df_result[['indicateur_id', 'metadonnee_id']].isna().sum()
+        st.warning(f"⚠️ Valeurs nulles détectées après transformation : {nb_nulls.to_dict()}")
+        st.warning("Suppression des lignes avec des valeurs nulles...")
+        df_result = df_result.dropna(subset=['indicateur_id', 'metadonnee_id'])
+    
+    # Convertir les IDs en int (peuvent être en float après le mapping)
+    df_result['indicateur_id'] = df_result['indicateur_id'].astype(int)
+    df_result['metadonnee_id'] = df_result['metadonnee_id'].astype(int)
+    
+    # Supprimer les colonnes qui ne servent plus
+    df_result = df_result.drop(columns=['identifiant_referentiel', 'api_nom_cube'])
+    
+    st.success(f"✅ Transformation terminée : {len(df_result):,} lignes prêtes pour la prod")
+    
+    return df_result
+
+
 def load_indicateurs_titres():
-    """Charge le mapping id -> titre des indicateurs depuis la pré-prod."""
-    engine_preprod = get_engine_pre_prod()
+    """Charge le mapping id -> titre des indicateurs depuis la production."""
+    engine_prod = get_engine_prod()
     
     try:
         query = text("""
@@ -61,7 +309,7 @@ def load_indicateurs_titres():
             WHERE collectivite_id IS NULL
         """)
         
-        with engine_preprod.connect() as conn:
+        with engine_prod.connect() as conn:
             df = pd.read_sql_query(query, conn)
         
         # Créer un dictionnaire pour le mapping
@@ -73,8 +321,8 @@ def load_indicateurs_titres():
         return {}
 
 
-def load_preprod_data(df_staged):
-    """Charge les données de la table indicateur_valeur en pré-prod.
+def load_prod_data(df_staged):
+    """Charge les données de la table indicateur_valeur en production.
     
     Ne charge QUE les données correspondant aux clés primaires présentes dans le staging
     pour optimiser les performances sur les grosses tables.
@@ -82,7 +330,7 @@ def load_preprod_data(df_staged):
     Args:
         df_staged: DataFrame staging pour extraire les clés primaires à charger
     """
-    engine_preprod = get_engine_pre_prod()
+    engine_prod = get_engine_prod()
     
     if df_staged.empty:
         return pd.DataFrame()
@@ -93,7 +341,7 @@ def load_preprod_data(df_staged):
         collectivite_ids = df_staged['collectivite_id'].unique().tolist()
         metadonnee_ids = df_staged['metadonnee_id'].unique().tolist()
         
-        st.info(f"🔍 Filtrage pré-prod : {len(indicateurs_ids)} indicateurs, {len(collectivite_ids)} collectivités, {len(metadonnee_ids)} métadonnées")
+        st.info(f"🔍 Filtrage production : {len(indicateurs_ids)} indicateurs, {len(collectivite_ids)} collectivités, {len(metadonnee_ids)} métadonnées")
         
         # Requête avec filtres sur les clés primaires - ne charger que les colonnes nécessaires
         query = text("""
@@ -109,7 +357,7 @@ def load_preprod_data(df_staged):
               AND metadonnee_id = ANY(:metadonnee_ids)
         """)
         
-        with engine_preprod.connect() as conn:
+        with engine_prod.connect() as conn:
             df = pd.read_sql_query(
                 query, 
                 conn, 
@@ -123,39 +371,39 @@ def load_preprod_data(df_staged):
         # Convertir explicitement date_valeur en datetime
         df['date_valeur'] = pd.to_datetime(df['date_valeur'])
         
-        st.success(f"✅ {len(df):,} lignes chargées depuis la pré-prod")
+        st.success(f"✅ {len(df):,} lignes chargées depuis la production")
         
         return df
     except Exception as e:
-        st.error(f"❌ Erreur lors du chargement des données pré-prod : {str(e)}")
+        st.error(f"❌ Erreur lors du chargement des données production : {str(e)}")
         return pd.DataFrame()
 
 
-def get_valid_collectivite_ids_preprod():
-    """Récupère la liste des collectivite_id valides depuis la table collectivite en preprod.
+def get_valid_collectivite_ids_prod():
+    """Récupère la liste des collectivite_id valides depuis la table collectivite en production.
     
     Returns:
         set: Ensemble des collectivite_id valides
     """
-    engine_preprod = get_engine_pre_prod()
+    engine_prod = get_engine_prod()
     
     try:
         query = text("SELECT id FROM collectivite")
         
-        with engine_preprod.connect() as conn:
+        with engine_prod.connect() as conn:
             df = pd.read_sql_query(query, conn)
         
         valid_ids = set(df['id'].tolist())
-        st.info(f"✅ {len(valid_ids)} collectivités valides trouvées en pré-prod")
+        st.info(f"✅ {len(valid_ids)} collectivités valides trouvées en production")
         
         return valid_ids
     except Exception as e:
-        st.error(f"❌ Erreur lors de la récupération des collectivités pré-prod : {str(e)}")
+        st.error(f"❌ Erreur lors de la récupération des collectivités production : {str(e)}")
         return set()
 
 
-def livrer_en_preprod(comparison, df_staged, progress_container=None):
-    """Fait l'upsert des données staging vers la pré-prod via API.
+def livrer_en_prod(comparison, df_staged, progress_container=None):
+    """Fait l'upsert des données staging vers la production via API.
     
     N'envoie que les données qui ont vraiment changé :
     - Nouveaux indicateurs
@@ -163,10 +411,10 @@ def livrer_en_preprod(comparison, df_staged, progress_container=None):
     - Données avec résultats différents
     
     Filtre automatiquement les données pour ne garder que les collectivite_id
-    qui existent en pré-prod (évite les violations de clé étrangère).
+    qui existent en production (évite les violations de clé étrangère).
     
     Args:
-        comparison: Résultats de la comparaison staging vs pré-prod
+        comparison: Résultats de la comparaison staging vs production
         df_staged: DataFrame contenant toutes les données staging
         progress_container: Container Streamlit pour afficher la progression
     
@@ -199,10 +447,10 @@ def livrer_en_preprod(comparison, df_staged, progress_container=None):
     
     df_to_send = pd.concat(dfs_to_send, ignore_index=True)
     
-    # Filtrer pour ne garder que les collectivite_id qui existent en pré-prod
+    # Filtrer pour ne garder que les collectivite_id qui existent en production
     nb_lignes_avant = len(df_to_send)
     nb_lignes_filtrees = 0
-    valid_collectivite_ids = get_valid_collectivite_ids_preprod()
+    valid_collectivite_ids = get_valid_collectivite_ids_prod()
     
     if valid_collectivite_ids:
         df_to_send = df_to_send[df_to_send['collectivite_id'].isin(valid_collectivite_ids)]
@@ -210,7 +458,7 @@ def livrer_en_preprod(comparison, df_staged, progress_container=None):
         nb_lignes_filtrees = nb_lignes_avant - nb_lignes_apres
         
         if nb_lignes_filtrees > 0:
-            st.warning(f"⚠️ {nb_lignes_filtrees} ligne(s) filtrée(s) (collectivités inexistantes en pré-prod)")
+            st.warning(f"⚠️ {nb_lignes_filtrees} ligne(s) filtrée(s) (collectivités inexistantes en production)")
         
         if nb_lignes_apres == 0:
             return {
@@ -223,8 +471,8 @@ def livrer_en_preprod(comparison, df_staged, progress_container=None):
     try:
         # Récupérer les credentials depuis les secrets
         try:
-            api_url = st.secrets.get("api_pre_prod_url", "https://api.preprod.territoiresentransitions.fr/indicateurs/valeurs")
-            api_token = st.secrets.get("api_pre_prod_token", "")
+            api_url = st.secrets.get("api_prod_url", "https://api.territoiresentransitions.fr/indicateurs/valeurs")
+            api_token = st.secrets.get("api_prod_token", "")
         except:
             return {
                 'nb_total': 0,
@@ -350,8 +598,8 @@ def livrer_en_preprod(comparison, df_staged, progress_container=None):
         }
 
 
-def compare_data(df_staged, df_preprod):
-    """Compare les données staging et pré-prod avec une approche par merge.
+def compare_data(df_staged, df_prod):
+    """Compare les données staging et production avec une approche par merge.
     
     Returns:
         dict: {
@@ -364,19 +612,19 @@ def compare_data(df_staged, df_preprod):
     pk_cols = ['collectivite_id', 'indicateur_id', 'metadonnee_id', 'date_valeur']
     
     df_staged = df_staged.copy()
-    df_preprod = df_preprod.copy()
+    df_prod = df_prod.copy()
     
     # 1. NOUVEAUX INDICATEURS
     indicateurs_staged = set(df_staged['indicateur_id'].unique())
-    indicateurs_preprod = set(df_preprod['indicateur_id'].unique())
-    nouveaux_indicateurs_ids = indicateurs_staged - indicateurs_preprod
+    indicateurs_prod = set(df_prod['indicateur_id'].unique())
+    nouveaux_indicateurs_ids = indicateurs_staged - indicateurs_prod
     
     df_nouveaux_indicateurs = df_staged[
         df_staged['indicateur_id'].isin(nouveaux_indicateurs_ids)
     ].copy()
     
     # 2. INDICATEURS EXISTANTS
-    indicateurs_existants = indicateurs_staged & indicateurs_preprod
+    indicateurs_existants = indicateurs_staged & indicateurs_prod
     
     # 3. NOUVELLES ANNÉES ET DONNÉES À UPDATER - par indicateur
     donnees_a_updater = {}
@@ -385,18 +633,18 @@ def compare_data(df_staged, df_preprod):
     for indic_id in indicateurs_existants:
         # Filtrer par indicateur
         df_staged_indic = df_staged[df_staged['indicateur_id'] == indic_id].copy()
-        df_preprod_indic = df_preprod[df_preprod['indicateur_id'] == indic_id].copy()
+        df_prod_indic = df_prod[df_prod['indicateur_id'] == indic_id].copy()
         
         # Merge sur les clés primaires
         df_merge = df_staged_indic.merge(
-            df_preprod_indic,
+            df_prod_indic,
             on=pk_cols,
             how='outer',
-            suffixes=('_staged', '_preprod'),
+            suffixes=('_staged', '_prod'),
             indicator=True
         )
         
-        # Nouvelles années : présent dans staging mais pas dans pre-prod
+        # Nouvelles années : présent dans staging mais pas dans production
         df_nouvelles = df_merge[df_merge['_merge'] == 'left_only'].copy()
         if len(df_nouvelles) > 0:
             # Garder les colonnes staging (sans suffixe)
@@ -411,26 +659,26 @@ def compare_data(df_staged, df_preprod):
         
         if len(df_both) > 0:
             # Comparer les résultats
-            df_both['resultat_diff'] = df_both['resultat_staged'] != df_both['resultat_preprod']
+            df_both['resultat_diff'] = df_both['resultat_staged'] != df_both['resultat_prod']
             df_diff = df_both[df_both['resultat_diff']].copy()
             
             if len(df_diff) > 0:
                 # Calculer l'écart en %
-                df_diff['ecart_abs'] = df_diff['resultat_staged'] - df_diff['resultat_preprod']
+                df_diff['ecart_abs'] = df_diff['resultat_staged'] - df_diff['resultat_prod']
                 
                 # Écart en % (gérer division par zéro)
                 df_diff['ecart_pct'] = 0.0
-                mask_non_zero = df_diff['resultat_preprod'] != 0
+                mask_non_zero = df_diff['resultat_prod'] != 0
                 df_diff.loc[mask_non_zero, 'ecart_pct'] = (
-                    abs(df_diff.loc[mask_non_zero, 'ecart_abs'] / df_diff.loc[mask_non_zero, 'resultat_preprod']) * 100
+                    abs(df_diff.loc[mask_non_zero, 'ecart_abs'] / df_diff.loc[mask_non_zero, 'resultat_prod']) * 100
                 ).round(0)
                 
-                # Pour les valeurs où pre-prod = 0 mais staged != 0
-                mask_div_zero = (df_diff['resultat_preprod'] == 0) & (df_diff['resultat_staged'] != 0)
+                # Pour les valeurs où production = 0 mais staged != 0
+                mask_div_zero = (df_diff['resultat_prod'] == 0) & (df_diff['resultat_staged'] != 0)
                 df_diff.loc[mask_div_zero, 'ecart_pct'] = float('inf')
                 
                 # Sélectionner les colonnes pertinentes
-                cols_result = pk_cols + ['resultat_preprod', 'resultat_staged', 'ecart_abs', 'ecart_pct']
+                cols_result = pk_cols + ['resultat_prod', 'resultat_staged', 'ecart_abs', 'ecart_pct']
                 df_result = df_diff[cols_result].copy()
                 
                 # Calculer les statistiques
@@ -447,7 +695,7 @@ def compare_data(df_staged, df_preprod):
                         'ecart_max_pct': max_row['ecart_pct'],
                         'collectivite_id_max': max_row['collectivite_id'],
                         'date_valeur_max': max_row['date_valeur'],
-                        'resultat_preprod_max': max_row['resultat_preprod'],
+                        'resultat_prod_max': max_row['resultat_prod'],
                         'resultat_staged_max': max_row['resultat_staged'],
                         'dataframe': df_result.sort_values('ecart_pct', ascending=False)
                     }
@@ -486,6 +734,8 @@ if 'comparison' not in st.session_state:
     st.session_state.comparison = None
 if 'indicateurs_titres' not in st.session_state:
     st.session_state.indicateurs_titres = {}
+if 'confirmation_prod' not in st.session_state:
+    st.session_state.confirmation_prod = False
 
 # Bouton pour lancer la comparaison
 col_b1, col_b2, col_b3 = st.columns([2, 3, 2])
@@ -498,21 +748,31 @@ with col_b2:
         
         with st.spinner("Chargement des données staging..."):
             # Chargement des données staging d'abord
-            st.session_state.df_staged = load_staged_data()
+            df_staged_raw = load_staged_data()
         
-        if st.session_state.df_staged.empty:
+        if df_staged_raw.empty:
             st.warning("⚠️ Aucune donnée dans la table staging `indicateurs_valeurs_olap`")
             st.session_state.analysis_done = False
             st.stop()
         
-        with st.spinner("Chargement des données pré-prod (filtré)..."):
-            # Chargement des données pré-prod avec filtre sur les clés primaires du staging
-            df_preprod = load_preprod_data(st.session_state.df_staged)
+        with st.spinner("Transformation des données staging pour la prod (mapping ID)..."):
+            # Transformation des IDs preprod → prod
+            st.session_state.df_staged = transform_staged_for_prod(df_staged_raw)
+        
+        if st.session_state.df_staged.empty:
+            st.error("❌ Aucune donnée après transformation (vérifiez les mappings)")
+            st.session_state.analysis_done = False
+            st.stop()
+        
+        with st.spinner("Chargement des données production (filtré)..."):
+            # Chargement des données production avec filtre sur les clés primaires du staging
+            df_prod = load_prod_data(st.session_state.df_staged)
         
         with st.spinner("Comparaison en cours..."):
-            st.session_state.comparison = compare_data(st.session_state.df_staged, df_preprod)
+            st.session_state.comparison = compare_data(st.session_state.df_staged, df_prod)
         
         st.session_state.analysis_done = True
+        st.session_state.confirmation_prod = False
 
 # Fonction helper pour formater l'affichage des indicateurs
 def format_indicateur(indic_id):
@@ -558,7 +818,7 @@ if st.session_state.analysis_done:
     
     # Comparaison
     st.markdown("---")
-    st.markdown("## 🔄 Comparaison avec pré-production")
+    st.markdown("## 🔄 Comparaison avec production")
     
     # Affichage des résultats
     nb_nouveaux = len(comparison['nouveaux_indicateurs'])
@@ -580,7 +840,7 @@ if st.session_state.analysis_done:
     if nb_nouveaux > 0:
         st.markdown("---")
         st.markdown("### 🆕 Nouveaux indicateurs à importer")
-        st.info(f"Ces {nb_nouveaux} lignes correspondent à des indicateurs qui n'existent pas encore en pré-production.")
+        st.info(f"Ces {nb_nouveaux} lignes correspondent à des indicateurs qui n'existent pas encore en production.")
         
         # Grouper par indicateur
         indicateurs_nouveaux = comparison['nouveaux_indicateurs']['indicateur_id'].unique()
@@ -659,7 +919,7 @@ if st.session_state.analysis_done:
                         st.markdown(f"- **Collectivité ID:** {stats['collectivite_id_max']}")
                         st.markdown(f"- **Date:** {stats['date_valeur_max']}")
                     with col_info2:
-                        st.markdown(f"- **Valeur pré-prod:** {stats['resultat_preprod_max']}")
+                        st.markdown(f"- **Valeur production:** {stats['resultat_prod_max']}")
                         st.markdown(f"- **Valeur staging:** {stats['resultat_staged_max']}")
                 else:
                     st.info("ℹ️ " + stats.get('message', 'Aucun écart calculable'))
@@ -671,12 +931,12 @@ if st.session_state.analysis_done:
     
     # Message de synthèse
     if nb_nouveaux == 0 and nb_nouvelles_annees == 0 and nb_updates == 0:
-        st.success("✅ Aucune différence détectée ! Les données staging sont identiques à la pré-production.")
+        st.success("✅ Aucune différence détectée ! Les données staging sont identiques à la production.")
 
 # Bouton de livraison - en dehors du bloc d'analyse pour rester visible
 if st.session_state.analysis_done and st.session_state.df_staged is not None:
     st.markdown("---")
-    st.markdown("## 🚀 Livraison en pré-production")
+    st.markdown("## 🚀 Livraison en PRODUCTION")
     
     # Calculer le nombre de lignes à envoyer
     comparison = st.session_state.comparison
@@ -684,9 +944,9 @@ if st.session_state.analysis_done and st.session_state.df_staged is not None:
     nb_to_send += sum(stats.get('nb_lignes', 0) for stats in comparison['donnees_a_updater'].values())
     
     if nb_to_send == 0:
-        st.info("✅ Aucune donnée à livrer : tout est déjà à jour en pré-production !")
+        st.info("✅ Aucune donnée à livrer : tout est déjà à jour en production !")
     else:
-        st.warning(f"⚠️ **Attention :** Cette action va envoyer **{nb_to_send:,} lignes** à la pré-production via API.")
+        st.error(f"🚨 **ATTENTION : Cette action va envoyer {nb_to_send:,} lignes en PRODUCTION via API.**")
         
         # Préparer le DataFrame à envoyer pour le téléchargement
         dfs_to_send = []
@@ -719,49 +979,76 @@ if st.session_state.analysis_done and st.session_state.df_staged is not None:
             st.download_button(
                 label="📥 Télécharger les données à envoyer (CSV)",
                 data=csv_data,
-                file_name=f"donnees_a_livrer_{pd.Timestamp.now().strftime('%Y%m%d_%H%M%S')}.csv",
+                file_name=f"donnees_a_livrer_prod_{pd.Timestamp.now().strftime('%Y%m%d_%H%M%S')}.csv",
                 mime="text/csv"
             )
 
     col_btn1, col_btn2, col_btn3 = st.columns([2, 3, 2])
     with col_btn2:
-        if st.button("🚢 Livrer en pré-prod", type="primary", use_container_width=True, disabled=(nb_to_send == 0)):
-            # Container pour la progression
-            progress_container = st.container()
-            
-            result = livrer_en_preprod(st.session_state.comparison, st.session_state.df_staged, progress_container)
-            
-            st.markdown("---")
-            
-            if result['success']:
-                st.success(f"✅ {result['message']}")
+        if st.button("🚢🚨 Livrer en PRODUCTION", type="primary", use_container_width=True, disabled=(nb_to_send == 0)):
+            st.session_state.confirmation_prod = True
+    
+    # Message de confirmation après le clic sur le bouton
+    if st.session_state.confirmation_prod:
+        st.markdown("---")
+        st.error("### ⚠️ CONFIRMATION REQUISE")
+        st.warning("**Êtes-vous sûr de vouloir livrer en production ?**")
+        st.markdown("""
+        Cette action est **irréversible** et va modifier les données en **PRODUCTION**.
+        
+        ✅ Assurez-vous d'avoir :
+        - Vérifié les données à livrer
+        - Testé en pré-production
+        - L'autorisation nécessaire
+        """)
+        
+        col_conf1, col_conf2, col_conf3 = st.columns([1, 1, 1])
+        
+        with col_conf1:
+            if st.button("❌ Annuler", use_container_width=True):
+                st.session_state.confirmation_prod = False
+                st.rerun()
+        
+        with col_conf3:
+            if st.button("✅ OUI, LIVRER EN PROD", type="primary", use_container_width=True):
+                # Container pour la progression
+                progress_container = st.container()
                 
-                # Afficher les statistiques avec ou sans le filtrage
-                if result.get('nb_filtered', 0) > 0:
-                    col_stat1, col_stat2, col_stat3, col_stat4 = st.columns(4)
-                    with col_stat1:
-                        st.metric("📊 Total de lignes", f"{result['nb_total']:,}")
-                    with col_stat2:
-                        st.metric("📤 Lignes insérées", f"{result['nb_inserted']:,}")
-                    with col_stat3:
-                        st.metric("🚫 Lignes filtrées", f"{result['nb_filtered']:,}")
-                    with col_stat4:
-                        st.metric("📦 Batches envoyés", result.get('nb_batches', 0))
+                result = livrer_en_prod(st.session_state.comparison, st.session_state.df_staged, progress_container)
+                
+                st.markdown("---")
+                
+                if result['success']:
+                    st.success(f"✅ {result['message']}")
+                    
+                    # Afficher les statistiques avec ou sans le filtrage
+                    if result.get('nb_filtered', 0) > 0:
+                        col_stat1, col_stat2, col_stat3, col_stat4 = st.columns(4)
+                        with col_stat1:
+                            st.metric("📊 Total de lignes", f"{result['nb_total']:,}")
+                        with col_stat2:
+                            st.metric("📤 Lignes insérées", f"{result['nb_inserted']:,}")
+                        with col_stat3:
+                            st.metric("🚫 Lignes filtrées", f"{result['nb_filtered']:,}")
+                        with col_stat4:
+                            st.metric("📦 Batches envoyés", result.get('nb_batches', 0))
+                    else:
+                        col_stat1, col_stat2, col_stat3 = st.columns(3)
+                        with col_stat1:
+                            st.metric("📊 Total de lignes", f"{result['nb_total']:,}")
+                        with col_stat2:
+                            st.metric("📤 Lignes insérées", f"{result['nb_inserted']:,}")
+                        with col_stat3:
+                            st.metric("📦 Batches envoyés", result.get('nb_batches', 0))
+                    
+                    st.info("💡 Vous pouvez relancer l'analyse pour vérifier que les données ont bien été livrées.")
                 else:
-                    col_stat1, col_stat2, col_stat3 = st.columns(3)
-                    with col_stat1:
-                        st.metric("📊 Total de lignes", f"{result['nb_total']:,}")
-                    with col_stat2:
-                        st.metric("📤 Lignes insérées", f"{result['nb_inserted']:,}")
-                    with col_stat3:
-                        st.metric("📦 Batches envoyés", result.get('nb_batches', 0))
+                    st.error(f"❌ {result['message']}")
+                    
+                    if result.get('failed_batches', 0) > 0:
+                        st.warning(f"⚠️ {result['failed_batches']} batch(s) ont échoué sur {result.get('nb_batches', 0)} total")
+                        st.info(f"💡 {result['nb_inserted']:,} lignes ont quand même été insérées avec succès")
                 
-                st.info("💡 Vous pouvez relancer l'analyse pour vérifier que les données ont bien été livrées.")
-            else:
-                st.error(f"❌ {result['message']}")
-                
-                if result.get('failed_batches', 0) > 0:
-                    st.warning(f"⚠️ {result['failed_batches']} batch(s) ont échoué sur {result.get('nb_batches', 0)} total")
-                    st.info(f"💡 {result['nb_inserted']:,} lignes ont quand même été insérées avec succès")
-
+                # Réinitialiser la confirmation
+                st.session_state.confirmation_prod = False
 
