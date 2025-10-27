@@ -26,6 +26,79 @@ st.markdown("---")
 # FONCTIONS
 # ==========================
 
+def check_and_handle_duplicates(df):
+    """Vérifie et gère les doublons dans les données staging.
+    
+    Args:
+        df: DataFrame avec les données staging
+        
+    Returns:
+        tuple: (df_cleaned, has_conflicts)
+            - df_cleaned: DataFrame nettoyé (sans doublons complets)
+            - has_conflicts: True si des conflits ont été détectés
+    """
+    if df.empty:
+        return df, False
+    
+    # Définir la clé primaire
+    pk_cols = ['indicateur_id', 'collectivite_id', 'date_valeur']
+    
+    # 1. Vérifier les doublons complets (toutes colonnes identiques)
+    duplicates_full = df.duplicated(keep='first')
+    nb_duplicates_full = duplicates_full.sum()
+    
+    if nb_duplicates_full > 0:
+        st.info(f"ℹ️ {nb_duplicates_full} ligne(s) complètement dupliquée(s) détectée(s) et supprimée(s)")
+        df = df[~duplicates_full].copy()
+    
+    # 2. Vérifier les doublons partiels (même clé primaire, valeurs différentes)
+    duplicates_pk = df.duplicated(subset=pk_cols, keep=False)
+    
+    if duplicates_pk.any():
+        # Il y a des doublons sur la clé primaire
+        df_duplicates = df[duplicates_pk].copy()
+        
+        # Vérifier s'il y a des conflits (valeurs différentes pour la même clé)
+        conflicts = []
+        for _, group in df_duplicates.groupby(pk_cols):
+            if len(group) > 1:
+                # Vérifier si les valeurs sont différentes
+                other_cols = [col for col in df.columns if col not in pk_cols]
+                for col in other_cols:
+                    if group[col].nunique() > 1:
+                        # Conflit détecté
+                        conflicts.append(group)
+                        break
+        
+        if conflicts:
+            st.error("❌ **ERREUR : Doublons avec valeurs conflictuelles détectés !**")
+            st.markdown("""
+            Des lignes avec la même clé primaire (indicateur_id, collectivite_id, date_valeur) 
+            mais des valeurs différentes ont été trouvées. Cela indique un problème dans les données sources.
+            """)
+            
+            # Afficher les lignes en conflit
+            df_conflicts = pd.concat(conflicts).sort_values(pk_cols)
+            st.dataframe(
+                df_conflicts.style.apply(
+                    lambda x: ['background-color: #ffcccc' if x.name in df_conflicts.index else '' for _ in x],
+                    axis=1
+                ),
+                use_container_width=True
+            )
+            
+            # Statistiques sur les conflits
+            st.markdown(f"""
+            **📊 Statistiques des conflits :**
+            - Nombre de groupes en conflit : {len(conflicts)}
+            - Nombre total de lignes concernées : {len(df_conflicts)}
+            """)
+            
+            return df, True
+    
+    return df, False
+
+
 def load_staged_data():
     """Charge les données de la table indicateurs_valeurs_olap avec l'identifiant_referentiel et api_nom_cube."""
     engine = get_engine()
@@ -48,6 +121,12 @@ def load_staged_data():
         
         # Convertir explicitement date_valeur en datetime
         df['date_valeur'] = pd.to_datetime(df['date_valeur'])
+        
+        # Vérifier et gérer les doublons
+        df, has_conflicts = check_and_handle_duplicates(df)
+        
+        if has_conflicts:
+            st.stop()  # Arrêter l'exécution si des conflits sont détectés
         
         return df
     except Exception as e:
@@ -471,7 +550,7 @@ def livrer_en_prod(comparison, df_staged, progress_container=None):
     try:
         # Récupérer les credentials depuis les secrets
         try:
-            api_url = st.secrets.get("api_prod_url", "https://api.territoiresentransitions.fr/indicateurs/valeurs")
+            api_url = st.secrets.get("api_prod_url", "https://api.territoiresentransitions.fr/api/v1/indicateur-valeurs")
             api_token = st.secrets.get("api_prod_token", "")
         except:
             return {

@@ -417,7 +417,7 @@ indicateurs:
     producteur: Ma Cantine
     methodologie: Plus d'infos 
       [ici](https://ecologie.data.gouv.fr/datasets/685a99ab7ab7dda79c0315ba)
-    limites: ''
+    limites: 
     date_version: '2025-06-26 00:00:00'
 
   source:
@@ -444,7 +444,7 @@ indicateurs:
     producteur: Ma Cantine
     methodologie: Plus d'infos 
       [ici](https://ecologie.data.gouv.fr/datasets/685a99a9e3d7d24940dcda3f)
-    limites: ''
+    limites: 
     date_version: '2025-06-26 00:00:00'
 
   source:
@@ -471,7 +471,7 @@ indicateurs:
     producteur: Ma Cantine
     methodologie: Plus d'infos 
       [ici](https://ecologie.data.gouv.fr/datasets/685aa6651fa4750c94368eb5)
-    limites: ''
+    limites: 
     date_version: '2025-06-26 00:00:00'
 
   source:
@@ -498,7 +498,7 @@ indicateurs:
     producteur: Ma Cantine
     methodologie: Plus d'infos 
       [ici](https://ecologie.data.gouv.fr/datasets/685aa66c93b46026a7391fe0)
-    limites: ''
+    limites: 
     date_version: '2025-06-26 00:00:00'
 
   source:
@@ -530,7 +530,7 @@ indicateurs:
     producteur: SDES / INSEE
     methodologie: Plus d'infos 
       [ici](https://ecologie.data.gouv.fr/indicators/6895bfb71930a5b1cff0e980)
-    limites: "''"
+    limites: 
     date_version: '2025-10-10'
   source:
     id: sdes
