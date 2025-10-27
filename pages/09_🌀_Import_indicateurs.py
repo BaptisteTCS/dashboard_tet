@@ -22,6 +22,16 @@ from utils.db import (
 st.set_page_config(layout="wide")
 st.title("🌀 Import des indicateurs")
 
+# Mode debug
+if 'debug_mode' not in st.session_state:
+    st.session_state.debug_mode = False
+
+col_debug, col_space = st.columns([1, 5])
+with col_debug:
+    st.session_state.debug_mode = st.toggle("🐛 Mode Debug", value=st.session_state.debug_mode)
+
+st.markdown("---")
+
 # ==========================
 # FONCTIONS
 # ==========================
@@ -583,6 +593,10 @@ def formater_pour_tet_v2(df: pd.DataFrame, indic: dict, date_min: str = '1990-01
     
     # Format final compatible TET v2
     df_format = df.copy()
+
+    if st.session_state.debug_mode:
+        with st.expander("df_format"):
+            st.dataframe(df_format, use_container_width=True)
     
     # Renommer les colonnes
     df_format.rename(
@@ -592,19 +606,35 @@ def formater_pour_tet_v2(df: pd.DataFrame, indic: dict, date_min: str = '1990-01
         }, 
         inplace=True
     )
+
+    if st.session_state.debug_mode:
+        with st.expander("df_format 2"):
+            st.dataframe(df_format, use_container_width=True)
     
     # Sélectionner les colonnes essentielles
     colonnes_necessaires = ['indicateur_id', 'collectivite_id', 'date_valeur', 'resultat', 'identifiant_referentiel', 'api_nom_cube']
     df_format_tet_v2 = df_format[colonnes_necessaires].copy()
+
+    if st.session_state.debug_mode:
+        with st.expander("df_format 3"):
+            st.dataframe(df_format_tet_v2, use_container_width=True)
     
     # Supprimer les NaN et appliquer le ratio pour convertir les unités
     df_format_tet_v2 = df_format_tet_v2.dropna(subset=['resultat']).copy(deep=True)
+    df_format_tet_v2["resultat"] = pd.to_numeric(df_format_tet_v2["resultat"], errors="coerce")
     df_format_tet_v2['resultat'] = df_format_tet_v2['resultat'] * indic['ratio']
+
+    if st.session_state.debug_mode:
+        with st.expander("df_format 4"):
+            st.dataframe(df_format_tet_v2, use_container_width=True)
     
     # Formatage des types
     df_format_tet_v2['date_valeur'] = pd.to_datetime(df_format_tet_v2['date_valeur'])
-    df_format_tet_v2["resultat"] = pd.to_numeric(df_format_tet_v2["resultat"], errors="coerce")
     df_format_tet_v2["resultat"] = df_format_tet_v2["resultat"].round(2)
+
+    if st.session_state.debug_mode:
+        with st.expander("df_format 5"):
+            st.dataframe(df_format_tet_v2, use_container_width=True)
     
     # Suppression des données antérieures à la date limite
     df_format_tet_v2 = df_format_tet_v2[df_format_tet_v2['date_valeur'] >= date_min].copy()
@@ -1127,6 +1157,10 @@ try:
                 
                 # Récupération des données API avec affichage des détails et filtres
                 df_api = recuperer_donnees_api(indic, detail_container, ct_filter_tet)
+
+                if st.session_state.debug_mode:
+                    with st.expander("df_api 1"):
+                        st.dataframe(df_api, use_container_width=True)
                 
                 if df_api.empty:
                     st.warning(f"⚠️ Aucune donnée récupérée pour cet indicateur")
@@ -1263,6 +1297,10 @@ try:
                     con=engine_pre_prod.connect()
                 )
 
+                if st.session_state.debug_mode:
+                    with st.expander("df_final 1"):
+                        st.dataframe(df_final, use_container_width=True)
+
                 # Jointure selon axe ou non
                 # Si correspondance_indicateurs est un dict, on a des axes à mapper
                 if isinstance(indic['correspondance_indicateurs'], dict):
@@ -1278,6 +1316,10 @@ try:
 
                     # Ne garder que les lignes mappables
                     df_final = df_final[~df_final[colonne_axe].isin(inconnues)].copy()
+
+                    if st.session_state.debug_mode:
+                        with st.expander("df_final 2"):
+                            st.dataframe(df_final, use_container_width=True)
 
                     # Faire le mapping et la jointure
                     df_final['identifiant_referentiel'] = df_final[colonne_axe].map(nom_to_id)
@@ -1300,6 +1342,10 @@ try:
                     df_final['identifiant_referentiel'] = indic['correspondance_indicateurs']
                 
                 df_final['api_nom_cube'] = indic['api_nom_cube']
+
+                if st.session_state.debug_mode:
+                    with st.expander("df_final 3"):
+                        st.dataframe(df_final, use_container_width=True)
                 
                 # Formatage au format TET v2
                 date_min_str = '1990-01-01'
