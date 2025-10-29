@@ -670,6 +670,235 @@ def enregistrer_donnees(df: pd.DataFrame, nom_indicateur: str):
 # ==========================
 # INTERFACE
 # ==========================
+# ==========================
+# AJOUT D'UN INDICATEUR DANS LE YAML
+# ==========================
+
+st.markdown("---")
+st.markdown("## ➕ Ajouter un indicateur dans le fichier de configuration")
+
+with st.expander("Ajouter un nouvel indicateur", expanded=False):
+    # Formulaire pour éviter les actualisations permanentes
+    with st.form("form_ajout_indicateur", clear_on_submit=False):
+        col_a, col_b = st.columns(2)
+        with col_a:
+            api_nom_cube_input = st.text_input("Nom du cube (api_nom_cube)", placeholder="ex: macantin_epci")
+        with col_b:
+            id_input = st.text_input("ID de la mesure (ex: 827)", placeholder="ex: 827")
+
+        st.markdown("### Types de collectivités et axe")
+        st.info("💡 Laissez ces champs vides pour remplissage automatique depuis l'API")
+        
+        type_collectivite_str = st.text_input(
+            "type_collectivite (séparés par des virgules, ou vide pour auto)", 
+            help="Ex: commune, epci, departement, region, ept. Laissez vide pour remplissage automatique depuis l'API"
+        )
+        
+        api_nom_axe = st.text_input(
+            "api_nom_axe (vide pour auto ou si non applicable)", 
+            help="Ex: mode_transport, type_amenagement. Laissez vide pour remplissage automatique depuis l'API"
+        )
+
+        st.markdown("---")
+        st.markdown("### Renseigner les champs obligatoires")
+
+        st.markdown("**Correspondance indicateurs**")
+        
+        # Mappings
+        col_map0, col_map1, col_map2 = st.columns([1, 2, 2])
+        with col_map0:
+            correspondance_unique = st.text_input(
+                "Identifiant référentiel unique", 
+                placeholder="ex: cae_59",
+                help="Utilisez cette option pour un indicateur simple sans axes"
+            )
+        with col_map1:
+            st.markdown("**Clés (identifiants référentiels)**")
+            correspondance_keys = st.text_area(
+                "Clés", 
+                placeholder="- cae_44.aa\n- cae_44.bb\n- cae_44.cc",
+                height=200,
+                key="corresp_keys",
+                label_visibility="collapsed"
+            )
+        with col_map2:
+            st.markdown("**Valeurs (libellés)**")
+            correspondance_values = st.text_area(
+                "Valeurs",
+                placeholder="- pistes cyclables\n- voies vertes\n- zones 30",
+                height=200,
+                key="corresp_values",
+                label_visibility="collapsed"
+            )
+
+        st.markdown("**Metadata**")
+        col_m1, col_m2 = st.columns(2)
+        with col_m1:
+            source_id_commun = st.text_input("source_id (utilisé pour metadata.source_id et source.id)")
+            meta_nom_donnees = st.text_input("metadata.nom_donnees")
+            meta_diffuseur = st.text_input("metadata.diffuseur")
+            meta_producteur = st.text_input("metadata.producteur")
+        with col_m2:
+            meta_methodologie = st.text_area("metadata.methodologie")
+            meta_limites = st.text_area("metadata.limites (optionnel)")
+            meta_date_version = st.text_input("metadata.date_version (YYYY-MM-DD HH:MM:SS)")
+
+        st.markdown("**Source**")
+        col_s1, col_s2 = st.columns(2)
+        with col_s1:
+            source_libelle = st.text_input("source.libelle")
+        with col_s2:
+            source_ordre = st.text_input("source.ordre_affichage")
+
+        ratio_val = st.number_input("ratio", min_value=0.0, value=1.0, step=0.01)
+
+        # Bouton de soumission du formulaire
+        submit_button = st.form_submit_button("✅ Ajouter cet indicateur au YAML", type="primary")
+
+    # Validation et insertion (en dehors du form, exécuté seulement si submit_button est True)
+    if submit_button:
+        # Récupérer meta_preview pour pré-remplir les valeurs manquantes
+        meta_preview = None
+        if api_nom_cube_input and id_input:
+            with st.spinner("🔍 Récupération des métadonnées depuis l'API..."):
+                try:
+                    metadonnees_api_tmp = recuperer_metadonnees_api()
+                    key = (id_input, api_nom_cube_input)
+                    meta_preview = metadonnees_api_tmp.get(key)
+                    
+                    if not meta_preview:
+                        st.warning(f"⚠️ Indicateur ID={id_input} / cube={api_nom_cube_input} non trouvé dans l'API")
+                except Exception as e:
+                    st.warning(f"⚠️ Impossible de récupérer l'aperçu des métadonnées: {e}")
+        
+        # Vérifications de base
+        errors = []
+        if not api_nom_cube_input:
+            errors.append("api_nom_cube requis")
+        if not id_input:
+            errors.append("ID requis")
+
+        # Valider correspondance_indicateurs
+        # Détecter automatiquement quel type de mapping est utilisé
+        correspondance_value = None
+        mapping_simple_rempli = bool(correspondance_unique.strip())
+        mapping_multiple_rempli = bool(correspondance_keys.strip() or correspondance_values.strip())
+        
+        # Vérifier qu'un seul type est rempli
+        if mapping_simple_rempli and mapping_multiple_rempli:
+            errors.append("⚠️ Vous devez remplir SOIT le mapping simple, SOIT le mapping multiple (pas les deux)")
+        elif not mapping_simple_rempli and not mapping_multiple_rempli:
+            errors.append("Vous devez remplir au moins un type de mapping (simple ou multiple)")
+        elif mapping_simple_rempli:
+            # Mapping simple
+            correspondance_value = correspondance_unique.strip()
+
+        else:
+            # Mapping multiple
+            if not correspondance_keys.strip() or not correspondance_values.strip():
+                errors.append("Pour le mapping multiple, les deux listes (clés et valeurs) doivent être remplies")
+            else:
+                # Extraire les éléments des listes (lignes commençant par '-')
+                keys_list = [line.strip().lstrip('-').strip() for line in correspondance_keys.split('\n') if line.strip().startswith('-')]
+                values_list = [line.strip().lstrip('-').strip() for line in correspondance_values.split('\n') if line.strip().startswith('-')]
+                
+                if not keys_list:
+                    errors.append("Aucune clé valide trouvée (chaque ligne doit commencer par '-')")
+                elif not values_list:
+                    errors.append("Aucune valeur valide trouvée (chaque ligne doit commencer par '-')")
+                elif len(keys_list) != len(values_list):
+                    errors.append(f"Nombre de clés ({len(keys_list)}) différent du nombre de valeurs ({len(values_list)})")
+                else:
+                    # Créer le dictionnaire
+                    correspondance_value = dict(zip(keys_list, values_list))
+                    
+
+        # Utiliser les valeurs de l'API si le champ type_collectivite est vide
+        type_collectivite_list = []
+        if type_collectivite_str.strip():
+            type_collectivite_list = [t.strip() for t in type_collectivite_str.split(",") if t.strip()]
+            st.info(f"✅ Types de collectivités saisis manuellement : {', '.join(type_collectivite_list)}")
+        elif meta_preview:
+            type_collectivite_list = meta_preview.get("type_collectivite", [])
+            if type_collectivite_list:
+                st.success(f"✅ Collectivités trouvées : {', '.join(type_collectivite_list)}")
+        
+        if not type_collectivite_list:
+            errors.append("type_collectivite requis (au moins un type) - Aucune valeur saisie et aucune valeur disponible dans l'API")
+
+        # Utiliser l'axe de l'API si le champ api_nom_axe est vide
+        api_nom_axe_final = api_nom_axe.strip()
+        if api_nom_axe_final:
+            st.info(f"✅ Axe API saisi manuellement : `{api_nom_axe_final}`")
+        elif meta_preview:
+            api_nom_axe_final = meta_preview.get("api_nom_axe", "")
+            if api_nom_axe_final:
+                st.success(f"✅ Axe trouvé : `{api_nom_axe_final}`")
+            else:
+                st.info("ℹ️ Aucun axe API (normal pour un indicateur sans axes)")
+
+        # Valider metadata (limites est maintenant optionnel)
+        metadata_obj = {
+            "source_id": source_id_commun.strip(),
+            "nom_donnees": meta_nom_donnees.strip(),
+            "diffuseur": meta_diffuseur.strip(),
+            "producteur": meta_producteur.strip(),
+            "methodologie": meta_methodologie.strip(),
+            "limites": meta_limites.strip(),
+            "date_version": meta_date_version.strip(),
+        }
+        for k, v in metadata_obj.items():
+            if k != "limites" and not v:  # limites est optionnel
+                errors.append(f"metadata.{k} requis")
+
+        # Valider source (utilise le même source_id)
+        source_obj = {
+            "id": source_id_commun.strip(),
+            "libelle": source_libelle.strip(),
+            "ordre_affichage": str(source_ordre).strip(),
+        }
+        for k, v in source_obj.items():
+            if not v:
+                errors.append(f"source.{k} requis")
+
+        if errors:
+            st.error("❌ Erreurs de validation:\n" + "\n".join([f"- {e}" for e in errors]))
+        else:
+            # Construire l'objet indicateur
+            nouvel_indic = {
+                "api_nom_cube": api_nom_cube_input,
+                "ID": str(id_input),
+                "api_nom_axe": api_nom_axe_final,
+                "type_collectivite": type_collectivite_list,
+                "correspondance_indicateurs": correspondance_value,
+                "metadata": metadata_obj,
+                "source": source_obj,
+                "ratio": float(ratio_val),
+            }
+
+            try:
+                if RUAMEL_AVAILABLE:
+                    yaml_handler = YAML()
+                    yaml_handler.preserve_quotes = True
+                    yaml_handler.default_flow_style = False
+                    with open("utils/config.yaml", "r", encoding="utf-8") as f:
+                        cfg = yaml_handler.load(f)
+                    if not cfg or 'indicateurs' not in cfg:
+                        cfg = {'indicateurs': []}
+                    cfg['indicateurs'].append(nouvel_indic)
+                    with open("utils/config.yaml", "w", encoding="utf-8") as f:
+                        yaml_handler.dump(cfg, f)
+                else:
+                    # Fallback simple: recharger via chargeur existant et réécrire en YAML std
+                    import yaml as _pyyaml
+                    indicateurs_existants = charger_config("utils/config.yaml")
+                    indicateurs_existants.append(nouvel_indic)
+                    with open("utils/config.yaml", "w", encoding="utf-8") as f:
+                        _pyyaml.safe_dump({"indicateurs": indicateurs_existants}, f, allow_unicode=True, sort_keys=False)
+
+                st.success("✅ Indicateur ajouté au fichier config.yaml")
+            except Exception as e:
+                st.error(f"❌ Erreur lors de l'insertion dans le YAML: {e}")
 
 # Section de vérification des métadonnées
 st.markdown("---")
@@ -717,185 +946,6 @@ with center_meta:
             except Exception as e:
                 st.error(f"❌ Erreur lors de la récupération des métadonnées : {str(e)}")
                 print(f"ERREUR: {str(e)}")
-
-# ==========================
-# AJOUT D'UN INDICATEUR DANS LE YAML
-# ==========================
-
-st.markdown("---")
-st.markdown("## ➕ Ajouter un indicateur dans le fichier de configuration")
-
-with st.expander("Ajouter un nouvel indicateur", expanded=False):
-    col_a, col_b = st.columns(2)
-    with col_a:
-        api_nom_cube_input = st.text_input("Nom du cube (api_nom_cube)", placeholder="ex: macantin_epci")
-    with col_b:
-        id_input = st.text_input("ID de la mesure (ex: 827)", placeholder="ex: 827")
-
-    meta_preview = None
-    if api_nom_cube_input and id_input:
-        # Récupérer meta et proposer un aperçu des types collectivités et axe
-        try:
-            metadonnees_api_tmp = recuperer_metadonnees_api()
-            key = (id_input, api_nom_cube_input)
-            meta_preview = metadonnees_api_tmp.get(key)
-        except Exception as e:
-            st.warning(f"Impossible de récupérer l'aperçu des métadonnées: {e}")
-
-    if meta_preview:
-        st.info("✅ Métadonnées trouvées dans l'API")
-        c1, c2 = st.columns(2)
-        with c1:
-            st.markdown("**Types de collectivités (depuis API)**")
-            st.code("\n".join(meta_preview.get("type_collectivite", [])) or "(aucun)")
-        with c2:
-            st.markdown("**Axe API (depuis API)**")
-            st.code(meta_preview.get("api_nom_axe", "") or "(vide)")
-
-    st.markdown("---")
-    st.markdown("### Types de collectivités et axe (modifiables)")
-    st.caption("Ces valeurs sont pré-remplies depuis l'API mais vous pouvez les modifier si nécessaire")
-    
-    # Champs éditables pré-remplis depuis les meta
-    type_collectivite_default = meta_preview.get("type_collectivite", []) if meta_preview else []
-    type_collectivite_str = st.text_input(
-        "type_collectivite (séparés par des virgules)", 
-        value=", ".join(type_collectivite_default),
-        help="Ex: commune, epci, departement, region, ept"
-    )
-    
-    api_nom_axe = st.text_input(
-        "api_nom_axe (laisser vide si non applicable)", 
-        value=meta_preview.get("api_nom_axe", "") if meta_preview else "",
-        help="Ex: mode_transport, type_amenagement"
-    )
-
-    st.markdown("---")
-    st.markdown("### Renseigner les champs obligatoires")
-
-    st.markdown("Correspondance indicateurs")
-    st.caption("Format accepté: soit une clé unique (ex: cae_59), soit un mapping JSON (ex: {\"cae_44.aa\": \"pistes cyclables\"})")
-    correspondance_raw = st.text_area("correspondance_indicateurs")
-
-    st.markdown("Metadata")
-    col_m1, col_m2 = st.columns(2)
-    with col_m1:
-        meta_source_id = st.text_input("metadata.source_id")
-        meta_nom_donnees = st.text_input("metadata.nom_donnees")
-        meta_diffuseur = st.text_input("metadata.diffuseur")
-        meta_producteur = st.text_input("metadata.producteur")
-    with col_m2:
-        meta_methodologie = st.text_area("metadata.methodologie")
-        meta_limites = st.text_area("metadata.limites")
-        meta_date_version = st.text_input("metadata.date_version (YYYY-MM-DD HH:MM:SS)")
-
-    st.markdown("Source")
-    col_s1, col_s2, col_s3 = st.columns(3)
-    with col_s1:
-        source_id = st.text_input("source.id")
-    with col_s2:
-        source_libelle = st.text_input("source.libelle")
-    with col_s3:
-        source_ordre = st.text_input("source.ordre_affichage")
-
-    ratio_val = st.number_input("ratio", min_value=0.0, value=1.0, step=0.01)
-
-    # Validation et insertion
-    if st.button("✅ Ajouter cet indicateur au YAML", type="primary"):
-        # Vérifications de base
-        errors = []
-        if not api_nom_cube_input:
-            errors.append("api_nom_cube requis")
-        if not id_input:
-            errors.append("ID requis")
-
-        # Valider correspondance_indicateurs
-        correspondance_value = None
-        if correspondance_raw.strip().startswith("{"):
-            import json as _json
-            try:
-                correspondance_value = _json.loads(correspondance_raw)
-                if not isinstance(correspondance_value, dict) or not correspondance_value:
-                    errors.append("correspondance_indicateurs JSON doit être un objet non vide")
-            except Exception as e:
-                errors.append(f"correspondance_indicateurs JSON invalide: {e}")
-        else:
-            # chaîne simple autorisée mais non vide
-            if correspondance_raw.strip():
-                correspondance_value = correspondance_raw.strip()
-            else:
-                errors.append("correspondance_indicateurs requis")
-
-        # Valider metadata
-        metadata_obj = {
-            "source_id": meta_source_id.strip(),
-            "nom_donnees": meta_nom_donnees.strip(),
-            "diffuseur": meta_diffuseur.strip(),
-            "producteur": meta_producteur.strip(),
-            "methodologie": meta_methodologie.strip(),
-            "limites": meta_limites.strip(),
-            "date_version": meta_date_version.strip(),
-        }
-        for k, v in metadata_obj.items():
-            if not v:
-                errors.append(f"metadata.{k} requis")
-
-        # Valider source
-        source_obj = {
-            "id": source_id.strip(),
-            "libelle": source_libelle.strip(),
-            "ordre_affichage": str(source_ordre).strip(),
-        }
-        for k, v in source_obj.items():
-            if not v:
-                errors.append(f"source.{k} requis")
-
-        # Valider et parser type_collectivite
-        type_collectivite_list = []
-        if type_collectivite_str.strip():
-            type_collectivite_list = [t.strip() for t in type_collectivite_str.split(",") if t.strip()]
-        if not type_collectivite_list:
-            errors.append("type_collectivite requis (au moins un type)")
-
-        if errors:
-            st.error("❌ Erreurs de validation:\n" + "\n".join([f"- {e}" for e in errors]))
-        else:
-            # Construire l'objet indicateur
-            nouvel_indic = {
-                "api_nom_cube": api_nom_cube_input,
-                "ID": str(id_input),
-                "api_nom_axe": api_nom_axe,
-                "type_collectivite": type_collectivite_list,
-                "correspondance_indicateurs": correspondance_value,
-                "metadata": metadata_obj,
-                "source": source_obj,
-                "ratio": float(ratio_val),
-            }
-
-            try:
-                if RUAMEL_AVAILABLE:
-                    yaml_handler = YAML()
-                    yaml_handler.preserve_quotes = True
-                    yaml_handler.default_flow_style = False
-                    with open("utils/config.yaml", "r", encoding="utf-8") as f:
-                        cfg = yaml_handler.load(f)
-                    if not cfg or 'indicateurs' not in cfg:
-                        cfg = {'indicateurs': []}
-                    cfg['indicateurs'].append(nouvel_indic)
-                    with open("utils/config.yaml", "w", encoding="utf-8") as f:
-                        yaml_handler.dump(cfg, f)
-                else:
-                    # Fallback simple: recharger via chargeur existant et réécrire en YAML std
-                    import yaml as _pyyaml
-                    indicateurs_existants = charger_config("utils/config.yaml")
-                    indicateurs_existants.append(nouvel_indic)
-                    with open("utils/config.yaml", "w", encoding="utf-8") as f:
-                        _pyyaml.safe_dump({"indicateurs": indicateurs_existants}, f, allow_unicode=True, sort_keys=False)
-
-                st.success("✅ Indicateur ajouté au fichier utils/config.yaml")
-                st.info("🔄 Rechargez la page (F5) pour voir la mise à jour complète si nécessaire")
-            except Exception as e:
-                st.error(f"❌ Erreur lors de l'insertion dans le YAML: {e}")
 
 # Afficher les résultats s'ils existent
 if st.session_state.metadata_check:
@@ -1065,7 +1115,11 @@ if st.session_state.metadata_check:
         st.markdown("### 🆕 Indicateurs nouveaux dans l'API")
         st.info(f"Ces {len(differences['manquants_yaml'])} indicateur(s) sont disponibles dans l'API mais pas encore dans le YAML")
         
-        for indic_new in differences['manquants_yaml']:
+        indicateurs_a_afficher = [
+            indic_new for indic_new in differences['manquants_yaml']
+            if not (indic_new['api_nom_cube'].endswith('region') or indic_new['api_nom_cube'].endswith('dpt'))
+        ]
+        for indic_new in indicateurs_a_afficher:
             with st.expander(f"✨ ID {indic_new['ID']} (cube: `{indic_new['api_nom_cube']}`)"):
                 meta = indic_new['meta']
                 st.markdown(f"**Cube:** `{meta['api_nom_cube']}`")
