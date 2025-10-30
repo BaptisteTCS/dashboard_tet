@@ -146,7 +146,7 @@ with col_graph1:
         )
         fig_s1.update_traces(textposition='outside')
         fig_s1.update_layout(showlegend=False, height=450)
-        st.plotly_chart(fig_s1, width='stretch')
+        st.plotly_chart(fig_s1, use_container_width=True)
     else:
         st.info("Pas de données pour S-1")
 
@@ -165,7 +165,7 @@ with col_graph2:
         )
         fig_import_s1.update_traces(textposition='inside', textinfo='percent+label+value')
         fig_import_s1.update_layout(height=450)
-        st.plotly_chart(fig_import_s1, width='stretch')
+        st.plotly_chart(fig_import_s1, use_container_width=True)
     else:
         st.info("Pas de données pour S-1")
 
