@@ -484,8 +484,7 @@ indicateurs:
     dist_dt_co2.c: Voiture
   metadata:
     source_id: sdes
-    nom_donnees: Emissions de CO2 moyennes par personne et par semaine pour les 
-      déplacements domicile-travail
+    nom_donnees: Emissions de CO2 moyennes par personne et par semaine pour les déplacements domicile-travail
     diffuseur: Ecolab
     producteur: SDES / INSEE
     methodologie: Plus d'infos 
@@ -548,8 +547,7 @@ indicateurs:
     tc_station.f: non renseigné
   metadata:
     source_id: transportdatagouv
-    nom_donnees: Nombre de stations de transports en commun selon le type de 
-      réseau
+    nom_donnees: Nombre de stations de transports en commun selon le type de réseau
     diffuseur: Ecolabe
     producteur: TransportDataGouv
     methodologie: Plus d'infos 

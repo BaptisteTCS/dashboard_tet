@@ -52,9 +52,17 @@ nouveaux_pap_s1 = len(df_s1)
 nouveaux_pap_s2 = len(df_s2)
 diff_pap = nouveaux_pap_s1 - nouveaux_pap_s2
 
-# Nouvelles collectivités en S-1
-nouvelles_ct_s1 = df_s1['collectivite_id'].nunique()
-nouvelles_ct_s2 = df_s2['collectivite_id'].nunique()
+# Nouvelles collectivités PAP en S-1 (qui n'avaient jamais eu de PAP avant)
+# Pour S-1 : collectivités ayant un PAP avant S-1
+ct_avant_s1 = df_pap_enrichi[df_pap_enrichi['semaine_pap'] < s1]['collectivite_id'].unique()
+ct_s1 = df_s1['collectivite_id'].unique()
+nouvelles_ct_s1 = len([ct for ct in ct_s1 if ct not in ct_avant_s1])
+
+# Pour S-2 : collectivités ayant un PAP avant S-2
+ct_avant_s2 = df_pap_enrichi[df_pap_enrichi['semaine_pap'] < s2]['collectivite_id'].unique()
+ct_s2 = df_s2['collectivite_id'].unique()
+nouvelles_ct_s2 = len([ct for ct in ct_s2 if ct not in ct_avant_s2])
+
 diff_ct = nouvelles_ct_s1 - nouvelles_ct_s2
 
 # Répartition Import/Autonome
@@ -166,15 +174,18 @@ st.markdown("---")
 # === NOUVELLES COLLECTIVITÉS DE LA SEMAINE S-1 ===
 st.markdown("## 🆕 Liste des nouvelles collectivités PAP")
 
-# Collectivités uniques de S-1
-collectivites_s1 = df_s1.groupby('collectivite_id').agg({
+# Ne garder que les collectivités qui n'avaient jamais eu de PAP avant S-1
+df_s1_nouvelles = df_s1[df_s1['collectivite_id'].isin([ct for ct in ct_s1 if ct not in ct_avant_s1])].copy()
+
+# Collectivités uniques de S-1 (seulement les nouvelles)
+collectivites_s1 = df_s1_nouvelles.groupby('collectivite_id').agg({
     'nom': 'first',
     'type_collectivite': 'first',
     'nature_collectivite': 'first',
     'region_name': 'first',
     'departement_name': 'first',
     'population_totale': 'first',
-    'import': 'first' if 'import' in df_s1.columns else lambda x: 'N/A',
+    'import': 'first' if 'import' in df_s1_nouvelles.columns else lambda x: 'N/A',
     'nom_plan': lambda x: ', '.join(x.unique())  # Liste des plans
 }).reset_index()
 
@@ -204,8 +215,8 @@ col_stat1, col_stat2, col_stat3 = st.columns(3)
 
 with col_stat1:
     st.markdown("### Par type de collectivité")
-    if not df_s1.empty and 'type_collectivite' in df_s1.columns:
-        type_ct_s1 = df_s1['type_collectivite'].value_counts().reset_index()
+    if not df_s1_nouvelles.empty and 'type_collectivite' in df_s1_nouvelles.columns:
+        type_ct_s1 = df_s1_nouvelles['type_collectivite'].value_counts().reset_index()
         type_ct_s1.columns = ['Type', 'Nombre']
         st.dataframe(type_ct_s1, hide_index=True, use_container_width=True)
     else:
@@ -213,8 +224,8 @@ with col_stat1:
 
 with col_stat2:
     st.markdown("### Par région")
-    if not df_s1.empty and 'region_name' in df_s1.columns:
-        region_s1 = df_s1['region_name'].value_counts().head(10).reset_index()
+    if not df_s1_nouvelles.empty and 'region_name' in df_s1_nouvelles.columns:
+        region_s1 = df_s1_nouvelles['region_name'].value_counts().head(10).reset_index()
         region_s1.columns = ['Région', 'Nombre']
         st.dataframe(region_s1, hide_index=True, use_container_width=True)
     else:
@@ -222,8 +233,8 @@ with col_stat2:
 
 with col_stat3:
     st.markdown("### Par nature ")
-    if not df_s1.empty and 'nature_collectivite' in df_s1.columns:
-        nature_s1 = df_s1['nature_collectivite'].value_counts().reset_index()
+    if not df_s1_nouvelles.empty and 'nature_collectivite' in df_s1_nouvelles.columns:
+        nature_s1 = df_s1_nouvelles['nature_collectivite'].value_counts().reset_index()
         nature_s1.columns = ['Nature', 'Nombre']
         st.dataframe(nature_s1, hide_index=True, use_container_width=True)
     else:
