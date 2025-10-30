@@ -61,46 +61,6 @@ indicateurs:
     ordre_affichage: '1'
   ratio: 100
 
-
-
-- api_nom_cube: lineaire_cyclable_habitant_com
-  ID: '133'
-  api_nom_axe: type_amenagement
-
-  type_collectivite:
-  - commune
-  - epci
-  - departement
-  - region
-  - ept
-  correspondance_indicateurs:
-    cae_44.aa: pistes cyclables
-    cae_44.ab: voies vertes
-    cae_44.ac: bandes cyclables
-    cae_44.ad: voies bus partagées
-    cae_44.ae: double-sens cyclables
-    cae_44.af: aménagements mixtes
-    cae_44.ag: autre
-
-  metadata:
-    source_id: geovelo
-    nom_donnees: Linéaire d'aménagements cyclables pour 1000 hab
-    diffuseur: Ecolab
-    producteur: GEOVELO
-    methodologie: Plus d'infos 
-      [ici](https://www.data.gouv.fr/fr/datasets/lineaire-damenagements-cyclables-pour-1000-hab/informations/)
-    limites: ''
-    date_version: '2025-04-29 00:00:00'
-
-  source:
-    id: geovelo
-    libelle: GEOVELO
-    ordre_affichage: '1'
-
-  ratio: 1
-
-
-
 - api_nom_cube: emission_ges_secteur_com
   ID: '1'
   api_nom_axe: secteur
@@ -417,7 +377,7 @@ indicateurs:
     producteur: Ma Cantine
     methodologie: Plus d'infos 
       [ici](https://ecologie.data.gouv.fr/datasets/685a99ab7ab7dda79c0315ba)
-    limites: 
+    limites:
     date_version: '2025-06-26 00:00:00'
 
   source:
@@ -444,7 +404,7 @@ indicateurs:
     producteur: Ma Cantine
     methodologie: Plus d'infos 
       [ici](https://ecologie.data.gouv.fr/datasets/685a99a9e3d7d24940dcda3f)
-    limites: 
+    limites:
     date_version: '2025-06-26 00:00:00'
 
   source:
@@ -471,7 +431,7 @@ indicateurs:
     producteur: Ma Cantine
     methodologie: Plus d'infos 
       [ici](https://ecologie.data.gouv.fr/datasets/685aa6651fa4750c94368eb5)
-    limites: 
+    limites:
     date_version: '2025-06-26 00:00:00'
 
   source:
@@ -498,7 +458,7 @@ indicateurs:
     producteur: Ma Cantine
     methodologie: Plus d'infos 
       [ici](https://ecologie.data.gouv.fr/datasets/685aa66c93b46026a7391fe0)
-    limites: 
+    limites:
     date_version: '2025-06-26 00:00:00'
 
   source:
@@ -524,16 +484,240 @@ indicateurs:
     dist_dt_co2.c: Voiture
   metadata:
     source_id: sdes
-    nom_donnees: Emissions de CO2 moyennes par personne et par semaine pour les 
-      déplacements domicile-travail
+    nom_donnees: Emissions de CO2 moyennes par personne et par semaine pour les déplacements domicile-travail
     diffuseur: Ecolab
     producteur: SDES / INSEE
     methodologie: Plus d'infos 
       [ici](https://ecologie.data.gouv.fr/indicators/6895bfb71930a5b1cff0e980)
-    limites: 
+    limites:
     date_version: '2025-10-10'
   source:
     id: sdes
     libelle: SDES
     ordre_affichage: '1'
   ratio: 0.001
+
+
+- api_nom_cube: bornes_recharge_veh_elec_hab_com
+  ID: '441'
+  api_nom_axe: implantation_station
+  type_collectivite:
+  - commune
+  - epci
+  - departement
+  - region
+  - ept
+  correspondance_indicateurs:
+    s_26.a: Station dédiée à la recharge rapide
+    s_26.b: Parking public
+    s_26.c: Voirie
+    s_26.e: Parking privé à usage public
+    s_26.d: Parking privé réservé à la clientèle
+  metadata:
+    source_id: transportdatagouv
+    nom_donnees: Nombre de points de recharge pour véhicules électriques ouverts
+      au public
+    diffuseur: Ecolab
+    producteur: TransportDataGouv
+    methodologie: Plus d'infos 
+      [ici](https://ecologie.data.gouv.fr/indicators/67cad6ecfa7e2141dc98d11d)
+    limites:
+    date_version: '2025-10-02'
+  source:
+    id: transportdatagouv
+    libelle: TransportDataGouv
+    ordre_affichage: '1'
+  ratio: 1.0
+
+- api_nom_cube: stations_tc_habitant_com
+  ID: '1042'
+  api_nom_axe: type_transport_en_commun
+  type_collectivite:
+  - commune
+  - epci
+  - departement
+  - region
+  - ept
+  correspondance_indicateurs:
+    tc_station.a: bus
+    tc_station.b: train
+    tc_station.c: métro
+    tc_station.d: tramway
+    tc_station.e: autres
+    tc_station.f: non renseigné
+  metadata:
+    source_id: transportdatagouv
+    nom_donnees: Nombre de stations de transports en commun selon le type de réseau
+    diffuseur: Ecolabe
+    producteur: TransportDataGouv
+    methodologie: Plus d'infos 
+      [ici](https://ecologie.data.gouv.fr/indicators/67d7ff40cfebe4d04669a4b9)
+    limites:
+    date_version: '2025-10-03'
+  source:
+    id: transportdatagouv
+    libelle: TransportDataGouv
+    ordre_affichage: '1'
+  ratio: 1.0
+
+- api_nom_cube: conso_energie_epci
+  ID: '131'
+  api_nom_axe: secteur
+  type_collectivite:
+  - epci
+  correspondance_indicateurs:
+    cae_2.i: Agriculture
+    cae_2.k: Industrie
+    cae_2.e: Résidentiel
+    cae_2.f: Tertiaire
+    cae_2.m: Transport
+  metadata:
+    source_id: sdes
+    nom_donnees: Consommation finale d'énergie par secteur et vecteur
+    diffuseur: Ecolab
+    producteur: SDES - INSEE
+    methodologie: Plus d'infos 
+      [ici](https://ecologie.data.gouv.fr/indicators/67cad6e0b69c2511c8434361)
+    limites:
+    date_version: '2025-10-17'
+  source:
+    id: sdes
+    libelle: SDES
+    ordre_affichage: '2'
+  ratio: 1.0
+
+- api_nom_cube: stationnement_velo_habitant_com
+  ID: '592'
+  api_nom_axe: type_accroche
+  type_collectivite:
+  - commune
+  - epci
+  - departement
+  - region
+  - ept
+  correspondance_indicateurs:
+    cae_45.a: Cadre
+    cae_45.b: Cadre et roue
+    cae_45.c: Roue
+    cae_45.d: Sans accroche
+  metadata:
+    source_id: openstreetmap
+    nom_donnees: Places de stationnement vélo sécurisées
+    diffuseur: Ecolab - TransportDataGouv
+    producteur: OpenStreetMap
+    methodologie: Plus d'infos 
+      [ici](https://ecologie.data.gouv.fr/indicators/67f989c8d9b3a8440f204aa7)
+    limites: Données non exhaustives (car déclaratives uniquement)
+    date_version: '2025-10-03'
+  source:
+    id: openstreetmap
+    libelle: OpenStreetMap
+    ordre_affichage: '1'
+  ratio: 0.1
+
+- api_nom_cube: lineaire_cyclable_habitant_com
+  ID: '133'
+  api_nom_axe: type_amenagement
+  type_collectivite:
+  - commune
+  - epci
+  - departement
+  - region
+  - ept
+  correspondance_indicateurs:
+    cae_44.aa: pistes cyclables
+    cae_44.af: aménagements mixtes
+    cae_44.ag: autre
+    cae_44.ac: bandes cyclables
+    cae_44.ae: double-sens cyclables
+    cae_44.ab: voies vertes
+    cae_44.ad: voies bus partagées
+  metadata:
+    source_id: geovelo
+    nom_donnees: Linéaire d'aménagements cyclables pour 1000 hab
+    diffuseur: Ecolab - TransportDataGouv
+    producteur: GEOVELO
+    methodologie: Plus d'infos 
+      [ici](https://ecologie.data.gouv.fr/indicators/67cad6ef2bcef127ed4b5f65)
+    limites:
+    date_version: '2025-10-02'
+  source:
+    id: geovelo
+    libelle: GEOVELO
+    ordre_affichage: '1'
+  ratio: 1.0
+
+- api_nom_cube: chaleur_livree_com
+  ID: '509'
+  api_nom_axe: 'filiere'
+  type_collectivite: &id002
+  - commune
+  - epci
+  - departement
+  - region
+  correspondance_indicateurs: chaleur
+  metadata:
+    source_id: sdes
+    nom_donnees: Volume de chaleur livrée par les réseaux de chaleur
+    diffuseur: Ecolab
+    producteur: SDES
+    methodologie: Plus d'infos 
+      [ici](https://ecologie.data.gouv.fr/datasets/68e80e91fac8a35ba7c72e51)
+    limites: ''
+    date_version: '2025-10-09'
+  source:
+    id: sdes
+    libelle: SDES
+    ordre_affichage: '1'
+  ratio: 1000000
+
+- api_nom_cube: chaleur_livree_com
+  ID: '1091'
+  api_nom_axe: 'filiere'
+  type_collectivite: *id002
+  correspondance_indicateurs: froid
+  metadata:
+    source_id: sdes
+    nom_donnees: Volume de froid livré par les réseaux de froid
+    diffuseur: Ecolab
+    producteur: SDES
+    methodologie: Plus d'infos 
+      [ici](https://ecologie.data.gouv.fr/datasets/68e80ea15949eaa532fb61b7)
+    limites: ''
+    date_version: '2025-10-09'
+  source:
+    id: sdes
+    libelle: SDES
+    ordre_affichage: '1'
+  ratio: 1000000
+  
+- api_nom_cube: conso_enaf_com
+  ID: '611'
+  api_nom_axe: secteur
+  type_collectivite:
+  - commune
+  - epci
+  - departement
+  - region
+  - ept
+  correspondance_indicateurs:
+    cae_11.a: Activité
+    cae_11.b: Habitat
+    cae_11.c: Mixte
+    cae_11.d: Route
+    cae_11.e: Fer
+    cae_11.f: Inconnu
+  metadata:
+    source_id: cerema
+    nom_donnees: Consommation d'espaces naturels, agricoles et forestiers
+    diffuseur: Ecolab
+    producteur: CEREMA
+    methodologie: Plus d'infos 
+      [ici](https://ecologie.data.gouv.fr/datasets/67cad6e56dd353d1b242b1b1)
+    limites: ''
+    date_version: '2025-10-02'
+  source:
+    id: cerema
+    libelle: Cerema
+    ordre_affichage: '1'
+  ratio: 1.0

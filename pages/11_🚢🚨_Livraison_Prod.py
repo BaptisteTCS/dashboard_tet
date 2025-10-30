@@ -289,6 +289,8 @@ def transform_staged_for_prod(df_staged):
             update_fields = {
                 "date_version": metadata_info["date_version"],
                 "methodologie": metadata_info["methodologie"],
+                "diffuseur": metadata_info["diffuseur"],
+                "producteur": metadata_info["producteur"],
                 "limites": metadata_info["limites"]
             }
             
@@ -339,6 +341,8 @@ def transform_staged_for_prod(df_staged):
                         UPDATE indicateur_source_metadonnee
                         SET date_version = :date_version,
                             methodologie = :methodologie,
+                            diffuseur = :diffuseur,
+                            producteur = :producteur,
                             limites = :limites
                         WHERE id = :id;
                     """), update_fields)
@@ -1119,8 +1123,7 @@ if st.session_state.analysis_done and st.session_state.df_staged is not None:
                             st.metric("📤 Lignes insérées", f"{result['nb_inserted']:,}")
                         with col_stat3:
                             st.metric("📦 Batches envoyés", result.get('nb_batches', 0))
-                    
-                    st.info("💡 Vous pouvez relancer l'analyse pour vérifier que les données ont bien été livrées.")
+
                 else:
                     st.error(f"❌ {result['message']}")
                     

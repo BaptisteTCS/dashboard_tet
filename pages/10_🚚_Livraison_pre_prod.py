@@ -7,7 +7,7 @@ from utils.db import get_engine, get_engine_pre_prod
 
 # Configuration de la page
 st.set_page_config(layout="wide")
-st.title("🚢 Livraison des indicateurs en pre-prod")
+st.title("🚚 Livraison des indicateurs en pre-prod")
 
 st.markdown("""
 Cette page compare les données **staging** (table `indicateurs_valeurs_olap`) 
@@ -835,7 +835,6 @@ if st.session_state.analysis_done and st.session_state.df_staged is not None:
                     with col_stat3:
                         st.metric("📦 Batches envoyés", result.get('nb_batches', 0))
                 
-                st.info("💡 Vous pouvez relancer l'analyse pour vérifier que les données ont bien été livrées.")
             else:
                 st.error(f"❌ {result['message']}")
                 
