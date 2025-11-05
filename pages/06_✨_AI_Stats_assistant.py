@@ -90,7 +90,7 @@ for message in st.session_state.messages:
                     st.dataframe(message["dataframe"], width='stretch')
 
 # Zone de saisie en bas (style chat)
-user_request = st.chat_input("Ex: Affiche-moi toutes les collectivités qui ont un PAP PCAET créé en 2024")
+user_request = st.chat_input("Ex: Affiche-moi toutes les collectivités qui ont crée un PCAET en 2024")
 
 # === TRAITEMENT DE LA REQUÊTE ===
 if user_request:

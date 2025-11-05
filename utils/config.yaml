@@ -189,7 +189,7 @@ indicateurs:
     diffuseur: Ecolab
     producteur: Eau France
     methodologie: Plus d'infos 
-      [ici](https://www.data.gouv.fr/datasets/prelevements-deau-par-usage/informations/)
+      [ici](https://ecologie.data.gouv.fr/indicators/67cad6eb1b824c076b3a4b79)
     limites: ''
     date_version: '2025-06-18 00:00:00'
 

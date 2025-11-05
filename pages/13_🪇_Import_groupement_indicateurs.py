@@ -9,7 +9,7 @@ from utils.db import (
 
 # Configuration de la page
 st.set_page_config(layout="wide")
-st.title("📦 Import de groupements d'indicateurs")
+st.title("🪇 Import de groupements d'indicateurs")
 
 st.markdown("""
 Cette page permet de créer des groupements d'indicateurs en 3 étapes :
@@ -163,11 +163,43 @@ def charger_collectivites_groupement(groupement_id, engine):
         return pd.DataFrame()
 
 
+def importer_indicateurs_groupement(df, engine):
+    """Importe les indicateurs d'un groupement dans la table indicateur_definition."""
+    try:
+        # Convertir le dataframe en liste de dictionnaires pour l'insertion
+        records = df.to_dict('records')
+        
+        # Construire la liste des colonnes pour l'insertion
+        colonnes = df.columns.tolist()
+        colonnes_str = ', '.join(colonnes)
+        
+        # Construire les placeholders pour les valeurs
+        placeholders = ', '.join([f":{col}" for col in colonnes])
+        
+        query_str = f"""
+            INSERT INTO indicateur_definition ({colonnes_str})
+            VALUES ({placeholders})
+        """
+        
+        query = text(query_str)
+        
+        with engine.begin() as conn:
+            for record in records:
+                # Convertir les valeurs NaN en None pour PostgreSQL
+                record_clean = {k: (None if pd.isna(v) else v) for k, v in record.items()}
+                conn.execute(query, record_clean)
+        
+        return True
+    except Exception as e:
+        st.error(f"❌ Erreur lors de l'import : {str(e)}")
+        return False
+
+
 # ==========================
 # ÉTAPE 1 : CRÉER UN GROUPEMENT
 # ==========================
 
-left, center, right = st.columns([1, 3, 1])
+left, center, right = st.columns([1, 5, 1])
 with center:
     
     st.header("1️⃣ Créer un nouveau groupement")
@@ -318,9 +350,102 @@ with center:
     st.markdown("---")
 
     # ==========================
-    # ÉTAPE 3 : IMPORT EXCEL (À VENIR)
+    # ÉTAPE 3 : IMPORT CSV DES INDICATEURS
     # ==========================
 
-    st.header("3️⃣ Importer les indicateurs depuis Excel")
-    st.info("🚧 Cette fonctionnalité sera développée prochainement")
+    st.header("3️⃣ Importer les indicateurs depuis un fichier CSV")
 
+    # Charger les groupements pour la sélection
+    df_groupements_import = charger_groupements(engine_lecture)
+
+    if df_groupements_import.empty:
+        st.warning("⚠️ Aucun groupement disponible. Veuillez d'abord créer un groupement à l'étape 1.")
+    else:
+        # Sélection du groupement pour l'import
+        groupements_dict_import = dict(zip(df_groupements_import['id'], df_groupements_import['nom']))
+        
+        groupement_id_import = st.selectbox(
+            "Sélectionnez le groupement pour l'import des indicateurs",
+            options=list(groupements_dict_import.keys()),
+            format_func=lambda x: groupements_dict_import[x],
+            key="selectbox_groupement_import"
+        )
+        
+        groupement_nom_import = groupements_dict_import[groupement_id_import]
+        
+        st.markdown(f"### Import des indicateurs pour **{groupement_nom_import}**")
+        
+        # Upload du fichier CSV
+        uploaded_file = st.file_uploader(
+            "📁 Glissez-déposez ou sélectionnez votre fichier CSV",
+            type=['csv'],
+            help="Le fichier doit contenir les colonnes des indicateurs à importer"
+        )
+        
+        if uploaded_file is not None:
+            try:
+                # Lire le fichier CSV
+                df_upload = pd.read_csv(uploaded_file, sep=';')
+                
+                
+                # Colonnes de indicateur_definition (celles qui sont pertinentes pour l'import)
+                colonnes_indicateur_definition = ['groupement_id', 'collectivite_id', 'identifiant_referentiel',
+                    'titre', 'titre_long', 'description', 'unite', 'borne_min', 'borne_max',
+                    'participation_score', 'sans_valeur_utilisateur', 'valeur_calcule',
+                    'modified_at', 'created_at', 'modified_by', 'created_by', 'titre_court',
+                    'version', 'precision', 'expr_cible', 'expr_seuil', 'libelle_cible_seuil']
+                
+                # Filtrer les colonnes du CSV pour ne garder que celles dans indicateur_definition
+                colonnes_disponibles = df_upload.columns.tolist()
+                colonnes_a_garder = [col for col in colonnes_disponibles if col in colonnes_indicateur_definition]
+                
+                # Créer le dataframe final
+                df_final = df_upload[colonnes_a_garder].copy()
+                
+                # Vérifier si la colonne identifiant_referentiel existe
+                if 'identifiant_referentiel' not in df_final.columns:
+                    st.info("⚙️ Génération automatique des identifiants référentiels...")
+                    # Générer les identifiants basés sur le nom du groupement
+                    prefix = groupement_nom_import.lower().replace(' ', '_')
+                    df_final['identifiant_referentiel'] = [f"{prefix}_{i+1}" for i in range(len(df_final))]
+                
+                # Remplir la colonne groupement_id avec l'ID du groupement sélectionné
+                df_final['groupement_id'] = groupement_id_import
+                
+                # Afficher les colonnes manquantes nécessaires pour l'import
+                colonnes_necessaires = [
+                    'identifiant_referentiel', 'titre', 'groupement_id'
+                ]
+                colonnes_manquantes = [col for col in colonnes_necessaires if col not in df_final.columns or df_final[col].isna().all()]
+                
+                if colonnes_manquantes and 'groupement_id' not in colonnes_manquantes:
+                    st.warning(f"⚠️ Colonnes obligatoires manquantes : {', '.join(colonnes_manquantes)}")
+                
+                # Afficher le dataframe final
+                st.markdown("### 📋 Aperçu du dataframe final à importer")
+                st.dataframe(df_final, use_container_width=True)
+                
+                st.info(f"ℹ️ Total : {len(df_final)} indicateur(s) prêt(s) pour l'import")
+                
+                # Demander confirmation
+                st.markdown("---")
+                st.markdown("### ✅ Confirmation de l'import")
+                
+                col_oui, col_non = st.columns(2)
+                
+                with col_oui:
+                    if st.button("✅ OUI - Importer les indicateurs", use_container_width=True, type="primary"):
+                        with st.spinner(f"Import en cours vers {env_label}..."):
+                            success_import = importer_indicateurs_groupement(df_final, engine_ecriture)
+                        
+                        if success_import:
+                            st.success(f"✅ {len(df_final)} indicateur(s) importé(s) avec succès en {env_label} !")
+                            st.balloons()
+                
+                with col_non:
+                    if st.button("❌ NON - Annuler l'import", use_container_width=True):
+                        st.warning("❌ Import annulé")
+                        st.rerun()
+                
+            except Exception as e:
+                st.error(f"❌ Erreur lors de la lecture du fichier : {str(e)}")
