@@ -24,7 +24,7 @@ st.markdown("---")
 # ==========================
 
 @st.cache_data(ttl=3600)
-def charger_collectivites():
+def charger_collectivites(show_spinner="⏳ Chargement des collectivités..."):
     """Charge la liste des collectivités depuis la base de production."""
     try:
         engine = get_engine_prod()
@@ -49,7 +49,7 @@ def charger_collectivites():
 
 
 @st.cache_data(ttl=3600)
-def charger_donnees_collectivite(collectivite_id):
+def charger_donnees_collectivite(collectivite_id, show_spinner="⏳ Chargement des données open data pour la collectivité..."):
     """Charge les données open data disponibles pour une collectivité spécifique."""
     try:
         engine = get_engine_prod()
