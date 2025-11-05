@@ -23,7 +23,7 @@ st.markdown("---")
 # ==========================
 
 @st.cache_data(ttl=3600)
-def charger_donnees_open_data():
+def charger_donnees_open_data(show_spinner="⏳ Chargement des données..."):
     """Charge les données open data disponibles depuis la table indicateurs_open_data de la base OLAP."""
     try:
         engine = get_engine()
