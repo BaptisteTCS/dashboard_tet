@@ -9,7 +9,7 @@ from utils.db import (
 
 # Configuration de la page
 st.set_page_config(layout="wide")
-st.title("📦 Import de groupements d'indicateurs")
+st.title("🪇 Import de groupements d'indicateurs")
 
 st.markdown("""
 Cette page permet de créer des groupements d'indicateurs en 3 étapes :
