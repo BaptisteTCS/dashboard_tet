@@ -168,7 +168,7 @@ with tab1:
     
     # Fusion avec les notes PAP
     df_conseillers_pap = df_conseillers.merge(
-        df_pap[['collectivite_id', 'nom_plan', 'score_pap', 'derniere_semaine']],
+        df_pap[['collectivite_id', 'nom_plan', 'score_pap']],
         on='collectivite_id',
         how='left'
     )
@@ -215,7 +215,7 @@ with tab1:
         st.write(f"**{len(df_detail)}** collectivités suivies par **{conseiller_selectionne}**")
         
         st.dataframe(
-            df_detail[['nom_collectivite', 'type_collectivite', 'nom_plan', 'score_pap', 'derniere_semaine']],
+            df_detail[['nom_collectivite', 'type_collectivite', 'nom_plan', 'score_pap']],
             use_container_width=True,
             hide_index=True,
             column_config={
@@ -223,7 +223,6 @@ with tab1:
                 "type_collectivite": st.column_config.TextColumn("📑 Type", width="small"),
                 "nom_plan": st.column_config.TextColumn("📋 Plan PAP", width="medium"),
                 "score_pap": st.column_config.NumberColumn("🎯 Score PAP", format="%.1f"),
-                "derniere_semaine": st.column_config.DateColumn("📅 Dernière semaine", format="DD/MM/YYYY"),
             }
         )
 
@@ -301,7 +300,7 @@ with tab3:
             st.write(f"**{len(df_sans_conseiller)}** collectivités ont un PAP mais ne sont suivies par aucun conseiller")
             
             st.dataframe(
-                df_sans_conseiller[['collectivite_id', 'nom_collectivite', 'nom_plan', 'score_pap', 'derniere_semaine']],
+                df_sans_conseiller[['collectivite_id', 'nom_collectivite', 'nom_plan', 'score_pap']],
                 use_container_width=True,
                 hide_index=True,
                 column_config={
@@ -309,7 +308,6 @@ with tab3:
                     "nom_collectivite": st.column_config.TextColumn("🏛️ Collectivité", width="large"),
                     "nom_plan": st.column_config.TextColumn("📋 Plan PAP", width="medium"),
                     "score_pap": st.column_config.NumberColumn("🎯 Score PAP", format="%.1f"),
-                    "derniere_semaine": st.column_config.DateColumn("📅 Dernière semaine", format="DD/MM/YYYY"),
                 }
             )
             
@@ -352,7 +350,7 @@ with tab4:
         # Fusion des données
         df_conseiller_detail = df_conseillers[df_conseillers['email'] == conseiller_selectionne].copy()
         df_conseiller_detail = df_conseiller_detail.merge(
-            df_pap[['collectivite_id', 'nom_plan', 'score_pap', 'derniere_semaine']],
+            df_pap[['collectivite_id', 'nom_plan', 'score_pap']],
             on='collectivite_id',
             how='left'
         )
@@ -400,7 +398,7 @@ with tab4:
         df_conseiller_detail_sorted = df_conseiller_detail.sort_values('score_pap', ascending=False, na_position='last')
         
         st.dataframe(
-            df_conseiller_detail_sorted[['nom_collectivite', 'type_collectivite', 'nom_plan', 'score_pap', 'derniere_semaine']],
+            df_conseiller_detail_sorted[['nom_collectivite', 'type_collectivite', 'nom_plan', 'score_pap']],
             use_container_width=True,
             hide_index=True,
             height=600,
@@ -409,7 +407,6 @@ with tab4:
                 "type_collectivite": st.column_config.TextColumn("📑 Type", width="small"),
                 "nom_plan": st.column_config.TextColumn("📋 Plan PAP", width="medium"),
                 "score_pap": st.column_config.NumberColumn("🎯 Score PAP", format="%.1f"),
-                "derniere_semaine": st.column_config.DateColumn("📅 Dernière semaine", format="DD/MM/YYYY"),
             }
         )
 

@@ -25,6 +25,7 @@ Les pages sont maintenant organisées en **7 sections** :
 - **🏛️ Tableaux de Bord** : Vues d'ensemble par collectivité et conseillers
   - TDB Collectivité
   - Implication Conseillers
+  - Suivi Campagne Régions
   - Suivi Bizdevs
 
 - **🔓 Open Data** : Exploration des données publiques

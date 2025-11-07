@@ -20,6 +20,7 @@ pages = {
     "🏛️ Tableaux de Bord": [
         st.Page("pages/04_🥐_TDB_collectivite.py", title="TDB Collectivité", icon="🥐"),
         st.Page("pages/16_👥_Implication_Conseillers.py", title="Implication Conseillers", icon="👥"),
+        st.Page("pages/17_🌍_Suivi_Campagne_Regions.py", title="Suivi Campagne Régions", icon="🌍"),
         st.Page("pages/08_👩‍🚀_Suivi_bizdevs.py", title="Suivi Bizdevs", icon="👩‍🚀"),
     ],
     "🔓 Open Data": [
