@@ -117,3 +117,13 @@ def load_df_pap_note_max_by_collectivite() -> pd.DataFrame:
         df = pd.read_sql_query(query, conn)
     
     return df
+
+def load_df_analyse_campagne_region() -> pd.DataFrame:
+    """Charge les données d'analyse de la campagne région."""
+    df = read_table("analyse_campagne_region")
+    return df
+
+def load_df_campagne_region_reached() -> pd.DataFrame:
+    """Charge la liste des collectivités reached pour la campagne région."""
+    df = read_table("regions_reached")
+    return df
