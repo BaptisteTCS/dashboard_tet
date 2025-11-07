@@ -7,19 +7,43 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
+# Configuration de la navigation avec des sections (groupes)
+pages = {
+    "Accueil": [
+        st.Page("app_home.py", title="Accueil", icon="🏠", default=True),
+    ],
+    "📊 Métriques & Suivi": [
+        st.Page("pages/01_🌟_North_Star_&_metrics.py", title="North Star & Metrics", icon="🌟"),
+        st.Page("pages/02_⚡_Weekly.py", title="Weekly", icon="⚡"),
+        st.Page("pages/03_🏆_Champions.py", title="Champions", icon="🏆"),
+    ],
+    "🏛️ Tableaux de Bord": [
+        st.Page("pages/04_🥐_TDB_collectivite.py", title="TDB Collectivité", icon="🥐"),
+        st.Page("pages/16_👥_Implication_Conseillers.py", title="Implication Conseillers", icon="👥"),
+        st.Page("pages/08_👩‍🚀_Suivi_bizdevs.py", title="Suivi Bizdevs", icon="👩‍🚀"),
+    ],
+    "🔓 Open Data": [
+        st.Page("pages/14_📊_Dashboard_Open_Data.py", title="Dashboard Open Data", icon="📊"),
+        st.Page("pages/15_🏛️_Open_Data_Collectivité.py", title="Open Data par Collectivité", icon="🏛️"),
+    ],
+    "🤖 Intelligence Artificielle": [
+        st.Page("pages/06_✨_AI_Stats_assistant.py", title="AI Stats Assistant", icon="✨"),
+        st.Page("pages/07_🤖_Suggestion_indicateurs.py", title="Suggestion Indicateurs", icon="🤖"),
+    ],
+    "⚙️ Import & Configuration": [
+        st.Page("pages/09_🌀_Import_indicateurs.py", title="Import Indicateurs", icon="🌀"),
+        st.Page("pages/13_🪇_Import_groupement_indicateurs.py", title="Import Groupement Indicateurs", icon="🪇"),
+    ],
+    "🚀 Livraison": [
+        st.Page("pages/10_🚚_Livraison_pre_prod.py", title="Livraison Pre-Prod", icon="🚚"),
+        st.Page("pages/11_🚢🚨_Livraison_prod.py", title="Livraison Prod", icon="🚨"),
+    ],
+    "🧪 Bac à sable": [
+        st.Page("pages/12_⛱️_North_Star_Bac_a_sable.py", title="North Star Bac à sable", icon="⛱️"),
+    ],
+}
 
-st.markdown(
-    """
-    <div style="padding: 14px 18px; background: linear-gradient(90deg,#3B82F6, #60A5FA); border-radius: 12px; color: white;">
-      <h1 style="margin: 0; font-size: 28px;">Dashboard de Territoires en Transitions</h1>
-      <p style="margin: 6px 0 0; opacity: 0.95;">Visualisations clés et exploration interactive</p>
-    </div>
-    """,
-    unsafe_allow_html=True,
-)
-st.write("")
-st.info("Utilisez le menu à gauche pour naviguer entre les pages")
-
-st.sidebar.success("Choisissez une page dans le menu Pages")
+pg = st.navigation(pages)
+pg.run()
 
 

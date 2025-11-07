@@ -93,3 +93,27 @@ def load_df_fa_pilotable() -> pd.DataFrame:
 def load_df_fa_contribution_semaine() -> pd.DataFrame:
     df = read_table("fa_contribution_semaine")
     return df
+
+def load_df_pap_note_max_by_collectivite() -> pd.DataFrame:
+    """Charge les notes PAP (snapshot) par collectivité avec le nom de la collectivité.
+    Utilise pap_note_snapshot qui contient une seule note par plan PAP (dernière semaine)."""
+    from .db import get_engine
+    import pandas as pd
+    from sqlalchemy import text
+    
+    engine = get_engine()
+    query = text("""
+        SELECT 
+            collectivite_id,
+            nom_ct as nom_collectivite,
+            nom as nom_plan,
+            score as score_pap,
+            semaine as derniere_semaine,
+            plan_id
+        FROM pap_note_snapshot
+    """)
+    
+    with engine.connect() as conn:
+        df = pd.read_sql_query(query, conn)
+    
+    return df

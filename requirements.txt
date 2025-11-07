@@ -1,8 +1,9 @@
-streamlit>=1.38
+streamlit>=1.51
 pandas>=2.1
 plotly>=5.20
 numpy>=1.25
 pyarrow>=14.0
+requests>=2.31
 
 # SQL
 SQLAlchemy>=2.0
