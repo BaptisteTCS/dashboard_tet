@@ -36,7 +36,7 @@ pages = {
     ],
     "🚀 Livraison": [
         st.Page("pages/10_🚚_Livraison_pre_prod.py", title="Livraison Pre-Prod", icon="🚚"),
-        st.Page("pages/11_🚢🚨_Livraison_prod.py", title="Livraison Prod", icon="🚨"),
+        st.Page("pages/11_🚢🚨_Livraison_Prod.py", title="Livraison Prod", icon="🚨"),
     ],
     "🧪 Bac à sable": [
         st.Page("pages/12_⛱️_North_Star_Bac_a_sable.py", title="North Star Bac à sable", icon="⛱️"),
