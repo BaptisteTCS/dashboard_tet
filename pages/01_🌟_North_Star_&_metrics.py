@@ -4,16 +4,11 @@ import pandas as pd
 from utils.data import (
     load_df_pap,
     load_df_pap_statut_semaine,
-    load_df_pap_notes_summed,
     load_df_typologie_fiche,
-    load_df_airtable_pipeline_semaine,
-    load_df_pap_statut_semaine_12_mois,
-    load_df_fa_pilotable_12_mois_statut_semaine,
 )
 from utils.analytics import (
     compute_totals_by_period,
     date_to_month,
-    display_totals_table,
 )
 from utils.plots import plot_area_with_totals
 
@@ -34,10 +29,7 @@ def _load_sources():
     # mappe un nom lisible vers (DataFrame, params par défaut)
     df_pap = load_df_pap()
     df_pap_statut_semaine = load_df_pap_statut_semaine()
-    df_pap_notes_summed = load_df_pap_notes_summed()
     df_typologie_fiche = load_df_typologie_fiche()
-    df_airtable_pipeline_semaine = load_df_airtable_pipeline_semaine()
-    df_fa_pilotable_12_mois_statut_semaine = load_df_fa_pilotable_12_mois_statut_semaine()
 
     sources = {
         "🌟 North Star 1 - Activation": (
@@ -48,27 +40,6 @@ def _load_sources():
                 "force_granularite": 'W',
                 "force_cumulatif": False,
                 "objectif": 500,
-            },
-        ),
-        "🌟 North Star 2 - Rétention : Somme des scores": (
-            df_pap_notes_summed,
-            {
-                "date_col": "semaine",
-                "group_col": "type_score",
-                "force_granularite": 'W',
-                "force_cumulatif": False,
-                "objectif": None,
-                "use_values_col": "somme",
-            },
-        ),
-        "🌟 FA pilotable 12 mois": (
-            df_fa_pilotable_12_mois_statut_semaine,
-            {
-                "date_col": "semaine",
-                "group_col": "statut",
-                "force_granularite": 'W',
-                "force_cumulatif": False,
-                "objectif": None,
             },
         ),
         "PAP importés/autonomes": (
@@ -97,16 +68,6 @@ def _load_sources():
                 "date_col": "modified_at",
                 "group_col": "type",
                 "force_granularite": None,
-                "force_cumulatif": None,
-                "objectif": None,
-            },
-        ),
-        "Evolution du nombre de CT par pipeline (bizdev)": (
-            df_airtable_pipeline_semaine[df_airtable_pipeline_semaine['pipeline'] != 'A acquérir'],
-            {
-                "date_col": "semaine",
-                "group_col": "pipeline",
-                "force_granularite": 'W',
                 "force_cumulatif": None,
                 "objectif": None,
             },
