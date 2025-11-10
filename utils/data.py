@@ -44,8 +44,8 @@ def load_df_typologie_fiche() -> pd.DataFrame:
     df = read_table("evolution_typologie_fa")
     return df
 
-def load_df_airtable_pipeline_semaine() -> pd.DataFrame:
-    df = read_table("airtable_sync_semaine", columns=['semaine', 'pipeline'])
+def load_df_pipeline_semaine() -> pd.DataFrame:
+    df = read_table("pipeline", columns=['collectivite_id', 'semaine', 'pipeline'])
     return df
 
 def load_df_pap_notes() -> pd.DataFrame:
@@ -126,4 +126,9 @@ def load_df_analyse_campagne_region() -> pd.DataFrame:
 def load_df_campagne_region_reached() -> pd.DataFrame:
     """Charge la liste des collectivités reached pour la campagne région."""
     df = read_table("regions_reached")
+    return df
+
+def load_df_evenements_airtable() -> pd.DataFrame:
+    """Charge les événements Airtable."""
+    df = read_table("evenements_airtable")
     return df

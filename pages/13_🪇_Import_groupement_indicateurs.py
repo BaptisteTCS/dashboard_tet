@@ -214,6 +214,35 @@ def importer_indicateurs_groupement(df, engine):
         return False
 
 
+def associer_indicateurs_categorie_tag(groupement_id, groupement_nom, engine):
+    """Associe tous les indicateurs d'un groupement à leur catégorie_tag."""
+    try:
+        query = text("""
+            WITH id_categorie AS (
+                SELECT id AS categorie_tag_id
+                FROM categorie_tag
+                WHERE nom = :groupement_nom
+            )
+            INSERT INTO indicateur_categorie_tag (indicateur_id, categorie_tag_id)
+            SELECT 
+                i.id AS indicateur_id,
+                ic.categorie_tag_id
+            FROM indicateur_definition i
+            CROSS JOIN id_categorie ic
+            WHERE i.groupement_id = :groupement_id
+        """)
+        
+        with engine.begin() as conn:
+            result = conn.execute(query, {
+                "groupement_nom": groupement_nom,
+                "groupement_id": groupement_id
+            })
+            return True, result.rowcount
+    except Exception as e:
+        st.error(f"❌ Erreur lors de l'association des indicateurs à la catégorie tag : {str(e)}")
+        return False, 0
+
+
 def charger_mapping_titre_indicateur_id(engine):
     """Charge le mapping titre -> indicateur_id depuis la table indicateur_definition."""
     try:
@@ -249,10 +278,10 @@ def importer_valeurs_via_api(df, env_label, progress_container=None):
     try:
         # Récupérer les credentials depuis les secrets
         if env_label == "Production":
-            api_url = st.secrets.get("api_prod_url", "https://api.territoiresentransitions.fr/indicateurs/valeurs")
+            api_url = st.secrets.get("api_prod_url", "https://api.territoiresentransitions.fr/api/v1/indicateur-valeurs")
             api_token = st.secrets.get("api_prod_token", "")
         else:
-            api_url = st.secrets.get("api_pre_prod_url", "https://api.preprod.territoiresentransitions.fr/indicateurs/valeurs")
+            api_url = st.secrets.get("api_pre_prod_url", "https://preprod-api.territoiresentransitions.fr/api/v1/indicateur-valeurs")
             api_token = st.secrets.get("api_pre_prod_token", "")
         
         if not api_token:
@@ -617,12 +646,25 @@ with center:
                     
                     with col_oui:
                         if st.button("✅ OUI - Importer les indicateurs", use_container_width=True, type="primary"):
-                            with st.spinner(f"Import en cours vers {env_label}..."):
+                            with st.spinner(f"Import des indicateurs en cours vers {env_label}..."):
                                 success_import = importer_indicateurs_groupement(df_final, engine_ecriture)
                             
                             if success_import:
                                 st.success(f"✅ {len(df_final)} indicateur(s) importé(s) avec succès en {env_label} !")
-                                st.balloons()
+                                
+                                # Associer les indicateurs à leur catégorie_tag
+                                with st.spinner(f"Association des indicateurs à la catégorie tag '{groupement_nom_import}'..."):
+                                    success_assoc, nb_associations = associer_indicateurs_categorie_tag(
+                                        groupement_id_import,
+                                        groupement_nom_import,
+                                        engine_ecriture
+                                    )
+                                
+                                if success_assoc:
+                                    st.success(f"✅ {nb_associations} indicateur(s) associé(s) à la catégorie tag **{groupement_nom_import}** !")
+                                    st.balloons()
+                                else:
+                                    st.warning("⚠️ Les indicateurs ont été importés mais l'association à la catégorie tag a échoué")
                     
                     with col_non:
                         if st.button("❌ NON - Annuler l'import", use_container_width=True):
@@ -661,7 +703,7 @@ with center:
     if uploaded_file_valeurs is not None:
         try:
             # Lire le fichier CSV
-            df_valeurs = pd.read_csv(uploaded_file_valeurs, sep=';')
+            df_valeurs = pd.read_csv(uploaded_file_valeurs, sep=',')
             
             st.success(f"✅ Fichier chargé : {len(df_valeurs)} lignes")
             
