@@ -84,6 +84,137 @@ def radar_spider_graph_plotly_with_comparison(row: pd.Series, row_precedente: pd
     return fig
 
 
+def prepare_line_data_nivo(
+    df: pd.DataFrame,
+    date_col: str,
+    group_col: str | bool = False,
+    time_granularity: str = 'M',
+    min_date: str = "2024-01-01",
+    colors: list[str] | None = None,
+    cumulatif: bool = True,
+    use_values_col: str | None = None
+):
+    """
+    Prépare les données au format Nivo pour un graphique Line.
+    
+    Returns:
+        tuple: (data, color_scheme, totaux, objectif_value)
+    """
+    df = df.copy()
+    df[date_col] = pd.to_datetime(df[date_col]).dt.tz_localize(None)
+    df['periode'] = df[date_col].dt.to_period(time_granularity).dt.to_timestamp()
+
+    if group_col:
+        if use_values_col:
+            grouped = df.groupby(['periode', group_col])[use_values_col].sum().unstack(fill_value=0)
+        else:
+            grouped = df.groupby(['periode', group_col]).size().unstack(fill_value=0)
+        total_by_type = grouped.sum().sort_values(ascending=False)
+        grouped = grouped[total_by_type.index]
+    else:
+        if use_values_col:
+            grouped = df.groupby('periode')[use_values_col].sum().to_frame('Total')
+        else:
+            grouped = df.groupby('periode').size().to_frame('Total')
+
+    data_to_plot = grouped.cumsum() if cumulatif else grouped
+    data_to_plot = data_to_plot[data_to_plot.index >= pd.to_datetime(min_date)]
+
+    # Calculer les totaux pour l'affichage
+    totaux = data_to_plot.sum(axis=1).reset_index()
+    totaux.columns = ['periode', 'total']
+    
+    # Préparer les données au format Nivo
+    nivo_data = []
+    
+    for col in data_to_plot.columns:
+        serie_data = []
+        for idx, row in data_to_plot.iterrows():
+            if time_granularity == 'M':
+                x_label = idx.strftime('%b %Y')
+            elif time_granularity == 'W':
+                x_label = idx.strftime('%d/%m/%y')
+            else:
+                x_label = str(idx)
+            
+            serie_data.append({
+                "x": x_label,
+                "y": float(row[col])
+            })
+        
+        nivo_data.append({
+            "id": str(col),
+            "data": serie_data
+        })
+    
+    # Déterminer les couleurs
+    if group_col:
+        group_list = set(df[group_col].unique())
+        if group_list == {'actif', 'inactif'}:
+            color_scheme = ["#A4E7C7", "#FFD0BB"]
+        else:
+            if colors is None:
+                if df[group_col].nunique() < 6:
+                    color_scheme = ["#A4E7C7", "#FFD0BB", "#F7C59F", "#7C77B9", "#92B4EC"]
+                else:
+                    color_scheme = [
+                        "#E1E1FD", "#96C7DA", "#D9D9D9", "#E4CDEE", "#FEF1D8",
+                        "#F7B1C2", "#A4E7C7", "#FFD0BB", "#C3C3FB", "#EEEEEE",
+                        "#FFB595", "#D8EEFE", "#FBE7B5", "#B8D6F7"
+                    ]
+            else:
+                color_scheme = colors
+    else:
+        color_scheme = ["#A4E7C7"]
+    
+    return nivo_data, color_scheme, totaux
+
+
+def prepare_radar_data_nivo(row: pd.Series, row_precedente: pd.Series):
+    """
+    Prépare les données au format Nivo pour un graphique radar avec comparaison.
+    
+    Args:
+        row: Série pandas avec les scores de la semaine actuelle
+        row_precedente: Série pandas avec les scores de la semaine précédente
+        
+    Returns:
+        Liste de dictionnaires au format attendu par Nivo Radar
+    """
+    categories = [
+        'Pilotabilité',
+        'Indicateurs',
+        'Objectifs',
+        'Référentiel',
+        'Avancement',
+        'Budget'
+    ]
+    
+    keys = [
+        'score_pilotabilite',
+        'score_indicateur',
+        'score_objectif',
+        'score_referentiel',
+        'score_avancement',
+        'score_budget'
+    ]
+    
+    # Préparer les données au format Nivo
+    data = []
+    for cat, key in zip(categories, keys):
+        # Vérifier si le référentiel doit être exclu
+        if key == 'score_referentiel' and row.get('c_referentiel', 1) == 0:
+            continue
+            
+        data.append({
+            "taste": cat,
+            "Actuelle": round(float(row[key]), 2),
+            "Précédente": round(float(row_precedente[key]), 2)
+        })
+    
+    return data
+
+
 def radar_spider_graph_plotly(row: pd.Series):
     categories = [
         'Pilotabilité des FA',

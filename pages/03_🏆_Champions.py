@@ -1,9 +1,10 @@
 import streamlit as st
 import pandas as pd
 from datetime import datetime
+from streamlit_elements import elements, nivo, mui
 
 from utils.data import load_df_pap_notes
-from utils.plots import radar_spider_graph_plotly_with_comparison
+from utils.plots import prepare_radar_data_nivo
 
 
 # Configuration de la page
@@ -112,9 +113,89 @@ if df_pivot.shape[1] >= 2:
                         st.write(f"**Région :** {row.get('region_name', 'N/A')}")
                         st.write(f"**Population :** {int(row.get('population_totale', 0)):,} habitants".replace(',', ' '))
                     
-                    # Graphe radar avec comparaison
-                    fig = radar_spider_graph_plotly_with_comparison(row, row_precedente, diff)
-                    st.plotly_chart(fig, width='stretch')
+                    # Graphe radar avec comparaison Nivo
+                    radar_data = prepare_radar_data_nivo(row, row_precedente)
+                    
+                    with elements(f"radar_champion_{plan_id}_{rank}"):
+                        with mui.Box(sx={"height": 500}):
+                            nivo.Radar(
+                                data=radar_data,
+                                keys=["Actuelle", "Précédente"],
+                                indexBy="taste",
+                                maxValue=5,
+                                margin={"top": 70, "right": 80, "bottom": 40, "left": 80},
+                                curve="linearClosed",
+                                borderWidth=2,
+                                borderColor={"from": "color"},
+                                gridLevels=5,
+                                gridShape="circular",
+                                gridLabelOffset=20,
+                                enableDots=True,
+                                dotSize=6,
+                                dotColor={"theme": "background"},
+                                dotBorderWidth=2,
+                                dotBorderColor={"from": "color"},
+                                enableDotLabel=False,
+                                colors=["#ffc121", "#999999"],
+                                fillOpacity=0.5,
+                                blendMode="multiply",
+                                animate=True,
+                                motionConfig="wobbly",
+                                isInteractive=True,
+                                theme={
+                                    "text": {
+                                        "fontFamily": "Source Sans Pro, sans-serif",
+                                        "fontSize": 13,
+                                        "fill": "#808495"
+                                    },
+                                    "labels": {
+                                        "text": {
+                                            "fontFamily": "Source Sans Pro, sans-serif",
+                                            "fontSize": 16,
+                                            "fill": "#808495"
+                                        }
+                                    },
+                                    "grid": {
+                                        "line": {
+                                            "stroke": "#4a4a4a",
+                                            "strokeWidth": 1,
+                                            "strokeOpacity": 0.3
+                                        }
+                                    },
+                                    "legends": {
+                                        "text": {
+                                            "fontFamily": "Source Sans Pro, sans-serif",
+                                            "fontSize": 12,
+                                            "fill": "#808495"
+                                        }
+                                    },
+                                    "tooltip": {
+                                        "container": {
+                                            "background": "rgba(30, 30, 30, 0.95)",
+                                            "color": "#ffffff",
+                                            "fontSize": "13px",
+                                            "fontFamily": "Source Sans Pro, sans-serif",
+                                            "borderRadius": "4px",
+                                            "boxShadow": "0 2px 8px rgba(0,0,0,0.3)",
+                                            "padding": "8px 12px",
+                                            "border": "1px solid rgba(255, 255, 255, 0.1)"
+                                        }
+                                    }
+                                },
+                                legends=[
+                                    {
+                                        "anchor": "top-left",
+                                        "direction": "column",
+                                        "translateX": -50,
+                                        "translateY": -40,
+                                        "itemWidth": 80,
+                                        "itemHeight": 20,
+                                        "itemTextColor": "#808495",
+                                        "symbolSize": 12,
+                                        "symbolShape": "circle",
+                                    }
+                                ]
+                            )
                     
                     st.markdown("---")
                     
