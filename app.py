@@ -30,6 +30,7 @@ pages = {
     "🤖 Intelligence Artificielle": [
         st.Page("pages/06_✨_AI_Stats_assistant.py", title="AI Stats Assistant", icon="✨"),
         st.Page("pages/07_🤖_Suggestion_indicateurs.py", title="Suggestion Indicateurs", icon="🤖"),
+        st.Page("pages/18_🤖_Import_des_plans.py", title="Import Des Plans", icon="🤖"),
     ],
     "⚙️ Import & Configuration": [
         st.Page("pages/09_🌀_Import_indicateurs.py", title="Import Indicateurs", icon="🌀"),
