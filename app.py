@@ -42,6 +42,7 @@ pages = {
     ],
     "🧪 Bac à sable": [
         st.Page("pages/12_⛱️_North_Star_Bac_a_sable.py", title="North Star Bac à sable", icon="⛱️"),
+        st.Page("pages/19_🪐_Experimentation_Nivo.py", title="Expérimentation Nivo", icon="🪐"),
     ],
 }
 
