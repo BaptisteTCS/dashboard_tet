@@ -119,7 +119,7 @@ with tab1:
         )
 
     st.markdown("---")
-    st.markdown("### Activité")
+    st.markdown("### Activité (échange long)")
 
     # Préparation des dates pour les événements Airtable
     df_evt = df_evenements_airtable.copy()
