@@ -13,7 +13,7 @@ import json
 import pandas as pd
 
 st.set_page_config(layout="wide")
-st.title("🤖 Import des plans - Comparaison IA")
+st.title("✨ Import des plans")
 
 # Configuration des APIs
 ANTHROPIC_API_KEY = os.getenv("ANTHROPIC_API_KEY")
@@ -24,7 +24,6 @@ GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
 claude_client = anthropic.AsyncAnthropic(api_key=ANTHROPIC_API_KEY)
 openai_client = openai.AsyncOpenAI(api_key=OPENAI_API_KEY)
 gemini_client = genai.Client(api_key=GOOGLE_API_KEY)
-
 
 # Prompt personnalisé
 custom_prompt = """
@@ -385,16 +384,14 @@ async def query_gemini(user_prompt):
 # ==========================
 
 # Toggle pour le type de fichier
-file_type = st.radio(
+file_type = st.segmented_control(
     "Type de fichier à importer",
     options=["PDF", "CSV"],
-    horizontal=True,
-    help="Choisissez le format de fichier à analyser"
+    default="PDF"
 )
 
 # Titre dynamique
 if file_type == "PDF":
-    st.markdown("## 📄 Upload du fichier PDF")
     uploaded_file = st.file_uploader(
         "Glissez-déposez votre fichier PDF ici",
         type=['pdf'],
@@ -402,27 +399,24 @@ if file_type == "PDF":
         key="pdf_uploader"
     )
 else:
-    st.markdown("## 📊 Upload du fichier CSV")
     uploaded_file = st.file_uploader(
         "Glissez-déposez votre fichier CSV ici",
         type=['csv'],
-        help="Sélectionnez un fichier CSV à analyser",
         key="csv_uploader"
     )
 
 precisions = st.text_area(
     "Précisions",
-    height=100,
-    placeholder="Ajoutez des précisions supplémentaires si nécessaire..."
+    height=300,
+    placeholder="Ajoutez des précisions supplémentaires si nécessaire. Vous pouvez ici définir une strucutre spécifique, certaines règles à respecter, donner du contexte, etc. Cliquez sur Ctrl+Enter pour valider."
 )
 
-# Toggle pour le mode d'affichage
-mode_json = st.toggle("📊 Mode JSON (affichage en tableau)", value=True, help="Active le parsing JSON et l'affichage en dataframe")
+mode_json = True # Avant on pouvait choisir, maintenant on force à True. On pourra revenir dessus si besoin
 
 if uploaded_file is not None:
     st.success(f"✅ Fichier chargé : {uploaded_file.name}")
     
-    start_button = st.button("🚀 Analyser avec les 3 modèles", type="primary")
+    start_button = st.button("🚀 Lancer l'analyse", type="primary")
     
     if start_button:
         # Extraction selon le type de fichier
@@ -430,16 +424,17 @@ if uploaded_file is not None:
             with st.spinner("📖 Extraction du texte du PDF..."):
                 extracted_text = extract_text_from_pdf(uploaded_file)
         else:
-            with st.spinner("📊 Lecture du fichier CSV..."):
+            with st.spinner("🔍 Lecture du fichier CSV..."):
                 extracted_text = extract_text_from_csv(uploaded_file)
         
         if extracted_text and not extracted_text.startswith("Erreur"):
             st.success(f"✅ Texte extrait : {len(extracted_text)} caractères")
-            
-            # Préparation du prompt utilisateur
-            user_prompt = custom_prompt.replace("{precisions}", precisions).replace("{texte_pdf_a_analyser}", extracted_text)
 
-            with st.spinner("🌀 Interrogation des modèles en parallèle (asyncio)..."):
+            selected_prompt = custom_prompt
+            
+            user_prompt = selected_prompt.replace("{precisions}", precisions).replace("{texte_pdf_a_analyser}", extracted_text)
+
+            with st.spinner("🌀 Interrogation des modèles en parallèle. Cela peut prendre quelques minutes..."):
                 # Fonction async pour exécuter les trois modèles en parallèle
                 async def run_all_models():
                     # Lancer les trois requêtes en parallèle
