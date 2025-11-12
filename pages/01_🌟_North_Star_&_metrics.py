@@ -65,7 +65,7 @@ def _load_sources():
         "Evolution des fiches actions par type": (
             df_typologie_fiche,
             {
-                "date_col": "modified_at",
+                "date_col": "modified_at", 
                 "group_col": "type",
                 "force_granularite": None,
                 "force_cumulatif": None,

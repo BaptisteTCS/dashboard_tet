@@ -13,7 +13,7 @@ import json
 import pandas as pd
 
 st.set_page_config(layout="wide")
-st.title("✨ Import des plans")
+st.title("✨ Import des plans :blue-badge[:material/experiment: Beta]")
 
 # Configuration des APIs
 ANTHROPIC_API_KEY = os.getenv("ANTHROPIC_API_KEY")
