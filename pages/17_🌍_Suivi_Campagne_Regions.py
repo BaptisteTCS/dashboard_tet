@@ -128,8 +128,8 @@ st.markdown("---")
 # Filtrer par région
 df_region = df_campagne[df_campagne['region_name'] == selected_region].copy()
 
-# Filtrer les CT reached pour cette région (depuis regions_reached qui a maintenant region_name)
-# C'est la source de vérité pour le nombre de CT reached
+# Filtrer les CT reached pour cette région (depuis campagne_region_reached)
+# C'est la source de vérité pour le nombre de CT reached et les plans/FA créés
 df_reached_region = df_reached[df_reached['region_name'] == selected_region].copy()
 collectivites_reached_region = set(df_reached_region['collectivite_id'].unique())
 
@@ -137,6 +137,7 @@ collectivites_reached_region = set(df_reached_region['collectivite_id'].unique()
 date_debut_ts = datetime.combine(date_debut, datetime.min.time())
 date_fin_ts = datetime.combine(date_fin, datetime.max.time())
 
+# Filtrer df_campagne (pageviews) par période
 df_region_filtered = df_region[
     (df_region['day'] >= date_debut_ts) &
     (df_region['day'] <= date_fin_ts)
@@ -165,13 +166,13 @@ with col2:
     st.metric("👀 CT avec pageviews", ct_avec_pageviews)
 
 with col3:
-    # Collectivités avec au moins un plan créé
-    ct_avec_plans = df_region_filtered[df_region_filtered['nb_plans_crees'] > 0]['collectivite_id'].nunique()
+    # Collectivités avec au moins un plan créé (depuis campagne_region_reached)
+    ct_avec_plans = df_reached_region[df_reached_region['nb_plans_crees'] > 0]['collectivite_id'].nunique() if 'nb_plans_crees' in df_reached_region.columns else 0
     st.metric("📋 CT avec plan créé", ct_avec_plans)
 
 with col4:
-    # Collectivités avec au moins une FA créée
-    ct_avec_fa = df_region_filtered[df_region_filtered['nb_fa_crees'] > 0]['collectivite_id'].nunique()
+    # Collectivités avec au moins une FA créée (depuis campagne_region_reached)
+    ct_avec_fa = df_reached_region[df_reached_region['nb_fa_crees'] > 0]['collectivite_id'].nunique() if 'nb_fa_crees' in df_reached_region.columns else 0
     st.metric("✅ CT avec FA créées", ct_avec_fa)
 
 
@@ -191,15 +192,30 @@ tab1, tab2 = st.tabs([
 with tab1:
     st.header("📊 Activité par collectivité")
     
-    # Agréger les données par collectivité
-    df_agg_ct = df_region_filtered.groupby(['collectivite_id', 'nom_ct']).agg({
-        'nb_pageviews': 'sum',
-        'nb_plans_crees': 'sum',
-        'nb_fa_crees': 'sum'
+    # Agréger les pageviews par collectivité depuis analyse_campagne_region
+    df_agg_pageviews = df_region_filtered.groupby(['collectivite_id', 'nom_ct']).agg({
+        'nb_pageviews': 'sum'
     }).reset_index()
     
-    # Ajouter une colonne pour indiquer si la CT est reached
-    df_agg_ct['reached'] = df_agg_ct['collectivite_id'].isin(collectivites_reached_region)
+    # Agréger les plans et FA depuis campagne_region_reached
+    if not df_reached_region.empty and 'nb_plans_crees' in df_reached_region.columns and 'nb_fa_crees' in df_reached_region.columns:
+        df_agg_plans_fa = df_reached_region.groupby(['collectivite_id']).agg({
+            'nb_plans_crees': 'sum',
+            'nb_fa_crees': 'sum'
+        }).reset_index()
+    else:
+        df_agg_plans_fa = pd.DataFrame(columns=['collectivite_id', 'nb_plans_crees', 'nb_fa_crees'])
+    
+    # Merger les deux sources de données
+    df_agg_ct = df_agg_pageviews.merge(
+        df_agg_plans_fa,
+        on='collectivite_id',
+        how='left'
+    )
+    
+    # Remplir les valeurs manquantes par 0
+    df_agg_ct['nb_plans_crees'] = df_agg_ct['nb_plans_crees'].fillna(0).astype(int)
+    df_agg_ct['nb_fa_crees'] = df_agg_ct['nb_fa_crees'].fillna(0).astype(int)
     
     # Trier par nombre de pageviews décroissant
     df_agg_ct = df_agg_ct.sort_values('nb_pageviews', ascending=False)
@@ -211,8 +227,7 @@ with tab1:
         'Collectivité',
         'Nb Pageviews',
         'Nb Plans créés',
-        'Nb FA créées',
-        'Reached'
+        'Nb FA créées'
     ]
     
     st.write(f"**{len(df_agg_ct)}** collectivités dans la région **{selected_region}**")
@@ -227,8 +242,7 @@ with tab1:
             "Collectivité": st.column_config.TextColumn("🏛️ Collectivité", width="large"),
             "Nb Pageviews": st.column_config.NumberColumn("👀 Pageviews", format="%d"),
             "Nb Plans créés": st.column_config.NumberColumn("📋 Plans créés", format="%d"),
-            "Nb FA créées": st.column_config.NumberColumn("✅ FA créées", format="%d"),
-            "Reached": st.column_config.CheckboxColumn("🎯 Reached"),
+            "Nb FA créées": st.column_config.NumberColumn("✅ FA créées", format="%d")
         }
     )
     
@@ -294,8 +308,8 @@ with tab2:
             df_users_display = df_users_display[df_users_display['nom_ct'] == selected_ct]
         
         # Renommer pour l'affichage
-        df_users_display_final = df_users_display[['nom_ct', 'email', 'nb_pageviews', 'nb_jours_actifs', 'reached']].copy()
-        df_users_display_final.columns = ['Collectivité', 'Email', 'Nb Pageviews', 'Nb Jours actifs', 'Reached']
+        df_users_display_final = df_users_display[['nom_ct', 'email', 'nb_pageviews', 'nb_jours_actifs']].copy()
+        df_users_display_final.columns = ['Collectivité', 'Email', 'Nb Pageviews', 'Nb Jours actifs']
         
         st.dataframe(
             df_users_display_final,
@@ -306,8 +320,7 @@ with tab2:
                 "Collectivité": st.column_config.TextColumn("🏛️ Collectivité", width="large"),
                 "Email": st.column_config.TextColumn("📧 Email", width="large"),
                 "Nb Pageviews": st.column_config.NumberColumn("👀 Pageviews", format="%d"),
-                "Nb Jours actifs": st.column_config.NumberColumn("📅 Jours actifs", format="%d"),
-                "Reached": st.column_config.CheckboxColumn("🎯 Reached"),
+                "Nb Jours actifs": st.column_config.NumberColumn("📅 Jours actifs", format="%d")
             }
         )
         
