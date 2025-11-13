@@ -9,7 +9,6 @@ from utils.data import load_df_pap, load_df_typologie_fiche
 st.set_page_config(page_title="Expérimentation Nivo", page_icon="🪐", layout="wide")
 
 st.title("🪐 Expérimentation Nivo :blue-badge[:material/experiment: Beta]")
-st.markdown("Cette page permet d'expérimenter avec les différents graphiques Nivo.")
 
 st.markdown("---")
 
