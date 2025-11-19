@@ -484,7 +484,8 @@ indicateurs:
     dist_dt_co2.c: Voiture
   metadata:
     source_id: sdes
-    nom_donnees: Emissions de CO2 moyennes par personne et par semaine pour les déplacements domicile-travail
+    nom_donnees: Emissions de CO2 moyennes par personne et par semaine pour les 
+      déplacements domicile-travail
     diffuseur: Ecolab
     producteur: SDES / INSEE
     methodologie: Plus d'infos 
@@ -547,7 +548,8 @@ indicateurs:
     tc_station.f: non renseigné
   metadata:
     source_id: transportdatagouv
-    nom_donnees: Nombre de stations de transports en commun selon le type de réseau
+    nom_donnees: Nombre de stations de transports en commun selon le type de 
+      réseau
     diffuseur: Ecolabe
     producteur: TransportDataGouv
     methodologie: Plus d'infos 
@@ -690,7 +692,7 @@ indicateurs:
     libelle: SDES
     ordre_affichage: '1'
   ratio: 1000000
-  
+
 - api_nom_cube: conso_enaf_com
   ID: '611'
   api_nom_axe: secteur
@@ -721,3 +723,35 @@ indicateurs:
     libelle: Cerema
     ordre_affichage: '1'
   ratio: 1.0
+  
+- api_nom_cube: sequestr_nette_co2_com
+  ID: '615'
+  api_nom_axe: type_sol
+  type_collectivite:
+  - commune
+  - epci
+  - departement
+  - region
+  - ept
+  correspondance_indicateurs:
+    cae_63.ca: cultures
+    cae_63.b: forets
+    cae_63.cb: prairies
+    cae_63.db: sols_artificiels
+    cae_63.cd: vergers
+    cae_63.cc: vignes
+    cae_63.da: zones_humides
+  metadata:
+    source_id: aldo
+    nom_donnees: Séquestration nette de dioxyde de carbone par type de sols
+    diffuseur: Ecolab
+    producteur: Aldo
+    methodologie: Plus d'infos 
+      [ici](https://ecologie.data.gouv.fr/indicators/67cad6eaf4bd7e3f3d82ff9e)
+    limites: ''
+    date_version: '2025-10-10'
+  source:
+    id: aldo
+    libelle: Aldo
+    ordre_affichage: '1'
+  ratio: 0.001
