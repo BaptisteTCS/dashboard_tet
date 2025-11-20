@@ -327,14 +327,14 @@ async def query_chatgpt(user_prompt):
             elapsed = time.time() - start_time
             return f"Erreur ChatGPT: {str(e2)}", elapsed, 0
 
-async def query_gemini(user_prompt):
+async def query_gemini(user_prompt, model='gemini-3-pro-preview'):
     """Interroge Gemini avec streaming asynchrone"""
     start_time = time.time()
-    print(f"[{datetime.now().strftime('%H:%M:%S.%f')[:-3]}] ✨ Gemini START")
+    print(f"[{datetime.now().strftime('%H:%M:%S.%f')[:-3]}] ✨ Gemini START ({model})")
     try:
         # Utiliser le streaming pour la réponse
         stream = await gemini_client.aio.models.generate_content_stream(
-            model='gemini-3-pro-preview',
+            model=model,
             contents=user_prompt,
             config=types.GenerateContentConfig(
                 temperature=0.3,
@@ -363,7 +363,7 @@ async def query_gemini(user_prompt):
         # Si le streaming ne fonctionne pas, fallback sur l'API standard
         try:
             response = await gemini_client.aio.models.generate_content(
-                model='gemini-2.5-pro',
+                model=model,
                 contents=user_prompt,
                 config=types.GenerateContentConfig(
                     temperature=0.2,
@@ -411,6 +411,13 @@ precisions = st.text_area(
     placeholder="Ajoutez des précisions supplémentaires si nécessaire. Vous pouvez ici définir une strucutre spécifique, certaines règles à respecter, donner du contexte, etc. Cliquez sur Ctrl+Enter pour valider."
 )
 
+# Choix du modèle Gemini
+gemini_model = st.segmented_control(
+    "Modèle Gemini",
+    options=["gemini-3-pro-preview", "gemini-2.5-pro"],
+    default="gemini-3-pro-preview"
+)
+
 mode_json = True # Avant on pouvait choisir, maintenant on force à True. On pourra revenir dessus si besoin
 
 if uploaded_file is not None:
@@ -442,7 +449,7 @@ if uploaded_file is not None:
                     results_tuple = await asyncio.gather(
                         query_claude(user_prompt),
                         query_chatgpt(user_prompt),
-                        query_gemini(user_prompt),
+                        query_gemini(user_prompt, gemini_model),
                         return_exceptions=True
                     )
                     print(f"[{datetime.now().strftime('%H:%M:%S.%f')[:-3]}] 🏁 Tous les modèles ont terminé\n")
@@ -505,7 +512,7 @@ if uploaded_file is not None:
                     display_result(chatgpt_result, mode_json)
                 
                 with tab3:
-                    st.markdown("### Gemini 2.5 Pro")
+                    st.markdown(f"### Gemini ({gemini_model})")
                     gemini_result = results.get("Gemini", "Pas de réponse")
                     
                     # Afficher selon le mode
