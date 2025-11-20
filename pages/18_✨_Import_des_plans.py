@@ -415,7 +415,7 @@ precisions = st.text_area(
 gemini_model = st.segmented_control(
     "Modèle Gemini",
     options=["gemini-3-pro-preview", "gemini-2.5-pro"],
-    default="gemini-3-pro-preview"
+    default="gemini-2.5-pro"
 )
 
 mode_json = True # Avant on pouvait choisir, maintenant on force à True. On pourra revenir dessus si besoin
