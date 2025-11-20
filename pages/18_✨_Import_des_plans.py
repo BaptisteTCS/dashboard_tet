@@ -177,7 +177,7 @@ Rappel de robustesse
 • Si des titres existent sans numéro, générer des numéros cohérents et stables
 • Si la position d’une action parmi plusieurs sous axes demeure ambiguë, laisser vides les champs d’appartenance incertains plutôt que de forcer un rattachement
 
-Quelques précisions
+Quelques précisions qui peuvent notamment s'avérer très importantes si elles contiennent des informations sur la structure du plan :
 {precisions}
 
 Voici le texte à analyser :
@@ -337,7 +337,7 @@ async def query_gemini(user_prompt, model='gemini-3-pro-preview'):
             model=model,
             contents=user_prompt,
             config=types.GenerateContentConfig(
-                temperature=0.3,
+                temperature=0.2,
                 max_output_tokens=64000
             )
         )
