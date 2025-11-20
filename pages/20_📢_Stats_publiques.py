@@ -180,6 +180,7 @@ nb_autres = df_collectivites_actives[(df_collectivites_actives.type == 'epci') &
 
 cols = st.columns(2)
 with cols[0]:
+    st.markdown("Territoires en Transitions c'est autant de collectivités avec un profil :")
     col1, col2 = st.columns(2)
     with col1:
         st.metric("EPCI à fiscalité propre", nb_epci)
@@ -191,7 +192,7 @@ with cols[0]:
 # === Trackers ===
 
 with cols[1]:
-    st.markdown("Tracker EPCI à fiscalité propre")
+    st.markdown("Et parmis les EPCI à fiscalité propre :")
     df_collectivites_actives['active'] = True
 
     df_collectivites_epci_fiscalite_propre = df_collectivites[(df_collectivites.type == 'epci') & (df_collectivites.categorie == 'EPCI à fiscalité propre')]
@@ -274,7 +275,7 @@ with cols[1]:
     from matplotlib.patches import Patch
     legend_elements = [
         Patch(facecolor=color_vert, label='Avec profil et plan d\'action actif'),
-        Patch(facecolor=color_orange, label='Avec profil uniquement'),
+        Patch(facecolor=color_orange, label='Avec profil'),
         Patch(facecolor=color_rouge, label='Sans profil')
     ]
     ax.legend(handles=legend_elements, loc='upper center', bbox_to_anchor=(0.5, -0.02), 
@@ -311,14 +312,12 @@ else:
 
 cols_users = st.columns(2)
 with cols_users[0]: 
-    st.markdown("#### Sur les 12 derniers mois :")
-    cols_users_metrics = st.columns(2)
-    with cols_users_metrics[0]: 
-        st.metric("Nombre d'utilisateurs actifs", df_user_actif[filtre]['email'].nunique())
-    with cols_users_metrics[1]:
-        st.metric("Nombre d'utilisateurs qui nous ont rejoints", df_users[df_users['email_confirmed_at'] >= date_12_mois]['id'].nunique())
+    st.markdown("Sur les 12 derniers mois nous comptons :")
+    delta=df_users[df_users['email_confirmed_at'] >= date_12_mois]['id'].nunique()
+    st.metric("Utilisateurs actifs", df_user_actif[filtre]['email'].nunique(), delta=delta)
 with cols_users[1]:
     # Chart Nivo - Pie chart utilisateurs actifs par collectivité
+    st.markdown("Les collectivités ayant un plan d'action actif collaborent :")
     
     # Grouper par collectivité et compter les emails uniques
     users_par_collectivite = df_user_actif[filtre].groupby('collectivite_id')['email'].nunique().reset_index()
@@ -329,13 +328,13 @@ with cols_users[1]:
     # Créer les tranches
     def categoriser_users(nb):
         if nb <= 2:
-            return "1-2"
+            return "1-2 utilisateurs"
         elif 3 <= nb <= 5:
-            return "3-5"
+            return "3-5 utilisateurs"
         elif 6 <= nb <= 20:
-            return "6-20"
+            return "6-20 utilisateurs"
         else:
-            return ">20"
+            return ">20 utilisateurs"
     
     users_par_collectivite['tranche'] = users_par_collectivite['nb_users'].apply(categoriser_users)
     
@@ -344,10 +343,10 @@ with cols_users[1]:
     
     # Définir l'ordre des tranches pour le graphique
     ordre_tranches = [
-        "1-2",
-        "3-5",
-        "6-20",
-        ">20"
+        "1-2 utilisateurs",
+        "3-5 utilisateurs",
+        "6-20 utilisateurs",
+        ">20 utilisateurs"
     ]
     
     # S'assurer que toutes les tranches sont présentes (même avec count=0)
@@ -360,8 +359,6 @@ with cols_users[1]:
         for _, row in tranches_count.iterrows() if row['count'] > 0
     ]
     
-    st.markdown("**Utilisateurs actifs par collectivités ayant un plan d'action actif**")
-    
     # Afficher le pie chart avec Nivo
     with elements("pie_users_collectivite"):
         with mui.Box(sx={"height": 450}):
@@ -373,6 +370,7 @@ with cols_users[1]:
                 cornerRadius=3,
                 activeOuterRadiusOffset=8,
                 borderWidth=1,
+                colors={"scheme": "greens"},
                 borderColor={"from": "color", "modifiers": [["darker", 0.2]]},
                 arcLinkLabelsSkipAngle=10,
                 arcLinkLabelsTextColor=theme_actif["text"]["fill"],
