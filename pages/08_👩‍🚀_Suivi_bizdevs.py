@@ -67,25 +67,66 @@ df_calendly_events = df_calendly_events[df_calendly_events['type'].notna()].copy
 df_invitees_active = df_invitees_active[df_invitees_active['type'].notna()].copy()
 
 # === ONGLETS ===
-tab1, tab2 = st.tabs(["📢 Suivi activité", "🔍 Suivi pipeline"])
+tab1, tab2, tab3 = st.tabs(["🔑 Vue d'ensemble", "🔍 Suivi pipeline", "🎥 Participation aux démos"])
 
 with tab1:
     ############################
     # === INDICATEURS CLÉS === #
     ############################
-    st.markdown("## 🔑 Indicateurs clés sur les 30 derniers jours")
+    st.markdown("## 🔑 Indicateurs clés")
 
-    st.markdown("### Actions déploiement")
+    st.markdown('Selectionnez la période de référence (les 31 derniers jours par défaut). Les deltas sont ensuite calculés par rapport à la période précédente de même durée. Vous pouvez filtrer les collectivités par segment du pipeline.')
 
     today = pd.Timestamp.today().normalize()
-    cur_start = today - pd.Timedelta(days=30)
-    prev_start = cur_start - pd.Timedelta(days=30)
+
+    cstart_reach, cend_reach = st.columns(2)
+    with cstart_reach:
+        d1_reach = st.date_input("Début", value=today - pd.Timedelta(days=31), key="reach_debut")
+    with cend_reach:
+        d2_reach = st.date_input("Fin", value=today.date(), key="reach_fin")
+
+    cur_start = pd.to_datetime(d1_reach)
+    cur_end = pd.to_datetime(d2_reach)
+    prev_start = cur_start - (cur_end - cur_start)
     prev_end = cur_start - pd.Timedelta(seconds=1)
+
+    # Segmented control pour filtrer les collectivités
+    filtre_collectivites = st.segmented_control(
+        "Filtre par segment du pipeline ",
+        options=["Toutes les CT", "Activation & Conversion", "Retention"],
+        default="Toutes les CT",
+        key="filtre_collectivites_tab1"
+    )
+
+    st.markdown("---")
+
+    st.markdown("### Actions de contact et échanges utilisateurs :blue-badge[:material/edit_note: Notes de suivi]")
 
     # Préparation des dates pour le reach
     df_biz = df_bizdev_contact_collectivite.copy()
     if not df_biz.empty:
         df_biz['date_contact'] = pd.to_datetime(df_biz['date_contact'], errors='coerce').dt.tz_localize(None)
+
+    # Filtrage des collectivités selon le segmented control
+    if filtre_collectivites != "Toutes les CT":
+        liste_pipelines = ['En activation', 'A acquérir', 'En test (+6 mois)', 'En test (-6 mois)', 'En conversion']
+        
+        df_pipeline_semaine_filtered = df_pipeline_semaine[
+            pd.to_datetime(df_pipeline_semaine.semaine) >= cur_start
+        ]
+        
+        if filtre_collectivites == "Activation & Conversion":
+            # Filtrer les collectivités dans la liste des pipelines
+            df_pipeline_semaine_filtered = df_pipeline_semaine_filtered[
+                df_pipeline_semaine_filtered.pipeline.isin(liste_pipelines)
+            ]
+        else:  # Retention
+            # Filtrer les collectivités NOT in la liste des pipelines
+            df_pipeline_semaine_filtered = df_pipeline_semaine_filtered[
+                ~df_pipeline_semaine_filtered.pipeline.isin(liste_pipelines)
+            ]
+        
+        df_biz = df_biz[df_biz.collectivite_id.isin(df_pipeline_semaine_filtered.collectivite_id)].copy()
 
     reach_cur = df_biz[(df_biz['date_contact'] >= cur_start) & (df_biz['date_contact'] <= today)] if not df_biz.empty else df_biz
     reach_prev = df_biz[(df_biz['date_contact'] >= prev_start) & (df_biz['date_contact'] <= prev_end)] if not df_biz.empty else df_biz
@@ -105,21 +146,93 @@ with tab1:
     col_r1, col_r2 = st.columns(2)
     with col_r1:
         st.metric(
-            label="Contacts",
+            label="Actions de contact",
             value=total_reach_cur,
             delta=delta_reach,
             delta_color="normal"
         )
     with col_r2:
         st.metric(
-            label="Collectivités uniques",
+            label="Collectivités uniques contactés",
             value=ct_reach_cur,
             delta=delta_ct,
             delta_color="normal"
         )
 
+    cols_buttons = st.columns([1, 2, 2])
+    with cols_buttons[0]:
+        affichage_type = st.segmented_control(
+        "Type d'affichage",
+        options=["Graphe", "Tableau"],
+        default="Graphe",
+        key="reach_affichage",
+    )
+    with cols_buttons[1]:
+        niveau_agregation = st.segmented_control(
+        "Niveau d'agrégation (graphe)",
+        options=["Actions de contact", "Collectivités uniques contactées"],
+        default="Actions de contact",
+        key="reach_niveau",
+        )
+
+    start_date_reach = pd.to_datetime(d1_reach)
+    end_date_reach = pd.to_datetime(d2_reach) + pd.Timedelta(days=1) - pd.Timedelta(seconds=1)
+        
+
+    # Filtrage des données bizdev
+    df_biz_reach = df_bizdev_contact_collectivite.copy()
+    if not df_biz_reach.empty:
+        df_biz_reach['date_contact'] = pd.to_datetime(df_biz_reach['date_contact'], errors='coerce').dt.tz_localize(None)
+        df_biz_reach_filtre = df_biz_reach[(df_biz_reach['date_contact'] >= start_date_reach) & (df_biz_reach['date_contact'] <= end_date_reach)]
+    else:
+        df_biz_reach_filtre = df_biz_reach
+
+    if not df_biz_reach_filtre.empty:
+        # Agrégation par mois
+        df_reach_mois = df_biz_reach_filtre.copy()
+        df_reach_mois['mois'] = df_reach_mois['date_contact'].dt.to_period('W').dt.to_timestamp()
+        
+        # Calcul du reach brut et des collectivités par mois
+        df_agg_mois = df_reach_mois.groupby('mois').agg({
+            'date_contact': 'count',  # Reach brut
+            'collectivite_id': 'nunique'  # Collectivités uniques
+        }).reset_index()
+        df_agg_mois.columns = ['Semaine', 'Contacts', 'Collectivités uniques']
+        df_agg_mois['Semaine'] = df_agg_mois['Semaine'].dt.strftime('%Y-%m-%d')
+        
+        # Calcul du nombre de collectivités uniques sur la période
+        nb_collectivites_uniques = int(df_biz_reach_filtre['collectivite_id'].nunique())
+
+        if affichage_type == "Graphe":
+            # Graphe selon le niveau d'agrégation
+            if niveau_agregation == "Actions de contact":
+                fig_reach = px.line(
+                    df_agg_mois, 
+                    x='Semaine', 
+                    y='Contacts', 
+                    title="", 
+                    height=500)
+                fig_reach.update_layout(xaxis_title="Semaine", yaxis_title="Actions de contacts")
+            else:
+                fig_reach = px.line(
+                    df_agg_mois, 
+                    x='Semaine', 
+                    y='Collectivités uniques', 
+                    title="",
+                    height=500)
+                fig_reach.update_layout(xaxis_title="Semaine", yaxis_title="Collectivités uniques")
+            
+            st.plotly_chart(fig_reach, use_container_width=True)
+        else:
+            # Affichage tableau avec les deux colonnes
+            st.dataframe(df_agg_mois, use_container_width=True)
+    else:
+        st.info("Aucune donnée de contacts sur la période sélectionnée.")
+
     st.markdown("---")
-    st.markdown("### Activité (échange long)")
+    st.markdown("### Echanges enregistrés :orange-badge[:material/checklist_rtl: Activités & Feedbacks  ]")
+
+
 
     # Préparation des dates pour les événements Airtable
     df_evt = df_evenements_airtable.copy()
@@ -161,355 +274,6 @@ with tab1:
     else:
         st.info("Aucune donnée d'événements disponible.")
 
-    st.markdown("---")
-
-    st.markdown("### Participation aux démos")
-
-    # Filtrages
-    events_cur = df_calendly_events[(df_calendly_events['start_time'] >= cur_start) & (df_calendly_events['start_time'] <= today)]
-    events_prev = df_calendly_events[(df_calendly_events['start_time'] >= prev_start) & (df_calendly_events['start_time'] <= prev_end)]
-    inv_cur = df_invitees_active[(df_invitees_active['start_time'] >= cur_start) & (df_invitees_active['start_time'] <= today)]
-    inv_prev = df_invitees_active[(df_invitees_active['start_time'] >= prev_start) & (df_invitees_active['start_time'] <= prev_end)]
-
-    # Calcul du taux de remplissage global
-    # Total participants = somme de nb_participants_reel sur tous les événements
-    # Total inscrits = nombre d'inscrits (lignes dans invitees)
-    total_participants_cur = int(events_cur['nb_participants_reel'].sum())
-    total_inscrits_cur = len(inv_cur)
-    taux_remplissage_cur = (total_participants_cur / total_inscrits_cur * 100) if total_inscrits_cur > 0 else 0
-
-    # Calcul période précédente
-    total_participants_prev = int(events_prev['nb_participants_reel'].sum())
-    total_inscrits_prev = len(inv_prev)
-    taux_remplissage_prev = (total_participants_prev / total_inscrits_prev * 100) if total_inscrits_prev > 0 else 0
-
-    delta_taux = taux_remplissage_cur - taux_remplissage_prev
-
-    # Affichage du taux de remplissage global
-    st.metric(
-        label="Taux de remplissage global",
-        value=f"{taux_remplissage_cur:.0f}%",
-        delta=f"{delta_taux:+.0f}%",
-        delta_color="normal"
-    )
-
-    # Comptages par type
-    events_cur_g = events_cur.groupby('type').size().rename('events_30j')
-    inv_cur_g = inv_cur.groupby('type').size().rename('inscrits_30j')
-
-    # Participants réels (nouvelle colonne nb_participants_reel)
-    if 'nb_participants_reel' in events_cur.columns:
-        part_cur_g = events_cur.groupby('type')['nb_participants_reel'].sum().rename('participants_30j')
-    else:
-        part_cur_g = pd.Series(dtype=int, name='participants_30j')
-
-    kpis = pd.concat([events_cur_g, inv_cur_g, part_cur_g], axis=1).fillna(0).astype(int).reset_index().rename(columns={'index': 'type'})
-    kpis = kpis[['type', 'events_30j', 'inscrits_30j', 'participants_30j']].sort_values('events_30j', ascending=False)
-
-    # Affichage "sexy" façon Weekly: cartes de métriques par type
-    nb_types = len(kpis)
-    if nb_types == 0:
-        st.info("Pas de données sur les 30 derniers jours.")
-    else:
-        cols_per_row = 3
-        cols = st.columns(cols_per_row)
-        for i, row in kpis.reset_index(drop=True).iterrows():
-            with cols[i % cols_per_row]:
-                st.markdown(
-                    f"""
-                    <div style="background: linear-gradient(90deg,#EEF6FF,#F8FAFF); border:1px solid #E5EAF2; border-radius: 12px; padding: 14px 14px 6px 14px; margin-bottom: 12px;">
-                    <div style="font-weight:600; font-size:14px; color:#334155; margin-bottom:8px;">{row['type']}</div>
-                    </div>
-                    """,
-                    unsafe_allow_html=True
-                )
-                c_ev, c_in, c_pa = st.columns(3)
-                with c_ev:
-                    st.metric(
-                        label="Événements",
-                        value=int(row['events_30j'])
-                    )
-                with c_in:
-                    st.metric(
-                        label="Inscrits",
-                        value=int(row['inscrits_30j'])
-                    )
-                with c_pa:
-                    st.metric(
-                        label="Participants",
-                        value=int(row['participants_30j'])
-                    )
-
-    ###############
-    # === FOCUS ===
-    ###############
-    st.markdown("---")
-    st.markdown("## 🔭 Focus")
-
-    st.markdown("### Actions déploiement")
-
-    # Sélection des dates pour Reach
-    left_pad_reach, center_reach, right_pad_reach = st.columns([1, 2, 1])
-    with center_reach:
-        cstart_reach, cend_reach = st.columns([1, 1])
-        with cstart_reach:
-            d1_reach = st.date_input("Début.", value=pd.Timestamp(2025, 1, 1).date(), key="reach_debut")
-            affichage_type = st.segmented_control(
-            "Type d'affichage",
-            options=["Graphe", "Tableau"],
-            default="Graphe",
-            key="reach_affichage",
-        )
-        with cend_reach:
-            d2_reach = st.date_input("Fin.", value=today.date(), key="reach_fin")
-            niveau_agregation = st.segmented_control(
-            "Niveau d'agrégation (graphe)",
-            options=["Brut", "Collectivités"],
-            default="Brut",
-            key="reach_niveau",
-            )
-
-    start_date_reach = pd.to_datetime(d1_reach)
-    end_date_reach = pd.to_datetime(d2_reach) + pd.Timedelta(days=1) - pd.Timedelta(seconds=1)
-        
-
-    # Filtrage des données bizdev
-    df_biz_reach = df_bizdev_contact_collectivite.copy()
-    if not df_biz_reach.empty:
-        df_biz_reach['date_contact'] = pd.to_datetime(df_biz_reach['date_contact'], errors='coerce').dt.tz_localize(None)
-        df_biz_reach_filtre = df_biz_reach[(df_biz_reach['date_contact'] >= start_date_reach) & (df_biz_reach['date_contact'] <= end_date_reach)]
-    else:
-        df_biz_reach_filtre = df_biz_reach
-
-    if not df_biz_reach_filtre.empty:
-        # Agrégation par mois
-        df_reach_mois = df_biz_reach_filtre.copy()
-        df_reach_mois['mois'] = df_reach_mois['date_contact'].dt.to_period('M').dt.to_timestamp()
-        
-        # Calcul du reach brut et des collectivités par mois
-        df_agg_mois = df_reach_mois.groupby('mois').agg({
-            'date_contact': 'count',  # Reach brut
-            'collectivite_id': 'nunique'  # Collectivités uniques
-        }).reset_index()
-        df_agg_mois.columns = ['Mois', 'Contacts', 'Collectivités uniques']
-        df_agg_mois['Mois'] = df_agg_mois['Mois'].dt.strftime('%Y-%m')
-        
-        # Calcul du nombre de collectivités uniques sur la période
-        nb_collectivites_uniques = int(df_biz_reach_filtre['collectivite_id'].nunique())
-
-        left_pad2, center_sel, right_pad2 = st.columns([1, 2, 1])
-        with center_sel:
-            if affichage_type == "Graphe":
-                # Graphe selon le niveau d'agrégation
-                if niveau_agregation == "Brut":
-                    fig_reach = px.line(df_agg_mois, x='Mois', y='Contacts', title="Évolution des actions déploiement par mois")
-                    fig_reach.update_layout(xaxis_title="Mois", yaxis_title="Contacts")
-                else:
-                    fig_reach = px.line(df_agg_mois, x='Mois', y='Collectivités uniques', title="Évolution des collectivités contactées par mois")
-                    fig_reach.update_layout(xaxis_title="Mois", yaxis_title="Collectivités uniques")
-                
-                st.plotly_chart(fig_reach, use_container_width=True)
-            else:
-                # Affichage tableau avec les deux colonnes
-                st.dataframe(df_agg_mois, use_container_width=True)
-            
-            # Affichage du nombre de collectivités uniques
-            st.info(f"Nombre de collectivités uniques contactées au cours de cette période : **{nb_collectivites_uniques}**")
-    else:
-        st.info("Aucune donnée de contacts sur la période sélectionnée.")
-
-    st.markdown("### Activité")
-    st.markdown("Nombre d'échanges par mois")
-
-    # Sélection des dates pour Activité (réutiliser les mêmes dates que Actions déploiement)
-    df_evt_focus = df_evenements_airtable.copy()
-    if not df_evt_focus.empty:
-        df_evt_focus['Date'] = pd.to_datetime(df_evt_focus['Date'], errors='coerce').dt.tz_localize(None)
-        df_evt_focus_filtre = df_evt_focus[(df_evt_focus['Date'] >= start_date_reach) & (df_evt_focus['Date'] <= end_date_reach)]
-        
-        if not df_evt_focus_filtre.empty:
-            # Agrégation par mois et type
-            df_evt_mois = df_evt_focus_filtre.copy()
-            df_evt_mois['mois'] = df_evt_mois['Date'].dt.to_period('M').dt.to_timestamp()
-            
-            # Création du pivot
-            pivot_evt = df_evt_mois.groupby(['mois', 'evenements']).size().unstack(fill_value=0)
-            pivot_evt = pivot_evt.sort_index()
-            pivot_evt.index = pivot_evt.index.strftime('%Y-%m')
-            
-            # Tri des colonnes par total décroissant
-            col_totals = pivot_evt.sum(axis=0).sort_values(ascending=False)
-            pivot_evt = pivot_evt[col_totals.index]
-            
-            left_pad_evt, center_evt, right_pad_evt = st.columns([1, 2, 1])
-            with center_evt:
-                st.dataframe(pivot_evt, use_container_width=True)
-                csv_evt = pivot_evt.to_csv(index=True).encode('utf-8')
-                st.download_button(
-                    label="Exporter CSV",
-                    data=csv_evt,
-                    file_name="activite_evenements.csv",
-                    mime="text/csv"
-                )
-        else:
-            st.info("Aucun événement sur la période sélectionnée.")
-    else:
-        st.info("Aucune donnée d'événements disponible.")
-
-    st.markdown("### Calendly")
-
-    # Sélection Début / Fin (dates) – centré
-    left_pad, center_col, right_pad = st.columns([1, 2, 1])
-    with center_col:
-        cstart, cend = st.columns([1, 1])
-        with cstart:
-            d1 = st.date_input("Début", value=pd.Timestamp(2025, 1, 1).date(), key="focus_debut")
-        with cend:
-            d2 = st.date_input("Fin", value=today.date(), key="focus_fin")
-
-    start_date = pd.to_datetime(d1)
-    end_date = pd.to_datetime(d2) + pd.Timedelta(days=1) - pd.Timedelta(seconds=1)
-
-    # Sélection du type d'événement (centré et plus étroit)
-    left_pad2, center_sel, right_pad2 = st.columns([1, 2, 1])
-    with center_sel:
-        types_disponibles = df_calendly_events['type'].dropna().sort_values().unique().tolist()
-        type_defaut = '▶️ Démo Pilotage - Découverte & prise en main (1/2)'
-        type_selection = st.selectbox(
-            "Type d'événement",
-            options=types_disponibles,
-            index=types_disponibles.index(type_defaut) if type_defaut in types_disponibles else 0,
-            key="type_focus",
-        )
-
-    # Filtres focus
-    events_filtres = df_calendly_events[(df_calendly_events['start_time'] >= start_date) & (df_calendly_events['start_time'] <= end_date) & (df_calendly_events['type'] == type_selection)]
-    invitees_filtres = df_invitees_active[(df_invitees_active['start_time'] >= start_date) & (df_invitees_active['start_time'] <= end_date) & (df_invitees_active['type'] == type_selection)]
-
-    # Préparation des données pour les participants réels
-    if 'nb_participants_reel' in events_filtres.columns:
-        # Créer un dataframe avec les participants réels par événement
-        participants_reel_filtres = events_filtres[['start_time', 'type', 'nb_participants_reel']].copy()
-        participants_reel_filtres = participants_reel_filtres[participants_reel_filtres['nb_participants_reel'] > 0]
-    else:
-        # Fallback sur les inscrits actifs si la colonne n'existe pas
-        participants_reel_filtres = invitees_filtres.copy()
-
-    # === TABLEAUX MENSUELS ===
-
-    def monthly_single_table(events_df: pd.DataFrame, invitees_df: pd.DataFrame, participants_df: pd.DataFrame, date_col: str) -> pd.DataFrame:
-        # Table unique quand un seul type est sélectionné
-        e = events_df.copy()
-        i = invitees_df.copy()
-        p = participants_df.copy()
-        if e.empty and i.empty and p.empty:
-            return pd.DataFrame()
-        for df in (e, i, p):
-            if not df.empty:
-                df[date_col] = pd.to_datetime(df[date_col]).dt.tz_localize(None)
-                df['mois'] = df[date_col].dt.to_period('M').dt.to_timestamp()
-        
-        ev = e.groupby('mois').size().rename('Événements') if not e.empty else pd.Series(dtype=int, name='Événements')
-        inscr = i.groupby('mois').size().rename('Inscrits') if not i.empty else pd.Series(dtype=int, name='Inscrits')
-        
-        # Utiliser nb_participants_reel si disponible, sinon compter les lignes
-        if 'nb_participants_reel' in p.columns and not p.empty:
-            pa = p.groupby('mois')['nb_participants_reel'].sum().rename('Participants')
-        else:
-            pa = p.groupby('mois').size().rename('Participants') if not p.empty else pd.Series(dtype=int, name='Participants')
-        
-        dfm = pd.concat([ev, inscr, pa], axis=1).fillna(0).astype(int).sort_index()
-        
-        # Calcul du taux de remplissage
-        dfm['Taux de remplissage (%)'] = dfm.apply(
-            lambda row: round(row['Participants'] / row['Inscrits'] * 100) if row['Inscrits'] > 0 else 0,
-            axis=1
-        )
-        
-        dfm.index = dfm.index.strftime('%Y-%m')
-        return dfm
-
-    # Rendu du tableau recentré
-    pad_l, center_table, pad_r = st.columns([1, 2, 1])
-    with center_table:
-        st.markdown(f"**{type_selection}**")
-        table_single = monthly_single_table(events_filtres, invitees_filtres, participants_reel_filtres, 'start_time')
-        if not table_single.empty:
-            st.dataframe(table_single, use_container_width=True)
-            csv_single = table_single.to_csv(index=True).encode('utf-8')
-            st.download_button(
-                label="Exporter CSV",
-                data=csv_single,
-                file_name="focus_event.csv",
-                mime="text/csv"
-            )
-        else:
-            st.info("Aucune donnée disponible pour la période et l'événement sélectionnés.")
-
-    ############################################
-    # === COMMENT ONT-ILS TROUVÉ LA DÉMO 1/2 ?
-    ############################################
-    st.markdown("---")
-    st.markdown("### 🔍 Comment ont-ils trouvé la démo 1/2 ?")
-
-    min_dt = df_calendly_events['start_time'].min()
-    max_dt = df_calendly_events['start_time'].max()
-
-    pie_c1, pie_c2 = st.columns(2)
-    with pie_c1:
-        d1_pie = st.date_input("Début (démo)", value=max(min_dt.date(), (today - pd.Timedelta(days=30)).date()))
-    with pie_c2:
-        d2_pie = st.date_input("Fin (démo)", value=today.date())
-
-    pie_start = pd.to_datetime(d1_pie)
-    pie_end = pd.to_datetime(d2_pie) + pd.Timedelta(days=1) - pd.Timedelta(seconds=1)
-
-    demo12 = df_invitees_active[(df_invitees_active['type'] == '▶️ Démo Pilotage - Découverte & prise en main (1/2)') & (df_invitees_active['start_time'] >= pie_start) & (df_invitees_active['start_time'] <= pie_end)][['reponse']].copy()
-
-    def parse_reponse(value: str) -> list[str]:
-        if pd.isna(value):
-            return []
-        txt = str(value).strip()
-        txt = ' '.join(txt.split())
-        try:
-            import json
-            parsed = json.loads(txt)
-            if isinstance(parsed, list):
-                return [str(x).strip() for x in parsed if str(x).strip()]
-            if isinstance(parsed, dict):
-                return [f"{k}: {v}" for k, v in parsed.items()]
-        except Exception:
-            pass
-        import re
-        matches = re.findall(r'"([^"]+)"', txt)
-        if matches:
-            return [m.strip() for m in matches if m.strip()]
-        sep = ';' if ';' in txt else ','
-        items = [item.strip() for item in txt.strip('{} ').split(sep) if item.strip()]
-        items = [' '.join(i.split()) for i in items]
-        return items
-
-    demo12['items'] = demo12['reponse'].apply(parse_reponse)
-    pie_df = demo12.explode('items').dropna(subset=['items'])
-
-    if pie_df.empty:
-        st.info("Aucun retour disponible sur la période sélectionnée.")
-    else:
-        total_counts = pie_df['items'].value_counts().reset_index()
-        total_counts.columns = ['items', 'nb']
-        left, center, right = st.columns([1, 3, 1])
-        with center:
-            fig_pie = px.pie(total_counts, values='nb', names='items', title="Répartition des retours (Démo 1/2)")
-            st.plotly_chart(fig_pie, use_container_width=True)
-            # Export CSV des comptes agrégés affichés
-            csv_pie = total_counts.to_csv(index=False).encode('utf-8')
-            st.download_button(
-                label="Exporter CSV retours démo 1/2",
-                data=csv_pie,
-                file_name="retours_demo12_agg.csv",
-                mime="text/csv"
-            )
-
 with tab2:
     
     # Mapping des couleurs par pipeline
@@ -543,14 +307,10 @@ with tab2:
     # Prendre la semaine la plus récente
     if not df_pipe.empty:
         semaine_recente = df_pipe['semaine'].max()
-        df_pipe_recent = df_pipe[df_pipe['semaine'] == semaine_recente].copy()
-        
-        # Enlever les pipelines "A acquérir"
-        df_pipe_recent = df_pipe_recent[df_pipe_recent['pipeline'] != 'A acquérir'].copy()
         
         # Filtre par type de collectivité
         st.markdown("### Filtres")
-        types_disponibles = sorted(df_pipe_recent['type'].dropna().unique().tolist())
+        types_disponibles = sorted(df_pipe['type'].dropna().unique().tolist())
         types_selection = st.multiselect(
             "Type de collectivité",
             options=types_disponibles,
@@ -558,21 +318,62 @@ with tab2:
             key="type_collectivite_filter"
         )
         
+        semaine_selection = st.selectbox(
+            "Sélectionner une semaine",
+            options=df_pipe['semaine'].sort_values(ascending=False).unique().tolist(),
+            key="semaine_selection"
+        )
         
         # Appliquer le filtre
-        df_pipe_filtre = df_pipe_recent[df_pipe_recent['type'].isin(types_selection)].copy()
+        df_pipe = df_pipe[df_pipe['pipeline'] != 'A acquérir'].copy()
+        df_pipe_filtre = df_pipe[df_pipe['type'].isin(types_selection) & (df_pipe['semaine'] == semaine_selection)].copy()
         
         if not df_pipe_filtre.empty:
             # Calcul des comptes par pipeline
             pipeline_counts = df_pipe_filtre['pipeline'].value_counts().reset_index()
             pipeline_counts.columns = ['Pipeline', 'Nombre de collectivités']
             
+            # Trouver la semaine S-4
+            semaines_triees = sorted(df_pipe['semaine'].unique())
+            idx_semaine_actuelle = semaines_triees.index(semaine_selection) if semaine_selection in semaines_triees else -1
+            
+            if idx_semaine_actuelle >= 4:
+                semaine_s4 = semaines_triees[idx_semaine_actuelle - 4]
+                
+                # Calculer les counts pour S-4 avec les mêmes filtres de type
+                df_pipe_s4 = df_pipe[df_pipe['type'].isin(types_selection) & (df_pipe['semaine'] == semaine_s4)].copy()
+                
+                if not df_pipe_s4.empty:
+                    pipeline_counts_s4 = df_pipe_s4['pipeline'].value_counts().reset_index()
+                    pipeline_counts_s4.columns = ['Pipeline', 'Nombre S-4']
+                    
+                    # Joindre avec les counts actuels
+                    pipeline_counts = pipeline_counts.merge(pipeline_counts_s4, on='Pipeline', how='left')
+                    pipeline_counts['Nombre S-4'] = pipeline_counts['Nombre S-4'].fillna(0).astype(int)
+                    
+                    # Calculer le delta
+                    pipeline_counts['delta'] = pipeline_counts['Nombre de collectivités'] - pipeline_counts['Nombre S-4']
+                    
+                    # Créer le texte d'affichage
+                    pipeline_counts['text_display'] = pipeline_counts.apply(
+                        lambda row: f"{int(row['Nombre de collectivités'])} ({row['delta']:+d})" 
+                        if row['delta'] != 0 
+                        else f"{int(row['Nombre de collectivités'])}",
+                        axis=1
+                    )
+                else:
+                    # Pas de données S-4, afficher juste le nombre
+                    pipeline_counts['text_display'] = pipeline_counts['Nombre de collectivités'].astype(str)
+            else:
+                # Pas assez de semaines historiques, afficher juste le nombre
+                pipeline_counts['text_display'] = pipeline_counts['Nombre de collectivités'].astype(str)
+            
             # Affichage de la date de la semaine
-            st.info(f"Données de la semaine du : **{semaine_recente}**")
 
             st.markdown("---")
             st.markdown("### 📊 Répartition")
-            
+            st.markdown("Les deltas sont calculés par rapport à l'état des pipes 4 semaines plus tôt.")
+
             # Histogramme
             fig = px.bar(
                 pipeline_counts,
@@ -580,8 +381,8 @@ with tab2:
                 y='Nombre de collectivités',
                 color='Pipeline',
                 color_discrete_map=pipe_color_mapping,
-                text='Nombre de collectivités',
-                height=500,
+                text='text_display',
+                height=500
             )
             fig.update_traces(textposition='outside')
             fig.update_layout(
@@ -651,3 +452,236 @@ with tab2:
             st.info("Aucune donnée disponible pour les types de collectivités sélectionnés.")
     else:
         st.info("Aucune donnée de pipeline disponible.")
+
+with tab3:
+    st.markdown("## 🎥 Participation aux démos")
+    st.markdown('Selectionnez la période de référence (les 31 derniers jours par défaut). Les deltas sont ensuite calculés par rapport à la période précédente de même durée.')
+
+    today = pd.Timestamp.today().normalize()    
+
+    cstart_reach, cend_reach = st.columns(2)
+    with cstart_reach:
+        d1_reach = st.date_input("Début", value=today - pd.Timedelta(days=31), key="reach_debut_2")
+    with cend_reach:
+        d2_reach = st.date_input("Fin", value=today.date(), key="reach_fin_2")
+
+    cur_start = pd.to_datetime(d1_reach)
+    cur_end = pd.to_datetime(d2_reach)
+    prev_start = cur_start - (cur_end - cur_start)
+    prev_end = cur_start - pd.Timedelta(seconds=1)
+
+    st.markdown("---")
+
+    st.markdown("### Evenements et taux de remplissage")
+
+
+    # Filtrages
+    events_cur = df_calendly_events[(df_calendly_events['start_time'] >= cur_start) & (df_calendly_events['start_time'] <= today)]
+    events_prev = df_calendly_events[(df_calendly_events['start_time'] >= prev_start) & (df_calendly_events['start_time'] <= prev_end)]
+    inv_cur = df_invitees_active[(df_invitees_active['start_time'] >= cur_start) & (df_invitees_active['start_time'] <= today)]
+    inv_prev = df_invitees_active[(df_invitees_active['start_time'] >= prev_start) & (df_invitees_active['start_time'] <= prev_end)]
+
+
+    type_selection = ['▶️ Démo Pilotage - Découverte & prise en main (1/2)', '▶️ Démo Pilotage - Fonctionnalités expertes (2/2)', '⏏️ Démo - Commencez votre état des lieux (T.E.T.E)']
+
+    # Calcul du taux de remplissage global
+    # Total participants = somme de nb_participants_reel sur tous les événements
+    # Total inscrits = nombre d'inscrits (lignes dans invitees)
+    total_participants_cur = int(events_cur[events_cur['type'].isin(type_selection)]['nb_participants_reel'].sum())
+    total_inscrits_cur = len(inv_cur[inv_cur['type'].isin(type_selection)])
+    taux_remplissage_cur = (total_participants_cur / total_inscrits_cur * 100) if total_inscrits_cur > 0 else 0
+
+    # Calcul période précédente
+    total_participants_prev = int(events_prev['nb_participants_reel'].sum())
+    total_inscrits_prev = len(inv_prev)
+    taux_remplissage_prev = (total_participants_prev / total_inscrits_prev * 100) if total_inscrits_prev > 0 else 0
+
+    delta_taux = taux_remplissage_cur - taux_remplissage_prev
+
+    # Affichage du taux de remplissage global
+    st.metric(
+        label="Taux de remplissage global (seulement démos)",
+        value=f"{taux_remplissage_cur:.0f}%",
+        delta=f"{delta_taux:+.0f}%",
+        delta_color="normal"
+    )
+
+    # Comptages par type
+    events_cur_g = events_cur.groupby('type').size().rename('events_30j')
+    inv_cur_g = inv_cur.groupby('type').size().rename('inscrits_30j')
+
+    # Participants réels (nouvelle colonne nb_participants_reel)
+    if 'nb_participants_reel' in events_cur.columns:
+        part_cur_g = events_cur.groupby('type')['nb_participants_reel'].sum().rename('participants_30j')
+    else:
+        part_cur_g = pd.Series(dtype=int, name='participants_30j')
+
+    kpis = pd.concat([events_cur_g, inv_cur_g, part_cur_g], axis=1).fillna(0).astype(int).reset_index().rename(columns={'index': 'type'})
+    kpis = kpis[['type', 'events_30j', 'inscrits_30j', 'participants_30j']].sort_values('events_30j', ascending=False)
+
+    # Affichage "sexy" façon Weekly: cartes de métriques par type
+    nb_types = len(kpis)
+    if nb_types == 0:
+        st.info("Pas de données sur les 30 derniers jours.")
+    else:
+        cols_per_row = 3
+        cols = st.columns(cols_per_row)
+        for i, row in kpis.reset_index(drop=True).iterrows():
+            with cols[i % cols_per_row]:
+                st.markdown(
+                    f"""
+                    <div style="background: linear-gradient(90deg,#EEF6FF,#F8FAFF); border:1px solid #E5EAF2; border-radius: 12px; padding: 14px 14px 6px 14px; margin-bottom: 12px;">
+                    <div style="font-weight:600; font-size:14px; color:#334155; margin-bottom:8px;">{row['type']}</div>
+                    </div>
+                    """,
+                    unsafe_allow_html=True
+                )
+                c_ev, c_in, c_pa = st.columns(3)
+                with c_ev:
+                    st.metric(
+                        label="Événements",
+                        value=int(row['events_30j'])
+                    )
+                with c_in:
+                    st.metric(
+                        label="Inscrits",
+                        value=int(row['inscrits_30j'])
+                    )
+                with c_pa:
+                    st.metric(
+                        label="Participants",
+                        value=int(row['participants_30j'])
+                    )
+
+    st.markdown("## Calendly")
+
+    start_date = cur_start
+    end_date = cur_end
+
+    # Sélection du type d'événement (centré et plus étroit)
+    types_disponibles = df_calendly_events['type'].dropna().sort_values().unique().tolist()
+    type_defaut = '▶️ Démo Pilotage - Découverte & prise en main (1/2)'
+    type_selection = st.selectbox(
+        "Type d'événement",
+        options=types_disponibles,
+        index=types_disponibles.index(type_defaut) if type_defaut in types_disponibles else 0,
+        key="type_focus",
+    )
+
+    # Filtres focus
+    events_filtres = df_calendly_events[(df_calendly_events['start_time'] >= start_date) & (df_calendly_events['start_time'] <= end_date) & (df_calendly_events['type'] == type_selection)]
+    invitees_filtres = df_invitees_active[(df_invitees_active['start_time'] >= start_date) & (df_invitees_active['start_time'] <= end_date) & (df_invitees_active['type'] == type_selection)]
+
+    # Préparation des données pour les participants réels
+    if 'nb_participants_reel' in events_filtres.columns:
+        # Créer un dataframe avec les participants réels par événement
+        participants_reel_filtres = events_filtres[['start_time', 'type', 'nb_participants_reel']].copy()
+        participants_reel_filtres = participants_reel_filtres[participants_reel_filtres['nb_participants_reel'] > 0]
+    else:
+        # Fallback sur les inscrits actifs si la colonne n'existe pas
+        participants_reel_filtres = invitees_filtres.copy()
+
+    # === TABLEAUX MENSUELS ===
+
+    def monthly_single_table(events_df: pd.DataFrame, invitees_df: pd.DataFrame, participants_df: pd.DataFrame, date_col: str) -> pd.DataFrame:
+        # Table unique quand un seul type est sélectionné
+        e = events_df.copy()
+        i = invitees_df.copy()
+        p = participants_df.copy()
+        if e.empty and i.empty and p.empty:
+            return pd.DataFrame()
+        for df in (e, i, p):
+            if not df.empty:
+                df[date_col] = pd.to_datetime(df[date_col]).dt.tz_localize(None)
+                df['mois'] = df[date_col].dt.to_period('M').dt.to_timestamp()
+        
+        ev = e.groupby('mois').size().rename('Événements') if not e.empty else pd.Series(dtype=int, name='Événements')
+        inscr = i.groupby('mois').size().rename('Inscrits') if not i.empty else pd.Series(dtype=int, name='Inscrits')
+        
+        # Utiliser nb_participants_reel si disponible, sinon compter les lignes
+        if 'nb_participants_reel' in p.columns and not p.empty:
+            pa = p.groupby('mois')['nb_participants_reel'].sum().rename('Participants')
+        else:
+            pa = p.groupby('mois').size().rename('Participants') if not p.empty else pd.Series(dtype=int, name='Participants')
+        
+        dfm = pd.concat([ev, inscr, pa], axis=1).fillna(0).astype(int).sort_index()
+        
+        # Calcul du taux de remplissage
+        dfm['Taux de remplissage (%)'] = dfm.apply(
+            lambda row: round(row['Participants'] / row['Inscrits'] * 100) if row['Inscrits'] > 0 else 0,
+            axis=1
+        )
+        
+        dfm.index = dfm.index.strftime('%Y-%m')
+        return dfm
+
+    # Rendu du tableau
+    table_single = monthly_single_table(events_filtres, invitees_filtres, participants_reel_filtres, 'start_time')
+    if not table_single.empty:
+        st.dataframe(table_single, use_container_width=True)
+    else:
+        st.info("Aucune donnée disponible pour la période et l'événement sélectionnés.")
+
+    ############################################
+    # === COMMENT ONT-ILS TROUVÉ LA DÉMO 1/2 ?
+    ############################################
+    st.markdown("---")
+    st.markdown("### 🔍 Comment ont-ils trouvé la démo 1/2 ?")
+
+    min_dt = df_calendly_events['start_time'].min()
+    max_dt = df_calendly_events['start_time'].max()
+
+    pie_c1, pie_c2 = st.columns(2)
+    with pie_c1:
+        d1_pie = st.date_input("Début (démo)", value=max(min_dt.date(), (today - pd.Timedelta(days=30)).date()))
+    with pie_c2:
+        d2_pie = st.date_input("Fin (démo)", value=today.date())
+
+    pie_start = pd.to_datetime(d1_pie)
+    pie_end = pd.to_datetime(d2_pie) + pd.Timedelta(days=1) - pd.Timedelta(seconds=1)
+
+    demo12 = df_invitees_active[(df_invitees_active['type'] == '▶️ Démo Pilotage - Découverte & prise en main (1/2)') & (df_invitees_active['start_time'] >= pie_start) & (df_invitees_active['start_time'] <= pie_end)][['reponse']].copy()
+
+    def parse_reponse(value: str) -> list[str]:
+        if pd.isna(value):
+            return []
+        txt = str(value).strip()
+        txt = ' '.join(txt.split())
+        try:
+            import json
+            parsed = json.loads(txt)
+            if isinstance(parsed, list):
+                return [str(x).strip() for x in parsed if str(x).strip()]
+            if isinstance(parsed, dict):
+                return [f"{k}: {v}" for k, v in parsed.items()]
+        except Exception:
+            pass
+        import re
+        matches = re.findall(r'"([^"]+)"', txt)
+        if matches:
+            return [m.strip() for m in matches if m.strip()]
+        sep = ';' if ';' in txt else ','
+        items = [item.strip() for item in txt.strip('{} ').split(sep) if item.strip()]
+        items = [' '.join(i.split()) for i in items]
+        return items
+
+    demo12['items'] = demo12['reponse'].apply(parse_reponse)
+    pie_df = demo12.explode('items').dropna(subset=['items'])
+
+    if pie_df.empty:
+        st.info("Aucun retour disponible sur la période sélectionnée.")
+    else:
+        total_counts = pie_df['items'].value_counts().reset_index()
+        total_counts.columns = ['items', 'nb']
+        left, center, right = st.columns([1, 3, 1])
+        with center:
+            fig_pie = px.pie(total_counts, values='nb', names='items', title="Répartition des retours (Démo 1/2)")
+            st.plotly_chart(fig_pie, use_container_width=True)
+            # Export CSV des comptes agrégés affichés
+            csv_pie = total_counts.to_csv(index=False).encode('utf-8')
+            st.download_button(
+                label="Exporter CSV retours démo 1/2",
+                data=csv_pie,
+                file_name="retours_demo12_agg.csv",
+                mime="text/csv"
+            )

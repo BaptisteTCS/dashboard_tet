@@ -334,10 +334,10 @@ async def query_gemini(user_prompt):
     try:
         # Utiliser le streaming pour la réponse
         stream = await gemini_client.aio.models.generate_content_stream(
-            model='gemini-2.5-pro',
+            model='gemini-3-pro-preview',
             contents=user_prompt,
             config=types.GenerateContentConfig(
-                temperature=0.2,
+                temperature=0.3,
                 max_output_tokens=64000
             )
         )

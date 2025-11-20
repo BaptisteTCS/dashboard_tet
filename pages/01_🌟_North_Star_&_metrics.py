@@ -24,7 +24,7 @@ st.markdown(
 )
 
 
-@st.cache_data(show_spinner=False)  
+@st.cache_data(ttl=3600, show_spinner=False)  
 def _load_sources():
     # mappe un nom lisible vers (DataFrame, params par défaut)
     df_pap = load_df_pap()

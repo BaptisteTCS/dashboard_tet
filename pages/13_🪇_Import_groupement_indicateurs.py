@@ -300,13 +300,22 @@ def importer_valeurs_via_api(df, env_label, progress_container=None):
         df_to_insert = df.copy()
         df_to_insert['date_valeur'] = pd.to_datetime(df_to_insert['date_valeur'])
         
-        # Construire le payload - SANS metadonnee_id car pas de métadonnées
-        valeurs_payload = df_to_insert.apply(lambda row: {
-            "collectiviteId": int(row["collectivite_id"]),
-            "indicateurId": int(row["indicateur_id"]),
-            "dateValeur": row["date_valeur"].isoformat(),
-            "resultat": float(row["resultat"]) if pd.notnull(row["resultat"]) else None,
-        }, axis=1).tolist()
+        # Construire le payloads
+        if 'metadonnee_id' in df_to_insert.columns:
+            valeurs_payload = df_to_insert.apply(lambda row: {
+                "collectiviteId": int(row["collectivite_id"]),
+                "indicateurId": int(row["indicateur_id"]),
+                "dateValeur": row["date_valeur"].isoformat(),
+                "metadonneeId": int(row["metadonnee_id"]),
+                "resultat": float(row["resultat"]) if pd.notnull(row["resultat"]) else None,
+            }, axis=1).tolist()
+        else:
+            valeurs_payload = df_to_insert.apply(lambda row: {
+                "collectiviteId": int(row["collectivite_id"]),
+                "indicateurId": int(row["indicateur_id"]),
+                "dateValeur": row["date_valeur"].isoformat(),
+                "resultat": float(row["resultat"]) if pd.notnull(row["resultat"]) else None,
+            }, axis=1).tolist()
         
         # Paramétrage du batch
         batch_size = 500
@@ -769,12 +778,17 @@ with center:
                     st.info(f"ℹ️ {nb_avant - nb_apres} ligne(s) supprimée(s)")
             
             # 3. Sélectionner uniquement les colonnes nécessaires
-            colonnes_finales = ['collectivite_id', 'indicateur_id', 'date_valeur', 'resultat']
+            if 'metadonnee_id' in df_final_valeurs.columns:
+                colonnes_finales = ['collectivite_id', 'indicateur_id', 'date_valeur', 'resultat', 'metadonnee_id']
+            else:
+                colonnes_finales = ['collectivite_id', 'indicateur_id', 'date_valeur', 'resultat']
+            
             df_final_valeurs = df_final_valeurs[colonnes_finales].copy()
             
             # Convertir les types
             df_final_valeurs['collectivite_id'] = df_final_valeurs['collectivite_id'].astype(int)
             df_final_valeurs['indicateur_id'] = df_final_valeurs['indicateur_id'].astype(int)
+            df_final_valeurs['metadonnee_id'] = df_final_valeurs['metadonnee_id'].astype(int)
             df_final_valeurs['resultat'] = pd.to_numeric(df_final_valeurs['resultat'], errors='coerce')
             
             # Supprimer les lignes avec resultat null

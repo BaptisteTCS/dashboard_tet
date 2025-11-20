@@ -1,7 +1,6 @@
 import streamlit as st
 import pandas as pd
 from streamlit_elements import elements, nivo, mui
-from datetime import datetime
 
 from utils.data import load_df_pap, load_df_typologie_fiche
 
