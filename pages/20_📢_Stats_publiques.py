@@ -317,7 +317,7 @@ with cols_users[0]:
     st.metric("Utilisateurs actifs", df_user_actif[filtre]['email'].nunique(), delta=delta)
 with cols_users[1]:
     # Chart Nivo - Pie chart utilisateurs actifs par collectivité
-    st.markdown("Les collectivités ayant un plan d'action actif collaborent :")
+    st.markdown("Les collectivités qui pilotent un plan le font à plusieurs :")
     
     # Grouper par collectivité et compter les emails uniques
     users_par_collectivite = df_user_actif[filtre].groupby('collectivite_id')['email'].nunique().reset_index()
@@ -422,7 +422,7 @@ area_data = [
 
 cols_pap = st.columns(2)
 with cols_pap[0]:
-    st.markdown("Evolution des PAP actifs (12 mois)")
+    st.markdown("Evolution des plans d'actions pilotables actifs (12 mois) :")
     # Afficher le graphique Area avec Nivo
     with elements("area_pap_evolution"):
         with mui.Box(sx={"height": 500}):
