@@ -137,6 +137,8 @@ en te basant sur le schéma de base de données et la question utilisateur ci-de
 - Le budget d'investissement pour une fiche action est dans fiche_action_budget avec type='investissement'
 - Dans notre langage courant, on appelle "action" ce qui est en fait une "mesure" ou "mesure du référentiel"
 - Une fiche action liée à une fiche action se trouve dans la table fiche_action_lien et une fiche action lié à une mesure se trouve dans la table fiche_action_action
+- Le droit des utilisateurs se trouve dans la table private_utilisateur_droit, dans la colonne niveau_acces.
+- On appelle souvent FA une fiche action
 
 ### Question utilisateur :
 {user_request}
