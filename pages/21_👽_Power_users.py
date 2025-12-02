@@ -73,7 +73,7 @@ if df_calendar['jour'].dt.tz is not None:
 df_calendar['date_str'] = df_calendar['jour'].dt.strftime('%Y-%m-%d')
 
 # Afficher d'abord le calendrier "All" avec toutes les données
-st.header("📊 Activité au global")
+st.header("📅 Activité sur l'app")
 
 # Compter le nombre de lignes par jour pour toutes les pages
 daily_counts_all = df_calendar.groupby('date_str')['email'].nunique().reset_index()
