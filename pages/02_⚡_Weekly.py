@@ -278,7 +278,7 @@ for semaine in semaines_evolution:
         evolution_importes.append(0)
         evolution_autonomes.append(0)
 
-st.badge("Clés", icon=":material/key:", color="green")
+st.badge("Indicateurs clés", icon=":material/key:", color="green")
 
 # === INDICATEURS CLÉS ===
 col1, col2, col3, col4 = st.columns(4)
