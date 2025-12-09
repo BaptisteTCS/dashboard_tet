@@ -673,9 +673,10 @@ with tab3:
     else:
         total_counts = pie_df['items'].value_counts().reset_index()
         total_counts.columns = ['items', 'nb']
-        left, center, right = st.columns([1, 3, 1])
+        left, center, right = st.columns([1, 5, 1])
         with center:
-            fig_pie = px.pie(total_counts, values='nb', names='items', title="Répartition des retours (Démo 1/2)")
+            total_counts_filtre = total_counts[total_counts['nb'] > 3]
+            fig_pie = px.pie(total_counts_filtre, values='nb', names='items', title="Répartition des retours (Démo 1/2)")
             st.plotly_chart(fig_pie, use_container_width=True)
             # Export CSV des comptes agrégés affichés
             csv_pie = total_counts.to_csv(index=False).encode('utf-8')
