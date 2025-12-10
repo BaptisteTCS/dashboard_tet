@@ -27,10 +27,10 @@ pages = {
         st.Page("pages/14_📊_Dashboard_Open_Data.py", title="Dashboard Open Data", icon="📊"),
         st.Page("pages/15_🏛️_Open_Data_Collectivité.py", title="Open Data par Collectivité", icon="🏛️"),
     ],
-    "🤖 Intelligence Artificielle": [
+    "✨ IA & Import Tool": [
+        st.Page("pages/22_🪄_Import_Tool.py", title="Import Tool", icon="🪄"),
         st.Page("pages/06_✨_AI_Stats_assistant.py", title="AI Stats Assistant", icon="✨"),
         st.Page("pages/07_💡_Suggestion_indicateurs.py", title="Suggestion Indicateurs", icon="🤖"),
-        st.Page("pages/18_✨_Import_des_plans.py", title="Import Des Plans", icon="✨"),
     ],
     "⚙️ Import & Configuration": [
         st.Page("pages/09_🌀_Import_indicateurs.py", title="Import Indicateurs", icon="🌀"),
@@ -45,7 +45,6 @@ pages = {
         st.Page("pages/19_🪐_Experimentation_Nivo.py", title="Expérimentation Nivo", icon="🪐"),
         st.Page("pages/20_📢_Stats_publiques.py", title="Stats Publiques", icon="📢"),
         st.Page("pages/21_👽_Power_users.py", title="Power users", icon="👽"),
-        st.Page("pages/22_Import_Tool.py", title="Import Tool", icon="✨"),
     ],
 }
 
