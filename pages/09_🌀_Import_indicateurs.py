@@ -79,14 +79,17 @@ def recuperer_metadonnees_api():
     Retourne un dictionnaire avec comme clé un tuple (ID, api_nom_cube)
     car un même ID peut apparaître dans plusieurs cubes différents.
     """
+    # Récupérer le token depuis les secrets Streamlit
+    api_indicateurs_token = st.secrets.get("api_indicateurs_token", "")
+    if not api_indicateurs_token:
+        raise ValueError(
+            "Token API manquant. Configurez 'api_indicateurs_token' dans .streamlit/secrets.toml"
+        )
+    
     URL_META = "https://api.indicateurs.ecologie.gouv.fr/cubejs-api/v1/meta"
     HEADERS = {
         "Content-Type": "application/json",
-        "Authorization": (
-            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9."
-            "eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ."
-            "XbPfbIHMI6arZ3Y922BhjWgQzWXcXNrz0ogtVhfEd2o"
-        ),
+        "Authorization": f"Bearer {api_indicateurs_token}",
     }
 
     response = requests.get(URL_META, headers=HEADERS)
@@ -397,10 +400,17 @@ def recuperer_donnees_api(indic: dict, detail_container=None, ct_filter=None) ->
         DataFrame avec les résultats (déjà multipliés par le ratio)
     """
     
+    # Récupérer le token depuis les secrets Streamlit
+    api_token = st.secrets.get("api_indicateurs_token", "")
+    if not api_token:
+        raise ValueError(
+            "Token API manquant. Configurez 'api_indicateurs_token' dans .streamlit/secrets.toml"
+        )
+    
     url_post = "https://api.indicateurs.ecologie.gouv.fr/cubejs-api/v1/load"
     headers_post = {
         "Content-Type": "application/json",
-        "Authorization": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.XbPfbIHMI6arZ3Y922BhjWgQzWXcXNrz0ogtVhfEd2o"
+        "Authorization": f"Bearer {api_token}",
     }
 
     all_dfs = []
