@@ -27,20 +27,7 @@ def load_data_from_engine_prod():
     """Charge toutes les données depuis engine_prod en une seule connexion pour optimiser les performances"""
     engine_prod = get_engine_prod()
     
-    with engine_prod.connect() as conn:
-        # Toutes les requêtes vers la base prod en une seule connexion
-        df_collectivites_actives = pd.read_sql_query(
-            text("""
-                SELECT * 
-                FROM collectivite
-                WHERE id IN (
-                    SELECT DISTINCT collectivite_id
-                    FROM private_collectivite_membre
-                )
-            """),
-            conn
-        )
-        
+    with engine_prod.connect() as conn:        
         df_collectivites = pd.read_sql_query(
             text("""
                 SELECT * 
@@ -78,7 +65,6 @@ def load_data_from_engine_prod():
     df_users['email_confirmed_at'] = pd.to_datetime(df_users['email_confirmed_at'])
     
     return {
-        'collectivites_actives': df_collectivites_actives,
         'collectivites': df_collectivites,
         'cci': df_cci,
         'users': df_users,
@@ -142,12 +128,24 @@ def load_evolution_ind_od():
 @st.cache_data(ttl=3600)
 def load_evolution_ind_pers():
     return read_table('evolution_ind_pers')
+
+@st.cache_data(ttl=3600)
+def load_evolution_ct_activee_mois():
+    return read_table('evolution_ct_activee_mois')
+
+@st.cache_data(ttl=3600)
+def load_evolution_users_mois():
+    return read_table('evolution_users_mois')
+
+@st.cache_data(ttl=3600)
+def load_ct_actives():
+    return read_table('ct_actives')
+
 # === CHARGEMENT DES DONNÉES ===
 
 # Chargement optimisé : toutes les données depuis engine_prod en une seule connexion
 data_prod = load_data_from_engine_prod()
 
-df_collectivites_actives = data_prod['collectivites_actives']
 df_collectivites = data_prod['collectivites']
 df_cci = data_prod['cci']
 df_users = data_prod['users']
@@ -160,7 +158,9 @@ df_pap_12_mois = load_pap_12_mois()
 evolution_fa = load_evolution_fa()
 evolution_ind_od = load_evolution_ind_od()
 evolution_ind_pers = load_evolution_ind_pers()
-
+df_evolution_ct_activee_mois = load_evolution_ct_activee_mois()
+df_evolution_users_mois = load_evolution_users_mois()
+df_ct_actives = load_ct_actives()
 
 # === Définitions des thèmes ===
 
@@ -191,11 +191,119 @@ theme_actif = {
     }
 }
 
-st.markdown("### Quelques stats impactantes")
+st.markdown("### Territoires en Transitions c'est")
 
 # === Metrics ===
 
-nature_to_categorie = {
+
+
+nb_epci = df_evolution_ct_activee_mois[df_evolution_ct_activee_mois['categorie'] == 'EPCI à fiscalité propre']['nb_ct_cumule'].max()
+nb_commune = df_evolution_ct_activee_mois[df_evolution_ct_activee_mois['categorie'] == 'Communes']['nb_ct_cumule'].max()
+nb_reg_et_dep = df_evolution_ct_activee_mois[df_evolution_ct_activee_mois['categorie'].isin(['Régions', 'Départements'])]['nb_ct_cumule'].max()
+nb_autres = df_evolution_ct_activee_mois[df_evolution_ct_activee_mois['categorie'] == 'Syndicats, PETR, pôles métropolitains et autres']['nb_ct_cumule'].max()
+
+cols= st.columns(4)
+with cols[0]:
+    st.metric("EPCI à fiscalité propre", nb_epci)
+with cols[1]:
+    st.metric("Communes", nb_commune)
+with cols[2]:
+    st.metric("Régions et départements", nb_reg_et_dep)
+with cols[3]:
+    st.metric("Syndicats, PETR et autres", nb_autres)
+
+# === Evolution des collectivités activées par type ===
+types_ordre = ['EPCI à fiscalité propre', 'Communes', 'Syndicats, PETR, pôles métropolitains et autres', 'Régions', 'Départements']
+
+# Obtenir tous les mois uniques triés
+all_mois = df_evolution_ct_activee_mois['mois'].sort_values().unique()
+
+# Préparer les données pour le graphique Nivo (une série par type, avec les trous bouchés)
+area_data_ct_evolution = []
+for type_ct in types_ordre:
+    df_filtered = df_evolution_ct_activee_mois[df_evolution_ct_activee_mois['categorie'] == type_ct].copy()
+    if not df_filtered.empty:
+        # Créer un dataframe avec tous les mois
+        df_all_mois = pd.DataFrame({'mois': all_mois})
+        # Merger avec les données existantes
+        df_complete = df_all_mois.merge(df_filtered[['mois', 'nb_ct_cumule']], on='mois', how='left')
+        # Remplir les trous avec la valeur précédente (forward fill), puis 0 pour les premiers mois sans données
+        df_complete['nb_ct_cumule'] = df_complete['nb_ct_cumule'].ffill().fillna(0).astype(int)
+        
+        area_data_ct_evolution.append({
+            "id": type_ct,
+            "data": [
+                {"x": row['mois'].strftime('%Y-%m') if hasattr(row['mois'], 'strftime') else str(row['mois']), "y": row['nb_ct_cumule']}
+                for _, row in df_complete.iterrows()
+            ]
+        })
+
+with elements("area_ct_evolution"):
+    with mui.Box(sx={"height": 500}):
+        nivo.Line(
+            data=area_data_ct_evolution,
+            margin={"top": 20, "right": 110, "bottom": 50, "left": 60},
+            xScale={"type": "point"},
+            yScale={"type": "linear", "min": 0, "max": "auto", "stacked": True, "reverse": False},
+            curve="monotoneX",
+            axisTop=None,
+            axisRight=None,
+            axisBottom={
+                "tickSize": 5,
+                "tickPadding": 5,
+                "tickRotation": -45,
+                "legend": "Mois",
+                "legendOffset": 45,
+                "legendPosition": "middle"
+            },
+            axisLeft={
+                "tickSize": 5,
+                "tickPadding": 5,
+                "tickRotation": 0,
+                "legend": "Nombre cumulé",
+                "legendOffset": -50,
+                "legendPosition": "middle"
+            },
+            enableArea=True,
+            areaOpacity=0.7,
+            enablePoints=False,
+            useMesh=True,
+            enableSlices="x",
+            legends=[
+                {
+                    "anchor": "bottom-right",
+                    "direction": "column",
+                    "justify": False,
+                    "translateX": 100,
+                    "translateY": 0,
+                    "itemsSpacing": 2,
+                    "itemWidth": 80,
+                    "itemHeight": 20,
+                    "itemDirection": "left-to-right",
+                    "itemOpacity": 0.85,
+                    "symbolSize": 12,
+                    "symbolShape": "circle",
+                }
+            ],
+            colors={"scheme": "pastel2"},
+            theme=theme_actif,
+        )
+
+# === Trackers ===
+st.markdown("---")
+st.markdown("### Transition Tracker des EPCI à fiscalité propre")
+
+
+trackers = st.columns(2)
+with trackers[0]:
+    st.markdown('Définir ce qu\'est un PAP actif, etc.')
+with trackers[1]:
+    
+    df_ct_actives['active'] = True
+
+    df_ct_actives = df_ct_actives[df_ct_actives['type'] == 'epci']
+
+    nature_to_categorie = {
     "CC": "EPCI à fiscalité propre",
     "CA": "EPCI à fiscalité propre",
     "CU": "EPCI à fiscalité propre",
@@ -208,39 +316,20 @@ nature_to_categorie = {
     "SMO": "Syndicats, PETR, pôles métropolitains et autres",
     "PETR": "Syndicats, PETR, pôles métropolitains et autres",
     "POLEM": "Syndicats, PETR, pôles métropolitains et autres",
-    None: "Syndicats, PETR, pôles métropolitains et autres"
-}
 
-df_collectivites_actives['categorie'] = df_collectivites_actives['nature_insee'].map(nature_to_categorie)
-df_collectivites['categorie'] = df_collectivites['nature_insee'].map(nature_to_categorie)
+    "commune": "Communes",
+    "departement": "Départements",
+    "region": "Régions"
+    }
 
-nb_epci = df_collectivites_actives[(df_collectivites_actives.type == 'epci') & (df_collectivites_actives.categorie == 'EPCI à fiscalité propre')].shape[0]
-nb_commune = df_collectivites_actives[df_collectivites_actives.type == 'commune'].shape[0]
-nb_reg_et_dep = df_collectivites_actives[df_collectivites_actives.type.isin(['region', 'departement'])].shape[0]
-nb_autres = df_collectivites_actives[(df_collectivites_actives.type == 'epci') & (df_collectivites_actives.categorie == 'Syndicats, PETR, pôles métropolitains et autres')].shape[0]
 
-cols = st.columns(2)
-with cols[0]:
-    st.markdown("Territoires en Transitions c'est autant de collectivités avec un profil :")
-    col1, col2 = st.columns(2)
-    with col1:
-        st.metric("EPCI à fiscalité propre", nb_epci)
-        st.metric("Communes", nb_commune)
-    with col2:
-        st.metric("Régions et départements", nb_reg_et_dep)
-        st.metric("Syndicats, PETR et autres", nb_autres)
+    df_collectivites['categorie'] = df_collectivites['nature_insee'].map(nature_to_categorie)
 
-# === Trackers ===
-
-with cols[1]:
-    st.markdown("Et parmis les EPCI à fiscalité propre :")
-    df_collectivites_actives['active'] = True
-
-    df_collectivites_epci_fiscalite_propre = df_collectivites[(df_collectivites.type == 'epci') & (df_collectivites.categorie == 'EPCI à fiscalité propre')]
+    df_collectivites_epci_fiscalite_propre = df_collectivites[(df_collectivites['type'] == 'epci') & (df_collectivites['categorie'] == 'EPCI à fiscalité propre')]
 
     ct_pap = df_pap[['collectivite_id', 'passage_pap']].groupby('collectivite_id').min().reset_index()
 
-    df_final = df_collectivites_epci_fiscalite_propre.merge(df_collectivites_actives[['id', 'active']], on='id', how='left') \
+    df_final = df_collectivites_epci_fiscalite_propre.merge(df_ct_actives[['collectivite_id', 'active']], right_on='collectivite_id', left_on='id', how='left') \
         .merge(ct_pap, left_on='id', right_on='collectivite_id', how='left')    
 
     # EPCI avec profil et plan d'action actif
@@ -251,13 +340,12 @@ with cols[1]:
     # Total pour vérification
     total_epci = df_final.shape[0]
 
-    # === Visualisation matricielle avec matplotlib ===
+    # === Visualisation Waffle Chart avec Nivo (streamlit-elements) ===
 
-    # Paramètres de la matrice
-    rows, cols = 10, 12
-    total_cells = rows * cols
+    # Paramètres du waffle 10x10
+    total_cells = 100
 
-    # Calculer les proportions
+    # Calculer les proportions pour 100 cellules
     prop_avec_pap = nb_avec_pap / total_epci
     prop_avec_profil = nb_avec_profil / total_epci
     prop_sans_profil = nb_sans_profil / total_epci
@@ -265,67 +353,46 @@ with cols[1]:
     # Nombre de cellules pour chaque catégorie
     cells_avec_pap = int(np.round(prop_avec_pap * total_cells))
     cells_avec_profil = int(np.round(prop_avec_profil * total_cells))
-    cells_sans_profil = total_cells - cells_avec_pap - cells_avec_profil  # Pour garantir exactement 120 cellules
+    cells_sans_profil = total_cells - cells_avec_pap - cells_avec_profil  # Pour garantir exactement 100 cellules
 
-    # Créer le tableau de couleurs
-    # Vert pour avec PAP, Orange pour avec profil, Rouge pour sans profil
-    colors_array = np.zeros((rows, cols, 3))
-
-    # Définir les couleurs RGB (normalisées entre 0 et 1)
-    color_vert = np.array([0.063, 0.725, 0.506])  # #10b981
-    color_orange = np.array([0.961, 0.620, 0.043])  # #f59e0b
-    color_rouge = np.array([0.937, 0.267, 0.267])  # #ef4444
-
-    # Remplir le tableau avec les couleurs appropriées
-    cell_index = 0
-    for i in range(rows):
-        for j in range(cols):
-            if cell_index < cells_avec_pap:
-                colors_array[i, j] = color_vert
-            elif cell_index < cells_avec_pap + cells_avec_profil:
-                colors_array[i, j] = color_orange
-            else:
-                colors_array[i, j] = color_rouge
-            cell_index += 1
-
-    # Créer la figure
-    fig, ax = plt.subplots(figsize=(4, 2))
-
-    # Fond transparent
-    fig.patch.set_alpha(0)
-    ax.patch.set_alpha(0)
-
-    # Afficher la matrice
-    ax.imshow(colors_array, aspect='equal')
-
-    # Retirer les axes
-    ax.set_xticks([])
-    ax.set_yticks([])
-    ax.spines['top'].set_visible(False)
-    ax.spines['right'].set_visible(False)
-    ax.spines['bottom'].set_visible(False)
-    ax.spines['left'].set_visible(False)
-
-    # Ajouter une grille subtile
-    for i in range(rows + 1):
-        ax.axhline(i - 0.5, color='white', linewidth=0.8)
-    for j in range(cols + 1):
-        ax.axvline(j - 0.5, color='white', linewidth=0.8)
-
-    # Créer une légende personnalisée
-    from matplotlib.patches import Patch
-    legend_elements = [
-        Patch(facecolor=color_vert, label='Avec profil et plan d\'action actif'),
-        Patch(facecolor=color_orange, label='Avec profil'),
-        Patch(facecolor=color_rouge, label='Sans profil')
+    # Données pour le waffle chart Nivo (avec vraies valeurs pour le tooltip)
+    waffle_data = [
+        {"id": "avec_pap", "label": f"Avec profil et plan d'action actif: {nb_avec_pap}", "value": cells_avec_pap, "realValue": nb_avec_pap},
+        {"id": "avec_profil", "label": f"Avec profil: {nb_avec_profil}", "value": cells_avec_profil, "realValue": nb_avec_profil},
+        {"id": "sans_profil", "label": f"Sans profil: {nb_sans_profil}", "value": cells_sans_profil, "realValue": nb_sans_profil},
     ]
-    ax.legend(handles=legend_elements, loc='upper center', bbox_to_anchor=(0.5, -0.02), 
-            ncol=3, frameon=False, fontsize=4)
 
-    plt.tight_layout()
-
-    # Afficher dans Streamlit
-    st.pyplot(fig, transparent=True, width="content")
+    # Afficher le waffle chart avec streamlit-elements
+    with elements("waffle_epci"):
+        with mui.Box(sx={"height": 300}):
+            nivo.Waffle(
+                data=waffle_data,
+                total=100,
+                rows=10,
+                columns=10,
+                padding=1,
+                colors=["#10b981", "#f59e0b", "#ef4444"],
+                borderRadius="10px",
+                animate=True,
+                motionStiffness=90,
+                motionDamping=11,
+                legends=[
+                    {
+                        "anchor": "bottom",
+                        "direction": "row",
+                        "justify": False,
+                        "translateX": 0,
+                        "translateY": 30,
+                        "itemsSpacing": 10,
+                        "itemWidth": 200,
+                        "itemHeight": 20,
+                        "itemDirection": "left-to-right",
+                        "itemOpacity": 1,
+                        "itemTextColor": "#777",
+                        "symbolSize": 14,
+                    }
+                ],
+            )
 
 st.markdown("---")
 st.markdown('### Un développement national')
@@ -339,7 +406,7 @@ st.markdown("La selection ne fait rien sur ce prototype.")
 
 st.markdown("---")
 
-st.markdown("### Des stats utilisateurs")
+st.markdown("### Un outil adopté par les collectivités")
 
 # Calculer la date d'il y a 12 mois
 date_12_mois = datetime.now(timezone.utc) - relativedelta(months=12)
@@ -352,21 +419,82 @@ if df_user_actif['mois'].dt.tz is not None:
 else:
     filtre = df_user_actif['mois'] >= pd.Timestamp(debut_mois_12_mois).replace(tzinfo=None)
 
-cols_users = st.columns(2)
-with cols_users[0]: 
-    st.markdown("Sur les 12 derniers mois nous comptons :")
-    delta=df_users[df_users['email_confirmed_at'] >= date_12_mois]['id'].nunique()
-    st.metric("Utilisateurs actifs", df_user_actif[filtre]['email'].nunique(), delta=delta)
-with cols_users[1]:
-    # Chart Nivo - Pie chart utilisateurs actifs par collectivité
-    st.markdown("Les collectivités qui pilotent un plan le font à plusieurs :")
-    
-    # Grouper par collectivité et compter les emails uniques
-    users_par_collectivite = df_user_actif[filtre].groupby('collectivite_id')['email'].nunique().reset_index()
-    users_par_collectivite.columns = ['collectivite_id', 'nb_users']
+area_data_users_evolution = [
+    {
+        "id": "users",
+        "data": [
+            {"x": row['mois'].strftime('%Y-%m') if hasattr(row['mois'], 'strftime') else str(row['mois']), "y": row['nb_users_cumule']}
+            for _, row in df_evolution_users_mois.iterrows()
+        ]
+    }
+]
 
-    users_par_collectivite = users_par_collectivite[users_par_collectivite.collectivite_id.isin(ct_pap['collectivite_id'])].copy()
-    
+with elements("area_users_evolution"):
+    with mui.Box(sx={"height": 500}):
+        nivo.Line(
+            data=area_data_users_evolution,
+            margin={"top": 20, "right": 30, "bottom": 50, "left": 60},
+            xScale={"type": "point"},
+            yScale={"type": "linear", "min": "auto", "max": "auto", "stacked": False, "reverse": False},
+            curve="monotoneX",
+            axisTop=None,
+            axisRight=None,
+            axisBottom={
+                "tickSize": 5,
+                "tickPadding": 5,
+                "tickRotation": -45,
+                "legend": "Mois",
+                "legendOffset": 45,
+                "legendPosition": "middle"
+            },
+            axisLeft={
+                "tickSize": 5,
+                "tickPadding": 5,
+                "tickRotation": 0,
+                "legend": "Nombre d'utilisateurs",
+                "legendOffset": -50,
+                "legendPosition": "middle"
+            },
+            enableArea=True,
+            areaOpacity=0.3,
+            enablePoints=True,
+            pointSize=6,
+            pointColor={"theme": "background"},
+            pointBorderWidth=2,
+            pointBorderColor={"from": "serieColor"},
+            useMesh=True,
+            enableSlices="x",
+            legends=[],
+            colors={"scheme": "pastel2"},
+            theme=theme_actif,
+        )
+
+# delta=df_users[df_users['email_confirmed_at'] >= date_12_mois]['id'].nunique()
+# st.metric("Utilisateurs actifs", df_user_actif[filtre]['email'].nunique(), delta=delta)
+
+
+# Chart Nivo - Pie chart utilisateurs actifs par collectivité
+st.markdown("### Un outil qui facilite la collaboration")
+
+# Grouper par collectivité et compter les emails uniques
+users_par_collectivite = df_user_actif[filtre].groupby('collectivite_id')['email'].nunique().reset_index()
+users_par_collectivite.columns = ['collectivite_id', 'nb_users']
+
+users_par_collectivite = users_par_collectivite[users_par_collectivite.collectivite_id.isin(ct_pap['collectivite_id'])].copy()
+
+cols_collab = st.columns(2)
+with cols_collab[0]:
+
+    stats_collab = st.columns(2)
+    with stats_collab[0]:
+        st.metric("Moyenne utilisateurs actifs par collectivité", int(round(users_par_collectivite['nb_users'].mean(), 0)))
+    with stats_collab[1]:
+        st.metric("Max utilisateurs actifs par collectivité", users_par_collectivite['nb_users'].max())
+
+with cols_collab[1]:
+
+    st.markdown("Répartition des collectivités par nombre d'utilisateurs actifs")
+
     # Créer les tranches
     def categoriser_users(nb):
         if nb <= 2:
@@ -377,12 +505,12 @@ with cols_users[1]:
             return "6-20 utilisateurs"
         else:
             return ">20 utilisateurs"
-    
+
     users_par_collectivite['tranche'] = users_par_collectivite['nb_users'].apply(categoriser_users)
-    
+
     # Compter le nombre de collectivités par tranche
     tranches_count = users_par_collectivite.groupby('tranche').size().reset_index(name='count')
-    
+
     # Définir l'ordre des tranches pour le graphique
     ordre_tranches = [
         "1-2 utilisateurs",
@@ -390,17 +518,17 @@ with cols_users[1]:
         "6-20 utilisateurs",
         ">20 utilisateurs"
     ]
-    
+
     # S'assurer que toutes les tranches sont présentes (même avec count=0)
     tranches_count = tranches_count.set_index('tranche').reindex(ordre_tranches, fill_value=0).reset_index()
     tranches_count.columns = ['tranche', 'count']
-    
+
     # Préparer les données pour Nivo
     pie_data = [
         {"id": row['tranche'], "label": row['tranche'], "value": row['count']}
         for _, row in tranches_count.iterrows() if row['count'] > 0
     ]
-    
+
     # Afficher le pie chart avec Nivo
     with elements("pie_users_collectivite"):
         with mui.Box(sx={"height": 450}):
@@ -426,7 +554,7 @@ with cols_users[1]:
             )
     
 st.markdown("---")
-st.markdown("### Des stats sur les plans d'actions et actions")
+st.markdown("### Un outil de gestion de projets")
 
 # Filtrer pour les plans d'action actifs
 df_pap_actif = df_pap_12_mois[df_pap_12_mois['statut'] == 'actif'].copy()
@@ -464,7 +592,7 @@ area_data = [
 
 cols_pap = st.columns(2)
 with cols_pap[0]:
-    st.markdown("Evolution des plans d'actions pilotables actifs (12 mois) :")
+    st.markdown("750+ plans d'actions pilotables actifs*")
     # Afficher le graphique Area avec Nivo
     with elements("area_pap_evolution"):
         with mui.Box(sx={"height": 500}):
@@ -509,7 +637,7 @@ with cols_pap[0]:
             )
 
 with cols_pap[1]:
-    st.markdown("Evolution des fiches actions pilotables")
+    st.markdown("30 000+ fiches actions pilotables*")
     # S'assurer que 'mois' est de type datetime64[ns, UTC], pour comparaison correcte
     if evolution_fa['modified_at'].dt.tz is not None:
         filtre = evolution_fa['modified_at'] >= pd.Timestamp(date_18_mois)
@@ -587,69 +715,14 @@ with cols_pap[1]:
 st.markdown("---")
 st.markdown("### Des stats sur les indicateurs")
 
-if evolution_ind_od['mois'].dt.tz is not None:
-    filtre = evolution_ind_od['mois'] >= pd.Timestamp(date_18_mois)
-else:
-    filtre = evolution_ind_od['mois'] >= pd.Timestamp(date_18_mois).replace(tzinfo=None)
-
-evolution_ind_od_18_mois = evolution_ind_od[filtre].copy()
-
-# Formater les données pour Nivo Area
-area_data = [
-    {
-        "id": "Couples indicateur/collectivité",
-        "data": [
-            {"x": row['mois'].strftime('%Y-%m'), "y": row['somme']}
-            for _, row in evolution_ind_od_18_mois.iterrows()
-        ]
-    }
-]
-
 cols_pap = st.columns(2)
 with cols_pap[0]:
-    st.markdown("Des indicateurs mis à disposition des collectivités en Open Data :")
-    # Afficher le graphique Area avec Nivo
-    with elements("area_od_evolution"):
-        with mui.Box(sx={"height": 500}):
-            nivo.Line(
-                data=area_data,
-                margin={"top": 20, "right": 30, "bottom": 50, "left": 60},
-                xScale={"type": "point"},
-                yScale={"type": "linear", "min": "auto", "max": "auto", "stacked": False, "reverse": False},
-                curve="monotoneX",
-                axisTop=None,
-                axisRight=None,
-                axisBottom={
-                    "tickSize": 5,
-                    "tickPadding": 5,
-                    "tickRotation": -45,
-                    "legend": "",
-                    "legendOffset": 45,
-                    "legendPosition": "middle"
-                },
-                axisLeft={
-                    "tickSize": 5,
-                    "tickPadding": 5,
-                    "tickRotation": 0,
-                    "legend": "",
-                    "legendOffset": -50,
-                    "legendPosition": "middle"
-                },
-                enableArea=True,
-                areaOpacity=0.3,
-                enablePoints=True,
-                pointSize=6,
-                pointColor={"theme": "background"},
-                pointBorderWidth=2,
-                pointBorderColor={"from": "serieColor"},
-                useMesh=True,
-                enableSlices="x",
-                legends=[],
-                colors={"scheme": "pastel2"},
-                theme=theme_actif,
-                enableGridX=False,
-                enableGridY=True
-            )
+    st.markdown("Nous mettons à disposition des collectivités des indicateurs en Open Data ...")
+    metrics_od = st.columns(2)
+    with metrics_od[0]:
+        st.metric("Indicateurs disponibles en Open Data", 176)
+    with metrics_od[1]:
+        st.metric("Sources de données", 36)
 
 with cols_pap[1]:
 
@@ -709,7 +782,7 @@ with cols_pap[1]:
                 useMesh=True,
                 enableSlices="x",
                 legends=[],
-                colors={"scheme": "nivo"},
+                colors={"scheme": "pastel2"},
                 theme=theme_actif,
                 enableGridX=False,
                 enableGridY=True
@@ -872,71 +945,6 @@ for nb_etoiles in sorted(df_evolution_etoiles['etoiles'].unique()):
             for _, row in df_etoile.iterrows()
         ]
     })
-
-st.markdown("Évolution du stock de collectivités labellisées CAE (me parait pas super pertinent)")
-
-# Afficher le graphique Area stacked avec Nivo
-with elements("area_labellisation_cae"):
-    with mui.Box(sx={"height": 500}):
-        nivo.Line(
-            data=area_data_labellisation,
-            margin={"top": 20, "right": 110, "bottom": 50, "left": 60},
-            xScale={"type": "point"},
-            yScale={"type": "linear", "min": 0, "max": "auto", "stacked": True, "reverse": False},
-            curve="monotoneX",
-            axisTop=None,
-            axisRight=None,
-            axisBottom={
-                "tickSize": 5,
-                "tickPadding": 5,
-                "tickRotation": -45,
-                "legend": "",
-                "legendOffset": 45,
-                "legendPosition": "middle"
-            },
-            axisLeft={
-                "tickSize": 5,
-                "tickPadding": 5,
-                "tickRotation": 0,
-                "legend": "Nombre de collectivités",
-                "legendOffset": -50,
-                "legendPosition": "middle"
-            },
-            enableArea=True,
-            areaOpacity=0.7,
-            enablePoints=False,
-            useMesh=True,
-            enableSlices="x",
-            legends=[
-                {
-                    "anchor": "bottom-right",
-                    "direction": "column",
-                    "justify": False,
-                    "translateX": 100,
-                    "translateY": 0,
-                    "itemsSpacing": 0,
-                    "itemDirection": "left-to-right",
-                    "itemWidth": 80,
-                    "itemHeight": 20,
-                    "itemOpacity": 0.75,
-                    "symbolSize": 12,
-                    "symbolShape": "circle",
-                    "effects": [
-                        {
-                            "on": "hover",
-                            "style": {
-                                "itemBackground": "rgba(0, 0, 0, .03)",
-                                "itemOpacity": 1
-                            }
-                        }
-                    ]
-                }
-            ],
-            colors={"scheme": "yellow_orange_red"},
-            theme=theme_actif,
-            enableGridX=False,
-            enableGridY=True
-        )
 
 st.markdown("Évolution des labellisations")
 
