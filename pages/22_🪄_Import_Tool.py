@@ -357,6 +357,7 @@ Axes d’évaluation
 • Cohérence hiérarchique  vérifier que "axe", "sous-axe" et "titre" sont cohérents entre eux, que la numérotation est plausible et stable, et que le contenu de l’action correspond bien à son axe et sous-axe.
 • Champs pilotage, budget, statut  vérifier que "direction ou service pilote", "personne pilote", "budget" et "statut" ne semblent pas inventés, sont utilisés seulement lorsque l’information est explicitement plausible, et restent vides sinon.
 • Doublons et éclatement inutile  vérifier qu’il n’y a pas de doublons évidents d’actions et que les actions ne sont pas artificiellement éclatées en plusieurs entrées identiques.
+• Vérifier que les directions ou service pilote et personnes pilotes, si pluriel, sont des listes séparées par une virgule et un espace. S'il y a des tirets qui semble séparer deux entités **distinctes**, le relever.
 
 Format de réponse attendu
 • Répondre en français, sous forme de quelques lignes de texte libre.
@@ -366,6 +367,9 @@ Format de réponse attendu
   Exemple  "1.2.4  description trop générale et peu opérationnelle" ou "4.1.3  présence probable d’artefacts de mise en page".
 • Ne pas réécrire les actions et ne pas proposer de nouvelle version en JSON.
 • Ne pas dépasser une dizaine de lignes.
+
+Précision
+• C'est normal que les sous-actions soient mises l'une à la suite des autres par des ;
 """
 
 def extract_text_from_pdf(pdf_file):
