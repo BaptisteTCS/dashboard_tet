@@ -559,8 +559,8 @@ st.markdown("### Un outil de gestion de projets")
 # Filtrer pour les plans d'action actifs
 df_pap_actif = df_pap_12_mois[df_pap_12_mois['statut'] == 'actif'].copy()
 
-# Compter le nombre de PAP actifs par mois
-pap_evolution = df_pap_actif.groupby('mois').size().reset_index(name='count')
+# Compter le nombre de PAP actifs par mois ET par type de plan
+pap_evolution = df_pap_actif.groupby(['mois', 'nom_plan']).size().reset_index(name='count')
 
 # Convertir en format datetime si nécessaire
 if not pd.api.types.is_datetime64_any_dtype(pap_evolution['mois']):
@@ -579,16 +579,32 @@ else:
 
 pap_evolution_18_mois = pap_evolution[filtre].copy()
 
-# Formater les données pour Nivo Area
-area_data = [
-    {
-        "id": "Plans d'actions actifs",
-        "data": [
-            {"x": row['mois'].strftime('%Y-%m'), "y": row['count']}
-            for _, row in pap_evolution_18_mois.iterrows()
-        ]
-    }
-]
+# Obtenir tous les mois uniques triés
+all_mois_pap = pap_evolution_18_mois['mois'].sort_values().unique()
+
+# Calculer le total par type de plan pour déterminer l'ordre (du plus grand au plus petit)
+total_par_type = pap_evolution_18_mois.groupby('nom_plan')['count'].sum().sort_values(ascending=False)
+types_ordre_pap = total_par_type.index.tolist()
+
+# Formater les données pour Nivo Area (une série par type de plan, avec les trous bouchés)
+area_data = []
+for type_plan in types_ordre_pap:
+    df_filtered = pap_evolution_18_mois[pap_evolution_18_mois['nom_plan'] == type_plan].copy()
+    if not df_filtered.empty:
+        # Créer un dataframe avec tous les mois
+        df_all_mois = pd.DataFrame({'mois': all_mois_pap})
+        # Merger avec les données existantes
+        df_complete = df_all_mois.merge(df_filtered[['mois', 'count']], on='mois', how='left')
+        # Remplir les trous avec la valeur précédente (forward fill), puis 0 pour les premiers mois sans données
+        df_complete['count'] = df_complete['count'].ffill().fillna(0).astype(int)
+        
+        area_data.append({
+            "id": type_plan,
+            "data": [
+                {"x": row['mois'].strftime('%Y-%m'), "y": row['count']}
+                for _, row in df_complete.iterrows()
+            ]
+        })
 
 cols_pap = st.columns(2)
 with cols_pap[0]:
@@ -598,9 +614,9 @@ with cols_pap[0]:
         with mui.Box(sx={"height": 500}):
             nivo.Line(
                 data=area_data,
-                margin={"top": 20, "right": 30, "bottom": 50, "left": 60},
+                margin={"top": 20, "right": 110, "bottom": 50, "left": 60},
                 xScale={"type": "point"},
-                yScale={"type": "linear", "min": "auto", "max": "auto", "stacked": False, "reverse": False},
+                yScale={"type": "linear", "min": 0, "max": "auto", "stacked": True, "reverse": False},
                 curve="monotoneX",
                 axisTop=None,
                 axisRight=None,
@@ -621,15 +637,26 @@ with cols_pap[0]:
                     "legendPosition": "middle"
                 },
                 enableArea=True,
-                areaOpacity=0.3,
-                enablePoints=True,
-                pointSize=6,
-                pointColor={"theme": "background"},
-                pointBorderWidth=2,
-                pointBorderColor={"from": "serieColor"},
+                areaOpacity=0.7,
+                enablePoints=False,
                 useMesh=True,
                 enableSlices="x",
-                legends=[],
+                legends=[
+                    {
+                        "anchor": "bottom-right",
+                        "direction": "column",
+                        "justify": False,
+                        "translateX": 100,
+                        "translateY": 0,
+                        "itemsSpacing": 2,
+                        "itemWidth": 80,
+                        "itemHeight": 20,
+                        "itemDirection": "left-to-right",
+                        "itemOpacity": 0.85,
+                        "symbolSize": 12,
+                        "symbolShape": "circle",
+                    }
+                ],
                 colors={"scheme": "pastel2"},
                 theme=theme_actif,
                 enableGridX=False,
