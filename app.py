@@ -45,6 +45,7 @@ pages = {
         st.Page("pages/19_🪐_Experimentation_Nivo.py", title="Expérimentation Nivo", icon="🪐"),
         st.Page("pages/20_📢_Stats_publiques.py", title="Stats Publiques", icon="📢"),
         st.Page("pages/21_👽_Power_users.py", title="Power users", icon="👽"),
+        st.Page("pages/23_🐍_Dashboard_interne.py", title="Dashboard Interne", icon="🐍"),
     ],
 }
 
