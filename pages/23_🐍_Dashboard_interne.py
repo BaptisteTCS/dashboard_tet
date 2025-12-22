@@ -223,11 +223,11 @@ else:
 st.markdown('---')
 
 if selected_region != "Toutes" and selected_departement == "Tous":
-    st.badge(f'Etat d\'avancement des epci de la région {selected_region}', icon=":material/track_changes:", color="orange")
+    st.badge(f'EPCI tracker : **{selected_region}**', icon=":material/track_changes:", color="orange")
 elif selected_region != "Toutes" and selected_departement != "Tous":
-    st.badge(f'Etat d\'avancement des epci du département {selected_departement}', icon=":material/track_changes:", color="orange")
+    st.badge(f'EPCI tracker : **{selected_departement}**', icon=":material/track_changes:", color="orange")
 else:
-    st.badge(f'Etat d\'avancement des epci sur tout le territoire', icon=":material/track_changes:", color="orange")
+    st.badge(f'EPCI tracker : **Territoire national**', icon=":material/track_changes:", color="orange")
 
 # Filtrer df_ct_niveau selon la sélection
 df_ct_niveau_selected = df_ct_niveau.copy()
@@ -343,38 +343,50 @@ segmentation = st.segmented_control(
     default="Utilisateurs"
 )
 
-# Mapping des options du slider vers les colonnes
+# Mapping des options du slider vers le nombre de mois et la fréquence pandas
 activite_options = ["2 ans", "1 an", "6 mois", "3 mois", "1 mois"]
-activite_colonnes = {
-    "2 ans": "actif_2_ans",
-    "1 an": "actif_1_an",
-    "6 mois": "actif_6_mois",
-    "3 mois": "actif_3_mois",
-    "1 mois": "actif_1_mois"
+activite_mois = {
+    "2 ans": 24,
+    "1 an": 12,
+    "6 mois": 6,
+    "3 mois": 3,
+    "1 mois": 1
+}
+activite_freq = {
+    "2 ans": "2YE",
+    "1 an": "YE",
+    "6 mois": "6ME",
+    "3 mois": "QE",
+    "1 mois": "ME"
 }
 
 selected_activite = st.select_slider(
-    "Période sur laquelle un utilisateur doit avoir fait une visite pour le considérer lui et sa collectivité comme actifs",
+    "Granularité",
     options=activite_options,
-    value="1 an"
+    value="3 mois"
 )
-colonne_activite = activite_colonnes[selected_activite]
+nb_mois_activite = activite_mois[selected_activite]
 
-# Filtrer df_ct_users_actifs selon la sélection
+# Filtrer df_ct_users_actifs selon la sélection géographique
 df_users_selected = df_ct_users_actifs.copy()
 if selected_region != "Toutes":
     df_users_selected = df_users_selected[df_users_selected["region_name"] == selected_region]
 if selected_departement != "Tous":
     df_users_selected = df_users_selected[df_users_selected["departement_name"] == selected_departement]
 
-# Filtrer selon le type d'activité sélectionné
-df_users_selected = df_users_selected[df_users_selected[colonne_activite] == True]
+# Convertir la colonne mois en datetime pour le filtrage temporel
+df_users_selected['mois_dt'] = pd.to_datetime(df_users_selected['mois'].astype(str))
+mois_max = df_users_selected['mois_dt'].max()
+mois_cutoff = mois_max - pd.DateOffset(months=nb_mois_activite - 1)
+
+# Filtrer pour ne garder que les X derniers mois
+df_users_periode = df_users_selected[df_users_selected['mois_dt'] >= mois_cutoff]
 
 if segmentation == "Utilisateurs":
 
-    # Calculer les métriques
-    nb_users = df_users_selected['email'].nunique()
-    users_par_ct = df_users_selected.groupby('collectivite_id')['email'].nunique()
+    # Calculer les métriques sur la période sélectionnée
+    nb_users = df_users_periode['email'].nunique()
+    users_par_ct = df_users_periode.groupby('collectivite_id')['email'].nunique()
     moyenne_users = round(users_par_ct.mean(), 1) if len(users_par_ct) > 0 else 0
     max_users = int(users_par_ct.max()) if len(users_par_ct) > 0 else 0
     
@@ -387,20 +399,29 @@ if segmentation == "Utilisateurs":
     with cols_metrics[2]:
         st.metric("Max par collectivité", max_users)
 
-    # Compter le nombre d'utilisateurs uniques par mois
-    df_users_par_mois = df_users_selected.groupby('mois')['email'].nunique().reset_index(name='nb_utilisateurs')
-    df_users_par_mois = df_users_par_mois.sort_values('mois')
+    # Compter le nombre d'utilisateurs uniques par période sélectionnée
+    freq = activite_freq[selected_activite]
+    df_users_par_periode = df_users_selected.set_index('mois_dt').groupby(pd.Grouper(freq=freq))['email'].nunique().reset_index(name='nb_utilisateurs')
+    df_users_par_periode = df_users_par_periode.sort_values('mois_dt')
+    df_users_par_periode = df_users_par_periode[df_users_par_periode['nb_utilisateurs'] > 0]
 
-    # Formater les mois en "dec 2025"
-    df_users_par_mois['mois_label'] = pd.to_datetime(df_users_par_mois['mois'].astype(str)).dt.strftime('%b %Y').str.lower()
+    # Formater les labels selon la période
+    if nb_mois_activite == 1:
+        df_users_par_periode['periode_label'] = df_users_par_periode['mois_dt'].dt.strftime('%b %Y').str.lower()
+    elif nb_mois_activite == 3:
+        df_users_par_periode['periode_label'] = df_users_par_periode['mois_dt'].dt.to_period('Q').astype(str)
+    elif nb_mois_activite == 6:
+        df_users_par_periode['periode_label'] = df_users_par_periode['mois_dt'].apply(lambda x: f"S{1 if x.month <= 6 else 2} {x.year}")
+    else:  # 12 ou 24 mois
+        df_users_par_periode['periode_label'] = df_users_par_periode['mois_dt'].dt.strftime('%Y')
 
     # Préparer les données pour le graphique Nivo Line avec Area
-    if len(df_users_par_mois) > 0:
+    if len(df_users_par_periode) > 0:
         area_data_users = [{
             "id": "Utilisateurs actifs",
             "data": [
-                {"x": row['mois_label'], "y": int(row['nb_utilisateurs'])}
-                for _, row in df_users_par_mois.iterrows()
+                {"x": row['periode_label'], "y": int(row['nb_utilisateurs'])}
+                for _, row in df_users_par_periode.iterrows()
             ]
         }]
 
@@ -418,7 +439,7 @@ if segmentation == "Utilisateurs":
                         "tickSize": 5,
                         "tickPadding": 5,
                         "tickRotation": -45,
-                        "legend": "Mois",
+                        "legend": "Période",
                         "legendOffset": 45,
                         "legendPosition": "middle"
                     },
@@ -446,27 +467,42 @@ if segmentation == "Utilisateurs":
         st.info("Aucune donnée d'utilisateurs disponible pour les filtres sélectionnés.")
 
 else:
-    # Compter le nombre d'utilisateurs uniques par mois
-    df_users_par_mois = df_users_selected.groupby('mois')['collectivite_id'].nunique().reset_index(name='nb_collectivites')
-    df_users_par_mois = df_users_par_mois.sort_values('mois')
+    # Calculer les métriques sur la période sélectionnée
+    nb_collectivites = df_users_periode['collectivite_id'].nunique()
+    
+    # Afficher les métriques
+    st.metric(f"Collectivités actives ({selected_activite})", nb_collectivites)
 
-    # Formater les mois en "dec 2025"
-    df_users_par_mois['mois_label'] = pd.to_datetime(df_users_par_mois['mois'].astype(str)).dt.strftime('%b %Y').str.lower()
+    # Compter le nombre de collectivités uniques par période sélectionnée
+    freq = activite_freq[selected_activite]
+    df_ct_par_periode = df_users_selected.set_index('mois_dt').groupby(pd.Grouper(freq=freq))['collectivite_id'].nunique().reset_index(name='nb_collectivites')
+    df_ct_par_periode = df_ct_par_periode.sort_values('mois_dt')
+    df_ct_par_periode = df_ct_par_periode[df_ct_par_periode['nb_collectivites'] > 0]
+
+    # Formater les labels selon la période
+    if nb_mois_activite == 1:
+        df_ct_par_periode['periode_label'] = df_ct_par_periode['mois_dt'].dt.strftime('%b %Y').str.lower()
+    elif nb_mois_activite == 3:
+        df_ct_par_periode['periode_label'] = df_ct_par_periode['mois_dt'].dt.to_period('Q').astype(str)
+    elif nb_mois_activite == 6:
+        df_ct_par_periode['periode_label'] = df_ct_par_periode['mois_dt'].apply(lambda x: f"S{1 if x.month <= 6 else 2} {x.year}")
+    else:  # 12 ou 24 mois
+        df_ct_par_periode['periode_label'] = df_ct_par_periode['mois_dt'].dt.strftime('%Y')
 
     # Préparer les données pour le graphique Nivo Line avec Area
-    if len(df_users_par_mois) > 0:
-        area_data_users = [{
+    if len(df_ct_par_periode) > 0:
+        area_data_ct = [{
             "id": "Collectivités actives",
             "data": [
-                {"x": row['mois_label'], "y": int(row['nb_collectivites'])}
-                for _, row in df_users_par_mois.iterrows()
+                {"x": row['periode_label'], "y": int(row['nb_collectivites'])}
+                for _, row in df_ct_par_periode.iterrows()
             ]
         }]
 
         with elements("area_collectivites_evolution"):
             with mui.Box(sx={"height": 500}):
                 nivo.Line(
-                    data=area_data_users,
+                    data=area_data_ct,
                     margin={"top": 20, "right": 30, "bottom": 50, "left": 60},
                     xScale={"type": "point"},
                     yScale={"type": "linear", "min": 0, "max": "auto", "stacked": False, "reverse": False},
@@ -477,7 +513,7 @@ else:
                         "tickSize": 5,
                         "tickPadding": 5,
                         "tickRotation": -45,
-                        "legend": "Mois",
+                        "legend": "Période",
                         "legendOffset": 45,
                         "legendPosition": "middle"
                     },
@@ -502,7 +538,7 @@ else:
                     theme=theme_actif,
                 )
     else:
-        st.info("Aucune donnée d'utilisateurs disponible pour les filtres sélectionnés.")
+        st.info("Aucune donnée de collectivités disponible pour les filtres sélectionnés.")
 
 
 # ===============================================
