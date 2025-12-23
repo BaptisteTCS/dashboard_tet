@@ -6,6 +6,7 @@ numpy>=1.25
 pyarrow>=14.0
 requests>=2.31
 streamlit-elements==0.1.*
+geopandas>=0.13.0
 
 # SQL
 SQLAlchemy>=2.0
