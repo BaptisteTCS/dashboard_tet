@@ -20,10 +20,11 @@ def load_data():
     df_ct_users_actifs = read_table('user_actifs_ct_mois')
     df_fap_et_no_fap = read_table('fap_et_no_fap')  
     df_pap_statut_region = read_table('pap_statut_region')
-    return df_ct_actives, df_ct_niveau, df_ct_users_actifs, df_fap_et_no_fap, df_pap_statut_region
+    df_pap_note_region = read_table('pap_note_region')  
+    return df_ct_actives, df_ct_niveau, df_ct_users_actifs, df_fap_et_no_fap, df_pap_statut_region, df_pap_note_region
 
 #Chargement des données
-df_ct_actives, df_ct_niveau, df_ct_users_actifs, df_fap_et_no_fap, df_pap_statut_region = load_data() 
+df_ct_actives, df_ct_niveau, df_ct_users_actifs, df_fap_et_no_fap, df_pap_statut_region, df_pap_note_region = load_data() 
 
 #Thème Nivo
 theme_actif = {
@@ -56,7 +57,6 @@ theme_actif = {
 #Config page
 st.set_page_config(layout="wide")
 st.title("🐍 Dashboard interne")
-st.markdown('---')
 
 # ===============================================
 # === SELECTEUR DE REGION ET DEPARTEMENT ========
@@ -87,11 +87,11 @@ tabs = st.tabs(["🌀 Vue d'ensemble", "🌟 North Star"])
 with tabs[0]:
 
     if selected_region != "Toutes" and selected_departement == "Tous":
-        st.badge(f'Progression : **{selected_region}**', icon=":material/trending_up:", color="green")
+        st.badge(f'Activation : **{selected_region}**', icon=":material/trending_up:", color="green")
     elif selected_region != "Toutes" and selected_departement != "Tous":
-        st.badge(f'Progression : **{selected_departement}**', icon=":material/trending_up:", color="green")
+        st.badge(f'Activation : **{selected_departement}**', icon=":material/trending_up:", color="green")
     else:
-        st.badge(f'Progression : **Territoire national**', icon=":material/trending_up:", color="green")
+        st.badge(f'Activation : **Territoire national**', icon=":material/trending_up:", color="green")
 
     df_ct_actives_selected = df_ct_actives.copy()
     if selected_region != "Toutes":
@@ -821,3 +821,392 @@ with tabs[1]:
         st.badge(f'NS 2 : **{selected_departement}**', icon=':material/stars_2:', color='orange')
     else:
         st.badge(f'NS 2 : **Territoire national**', icon=':material/stars_2:', color='orange')
+
+    df_pap_note_selected = df_pap_note_region.copy()
+    if selected_region != "Toutes":
+        df_pap_note_selected = df_pap_note_selected[df_pap_note_selected["region_name"] == selected_region]
+    if selected_departement != "Tous":
+        df_pap_note_selected = df_pap_note_selected[df_pap_note_selected["departement_name"] == selected_departement]
+
+    # Contrôles de sélection
+    segmentation_ns2 = st.segmented_control(
+        "Granularité",
+        options=["Collectivités", "Plans"],
+        default="Collectivités",
+        key="segmentation_ns2"
+    )
+
+    periode_options_ns2 = ["1 an", "6 mois", "3 mois", "1 mois"]
+    periode_mois_ns2 = {"1 an": 12, "6 mois": 6, "3 mois": 3, "1 mois": 1}
+    selected_periode_ns2 = st.select_slider(
+        "Période de comparaison",
+        options=periode_options_ns2,
+        value="3 mois",
+        key="periode_ns2"
+    )
+    nb_mois_ns2 = periode_mois_ns2[selected_periode_ns2]
+
+    # Convertir semaine en datetime
+    df_pap_note_selected['semaine'] = pd.to_datetime(df_pap_note_selected['semaine'])
+    
+    if len(df_pap_note_selected) > 0:
+        # Dernière semaine disponible
+        derniere_semaine = df_pap_note_selected['semaine'].max()
+        
+        # Calculer la date de référence (aujourd'hui - X mois, premier lundi après)
+        date_reference = datetime.now() - relativedelta(months=nb_mois_ns2)
+        # Trouver le premier lundi après cette date
+        jours_jusqu_lundi = (7 - date_reference.weekday()) % 7
+        if jours_jusqu_lundi == 0:
+            jours_jusqu_lundi = 7
+        premier_lundi = date_reference + timedelta(days=jours_jusqu_lundi)
+        
+        # Trouver la semaine de référence la plus proche dans les données
+        semaines_disponibles = sorted(df_pap_note_selected['semaine'].unique())
+        semaine_reference = None
+        for s in semaines_disponibles:
+            if s >= pd.Timestamp(premier_lundi):
+                semaine_reference = s
+                break
+        
+        # Si pas de semaine trouvée après, prendre la première disponible
+        if semaine_reference is None and len(semaines_disponibles) > 0:
+            semaine_reference = semaines_disponibles[0]
+        
+        # Préparer les données selon la segmentation
+        if segmentation_ns2 == "Collectivités":
+            # Regrouper par collectivité et prendre le score max par semaine
+            df_derniere_raw = df_pap_note_selected[df_pap_note_selected['semaine'] == derniere_semaine]
+            # Pour chaque collectivité, prendre la ligne avec le score max (pour avoir le plan_id correspondant)
+            idx_max = df_derniere_raw.groupby('collectivite_id')['score'].idxmax()
+            df_derniere = df_derniere_raw.loc[idx_max, ['collectivite_id', 'plan_id', 'score', 'nom', 'region_name']].copy()
+            df_derniere.columns = ['id', 'plan_id', 'score_actuel', 'nom', 'region']
+            
+            if semaine_reference is not None:
+                df_reference = df_pap_note_selected[df_pap_note_selected['semaine'] == semaine_reference].groupby('collectivite_id')['score'].max().reset_index()
+                df_reference.columns = ['id', 'score_reference']
+            else:
+                df_reference = pd.DataFrame(columns=['id', 'score_reference'])
+        else:
+            # Mode Plans : utiliser plan_id comme identifiant
+            df_derniere_raw = df_pap_note_selected[df_pap_note_selected['semaine'] == derniere_semaine]
+            df_derniere = df_derniere_raw[['plan_id', 'collectivite_id', 'score', 'nom', 'nom_plan']].copy()
+            df_derniere.columns = ['id', 'collectivite_id', 'score_actuel', 'nom', 'nom_plan']
+            
+            if semaine_reference is not None:
+                df_reference = df_pap_note_selected[df_pap_note_selected['semaine'] == semaine_reference][['plan_id', 'score']].copy()
+                df_reference.columns = ['id', 'score_reference']
+            else:
+                df_reference = pd.DataFrame(columns=['id', 'score_reference'])
+        
+        # Merger les deux pour comparer
+        df_comparaison = df_derniere.merge(df_reference, on='id', how='left')
+        df_comparaison['est_nouveau'] = df_comparaison['score_reference'].isna()
+        df_comparaison['evolution'] = df_comparaison['score_actuel'] - df_comparaison['score_reference'].fillna(0)
+        df_comparaison['a_evolue'] = (~df_comparaison['est_nouveau']) & (df_comparaison['evolution'].abs() > 0.01)  # Exclure les nouveaux
+        
+        # Calculer les métriques
+        nb_nouveau = df_comparaison['est_nouveau'].sum()
+        nb_evolue = df_comparaison['a_evolue'].sum()
+        evolution_moyenne = df_comparaison[df_comparaison['a_evolue']]['evolution'].mean() if nb_evolue > 0 else 0
+        evolution_max = df_comparaison['evolution'].max() if len(df_comparaison) > 0 else 0
+        note_max = df_comparaison['score_actuel'].max() if len(df_comparaison) > 0 else 0
+
+        # Afficher les métriques
+        label_entity = "collectivités" if segmentation_ns2 == "Collectivités" else "plans"
+        metrics_ns2 = st.columns(4)
+        with metrics_ns2[0]:
+            st.metric(f"{label_entity.capitalize()} ayant progressé", int(nb_evolue))
+        with metrics_ns2[1]:
+            st.metric("Progression moyenne", f"+{evolution_moyenne:.1f}" if not pd.isna(evolution_moyenne) else "N/A")
+        with metrics_ns2[2]:
+            st.metric("Progression max", f"+{evolution_max:.1f}" if evolution_max >= 0 else f"{evolution_max:.2f}")
+        with metrics_ns2[3]:
+            st.metric("Score max", f"{note_max:.1f}")
+        
+        # ===============================================
+        # === Leaderboards stylisés =====================
+        # ===============================================
+        
+        # Fonction pour générer le lien vers le plan
+        def get_plan_url(collectivite_id, plan_id):
+            return f"https://app.territoiresentransitions.fr/collectivite/{int(collectivite_id)}/plans/{int(plan_id)}"
+        
+        # Style CSS pour les cartes
+        st.markdown("""
+        <style>
+        .leaderboard-card {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 12px;
+            padding: 16px 20px;
+            margin-bottom: 12px;
+            border-left: 4px solid #6c757d;
+            transition: transform 0.2s, box-shadow 0.2s;
+            text-decoration: none !important;
+            display: block;
+            color: inherit;
+        }
+        .leaderboard-card * {
+            text-decoration: none !important;
+        }
+        .leaderboard-card:hover {
+            transform: translateX(8px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .leaderboard-card.gold { border-left-color: #ffd700; background: linear-gradient(135deg, #fffef0 0%, #fff9e6 100%); }
+        .leaderboard-card.progress { border-left-color: #28a745; background: linear-gradient(135deg, #f0fff4 0%, #e6f7ed 100%); }
+        .card-rank { font-size: 24px; font-weight: bold; color: #6c757d; margin-right: 16px; }
+        .card-rank.gold { color: #d4a800; }
+        .card-rank.progress { color: #28a745; }
+        .card-content { flex: 1; }
+        .card-title { font-size: 16px; font-weight: 600; color: #212529; margin-bottom: 4px; }
+        .card-subtitle { font-size: 13px; color: #6c757d; }
+        .card-score { font-size: 20px; font-weight: bold; color: #495057; text-align: right; }
+        .card-delta { font-size: 14px; color: #28a745; font-weight: 600; }
+        .card-row { display: flex; align-items: center; }
+        </style>
+        """, unsafe_allow_html=True)
+
+        cols_leaderboards = st.columns(2)
+        with cols_leaderboards[0]:
+        
+            # === Top scores ===
+
+            st.badge("Meilleurs scores", icon=':material/trophy:', color='orange')
+            
+            if segmentation_ns2 == "Collectivités":
+                df_top_scores = df_comparaison.nlargest(5, 'score_actuel')
+            else:
+                df_top_scores = df_comparaison.nlargest(5, 'score_actuel')
+            
+            for idx, (_, row) in enumerate(df_top_scores.iterrows()):
+                rank = idx + 1
+                rank_class = "gold" if rank <= 3 else "progress"
+                
+                if segmentation_ns2 == "Collectivités":
+                    url = get_plan_url(row['id'], row['plan_id'])
+                    subtitle = row['region'] if pd.notna(row.get('region')) else ""
+                    title = row['nom']
+                else:
+                    url = get_plan_url(row['collectivite_id'], row['id'])
+                    subtitle = row['nom_plan'] if pd.notna(row.get('nom_plan')) else ""
+                    title = row['nom']
+                
+                score = row['score_actuel']
+                
+                card_html = f"""
+                <a href="{url}" target="_blank" class="leaderboard-card {rank_class}">
+                    <div class="card-row">
+                        <div class="card-rank {rank_class}">#{rank}</div>
+                        <div class="card-content">
+                            <div class="card-title">{title}</div>
+                            <div class="card-subtitle">{subtitle}</div>
+                        </div>
+                        <div style="text-align: right;">
+                                <div class="card-score">{score:.2f}</div>
+                                <div class="card-delta" style="visibility:hidden;">A</div>
+                            </div>
+                    </div>
+                </a>
+                """
+                st.markdown(card_html, unsafe_allow_html=True)
+            
+            st.markdown("<br>", unsafe_allow_html=True)
+        
+        # === Meilleures progressions ===
+        with cols_leaderboards[1]:
+
+            st.badge("Meilleures progressions", icon=':material/trending_up:', color='orange')
+        
+            df_progressions = df_comparaison[df_comparaison['evolution'] > 0.01].copy()
+            
+            if len(df_progressions) > 0:
+                df_top_progressions = df_progressions.nlargest(5, 'evolution')
+                
+                for idx, (_, row) in enumerate(df_top_progressions.iterrows()):
+                    rank = idx + 1
+                    rank_class = "gold" if rank <= 3 else "progress"
+                    
+                    if segmentation_ns2 == "Collectivités":
+                        url = get_plan_url(row['id'], row['plan_id'])
+                        subtitle = row['region'] if pd.notna(row.get('region')) else ""
+                        title = row['nom']
+                    else:
+                        url = get_plan_url(row['collectivite_id'], row['id'])
+                        subtitle = row['nom_plan'] if pd.notna(row.get('nom_plan')) else ""
+                        title = row['nom']
+                    
+                    score = row['score_actuel']
+                    delta = row['evolution']
+                    
+                    card_html = f"""
+                    <a href="{url}" target="_blank" class="leaderboard-card {rank_class}">
+                        <div class="card-row">
+                            <div class="card-rank {rank_class}">#{rank}</div>
+                            <div class="card-content">
+                                <div class="card-title">{title}</div>
+                                <div class="card-subtitle">{subtitle}</div>
+                            </div>
+                            <div style="text-align: right;">
+                                <div class="card-score">{score:.2f}</div>
+                                <div class="card-delta">+{delta:.2f}</div>
+                            </div>
+                        </div>
+                    </a>
+                    """
+                    st.markdown(card_html, unsafe_allow_html=True)
+            else:
+                st.info("Aucune progression sur la période.")
+
+        # ==================
+        # === Graphe ===
+        # ==================
+
+        st.badge("Distribution des scores", icon=':material/bar_chart:', color='orange')
+        
+        
+        # Créer des bins pour la distribution (0-0.5, 0.5-1, 1-1.5, ..., 4.5-5)
+        bins = [i * 0.5 for i in range(11)]
+        labels_bins = [f"{bins[i]:.1f}-{bins[i+1]:.1f}" for i in range(len(bins)-1)]
+        
+        df_comparaison['bin'] = pd.cut(df_comparaison['score_actuel'], bins=bins, labels=labels_bins, include_lowest=True)
+        
+        # Compter par bin et par statut (stable, évolution, nouveau)
+        distribution_nouveau = df_comparaison[df_comparaison['est_nouveau']].groupby('bin', observed=True).size()
+        distribution_evolue = df_comparaison[df_comparaison['a_evolue']].groupby('bin', observed=True).size()
+        distribution_stable = df_comparaison[(~df_comparaison['a_evolue']) & (~df_comparaison['est_nouveau'])].groupby('bin', observed=True).size()
+        
+        # Préparer les données pour Nivo Bar (stacked)
+        bar_data_distribution = []
+        for label in labels_bins:
+            stable_count = int(distribution_stable.get(label, 0))
+            evolue_count = int(distribution_evolue.get(label, 0))
+            nouveau_count = int(distribution_nouveau.get(label, 0))
+            bar_data_distribution.append({
+                "bin": label,
+                "Sans progression": stable_count,
+                "Ayant progressé": evolue_count,
+                "New": nouveau_count
+            })
+        
+        if len(bar_data_distribution) > 0:
+            with elements("bar_distribution_notes_ns2"):
+                with mui.Box(sx={"height": 400}):
+                    nivo.Bar(
+                        data=bar_data_distribution,
+                        keys=["Sans progression", "Ayant progressé", "New"],
+                        indexBy="bin",
+                        margin={"top": 20, "right": 130, "bottom": 50, "left": 60},
+                        padding=0.3,
+                        groupMode="stacked",
+                        colors={"scheme": "pastel2"},
+                        borderRadius=2,
+                        axisBottom={
+                            "tickSize": 5,
+                            "tickPadding": 5,
+                            "tickRotation": -45,
+                            "legend": "Score",
+                            "legendOffset": 45,
+                            "legendPosition": "middle"
+                        },
+                        axisLeft={
+                            "tickSize": 5,
+                            "tickPadding": 5,
+                            "tickRotation": 0,
+                            "legend": f"Nombre de {label_entity}",
+                            "legendOffset": -50,
+                            "legendPosition": "middle"
+                        },
+                        enableLabel=True,
+                        labelSkipWidth=12,
+                        labelSkipHeight=12,
+                        labelTextColor="#ffffff",
+                        legends=[
+                            {
+                                "dataFrom": "keys",
+                                "anchor": "bottom-right",
+                                "direction": "column",
+                                "justify": False,
+                                "translateX": 120,
+                                "translateY": 0,
+                                "itemsSpacing": 2,
+                                "itemWidth": 100,
+                                "itemHeight": 20,
+                                "itemDirection": "left-to-right",
+                                "itemOpacity": 0.85,
+                                "symbolSize": 12,
+                                "symbolShape": "circle",
+                            }
+                        ],
+                        theme=theme_actif,
+                    )
+        
+        # ==========================================
+        # === Évolution de la moyenne par semaine ===
+        # ==========================================
+        
+        st.badge("Évolution de la moyenne", icon=':material/show_chart:', color='orange')
+        
+        # Calculer la moyenne par semaine selon la segmentation
+        if segmentation_ns2 == "Collectivités":
+            # Pour chaque semaine, prendre le score max par collectivité, puis faire la moyenne
+            df_moyenne_semaine = df_pap_note_selected.groupby(['semaine', 'collectivite_id'])['score'].max().reset_index()
+            df_moyenne_semaine = df_moyenne_semaine.groupby('semaine')['score'].mean().reset_index()
+        else:
+            # Pour chaque semaine, moyenne de tous les plans
+            df_moyenne_semaine = df_pap_note_selected.groupby('semaine')['score'].mean().reset_index()
+        
+        df_moyenne_semaine = df_moyenne_semaine.sort_values('semaine')
+        df_moyenne_semaine['semaine_label'] = df_moyenne_semaine['semaine'].dt.strftime('%Y-%m-%d')
+        
+        if len(df_moyenne_semaine) > 0:
+            line_data_moyenne = [{
+                "id": f"Score moyen ({label_entity})",
+                "data": [
+                    {"x": row['semaine_label'], "y": round(row['score'], 2)}
+                    for _, row in df_moyenne_semaine.iterrows()
+                ]
+            }]
+            
+            with elements("line_evolution_moyenne_ns2"):
+                with mui.Box(sx={"height": 400}):
+                    nivo.Line(
+                        data=line_data_moyenne,
+                        margin={"top": 20, "right": 30, "bottom": 60, "left": 60},
+                        xScale={"type": "point"},
+                        yScale={"type": "linear", "min": 0, "max": 5, "stacked": False, "reverse": False},
+                        curve="monotoneX",
+                        axisTop=None,
+                        axisRight=None,
+                        axisBottom={
+                            "tickSize": 5,
+                            "tickPadding": 5,
+                            "tickRotation": -45,
+                            "legend": "Semaine",
+                            "legendOffset": 50,
+                            "legendPosition": "middle"
+                        },
+                        axisLeft={
+                            "tickSize": 5,
+                            "tickPadding": 5,
+                            "tickRotation": 0,
+                            "legend": "Score moyen",
+                            "legendOffset": -50,
+                            "legendPosition": "middle"
+                        },
+                        enableArea=True,
+                        areaOpacity=0.15,
+                        enablePoints=True,
+                        pointSize=8,
+                        pointColor={"theme": "background"},
+                        pointBorderWidth=2,
+                        pointBorderColor={"from": "serieColor"},
+                        useMesh=True,
+                        enableSlices="x",
+                        colors=["#ff7f0e"],
+                        theme=theme_actif,
+                    )
+            
+    else:
+        st.info("Aucune donnée de notes disponible pour les filtres sélectionnés.")
+
