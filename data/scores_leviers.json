@@ -1,0 +1,292 @@
+{
+  "Sobriété et isolation des bâtiments (tertiaire)": {
+    "ids": [
+      11002,
+      10484
+    ],
+    "raw_text": "{\n  \"score\": 50,\n  \"justification\": \"La collectivité active une part significative du levier grâce à une approche structurée (Schéma Directeur Immobilier Énergie) et au ciblage des 52 000 m² les plus énergivores du patrimoine public pour audits et travaux. Toutefois, le potentiel n'est pas pleinement exploité : la démarche est encore très orientée vers la planification et le lancement opérationnel ('engager des travaux'), et semble se concentrer exclusivement sur le patrimoine public sans mentionner d'actions d'envergure vers le tertiaire privé ou de plan de sobriété comportementale immédiat.\"\n}",
+    "parsed": {
+      "score": 50,
+      "justification": "La collectivité active une part significative du levier grâce à une approche structurée (Schéma Directeur Immobilier Énergie) et au ciblage des 52 000 m² les plus énergivores du patrimoine public pour audits et travaux. Toutefois, le potentiel n'est pas pleinement exploité : la démarche est encore très orientée vers la planification et le lancement opérationnel ('engager des travaux'), et semble se concentrer exclusivement sur le patrimoine public sans mentionner d'actions d'envergure vers le tertiaire privé ou de plan de sobriété comportementale immédiat."
+    },
+    "error": null
+  },
+  "Réseaux de chaleur décarbonés": {
+    "ids": [
+      11002,
+      10994,
+      10780,
+      13862,
+      10479,
+      10488,
+      13864
+    ],
+    "raw_text": "```json\n{\n  \"score\": 80,\n  \"justification\": \"La collectivité exploite déjà une part très importante du potentiel grâce à un réseau existant vertueux (94 % d'énergies renouvelables), ce qui maximise l'impact carbone par kWh livré. Les actions engagées sont structurantes (Schéma Directeur) et visent à activer le potentiel restant par l'augmentation des capacités de production (nouvelle ligne d'incinération, optimisation biomasse) et la densification des raccordements sur des sites stratégiques identifiés. La marge de progression réside principalement dans l'extension du réseau pour couvrir une part plus large du parc immobilier.\"\n}\n```",
+    "parsed": {
+      "score": 80,
+      "justification": "La collectivité exploite déjà une part très importante du potentiel grâce à un réseau existant vertueux (94 % d'énergies renouvelables), ce qui maximise l'impact carbone par kWh livré. Les actions engagées sont structurantes (Schéma Directeur) et visent à activer le potentiel restant par l'augmentation des capacités de production (nouvelle ligne d'incinération, optimisation biomasse) et la densification des raccordements sur des sites stratégiques identifiés. La marge de progression réside principalement dans l'extension du réseau pour couvrir une part plus large du parc immobilier."
+    },
+    "error": null
+  },
+  "Biogaz": {
+    "ids": [
+      10781,
+      10471,
+      13863
+    ],
+    "raw_text": "{\n  \"score\": 20,\n  \"justification\": \"Les actions présentées se limitent à la phase amont : études de gisement (réalisées en 2018) et facilitation de projets portés par des tiers (groupe d'agriculteurs). En l'absence de mention d'unités de méthanisation opérationnelles, de valorisation des boues de station d'épuration ou d'injection effective de biométhane, le potentiel de réduction de CO2 du levier n'est pas encore concrètement activé.\"\n}",
+    "parsed": {
+      "score": 20,
+      "justification": "Les actions présentées se limitent à la phase amont : études de gisement (réalisées en 2018) et facilitation de projets portés par des tiers (groupe d'agriculteurs). En l'absence de mention d'unités de méthanisation opérationnelles, de valorisation des boues de station d'épuration ou d'injection effective de biométhane, le potentiel de réduction de CO2 du levier n'est pas encore concrètement activé."
+    },
+    "error": null
+  },
+  "Electricité renouvelable": {
+    "ids": [
+      13797,
+      13861,
+      10491
+    ],
+    "raw_text": "```json\n{\n  \"score\": 50,\n  \"justification\": \"La collectivité active une part significative du potentiel via deux axes forts : l'achat de 100 % d'électricité verte pour son patrimoine (action administrative efficace mais à faible additionnalité) et la concrétisation d'un projet structurant de production au sol (9 MW). Cependant, l'exploitation du levier reste partielle : la solarisation diffuse sur le bâti public est encore au stade d'études ou de pilotes limités, et le soutien aux énergies citoyennes semble davantage intentionnel qu'opérationnel.\"\n}\n```",
+    "parsed": {
+      "score": 50,
+      "justification": "La collectivité active une part significative du potentiel via deux axes forts : l'achat de 100 % d'électricité verte pour son patrimoine (action administrative efficace mais à faible additionnalité) et la concrétisation d'un projet structurant de production au sol (9 MW). Cependant, l'exploitation du levier reste partielle : la solarisation diffuse sur le bâti public est encore au stade d'études ou de pilotes limités, et le soutien aux énergies citoyennes semble davantage intentionnel qu'opérationnel."
+    },
+    "error": null
+  },
+  "Valorisation matière des déchets": {
+    "ids": [
+      10470,
+      10481,
+      10476,
+      10477,
+      10474
+    ],
+    "raw_text": "```json\n{\n  \"score\": 75,\n  \"justification\": \"La collectivité active une part importante du potentiel de valorisation matière via une stratégie massive sur les biodéchets (15 000 foyers déjà équipés, objectifs de saturation sur 3 ans) et l'alignement sur les standards de tri performants (Extension des Consignes de Tri, projet de porte-à-porte). L'existence de filières techniques spécifiques (balayures de voirie) renforce la note. Le potentiel n'est pas encore maximisé (100 %) car le volet réemploi reste ponctuel (2 caissons, promotion) et la généralisation de la nouvelle collecte sélective est en cours de déploiement.\"\n}\n```",
+    "parsed": {
+      "score": 75,
+      "justification": "La collectivité active une part importante du potentiel de valorisation matière via une stratégie massive sur les biodéchets (15 000 foyers déjà équipés, objectifs de saturation sur 3 ans) et l'alignement sur les standards de tri performants (Extension des Consignes de Tri, projet de porte-à-porte). L'existence de filières techniques spécifiques (balayures de voirie) renforce la note. Le potentiel n'est pas encore maximisé (100 %) car le volet réemploi reste ponctuel (2 caissons, promotion) et la généralisation de la nouvelle collecte sélective est en cours de déploiement."
+    },
+    "error": null
+  },
+  "Efficacité et sobriété logistique": {
+    "ids": [
+      10472
+    ],
+    "raw_text": "```json\n{\n  \"score\": 20,\n  \"justification\": \"Les actions listées se limitent exclusivement à l'optimisation de la flotte de collecte des déchets (renouvellement des bennes et optimisation des tournées). Pour une agglomération de plus de 100 000 habitants, le potentiel du levier 'Logistique' englobe également la logistique urbaine durable (dernier kilomètre, aires de livraison, fret, flottes privées), qui n'est ici pas du tout abordée. L'activation du potentiel de réduction carbone global du levier reste donc marginale.\"\n}\n```",
+    "parsed": {
+      "score": 20,
+      "justification": "Les actions listées se limitent exclusivement à l'optimisation de la flotte de collecte des déchets (renouvellement des bennes et optimisation des tournées). Pour une agglomération de plus de 100 000 habitants, le potentiel du levier 'Logistique' englobe également la logistique urbaine durable (dernier kilomètre, aires de livraison, fret, flottes privées), qui n'est ici pas du tout abordée. L'activation du potentiel de réduction carbone global du levier reste donc marginale."
+    },
+    "error": null
+  },
+  "Prévention des déchets": {
+    "ids": [
+      10476,
+      14191,
+      14186,
+      11566
+    ],
+    "raw_text": "{\n  \"score\": 45,\n  \"justification\": \"La collectivité active ce levier de manière structurée sur des périmètres spécifiques (gaspillage alimentaire en restauration collective, sobriété numérique interne) avec une bonne implication des acteurs institutionnels (Ville, Hôpital, Département). Toutefois, le potentiel de réduction est exploité partiellement car les actions ciblant la réduction à la source des déchets des ménages et des activités économiques (tarification incitative, généralisation du compostage citoyen, réduction des emballages) apparaissent limitées ou à un stade de promotion, sans approche systémique forte pour l'ensemble des 106 000 habitants.\"\n}",
+    "parsed": {
+      "score": 45,
+      "justification": "La collectivité active ce levier de manière structurée sur des périmètres spécifiques (gaspillage alimentaire en restauration collective, sobriété numérique interne) avec une bonne implication des acteurs institutionnels (Ville, Hôpital, Département). Toutefois, le potentiel de réduction est exploité partiellement car les actions ciblant la réduction à la source des déchets des ménages et des activités économiques (tarification incitative, généralisation du compostage citoyen, réduction des emballages) apparaissent limitées ou à un stade de promotion, sans approche systémique forte pour l'ensemble des 106 000 habitants."
+    },
+    "error": null
+  },
+  "Changement chaudières fioul + rénovation (résidentiel)": {
+    "ids": [
+      10486,
+      10485
+    ],
+    "raw_text": "{\n  \"score\": 50,\n  \"justification\": \"La collectivité active ce levier de manière réelle mais partielle. La mise en place de la plateforme Rénov’Energie et la formation des artisans constituent un socle d'accompagnement solide pour le parc privé, avec une ambition affichée élevée (étiquette A). Toutefois, l'approche reste essentiellement incitative (communication, sensibilisation) sans mention de dispositifs financiers locaux massifs pour déclencher le remplacement des chaudières fioul. De plus, la rénovation du parc public/social est ancrée dans un périmètre restreint (PRU), limitant la couverture géographique de l'action par rapport au potentiel global du territoire.\"\n}",
+    "parsed": {
+      "score": 50,
+      "justification": "La collectivité active ce levier de manière réelle mais partielle. La mise en place de la plateforme Rénov’Energie et la formation des artisans constituent un socle d'accompagnement solide pour le parc privé, avec une ambition affichée élevée (étiquette A). Toutefois, l'approche reste essentiellement incitative (communication, sensibilisation) sans mention de dispositifs financiers locaux massifs pour déclencher le remplacement des chaudières fioul. De plus, la rénovation du parc public/social est ancrée dans un périmètre restreint (PRU), limitant la couverture géographique de l'action par rapport au potentiel global du territoire."
+    },
+    "error": null
+  },
+  "Changement chaudières gaz + rénovation (résidentiel)": {
+    "ids": [
+      10486,
+      10485
+    ],
+    "raw_text": "{\n  \"score\": 25,\n  \"justification\": \"Les actions combinent un dispositif d'accompagnement pour le privé (plateforme Rénov'Energie) et des rénovations lourdes ciblées sur le parc social (PRU). Cependant, l'activation du potentiel reste faible à l'échelle de l'agglomération : l'action sur le parc privé diffus est essentiellement incitative (conseil, formation) sans mention de financement local massif pour le changement de vecteurs énergétiques, et les rénovations performantes (PRU) sont limitées géographiquement.\"\n}",
+    "parsed": {
+      "score": 25,
+      "justification": "Les actions combinent un dispositif d'accompagnement pour le privé (plateforme Rénov'Energie) et des rénovations lourdes ciblées sur le parc social (PRU). Cependant, l'activation du potentiel reste faible à l'échelle de l'agglomération : l'action sur le parc privé diffus est essentiellement incitative (conseil, formation) sans mention de financement local massif pour le changement de vecteurs énergétiques, et les rénovations performantes (PRU) sont limitées géographiquement."
+    },
+    "error": null
+  },
+  "Véhicules électriques": {
+    "ids": [
+      10979,
+      10980,
+      13820,
+      13810
+    ],
+    "raw_text": "{\n  \"score\": 40,\n  \"justification\": \"La collectivité active le levier principalement par l'exemplarité interne (verdissement de la flotte, mise en location innovante des véhicules de service) et s'appuie sur le syndicat d'énergie pour un maillage de bornes standard (18 kW). Cependant, l'exploitation du potentiel de réduction de CO2 reste limitée pour une agglomération de plus de 100 000 habitants : l'autopartage est encore anecdotique (2 stations expérimentales), la recharge rapide est absente et aucune action structurante d'incitation financière ou d'électrification des transports en commun n'est mentionnée pour massifier l'adoption par le grand public.\"\n}",
+    "parsed": {
+      "score": 40,
+      "justification": "La collectivité active le levier principalement par l'exemplarité interne (verdissement de la flotte, mise en location innovante des véhicules de service) et s'appuie sur le syndicat d'énergie pour un maillage de bornes standard (18 kW). Cependant, l'exploitation du potentiel de réduction de CO2 reste limitée pour une agglomération de plus de 100 000 habitants : l'autopartage est encore anecdotique (2 stations expérimentales), la recharge rapide est absente et aucune action structurante d'incitation financière ou d'électrification des transports en commun n'est mentionnée pour massifier l'adoption par le grand public."
+    },
+    "error": null
+  },
+  "Efficacité et carburants décarbonés des véhicules privés": {
+    "ids": [
+      10980,
+      13815,
+      13810,
+      14182
+    ],
+    "raw_text": "{\n  \"score\": 30,\n  \"justification\": \"La collectivité a activé le volet infrastructurel de base via le déploiement de bornes de recharge (Sidelc) et agit sur l'exemplarité de sa flotte interne. Cependant, cela ne mobilise qu'une part modeste du potentiel de réduction des émissions du parc privé global. L'action structurante de baisse de vitesse sur l'A10 semble être au stade du plaidoyer auprès de l'État plutôt qu'une mesure active, et il manque des leviers d'incitation massive (aides à l'achat, ZFE, charge rapide) pour accélérer significativement la transition des particuliers.\"\n}",
+    "parsed": {
+      "score": 30,
+      "justification": "La collectivité a activé le volet infrastructurel de base via le déploiement de bornes de recharge (Sidelc) et agit sur l'exemplarité de sa flotte interne. Cependant, cela ne mobilise qu'une part modeste du potentiel de réduction des émissions du parc privé global. L'action structurante de baisse de vitesse sur l'A10 semble être au stade du plaidoyer auprès de l'État plutôt qu'une mesure active, et il manque des leviers d'incitation massive (aides à l'achat, ZFE, charge rapide) pour accélérer significativement la transition des particuliers."
+    },
+    "error": null
+  },
+  "Vélo et transport en commun": {
+    "ids": [
+      13803,
+      13804,
+      13813,
+      13816,
+      13854,
+      10621
+    ],
+    "raw_text": "```json\n{\n  \"score\": 50,\n  \"justification\": \"La collectivité met en œuvre des actions réelles et structurantes (financement d'équipements pour la priorité des bus, subventions VAE, plan vélo, réaménagement du quartier gare). Cependant, l'activation du potentiel reste partielle : le système de priorisation des bus n'est déployé que sur quelques carrefours stratégiques et doit être généralisé pour être efficace, et l'amélioration de la desserte ferroviaire périphérique est encore au stade de plaidoyer ou de projet. Le levier est donc enclenché sérieusement, mais n'atteint pas encore une maturité systémique.\"\n}\n```",
+    "parsed": {
+      "score": 50,
+      "justification": "La collectivité met en œuvre des actions réelles et structurantes (financement d'équipements pour la priorité des bus, subventions VAE, plan vélo, réaménagement du quartier gare). Cependant, l'activation du potentiel reste partielle : le système de priorisation des bus n'est déployé que sur quelques carrefours stratégiques et doit être généralisé pour être efficace, et l'amélioration de la desserte ferroviaire périphérique est encore au stade de plaidoyer ou de projet. Le levier est donc enclenché sérieusement, mais n'atteint pas encore une maturité systémique."
+    },
+    "error": null
+  },
+  "Réduction des déplacements": {
+    "ids": [
+      10992,
+      10993,
+      10615,
+      10620,
+      10621,
+      14180
+    ],
+    "raw_text": "{\n  \"score\": 60,\n  \"justification\": \"La collectivité active de manière significative le potentiel structurel de réduction des déplacements grâce à une planification urbaine ambitieuse (PLUi-HD) qui recentre 70 % de l'habitat et les activités commerciales en cœur d'agglomération, limitant ainsi l'étalement urbain et les trajets contraints. Toutefois, l'activation du levier organisationnel (télétravail) reste faible dans les données fournies (expérimentation sur un nombre restreint d'agents, chiffres datés), ce qui limite l'exploitation du potentiel sur les déplacements pendulaires évitables.\"\n}",
+    "parsed": {
+      "score": 60,
+      "justification": "La collectivité active de manière significative le potentiel structurel de réduction des déplacements grâce à une planification urbaine ambitieuse (PLUi-HD) qui recentre 70 % de l'habitat et les activités commerciales en cœur d'agglomération, limitant ainsi l'étalement urbain et les trajets contraints. Toutefois, l'activation du levier organisationnel (télétravail) reste faible dans les données fournies (expérimentation sur un nombre restreint d'agents, chiffres datés), ce qui limite l'exploitation du potentiel sur les déplacements pendulaires évitables."
+    },
+    "error": null
+  },
+  "Bus et cars décarbonés": {
+    "ids": [
+      13811
+    ],
+    "raw_text": "{\n  \"score\": 40,\n  \"justification\": \"La collectivité a mis en place une stratégie structurelle pour verdir la flotte du réseau Azalys (critères d'achat, développement des bornes de recharge). Cependant, l'activation du potentiel de réduction de CO2 reste partielle et progressive, car elle semble dépendre du rythme naturel de renouvellement des véhicules ('lors du renouvellement') plutôt que d'un plan de conversion accéléré ou massif immédiat.\"\n}",
+    "parsed": {
+      "score": 40,
+      "justification": "La collectivité a mis en place une stratégie structurelle pour verdir la flotte du réseau Azalys (critères d'achat, développement des bornes de recharge). Cependant, l'activation du potentiel de réduction de CO2 reste partielle et progressive, car elle semble dépendre du rythme naturel de renouvellement des véhicules ('lors du renouvellement') plutôt que d'un plan de conversion accéléré ou massif immédiat."
+    },
+    "error": null
+  },
+  "Covoiturage": {
+    "ids": [
+      13814,
+      11573
+    ],
+    "raw_text": "{\n  \"score\": 30,\n  \"justification\": \"La collectivité a structuré les prérequis physiques (schéma directeur, aires, signalétique) et montre l'exemple via une plateforme interne. Cependant, l'activation réelle du potentiel est limitée par l'absence de services opérationnels à fort impact : les lignes de covoiturage sont encore au stade d'étude et aucun dispositif d'incitation financière pour le grand public n'est déployé pour massifier la pratique.\"\n}",
+    "parsed": {
+      "score": 30,
+      "justification": "La collectivité a structuré les prérequis physiques (schéma directeur, aires, signalétique) et montre l'exemple via une plateforme interne. Cependant, l'activation réelle du potentiel est limitée par l'absence de services opérationnels à fort impact : les lignes de covoiturage sont encore au stade d'étude et aucun dispositif d'incitation financière pour le grand public n'est déployé pour massifier la pratique."
+    },
+    "error": null
+  },
+  "Sobriété foncière": {
+    "ids": [
+      10622,
+      10615,
+      10614,
+      10645,
+      10774,
+      10787,
+      11009,
+      10789
+    ],
+    "raw_text": "{\n  \"score\": 85,\n  \"justification\": \"La collectivité mobilise le levier de manière systémique et avancée. La stratégie repose sur une planification contraignante (PLUi-HD visant 70 % des nouveaux logements en cœur d'agglo) et des outils opérationnels matures (observatoire foncier actif depuis 2009, traitement des friches et de la vacance). Le projet de désurbanisation du quartier de la Bouillie et la prise en compte de la 'trame brune' (sols vivants) démontrent une capacité rare à renaturer, activant ainsi le potentiel de stockage carbone au-delà de la simple limitation de l'étalement urbain.\"\n}",
+    "parsed": {
+      "score": 85,
+      "justification": "La collectivité mobilise le levier de manière systémique et avancée. La stratégie repose sur une planification contraignante (PLUi-HD visant 70 % des nouveaux logements en cœur d'agglo) et des outils opérationnels matures (observatoire foncier actif depuis 2009, traitement des friches et de la vacance). Le projet de désurbanisation du quartier de la Bouillie et la prise en compte de la 'trame brune' (sols vivants) démontrent une capacité rare à renaturer, activant ainsi le potentiel de stockage carbone au-delà de la simple limitation de l'étalement urbain."
+    },
+    "error": null
+  },
+  "Gestion des forêts et produits bois": {
+    "ids": [
+      10662,
+      10663,
+      10790,
+      10775
+    ],
+    "raw_text": "{\n  \"score\": 35,\n  \"justification\": \"La collectivité active ce levier principalement sous l'angle de l'urbanisme réglementaire et de l'adaptation climatique (préservation des surfaces via le PLUi, plantations dans les jardins privés, gestion des îlots de fraîcheur). Si la protection du stock existant est actée, les actions manquent d'ambition sur le volet 'produits bois' (promotion de la construction bois, structuration de filière) et sur la gestion sylvicole active à grande échelle, limitant ainsi l'activation du potentiel de séquestration et de substitution carbone.\"\n}",
+    "parsed": {
+      "score": 35,
+      "justification": "La collectivité active ce levier principalement sous l'angle de l'urbanisme réglementaire et de l'adaptation climatique (préservation des surfaces via le PLUi, plantations dans les jardins privés, gestion des îlots de fraîcheur). Si la protection du stock existant est actée, les actions manquent d'ambition sur le volet 'produits bois' (promotion de la construction bois, structuration de filière) et sur la gestion sylvicole active à grande échelle, limitant ainsi l'activation du potentiel de séquestration et de substitution carbone."
+    },
+    "error": null
+  },
+  "Pratiques stockantes": {
+    "ids": [
+      10670,
+      10774,
+      11568,
+      13865,
+      14168,
+      13866
+    ],
+    "raw_text": "{\n  \"score\": 75,\n  \"justification\": \"La collectivité mobilise le levier de manière structurée et cohérente en agissant sur les trois piliers essentiels : l'urbanisme réglementaire (PLUi-HD imposant des parts de pleine terre et protégeant les sols), l'aménagement opérationnel (projet emblématique et rare de désurbanisation du quartier de la Bouillie, désimperméabilisation des écoles) et l'agriculture (programme ACCLIMAGRI). L'intégration explicite de la « trame brune » (sols vivants) dénote une ambition supérieure à la moyenne, même si le volet agricole repose essentiellement sur de l'animation et du volontariat.\"\n}",
+    "parsed": {
+      "score": 75,
+      "justification": "La collectivité mobilise le levier de manière structurée et cohérente en agissant sur les trois piliers essentiels : l'urbanisme réglementaire (PLUi-HD imposant des parts de pleine terre et protégeant les sols), l'aménagement opérationnel (projet emblématique et rare de désurbanisation du quartier de la Bouillie, désimperméabilisation des écoles) et l'agriculture (programme ACCLIMAGRI). L'intégration explicite de la « trame brune » (sols vivants) dénote une ambition supérieure à la moyenne, même si le volet agricole repose essentiellement sur de l'animation et du volontariat."
+    },
+    "error": null
+  },
+  "Gestion des haies": {
+    "ids": [
+      10670,
+      11568,
+      13865,
+      14168,
+      13866
+    ],
+    "raw_text": "{\n  \"score\": 30,\n  \"justification\": \"La collectivité a structuré une démarche cohérente via le dispositif ACCLIMAGRI et le diagnostic Clim'Agri, dépassant le stade de la simple réflexion. Cependant, l'action repose essentiellement sur de l'animation, de la formation (ateliers) et de l'incitation volontaire, sans mise en évidence de financements directs massifs ou d'objectifs quantitatifs de plantation (linéaire de haies) qui permettraient d'activer une part significative du potentiel de stockage carbone.\"\n}",
+    "parsed": {
+      "score": 30,
+      "justification": "La collectivité a structuré une démarche cohérente via le dispositif ACCLIMAGRI et le diagnostic Clim'Agri, dépassant le stade de la simple réflexion. Cependant, l'action repose essentiellement sur de l'animation, de la formation (ateliers) et de l'incitation volontaire, sans mise en évidence de financements directs massifs ou d'objectifs quantitatifs de plantation (linéaire de haies) qui permettraient d'activer une part significative du potentiel de stockage carbone."
+    },
+    "error": null
+  },
+  "Elevage durable": {
+    "ids": [
+      11567,
+      11568,
+      14168,
+      13866
+    ],
+    "raw_text": "{\n  \"score\": 30,\n  \"justification\": \"La collectivité a enclenché une dynamique structurée via le diagnostic Clim’Agri et le programme Acclimagri, abordant le maintien de l'élevage et l'autonomie protéique, ainsi qu'une action sur la demande via les cantines (1 repas végétarien/semaine). Toutefois, le potentiel de réduction de CO2 n'est que partiellement activé : les actions agricoles relèvent principalement de l'animation et de la sensibilisation (ateliers) sans mécanismes incitatifs financiers ou structurels forts pour une transition profonde des pratiques, et l'action sur la restauration scolaire se limite aux standards réglementaires sans déploiement intensif sur l'ensemble du territoire.\"\n}",
+    "parsed": {
+      "score": 30,
+      "justification": "La collectivité a enclenché une dynamique structurée via le diagnostic Clim’Agri et le programme Acclimagri, abordant le maintien de l'élevage et l'autonomie protéique, ainsi qu'une action sur la demande via les cantines (1 repas végétarien/semaine). Toutefois, le potentiel de réduction de CO2 n'est que partiellement activé : les actions agricoles relèvent principalement de l'animation et de la sensibilisation (ateliers) sans mécanismes incitatifs financiers ou structurels forts pour une transition profonde des pratiques, et l'action sur la restauration scolaire se limite aux standards réglementaires sans déploiement intensif sur l'ensemble du territoire."
+    },
+    "error": null
+  },
+  "Changements de pratiques de fertilisation azotée": {
+    "ids": [
+      13866
+    ],
+    "raw_text": "{\n  \"score\": 25,\n  \"justification\": \"Les actions reposent principalement sur un diagnostic (Clim'Agri) et de l'animation territoriale (projet ACCLIMAGRI) visant à promouvoir des pratiques vertueuses (légumineuses, AB). Bien que les leviers techniques soient correctement identifiés, l'approche reste basée sur le volontariat et la sensibilisation, sans mention de dispositifs incitatifs financiers ou de déploiement massif permettant d'activer significativement le potentiel de réduction des émissions à l'échelle du territoire.\"\n}",
+    "parsed": {
+      "score": 25,
+      "justification": "Les actions reposent principalement sur un diagnostic (Clim'Agri) et de l'animation territoriale (projet ACCLIMAGRI) visant à promouvoir des pratiques vertueuses (légumineuses, AB). Bien que les leviers techniques soient correctement identifiés, l'approche reste basée sur le volontariat et la sensibilisation, sans mention de dispositifs incitatifs financiers ou de déploiement massif permettant d'activer significativement le potentiel de réduction des émissions à l'échelle du territoire."
+    },
+    "error": null
+  }
+}
