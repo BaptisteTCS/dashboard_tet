@@ -35,7 +35,7 @@ objectif_snbc = df_blois_impact.reduction_leveir.sum()
 
 st.title("🎯 Mesure d'impact")
 st.markdown(
-    "Projection des réductions d’émissions de GES du **PCAET Blois Agglopolys**"
+    "Projection des réductions d’émissions de GES du **PCAET Blois Agglopolys**."
 )
 st.markdown('---')
 
@@ -159,6 +159,8 @@ st.markdown("---")
 # ==========================
 # SECTION 2 : TOP LEVIERS CONTRIBUTEURS
 # ==========================
+
+st.badge("Vue par secteur", icon=':material/factory:', color='green')
 
 # Sélecteur de secteur global
 secteurs = sorted(df_blois_impact['Secteur'].dropna().unique())
