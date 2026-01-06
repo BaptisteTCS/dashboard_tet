@@ -9,18 +9,17 @@ from utils.db import (
 )
 
 # On cache toutes les données pour optimiser les performances
-@st.cache_resource(ttl="3d")
+@st.cache_resource(ttl="2d")
 def load_data():
     df_ct_actives = read_table('ct_actives')
     df_ct_niveau = read_table('ct_niveau')
-    df_ct_users_actifs = read_table('user_actifs_ct_mois')
-    df_fap_et_no_fap = read_table('fap_et_no_fap')  
+    df_ct_users_actifs = read_table('user_actifs_ct_mois') 
     df_pap_statut_region = read_table('pap_statut_region')
     df_pap_note_region = read_table('pap_note_region') 
-    return df_ct_actives, df_ct_niveau, df_ct_users_actifs, df_fap_et_no_fap, df_pap_statut_region, df_pap_note_region
+    return df_ct_actives, df_ct_niveau, df_ct_users_actifs, df_pap_statut_region, df_pap_note_region
 
 #Chargement des données
-df_ct_actives, df_ct_niveau, df_ct_users_actifs, df_fap_et_no_fap, df_pap_statut_region, df_pap_note_region = load_data() 
+df_ct_actives, df_ct_niveau, df_ct_users_actifs, df_pap_statut_region, df_pap_note_region = load_data() 
 
 #Thème Nivo
 theme_actif = {
@@ -1123,85 +1122,3 @@ with tabs[1]:
         st.badge(f'Suivi des plans et FA : **{selected_departement}**', icon=":material/modeling:", color="violet")
     else:
         st.badge(f'Suivi des plans et FA : **Territoire national**', icon=":material/modeling:", color="violet")
-
-    # Filtrer df_fap_et_no_fap selon la sélection
-    df_fap_selected = df_fap_et_no_fap.copy()
-    if selected_region != "Toutes":
-        df_fap_selected = df_fap_selected[df_fap_selected["region_name"] == selected_region]
-    if selected_departement != "Tous":
-        df_fap_selected = df_fap_selected[df_fap_selected["departement_name"] == selected_departement]
-
-    cols_pie = st.columns(2)
-
-    with cols_pie[0]:
-        st.markdown("**Répartition par type de plan**")
-        
-        # Compter le nombre de plans par type et trier du plus grand au plus petit
-        type_counts = df_fap_selected.groupby('type').size().reset_index(name='count')
-        type_counts = type_counts.sort_values('count', ascending=False)
-        
-        if len(type_counts) > 0:
-            pie_data_type = [
-                {"id": str(row['type']), "label": str(row['type']), "value": int(row['count'])}
-                for _, row in type_counts.iterrows()
-            ]
-            
-            with elements("pie_type_plans"):
-                with mui.Box(sx={"height": 400}):
-                    nivo.Pie(
-                        data=pie_data_type,
-                        margin={"top": 80, "right": 80, "bottom": 80, "left": 80},
-                        innerRadius=0.5,
-                        padAngle=0.7,
-                        cornerRadius=3,
-                        activeOuterRadiusOffset=8,
-                        colors={"scheme": "pastel2"},
-                        borderWidth=1,
-                        borderColor={"from": "color", "modifiers": [["darker", 0.2]]},
-                        arcLinkLabelsStraightLength=5,
-                        arcLinkLabelsSkipAngle=10,
-                        arcLinkLabelsTextColor="#333333",
-                        arcLinkLabelsThickness=2,
-                        arcLinkLabelsColor={"from": "color"},
-                        arcLabelsSkipAngle=10,
-                        arcLabelsTextColor={"from": "color", "modifiers": [["darker", 2]]},
-                        theme=theme_actif,
-                    )
-        else:
-            st.info("Aucune donnée de type disponible.")
-
-    with cols_pie[1]:
-        st.markdown("**Fiches actions pilotables et non-pilotables**")
-        
-        # Calculer les sommes de nb_fap et nb_no_fap
-        total_fap = int(df_fap_selected['nb_fap'].sum())
-        total_no_fap = int(df_fap_selected['nb_no_fap'].sum())
-        
-        if total_fap + total_no_fap > 0:
-            pie_data_fap = [
-                {"id": "Pilotables", "label": "Pilotables", "value": total_fap},
-                {"id": "Non-pilotables", "label": "Non-pilotables", "value": total_no_fap}
-            ]
-            
-            with elements("pie_fap_distribution"):
-                with mui.Box(sx={"height": 400}):
-                    nivo.Pie(
-                        data=pie_data_fap,
-                        margin={"top": 80, "right": 80, "bottom": 80, "left": 80},
-                        innerRadius=0.5,
-                        padAngle=0.7,
-                        cornerRadius=3,
-                        activeOuterRadiusOffset=8,
-                        colors={"scheme": "pastel2"},
-                        borderWidth=1,
-                        borderColor={"from": "color", "modifiers": [["darker", 0.2]]},
-                        arcLinkLabelsSkipAngle=10,
-                        arcLinkLabelsTextColor="#333333",
-                        arcLinkLabelsThickness=2,
-                        arcLinkLabelsColor={"from": "color"},
-                        arcLabelsSkipAngle=10,
-                        arcLabelsTextColor={"from": "color", "modifiers": [["darker", 2]]},
-                        theme=theme_actif,
-                    )
-        else:
-            st.info("Aucune donnée FA disponible.")

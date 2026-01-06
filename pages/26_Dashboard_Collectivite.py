@@ -1,0 +1,468 @@
+import streamlit as st
+
+# Configuration de la page en premier
+st.set_page_config(
+    page_title="Dashboard OKRs",
+    page_icon="🌠",
+    layout="wide"
+)
+
+import pandas as pd
+from streamlit_elements import elements, nivo, mui
+from utils.db import read_table
+
+# ==========================
+# Chargement des données
+# ==========================
+
+@st.cache_resource(ttl="2d")
+def load_data():
+    df_nb_fap_13 = read_table('nb_fap_13')
+    df_nb_fap_52 = read_table('nb_fap_52')
+    df_nb_fap_pilote_13 = read_table('nb_fap_pilote_13')
+    df_nb_fap_pilote_52 = read_table('nb_fap_pilote_52')
+    df_pap_13 = read_table('okr_plan_actif_13')
+    df_pap_52 = read_table('okr_plan_actif_52')
+    df_pap_date_passage = read_table('pap_date_passage')
+    df_pap_note_snapshot = read_table('pap_note_snapshot')
+    return df_nb_fap_13, df_nb_fap_52, df_nb_fap_pilote_13, df_nb_fap_pilote_52, df_pap_13, df_pap_52, df_pap_date_passage, df_pap_note_snapshot
+
+
+df_nb_fap_13, df_nb_fap_52, df_nb_fap_pilote_13, df_nb_fap_pilote_52, df_pap_13, df_pap_52, df_pap_date_passage, df_pap_note_snapshot = load_data()
+
+theme_actif = {
+    "text": {
+        "fontFamily": "Source Sans Pro, sans-serif",
+        "fontSize": 13,
+        "fill": "#31333F"
+    },
+    "labels": {
+        "text": {
+            "fontFamily": "Source Sans Pro, sans-serif",
+            "fontSize": 13,
+            "fill": "#000000"
+        }
+    },
+    "tooltip": {
+        "container": {
+            "background": "rgba(255, 255, 255, 0.95)",
+            "color": "#31333F",
+            "fontSize": "13px",
+            "fontFamily": "Source Sans Pro, sans-serif",
+            "borderRadius": "4px",
+            "boxShadow": "0 2px 8px rgba(0,0,0,0.15)",
+            "padding": "8px 12px",
+            "border": "1px solid rgba(0, 0, 0, 0.1)"
+        }
+    }
+}
+
+
+st.title("🌠 Dashboard OKRs")
+st.markdown("---")
+
+# ==========================
+st.markdown("## Objectif 1 : ACTIVATION")
+st.markdown("Permettre à chaque collectivité territoriale française de piloter ses plans & actions.")
+
+# ======================
+st.markdown("### A-1 (⭐ NS1 - externe)  : Nombre de collectivités avec ≥1 Plan d’Action Pilotable (PAP) dont actifs ≤1 an (12 mois | 52 semaines)")
+
+# Compter les collectivités distinctes par mois et statut
+df_evolution_statut = df_pap_52.copy()
+df_evolution_statut['semaine'] = pd.to_datetime(df_evolution_statut['semaine'])
+df_evolution_statut['mois'] = df_evolution_statut['semaine'].dt.to_period('M').dt.to_timestamp()
+
+df_evolution_statut = df_evolution_statut.sort_values('statut').drop_duplicates(subset=['collectivite_id', 'mois'], keep='first')
+df_evolution_statut = df_evolution_statut[df_evolution_statut['mois'] >= '2024-01-01']
+df_evolution_statut = df_evolution_statut.groupby(['mois', 'statut'])['collectivite_id'].nunique().reset_index(name='nb_collectivites')
+df_evolution_statut = df_evolution_statut.sort_values('mois')
+df_evolution_statut['mois_label'] = df_evolution_statut['mois'].dt.strftime('%Y-%m')
+
+if len(df_evolution_statut) > 0:
+    # Ordre : actif en premier (en bas du stack), inactif en second (au-dessus)
+    line_data_statuts = []
+    for statut in ["actif", "inactif"]:
+        df_statut = df_evolution_statut[df_evolution_statut['statut'] == statut].copy()
+        if not df_statut.empty:
+            line_data_statuts.append({
+                "id": statut.capitalize(),
+                "data": [
+                    {"x": row['mois_label'], "y": int(row['nb_collectivites'])}
+                    for _, row in df_statut.iterrows()
+                ]
+            })
+    
+    if len(line_data_statuts) > 0:
+        with elements("line_evolution_statuts_pap_52"):
+            with mui.Box(sx={"height": 450}):
+                nivo.Line(
+                    data=line_data_statuts,
+                    margin={"top": 20, "right": 110, "bottom": 60, "left": 60},
+                    xScale={"type": "point"},
+                    yScale={"type": "linear", "min": 0, "max": "auto", "stacked": True, "reverse": False},
+                    curve="monotoneX",
+                    axisTop=None,
+                    axisRight=None,
+                    axisBottom={
+                        "tickSize": 5,
+                        "tickPadding": 5,
+                        "tickRotation": -45,
+                        "legend": "Mois",
+                        "legendOffset": 50,
+                        "legendPosition": "middle"
+                    },
+                    axisLeft={
+                        "tickSize": 5,
+                        "tickPadding": 5,
+                        "tickRotation": 0,
+                        "legend": "Nombre de collectivités",
+                        "legendOffset": -50,
+                        "legendPosition": "middle"
+                    },
+                    enableArea=True,
+                    areaOpacity=0.7,
+                    enablePoints=False,
+                    useMesh=True,
+                    enableSlices="x",
+                    legends=[
+                        {
+                            "anchor": "bottom-right",
+                            "direction": "column",
+                            "justify": False,
+                            "translateX": 100,
+                            "translateY": 0,
+                            "itemsSpacing": 2,
+                            "itemWidth": 80,
+                            "itemHeight": 20,
+                            "itemDirection": "left-to-right",
+                            "itemOpacity": 0.85,
+                            "symbolSize": 12,
+                            "symbolShape": "circle",
+                        }
+                    ],
+                    colors={"scheme": "pastel2"},
+                    theme=theme_actif,
+                )
+        
+        # Métriques pour janvier de chaque année (collectivités actives)
+        df_actif = df_evolution_statut[df_evolution_statut['statut'] == 'actif']
+        
+        jan_2024 = df_actif[df_actif['mois_label'] == '2024-01']['nb_collectivites'].values
+        jan_2025 = df_actif[df_actif['mois_label'] == '2025-01']['nb_collectivites'].values
+        jan_2026 = df_actif[df_actif['mois_label'] == '2026-01']['nb_collectivites'].values
+        
+        val_2024 = int(jan_2024[0]) if len(jan_2024) > 0 else 0
+        val_2025 = int(jan_2025[0]) if len(jan_2025) > 0 else 0
+        val_2026 = int(jan_2026[0]) if len(jan_2026) > 0 else 0
+        
+        col1, col2, col3 = st.columns(3)
+        with col1:
+            st.metric("Actifs - Janvier 2024", val_2024)
+        with col2:
+            st.metric("Actifs - Janvier 2025", val_2025, delta=val_2025 - val_2024 if val_2024 > 0 else None)
+        with col3:
+            st.metric("Actifs - Janvier 2026", val_2026, delta=val_2026 - val_2025 if val_2025 > 0 else None)
+
+else:
+    st.info("Aucune donnée disponible pour le graphique d'évolution.")
+
+
+
+
+# ======================
+st.markdown("### A-2 (🌟 NS1 - interne)  : Nombre de collectivités avec ≥1 Plan d'Action Pilotable (PAP) actif ≤3 mois")
+
+df_evolution_statut = df_pap_13.copy()
+df_evolution_statut['semaine'] = pd.to_datetime(df_evolution_statut['semaine'])
+df_evolution_statut['mois'] = df_evolution_statut['semaine'].dt.to_period('M').dt.to_timestamp()
+
+df_evolution_statut = df_evolution_statut.sort_values('statut').drop_duplicates(subset=['collectivite_id', 'mois'], keep='first')
+df_evolution_statut = df_evolution_statut[df_evolution_statut['mois'] >= '2024-01-01']
+df_evolution_statut = df_evolution_statut.groupby(['mois', 'statut'])['collectivite_id'].nunique().reset_index(name='nb_collectivites')
+df_evolution_statut = df_evolution_statut.sort_values('mois')
+df_evolution_statut['mois_label'] = df_evolution_statut['mois'].dt.strftime('%Y-%m')
+
+if len(df_evolution_statut) > 0:
+    # Ordre : actif en premier (en bas du stack), inactif en second (au-dessus)
+    line_data_statuts = []
+    for statut in ["actif", "inactif"]:
+        df_statut = df_evolution_statut[df_evolution_statut['statut'] == statut].copy()
+        if not df_statut.empty:
+            line_data_statuts.append({
+                "id": statut.capitalize(),
+                "data": [
+                    {"x": row['mois_label'], "y": int(row['nb_collectivites'])}
+                    for _, row in df_statut.iterrows()
+                ]
+            })
+    
+    if len(line_data_statuts) > 0:
+        with elements("line_evolution_statuts_pap_13"):
+            with mui.Box(sx={"height": 450}):
+                nivo.Line(
+                    data=line_data_statuts,
+                    margin={"top": 20, "right": 110, "bottom": 60, "left": 60},
+                    xScale={"type": "point"},
+                    yScale={"type": "linear", "min": 0, "max": "auto", "stacked": True, "reverse": False},
+                    curve="monotoneX",
+                    axisTop=None,
+                    axisRight=None,
+                    axisBottom={
+                        "tickSize": 5,
+                        "tickPadding": 5,
+                        "tickRotation": -45,
+                        "legend": "Mois",
+                        "legendOffset": 50,
+                        "legendPosition": "middle"
+                    },
+                    axisLeft={
+                        "tickSize": 5,
+                        "tickPadding": 5,
+                        "tickRotation": 0,
+                        "legend": "Nombre de collectivités",
+                        "legendOffset": -50,
+                        "legendPosition": "middle"
+                    },
+                    enableArea=True,
+                    areaOpacity=0.7,
+                    enablePoints=False,
+                    useMesh=True,
+                    enableSlices="x",
+                    legends=[
+                        {
+                            "anchor": "bottom-right",
+                            "direction": "column",
+                            "justify": False,
+                            "translateX": 100,
+                            "translateY": 0,
+                            "itemsSpacing": 2,
+                            "itemWidth": 80,
+                            "itemHeight": 20,
+                            "itemDirection": "left-to-right",
+                            "itemOpacity": 0.85,
+                            "symbolSize": 12,
+                            "symbolShape": "circle",
+                        }
+                    ],
+                    colors={"scheme": "pastel2"},
+                    theme=theme_actif,
+                )
+        
+        # Métriques pour janvier de chaque année (collectivités actives)
+        df_actif = df_evolution_statut[df_evolution_statut['statut'] == 'actif']
+        
+        jan_2024 = df_actif[df_actif['mois_label'] == '2024-01']['nb_collectivites'].values
+        jan_2025 = df_actif[df_actif['mois_label'] == '2025-01']['nb_collectivites'].values
+        jan_2026 = df_actif[df_actif['mois_label'] == '2026-01']['nb_collectivites'].values
+        
+        val_2024 = int(jan_2024[0]) if len(jan_2024) > 0 else 0
+        val_2025 = int(jan_2025[0]) if len(jan_2025) > 0 else 0
+        val_2026 = int(jan_2026[0]) if len(jan_2026) > 0 else 0
+        
+        col1, col2, col3 = st.columns(3)
+        with col1:
+            st.metric("Actifs - Janvier 2024", val_2024)
+        with col2:
+            st.metric("Actifs - Janvier 2025", val_2025, delta=val_2025 - val_2024 if val_2024 > 0 else None)
+        with col3:
+            st.metric("Actifs - Janvier 2026", val_2026, delta=val_2026 - val_2025 if val_2025 > 0 else None)
+
+else:
+    st.info("Aucune donnée disponible pour le graphique d'évolution.")
+
+
+# ======================
+st.markdown("### A-3 (💫 - Activité) Nombre d’Actions pilotables actives ≤3 mois")
+
+df_evolution_statut = df_nb_fap_13.copy()
+
+df_evolution_statut['mois'] = pd.to_datetime(df_evolution_statut['mois'])
+df_evolution_statut = df_evolution_statut[df_evolution_statut['mois'] >= '2024-01-01']
+df_evolution_statut = df_evolution_statut.sort_values('mois')
+df_evolution_statut['mois_label'] = df_evolution_statut['mois'].dt.strftime('%Y-%m')
+
+if len(df_evolution_statut) > 0:
+    # Ordre : actif en premier (en bas du stack), inactif en second (au-dessus)
+    line_data_statuts = []
+    for statut in ["actif", "inactif"]:
+        df_statut = df_evolution_statut[df_evolution_statut['statut'] == statut].copy()
+        if not df_statut.empty:
+            line_data_statuts.append({
+                "id": statut.capitalize(),
+                "data": [
+                    {"x": row['mois_label'], "y": int(row['fiche_id'])}
+                    for _, row in df_statut.iterrows()
+                ]
+            })
+    
+    if len(line_data_statuts) > 0:
+        with elements("line_evolution_statuts_fap_13"):
+            with mui.Box(sx={"height": 450}):
+                nivo.Line(
+                    data=line_data_statuts,
+                    margin={"top": 20, "right": 110, "bottom": 60, "left": 60},
+                    xScale={"type": "point"},
+                    yScale={"type": "linear", "min": 0, "max": "auto", "stacked": True, "reverse": False},
+                    curve="monotoneX",
+                    axisTop=None,
+                    axisRight=None,
+                    axisBottom={
+                        "tickSize": 5,
+                        "tickPadding": 5,
+                        "tickRotation": -45,
+                        "legend": "Mois",
+                        "legendOffset": 50,
+                        "legendPosition": "middle"
+                    },
+                    axisLeft={
+                        "tickSize": 5,
+                        "tickPadding": 5,
+                        "tickRotation": 0,
+                        "legend": "Nombre d'actions pilotables actives",
+                        "legendOffset": -50,
+                        "legendPosition": "middle"
+                    },
+                    enableArea=True,
+                    areaOpacity=0.7,
+                    enablePoints=False,
+                    useMesh=True,
+                    enableSlices="x",
+                    legends=[
+                        {
+                            "anchor": "bottom-right",
+                            "direction": "column",
+                            "justify": False,
+                            "translateX": 100,
+                            "translateY": 0,
+                            "itemsSpacing": 2,
+                            "itemWidth": 80,
+                            "itemHeight": 20,
+                            "itemDirection": "left-to-right",
+                            "itemOpacity": 0.85,
+                            "symbolSize": 12,
+                            "symbolShape": "circle",
+                        }
+                    ],
+                    colors={"scheme": "pastel2"},
+                    theme=theme_actif,
+                )
+        
+        # Métriques pour janvier de chaque année (collectivités actives)
+        df_actif = df_evolution_statut[df_evolution_statut['statut'] == 'actif']
+        
+        jan_2024 = df_actif[df_actif['mois_label'] == '2024-01']['fiche_id'].values
+        jan_2025 = df_actif[df_actif['mois_label'] == '2025-01']['fiche_id'].values
+        jan_2026 = df_actif[df_actif['mois_label'] == '2026-01']['fiche_id'].values
+        
+        val_2024 = int(jan_2024[0]) if len(jan_2024) > 0 else 0
+        val_2025 = int(jan_2025[0]) if len(jan_2025) > 0 else 0
+        val_2026 = int(jan_2026[0]) if len(jan_2026) > 0 else 0
+        
+        col1, col2, col3 = st.columns(3)
+        with col1:
+            st.metric("Actifs - Janvier 2024", val_2024)
+        with col2:
+            st.metric("Actifs - Janvier 2025", val_2025, delta=val_2025 - val_2024 if val_2024 > 0 else None)
+        with col3:
+            st.metric("Actifs - Janvier 2026", val_2026, delta=val_2026 - val_2025 if val_2025 > 0 else None)
+
+else:
+    st.info("Aucune donnée disponible pour le graphique d'évolution.")
+
+
+# ======================
+st.markdown("### A-4 (🎇 - Exploration) : Nombre de PAP initialisés de façon autonome")
+
+df_evolution_statut = df_pap_date_passage.copy()
+
+df_evolution_statut['passage_pap'] = pd.to_datetime(df_evolution_statut['passage_pap'])
+df_evolution_statut['mois'] = df_evolution_statut['passage_pap'].dt.to_period('M').dt.to_timestamp()
+df_evolution_statut = df_evolution_statut[df_evolution_statut['mois'] >= '2024-01-01']
+df_evolution_statut = df_evolution_statut.sort_values('mois')
+df_evolution_statut['mois_label'] = df_evolution_statut['mois'].dt.strftime('%Y-%m')
+
+df_evolution_statut = df_evolution_statut[df_evolution_statut['import'] == 'Autonome'].groupby(['mois'])['plan'].nunique().reset_index(name='nb_plans_autonomes')
+df_evolution_statut = df_evolution_statut.sort_values('mois')
+df_evolution_statut['nb_plans_autonomes_cumul'] = df_evolution_statut['nb_plans_autonomes'].cumsum()
+df_evolution_statut['mois_label'] = df_evolution_statut['mois'].dt.strftime('%Y-%m')
+
+if len(df_evolution_statut) > 0:
+    line_data_statuts = [{
+        "id": "PAP Autonomes (cumulé)",
+        "data": [
+            {"x": row['mois_label'], "y": int(row['nb_plans_autonomes_cumul'])}
+            for _, row in df_evolution_statut.iterrows()
+        ]
+    }]
+    
+    with elements("line_evolution_autonome"):
+        with mui.Box(sx={"height": 450}):
+            nivo.Line(
+                data=line_data_statuts,
+                margin={"top": 20, "right": 110, "bottom": 60, "left": 60},
+                xScale={"type": "point"},
+                yScale={"type": "linear", "min": 0, "max": "auto", "stacked": False, "reverse": False},
+                curve="monotoneX",
+                axisTop=None,
+                axisRight=None,
+                axisBottom={
+                    "tickSize": 5,
+                    "tickPadding": 5,
+                    "tickRotation": -45,
+                    "legend": "Mois",
+                    "legendOffset": 50,
+                    "legendPosition": "middle"
+                },
+                axisLeft={
+                    "tickSize": 5,
+                    "tickPadding": 5,
+                    "tickRotation": 0,
+                    "legend": "Nombre de PAP autonomes (cumulé)",
+                    "legendOffset": -50,
+                    "legendPosition": "middle"
+                },
+                enableArea=True,
+                areaOpacity=0.7,
+                enablePoints=False,
+                useMesh=True,
+                enableSlices="x",
+                legends=[
+                    {
+                        "anchor": "bottom-right",
+                        "direction": "column",
+                        "justify": False,
+                        "translateX": 100,
+                        "translateY": 0,
+                        "itemsSpacing": 2,
+                        "itemWidth": 80,
+                        "itemHeight": 20,
+                        "itemDirection": "left-to-right",
+                        "itemOpacity": 0.85,
+                        "symbolSize": 12,
+                        "symbolShape": "circle",
+                    }
+                ],
+                colors={"scheme": "pastel2"},
+                theme=theme_actif,
+            )
+    
+    # Métriques pour janvier de chaque année
+    jan_2024 = df_evolution_statut[df_evolution_statut['mois_label'] == '2024-01']['nb_plans_autonomes_cumul'].values
+    jan_2025 = df_evolution_statut[df_evolution_statut['mois_label'] == '2025-01']['nb_plans_autonomes_cumul'].values
+    jan_2026 = df_evolution_statut[df_evolution_statut['mois_label'] == '2026-01']['nb_plans_autonomes_cumul'].values
+    
+    val_2024 = int(jan_2024[0]) if len(jan_2024) > 0 else 0
+    val_2025 = int(jan_2025[0]) if len(jan_2025) > 0 else 0
+    val_2026 = int(jan_2026[0]) if len(jan_2026) > 0 else 0
+    
+    col1, col2, col3 = st.columns(3)
+    with col1:
+        st.metric("PAP Autonomes - Janvier 2024", val_2024)
+    with col2:
+        st.metric("PAP Autonomes - Janvier 2025", val_2025, delta=val_2025 - val_2024 if val_2024 > 0 else None)
+    with col3:
+        st.metric("PAP Autonomes - Janvier 2026", val_2026, delta=val_2026 - val_2025 if val_2025 > 0 else None)
+
+else:
+    st.info("Aucune donnée disponible pour le graphique d'évolution.")
