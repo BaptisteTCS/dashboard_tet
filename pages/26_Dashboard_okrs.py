@@ -75,17 +75,17 @@ with tabs[0]:
     df_evolution_statut['mois'] = df_evolution_statut['semaine'].dt.to_period('M').dt.to_timestamp()
 
     df_evolution_statut = df_evolution_statut.sort_values('statut').drop_duplicates(subset=['collectivite_id', 'mois'], keep='first')
-    df_evolution_statut = df_evolution_statut[df_evolution_statut['mois'] >= '2024-01-01']
+    df_evolution_statut = df_evolution_statut[df_evolution_statut['mois'] >= '2023-01-01']
     df_evolution_statut = df_evolution_statut.groupby(['mois', 'statut'])['collectivite_id'].nunique().reset_index(name='nb_collectivites')
     df_evolution_statut = df_evolution_statut.sort_values('mois')
     df_evolution_statut['mois_label'] = df_evolution_statut['mois'].dt.strftime('%Y-%m')
 
-    # Métriques pour janvier de chaque année (collectivités actives)
+    # Métriques pour décembre de chaque année (collectivités actives)
     df_actif = df_evolution_statut[df_evolution_statut['statut'] == 'actif']
     
-    jan_2024 = df_actif[df_actif['mois_label'] == '2024-01']['nb_collectivites'].values
-    jan_2025 = df_actif[df_actif['mois_label'] == '2025-01']['nb_collectivites'].values
-    jan_2026 = df_actif[df_actif['mois_label'] == '2026-01']['nb_collectivites'].values
+    jan_2024 = df_actif[df_actif['mois_label'] == '2023-12']['nb_collectivites'].values
+    jan_2025 = df_actif[df_actif['mois_label'] == '2024-12']['nb_collectivites'].values
+    jan_2026 = df_actif[df_actif['mois_label'] == '2025-12']['nb_collectivites'].values
     
     val_2024 = int(jan_2024[0]) if len(jan_2024) > 0 else 0
     val_2025 = int(jan_2025[0]) if len(jan_2025) > 0 else 0
@@ -93,11 +93,11 @@ with tabs[0]:
     
     col1, col2, col3 = st.columns(3)
     with col1:
-        st.metric("Actifs - Janvier 2024", val_2024)
+        st.metric("Actifs - Décembre 2023", val_2024)
     with col2:
-        st.metric("Actifs - Janvier 2025", val_2025, delta=val_2025 - val_2024 if val_2024 > 0 else None)
+        st.metric("Actifs - Décembre 2024", val_2025, delta=val_2025 - val_2024 if val_2024 > 0 else None)
     with col3:
-        st.metric("Actifs - Janvier 2026", val_2026, delta=val_2026 - val_2025 if val_2025 > 0 else None)
+        st.metric("Actifs - Décembre 2025", val_2026, delta=val_2026 - val_2025 if val_2025 > 0 else None)
 
     if len(df_evolution_statut) > 0:
         # Ordre : actif en premier (en bas du stack), inactif en second (au-dessus)
@@ -179,17 +179,17 @@ with tabs[0]:
     df_evolution_statut['mois'] = df_evolution_statut['semaine'].dt.to_period('M').dt.to_timestamp()
 
     df_evolution_statut = df_evolution_statut.sort_values('statut').drop_duplicates(subset=['collectivite_id', 'mois'], keep='first')
-    df_evolution_statut = df_evolution_statut[df_evolution_statut['mois'] >= '2024-01-01']
+    df_evolution_statut = df_evolution_statut[df_evolution_statut['mois'] >= '2023-01-01']
     df_evolution_statut = df_evolution_statut.groupby(['mois', 'statut'])['collectivite_id'].nunique().reset_index(name='nb_collectivites')
     df_evolution_statut = df_evolution_statut.sort_values('mois')
     df_evolution_statut['mois_label'] = df_evolution_statut['mois'].dt.strftime('%Y-%m')
 
-    # Métriques pour janvier de chaque année (collectivités actives)
+    # Métriques pour décembre de chaque année (collectivités actives)
     df_actif = df_evolution_statut[df_evolution_statut['statut'] == 'actif']
     
-    jan_2024 = df_actif[df_actif['mois_label'] == '2024-01']['nb_collectivites'].values
-    jan_2025 = df_actif[df_actif['mois_label'] == '2025-01']['nb_collectivites'].values
-    jan_2026 = df_actif[df_actif['mois_label'] == '2026-01']['nb_collectivites'].values
+    jan_2024 = df_actif[df_actif['mois_label'] == '2023-12']['nb_collectivites'].values
+    jan_2025 = df_actif[df_actif['mois_label'] == '2024-12']['nb_collectivites'].values
+    jan_2026 = df_actif[df_actif['mois_label'] == '2025-12']['nb_collectivites'].values
     
     val_2024 = int(jan_2024[0]) if len(jan_2024) > 0 else 0
     val_2025 = int(jan_2025[0]) if len(jan_2025) > 0 else 0
@@ -197,11 +197,11 @@ with tabs[0]:
     
     col1, col2, col3 = st.columns(3)
     with col1:
-        st.metric("Actifs - Janvier 2024", val_2024)
+        st.metric("Actifs - Décembre 2023", val_2024)
     with col2:
-        st.metric("Actifs - Janvier 2025", val_2025, delta=val_2025 - val_2024 if val_2024 > 0 else None)
+        st.metric("Actifs - Décembre 2024", val_2025, delta=val_2025 - val_2024 if val_2024 > 0 else None)
     with col3:
-        st.metric("Actifs - Janvier 2026", val_2026, delta=val_2026 - val_2025 if val_2025 > 0 else None)
+        st.metric("Actifs - Décembre 2025", val_2026, delta=val_2026 - val_2025 if val_2025 > 0 else None)
 
     if len(df_evolution_statut) > 0:
         # Ordre : actif en premier (en bas du stack), inactif en second (au-dessus)
@@ -279,16 +279,17 @@ with tabs[0]:
     df_evolution_statut = df_nb_fap_13.copy()
 
     df_evolution_statut['mois'] = pd.to_datetime(df_evolution_statut['mois'])
-    df_evolution_statut = df_evolution_statut[df_evolution_statut['mois'] >= '2024-01-01']
-    df_evolution_statut = df_evolution_statut.sort_values('mois')
+    df_evolution_statut = df_evolution_statut[df_evolution_statut['mois'] >= '2023-12-01']
     df_evolution_statut['mois_label'] = df_evolution_statut['mois'].dt.strftime('%Y-%m')
 
-    # Métriques pour janvier de chaque année (collectivités actives)
+    # Métriques pour décembre de chaque année (collectivités actives)
     df_actif = df_evolution_statut[df_evolution_statut['statut'] == 'actif']
+
+    df_evolution_statut = df_evolution_statut.sort_values('mois')
     
-    jan_2024 = df_actif[df_actif['mois_label'] == '2024-01']['fiche_id'].values
-    jan_2025 = df_actif[df_actif['mois_label'] == '2025-01']['fiche_id'].values
-    jan_2026 = df_actif[df_actif['mois_label'] == '2026-01']['fiche_id'].values
+    jan_2024 = df_actif[df_actif['mois_label'] == '2023-12']['fiche_id'].values
+    jan_2025 = df_actif[df_actif['mois_label'] == '2024-12']['fiche_id'].values
+    jan_2026 = df_actif[df_actif['mois_label'] == '2025-12']['fiche_id'].values
     
     val_2024 = int(jan_2024[0]) if len(jan_2024) > 0 else 0
     val_2025 = int(jan_2025[0]) if len(jan_2025) > 0 else 0
@@ -296,11 +297,11 @@ with tabs[0]:
     
     col1, col2, col3 = st.columns(3)
     with col1:
-        st.metric("Actifs - Janvier 2024", val_2024)
+        st.metric("Actifs - Décembre 2023", val_2024)
     with col2:
-        st.metric("Actifs - Janvier 2025", val_2025, delta=val_2025 - val_2024 if val_2024 > 0 else None)
+        st.metric("Actifs - Décembre 2024", val_2025, delta=val_2025 - val_2024 if val_2024 > 0 else None)
     with col3:
-        st.metric("Actifs - Janvier 2026", val_2026, delta=val_2026 - val_2025 if val_2025 > 0 else None)
+        st.metric("Actifs - Décembre 2025", val_2026, delta=val_2026 - val_2025 if val_2025 > 0 else None)
 
     if len(df_evolution_statut) > 0:
         # Ordre : actif en premier (en bas du stack), inactif en second (au-dessus)
@@ -379,7 +380,7 @@ with tabs[0]:
 
     df_evolution_statut['passage_pap'] = pd.to_datetime(df_evolution_statut['passage_pap'])
     df_evolution_statut['mois'] = df_evolution_statut['passage_pap'].dt.to_period('M').dt.to_timestamp()
-    df_evolution_statut = df_evolution_statut[df_evolution_statut['mois'] >= '2024-01-01']
+    df_evolution_statut = df_evolution_statut[df_evolution_statut['mois'] >= '2023-01-01']
     df_evolution_statut = df_evolution_statut.sort_values('mois')
     df_evolution_statut['mois_label'] = df_evolution_statut['mois'].dt.strftime('%Y-%m')
 
@@ -388,10 +389,10 @@ with tabs[0]:
     df_evolution_statut['nb_plans_autonomes_cumul'] = df_evolution_statut['nb_plans_autonomes'].cumsum()
     df_evolution_statut['mois_label'] = df_evolution_statut['mois'].dt.strftime('%Y-%m')
 
-    # Métriques pour janvier de chaque année
-    jan_2024 = df_evolution_statut[df_evolution_statut['mois_label'] == '2024-01']['nb_plans_autonomes_cumul'].values
-    jan_2025 = df_evolution_statut[df_evolution_statut['mois_label'] == '2025-01']['nb_plans_autonomes_cumul'].values
-    jan_2026 = df_evolution_statut[df_evolution_statut['mois_label'] == '2026-01']['nb_plans_autonomes_cumul'].values
+    # Métriques pour décembre de chaque année
+    jan_2024 = df_evolution_statut[df_evolution_statut['mois_label'] == '2023-12']['nb_plans_autonomes_cumul'].values
+    jan_2025 = df_evolution_statut[df_evolution_statut['mois_label'] == '2024-12']['nb_plans_autonomes_cumul'].values
+    jan_2026 = df_evolution_statut[df_evolution_statut['mois_label'] == '2025-12']['nb_plans_autonomes_cumul'].values
     
     val_2024 = int(jan_2024[0]) if len(jan_2024) > 0 else 0
     val_2025 = int(jan_2025[0]) if len(jan_2025) > 0 else 0
@@ -399,11 +400,11 @@ with tabs[0]:
     
     col1, col2, col3 = st.columns(3)
     with col1:
-        st.metric("PAP Autonomes - Janvier 2024", val_2024)
+        st.metric("PAP Autonomes - Décembre 2023", val_2024)
     with col2:
-        st.metric("PAP Autonomes - Janvier 2025", val_2025, delta=val_2025 - val_2024 if val_2024 > 0 else None)
+        st.metric("PAP Autonomes - Décembre 2024", val_2025, delta=val_2025 - val_2024 if val_2024 > 0 else None)
     with col3:
-        st.metric("PAP Autonomes - Janvier 2026", val_2026, delta=val_2026 - val_2025 if val_2025 > 0 else None)
+        st.metric("PAP Autonomes - Décembre 2025", val_2026, delta=val_2026 - val_2025 if val_2025 > 0 else None)
 
     if len(df_evolution_statut) > 0:
         line_data_statuts = [{
@@ -485,7 +486,7 @@ with tabs[1]:
     count_pap = df_evolution_statut.groupby(['mois', 'statut', 'collectivite_id'])['plan_id'].nunique().reset_index(name='nb_paps')
     count_pap = count_pap[(count_pap['nb_paps'] >= 2) & (count_pap['statut'] == 'actif')]
 
-    df_evolution_statut = df_evolution_statut[df_evolution_statut['mois'] >= '2024-01-01']
+    df_evolution_statut = df_evolution_statut[df_evolution_statut['mois'] >= '2023-01-01']
 
     df_evolution_statut = df_evolution_statut.merge(count_pap, on=['mois', 'statut', 'collectivite_id'], how='inner')
 
@@ -494,12 +495,12 @@ with tabs[1]:
     df_evolution_statut = df_evolution_statut.sort_values('mois')
     df_evolution_statut['mois_label'] = df_evolution_statut['mois'].dt.strftime('%Y-%m')
 
-    # Métriques pour janvier de chaque année (collectivités actives)
+    # Métriques pour décembre de chaque année (collectivités actives)
     df_actif = df_evolution_statut[df_evolution_statut['statut'] == 'actif']
     
-    jan_2024 = df_actif[df_actif['mois_label'] == '2024-01']['nb_collectivites'].values
-    jan_2025 = df_actif[df_actif['mois_label'] == '2025-01']['nb_collectivites'].values
-    jan_2026 = df_actif[df_actif['mois_label'] == '2026-01']['nb_collectivites'].values
+    jan_2024 = df_actif[df_actif['mois_label'] == '2023-12']['nb_collectivites'].values
+    jan_2025 = df_actif[df_actif['mois_label'] == '2024-12']['nb_collectivites'].values
+    jan_2026 = df_actif[df_actif['mois_label'] == '2025-12']['nb_collectivites'].values
     
     val_2024 = int(jan_2024[0]) if len(jan_2024) > 0 else 0
     val_2025 = int(jan_2025[0]) if len(jan_2025) > 0 else 0
@@ -507,11 +508,11 @@ with tabs[1]:
     
     col1, col2, col3 = st.columns(3)
     with col1:
-        st.metric("Janvier 2024", val_2024)
+        st.metric("Décembre 2023", val_2024)
     with col2:
-        st.metric("Janvier 2025", val_2025, delta=val_2025 - val_2024 if val_2024 > 0 else None)
+        st.metric("Décembre 2024", val_2025, delta=val_2025 - val_2024 if val_2024 > 0 else None)
     with col3:
-        st.metric("Janvier 2026", val_2026, delta=val_2026 - val_2025 if val_2025 > 0 else None)
+        st.metric("Décembre 2025", val_2026, delta=val_2026 - val_2025 if val_2025 > 0 else None)
 
     if len(df_evolution_statut) > 0:
         # Ordre : actif en premier (en bas du stack), inactif en second (au-dessus)
@@ -597,7 +598,7 @@ with tabs[1]:
     count_pap = df_evolution_statut.groupby(['mois', 'statut', 'collectivite_id'])['plan_id'].nunique().reset_index(name='nb_paps')
     count_pap = count_pap[(count_pap['nb_paps'] >= 2) & (count_pap['statut'] == 'actif')]
 
-    df_evolution_statut = df_evolution_statut[df_evolution_statut['mois'] >= '2024-01-01']
+    df_evolution_statut = df_evolution_statut[df_evolution_statut['mois'] >= '2023-01-01']
     df_evolution_statut = df_evolution_statut.merge(count_pap, on=['mois', 'statut', 'collectivite_id'], how='inner')
     df_evolution_statut['multi_pilotes'] = df_evolution_statut['nb_pilotes'].apply(lambda x: '>= 2 pilotes' if x>1 else '1 pilote ou moins')
 
@@ -606,12 +607,12 @@ with tabs[1]:
     df_evolution_statut = df_evolution_statut.sort_values('mois')
     df_evolution_statut['mois_label'] = df_evolution_statut['mois'].dt.strftime('%Y-%m')
 
-    # Métriques pour janvier de chaque année (collectivités actives)
+    # Métriques pour décembre de chaque année (collectivités actives)
     df_actif = df_evolution_statut[df_evolution_statut['statut'] == 'actif']
     
-    jan_2024 = df_actif[df_actif['mois_label'] == '2024-01']['nb_collectivites'].values
-    jan_2025 = df_actif[df_actif['mois_label'] == '2025-01']['nb_collectivites'].values
-    jan_2026 = df_actif[df_actif['mois_label'] == '2026-01']['nb_collectivites'].values
+    jan_2024 = df_actif[df_actif['mois_label'] == '2023-12']['nb_collectivites'].values
+    jan_2025 = df_actif[df_actif['mois_label'] == '2024-12']['nb_collectivites'].values
+    jan_2026 = df_actif[df_actif['mois_label'] == '2025-12']['nb_collectivites'].values
     
     val_2024 = int(jan_2024[0]) if len(jan_2024) > 0 else 0
     val_2025 = int(jan_2025[0]) if len(jan_2025) > 0 else 0
@@ -619,11 +620,11 @@ with tabs[1]:
     
     col1, col2, col3 = st.columns(3)
     with col1:
-        st.metric("Janvier 2024", val_2024)
+        st.metric("Décembre 2023", val_2024)
     with col2:
-        st.metric("Janvier 2025", val_2025, delta=val_2025 - val_2024 if val_2024 > 0 else None)
+        st.metric("Décembre 2024", val_2025, delta=val_2025 - val_2024 if val_2024 > 0 else None)
     with col3:
-        st.metric("Janvier 2026", val_2026, delta=val_2026 - val_2025 if val_2025 > 0 else None)
+        st.metric("Décembre 2025", val_2026, delta=val_2026 - val_2025 if val_2025 > 0 else None)
 
     if len(df_evolution_statut) > 0:
         # Créer la liste de tous les mois triés chronologiquement
@@ -708,16 +709,16 @@ with tabs[1]:
     df_evolution_statut = df_nb_fap_pilote_13.copy()
 
     df_evolution_statut['mois'] = pd.to_datetime(df_evolution_statut['mois'])
-    df_evolution_statut = df_evolution_statut[df_evolution_statut['mois'] >= '2024-01-01']
+    df_evolution_statut = df_evolution_statut[df_evolution_statut['mois'] >= '2023-12-01']
     df_evolution_statut = df_evolution_statut.sort_values('mois')
     df_evolution_statut['mois_label'] = df_evolution_statut['mois'].dt.strftime('%Y-%m')
 
-    # Métriques pour janvier de chaque année (collectivités actives)
+    # Métriques pour décembre de chaque année (collectivités actives)
     df_actif = df_evolution_statut[df_evolution_statut['statut'] == 'actif']
     
-    jan_2024 = df_actif[df_actif['mois_label'] == '2024-01']['fiche_id'].values
-    jan_2025 = df_actif[df_actif['mois_label'] == '2025-01']['fiche_id'].values
-    jan_2026 = df_actif[df_actif['mois_label'] == '2026-01']['fiche_id'].values
+    jan_2024 = df_actif[df_actif['mois_label'] == '2023-12']['fiche_id'].values
+    jan_2025 = df_actif[df_actif['mois_label'] == '2024-12']['fiche_id'].values
+    jan_2026 = df_actif[df_actif['mois_label'] == '2025-12']['fiche_id'].values
     
     val_2024 = int(jan_2024[0]) if len(jan_2024) > 0 else 0
     val_2025 = int(jan_2025[0]) if len(jan_2025) > 0 else 0
@@ -725,11 +726,11 @@ with tabs[1]:
     
     col1, col2, col3 = st.columns(3)
     with col1:
-        st.metric("Actifs - Janvier 2024", val_2024)
+        st.metric("Actifs - Décembre 2023", val_2024)
     with col2:
-        st.metric("Actifs - Janvier 2025", val_2025, delta=val_2025 - val_2024 if val_2024 > 0 else None)
+        st.metric("Actifs - Décembre 2024", val_2025, delta=val_2025 - val_2024 if val_2024 > 0 else None)
     with col3:
-        st.metric("Actifs - Janvier 2026", val_2026, delta=val_2026 - val_2025 if val_2025 > 0 else None)
+        st.metric("Actifs - Décembre 2025", val_2026, delta=val_2026 - val_2025 if val_2025 > 0 else None)
 
     if len(df_evolution_statut) > 0:
         # Ordre : actif en premier (en bas du stack), inactif en second (au-dessus)
@@ -815,7 +816,7 @@ with tabs[2]:
     df_evolution_statut['mois'] = df_evolution_statut['semaine'].dt.to_period('M').dt.to_timestamp()
 
     df_evolution_statut = df_evolution_statut.sort_values('score', ascending=False).drop_duplicates(subset=['plan_id', 'mois'], keep='first')
-    df_evolution_statut = df_evolution_statut[df_evolution_statut['mois'] >= '2024-01-01']
+    df_evolution_statut = df_evolution_statut[df_evolution_statut['mois'] >= '2023-01-01']
     
     df_evolution_statut['statut'] = df_evolution_statut['score'].apply(lambda x: "Score >=50%" if x>=2 else "Score <50%")
 
@@ -824,11 +825,11 @@ with tabs[2]:
     df_evolution_statut = df_evolution_statut.sort_values('mois')
     df_evolution_statut['mois_label'] = df_evolution_statut['mois'].dt.strftime('%Y-%m')
 
-    # Métriques pour janvier de chaque année (collectivités actives)
+    # Métriques pour décembre de chaque année (collectivités actives)
     df_actif = df_evolution_statut[df_evolution_statut['statut'] == 'Score >=50%']
     
     may_2025 = df_actif[df_actif['mois_label'] == '2025-05']['nb_plans'].values
-    jan_2026 = df_actif[df_actif['mois_label'] == '2026-01']['nb_plans'].values
+    jan_2026 = df_actif[df_actif['mois_label'] == '2025-12']['nb_plans'].values
     
     val_2025 = int(may_2025[0]) if len(may_2025) > 0 else 0
     val_2026 = int(jan_2026[0]) if len(jan_2026) > 0 else 0
@@ -915,7 +916,7 @@ with tabs[2]:
     df_evolution_statut['mois'] = df_evolution_statut['semaine'].dt.to_period('M').dt.to_timestamp()
 
     df_evolution_statut = df_evolution_statut.sort_values('score', ascending=False).drop_duplicates(subset=['plan_id', 'mois'], keep='first')
-    df_evolution_statut = df_evolution_statut[df_evolution_statut['mois'] >= '2024-01-01']
+    df_evolution_statut = df_evolution_statut[df_evolution_statut['mois'] >= '2023-01-01']
     
     df_evolution_statut['statut'] = df_evolution_statut['score'].apply(lambda x: "Score >=80%" if x>=3.2 else "Score <80%")
 
@@ -924,11 +925,11 @@ with tabs[2]:
     df_evolution_statut = df_evolution_statut.sort_values('mois')
     df_evolution_statut['mois_label'] = df_evolution_statut['mois'].dt.strftime('%Y-%m')
 
-    # Métriques pour janvier de chaque année (collectivités actives)
+    # Métriques pour décembre de chaque année (collectivités actives)
     df_actif = df_evolution_statut[df_evolution_statut['statut'] == 'Score >=80%']
     
     may_2025 = df_actif[df_actif['mois_label'] == '2025-05']['nb_plans'].values
-    jan_2026 = df_actif[df_actif['mois_label'] == '2026-01']['nb_plans'].values
+    jan_2026 = df_actif[df_actif['mois_label'] == '2025-12']['nb_plans'].values
     
     val_2025 = int(may_2025[0]) if len(may_2025) > 0 else 0
     val_2026 = int(jan_2026[0]) if len(jan_2026) > 0 else 0
