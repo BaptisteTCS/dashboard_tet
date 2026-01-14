@@ -675,7 +675,7 @@ with tabs[1]:
                 st.metric(
                     cat,
                     int(df_cat.shape[0]),
-                    delta=df_cat[df_cat.date_activation > (datetime.now(timezone.utc) - timedelta(days=30))].shape[0]
+                    delta=df_cat[df_cat.date_activation > (pd.Timestamp.now() - timedelta(days=30))].shape[0]
                 )
 
     # ===================================================

@@ -431,58 +431,137 @@ def recuperer_donnees_api(indic: dict, detail_container=None, ct_filter=None) ->
             dimensions.append(axe_dim)
 
         # Requêtes paginées
-        offset = 0
         limit = 10000
         lignes_tc = 0
         
-        while True:
-            # Construction de la requête de base
-            query = {
-                "measures": [measure_name],
-                "timezone": "UTC",
-                "dimensions": dimensions,
-                "timeDimensions": [{"dimension": date_dim, "granularity": "year"}],
-                "order": {date_dim: "asc"},
-                "limit": limit,
-                "offset": offset
-            }
+        # Pour commune et epci : pagination par année (beaucoup de données)
+        # Pour region, departement, ept : pagination simple (peu de données)
+        if tc in ['commune', 'epci']:
+            annee_actuelle = datetime.now().year
             
-            # Ajouter les filtres si le type de collectivité est commune ou epci
-            if ct_filter and tc in ct_filter and ct_filter[tc]:
-                query["filters"] = [
-                    {
-                        "dimension": geocode_dim,
-                        "operator": "equals",
-                        "values": ct_filter[tc]
+            if detail_container:
+                detail_container.caption(f"    🔄 Pagination par année pour {tc}...")
+            
+            for annee in range(2000, annee_actuelle + 1):
+                offset = 0
+                lignes_annee = 0
+                
+                # Pagination avec offset pour chaque année
+                while True:
+                    # Construction de la requête avec filtre sur l'année
+                    query = {
+                        "measures": [measure_name],
+                        "timezone": "UTC",
+                        "dimensions": dimensions,
+                        "timeDimensions": [
+                            {
+                                "dimension": date_dim,
+                                "granularity": "year",
+                                "dateRange": [f"{annee}-01-01", f"{annee}-12-31"]
+                            }
+                        ],
+                        "order": {date_dim: "asc"},
+                        "limit": limit,
+                        "offset": offset
                     }
-                ]
+                    
+                    # Ajouter les filtres de collectivités si nécessaire
+                    if ct_filter and tc in ct_filter and ct_filter[tc]:
+                        query["filters"] = [
+                            {
+                                "dimension": geocode_dim,
+                                "operator": "equals",
+                                "values": ct_filter[tc]
+                            }
+                        ]
+                    
+                    data_post = {"query": query}
+                    
+                    response = requests.post(url_post, headers=headers_post, data=json.dumps(data_post), timeout=60)
+                    
+                    if response.status_code == 200:
+                        rows = response.json().get("data", [])
+                        if not rows:
+                            break
+
+                        df = pd.DataFrame(rows)
+                        df["type_collectivite"] = tc
+                        all_dfs.append(df)
+
+                        lignes_annee += len(rows)
+                        lignes_tc += len(rows)
+                        total_lignes += len(rows)
+                        
+                        # Si on reçoit moins de lignes que la limite, on a tout récupéré pour cette année
+                        if len(rows) < limit:
+                            break
+                        
+                        offset += limit
+                    else:
+                        st.error(f"Erreur {response.status_code} pour {tc} - année {annee} : {response.text}")
+                        break
+                
+                # Affichage du résumé pour cette année
+                if detail_container and lignes_annee > 0:
+                    detail_container.caption(f"    ✅ {annee} : {lignes_annee:,} lignes")
+        
+        else:
+            # Pagination simple pour region, departement, ept (peu de données)
+            offset = 0
             
-            data_post = {"query": query}
+            if detail_container:
+                detail_container.caption(f"    🔄 Pagination simple pour {tc}...")
             
-            response = requests.post(url_post, headers=headers_post, data=json.dumps(data_post), timeout=60)
-            
-            if response.status_code == 200:
-                rows = response.json().get("data", [])
-                if not rows:
+            while True:
+                # Construction de la requête sans filtre d'année
+                query = {
+                    "measures": [measure_name],
+                    "timezone": "UTC",
+                    "dimensions": dimensions,
+                    "timeDimensions": [{"dimension": date_dim, "granularity": "year"}],
+                    "order": {date_dim: "asc"},
+                    "limit": limit,
+                    "offset": offset
+                }
+                
+                # Ajouter les filtres de collectivités si nécessaire
+                if ct_filter and tc in ct_filter and ct_filter[tc]:
+                    query["filters"] = [
+                        {
+                            "dimension": geocode_dim,
+                            "operator": "equals",
+                            "values": ct_filter[tc]
+                        }
+                    ]
+                
+                data_post = {"query": query}
+                
+                response = requests.post(url_post, headers=headers_post, data=json.dumps(data_post), timeout=60)
+                
+                if response.status_code == 200:
+                    rows = response.json().get("data", [])
+                    if not rows:
+                        break
+
+                    df = pd.DataFrame(rows)
+                    df["type_collectivite"] = tc
+                    all_dfs.append(df)
+
+                    lignes_tc += len(rows)
+                    total_lignes += len(rows)
+                    
+                    # Si on reçoit moins de lignes que la limite, on a tout récupéré
+                    if len(rows) < limit:
+                        break
+                    
+                    offset += limit
+                else:
+                    st.error(f"Erreur {response.status_code} pour {tc} : {response.text}")
                     break
-
-                df = pd.DataFrame(rows)
-                df["type_collectivite"] = tc
-                all_dfs.append(df)
-
-                lignes_tc += len(rows)
-                total_lignes += len(rows)
-                
-                # Affichage des détails en temps réel
-                if detail_container:
-                    detail_container.markdown(
-                        f"  - **{tc}** : {lignes_tc:,} lignes récupérées"
-                    )
-                
-                offset += limit
-            else:
-                st.error(f"Erreur {response.status_code} pour {tc} : {response.text}")
-                break
+        
+        # Affichage du total pour le type de collectivité
+        if detail_container:
+            detail_container.markdown(f"  - **{tc}** : {lignes_tc:,} lignes récupérées au total")
 
     if not all_dfs:
         return pd.DataFrame()
@@ -542,7 +621,7 @@ def nettoyer_et_joindre_collectivites(df_total: pd.DataFrame) -> tuple[pd.DataFr
         with st.expander("🔍 Voir les doublons dans la table collectivite"):
             st.dataframe(
                 duplicated_codes[['id', 'nom', 'code_siren_insee', 'type', 'siren']].sort_values('code_siren_insee'),
-                use_container_width=True
+                width='stretch'
             )
             st.info("💡 Ces doublons vont créer des lignes dupliquées lors de la jointure. Considérez nettoyer la base de données.")
     
@@ -583,7 +662,7 @@ def nettoyer_et_joindre_collectivites(df_total: pd.DataFrame) -> tuple[pd.DataFr
                     df_correspondantes[df_correspondantes['geocode'].isin(geocodes_problematiques.head(20).index)][
                         ['geocode', 'collectivite_id', 'id', 'code_siren_insee']
                     ].sort_values('geocode'),
-                    use_container_width=True
+                    width='stretch'
                 )
     
     # Nettoyer les colonnes
@@ -606,7 +685,7 @@ def formater_pour_tet_v2(df: pd.DataFrame, indic: dict, date_min: str = '1990-01
 
     if st.session_state.debug_mode:
         with st.expander("df_format"):
-            st.dataframe(df_format, use_container_width=True)
+            st.dataframe(df_format, width='stretch')
     
     # Renommer les colonnes
     df_format.rename(
@@ -619,7 +698,7 @@ def formater_pour_tet_v2(df: pd.DataFrame, indic: dict, date_min: str = '1990-01
 
     if st.session_state.debug_mode:
         with st.expander("df_format 2"):
-            st.dataframe(df_format, use_container_width=True)
+            st.dataframe(df_format, width='stretch')
     
     # Sélectionner les colonnes essentielles
     colonnes_necessaires = ['indicateur_id', 'collectivite_id', 'date_valeur', 'resultat', 'identifiant_referentiel', 'api_nom_cube']
@@ -627,7 +706,7 @@ def formater_pour_tet_v2(df: pd.DataFrame, indic: dict, date_min: str = '1990-01
 
     if st.session_state.debug_mode:
         with st.expander("df_format 3"):
-            st.dataframe(df_format_tet_v2, use_container_width=True)
+            st.dataframe(df_format_tet_v2, width='stretch')
     
     # Supprimer les NaN et appliquer le ratio pour convertir les unités
     df_format_tet_v2 = df_format_tet_v2.dropna(subset=['resultat']).copy(deep=True)
@@ -636,7 +715,7 @@ def formater_pour_tet_v2(df: pd.DataFrame, indic: dict, date_min: str = '1990-01
 
     if st.session_state.debug_mode:
         with st.expander("df_format 4"):
-            st.dataframe(df_format_tet_v2, use_container_width=True)
+            st.dataframe(df_format_tet_v2, width='stretch')
     
     # Formatage des types
     df_format_tet_v2['date_valeur'] = pd.to_datetime(df_format_tet_v2['date_valeur'])
@@ -644,7 +723,7 @@ def formater_pour_tet_v2(df: pd.DataFrame, indic: dict, date_min: str = '1990-01
 
     if st.session_state.debug_mode:
         with st.expander("df_format 5"):
-            st.dataframe(df_format_tet_v2, use_container_width=True)
+            st.dataframe(df_format_tet_v2, width='stretch')
     
     # Suppression des données antérieures à la date limite
     df_format_tet_v2 = df_format_tet_v2[df_format_tet_v2['date_valeur'] >= date_min].copy()
@@ -924,7 +1003,7 @@ left_pad_meta, center_meta, right_pad_meta = st.columns([1, 2, 1])
 with center_meta:
     st.markdown("Vérifiez si les métadonnées du fichier YAML sont à jour avec l'API")
     
-    if st.button("🔄 Vérifier les métadonnées", use_container_width=True, key="btn_check_metadata"):
+    if st.button("🔄 Vérifier les métadonnées", width='stretch', key="btn_check_metadata"):
         print("\n" + "!"*60)
         print("! BOUTON VÉRIFIER LES MÉTADONNÉES CLIQUÉ")
         print("!"*60)
@@ -1005,7 +1084,7 @@ if st.session_state.metadata_check:
         if st.button(
             f"✏️ Mettre à jour les {len(keys_a_modifier)} indicateur(s)",
             type="primary",
-            use_container_width=True,
+            width='stretch',
             key="btn_update_yaml"
         ):
             print("\n" + "#"*60)
@@ -1143,7 +1222,7 @@ if st.session_state.metadata_check:
         st.warning(f"Ces {len(differences['manquants_api'])} indicateur(s) sont dans le YAML mais introuvables dans l'API")
         
         df_manquants = pd.DataFrame(differences['manquants_api'])
-        st.dataframe(df_manquants, use_container_width=True)
+        st.dataframe(df_manquants, width='stretch')
 
 st.markdown("---")
 st.markdown("## 📋 Sélection des indicateurs")
@@ -1175,7 +1254,7 @@ try:
             "🚀 Lancer l'import",
             disabled=len(indicateurs_selectionnes) == 0,
             type="primary",
-            use_container_width=True
+            width='stretch'
         )
     
     # Traitement de l'import
@@ -1224,7 +1303,7 @@ try:
 
                 if st.session_state.debug_mode:
                     with st.expander("df_api 1"):
-                        st.dataframe(df_api, use_container_width=True)
+                        st.dataframe(df_api, width='stretch')
                 
                 if df_api.empty:
                     st.warning(f"⚠️ Aucune donnée récupérée pour cet indicateur")
@@ -1268,7 +1347,7 @@ try:
                         cols_disponibles = [c for c in cols_to_show if c in df_non_correspondantes.columns]
                         st.dataframe(
                             df_non_correspondantes[cols_disponibles].drop_duplicates(),
-                            use_container_width=True
+                            width='stretch'
                         )
                 
                 # Ajout de l'ID de l'indicateur
@@ -1363,7 +1442,7 @@ try:
 
                 if st.session_state.debug_mode:
                     with st.expander("df_final 1"):
-                        st.dataframe(df_final, use_container_width=True)
+                        st.dataframe(df_final, width='stretch')
 
                 # Jointure selon axe ou non
                 # Si correspondance_indicateurs est un dict, on a des axes à mapper
@@ -1383,7 +1462,7 @@ try:
 
                     if st.session_state.debug_mode:
                         with st.expander("df_final 2"):
-                            st.dataframe(df_final, use_container_width=True)
+                            st.dataframe(df_final, width='stretch')
 
                     # Faire le mapping et la jointure
                     df_final['identifiant_referentiel'] = df_final[colonne_axe].map(nom_to_id)
@@ -1409,7 +1488,7 @@ try:
 
                 if st.session_state.debug_mode:
                     with st.expander("df_final 3"):
-                        st.dataframe(df_final, use_container_width=True)
+                        st.dataframe(df_final, width='stretch')
                 
                 # Formatage au format TET v2
                 date_min_str = '1990-01-01'
@@ -1440,11 +1519,11 @@ try:
                     'date_valeur': ['min', 'max']
                 }).round(2)
                 stats.columns = ['Nb collectivités', 'Nb lignes', 'Date min', 'Date max']
-                st.dataframe(stats, use_container_width=True)
+                st.dataframe(stats, width='stretch')
             
             # Aperçu des données
             with st.expander("👀 Aperçu des données importées (100 premières lignes)"):
-                st.dataframe(df_complet.head(100), use_container_width=True)
+                st.dataframe(df_complet.head(100), width='stretch')
         else:
             st.error("❌ Aucune donnée à enregistrer")
 

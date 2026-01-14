@@ -25,10 +25,13 @@ def load_data():
     df_pap_52 = read_table('okr_plan_actif_52')
     df_pap_date_passage = read_table('pap_date_passage')
     df_pap_note = read_table('pap_note')
-    return df_nb_fap_13, df_nb_fap_52, df_nb_fap_pilote_13, df_nb_fap_pilote_52, df_pap_13, df_pap_52, df_pap_date_passage, df_pap_note
+    df_fa_sharing = read_table('fa_sharing')
+    df_activation_user = read_table('activation_user')
+    df_activation_collectivite = read_table('activation_collectivite')
+    return df_nb_fap_13, df_nb_fap_52, df_nb_fap_pilote_13, df_nb_fap_pilote_52, df_pap_13, df_pap_52, df_pap_date_passage, df_pap_note, df_fa_sharing, df_activation_user, df_activation_collectivite
 
 
-df_nb_fap_13, df_nb_fap_52, df_nb_fap_pilote_13, df_nb_fap_pilote_52, df_pap_13, df_pap_52, df_pap_date_passage, df_pap_note = load_data()
+df_nb_fap_13, df_nb_fap_52, df_nb_fap_pilote_13, df_nb_fap_pilote_52, df_pap_13, df_pap_52, df_pap_date_passage, df_pap_note, df_fa_sharing, df_activation_user, df_activation_collectivite = load_data()
 
 theme_actif = {
     "text": {
@@ -59,7 +62,7 @@ theme_actif = {
 
 
 st.title("🌠 Dashboard OKRs")
-tabs =st.tabs(["1 - Activation", "2 - Rétention", "3 - Qualité"])
+tabs =st.tabs(["1 - Activation", "2 - Rétention", "3 - Qualité", "5 - Légitimité"])
 
 with tabs[0]:
 
@@ -372,6 +375,105 @@ with tabs[0]:
     else:
         st.info("Aucune donnée disponible pour le graphique d'évolution.")
 
+    # ======================
+    st.markdown("### A-3 (bis) (💫 - Activité) Nombre d’Actions pilotables actives ≤12 mois")
+
+    df_evolution_statut = df_nb_fap_52.copy()
+
+    df_evolution_statut['mois'] = pd.to_datetime(df_evolution_statut['mois'])
+    df_evolution_statut = df_evolution_statut[df_evolution_statut['mois'] >= '2023-12-01']
+    df_evolution_statut['mois_label'] = df_evolution_statut['mois'].dt.strftime('%Y-%m')
+
+    # Métriques pour décembre de chaque année (collectivités actives)
+    df_actif = df_evolution_statut[df_evolution_statut['statut'] == 'actif']
+
+    df_evolution_statut = df_evolution_statut.sort_values('mois')
+    
+    jan_2024 = df_actif[df_actif['mois_label'] == '2023-12']['fiche_id'].values
+    jan_2025 = df_actif[df_actif['mois_label'] == '2024-12']['fiche_id'].values
+    jan_2026 = df_actif[df_actif['mois_label'] == '2025-12']['fiche_id'].values
+    
+    val_2024 = int(jan_2024[0]) if len(jan_2024) > 0 else 0
+    val_2025 = int(jan_2025[0]) if len(jan_2025) > 0 else 0
+    val_2026 = int(jan_2026[0]) if len(jan_2026) > 0 else 0
+    
+    col1, col2, col3 = st.columns(3)
+    with col1:
+        st.metric("Actifs - Décembre 2023", val_2024)
+    with col2:
+        st.metric("Actifs - Décembre 2024", val_2025, delta=val_2025 - val_2024 if val_2024 > 0 else None)
+    with col3:
+        st.metric("Actifs - Décembre 2025", val_2026, delta=val_2026 - val_2025 if val_2025 > 0 else None)
+
+    if len(df_evolution_statut) > 0:
+        # Ordre : actif en premier (en bas du stack), inactif en second (au-dessus)
+        line_data_statuts = []
+        for statut in ["actif", "inactif"]:
+            df_statut = df_evolution_statut[df_evolution_statut['statut'] == statut].copy()
+            if not df_statut.empty:
+                line_data_statuts.append({
+                    "id": statut.capitalize(),
+                    "data": [
+                        {"x": row['mois_label'], "y": int(row['fiche_id'])}
+                        for _, row in df_statut.iterrows()
+                    ]
+                })
+        
+        if len(line_data_statuts) > 0:
+            with elements("line_evolution_statuts_fap_52"):
+                with mui.Box(sx={"height": 450}):
+                    nivo.Line(
+                        data=line_data_statuts,
+                        margin={"top": 20, "right": 110, "bottom": 60, "left": 60},
+                        xScale={"type": "point"},
+                        yScale={"type": "linear", "min": 0, "max": "auto", "stacked": True, "reverse": False},
+                        curve="monotoneX",
+                        axisTop=None,
+                        axisRight=None,
+                        axisBottom={
+                            "tickSize": 5,
+                            "tickPadding": 5,
+                            "tickRotation": -45,
+                            "legend": "Mois",
+                            "legendOffset": 50,
+                            "legendPosition": "middle"
+                        },
+                        axisLeft={
+                            "tickSize": 5,
+                            "tickPadding": 5,
+                            "tickRotation": 0,
+                            "legend": "Nombre d'actions pilotables actives",
+                            "legendOffset": -50,
+                            "legendPosition": "middle"
+                        },
+                        enableArea=True,
+                        areaOpacity=0.7,
+                        enablePoints=False,
+                        useMesh=True,
+                        enableSlices="x",
+                        legends=[
+                            {
+                                "anchor": "bottom-right",
+                                "direction": "column",
+                                "justify": False,
+                                "translateX": 100,
+                                "translateY": 0,
+                                "itemsSpacing": 2,
+                                "itemWidth": 80,
+                                "itemHeight": 20,
+                                "itemDirection": "left-to-right",
+                                "itemOpacity": 0.85,
+                                "symbolSize": 12,
+                                "symbolShape": "circle",
+                            }
+                        ],
+                        colors={"scheme": "pastel2"},
+                        theme=theme_actif,
+                    )
+
+    else:
+        st.info("Aucune donnée disponible pour le graphique d'évolution.")
+
 
     # ======================
     st.markdown("### A-4 (🎇 - Exploration) : Nombre de PAP initialisés de façon autonome")
@@ -384,15 +486,16 @@ with tabs[0]:
     df_evolution_statut = df_evolution_statut.sort_values('mois')
     df_evolution_statut['mois_label'] = df_evolution_statut['mois'].dt.strftime('%Y-%m')
 
-    df_evolution_statut = df_evolution_statut[df_evolution_statut['import'] == 'Autonome'].groupby(['mois'])['plan'].nunique().reset_index(name='nb_plans_autonomes')
-    df_evolution_statut = df_evolution_statut.sort_values('mois')
-    df_evolution_statut['nb_plans_autonomes_cumul'] = df_evolution_statut['nb_plans_autonomes'].cumsum()
-    df_evolution_statut['mois_label'] = df_evolution_statut['mois'].dt.strftime('%Y-%m')
+    # Préparer les données pour les métriques (Autonomes uniquement)
+    df_autonomes = df_evolution_statut[df_evolution_statut['import'] == 'Autonome'].groupby(['mois'])['plan'].nunique().reset_index(name='nb_plans_autonomes')
+    df_autonomes = df_autonomes.sort_values('mois')
+    df_autonomes['nb_plans_autonomes_cumul'] = df_autonomes['nb_plans_autonomes'].cumsum()
+    df_autonomes['mois_label'] = df_autonomes['mois'].dt.strftime('%Y-%m')
 
     # Métriques pour décembre de chaque année
-    jan_2024 = df_evolution_statut[df_evolution_statut['mois_label'] == '2023-12']['nb_plans_autonomes_cumul'].values
-    jan_2025 = df_evolution_statut[df_evolution_statut['mois_label'] == '2024-12']['nb_plans_autonomes_cumul'].values
-    jan_2026 = df_evolution_statut[df_evolution_statut['mois_label'] == '2025-12']['nb_plans_autonomes_cumul'].values
+    jan_2024 = df_autonomes[df_autonomes['mois_label'] == '2023-12']['nb_plans_autonomes_cumul'].values
+    jan_2025 = df_autonomes[df_autonomes['mois_label'] == '2024-12']['nb_plans_autonomes_cumul'].values
+    jan_2026 = df_autonomes[df_autonomes['mois_label'] == '2025-12']['nb_plans_autonomes_cumul'].values
     
     val_2024 = int(jan_2024[0]) if len(jan_2024) > 0 else 0
     val_2025 = int(jan_2025[0]) if len(jan_2025) > 0 else 0
@@ -406,65 +509,87 @@ with tabs[0]:
     with col3:
         st.metric("PAP Autonomes - Décembre 2025", val_2026, delta=val_2026 - val_2025 if val_2025 > 0 else None)
 
-    if len(df_evolution_statut) > 0:
-        line_data_statuts = [{
-            "id": "PAP Autonomes (cumulé)",
-            "data": [
-                {"x": row['mois_label'], "y": int(row['nb_plans_autonomes_cumul'])}
-                for _, row in df_evolution_statut.iterrows()
-            ]
-        }]
+
+    # Préparer les données pour le graphique stacked
+    # Compter le nombre de plans par mois et par type d'import
+    df_graph = df_evolution_statut.groupby(['mois', 'mois_label', 'import'])['plan'].nunique().reset_index(name='nb_plans')
+    df_graph = df_graph.sort_values('mois')
+    
+    # Créer la liste de tous les mois triés chronologiquement
+    tous_les_mois = df_graph.sort_values('mois')['mois_label'].unique().tolist()
+    
+    if len(df_graph) > 0:
+        line_data_statuts = []
+        for import_type in ["Autonome", "Importé"]:
+            df_type = df_graph[df_graph['import'] == import_type].copy()
+            
+            # Créer un dictionnaire pour lookup rapide
+            valeurs_par_mois = dict(zip(df_type['mois_label'], df_type['nb_plans']))
+            
+            # Boucher les trous et calculer le cumulé
+            cumul = 0
+            data_points = []
+            for mois in tous_les_mois:
+                valeur_mois = valeurs_par_mois.get(mois, 0)
+                cumul += valeur_mois
+                data_points.append({"x": mois, "y": int(cumul)})
+            
+            line_data_statuts.append({
+                "id": import_type,
+                "data": data_points
+            })
         
-        with elements("line_evolution_autonome"):
-            with mui.Box(sx={"height": 450}):
-                nivo.Line(
-                    data=line_data_statuts,
-                    margin={"top": 20, "right": 110, "bottom": 60, "left": 60},
-                    xScale={"type": "point"},
-                    yScale={"type": "linear", "min": 0, "max": "auto", "stacked": False, "reverse": False},
-                    curve="monotoneX",
-                    axisTop=None,
-                    axisRight=None,
-                    axisBottom={
-                        "tickSize": 5,
-                        "tickPadding": 5,
-                        "tickRotation": -45,
-                        "legend": "Mois",
-                        "legendOffset": 50,
-                        "legendPosition": "middle"
-                    },
-                    axisLeft={
-                        "tickSize": 5,
-                        "tickPadding": 5,
-                        "tickRotation": 0,
-                        "legend": "Nombre de PAP autonomes (cumulé)",
-                        "legendOffset": -50,
-                        "legendPosition": "middle"
-                    },
-                    enableArea=True,
-                    areaOpacity=0.7,
-                    enablePoints=False,
-                    useMesh=True,
-                    enableSlices="x",
-                    legends=[
-                        {
-                            "anchor": "bottom-right",
-                            "direction": "column",
-                            "justify": False,
-                            "translateX": 100,
-                            "translateY": 0,
-                            "itemsSpacing": 2,
-                            "itemWidth": 80,
-                            "itemHeight": 20,
-                            "itemDirection": "left-to-right",
-                            "itemOpacity": 0.85,
-                            "symbolSize": 12,
-                            "symbolShape": "circle",
-                        }
-                    ],
-                    colors={"scheme": "pastel2"},
-                    theme=theme_actif,
-                )
+        if len(line_data_statuts) > 0:
+            with elements("line_evolution_autonome"):
+                with mui.Box(sx={"height": 450}):
+                    nivo.Line(
+                        data=line_data_statuts,
+                        margin={"top": 20, "right": 110, "bottom": 60, "left": 60},
+                        xScale={"type": "point"},
+                        yScale={"type": "linear", "min": 0, "max": "auto", "stacked": True, "reverse": False},
+                        curve="monotoneX",
+                        axisTop=None,
+                        axisRight=None,
+                        axisBottom={
+                            "tickSize": 5,
+                            "tickPadding": 5,
+                            "tickRotation": -45,
+                            "legend": "Mois",
+                            "legendOffset": 50,
+                            "legendPosition": "middle"
+                        },
+                        axisLeft={
+                            "tickSize": 5,
+                            "tickPadding": 5,
+                            "tickRotation": 0,
+                            "legend": "Nombre de PAP (cumulé)",
+                            "legendOffset": -50,
+                            "legendPosition": "middle"
+                        },
+                        enableArea=True,
+                        areaOpacity=0.7,
+                        enablePoints=False,
+                        useMesh=True,
+                        enableSlices="x",
+                        legends=[
+                            {
+                                "anchor": "bottom-right",
+                                "direction": "column",
+                                "justify": False,
+                                "translateX": 100,
+                                "translateY": 0,
+                                "itemsSpacing": 2,
+                                "itemWidth": 80,
+                                "itemHeight": 20,
+                                "itemDirection": "left-to-right",
+                                "itemOpacity": 0.85,
+                                "symbolSize": 12,
+                                "symbolShape": "circle",
+                            }
+                        ],
+                        colors={"scheme": "pastel2"},
+                        theme=theme_actif,
+                    )
 
     else:
         st.info("Aucune donnée disponible pour le graphique d'évolution.")
@@ -704,7 +829,7 @@ with tabs[1]:
 
 
     st.markdown("---")
-    st.markdown('### R-3 (💫 - Activité) : Nombre d’Actions pilotables actives avec pilote de l’action actif ≤ 12 mois')
+    st.markdown('### R-3 (💫 - Activité) : Nombre d’Actions pilotables actives avec pilote de l’action actif ≤ 3 mois')
 
     df_evolution_statut = df_nb_fap_pilote_13.copy()
 
@@ -797,6 +922,178 @@ with tabs[1]:
                         colors={"scheme": "pastel2"},
                         theme=theme_actif,
                     )
+
+    else:
+        st.info("Aucune donnée disponible pour le graphique d'évolution.")
+
+    st.markdown('### R-3 (bis) (💫 - Activité) : Nombre d’Actions pilotables actives avec pilote de l’action actif ≤ 12 mois')
+
+    df_evolution_statut = df_nb_fap_pilote_52.copy()
+
+    df_evolution_statut['mois'] = pd.to_datetime(df_evolution_statut['mois'])
+    df_evolution_statut = df_evolution_statut[df_evolution_statut['mois'] >= '2023-12-01']
+    df_evolution_statut = df_evolution_statut.sort_values('mois')
+    df_evolution_statut['mois_label'] = df_evolution_statut['mois'].dt.strftime('%Y-%m')
+
+    # Métriques pour décembre de chaque année (collectivités actives)
+    df_actif = df_evolution_statut[df_evolution_statut['statut'] == 'actif']
+    
+    jan_2024 = df_actif[df_actif['mois_label'] == '2023-12']['fiche_id'].values
+    jan_2025 = df_actif[df_actif['mois_label'] == '2024-12']['fiche_id'].values
+    jan_2026 = df_actif[df_actif['mois_label'] == '2025-12']['fiche_id'].values
+    
+    val_2024 = int(jan_2024[0]) if len(jan_2024) > 0 else 0
+    val_2025 = int(jan_2025[0]) if len(jan_2025) > 0 else 0
+    val_2026 = int(jan_2026[0]) if len(jan_2026) > 0 else 0
+    
+    col1, col2, col3 = st.columns(3)
+    with col1:
+        st.metric("Actifs - Décembre 2023", val_2024)
+    with col2:
+        st.metric("Actifs - Décembre 2024", val_2025, delta=val_2025 - val_2024 if val_2024 > 0 else None)
+    with col3:
+        st.metric("Actifs - Décembre 2025", val_2026, delta=val_2026 - val_2025 if val_2025 > 0 else None)
+
+    if len(df_evolution_statut) > 0:
+        # Ordre : actif en premier (en bas du stack), inactif en second (au-dessus)
+        line_data_statuts = []
+        for statut in ["actif", "inactif"]:
+            df_statut = df_evolution_statut[df_evolution_statut['statut'] == statut].copy()
+            if not df_statut.empty:
+                line_data_statuts.append({
+                    "id": statut.capitalize(),
+                    "data": [
+                        {"x": row['mois_label'], "y": int(row['fiche_id'])}
+                        for _, row in df_statut.iterrows()
+                    ]
+                })
+        
+        if len(line_data_statuts) > 0:
+            with elements("line_evolution_statuts_fap_pilote_52"):
+                with mui.Box(sx={"height": 450}):
+                    nivo.Line(
+                        data=line_data_statuts,
+                        margin={"top": 20, "right": 110, "bottom": 60, "left": 60},
+                        xScale={"type": "point"},
+                        yScale={"type": "linear", "min": 0, "max": "auto", "stacked": True, "reverse": False},
+                        curve="monotoneX",
+                        axisTop=None,
+                        axisRight=None,
+                        axisBottom={
+                            "tickSize": 5,
+                            "tickPadding": 5,
+                            "tickRotation": -45,
+                            "legend": "Mois",
+                            "legendOffset": 50,
+                            "legendPosition": "middle"
+                        },
+                        axisLeft={
+                            "tickSize": 5,
+                            "tickPadding": 5,
+                            "tickRotation": 0,
+                            "legend": "Nombre d'actions pilotables actives",
+                            "legendOffset": -50,
+                            "legendPosition": "middle"
+                        },
+                        enableArea=True,
+                        areaOpacity=0.7,
+                        enablePoints=False,
+                        useMesh=True,
+                        enableSlices="x",
+                        legends=[
+                            {
+                                "anchor": "bottom-right",
+                                "direction": "column",
+                                "justify": False,
+                                "translateX": 100,
+                                "translateY": 0,
+                                "itemsSpacing": 2,
+                                "itemWidth": 80,
+                                "itemHeight": 20,
+                                "itemDirection": "left-to-right",
+                                "itemOpacity": 0.85,
+                                "symbolSize": 12,
+                                "symbolShape": "circle",
+                            }
+                        ],
+                        colors={"scheme": "pastel2"},
+                        theme=theme_actif,
+                    )
+
+    else:
+        st.info("Aucune donnée disponible pour le graphique d'évolution.")
+
+    
+    st.markdown("---")
+
+    st.markdown('### R-4 (🎇 - Exploration) : Nombre d’actions partagées/liées entre collectivités')
+
+    # Compter les collectivités distinctes par mois et statut
+    df_evolution_statut = df_fa_sharing.copy()
+
+    df_evolution_statut = df_evolution_statut.sort_values('mois')
+    df_evolution_statut['mois_label'] = df_evolution_statut['mois'].dt.strftime('%Y-%m')
+
+    if len(df_evolution_statut) > 0:
+        # Une seule série de données
+        line_data = [{
+            "id": "FA partagées",
+            "data": [
+                {"x": row['mois_label'], "y": int(row['nb_fa_shared'])}
+                for _, row in df_evolution_statut.iterrows()
+            ]
+        }]
+        
+        with elements("line_evolution_statuts_fa_sharing"):
+            with mui.Box(sx={"height": 450}):
+                nivo.Line(
+                    data=line_data,
+                    margin={"top": 20, "right": 110, "bottom": 60, "left": 60},
+                    xScale={"type": "point"},
+                    yScale={"type": "linear", "min": 0, "max": "auto", "stacked": False, "reverse": False},
+                    curve="monotoneX",
+                    axisTop=None,
+                    axisRight=None,
+                    axisBottom={
+                        "tickSize": 5,
+                        "tickPadding": 5,
+                        "tickRotation": -45,
+                        "legend": "Mois",
+                        "legendOffset": 50,
+                        "legendPosition": "middle"
+                    },
+                    axisLeft={
+                        "tickSize": 5,
+                        "tickPadding": 5,
+                        "tickRotation": 0,
+                        "legend": "Nombre de FA partagées",
+                        "legendOffset": -50,
+                        "legendPosition": "middle"
+                    },
+                    enableArea=True,
+                    areaOpacity=0.7,
+                    enablePoints=False,
+                    useMesh=True,
+                    enableSlices="x",
+                    legends=[
+                        {
+                            "anchor": "bottom-right",
+                            "direction": "column",
+                            "justify": False,
+                            "translateX": 100,
+                            "translateY": 0,
+                            "itemsSpacing": 2,
+                            "itemWidth": 80,
+                            "itemHeight": 20,
+                            "itemDirection": "left-to-right",
+                            "itemOpacity": 0.85,
+                            "symbolSize": 12,
+                            "symbolShape": "circle",
+                        }
+                    ],
+                    colors={"scheme": "pastel2"},
+                    theme=theme_actif,
+                )
 
     else:
         st.info("Aucune donnée disponible pour le graphique d'évolution.")
@@ -1001,6 +1298,187 @@ with tabs[2]:
                         colors={"scheme": "pastel2"},
                         theme=theme_actif,
                     )
+
+    else:
+        st.info("Aucune donnée disponible pour le graphique d'évolution.")
+
+
+with tabs[3]:
+    st.markdown("---")
+
+    st.markdown('### L-1 (⭐ NS5 - externe - Acquisition) : Nombre d’utilisateurs activés par mois')
+
+    # Compter les collectivités distinctes par mois et statut
+    df_evolution_statut = df_activation_user.copy()
+
+    df_evolution_statut = df_evolution_statut.sort_values('mois')
+    df_evolution_statut['mois_label'] = df_evolution_statut['mois'].dt.strftime('%Y-%m')
+
+    jan_2024 = df_evolution_statut[df_evolution_statut['mois_label'] == '2023-12']['nb_users'].values
+    jan_2025 = df_evolution_statut[df_evolution_statut['mois_label'] == '2024-12']['nb_users'].values
+    jan_2026 = df_evolution_statut[df_evolution_statut['mois_label'] == '2025-12']['nb_users'].values
+    
+    val_2024 = int(jan_2024[0]) if len(jan_2024) > 0 else 0
+    val_2025 = int(jan_2025[0]) if len(jan_2025) > 0 else 0
+    val_2026 = int(jan_2026[0]) if len(jan_2026) > 0 else 0
+    
+    col1, col2, col3 = st.columns(3)
+    with col1:
+        st.metric("Utilisateurs activés - Décembre 2023", val_2024)
+    with col2:
+        st.metric("Utilisateurs activés - Décembre 2024", val_2025, delta=val_2025 - val_2024 if val_2024 > 0 else None)
+    with col3:
+        st.metric("Utilisateurs activés - Décembre 2025", val_2026, delta=val_2026 - val_2025 if val_2025 > 0 else None)
+
+    if len(df_evolution_statut) > 0:
+        # Une seule série de données
+        line_data = [{
+            "id": "Utilisateurs activés",
+            "data": [
+                {"x": row['mois_label'], "y": int(row['nb_users'])}
+                for _, row in df_evolution_statut.iterrows()
+            ]
+        }]
+        
+        with elements("line_evolution_statuts_activation_user"):
+            with mui.Box(sx={"height": 450}):
+                nivo.Line(
+                    data=line_data,
+                    margin={"top": 20, "right": 180, "bottom": 60, "left": 60},
+                    xScale={"type": "point"},
+                    yScale={"type": "linear", "min": 0, "max": "auto", "stacked": False, "reverse": False},
+                    curve="monotoneX",
+                    axisTop=None,
+                    axisRight=None,
+                    axisBottom={
+                        "tickSize": 5,
+                        "tickPadding": 5,
+                        "tickRotation": -45,
+                        "legend": "Mois",
+                        "legendOffset": 50,
+                        "legendPosition": "middle"
+                    },
+                    axisLeft={
+                        "tickSize": 5,
+                        "tickPadding": 5,
+                        "tickRotation": 0,
+                        "legend": "Nombre d'utilisateurs activés",
+                        "legendOffset": -50,
+                        "legendPosition": "middle"
+                    },
+                    enableArea=True,
+                    areaOpacity=0.7,
+                    enablePoints=False,
+                    useMesh=True,
+                    enableSlices="x",
+                    legends=[
+                        {
+                            "anchor": "bottom-right",
+                            "direction": "column",
+                            "justify": False,
+                            "translateX": 100,
+                            "translateY": 0,
+                            "itemsSpacing": 2,
+                            "itemWidth": 80,
+                            "itemHeight": 20,
+                            "itemDirection": "left-to-right",
+                            "itemOpacity": 0.85,
+                            "symbolSize": 12,
+                            "symbolShape": "circle",
+                        }
+                    ],
+                    colors={"scheme": "pastel2"},
+                    theme=theme_actif,
+                )
+
+    else:
+        st.info("Aucune donnée disponible pour le graphique d'évolution.")
+
+
+    st.markdown('### L-1 (bis) (⭐ NS5 - externe - Acquisition) : Nombre de collectivités activées par mois')
+
+    # Compter les collectivités distinctes par mois et statut
+    df_evolution_statut = df_activation_collectivite.copy()
+
+    df_evolution_statut = df_evolution_statut.sort_values('mois')
+    df_evolution_statut['mois_label'] = df_evolution_statut['mois'].dt.strftime('%Y-%m')
+
+    jan_2024 = df_evolution_statut[df_evolution_statut['mois_label'] == '2023-12']['nb_collectivite'].values
+    jan_2025 = df_evolution_statut[df_evolution_statut['mois_label'] == '2024-12']['nb_collectivite'].values
+    jan_2026 = df_evolution_statut[df_evolution_statut['mois_label'] == '2025-12']['nb_collectivite'].values
+    
+    val_2024 = int(jan_2024[0]) if len(jan_2024) > 0 else 0
+    val_2025 = int(jan_2025[0]) if len(jan_2025) > 0 else 0
+    val_2026 = int(jan_2026[0]) if len(jan_2026) > 0 else 0
+    
+    col1, col2, col3 = st.columns(3)
+    with col1:
+        st.metric("Collectivités activées - Décembre 2023", val_2024)
+    with col2:
+        st.metric("Collectivités activées - Décembre 2024", val_2025, delta=val_2025 - val_2024 if val_2024 > 0 else None)
+    with col3:
+        st.metric("Collectivités activées - Décembre 2025", val_2026, delta=val_2026 - val_2025 if val_2025 > 0 else None)
+
+    if len(df_evolution_statut) > 0:
+        # Une seule série de données
+        line_data = [{
+            "id": "Collectivités activées",
+            "data": [
+                {"x": row['mois_label'], "y": int(row['nb_collectivite'])}
+                for _, row in df_evolution_statut.iterrows()
+            ]
+        }]
+        
+        with elements("line_evolution_statuts_activation_collectivite"):
+            with mui.Box(sx={"height": 450}):
+                nivo.Line(
+                    data=line_data,
+                    margin={"top": 20, "right": 180, "bottom": 60, "left": 60},
+                    xScale={"type": "point"},
+                    yScale={"type": "linear", "min": 0, "max": "auto", "stacked": False, "reverse": False},
+                    curve="monotoneX",
+                    axisTop=None,
+                    axisRight=None,
+                    axisBottom={
+                        "tickSize": 5,
+                        "tickPadding": 5,
+                        "tickRotation": -45,
+                        "legend": "Mois",
+                        "legendOffset": 50,
+                        "legendPosition": "middle"
+                    },
+                    axisLeft={
+                        "tickSize": 5,
+                        "tickPadding": 5,
+                        "tickRotation": 0,
+                        "legend": "Nombre de collectivités activées",
+                        "legendOffset": -50,
+                        "legendPosition": "middle"
+                    },
+                    enableArea=True,
+                    areaOpacity=0.7,
+                    enablePoints=False,
+                    useMesh=True,
+                    enableSlices="x",
+                    legends=[
+                        {
+                            "anchor": "bottom-right",
+                            "direction": "column",
+                            "justify": False,
+                            "translateX": 100,
+                            "translateY": 0,
+                            "itemsSpacing": 2,
+                            "itemWidth": 80,
+                            "itemHeight": 20,
+                            "itemDirection": "left-to-right",
+                            "itemOpacity": 0.85,
+                            "symbolSize": 12,
+                            "symbolShape": "circle",
+                        }
+                    ],
+                    colors={"scheme": "pastel2"},
+                    theme=theme_actif,
+                )
 
     else:
         st.info("Aucune donnée disponible pour le graphique d'évolution.")
