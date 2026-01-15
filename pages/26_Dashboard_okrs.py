@@ -671,13 +671,39 @@ with tabs[2]:
     df_evolution_statut = df_evolution_statut.sort_values('mois')
     df_evolution_statut['mois_label'] = df_evolution_statut['mois'].dt.strftime('%Y-%m')
 
-    # Métrique simple
+    # Métriques
     df_actif = df_evolution_statut[df_evolution_statut['statut'] == 'Score >=50%']
     may_2025 = df_actif[df_actif['mois_label'] == '2025-05']['nb_plans'].values
-    jan_2026 = df_actif[df_actif['mois_label'] == '2025-12']['nb_plans'].values
-    val_2025 = int(may_2025[0]) if len(may_2025) > 0 else 0
-    val_2026 = int(jan_2026[0]) if len(jan_2026) > 0 else 0
-    st.metric("Score >=50% - Jan 2025", val_2026, delta=val_2026 - val_2025 if val_2026 > 0 else None)
+    dec_2025 = df_actif[df_actif['mois_label'] == '2025-12']['nb_plans'].values
+    
+    val_may_2025 = int(may_2025[0]) if len(may_2025) > 0 else 0
+    val_dec_2025 = int(dec_2025[0]) if len(dec_2025) > 0 else 0
+    
+    # Trouver la valeur la plus récente
+    if not df_actif.empty:
+        df_actif_sorted = df_actif.sort_values('mois_label', ascending=False)
+        derniere_date = df_actif_sorted.iloc[0]['mois_label']
+        derniere_valeur = int(df_actif_sorted.iloc[0]['nb_plans'])
+        
+        # Formater la date pour l'affichage
+        mois_labels = {
+            '01': 'Janvier', '02': 'Février', '03': 'Mars', '04': 'Avril',
+            '05': 'Mai', '06': 'Juin', '07': 'Juillet', '08': 'Août',
+            '09': 'Septembre', '10': 'Octobre', '11': 'Novembre', '12': 'Décembre'
+        }
+        annee, mois = derniere_date.split('-')
+        derniere_date_label = f"{mois_labels.get(mois, mois)} {annee}"
+    else:
+        derniere_valeur = 0
+        derniere_date_label = "N/A"
+    
+    col1, col2, col3 = st.columns(3)
+    with col1:
+        st.metric("Score >=50% - Mai 2025", val_may_2025)
+    with col2:
+        st.metric("Score >=50% - Décembre 2025", val_dec_2025, delta=val_dec_2025 - val_may_2025 if val_may_2025 > 0 else None)
+    with col3:
+        st.metric(f"Score >=50% - {derniere_date_label}", derniere_valeur, delta=derniere_valeur - val_dec_2025 if val_dec_2025 > 0 else None)
 
     # Graphique
     afficher_graphique_nivo(
@@ -707,13 +733,39 @@ with tabs[2]:
     df_evolution_statut = df_evolution_statut.sort_values('mois')
     df_evolution_statut['mois_label'] = df_evolution_statut['mois'].dt.strftime('%Y-%m')
 
-    # Métrique simple
+    # Métriques
     df_actif = df_evolution_statut[df_evolution_statut['statut'] == 'Score >=80%']
     may_2025 = df_actif[df_actif['mois_label'] == '2025-05']['nb_plans'].values
-    jan_2026 = df_actif[df_actif['mois_label'] == '2025-12']['nb_plans'].values
-    val_2025 = int(may_2025[0]) if len(may_2025) > 0 else 0
-    val_2026 = int(jan_2026[0]) if len(jan_2026) > 0 else 0
-    st.metric("Score >=80% - Jan 2025", val_2026, delta=val_2026 - val_2025 if val_2026 > 0 else None)
+    dec_2025 = df_actif[df_actif['mois_label'] == '2025-12']['nb_plans'].values
+    
+    val_may_2025 = int(may_2025[0]) if len(may_2025) > 0 else 0
+    val_dec_2025 = int(dec_2025[0]) if len(dec_2025) > 0 else 0
+    
+    # Trouver la valeur la plus récente
+    if not df_actif.empty:
+        df_actif_sorted = df_actif.sort_values('mois_label', ascending=False)
+        derniere_date = df_actif_sorted.iloc[0]['mois_label']
+        derniere_valeur = int(df_actif_sorted.iloc[0]['nb_plans'])
+        
+        # Formater la date pour l'affichage
+        mois_labels = {
+            '01': 'Janvier', '02': 'Février', '03': 'Mars', '04': 'Avril',
+            '05': 'Mai', '06': 'Juin', '07': 'Juillet', '08': 'Août',
+            '09': 'Septembre', '10': 'Octobre', '11': 'Novembre', '12': 'Décembre'
+        }
+        annee, mois = derniere_date.split('-')
+        derniere_date_label = f"{mois_labels.get(mois, mois)} {annee}"
+    else:
+        derniere_valeur = 0
+        derniere_date_label = "N/A"
+    
+    col1, col2, col3 = st.columns(3)
+    with col1:
+        st.metric("Score >=80% - Mai 2025", val_may_2025)
+    with col2:
+        st.metric("Score >=80% - Décembre 2025", val_dec_2025, delta=val_dec_2025 - val_may_2025 if val_may_2025 > 0 else None)
+    with col3:
+        st.metric(f"Score >=80% - {derniere_date_label}", derniere_valeur, delta=derniere_valeur - val_dec_2025 if val_dec_2025 > 0 else None)
 
     # Graphique
     afficher_graphique_nivo(
