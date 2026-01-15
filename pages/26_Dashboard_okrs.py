@@ -28,10 +28,11 @@ def load_data():
     df_fa_sharing = read_table('fa_sharing')
     df_activation_user = read_table('activation_user')
     df_activation_collectivite = read_table('activation_collectivite')
-    return df_nb_fap_13, df_nb_fap_52, df_nb_fap_pilote_13, df_nb_fap_pilote_52, df_pap_13, df_pap_52, df_pap_date_passage, df_pap_note, df_fa_sharing, df_activation_user, df_activation_collectivite
+    df_activite_semaine = read_table('activite_semaine')
+    return df_nb_fap_13, df_nb_fap_52, df_nb_fap_pilote_13, df_nb_fap_pilote_52, df_pap_13, df_pap_52, df_pap_date_passage, df_pap_note, df_fa_sharing, df_activation_user, df_activation_collectivite, df_activite_semaine
 
 
-df_nb_fap_13, df_nb_fap_52, df_nb_fap_pilote_13, df_nb_fap_pilote_52, df_pap_13, df_pap_52, df_pap_date_passage, df_pap_note, df_fa_sharing, df_activation_user, df_activation_collectivite = load_data()
+df_nb_fap_13, df_nb_fap_52, df_nb_fap_pilote_13, df_nb_fap_pilote_52, df_pap_13, df_pap_52, df_pap_date_passage, df_pap_note, df_fa_sharing, df_activation_user, df_activation_collectivite, df_activite_semaine = load_data()
 
 theme_actif = {
     "text": {
@@ -1304,7 +1305,6 @@ with tabs[2]:
 
 
 with tabs[3]:
-    st.markdown("---")
 
     st.markdown('### L-1 (⭐ NS5 - externe - Acquisition) : Nombre d’utilisateurs activés par mois')
 
@@ -1452,6 +1452,195 @@ with tabs[3]:
                         "tickPadding": 5,
                         "tickRotation": 0,
                         "legend": "Nombre de collectivités activées",
+                        "legendOffset": -50,
+                        "legendPosition": "middle"
+                    },
+                    enableArea=True,
+                    areaOpacity=0.7,
+                    enablePoints=False,
+                    useMesh=True,
+                    enableSlices="x",
+                    legends=[
+                        {
+                            "anchor": "bottom-right",
+                            "direction": "column",
+                            "justify": False,
+                            "translateX": 100,
+                            "translateY": 0,
+                            "itemsSpacing": 2,
+                            "itemWidth": 80,
+                            "itemHeight": 20,
+                            "itemDirection": "left-to-right",
+                            "itemOpacity": 0.85,
+                            "symbolSize": 12,
+                            "symbolShape": "circle",
+                        }
+                    ],
+                    colors={"scheme": "pastel2"},
+                    theme=theme_actif,
+                )
+
+    else:
+        st.info("Aucune donnée disponible pour le graphique d'évolution.")
+
+
+    st.markdown("---")
+
+    st.markdown('### L-2 (🌟 NS5 - interne - Stickyness) : Nombre de collectivités actives par semaine')
+
+    # Compter les collectivités distinctes par mois et statut
+    df_evolution_statut = df_activite_semaine.copy()
+
+    df_evolution_statut = df_evolution_statut[df_evolution_statut['semaine'] >= '2024-01-01'].copy()
+
+    df_evolution_statut = df_evolution_statut.sort_values('semaine')
+    df_evolution_statut['semaine'] = pd.to_datetime(df_evolution_statut['semaine'])
+    df_evolution_statut['semaine_label'] = df_evolution_statut['semaine'].dt.strftime('%Y-%m-%d')
+
+    df_evolution_statut = df_evolution_statut.groupby(['semaine_label'])['collectivite_id'].nunique().reset_index(name='nb_collectivites')
+
+    # jan_2024 = df_evolution_statut[df_evolution_statut['mois_label'] == '2023-12']['nb_collectivite'].values
+    # jan_2025 = df_evolution_statut[df_evolution_statut['mois_label'] == '2024-12']['nb_collectivite'].values
+    # jan_2026 = df_evolution_statut[df_evolution_statut['mois_label'] == '2025-12']['nb_collectivite'].values
+    
+    # val_2024 = int(jan_2024[0]) if len(jan_2024) > 0 else 0
+    # val_2025 = int(jan_2025[0]) if len(jan_2025) > 0 else 0
+    # val_2026 = int(jan_2026[0]) if len(jan_2026) > 0 else 0
+    
+    # col1, col2, col3 = st.columns(3)
+    # with col1:
+    #    st.metric("Collectivités activées - Décembre 2023", val_2024)
+    # with col2:
+    #     st.metric("Collectivités activées - Décembre 2024", val_2025, delta=val_2025 - val_2024 if val_2024 > 0 else None)
+    # with col3:
+    #     st.metric("Collectivités activées - Décembre 2025", val_2026, delta=val_2026 - val_2025 if val_2025 > 0 else None)
+
+    if len(df_evolution_statut) > 0:
+        # Une seule série de données
+        line_data = [{
+            "id": "Collectivités actives",
+            "data": [
+                {"x": row['semaine_label'], "y": int(row['nb_collectivites'])}
+                for _, row in df_evolution_statut.iterrows()
+            ]
+        }]
+        
+        with elements("line_evolution_collectivites_actives_par_semaine"):
+            with mui.Box(sx={"height": 450}):
+                nivo.Line(
+                    data=line_data,
+                    margin={"top": 20, "right": 180, "bottom": 60, "left": 60},
+                    xScale={"type": "point"},
+                    yScale={"type": "linear", "min": 0, "max": "auto", "stacked": False, "reverse": False},
+                    curve="monotoneX",
+                    axisTop=None,
+                    axisRight=None,
+                    axisBottom={
+                        "tickSize": 5,
+                        "tickPadding": 5,
+                        "tickRotation": -45,
+                        "legend": "Mois",
+                        "legendOffset": 50,
+                        "legendPosition": "middle"
+                    },
+                    axisLeft={
+                        "tickSize": 5,
+                        "tickPadding": 5,
+                        "tickRotation": 0,
+                        "legend": "Nombre de collectivités actives par semaine",
+                        "legendOffset": -50,
+                        "legendPosition": "middle"
+                    },
+                    enableArea=True,
+                    areaOpacity=0.7,
+                    enablePoints=False,
+                    useMesh=True,
+                    enableSlices="x",
+                    legends=[
+                        {
+                            "anchor": "bottom-right",
+                            "direction": "column",
+                            "justify": False,
+                            "translateX": 100,
+                            "translateY": 0,
+                            "itemsSpacing": 2,
+                            "itemWidth": 80,
+                            "itemHeight": 20,
+                            "itemDirection": "left-to-right",
+                            "itemOpacity": 0.85,
+                            "symbolSize": 12,
+                            "symbolShape": "circle",
+                        }
+                    ],
+                    colors={"scheme": "pastel2"},
+                    theme=theme_actif,
+                )
+
+    else:
+        st.info("Aucune donnée disponible pour le graphique d'évolution.")
+
+    st.markdown('### L-2 (🌟 NS5 - interne - Stickyness) : Nombre de users actifs par semaine')
+
+    # Compter les collectivités distinctes par mois et statut
+    df_evolution_statut = df_activite_semaine.copy()
+
+    df_evolution_statut = df_evolution_statut[df_evolution_statut['semaine'] >= '2024-01-01'].copy()
+
+    df_evolution_statut = df_evolution_statut.sort_values('semaine')
+    df_evolution_statut['semaine'] = pd.to_datetime(df_evolution_statut['semaine'])
+    df_evolution_statut['semaine_label'] = df_evolution_statut['semaine'].dt.strftime('%Y-%m-%d')
+
+    df_evolution_statut = df_evolution_statut.groupby(['semaine_label'])['email'].nunique().reset_index(name='nb_users')
+
+    # jan_2024 = df_evolution_statut[df_evolution_statut['mois_label'] == '2023-12']['nb_collectivite'].values
+    # jan_2025 = df_evolution_statut[df_evolution_statut['mois_label'] == '2024-12']['nb_collectivite'].values
+    # jan_2026 = df_evolution_statut[df_evolution_statut['mois_label'] == '2025-12']['nb_collectivite'].values
+    
+    # val_2024 = int(jan_2024[0]) if len(jan_2024) > 0 else 0
+    # val_2025 = int(jan_2025[0]) if len(jan_2025) > 0 else 0
+    # val_2026 = int(jan_2026[0]) if len(jan_2026) > 0 else 0
+    
+    # col1, col2, col3 = st.columns(3)
+    # with col1:
+    #    st.metric("Collectivités activées - Décembre 2023", val_2024)
+    # with col2:
+    #     st.metric("Collectivités activées - Décembre 2024", val_2025, delta=val_2025 - val_2024 if val_2024 > 0 else None)
+    # with col3:
+    #     st.metric("Collectivités activées - Décembre 2025", val_2026, delta=val_2026 - val_2025 if val_2025 > 0 else None)
+
+    if len(df_evolution_statut) > 0:
+        # Une seule série de données
+        line_data = [{
+            "id": "Users actifs",
+            "data": [
+                {"x": row['semaine_label'], "y": int(row['nb_users'])}
+                for _, row in df_evolution_statut.iterrows()
+            ]
+        }]
+        
+        with elements("line_evolution_users_actifs_par_semaine"):
+            with mui.Box(sx={"height": 450}):
+                nivo.Line(
+                    data=line_data,
+                    margin={"top": 20, "right": 180, "bottom": 60, "left": 60},
+                    xScale={"type": "point"},
+                    yScale={"type": "linear", "min": 0, "max": "auto", "stacked": False, "reverse": False},
+                    curve="monotoneX",
+                    axisTop=None,
+                    axisRight=None,
+                    axisBottom={
+                        "tickSize": 5,
+                        "tickPadding": 5,
+                        "tickRotation": -45,
+                        "legend": "Mois",
+                        "legendOffset": 50,
+                        "legendPosition": "middle"
+                    },
+                    axisLeft={
+                        "tickSize": 5,
+                        "tickPadding": 5,
+                        "tickRotation": 0,
+                        "legend": "Nombre de users actifs par semaine",
                         "legendOffset": -50,
                         "legendPosition": "middle"
                     },
