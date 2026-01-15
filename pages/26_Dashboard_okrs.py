@@ -288,7 +288,7 @@ def afficher_graphique_nivo(
 # ==========================
 
 st.title("🌠 Dashboard OKRs")
-tabs = st.tabs(["1 - Activation", "2 - Rétention", "3 - Qualité", "5 - Légitimité"])
+tabs = st.tabs(["1 - Activation", "2 - Rétention", "3 - Qualité", "4 - Impact", "5 - Légitimité"])
 
 # ==========================
 # TAB 1 : ACTIVATION
@@ -666,7 +666,7 @@ with tabs[2]:
     df_evolution_statut['mois'] = df_evolution_statut['semaine'].dt.to_period('M').dt.to_timestamp()
     df_evolution_statut = df_evolution_statut.sort_values('score', ascending=False).drop_duplicates(subset=['plan_id', 'mois'], keep='first')
     df_evolution_statut = df_evolution_statut[df_evolution_statut['mois'] >= '2023-01-01']
-    df_evolution_statut['statut'] = df_evolution_statut['score'].apply(lambda x: "Score >=50%" if x>=2 else "Score <50%")
+    df_evolution_statut['statut'] = df_evolution_statut['score'].apply(lambda x: "Score >=50%" if x>=2.5 else "Score <50%")
     df_evolution_statut = df_evolution_statut.groupby(['mois', 'statut'])['plan_id'].nunique().reset_index(name='nb_plans')
     df_evolution_statut = df_evolution_statut.sort_values('mois')
     df_evolution_statut['mois_label'] = df_evolution_statut['mois'].dt.strftime('%Y-%m')
@@ -720,7 +720,7 @@ with tabs[2]:
 
     # ======================
     st.markdown('---')
-    st.markdown('### Q-2 (🌟 NS3 - interne) : Nombre de PAP ayant un Score de complétude ≥3.2 (score ≥80%)')
+    st.markdown('### Q-2 (🌟 NS3 - interne) : Nombre de PAP ayant un Score de complétude ≥4 (score ≥80%)')
 
     # Préparation des données
     df_evolution_statut = df_pap_note.copy()
@@ -728,7 +728,7 @@ with tabs[2]:
     df_evolution_statut['mois'] = df_evolution_statut['semaine'].dt.to_period('M').dt.to_timestamp()
     df_evolution_statut = df_evolution_statut.sort_values('score', ascending=False).drop_duplicates(subset=['plan_id', 'mois'], keep='first')
     df_evolution_statut = df_evolution_statut[df_evolution_statut['mois'] >= '2023-01-01']
-    df_evolution_statut['statut'] = df_evolution_statut['score'].apply(lambda x: "Score >=80%" if x>=3.2 else "Score <80%")
+    df_evolution_statut['statut'] = df_evolution_statut['score'].apply(lambda x: "Score >=80%" if x>=4 else "Score <80%")
     df_evolution_statut = df_evolution_statut.groupby(['mois', 'statut'])['plan_id'].nunique().reset_index(name='nb_plans')
     df_evolution_statut = df_evolution_statut.sort_values('mois')
     df_evolution_statut['mois_label'] = df_evolution_statut['mois'].dt.strftime('%Y-%m')
@@ -779,14 +779,24 @@ with tabs[2]:
         legend_y="Nombre de PAP"
     )
 
-
 # ==========================
 # TAB 4 : LÉGITIMITÉ
 # ==========================
 
 with tabs[3]:
+    st.markdown("## Objectif 4 : Impact")
+
+
+
+
+# ==========================
+# TAB 4 : LÉGITIMITÉ
+# ==========================
+
+with tabs[4]:
 
     # ======================
+    st.markdown('## Objectif 5: Légitimité')
     st.markdown("### L-1 (⭐ NS5 - externe - Acquisition) : Nombre d'utilisateurs activés")
 
     # Préparation des données
