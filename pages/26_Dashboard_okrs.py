@@ -21,8 +21,8 @@ def load_data():
     df_nb_fap_52 = read_table('nb_fap_52')
     df_nb_fap_pilote_13 = read_table('nb_fap_pilote_13')
     df_nb_fap_pilote_52 = read_table('nb_fap_pilote_52')
-    df_pap_13 = read_table('okr_plan_actif_13')
-    df_pap_52 = read_table('okr_plan_actif_52')
+    df_pap_13 = read_table('pap_statut_5_fiches_modifiees_13_semaines')
+    df_pap_52 = read_table('pap_statut_5_fiches_modifiees_52_semaines')
     df_pap_date_passage = read_table('pap_date_passage')
     df_pap_note = read_table('pap_note')
     df_fa_sharing = read_table('fa_sharing')
@@ -385,8 +385,7 @@ with tabs[0]:
 
     # Préparation des données
     df_evolution_statut = df_pap_52.copy()
-    df_evolution_statut['semaine'] = pd.to_datetime(df_evolution_statut['semaine'])
-    df_evolution_statut['mois'] = df_evolution_statut['semaine'].dt.to_period('M').dt.to_timestamp()
+    df_evolution_statut['mois'] = df_evolution_statut['mois'].dt.to_period('M').dt.to_timestamp()
     df_evolution_statut = df_evolution_statut.sort_values('statut').drop_duplicates(subset=['collectivite_id', 'mois'], keep='first')
     df_evolution_statut = df_evolution_statut[df_evolution_statut['mois'] >= '2023-01-01']
     df_evolution_statut = df_evolution_statut.groupby(['mois', 'statut'])['collectivite_id'].nunique().reset_index(name='nb_collectivites')
@@ -417,8 +416,7 @@ with tabs[0]:
 
     # Préparation des données
     df_evolution_statut = df_pap_13.copy()
-    df_evolution_statut['semaine'] = pd.to_datetime(df_evolution_statut['semaine'])
-    df_evolution_statut['mois'] = df_evolution_statut['semaine'].dt.to_period('M').dt.to_timestamp()
+    df_evolution_statut['mois'] = df_evolution_statut['mois'].dt.to_period('M').dt.to_timestamp()
     df_evolution_statut = df_evolution_statut.sort_values('statut').drop_duplicates(subset=['collectivite_id', 'mois'], keep='first')
     df_evolution_statut = df_evolution_statut[df_evolution_statut['mois'] >= '2023-01-01']
     df_evolution_statut = df_evolution_statut.groupby(['mois', 'statut'])['collectivite_id'].nunique().reset_index(name='nb_collectivites')
@@ -570,9 +568,8 @@ with tabs[1]:
 
     # Préparation des données
     df_evolution_statut = df_pap_52.copy()
-    df_evolution_statut['semaine'] = pd.to_datetime(df_evolution_statut['semaine'])
-    df_evolution_statut['mois'] = df_evolution_statut['semaine'].dt.to_period('M').dt.to_timestamp()
-    count_pap = df_evolution_statut.groupby(['mois', 'statut', 'collectivite_id'])['plan_id'].nunique().reset_index(name='nb_paps')
+    df_evolution_statut['mois'] = df_evolution_statut['mois'].dt.to_period('M').dt.to_timestamp()
+    count_pap = df_evolution_statut.groupby(['mois', 'statut', 'collectivite_id'])['plan'].nunique().reset_index(name='nb_paps')
     count_pap = count_pap[(count_pap['nb_paps'] >= 2) & (count_pap['statut'] == 'actif')]
     df_evolution_statut = df_evolution_statut[df_evolution_statut['mois'] >= '2023-01-01']
     df_evolution_statut = df_evolution_statut.merge(count_pap, on=['mois', 'statut', 'collectivite_id'], how='inner')
@@ -605,9 +602,8 @@ with tabs[1]:
 
     # Préparation des données
     df_evolution_statut = df_pap_13.copy()
-    df_evolution_statut['semaine'] = pd.to_datetime(df_evolution_statut['semaine'])
-    df_evolution_statut['mois'] = df_evolution_statut['semaine'].dt.to_period('M').dt.to_timestamp()
-    count_pap = df_evolution_statut.groupby(['mois', 'statut', 'collectivite_id'])['plan_id'].nunique().reset_index(name='nb_paps')
+    df_evolution_statut['mois'] = df_evolution_statut['mois'].dt.to_period('M').dt.to_timestamp()
+    count_pap = df_evolution_statut.groupby(['mois', 'statut', 'collectivite_id'])['plan'].nunique().reset_index(name='nb_paps')
     count_pap = count_pap[(count_pap['nb_paps'] >= 2) & (count_pap['statut'] == 'actif')]
     df_evolution_statut = df_evolution_statut[df_evolution_statut['mois'] >= '2023-01-01']
     df_evolution_statut = df_evolution_statut.merge(count_pap, on=['mois', 'statut', 'collectivite_id'], how='inner')
