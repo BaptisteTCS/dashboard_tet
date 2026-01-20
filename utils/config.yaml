@@ -141,11 +141,11 @@ indicateurs:
   - region
   - ept
   correspondance_indicateurs:
-    cae_35: pied
-    cae_36: vélo
-    cae_37: transports en commun
-    cae_5: voiture
-    mode_deux_roues: deux-roues motorisés
+    cae_35: Marche
+    cae_36: Vélo (depuis 2017)
+    cae_37: Transports en commun
+    cae_5: Voiture
+    mode_deux_roues: Deux-roues motorisé (depuis 2017)
 
   metadata:
     source_id: insee
@@ -153,7 +153,7 @@ indicateurs:
     diffuseur: Ecolab
     producteur: INSEE
     methodologie: Plus d'infos 
-      [ici](https://www.data.gouv.fr/fr/datasets/parts-modales-des-deplacements-domicile-travail/informations/)
+      [ici](https://ecologie.data.gouv.fr/indicators/67f988ea22299e89ec035832)
     limites: ''
     date_version: '2025-04-29 00:00:00'
 
@@ -162,7 +162,7 @@ indicateurs:
     libelle: INSEE
     ordre_affichage: '1'
 
-  ratio: 100
+  ratio: 1
 
 
 - api_nom_cube: prelevement_eau_usage_com

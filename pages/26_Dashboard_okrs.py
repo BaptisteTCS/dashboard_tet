@@ -8,7 +8,7 @@ st.set_page_config(
 )
 
 import pandas as pd
-from streamlit_elements import elements, nivo, mui
+import plotly.graph_objects as go
 from utils.db import read_table
 
 # ==========================
@@ -35,35 +35,30 @@ def load_data():
 df_nb_fap_13, df_nb_fap_52, df_nb_fap_pilote_13, df_nb_fap_pilote_52, df_pap_13, df_pap_52, df_pap_date_passage, df_pap_note, df_fa_sharing, df_activation_user, df_activation_collectivite, df_activite_semaine = load_data()
 
 # ==========================
-# Thème graphique
+# Configuration Plotly
 # ==========================
 
-theme_actif = {
-    "text": {
-        "fontFamily": "Source Sans Pro, sans-serif",
-        "fontSize": 13,
-        "fill": "#31333F"
-    },
-    "labels": {
-        "text": {
-            "fontFamily": "Source Sans Pro, sans-serif",
-            "fontSize": 13,
-            "fill": "#000000"
-        }
-    },
-    "tooltip": {
-        "container": {
-            "background": "rgba(255, 255, 255, 0.95)",
-            "color": "#31333F",
-            "fontSize": "13px",
-            "fontFamily": "Source Sans Pro, sans-serif",
-            "borderRadius": "4px",
-            "boxShadow": "0 2px 8px rgba(0,0,0,0.15)",
-            "padding": "8px 12px",
-            "border": "1px solid rgba(0, 0, 0, 0.1)"
-        }
+# Palette de couleurs Pastel2 (équivalent Nivo)
+PASTEL2_COLORS = [
+    '#B3E2CD', '#FDCDAC', '#CBD5E8', '#F4CAE4', 
+    '#E6F5C9', '#FFF2AE', '#F1E2CC', '#CCCCCC'
+]
+
+# Palette Category10
+CATEGORY10_COLORS = [
+    '#1f77b4', '#ff7f0e', '#2ca02c', '#d62728',
+    '#9467bd', '#8c564b', '#e377c2', '#7f7f7f',
+    '#bcbd22', '#17becf'
+]
+
+# Configuration du layout Plotly
+def get_plotly_layout():
+    return {
+        'font': {'family': 'Source Sans Pro, sans-serif', 'size': 13, 'color': '#31333F'},
+        'hovermode': 'x unified',
+        'plot_bgcolor': 'white',
+        'paper_bgcolor': 'white',
     }
-}
 
 # ==========================
 # Fonctions utilitaires
@@ -121,53 +116,11 @@ def afficher_metriques_temporelles(df, value_column, label_prefix="", date_colum
         st.metric(f"{label_prefix}{derniere_date_label}", derniere_valeur, delta=derniere_valeur - val_2026 if val_2026 > 0 else None)
 
 
-def preparer_donnees_graphique(df, x_column, y_column, group_column=None, group_values=None):
-    """
-    Prépare les données pour le graphique Nivo.
-    
-    Paramètres:
-    - df: DataFrame contenant les données
-    - x_column: nom de la colonne pour l'axe X
-    - y_column: nom de la colonne pour l'axe Y
-    - group_column: nom de la colonne pour grouper les séries (optionnel)
-    - group_values: liste des valeurs à afficher dans l'ordre (optionnel, utilise toutes les valeurs si None)
-    
-    Retourne:
-    - Liste de séries formatées pour Nivo
-    """
-    if group_column is None:
-        # Une seule série
-        return [{
-            "id": y_column,
-            "data": [
-                {"x": row[x_column], "y": int(row[y_column])}
-                for _, row in df.iterrows()
-            ]
-        }]
-    else:
-        # Plusieurs séries
-        if group_values is None:
-            group_values = df[group_column].unique().tolist()
-        
-        line_data = []
-        for value in group_values:
-            df_filtered = df[df[group_column] == value].copy()
-            if not df_filtered.empty:
-                line_data.append({
-                    "id": str(value).capitalize(),
-                    "data": [
-                        {"x": row[x_column], "y": int(row[y_column])}
-                        for _, row in df_filtered.iterrows()
-                    ]
-                })
-        return line_data
-
-
-def afficher_graphique_nivo(
+def afficher_graphique_plotly(
     df,
     x_column,
     y_column,
-    element_id,
+    element_id=None,  # Non utilisé avec Plotly mais gardé pour compatibilité
     graph_type="area_stacked",
     group_column=None,
     group_values=None,
@@ -175,16 +128,18 @@ def afficher_graphique_nivo(
     legend_y="Valeur",
     height=450,
     margin_right=110,
-    color_scheme="pastel2"
+    color_scheme="pastel2",
+    trend_group_value=None,  # Valeur du groupe pour lequel afficher la tendance (ex: "actif", "Autonome", etc.)
+    target_value=None  # Valeur cible à afficher comme ligne horizontale
 ):
     """
-    Affiche un graphique Nivo Line avec différentes configurations.
+    Affiche un graphique Plotly avec différentes configurations et projection de tendance optionnelle.
     
     Paramètres:
     - df: DataFrame contenant les données
     - x_column: nom de la colonne pour l'axe X
     - y_column: nom de la colonne pour l'axe Y
-    - element_id: identifiant unique pour le composant elements
+    - element_id: identifiant unique (non utilisé avec Plotly)
     - graph_type: type de graphique ("area_stacked", "area_simple", "line")
     - group_column: nom de la colonne pour grouper les séries (optionnel)
     - group_values: liste des valeurs à afficher dans l'ordre (optionnel)
@@ -192,95 +147,221 @@ def afficher_graphique_nivo(
     - legend_y: légende de l'axe Y
     - height: hauteur du graphique
     - margin_right: marge à droite pour la légende
-    - color_scheme: schéma de couleurs Nivo
+    - color_scheme: schéma de couleurs ("pastel2" ou "category10")
+    - trend_group_value: valeur du groupe pour afficher la tendance jusqu'à 2026-12 (optionnel)
+    - target_value: valeur cible à afficher comme ligne horizontale rouge/orangée (optionnel)
     """
     if df.empty:
         st.info("Aucune donnée disponible pour le graphique d'évolution.")
         return
     
-    # Préparer les données
-    line_data = preparer_donnees_graphique(df, x_column, y_column, group_column, group_values)
+    # Sélectionner la palette de couleurs
+    colors = PASTEL2_COLORS if color_scheme == "pastel2" else CATEGORY10_COLORS
     
-    if not line_data:
-        st.info("Aucune donnée disponible pour le graphique d'évolution.")
-        return
+    # Créer la figure
+    fig = go.Figure()
     
-    # Configuration selon le type de graphique
-    if graph_type == "area_stacked":
-        enable_area = True
-        enable_points = False
-        y_scale_stacked = True
-        area_opacity = 0.7
-    elif graph_type == "area_simple":
-        enable_area = True
-        enable_points = False
-        y_scale_stacked = False
-        area_opacity = 0.7
-    else:  # line
-        enable_area = False
-        enable_points = True
-        y_scale_stacked = False
-        area_opacity = 0
+    if group_column is None:
+        # Une seule série
+        if graph_type in ["area_stacked", "area_simple"]:
+            fig.add_trace(go.Scatter(
+                x=df[x_column],
+                y=df[y_column],
+                mode='lines',
+                fill='tozeroy',
+                name=y_column,
+                line=dict(color=colors[0], width=2),
+                fillcolor=f'rgba({int(colors[0][1:3], 16)}, {int(colors[0][3:5], 16)}, {int(colors[0][5:7], 16)}, 0.7)'
+            ))
+        else:  # line
+            fig.add_trace(go.Scatter(
+                x=df[x_column],
+                y=df[y_column],
+                mode='lines+markers',
+                name=y_column,
+                line=dict(color=colors[0], width=2),
+                marker=dict(size=6)
+            ))
+    else:
+        # Plusieurs séries
+        if group_values is None:
+            group_values = df[group_column].unique().tolist()
+        
+        for idx, value in enumerate(group_values):
+            df_filtered = df[df[group_column] == value].copy()
+            if not df_filtered.empty:
+                color = colors[idx % len(colors)]
+                
+                if graph_type == "area_stacked":
+                    fig.add_trace(go.Scatter(
+                        x=df_filtered[x_column],
+                        y=df_filtered[y_column],
+                        mode='lines',
+                        name=str(value).capitalize(),
+                        line=dict(color=color, width=2),
+                        stackgroup='one',
+                        fillcolor=f'rgba({int(color[1:3], 16)}, {int(color[3:5], 16)}, {int(color[5:7], 16)}, 0.7)'
+                    ))
+                elif graph_type == "area_simple":
+                    fig.add_trace(go.Scatter(
+                        x=df_filtered[x_column],
+                        y=df_filtered[y_column],
+                        mode='lines',
+                        name=str(value).capitalize(),
+                        fill='tozeroy',
+                        line=dict(color=color, width=2),
+                        fillcolor=f'rgba({int(color[1:3], 16)}, {int(color[3:5], 16)}, {int(color[5:7], 16)}, 0.7)'
+                    ))
+                else:  # line
+                    fig.add_trace(go.Scatter(
+                        x=df_filtered[x_column],
+                        y=df_filtered[y_column],
+                        mode='lines+markers',
+                        name=str(value),
+                        line=dict(color=color, width=2),
+                        marker=dict(size=6)
+                    ))
     
-    # Affichage du graphique
-    with elements(element_id):
-        with mui.Box(sx={"height": height}):
-            config = {
-                "data": line_data,
-                "margin": {"top": 20, "right": margin_right, "bottom": 60, "left": 60},
-                "xScale": {"type": "point"},
-                "yScale": {"type": "linear", "min": 0, "max": "auto", "stacked": y_scale_stacked, "reverse": False},
-                "curve": "monotoneX",
-                "axisTop": None,
-                "axisRight": None,
-                "axisBottom": {
-                    "tickSize": 5,
-                    "tickPadding": 5,
-                    "tickRotation": -45,
-                    "legend": legend_x,
-                    "legendOffset": 50,
-                    "legendPosition": "middle"
-                },
-                "axisLeft": {
-                    "tickSize": 5,
-                    "tickPadding": 5,
-                    "tickRotation": 0,
-                    "legend": legend_y,
-                    "legendOffset": -50,
-                    "legendPosition": "middle"
-                },
-                "enableArea": enable_area,
-                "areaOpacity": area_opacity,
-                "enablePoints": enable_points,
-                "useMesh": True,
-                "enableSlices": "x",
-                "legends": [
-                    {
-                        "anchor": "bottom-right",
-                        "direction": "column",
-                        "justify": False,
-                        "translateX": 100,
-                        "translateY": 0,
-                        "itemsSpacing": 2,
-                        "itemWidth": 80,
-                        "itemHeight": 20,
-                        "itemDirection": "left-to-right",
-                        "itemOpacity": 0.85,
-                        "symbolSize": 12,
-                        "symbolShape": "circle",
-                    }
-                ],
-                "colors": {"scheme": color_scheme},
-                "theme": theme_actif,
-            }
+    # Ajouter la projection de tendance si demandée
+    if trend_group_value is not None:
+        # Déterminer quelle série utiliser pour la tendance
+        if group_column is None:
+            df_trend = df.copy()
+            trend_color = colors[0]
+        else:
+            df_trend = df[df[group_column] == trend_group_value].copy()
+            # Trouver l'index de la couleur correspondante
+            if group_values and trend_group_value in group_values:
+                idx = group_values.index(trend_group_value)
+                trend_color = colors[idx % len(colors)]
+            else:
+                trend_color = colors[0]
+        
+        if not df_trend.empty and len(df_trend) >= 4:
+            # Trier par date
+            df_trend = df_trend.sort_values(x_column)
             
-            # Ajouter les paramètres spécifiques pour line chart
-            if graph_type == "line":
-                config["pointSize"] = 6
-                config["pointBorderWidth"] = 2
-                config["pointBorderColor"] = {"from": "serieColor"}
+            # Prendre les 4 derniers points
+            last_4_points = df_trend.tail(4)
             
-            nivo.Line(**config)
+            # Calculer la pente : (valeur m-1 - valeur m-4) / 3
+            valeur_m1 = last_4_points.iloc[-1][y_column]  # Dernier point
+            valeur_m4 = last_4_points.iloc[0][y_column]   # 4ème point avant la fin
+            pente = (valeur_m1 - valeur_m4) / 3
+            
+            # Point de départ : dernier point de données
+            dernier_x = df_trend.iloc[-1][x_column]
+            dernier_y = df_trend.iloc[-1][y_column]
+            
+            # Générer les dates futures jusqu'à 2026-12
+            dates_projection = []
+            valeurs_projection = []
+            
+            # Format des dates (YYYY-MM)
+            try:
+                # Parser la dernière date
+                if isinstance(dernier_x, str) and '-' in dernier_x:
+                    annee, mois = dernier_x.split('-')
+                    date_actuelle = pd.Period(f"{annee}-{mois}", freq='M')
+                    
+                    # Générer les mois jusqu'à 2026-12
+                    date_fin = pd.Period('2026-12', freq='M')
+                    
+                    # Ajouter le point de départ (dernier point réel)
+                    dates_projection.append(dernier_x)
+                    valeurs_projection.append(dernier_y)
+                    
+                    # Projeter mois par mois
+                    date_courante = date_actuelle + 1
+                    mois_projection = 1
+                    while date_courante <= date_fin:
+                        dates_projection.append(date_courante.strftime('%Y-%m'))
+                        valeurs_projection.append(round(max(0, dernier_y + pente * mois_projection), 0))  # Éviter les valeurs négatives
+                        date_courante += 1
+                        mois_projection += 1
+                    
+                    # Ajouter la trace de tendance en pointillés
+                    if len(dates_projection) > 1:
+                        fig.add_trace(go.Scatter(
+                            x=dates_projection,
+                            y=valeurs_projection,
+                            mode='lines',
+                            name="Tendance",
+                            line=dict(color=trend_color, width=2, dash='dot'),
+                            showlegend=True
+                        ))
+            except Exception as e:
+                # En cas d'erreur, ne pas afficher la tendance
+                st.warning(f"Impossible de calculer la tendance : {str(e)}")
+    
+    # Ajouter la ligne de cible si demandée
+    if target_value is not None:
+        # Récupérer toutes les valeurs X du graphique
+        all_x_values = df[x_column].unique().tolist()
+        
+        # Si on a des projections de tendance, étendre jusqu'à 2026-12
+        if trend_group_value is not None:
+            try:
+                if isinstance(all_x_values[0], str) and '-' in all_x_values[0]:
+                    # Ajouter les mois jusqu'à 2026-12 si pas déjà présents
+                    last_date = all_x_values[-1]
+                    annee, mois = last_date.split('-')
+                    date_actuelle = pd.Period(f"{annee}-{mois}", freq='M')
+                    date_fin = pd.Period('2026-12', freq='M')
+                    
+                    date_courante = date_actuelle + 1
+                    while date_courante <= date_fin:
+                        date_str = date_courante.strftime('%Y-%m')
+                        if date_str not in all_x_values:
+                            all_x_values.append(date_str)
+                        date_courante += 1
+            except:
+                pass  # Garder les valeurs actuelles en cas d'erreur
+        
+        # Ajouter la ligne horizontale de cible
+        fig.add_trace(go.Scatter(
+            x=all_x_values,
+            y=[target_value] * len(all_x_values),
+            mode='lines',
+            name='Cible',
+            line=dict(color='#FF6B35', width=1, dash='dot'),  # Orange/rouge
+            showlegend=True
+        ))
+    
+    # Configuration du layout
+    fig.update_layout(
+        **get_plotly_layout(),
+        height=height,
+        xaxis=dict(
+            title=legend_x,
+            tickangle=-45,
+            showgrid=True,
+            gridcolor='rgba(128, 128, 128, 0.2)',
+            showline=True,
+            linecolor='rgba(128, 128, 128, 0.3)'
+        ),
+        yaxis=dict(
+            title=legend_y,
+            showgrid=True,
+            gridcolor='rgba(128, 128, 128, 0.2)',
+            showline=True,
+            linecolor='rgba(128, 128, 128, 0.3)',
+            rangemode='tozero'
+        ),
+        legend=dict(
+            yanchor="top",
+            y=0.99,
+            xanchor="left",
+            x=1.01,
+            bgcolor='rgba(255, 255, 255, 0.8)',
+            bordercolor='rgba(0, 0, 0, 0.1)',
+            borderwidth=1
+        ),
+        margin=dict(l=60, r=margin_right, t=20, b=60)
+    )
+    
+    # Afficher le graphique
+    st.plotly_chart(fig, use_container_width=True)
 
 
 # ==========================
@@ -317,7 +398,7 @@ with tabs[0]:
     afficher_metriques_temporelles(df_actif, 'nb_collectivites', label_prefix="Actifs - ")
 
     # Graphique
-    afficher_graphique_nivo(
+    afficher_graphique_plotly(
         df_evolution_statut,
         x_column='mois_label',
         y_column='nb_collectivites',
@@ -325,7 +406,9 @@ with tabs[0]:
         graph_type="area_stacked",
         group_column='statut',
         group_values=["actif", "inactif"],
-        legend_y="Nombre de collectivités"
+        legend_y="Nombre de collectivités",
+        trend_group_value="actif",
+        target_value=600  # Cible à ajuster
     )
 
 
@@ -347,7 +430,7 @@ with tabs[0]:
     afficher_metriques_temporelles(df_actif, 'nb_collectivites', label_prefix="Actifs - ")
 
     # Graphique
-    afficher_graphique_nivo(
+    afficher_graphique_plotly(
         df_evolution_statut,
         x_column='mois_label',
         y_column='nb_collectivites',
@@ -355,7 +438,9 @@ with tabs[0]:
         graph_type="area_stacked",
         group_column='statut',
         group_values=["actif", "inactif"],
-        legend_y="Nombre de collectivités"
+        legend_y="Nombre de collectivités",
+        trend_group_value="actif",
+        target_value=350  # Cible à ajuster
     )
 
 
@@ -374,7 +459,7 @@ with tabs[0]:
     afficher_metriques_temporelles(df_actif, 'fiche_id', label_prefix="Actifs - ")
 
     # Graphique
-    afficher_graphique_nivo(
+    afficher_graphique_plotly(
         df_evolution_statut,
         x_column='mois_label',
         y_column='fiche_id',
@@ -382,7 +467,9 @@ with tabs[0]:
         graph_type="area_stacked",
         group_column='statut',
         group_values=["actif", "inactif"],
-        legend_y="Nombre d'actions pilotables actives"
+        legend_y="Nombre d'actions pilotables actives",
+        trend_group_value="actif",
+        target_value=10000  # Cible à ajuster
     )
 
 
@@ -401,7 +488,7 @@ with tabs[0]:
     afficher_metriques_temporelles(df_actif, 'fiche_id', label_prefix="Actifs - ")
 
     # Graphique
-    afficher_graphique_nivo(
+    afficher_graphique_plotly(
         df_evolution_statut,
         x_column='mois_label',
         y_column='fiche_id',
@@ -409,7 +496,9 @@ with tabs[0]:
         graph_type="area_stacked",
         group_column='statut',
         group_values=["actif", "inactif"],
-        legend_y="Nombre d'actions pilotables actives"
+        legend_y="Nombre d'actions pilotables actives",
+        trend_group_value="actif",
+        target_value=None  # Cible à ajuster
     )
 
 
@@ -453,7 +542,7 @@ with tabs[0]:
     df_graph_cumul = pd.DataFrame(df_graph_cumul)
 
     # Graphique
-    afficher_graphique_nivo(
+    afficher_graphique_plotly(
         df_graph_cumul,
         x_column='mois_label',
         y_column='nb_plans_cumul',
@@ -461,7 +550,9 @@ with tabs[0]:
         graph_type="area_stacked",
         group_column='import',
         group_values=["Autonome", "Importé"],
-        legend_y="Nombre de PAP (cumulé)"
+        legend_y="Nombre de PAP (cumulé)",
+        trend_group_value="Autonome",
+        target_value=1000  # Cible à ajuster
     )
 
 
@@ -494,7 +585,7 @@ with tabs[1]:
     afficher_metriques_temporelles(df_actif, 'nb_collectivites', label_prefix="")
 
     # Graphique
-    afficher_graphique_nivo(
+    afficher_graphique_plotly(
         df_evolution_statut,
         x_column='mois_label',
         y_column='nb_collectivites',
@@ -502,7 +593,9 @@ with tabs[1]:
         graph_type="area_stacked",
         group_column='statut',
         group_values=["actif", "inactif"],
-        legend_y="Nombre de collectivités"
+        legend_y="Nombre de collectivités",
+        trend_group_value="actif",
+        target_value=250  # Cible à ajuster
     )
 
 
@@ -525,7 +618,7 @@ with tabs[1]:
 
     # Métriques
     df_actif = df_evolution_statut[df_evolution_statut['statut'] == 'actif']
-    afficher_metriques_temporelles(df_actif, 'nb_collectivites', label_prefix="")
+    afficher_metriques_temporelles(df_actif[df_actif['multi_pilotes'] == '>= 2 pilotes'], 'nb_collectivites', label_prefix="")
 
     # Préparer les données complètes (boucher les trous)
     tous_les_mois = df_evolution_statut.sort_values('mois')['mois_label'].unique().tolist()
@@ -542,7 +635,7 @@ with tabs[1]:
     df_graph_complet = pd.DataFrame(df_graph_complet)
 
     # Graphique
-    afficher_graphique_nivo(
+    afficher_graphique_plotly(
         df_graph_complet,
         x_column='mois_label',
         y_column='nb_collectivites',
@@ -551,40 +644,14 @@ with tabs[1]:
         group_column='multi_pilotes',
         group_values=[">= 2 pilotes", "1 pilote ou moins"],
         legend_y="Nombre de collectivités",
-        margin_right=160
+        margin_right=160,
+        trend_group_value=">= 2 pilotes",
+        target_value=50  # Cible à ajuster
     )
 
 
     # ======================
-    st.markdown("---")
-    st.markdown('### R-3 (💫 - Activité) : Nombre d\'Actions pilotables actives avec pilote de l\'action actif ≤ 3 mois')
-
-    # Préparation des données
-    df_evolution_statut = df_nb_fap_pilote_13.copy()
-    df_evolution_statut['mois'] = pd.to_datetime(df_evolution_statut['mois'])
-    df_evolution_statut = df_evolution_statut[df_evolution_statut['mois'] >= '2023-12-01']
-    df_evolution_statut = df_evolution_statut.sort_values('mois')
-    df_evolution_statut['mois_label'] = df_evolution_statut['mois'].dt.strftime('%Y-%m')
-
-    # Métriques
-    df_actif = df_evolution_statut[df_evolution_statut['statut'] == 'actif']
-    afficher_metriques_temporelles(df_actif, 'fiche_id', label_prefix="Actifs - ")
-
-    # Graphique
-    afficher_graphique_nivo(
-        df_evolution_statut,
-        x_column='mois_label',
-        y_column='fiche_id',
-        element_id="line_evolution_statuts_fap_pilote_13",
-        graph_type="area_stacked",
-        group_column='statut',
-        group_values=["actif", "inactif"],
-        legend_y="Nombre d'actions pilotables actives"
-    )
-
-
-    # ======================
-    st.markdown("### R-3 (bis) (💫 - Activité) : Nombre d'Actions pilotables actives avec pilote de l'action actif ≤ 12 mois")
+    st.markdown("### R-3 (💫 - Activité) : Nombre d'Actions pilotables actives avec pilote de l'action actif ≤ 12 mois")
 
     # Préparation des données
     df_evolution_statut = df_nb_fap_pilote_52.copy()
@@ -598,7 +665,7 @@ with tabs[1]:
     afficher_metriques_temporelles(df_actif, 'fiche_id', label_prefix="Actifs - ")
 
     # Graphique
-    afficher_graphique_nivo(
+    afficher_graphique_plotly(
         df_evolution_statut,
         x_column='mois_label',
         y_column='fiche_id',
@@ -606,9 +673,39 @@ with tabs[1]:
         graph_type="area_stacked",
         group_column='statut',
         group_values=["actif", "inactif"],
-        legend_y="Nombre d'actions pilotables actives"
+        legend_y="Nombre d'actions pilotables actives",
+        trend_group_value="actif",
+        target_value=10000  # Cible à ajuster
     )
 
+    # ======================
+    st.markdown("---")
+    st.markdown('### R-3 (bis) (💫 - Activité) : Nombre d\'Actions pilotables actives avec pilote de l\'action actif ≤ 3 mois')
+
+    # Préparation des données
+    df_evolution_statut = df_nb_fap_pilote_13.copy()
+    df_evolution_statut['mois'] = pd.to_datetime(df_evolution_statut['mois'])
+    df_evolution_statut = df_evolution_statut[df_evolution_statut['mois'] >= '2023-12-01']
+    df_evolution_statut = df_evolution_statut.sort_values('mois')
+    df_evolution_statut['mois_label'] = df_evolution_statut['mois'].dt.strftime('%Y-%m')
+
+    # Métriques
+    df_actif = df_evolution_statut[df_evolution_statut['statut'] == 'actif']
+    afficher_metriques_temporelles(df_actif, 'fiche_id', label_prefix="Actifs - ")
+
+    # Graphique
+    afficher_graphique_plotly(
+        df_evolution_statut,
+        x_column='mois_label',
+        y_column='fiche_id',
+        element_id="line_evolution_statuts_fap_pilote_13",
+        graph_type="area_stacked",
+        group_column='statut',
+        group_values=["actif", "inactif"],
+        legend_y="Nombre d'actions pilotables actives",
+        trend_group_value="actif",
+        target_value=None  # Cible à ajuster
+    )
 
     # ======================
     st.markdown("---")
@@ -620,13 +717,15 @@ with tabs[1]:
     df_evolution_statut['mois_label'] = df_evolution_statut['mois'].dt.strftime('%Y-%m')
 
     # Graphique (area simple)
-    afficher_graphique_nivo(
+    afficher_graphique_plotly(
         df_evolution_statut,
         x_column='mois_label',
         y_column='nb_fa_shared',
         element_id="line_evolution_statuts_fa_sharing",
         graph_type="area_simple",
-        legend_y="Nombre de FA partagées"
+        legend_y="Nombre de FA partagées",
+        trend_group_value="nb_fa_shared",
+        target_value=1270
     )
 
 
@@ -706,7 +805,7 @@ with tabs[2]:
         st.metric(f"Score >=50% - {derniere_date_label}", derniere_valeur, delta=derniere_valeur - val_dec_2025 if val_dec_2025 > 0 else None)
 
     # Graphique
-    afficher_graphique_nivo(
+    afficher_graphique_plotly(
         df_evolution_statut,
         x_column='mois_label',
         y_column='nb_plans',
@@ -714,7 +813,9 @@ with tabs[2]:
         graph_type="area_stacked",
         group_column='statut',
         group_values=["Score >=50%", "Score <50%"],
-        legend_y="Nombre de PAP"
+        legend_y="Nombre de PAP",
+        trend_group_value="Score >=50%",
+        target_value=300  # Cible à ajuster
     )
 
 
@@ -768,7 +869,7 @@ with tabs[2]:
         st.metric(f"Score >=80% - {derniere_date_label}", derniere_valeur, delta=derniere_valeur - val_dec_2025 if val_dec_2025 > 0 else None)
 
     # Graphique
-    afficher_graphique_nivo(
+    afficher_graphique_plotly(
         df_evolution_statut,
         x_column='mois_label',
         y_column='nb_plans',
@@ -776,7 +877,9 @@ with tabs[2]:
         graph_type="area_stacked",
         group_column='statut',
         group_values=["Score >=80%", "Score <80%"],
-        legend_y="Nombre de PAP"
+        legend_y="Nombre de PAP",
+        trend_group_value="Score >=80%",
+        target_value=100   # Cible à ajuster
     )
 
 # ==========================
@@ -807,14 +910,16 @@ with tabs[4]:
     afficher_metriques_temporelles(df_evolution_statut, 'nb_users', label_prefix="Actifs - ")
 
     # Graphique (area simple)
-    afficher_graphique_nivo(
+    afficher_graphique_plotly(
         df_evolution_statut,
         x_column='mois_label',
         y_column='nb_users',
         element_id="line_evolution_statuts_activation_user",
         graph_type="area_simple",
         legend_y="Nombre d'utilisateurs activés",
-        margin_right=180
+        margin_right=180,
+        trend_group_value="nb_users",
+        target_value=10000
     )
 
 
@@ -830,7 +935,7 @@ with tabs[4]:
     afficher_metriques_temporelles(df_evolution_statut, 'nb_collectivite', label_prefix="Actifs - ")
 
     # Graphique (area simple)
-    afficher_graphique_nivo(
+    afficher_graphique_plotly(
         df_evolution_statut,
         x_column='mois_label',
         y_column='nb_collectivite',
@@ -900,7 +1005,7 @@ with tabs[4]:
         st.metric("Moyenne mensuelle 2026", f"{moy_2026:.0f}", delta=f"{delta_2026:.0f}" if delta_2026 is not None else None)
 
     # Graphique line chart
-    afficher_graphique_nivo(
+    afficher_graphique_plotly(
         df_evolution_statut,
         x_column='periode_label',
         y_column='nb_collectivites',
@@ -910,7 +1015,9 @@ with tabs[4]:
         legend_x=legende_x,
         legend_y="Nombre de collectivités actives",
         margin_right=180,
-        color_scheme="category10"
+        color_scheme="category10",
+        trend_group_value="nb_collectivites",
+        target_value=1000
     )
 
 
@@ -973,7 +1080,7 @@ with tabs[4]:
         st.metric("Moyenne mensuelle 2026", f"{moy_2026:.0f}", delta=f"{delta_2026:.0f}" if delta_2026 is not None else None)
 
     # Graphique line chart
-    afficher_graphique_nivo(
+    afficher_graphique_plotly(
         df_evolution_statut,
         x_column='periode_label',
         y_column='nb_users',

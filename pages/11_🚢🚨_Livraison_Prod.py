@@ -121,6 +121,8 @@ def load_staged_data():
         
         # Convertir explicitement date_valeur en datetime
         df['date_valeur'] = pd.to_datetime(df['date_valeur'])
+
+        df['resultat'] = df['resultat'].round(2)
         
         # Vérifier et gérer les doublons
         df, has_conflicts = check_and_handle_duplicates(df)
@@ -636,12 +638,12 @@ def livrer_en_prod(comparison, df_staged, progress_container=None):
                 
                 try:
                     error_json = response.json()
-                    print("Réponse API (JSON):")
-                    import json
-                    print(json.dumps(error_json, indent=2, ensure_ascii=False))
+                    # Extraire uniquement le message d'erreur
+                    error_msg = error_json.get('message') or error_json.get('error') or error_json.get('detail') or str(error_json)
+                    print(f"Message d'erreur: {error_msg}")
                 except:
-                    print("Réponse serveur (texte):")
-                    print(response.text)
+                    # Si ce n'est pas du JSON, afficher les 200 premiers caractères du texte
+                    print(f"Message d'erreur: {response.text[:200]}")
                 
                 print(f"{'='*80}\n")
                 

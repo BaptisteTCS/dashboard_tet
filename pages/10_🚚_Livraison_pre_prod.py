@@ -301,7 +301,7 @@ def livrer_en_preprod(comparison, df_staged, progress_container=None):
     try:
         # Récupérer les credentials depuis les secrets
         try:
-            api_url = st.secrets.get("api_pre_prod_url", "https://api.preprod.territoiresentransitions.fr/indicateurs/valeurs")
+            api_url = st.secrets.get("api_pre_prod_url", "https://api.preprod.territoiresentransitions.fr/indicateurs-valeurs")
             api_token = st.secrets.get("api_pre_prod_token", "")
         except:
             return {
