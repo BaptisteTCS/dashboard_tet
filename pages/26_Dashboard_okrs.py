@@ -294,39 +294,94 @@ def afficher_graphique_plotly(
                 # En cas d'erreur, ne pas afficher la tendance
                 st.warning(f"Impossible de calculer la tendance : {str(e)}")
     
-    # Ajouter la ligne de cible si demandée
+    # Ajouter la ligne de cible si demandée (projection vers 2027-01)
     if target_value is not None:
-        # Récupérer toutes les valeurs X du graphique
-        all_x_values = df[x_column].unique().tolist()
+        # Déterminer quelle série utiliser pour obtenir le point de départ
+        if group_column is None:
+            df_target = df.copy()
+        else:
+            # Utiliser la même série que la tendance si disponible, sinon toutes les données
+            if trend_group_value is not None:
+                df_target = df[df[group_column] == trend_group_value].copy()
+            else:
+                df_target = df.copy()
         
-        # Si on a des projections de tendance, étendre jusqu'à 2026-12
-        if trend_group_value is not None:
+        if not df_target.empty:
+            # Trier par date
+            df_target = df_target.sort_values(x_column)
+            
+            # Point de départ : dernier point de données
+            dernier_x = df_target.iloc[-1][x_column]
+            dernier_y = df_target.iloc[-1][y_column]
+            
+            # Générer la projection linéaire jusqu'à 2027-01
+            dates_cible = []
+            valeurs_cible = []
+            
+            # Format des dates (YYYY-MM)
             try:
-                if isinstance(all_x_values[0], str) and '-' in all_x_values[0]:
-                    # Ajouter les mois jusqu'à 2026-12 si pas déjà présents
-                    last_date = all_x_values[-1]
-                    annee, mois = last_date.split('-')
+                # Parser la dernière date
+                if isinstance(dernier_x, str) and '-' in dernier_x:
+                    annee, mois = dernier_x.split('-')
                     date_actuelle = pd.Period(f"{annee}-{mois}", freq='M')
-                    date_fin = pd.Period('2026-12', freq='M')
                     
-                    date_courante = date_actuelle + 1
-                    while date_courante <= date_fin:
-                        date_str = date_courante.strftime('%Y-%m')
-                        if date_str not in all_x_values:
-                            all_x_values.append(date_str)
-                        date_courante += 1
-            except:
-                pass  # Garder les valeurs actuelles en cas d'erreur
-        
-        # Ajouter la ligne horizontale de cible
-        fig.add_trace(go.Scatter(
-            x=all_x_values,
-            y=[target_value] * len(all_x_values),
-            mode='lines',
-            name='Cible',
-            line=dict(color='#FF6B35', width=1, dash='dot'),  # Orange/rouge
-            showlegend=True
-        ))
+                    # Date cible : 2027-01
+                    date_fin = pd.Period('2027-01', freq='M')
+                    
+                    # Calculer le nombre de mois entre maintenant et la cible
+                    nb_mois = (date_fin - date_actuelle).n
+                    
+                    if nb_mois > 0:
+                        # Calculer la pente pour atteindre la cible
+                        pente = (target_value - dernier_y) / nb_mois
+                        
+                        # Ajouter le point de départ (dernier point réel)
+                        dates_cible.append(dernier_x)
+                        valeurs_cible.append(dernier_y)
+                        
+                        # Projeter mois par mois jusqu'à 2027-01
+                        date_courante = date_actuelle + 1
+                        mois_projection = 1
+                        while date_courante <= date_fin:
+                            dates_cible.append(date_courante.strftime('%Y-%m'))
+                            valeur_projetee = dernier_y + pente * mois_projection
+                            valeurs_cible.append(round(valeur_projetee, 0))
+                            date_courante += 1
+                            mois_projection += 1
+                        
+                        # Ajouter la trace de cible en pointillés
+                        if len(dates_cible) > 1:
+                            fig.add_trace(go.Scatter(
+                                x=dates_cible,
+                                y=valeurs_cible,
+                                mode='lines',
+                                name='Cible',
+                                line=dict(color='#FFD888', width=2, dash='dot'),  # Orange/rouge
+                                showlegend=True
+                            ))
+                    else:
+                        # Si on est déjà en 2027 ou après, afficher une ligne horizontale
+                        all_x_values = df[x_column].unique().tolist()
+                        fig.add_trace(go.Scatter(
+                            x=all_x_values,
+                            y=[target_value] * len(all_x_values),
+                            mode='lines',
+                            name='Cible',
+                            line=dict(color='#FF6B35', width=2, dash='dot'),
+                            showlegend=True
+                        ))
+            except Exception as e:
+                # En cas d'erreur, afficher une ligne horizontale classique
+                st.warning(f"Impossible de calculer la projection de cible : {str(e)}")
+                all_x_values = df[x_column].unique().tolist()
+                fig.add_trace(go.Scatter(
+                    x=all_x_values,
+                    y=[target_value] * len(all_x_values),
+                    mode='lines',
+                    name='Cible',
+                    line=dict(color='#FF6B35', width=2, dash='dot'),
+                    showlegend=True
+                ))
     
     # Configuration du layout
     fig.update_layout(
