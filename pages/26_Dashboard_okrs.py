@@ -1,5 +1,5 @@
 import streamlit as st
-
+from datetime import datetime
 # Configuration de la page en premier
 st.set_page_config(
     page_title="Dashboard OKRs",
@@ -29,10 +29,13 @@ def load_data():
     df_activation_user = read_table('activation_user')
     df_activation_collectivite = read_table('activation_collectivite')
     df_activite_semaine = read_table('activite_semaine')
-    return df_nb_fap_13, df_nb_fap_52, df_nb_fap_pilote_13, df_nb_fap_pilote_52, df_pap_13, df_pap_52, df_pap_date_passage, df_pap_note, df_fa_sharing, df_activation_user, df_activation_collectivite, df_activite_semaine
+    df_fiches_completude_historique = read_table('fiches_completude_historique')
+    df_nb_fiches_complete_statut_13_semaines = read_table('nb_fiches_complete_statut_13_semaines')
+    df_nb_fiches_complete_statut_52_semaines = read_table('nb_fiches_complete_statut_52_semaines')
+    return df_nb_fap_13, df_nb_fap_52, df_nb_fap_pilote_13, df_nb_fap_pilote_52, df_pap_13, df_pap_52, df_pap_date_passage, df_pap_note, df_fa_sharing, df_activation_user, df_activation_collectivite, df_activite_semaine, df_fiches_completude_historique, df_nb_fiches_complete_statut_13_semaines, df_nb_fiches_complete_statut_52_semaines
 
 
-df_nb_fap_13, df_nb_fap_52, df_nb_fap_pilote_13, df_nb_fap_pilote_52, df_pap_13, df_pap_52, df_pap_date_passage, df_pap_note, df_fa_sharing, df_activation_user, df_activation_collectivite, df_activite_semaine = load_data()
+df_nb_fap_13, df_nb_fap_52, df_nb_fap_pilote_13, df_nb_fap_pilote_52, df_pap_13, df_pap_52, df_pap_date_passage, df_pap_note, df_fa_sharing, df_activation_user, df_activation_collectivite, df_activite_semaine, df_fiches_completude_historique, df_nb_fiches_complete_statut_13_semaines, df_nb_fiches_complete_statut_52_semaines = load_data()
 
 # ==========================
 # Configuration Plotly
@@ -932,6 +935,88 @@ with tabs[2]:
         trend_group_value="Score >=80%",
         target_value=100   # Cible à ajuster
     )
+
+    # ======================
+    st.markdown('---')
+    st.markdown("### Q-3 (💫 - Activité) : Nombre d'Actions pilotées complètes à 12 ou 3 mois")
+
+    # Toggle pour choisir la période
+    periode_toggle = st.segmented_control(
+        "Période d'analyse",
+        options=["12 mois", "3 mois"],
+        default="12 mois",
+        label_visibility="collapsed"
+    )
+
+    # Préparation des données
+    if periode_toggle == "3 mois":
+        df_evolution_statut = df_nb_fiches_complete_statut_13_semaines.copy()
+    else:
+        df_evolution_statut = df_nb_fiches_complete_statut_52_semaines.copy()
+    df_evolution_statut['mois'] = pd.to_datetime(df_evolution_statut['mois'])
+    df_evolution_statut['mois'] = df_evolution_statut['mois'].dt.to_period('M').dt.to_timestamp()
+    
+    df_evolution_statut = df_evolution_statut[df_evolution_statut['mois'] >= '2023-01-01']
+    df_evolution_statut = df_evolution_statut.sort_values('mois')
+    df_evolution_statut['mois_label'] = df_evolution_statut['mois'].dt.strftime('%Y-%m')
+
+    # Métriques
+    df_actif = df_evolution_statut[df_evolution_statut['statut'] == 'Complète et active']
+    afficher_metriques_temporelles(df_actif, 'nb_fiches', label_prefix="Complète et active - ")
+
+    # Graphique
+    afficher_graphique_plotly(
+        df_evolution_statut,
+        x_column='mois_label',
+        y_column='nb_fiches',
+        element_id="line_evolution_statuts_fiches_completes_et_actives",
+        graph_type="area_stacked",
+        group_column='statut',
+        group_values=["Complète et active", "Incomplète ou inactive"],
+        legend_y="Nombre de fiches complètes et actives",
+        trend_group_value="Complète et active",
+        target_value=500   # Cible à ajuster
+    )
+
+    # Histogramme de complétude par critère pour le mois actuel    
+    # Filtrer pour le mois actuel
+    aujourd_hui = datetime.today()
+    debut_mois = aujourd_hui.replace(day=1)
+    mois_actuel = debut_mois.strftime('%Y-%m-%d')
+    
+    df_completude_mois = df_fiches_completude_historique[df_fiches_completude_historique['mois'] == mois_actuel].copy()
+    
+    if len(df_completude_mois) > 0:
+        # Trouver toutes les colonnes qui commencent par "score"
+        score_columns = [col for col in df_completude_mois.columns if col.startswith('score')]
+        
+        # Compter le nombre de lignes avec la valeur 1 pour chaque colonne score
+        score_counts = {}
+        for col in score_columns:
+            score_counts[col] = (df_completude_mois[col] == 1).sum()
+        
+        # Créer un DataFrame pour l'histogramme
+        df_histogram = pd.DataFrame({
+            'Critère': [col.replace('score_', '') for col in score_counts.keys()],
+            'Nombre': list(score_counts.values())
+        })
+        
+        # Créer l'histogramme avec plotly
+        import plotly.express as px
+        fig = px.bar(
+            df_histogram,
+            x='Critère',
+            y='Nombre',
+            title=f"Nombre de fiches complètes par critère ({mois_actuel})",
+            labels={'Nombre': 'Nombre de fiches', 'Critère': 'Critères de complétude'},
+            color_discrete_sequence=['#B3E2CD']
+        )
+        fig.update_layout(height=400, xaxis_tickangle=-45)
+        st.plotly_chart(fig, use_container_width=True)
+    else:
+        st.info(f"Aucune donnée disponible pour le mois {mois_actuel}")
+
+    
 
 # ==========================
 # TAB 4 : LÉGITIMITÉ
