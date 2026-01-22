@@ -1,4 +1,5 @@
 import streamlit as st
+from datetime import datetime
 import pandas as pd
 import requests
 import time
@@ -712,9 +713,11 @@ with center:
     if uploaded_file_valeurs is not None:
         try:
             # Lire le fichier CSV
-            df_valeurs = pd.read_csv(uploaded_file_valeurs, sep=',')
+            df_valeurs = pd.read_csv(uploaded_file_valeurs, sep=';')
             
             st.success(f"✅ Fichier chargé : {len(df_valeurs)} lignes")
+
+            st.dataframe(df_valeurs, use_container_width=True)
             
             # Vérifier les colonnes obligatoires
             colonnes_obligatoires_base = ['resultat', 'date_valeur', 'collectivite_id']
@@ -738,10 +741,38 @@ with center:
             
             # 1. Transformer date_valeur en datetime au 1er janvier de l'année
             st.info("⚙️ Transformation des dates au 1er janvier de l'année...")
-            df_final_valeurs['date_valeur'] = pd.to_datetime(df_final_valeurs['date_valeur'], errors='coerce')
-            df_final_valeurs['date_valeur'] = df_final_valeurs['date_valeur'].apply(
-                lambda x: pd.Timestamp(year=x.year, month=1, day=1) if pd.notnull(x) else None
-            )
+            
+            def convert_to_year_start(date_val):
+                """Convertit une date (ou année seule) en datetime au 1er janvier de l'année"""
+                if pd.isna(date_val):
+                    return None
+                
+                # Si c'est déjà un datetime, retourner le 1er janvier de son année
+                if isinstance(date_val, (pd.Timestamp, datetime)):
+                    return pd.Timestamp(year=date_val.year, month=1, day=1)
+                
+                # Convertir en string pour traiter tous les cas
+                date_str = str(date_val).strip()
+                
+                # Si c'est juste une année (4 chiffres)
+                if date_str.isdigit() and len(date_str) == 4:
+                    try:
+                        year = int(date_str)
+                        return pd.Timestamp(year=year, month=1, day=1)
+                    except:
+                        return None
+                
+                # Sinon, essayer de parser avec pandas
+                try:
+                    parsed_date = pd.to_datetime(date_str, errors='coerce')
+                    if pd.notnull(parsed_date):
+                        return pd.Timestamp(year=parsed_date.year, month=1, day=1)
+                except:
+                    pass
+                
+                return None
+            
+            df_final_valeurs['date_valeur'] = df_final_valeurs['date_valeur'].apply(convert_to_year_start)
             
             # Supprimer les lignes avec date_valeur null
             nb_avant = len(df_final_valeurs)
@@ -756,6 +787,9 @@ with center:
                 
                 # Charger le mapping titre -> indicateur_id
                 mapping_titre_id = charger_mapping_titre_indicateur_id(engine_lecture)
+
+                # Cas particuliers 
+                df_final_valeurs['titre'] = df_final_valeurs['titre'].apply(lambda x: x.replace('Emissions de PM2.5', 'Emissions de PM2,5') if 'Emissions de PM2.5' in x else x)
                 
                 if not mapping_titre_id:
                     st.error("❌ Impossible de charger le mapping des titres. Assurez-vous que les indicateurs existent en base.")
@@ -776,10 +810,12 @@ with center:
                     df_final_valeurs = df_final_valeurs.dropna(subset=['indicateur_id'])
                     nb_apres = len(df_final_valeurs)
                     st.info(f"ℹ️ {nb_avant - nb_apres} ligne(s) supprimée(s)")
+
             
             # 3. Sélectionner uniquement les colonnes nécessaires
             if 'metadonnee_id' in df_final_valeurs.columns:
                 colonnes_finales = ['collectivite_id', 'indicateur_id', 'date_valeur', 'resultat', 'metadonnee_id']
+                df_final_valeurs['metadonnee_id'] = df_final_valeurs['metadonnee_id'].astype(int)
             else:
                 colonnes_finales = ['collectivite_id', 'indicateur_id', 'date_valeur', 'resultat']
             
@@ -788,7 +824,6 @@ with center:
             # Convertir les types
             df_final_valeurs['collectivite_id'] = df_final_valeurs['collectivite_id'].astype(int)
             df_final_valeurs['indicateur_id'] = df_final_valeurs['indicateur_id'].astype(int)
-            df_final_valeurs['metadonnee_id'] = df_final_valeurs['metadonnee_id'].astype(int)
             df_final_valeurs['resultat'] = pd.to_numeric(df_final_valeurs['resultat'], errors='coerce')
             
             # Supprimer les lignes avec resultat null

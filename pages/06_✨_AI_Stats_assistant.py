@@ -139,6 +139,7 @@ en te basant sur le schéma de base de données et la question utilisateur ci-de
 - Une fiche action liée à une fiche action se trouve dans la table fiche_action_lien et une fiche action lié à une mesure se trouve dans la table fiche_action_action
 - Le droit des utilisateurs se trouve dans la table private_utilisateur_droit, dans la colonne niveau_acces.
 - On appelle souvent FA une fiche action
+- Retire systématiquement les collectivités test de tes requêtes. Il suffit pour ça de mettre une clause where public.collectivite_id.type != 'test'
 
 ### Question utilisateur :
 {user_request}
