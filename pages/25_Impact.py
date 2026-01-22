@@ -170,14 +170,21 @@ df_secteurs_sorted = df_secteurs_agg.sort_values('reduction_leveir', ascending=T
 # Palette de couleurs ordonnée (du plus important au moins important)
 # Top 3 avec des couleurs vives, les autres avec des couleurs plus douces
 color_palette = [
-    "#2E7D32",  # Vert forêt – Biodiversité, nature, agriculture
-    "#0277BD",  # Bleu profond – Eau, océans, gestion des ressources
-    "#F9A825",  # Jaune ambré – Énergie, solaire, efficacité énergétique
-    "#6A1B9A",  # Violet – Innovation, recherche, numérique responsable
-    "#EF6C00",  # Orange – Mobilités, logistique, transport
-    "#455A64",  # Bleu gris – Industrie, bâtiment, aménagement
-    "#C62828",  # Rouge terre – Climat, risques, adaptation
+  # Vert pastel vibrant biodiversité natur # Bleu pastel vibrant eau ressources
+    "#FFD966",  # Jaune pastel vibrant énergie solaire  # Violet pastel vibrant innovation numérique
+    "#FFB36B",
+    "#6EC6FF",  # Orange pastel vibrant mobilités
+    "#90A4AE",  # Bleu gris pastel structurant industrie bâtiment
+    "#FF8A80", 
+    "#6EDC8C",
+    "#C792EA" # Rouge rose pastel vibrant climat adaptation
 ]
+
+
+
+
+
+
 
 
 # Créer un mapping secteur -> couleur basé sur le classement
@@ -189,18 +196,21 @@ for idx, row in df_secteurs_sorted.iterrows():
 # TreeMap 1 : Potentiel de réduction par secteur (reduction_leveir)
 st.markdown("**Potentiel de réduction par secteur** d'après les objectifs SNBC 2030.")
 
-treemap_data_potentiel = {
-    "name": "Secteurs",
-    "children": [
-        {
+# Créer les children triés par reduction_leveir (pour que les couleurs soient dans l'ordre)
+children_potentiel = []
+colors_ordered_potentiel = []
+for _, row in df_secteurs_sorted.iterrows():
+    if row['reduction_leveir'] != 0:
+        children_potentiel.append({
             "name": row['Secteur'],
             "value": abs(float(row['reduction_leveir'])),
-            "loc": abs(float(row['reduction_leveir'])),
-            "color": secteur_colors[row['Secteur']]
-        }
-        for _, row in df_secteurs_agg.iterrows()
-        if row['reduction_leveir'] != 0
-    ]
+            "loc": abs(float(row['reduction_leveir']))
+        })
+        colors_ordered_potentiel.append(secteur_colors[row['Secteur']])
+
+treemap_data_potentiel = {
+    "name": "Secteurs",
+    "children": children_potentiel
 }
 
 with elements("treemap_secteurs_potentiel"):
@@ -217,7 +227,7 @@ with elements("treemap_secteurs_potentiel"):
             parentLabelPosition="left",
             parentLabelTextColor={"from": "color", "modifiers": [["darker", 2]]},
             borderColor={"from": "color", "modifiers": [["darker", 0.3]]},
-            colors={"datum": "data.color"},  # Utiliser les couleurs définies
+            colors=colors_ordered_potentiel,  # Couleurs dans l'ordre du classement
             enableParentLabel=True,
             animate=True,
             motionConfig="gentle",
@@ -253,18 +263,23 @@ with elements("treemap_secteurs_potentiel"):
 # TreeMap 2 : Réduction modélisée par secteur (reduction_theorique)
 st.markdown("**Réduction modélisée par secteur** d'après les Plans & Actions de la collectivité sur Territoires en Transitions.")
 
+# Créer les children dans le même ordre pour garder les mêmes couleurs
+children_theorique = []
+colors_ordered_theorique = []
+for _, row in df_secteurs_sorted.iterrows():
+    # Trouver la valeur correspondante dans df_secteurs_agg
+    secteur_data = df_secteurs_agg[df_secteurs_agg['Secteur'] == row['Secteur']]
+    if not secteur_data.empty and secteur_data.iloc[0]['reduction_theorique'] != 0:
+        children_theorique.append({
+            "name": row['Secteur'],
+            "value": abs(float(secteur_data.iloc[0]['reduction_theorique'])),
+            "loc": abs(float(secteur_data.iloc[0]['reduction_theorique']))
+        })
+        colors_ordered_theorique.append(secteur_colors[row['Secteur']])
+
 treemap_data_theorique = {
     "name": "Secteurs",
-    "children": [
-        {
-            "name": row['Secteur'],
-            "value": abs(float(row['reduction_theorique'])),
-            "loc": abs(float(row['reduction_theorique'])),
-            "color": secteur_colors[row['Secteur']]
-        }
-        for _, row in df_secteurs_agg.iterrows()
-        if row['reduction_theorique'] != 0
-    ]
+    "children": children_theorique
 }
 
 with elements("treemap_secteurs_theorique"):
@@ -281,7 +296,7 @@ with elements("treemap_secteurs_theorique"):
             parentLabelPosition="left",
             parentLabelTextColor={"from": "color", "modifiers": [["darker", 2]]},
             borderColor={"from": "color", "modifiers": [["darker", 0.3]]},
-            colors={"datum": "data.color"},  # Utiliser les mêmes couleurs
+            colors=colors_ordered_theorique,  # Mêmes couleurs dans le même ordre
             enableParentLabel=True,
             animate=True,
             motionConfig="gentle",
