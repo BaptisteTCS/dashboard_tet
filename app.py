@@ -15,7 +15,7 @@ pages = {
         st.Page("pages/02_⚡_Weekly.py", title="Weekly", icon="⚡"),
         st.Page("pages/22_🪄_Import_Tool.py", title="Import Tool", icon="🪄"),
         st.Page("pages/06_✨_AI_Stats_assistant.py", title="AI Stats Assistant", icon="✨"),
-        st.Page("pages/25_Impact.py", title="Mesure d'impact", icon="🎯"),
+        st.Page("pages/25_Impact.py", title="Modélisation d'impact GES", icon="🎯"),
     ],
     "Tableaux de Bord": [
         st.Page("pages/04_🥐_TDB_collectivite.py", title="TDB Collectivité", icon="🥐"),
@@ -37,6 +37,7 @@ pages = {
         st.Page("pages/11_🚢🚨_Livraison_Prod.py", title="Livraison Prod", icon="🚨"),
     ],
     "Bac à sable": [
+        st.Page("pages/26_run_impact.py", title="Calcul impact", icon="🎯"),
         st.Page("pages/12_⛱️_North_Star_Bac_a_sable.py", title="North Star Bac à sable", icon="⛱️"),
         st.Page("pages/21_👽_Power_users.py", title="Power users", icon="👽"),
         st.Page("pages/07_💡_Suggestion_indicateurs.py", title="Suggestion Indicateurs", icon="🤖"),

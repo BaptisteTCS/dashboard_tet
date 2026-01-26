@@ -642,7 +642,7 @@ if not df_top.empty:
 
         expander_label = f"Voir actions et mesures de référence — {item['levier_full']}"
         with st.expander(expander_label, expanded=False):
-            st.markdown("**Actions associées**")
+            st.markdown("**Actions de votre collectivité associées**")
             if ids:
                 actions_list = [actions_by_id.get(action_id, f"Action #{action_id}") for action_id in ids]
                 st.markdown("\n".join([f"- {titre}" for titre in actions_list]))
