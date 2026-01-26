@@ -11,6 +11,39 @@ from datetime import datetime
 st.set_page_config(layout="wide", page_title="SQL AI Assistant", page_icon="✨")
 
 
+# === FONCTIONS HELPER ===
+def build_conversation_history(messages, max_exchanges=10):
+    """
+    Construit l'historique de conversation formaté pour le prompt.
+    
+    Args:
+        messages: Liste des messages de la session
+        max_exchanges: Nombre maximum d'échanges à inclure (par défaut 10)
+    
+    Returns:
+        String formaté avec l'historique de conversation
+    """
+    if len(messages) == 0:
+        return ""
+    
+    # Limiter aux N derniers échanges pour éviter des prompts trop longs
+    # On prend les messages 2 par 2 (user + assistant)
+    relevant_messages = messages[-(max_exchanges * 2):] if len(messages) > max_exchanges * 2 else messages
+    
+    if len(relevant_messages) == 0:
+        return ""
+    
+    history_text = "\n### Historique de la conversation :\n"
+    
+    for msg in relevant_messages:
+        if msg["role"] == "user":
+            history_text += f"\nUtilisateur : {msg['content']}\n"
+        elif msg["role"] == "assistant" and "sql_query" in msg:
+            history_text += f"Assistant (SQL généré) : {msg['sql_query']}\n"
+    
+    return history_text
+
+
 # === FONCTIONS DE LOGGING ===
 @st.cache_resource(show_spinner=False)
 
@@ -48,6 +81,25 @@ st.markdown("""
     <p style='color: #666; font-size: 1rem;'>Posez votre question en langage naturel</p>
 </div>
 """, unsafe_allow_html=True)
+
+# Bouton de réinitialisation et compteur
+col1, col2 = st.columns([3, 1])
+with col1:
+    num_messages = len(st.session_state.messages)
+    if num_messages > 0:
+        st.caption(f"💬 {num_messages} message(s) dans la conversation")    
+with col2:
+    if st.button("🔄 Nouvelle conversation", use_container_width=True):
+        st.session_state.messages = []
+        st.rerun()
+
+# Avertissement si le contexte devient trop long
+if len(st.session_state.messages) >= 20:
+    st.warning(
+        "⚠️ **Attention** : Le contexte s'allonge à chaque requête, ce qui augmente les coûts et peut ralentir les réponses. "
+        "Il est recommandé de lancer une nouvelle conversation.",
+        icon="⚠️"
+    )
 
 # Affichage de l'historique des messages
 for message in st.session_state.messages:
@@ -92,6 +144,9 @@ if user_request:
                 model = "gpt-5"
                 max_output_tokens = 50000
                 
+                # Construire l'historique de conversation
+                conversation_history = build_conversation_history(st.session_state.messages[:-1])
+                
                 # Construction du prompt
                 prompt = f"""
                 Tu es un assistant SQL expert PostgreSQL.
@@ -123,8 +178,8 @@ if user_request:
                 - Le droit des utilisateurs se trouve dans la table private_utilisateur_droit, dans la colonne niveau_acces.
                 - On appelle souvent FA une fiche action
                 - Retire systématiquement les collectivités test de tes requêtes. Il suffit pour ça de mettre une clause where public.collectivite_id.type != 'test'
-
-                ### Question utilisateur :
+                {conversation_history}
+                ### Question utilisateur actuelle :
                 {user_request}
                 """
                 
