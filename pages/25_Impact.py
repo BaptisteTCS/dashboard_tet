@@ -28,7 +28,7 @@ COLOR_RED_OBJECTIVE = "#eb3349"    # Rouge (marqueur objectif)
 
 @st.cache_resource(ttl="3d")
 def load_data():
-    df_blois_impact = read_table('blois_impact')
+    df_blois_impact = read_table('ccph_impact')
     return df_blois_impact
 
 df_blois_impact = load_data()
@@ -46,7 +46,7 @@ objectif_snbc = df_blois_impact.reduction_leveir.sum()
 
 st.title("🎯 Modélisation d'impact GES des plans d'actions")
 st.markdown(
-    "Modélisation des réductions d’émissions de GES du **PCAET Blois Agglopolys**."
+    "Modélisation des réductions d’émissions de GES de la **Communauté de Communes du Pays Houdanais**."
 )
 st.markdown('---')
 
