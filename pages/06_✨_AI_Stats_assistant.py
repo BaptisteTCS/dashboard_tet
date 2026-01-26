@@ -49,23 +49,6 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-# Sidebar avec options
-with st.sidebar:
-    st.markdown("### ⚙️ Configuration")
-    model_choice = st.selectbox(
-        "Modèle",
-        ["gpt-5", "gpt-5-mini", "gpt-5-nano"],
-        index=1,  # gpt-5-mini par défaut
-        help="Par défaut gpt-5-mini, gpt-5 est plus performant"
-    )
-    
-    st.markdown("---")
-    
-    st.warning("⚠️ **Attention :** L'IA ne conserve pas l'historique des conversations. Chaque question est traitée indépendamment, sans mémoire des messages précédents.")
-    
-    st.markdown("---")
-    st.info("📝 Cette IA est directement connectée à la base de données de TET. Elle ne connait *encore* certaines notions comme les PAP par exemple.")
-
 # Affichage de l'historique des messages
 for message in st.session_state.messages:
     with st.chat_message(message["role"]):
@@ -106,44 +89,44 @@ if user_request:
         with st.spinner("Génération de la requête..."):
             try:
                 # Configuration du modèle
-                model = model_choice
+                model = "gpt-5"
                 max_output_tokens = 50000
                 
                 # Construction du prompt
                 prompt = f"""
-Tu es un assistant SQL expert PostgreSQL.
+                Tu es un assistant SQL expert PostgreSQL.
 
-Ta mission est de produire la requête SQL la plus pertinente possible
-en te basant sur le schéma de base de données et la question utilisateur ci-dessous.
+                Ta mission est de produire la requête SQL la plus pertinente possible
+                en te basant sur le schéma de base de données et la question utilisateur ci-dessous.
 
-### Contexte de la base :
-{tables_text}
+                ### Contexte de la base :
+                {tables_text}
 
-### Relations entre les tables :
-{relations_text}
+                ### Relations entre les tables :
+                {relations_text}
 
-### Règles :
-- Retourne uniquement une requête SQL valide.
-- Utilise des jointures explicites (JOIN ... ON ...).
-- N'écris aucune explication, commentaire, ni texte additionnel.
-- Limite-toi aux tables et colonnes présentes dans le schéma.
-- Si plusieurs interprétations sont possibles, choisis la plus logique.
-- N'utilise que des commandes SELECT, jamais INSERT, UPDATE ou DELETE.
+                ### Règles :
+                - Retourne uniquement une requête SQL valide.
+                - Utilise des jointures explicites (JOIN ... ON ...).
+                - N'écris aucune explication, commentaire, ni texte additionnel.
+                - Limite-toi aux tables et colonnes présentes dans le schéma.
+                - Si plusieurs interprétations sont possibles, choisis la plus logique.
+                - N'utilise que des commandes SELECT, jamais INSERT, UPDATE ou DELETE.
 
-### Informations importantes :
-- Les plans (ou plan d'action) sont contenus dans la table axe (lorsque id=plan), le lien est fait avec les fiches actions par fiche_action_axe
-- Un indicateur est "personnalisé" lorsque que indicateur_definition.collectivite_id est non null
-- Un indicateur est "open data" lorsque indicateur_valeur.metadonnee_id est non null et indicateur_valeur.resultat est non null
-- Le budget d'investissement pour une fiche action est dans fiche_action_budget avec type='investissement'
-- Dans notre langage courant, on appelle "action" ce qui est en fait une "mesure" ou "mesure du référentiel"
-- Une fiche action liée à une fiche action se trouve dans la table fiche_action_lien et une fiche action lié à une mesure se trouve dans la table fiche_action_action
-- Le droit des utilisateurs se trouve dans la table private_utilisateur_droit, dans la colonne niveau_acces.
-- On appelle souvent FA une fiche action
-- Retire systématiquement les collectivités test de tes requêtes. Il suffit pour ça de mettre une clause where public.collectivite_id.type != 'test'
+                ### Informations importantes :
+                - Les plans (ou plan d'action) sont contenus dans la table axe (lorsque id=plan), le lien est fait avec les fiches actions par fiche_action_axe
+                - Un indicateur est "personnalisé" lorsque que indicateur_definition.collectivite_id est non null
+                - Un indicateur est "open data" lorsque indicateur_valeur.metadonnee_id est non null et indicateur_valeur.resultat est non null
+                - Le budget d'investissement pour une fiche action est dans fiche_action_budget avec type='investissement'
+                - Dans notre langage courant, on appelle "action" ce qui est en fait une "mesure" ou "mesure du référentiel"
+                - Une fiche action liée à une fiche action se trouve dans la table fiche_action_lien et une fiche action lié à une mesure se trouve dans la table fiche_action_action
+                - Le droit des utilisateurs se trouve dans la table private_utilisateur_droit, dans la colonne niveau_acces.
+                - On appelle souvent FA une fiche action
+                - Retire systématiquement les collectivités test de tes requêtes. Il suffit pour ça de mettre une clause where public.collectivite_id.type != 'test'
 
-### Question utilisateur :
-{user_request}
-"""
+                ### Question utilisateur :
+                {user_request}
+                """
                 
                 # Appel à l'API OpenAI
                 client = OpenAI(
