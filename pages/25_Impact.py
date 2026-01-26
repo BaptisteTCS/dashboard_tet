@@ -8,8 +8,15 @@ st.set_page_config(
 )
 
 import pandas as pd
+import colorsys
+from sqlalchemy import text
 from streamlit_elements import elements, nivo, mui
-from utils.db import read_table
+from utils.db import read_table, get_engine_prod
+
+ct_possible = {
+    "Blois Agglopolys": "blois",
+    "Communauté de Communes du Pays Houdanais": "ccph"
+}
 
 # ==========================
 # Configuration des couleurs
@@ -27,28 +34,38 @@ COLOR_RED_OBJECTIVE = "#eb3349"    # Rouge (marqueur objectif)
 # ==========================
 
 @st.cache_resource(ttl="3d")
-def load_data():
-    df_blois_impact = read_table('ccph_impact')
-    return df_blois_impact
+def load_data(table_prefix):
+    return read_table(f"{table_prefix}_impact")
 
-df_blois_impact = load_data()
+@st.cache_data(ttl="1d")
+def load_mapping_levier_mesure():
+    return read_table("mapping_levier_mesure", columns=["levier", "mesure"])
 
 # ==========================
 # Configuration
 # ==========================
 
-# Objectif SNBC (en kT CO2) - Modifiable via sidebar
-objectif_snbc = df_blois_impact.reduction_leveir.sum()
+
 
 # ==========================
 # Titre et header
 # ==========================
 
 st.title("🎯 Modélisation d'impact GES des plans d'actions")
+selected_ct = st.selectbox(
+    "Collectivité",
+    options=list(ct_possible.keys()),
+    index=0
+)
+table_prefix = ct_possible[selected_ct]
+df_blois_impact = load_data(table_prefix)
 st.markdown(
-    "Modélisation des réductions d’émissions de GES de la **Communauté de Communes du Pays Houdanais**."
+    f"Modélisation des réductions d’émissions de GES de la **{selected_ct}**."
 )
 st.markdown('---')
+
+# Objectif SNBC (en kT CO2) - Modifiable via sidebar
+objectif_snbc = df_blois_impact.reduction_leveir.sum()
 
 # ==========================
 # Calculs des métriques
@@ -164,57 +181,52 @@ df_secteurs_agg = df_blois_impact.groupby('Secteur').agg({
     'reduction_theorique': 'sum'
 }).reset_index()
 
-# Trier les secteurs par potentiel de réduction pour attribuer les couleurs
+# Trier les secteurs par potentiel de réduction pour l'affichage
 df_secteurs_sorted = df_secteurs_agg.sort_values('reduction_leveir', ascending=True).copy()
 
-# Palette de couleurs ordonnée (du plus important au moins important)
-# Top 3 avec des couleurs vives, les autres avec des couleurs plus douces
-color_palette = [
-  # Vert pastel vibrant biodiversité natur # Bleu pastel vibrant eau ressources
-    "#FFD966",  # Jaune pastel vibrant énergie solaire  # Violet pastel vibrant innovation numérique
-    "#FFB36B",
-    "#6EC6FF",  # Orange pastel vibrant mobilités
-    "#90A4AE",  # Bleu gris pastel structurant industrie bâtiment
-    "#FF8A80", 
-    "#6EDC8C",
-    "#C792EA" # Rouge rose pastel vibrant climat adaptation
-]
+# Créer un mapping secteur -> couleur (unique et stable)
+def _hex_from_hls(h, l=0.92, s=0.30):
+    r, g, b = colorsys.hls_to_rgb(h, l, s)
+    return f"#{int(r*255):02x}{int(g*255):02x}{int(b*255):02x}"
 
+secteurs_list = sorted(df_secteurs_agg['Secteur'].dropna().unique())
+secteur_colors = {
+    secteur: _hex_from_hls(i / max(len(secteurs_list), 1))
+    for i, secteur in enumerate(secteurs_list)
+}
 
+secteur_theorique = dict(
+    zip(df_secteurs_agg['Secteur'], df_secteurs_agg['reduction_theorique'])
+)
 
-
-
-
-
-
-# Créer un mapping secteur -> couleur basé sur le classement
-secteur_colors = {}
-for idx, row in df_secteurs_sorted.iterrows():
-    rank = list(df_secteurs_sorted.index).index(idx)
-    secteur_colors[row['Secteur']] = color_palette[min(rank, len(color_palette) - 1)]
+# Hauteurs des treemaps (2e proportionnel au % d'atteinte)
+treemap_height = 500
+pct_atteinte_clamped = max(0, min(float(pct_atteinte), 100))
+treemap_height_theorique = max(80, int(treemap_height * pct_atteinte_clamped / 100))
 
 # TreeMap 1 : Potentiel de réduction par secteur (reduction_leveir)
 st.markdown("**Potentiel de réduction par secteur** d'après les objectifs SNBC 2030.")
+st.markdown(f"Total: **{abs(objectif_snbc):.0f} kt CO₂eq**")
 
 # Créer les children triés par reduction_leveir (pour que les couleurs soient dans l'ordre)
 children_potentiel = []
-colors_ordered_potentiel = []
 for _, row in df_secteurs_sorted.iterrows():
     if row['reduction_leveir'] != 0:
         children_potentiel.append({
             "name": row['Secteur'],
             "value": abs(float(row['reduction_leveir'])),
-            "loc": abs(float(row['reduction_leveir']))
+            "loc": abs(float(row['reduction_leveir'])),
+            "color": secteur_colors.get(row['Secteur'], "#cccccc")
         })
-        colors_ordered_potentiel.append(secteur_colors[row['Secteur']])
 
 treemap_data_potentiel = {
     "name": "Secteurs",
+    "color": "#fefce8",
     "children": children_potentiel
 }
 
 with elements("treemap_secteurs_potentiel"):
-    with mui.Box(sx={"height": 500}):
+    with mui.Box(sx={"height": treemap_height}):
         nivo.TreeMap(
             data=treemap_data_potentiel,
             identity="name",
@@ -223,11 +235,13 @@ with elements("treemap_secteurs_potentiel"):
             label="id",
             margin={"top": 10, "right": 10, "bottom": 10, "left": 10},
             labelSkipSize=12,
-            labelTextColor={"from": "color", "modifiers": [["darker", 1.8]]},
+            labelTextColor="#111827",
             parentLabelPosition="left",
-            parentLabelTextColor={"from": "color", "modifiers": [["darker", 2]]},
-            borderColor={"from": "color", "modifiers": [["darker", 0.3]]},
-            colors=colors_ordered_potentiel,  # Couleurs dans l'ordre du classement
+            parentLabelTextColor="#111827",
+            borderColor="rgba(255, 255, 255, 0.9)",
+            borderWidth=1,
+            nodeOpacity=1,
+            colors={"datum": "data.color"},
             enableParentLabel=True,
             animate=True,
             motionConfig="gentle",
@@ -241,7 +255,7 @@ with elements("treemap_secteurs_potentiel"):
                     "text": {
                         "fontFamily": "Source Sans Pro, sans-serif",
                         "fontSize": 13,
-                        "fill": "#ffffff"
+                        "fill": "#1f2937"
                     }
                 },
                 "tooltip": {
@@ -262,28 +276,28 @@ with elements("treemap_secteurs_potentiel"):
 
 # TreeMap 2 : Réduction modélisée par secteur (reduction_theorique)
 st.markdown("**Réduction modélisée par secteur** d'après les Plans & Actions de la collectivité sur Territoires en Transitions.")
+st.markdown(f"Total: **{abs(reduction_totale):.0f} kt CO₂eq**")
 
 # Créer les children dans le même ordre pour garder les mêmes couleurs
 children_theorique = []
-colors_ordered_theorique = []
 for _, row in df_secteurs_sorted.iterrows():
-    # Trouver la valeur correspondante dans df_secteurs_agg
-    secteur_data = df_secteurs_agg[df_secteurs_agg['Secteur'] == row['Secteur']]
-    if not secteur_data.empty and secteur_data.iloc[0]['reduction_theorique'] != 0:
+    valeur_theorique = secteur_theorique.get(row['Secteur'], 0)
+    if valeur_theorique != 0:
         children_theorique.append({
             "name": row['Secteur'],
-            "value": abs(float(secteur_data.iloc[0]['reduction_theorique'])),
-            "loc": abs(float(secteur_data.iloc[0]['reduction_theorique']))
+            "value": abs(float(valeur_theorique)),
+            "loc": abs(float(valeur_theorique)),
+            "color": secteur_colors.get(row['Secteur'], "#cccccc")
         })
-        colors_ordered_theorique.append(secteur_colors[row['Secteur']])
 
 treemap_data_theorique = {
     "name": "Secteurs",
+    "color": "#fefce8",
     "children": children_theorique
 }
 
 with elements("treemap_secteurs_theorique"):
-    with mui.Box(sx={"height": 500}):
+    with mui.Box(sx={"height": treemap_height_theorique}):
         nivo.TreeMap(
             data=treemap_data_theorique,
             identity="name",
@@ -292,11 +306,13 @@ with elements("treemap_secteurs_theorique"):
             label="id",
             margin={"top": 10, "right": 10, "bottom": 10, "left": 10},
             labelSkipSize=12,
-            labelTextColor={"from": "color", "modifiers": [["darker", 1.8]]},
+            labelTextColor="#111827",
             parentLabelPosition="left",
-            parentLabelTextColor={"from": "color", "modifiers": [["darker", 2]]},
-            borderColor={"from": "color", "modifiers": [["darker", 0.3]]},
-            colors=colors_ordered_theorique,  # Mêmes couleurs dans le même ordre
+            parentLabelTextColor="#111827",
+            borderColor="rgba(255, 255, 255, 0.9)",
+            borderWidth=1,
+            nodeOpacity=1,
+            colors={"datum": "data.color"},
             enableParentLabel=True,
             animate=True,
             motionConfig="gentle",
@@ -310,7 +326,7 @@ with elements("treemap_secteurs_theorique"):
                     "text": {
                         "fontFamily": "Source Sans Pro, sans-serif",
                         "fontSize": 13,
-                        "fill": "#ffffff"
+                        "fill": "#1f2937"
                     }
                 },
                 "tooltip": {
@@ -394,7 +410,7 @@ if not df_top.empty:
             "levier": row['Leviers SGPE'][:50] + "..." if len(row['Leviers SGPE']) > 50 else row['Leviers SGPE'],
             "levier_full": row['Leviers SGPE'],
             "Réduction modéliséee": abs(float(row['reduction_theorique'])),
-            "Réduction potentielle": abs(float(row['reduction_leveir'])) - abs(float(row['reduction_theorique'])),
+            "Réduction potentielle": f"{(abs(float(row['reduction_leveir'])) - abs(float(row['reduction_theorique']))):.1f}",
             "secteur": row['Secteur'],
             "implication": row['implication'],
             "justification": row['justification'] if pd.notna(row['justification']) else "Aucune action sur ce levier",
@@ -478,7 +494,6 @@ if not df_top.empty:
             )
 
 
-    st.markdown("---")
     st.badge("Détail par levier", icon=':material/list:', color='green')
     
     # CSS pour les cartes style warning Streamlit
@@ -551,34 +566,95 @@ if not df_top.empty:
     
     # Filtrer les cartes selon le secteur sélectionné
     cartes_filtrees = bar_data_top[::-1]
+
+    def parse_ids(value):
+        if value is None or (isinstance(value, float) and pd.isna(value)):
+            return []
+        if isinstance(value, (list, tuple, set)):
+            ids = []
+            for v in value:
+                try:
+                    ids.append(int(v))
+                except (TypeError, ValueError):
+                    continue
+            return ids
+        if isinstance(value, str):
+            cleaned = value.strip()
+            if not cleaned:
+                return []
+            cleaned = cleaned.strip("[]{}()")
+            parts = [p.strip() for p in cleaned.split(",") if p.strip()]
+            ids = []
+            for p in parts:
+                try:
+                    ids.append(int(p))
+                except ValueError:
+                    continue
+            return ids
+        try:
+            return [int(value)]
+        except (TypeError, ValueError):
+            return []
+
+    mapping_levier_mesure = load_mapping_levier_mesure()
+    mesures_map = {}
+    if not mapping_levier_mesure.empty:
+        mesures_map = (
+            mapping_levier_mesure.dropna(subset=["levier", "mesure"])
+            .groupby("levier")["mesure"]
+            .apply(lambda s: sorted({m for m in s if pd.notna(m)}))
+            .to_dict()
+        )
+
+    levier_ids_map = {}
+    all_action_ids = set()
+    for item in cartes_filtrees:
+        levier_row = df_blois_impact[df_blois_impact['Leviers SGPE'] == item['levier_full']]
+        ids = parse_ids(levier_row.iloc[0]['ids']) if not levier_row.empty else []
+        levier_ids_map[item['levier_full']] = ids
+        all_action_ids.update(ids)
+
+    actions_by_id = {}
+    if all_action_ids:
+        engine_prod = get_engine_prod()
+        with engine_prod.connect() as conn:
+            actions_df = pd.read_sql_query(
+                text("select id, titre from fiche_action where id = any(:ids)"),
+                conn,
+                params={"ids": list(sorted(all_action_ids))}
+            )
+        actions_by_id = dict(zip(actions_df["id"], actions_df["titre"]))
     
     # Afficher toutes les cartes filtrées
     for idx, item in enumerate(cartes_filtrees):
-        # Récupérer les IDs correspondants
-        levier_row = df_blois_impact[df_blois_impact['Leviers SGPE'] == item['levier_full']]
-        has_ids = not levier_row.empty and 'ids' in levier_row.columns and levier_row.iloc[0]['ids']
+        ids = levier_ids_map.get(item['levier_full'], [])
         
         # Style selon l'implication
         css_class, emoji = get_implication_style(item['implication'])
         
-        col_card, col_btn = st.columns([5, 1])
-        
-        with col_card:
-            st.markdown(f"""
-            <div class="levier-warning {css_class}">
-                <p class="levier-title">{emoji} {item['levier_full']}</p>
-                <p class="levier-subtitle">Effort estimé : {int(item['implication'])}% <br /> Secteur : {item['secteur']}</p>
-                <p class="levier-justification">{item['justification']}</p>
-            </div>
-            """, unsafe_allow_html=True)
-        
-        with col_btn:
-            col_btn.space('stretch')
-            btn_label = "Voir les actions de références" if item['justification'] == "Aucune action sur ce levier" else "Aller aux actions"
-            if st.button(btn_label, key=f"btn_top_{idx}", use_container_width=True, type='primary'):
-                st.info("🔧 **Fonction à venir**")
-                if has_ids:
-                    st.caption(f"IDs : {levier_row.iloc[0]['ids']}")
+        st.markdown(f"""
+        <div class="levier-warning {css_class}">
+            <p class="levier-title">{emoji} {item['levier_full']}</p>
+            <p class="levier-subtitle">Effort estimé : {int(item['implication'])}% <br /> Secteur : {item['secteur']}</p>
+            <p class="levier-justification">{item['justification']}</p>
+        </div>
+        """, unsafe_allow_html=True)
+
+        expander_label = f"Voir actions et mesures de référence — {item['levier_full']}"
+        with st.expander(expander_label, expanded=False):
+            st.markdown("**Actions associées**")
+            if ids:
+                actions_list = [actions_by_id.get(action_id, f"Action #{action_id}") for action_id in ids]
+                st.markdown("\n".join([f"- {titre}" for titre in actions_list]))
+            else:
+                st.caption("Aucune action associée.")
+
+            st.markdown("**Mesures de référence**")
+            mesures = mesures_map.get(item['levier_full'], [])
+            if mesures:
+                st.markdown("\n".join([f"- {mesure}" for mesure in mesures]))
+            else:
+                st.caption("Aucune mesure de référence.")
 
 else:
     st.warning("⚠️ Aucun levier avec une Réduction modéliséee positive")
