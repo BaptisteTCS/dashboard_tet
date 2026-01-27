@@ -371,13 +371,22 @@ def classify_actions(plan: pd.DataFrame, status_container) -> str:
     prompt = build_prompt_classification(plan_texte)
     
     status_container.write("🤖 Appel à l'API OpenAI pour classification...")
-    
-    response = client.responses.create(
+
+    if reasoning_mode:
+        response = client.responses.create(
         model="gpt-5.1-2025-11-13",
         input=prompt,
-        reasoning={"effort": "medium"},
+        reasoning={"effort": "low"},
         max_output_tokens=120000
     )
+
+    else:
+        response = client.responses.create(
+            model="gpt-5.1-2025-11-13",
+            input=prompt,
+            reasoning={"effort": "medium"},
+            max_output_tokens=120000
+        )
     
     return response.output_text
 
@@ -650,6 +659,11 @@ debug_mode = st.toggle(
 
 full_access_mode = st.toggle(
     "🔓 Accès à toutes les fiches actions (y compris restreintes)",
+    value=False
+)
+
+reasoning_mode = st.toggle(
+    "😴 Low reasoning (Medium par défaut)",
     value=False
 )
 
