@@ -11,12 +11,7 @@ import pandas as pd
 import colorsys
 from sqlalchemy import text
 from streamlit_elements import elements, nivo, mui
-from utils.db import read_table, get_engine_prod
-
-ct_possible = {
-    "Blois Agglopolys": "blois",
-    "Communauté de Communes du Pays Houdanais": "ccph"
-}
+from utils.db import read_table, get_engine_prod, get_engine
 
 # ==========================
 # Configuration des couleurs
@@ -33,9 +28,61 @@ COLOR_RED_OBJECTIVE = "#eb3349"    # Rouge (marqueur objectif)
 # Chargement des données
 # ==========================
 
-@st.cache_resource(ttl="3d")
-def load_data(table_prefix):
-    return read_table(f"{table_prefix}_impact")
+@st.cache_data(ttl="1d")
+def load_collectivites_disponibles():
+    """Charge la liste des collectivités ayant des données de modélisation."""
+    from sqlalchemy import text
+    
+    # Charger les IDs des collectivités depuis OLAP (modelisation_impact)
+    engine_olap = get_engine()
+    with engine_olap.connect() as conn:
+        df_ids = pd.read_sql_query(
+            text("SELECT DISTINCT collectivite_id FROM modelisation_impact"),
+            conn
+        )
+    
+    if df_ids.empty:
+        return pd.DataFrame(columns=['id', 'nom'])
+    
+    # Charger les noms depuis la base de prod
+    collectivite_ids = df_ids['collectivite_id'].tolist()
+    engine_prod = get_engine_prod()
+    with engine_prod.connect() as conn:
+        df = pd.read_sql_query(
+            text("""
+                SELECT id, nom
+                FROM collectivite
+                WHERE id = ANY(:ids)
+                AND nom IS NOT NULL
+                ORDER BY nom
+            """),
+            conn,
+            params={"ids": collectivite_ids}
+        )
+    return df
+
+@st.cache_data(ttl="1d")
+def load_data(collectivite_id):
+    """Charge les données de modélisation d'impact pour une collectivité depuis OLAP."""
+    from sqlalchemy import text
+    import json
+    engine = get_engine()  # Utiliser OLAP car modelisation_impact est en OLAP
+    with engine.connect() as conn:
+        df = pd.read_sql_query(
+            text("""
+                SELECT *
+                FROM modelisation_impact
+                WHERE collectivite_id = :collectivite_id
+            """),
+            conn,
+            params={"collectivite_id": collectivite_id}
+        )
+    
+    # Reconvertir la colonne 'ids' de JSON string vers liste
+    if 'ids' in df.columns:
+        df['ids'] = df['ids'].apply(lambda x: json.loads(x) if isinstance(x, str) and x else [])
+    
+    return df
 
 @st.cache_data(ttl="1d")
 def load_mapping_levier_mesure():
@@ -52,13 +99,32 @@ def load_mapping_levier_mesure():
 # ==========================
 
 st.title("🎯 Modélisation d'impact GES des plans d'actions")
+
+# Chargement des collectivités disponibles
+df_collectivites = load_collectivites_disponibles()
+
+if df_collectivites.empty:
+    st.warning("⚠️ Aucune collectivité avec des données de modélisation disponible.")
+    st.stop()
+
+# Création du dictionnaire pour le mapping nom -> id
+collectivite_options = dict(zip(df_collectivites['nom'], df_collectivites['id']))
+
 selected_ct = st.selectbox(
     "Collectivité",
-    options=list(ct_possible.keys()),
+    options=list(collectivite_options.keys()),
     index=0
 )
-table_prefix = ct_possible[selected_ct]
-df_blois_impact = load_data(table_prefix)
+
+# Récupération de l'ID de la collectivité sélectionnée
+collectivite_id = collectivite_options[selected_ct]
+
+# Chargement des données de modélisation
+df_blois_impact = load_data(collectivite_id)
+
+if df_blois_impact.empty:
+    st.warning(f"⚠️ Aucune donnée de modélisation trouvée pour {selected_ct}.")
+    st.stop()
 st.markdown(
     f"Modélisation des réductions d’émissions de GES de la **{selected_ct}**."
 )
@@ -71,7 +137,7 @@ objectif_snbc = df_blois_impact.reduction_leveir.sum()
 # Calculs des métriques
 # ==========================
 
-# Réduction modéliséee totale (basée sur l'implication réelle)
+# Potentiel de réduction activé totale (basée sur l'implication réelle)
 # Note : les valeurs sont NÉGATIVES (ex: -48 kT = réduction de 48 kT)
 reduction_totale = df_blois_impact['reduction_theorique'].sum()
 
@@ -99,7 +165,7 @@ nb_leviers_zero = len(df_blois_impact[df_blois_impact['reduction_theorique'] == 
 st.badge('Bilan de la modélisation', icon=':material/trending_up:', color='orange')
 
 ecart_kt = abs(objectif_snbc) - abs(reduction_totale)
-st.markdown(f"D'après la modélisation, l'objectif SNBC territorialisé ne sera pas atteint au regard des Plans & Actions suivis actuellement sur Territoires en Transitions.")
+st.markdown(f"L'objectif SNBC de la collectivité est une réduction de **{abs(objectif_snbc):.0f} kt CO₂eq** d'ici à 2030. D'après la modélisation, l'objectif SNBC **ne sera pas atteint** au regard des Plans & Actions suivis actuellement sur Territoires en Transitions.")
 
 
 # KPIs en colonnes avec Nivo/MUI
@@ -110,7 +176,7 @@ with elements("kpi_cards"):
         "gap": 2,
         "mb": 3
     }):
-        # KPI 1 : Réduction modéliséee totale (valeur absolue pour lisibilité)
+        # KPI 1 : Potentiel de réduction activé totale (valeur absolue pour lisibilité)
         with mui.Card(sx={
             "p": 3,
             "background": COLOR_GREEN_PRIMARY,
@@ -118,7 +184,7 @@ with elements("kpi_cards"):
             "color": "white",
             "textAlign": "center"
         }):
-            mui.Typography("Réduction modéliséee", variant="subtitle2", sx={"opacity": 0.9})
+            mui.Typography("Potentiel de réduction activé", variant="subtitle2", sx={"opacity": 0.9})
             mui.Typography(f"{abs(reduction_totale):.0f}", variant="h3", sx={"fontWeight": "bold", "my": 1})
             mui.Typography("kt CO₂eq", variant="subtitle1")
         
@@ -205,8 +271,7 @@ pct_atteinte_clamped = max(0, min(float(pct_atteinte), 100))
 treemap_height_theorique = max(80, int(treemap_height * pct_atteinte_clamped / 100))
 
 # TreeMap 1 : Potentiel de réduction par secteur (reduction_leveir)
-st.markdown("**Potentiel de réduction par secteur** d'après les objectifs SNBC 2030.")
-st.markdown(f"Total: **{abs(objectif_snbc):.0f} kt CO₂eq**")
+st.markdown(f"**Potentiel de réduction total par secteur : {abs(objectif_snbc):.0f} kt CO₂eq.** D'après les objectifs SNBC 2030.")
 
 # Créer les children triés par reduction_leveir (pour que les couleurs soient dans l'ordre)
 children_potentiel = []
@@ -274,9 +339,8 @@ with elements("treemap_secteurs_potentiel"):
         )
 
 
-# TreeMap 2 : Réduction modélisée par secteur (reduction_theorique)
-st.markdown("**Réduction modélisée par secteur** d'après les Plans & Actions de la collectivité sur Territoires en Transitions.")
-st.markdown(f"Total: **{abs(reduction_totale):.0f} kt CO₂eq**")
+# TreeMap 2 : Potentiel de réduction activé par secteur (reduction_theorique)
+st.markdown(f"**Potentiel de réduction activé par secteur : {abs(reduction_totale):.0f} kt CO₂eq**. D'après les Plans & Actions de la collectivité sur Territoires en Transitions.")
 
 # Créer les children dans le même ordre pour garder les mêmes couleurs
 children_theorique = []
@@ -384,24 +448,39 @@ st.markdown('Trier par :')
 # Segmented control pour choisir le tri
 vue_tri = st.segmented_control(
     "Mode de tri",
-    options=["Réduction modélisée par levier", "Potentiel de réduction par levier", "Effort estimé par levier"],
-    default="Réduction modélisée par levier",
+    options=["Potentiel de réduction activé par levier", "Potentiel de réduction restant par levier", "Effort modélisé par levier"],
+    default="Potentiel de réduction activé par levier",
     label_visibility="collapsed"
 )
 
 # Calculer le taux d'exploitation (ratio theorique/potentiel en %)
 df_filtered['taux_exploitation'] = (df_filtered['reduction_theorique'] / df_filtered['reduction_leveir'].replace(0, float('nan'))) * 100
 
-# Trier selon le mode sélectionné (décroissant)
-if vue_tri == "Réduction modélisée par levier":
-    # Par Réduction modéliséee (nsmallest car valeurs négatives = plus grande réduction)
-    df_top = df_filtered.nsmallest(20, 'reduction_theorique')
-elif vue_tri == "Potentiel de réduction par levier":
-    # Par potentiel du levier (reduction_leveir)
-    df_top = df_filtered.nsmallest(20, 'reduction_leveir')
+# Calculer le potentiel restant (potentiel total - Potentiel de réduction activé)
+df_filtered['potentiel_restant'] = df_filtered['reduction_leveir'] - df_filtered['reduction_theorique']
+
+# Trier selon le mode sélectionné avec tri secondaire par potentiel restant
+if vue_tri == "Potentiel de réduction activé par levier":
+    # Par Potentiel de réduction activé (ascendant car valeurs négatives = plus grande réduction)
+    # Tri secondaire par potentiel restant (ascendant car valeurs négatives = plus grand potentiel)
+    df_top = df_filtered.sort_values(
+        by=['reduction_theorique', 'potentiel_restant'],
+        ascending=[True, True]
+    ).head(20)
+elif vue_tri == "Potentiel de réduction restant par levier":
+    # Par potentiel restant (ascendant car valeurs négatives = plus grand potentiel restant)
+    # Tri secondaire déjà sur potentiel restant
+    df_top = df_filtered.sort_values(
+        by='potentiel_restant',
+        ascending=True
+    ).head(20)
 else:  # Exploitation
-    # Par taux d'exploitation (plus grand taux en premier)
-    df_top = df_filtered.nlargest(20, 'taux_exploitation')
+    # Par taux d'exploitation (descendant = plus grand taux en premier)
+    # Tri secondaire par potentiel restant (ascendant car valeurs négatives = plus grand potentiel)
+    df_top = df_filtered.sort_values(
+        by=['taux_exploitation', 'potentiel_restant'],
+        ascending=[False, True]
+    ).head(20)
 
 if not df_top.empty:
     # Format pour Nivo Bar (horizontal) - valeurs absolues pour lisibilité
@@ -409,8 +488,8 @@ if not df_top.empty:
         {
             "levier": row['Leviers SGPE'][:50] + "..." if len(row['Leviers SGPE']) > 50 else row['Leviers SGPE'],
             "levier_full": row['Leviers SGPE'],
-            "Réduction modéliséee": abs(float(row['reduction_theorique'])),
-            "Réduction potentielle": f"{(abs(float(row['reduction_leveir'])) - abs(float(row['reduction_theorique']))):.1f}",
+            "Potentiel activé": abs(float(row['reduction_theorique'])),
+            "Potentiel restant": f"{(abs(float(row['reduction_leveir'])) - abs(float(row['reduction_theorique']))):.1f}",
             "secteur": row['Secteur'],
             "implication": row['implication'],
             "justification": row['justification'] if pd.notna(row['justification']) else "Aucune action sur ce levier",
@@ -428,7 +507,7 @@ if not df_top.empty:
         with mui.Box(sx={"height": chart_height}):
             nivo.Bar(
                 data=bar_data_top,
-                keys=["Réduction modéliséee", "Réduction potentielle"],
+                keys=["Potentiel activé", "Potentiel restant"],
                 indexBy="levier",
                 layout="horizontal",
                 margin={"top": 20, "right": 200, "bottom": 50, "left": 280},
@@ -635,7 +714,7 @@ if not df_top.empty:
         st.markdown(f"""
         <div class="levier-warning {css_class}">
             <p class="levier-title">{emoji} {item['levier_full']}</p>
-            <p class="levier-subtitle">Effort estimé : {int(item['implication'])}% <br /> Secteur : {item['secteur']}</p>
+            <p class="levier-subtitle">Effort modélisé : {int(item['implication'])}% <br /> Secteur : {item['secteur']}</p>
             <p class="levier-justification">{item['justification']}</p>
         </div>
         """, unsafe_allow_html=True)
@@ -657,7 +736,7 @@ if not df_top.empty:
                 st.caption("Aucune mesure de référence.")
 
 else:
-    st.warning("⚠️ Aucun levier avec une Réduction modéliséee positive")
+    st.warning("⚠️ Aucun levier avec une Potentiel de réduction activé positive")
 
 st.markdown("---")
 
@@ -721,5 +800,5 @@ if not df_zero.empty:
             )
 
 else:
-    st.success("✅ Tous les leviers ont une Réduction modéliséee positive !")
+    st.success("✅ Tous les leviers ont une Potentiel de réduction activé positive !")
 

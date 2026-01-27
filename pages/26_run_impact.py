@@ -8,6 +8,7 @@ st.set_page_config(
 )
 
 import json
+import random
 import re
 import time
 from collections import defaultdict
@@ -18,7 +19,7 @@ import pandas as pd
 from openai import OpenAI
 from sqlalchemy import text
 
-from utils.db import get_engine_prod, get_engine_prod_writing
+from utils.db import get_engine, get_engine_prod
 
 # ==========================
 # Configuration OpenAI
@@ -119,17 +120,30 @@ def fetch_plan_actions(collectivite_id: int) -> pd.DataFrame:
     """Récupère le plan d'actions d'une collectivité."""
     engine = get_engine_prod()
     with engine.connect() as conn:
-        df = pd.read_sql_query(
-            text("""
-                SELECT DISTINCT fa.id, fa.titre, fa.description
-                FROM fiche_action fa
-                JOIN fiche_action_axe faa ON faa.fiche_id = fa.id
-                WHERE fa.collectivite_id = :collectivite_id
-                AND fa.restreint = False
-            """),
-            conn,
-            params={"collectivite_id": collectivite_id}
-        )
+
+        if full_access_mode:
+            df = pd.read_sql_query(
+                text("""
+                    SELECT DISTINCT fa.id, fa.titre, fa.description
+                    FROM fiche_action fa
+                    JOIN fiche_action_axe faa ON faa.fiche_id = fa.id
+                    WHERE fa.collectivite_id = :collectivite_id
+                """),
+                conn,
+                params={"collectivite_id": collectivite_id}
+            )
+        else:
+            df = pd.read_sql_query(
+                text("""
+                    SELECT DISTINCT fa.id, fa.titre, fa.description
+                    FROM fiche_action fa
+                    JOIN fiche_action_axe faa ON faa.fiche_id = fa.id
+                    WHERE fa.collectivite_id = :collectivite_id
+                    AND fa.restreint = False
+                """),
+                conn,
+                params={"collectivite_id": collectivite_id}
+            )
     return df
 
 
@@ -368,6 +382,25 @@ def classify_actions(plan: pd.DataFrame, status_container) -> str:
     return response.output_text
 
 
+def classify_actions_mock(plan: pd.DataFrame, status_container) -> str:
+    """Version mock pour le débogage - classifie aléatoirement les actions."""
+    status_container.write("🎲 Mode débogage - Classification aléatoire...")
+    
+    # Liste des leviers disponibles
+    leviers_list = [l.strip() for l in LEVIERS.strip().split('\n') if l.strip()]
+    
+    # Pour chaque action, assigner aléatoirement 0 à 3 leviers
+    result = {}
+    for _, row in plan.iterrows():
+        num_leviers = random.randint(0, min(3, len(leviers_list)))
+        if num_leviers > 0:
+            result[str(row.id)] = random.sample(leviers_list, num_leviers)
+        else:
+            result[str(row.id)] = []
+    
+    return json.dumps(result)
+
+
 def score_all_levers(
     plan: pd.DataFrame,
     dic_leviers: Dict[str, list],
@@ -425,6 +458,49 @@ def score_all_levers(
     return results
 
 
+def score_all_levers_mock(
+    plan: pd.DataFrame,
+    dic_leviers: Dict[str, list],
+    collectivite_nom: str,
+    population: int,
+    status_container
+) -> Dict[str, Any]:
+    """
+    Version mock pour le débogage - génère des scores aléatoires.
+    """
+    results: Dict[str, Any] = {}
+    total_leviers = len(dic_leviers)
+    scores_possibles = [0, 25, 50, 75, 100]
+    
+    justifications = {
+        0: "Aucune action concrète identifiée pour ce levier. (Mode débogage)",
+        25: "Actions ponctuelles et limitées identifiées. (Mode débogage)",
+        50: "Actions partielles mais significatives mises en œuvre. (Mode débogage)",
+        75: "Effort important et structuré observé. (Mode débogage)",
+        100: "Mobilisation maximale du potentiel du levier. (Mode débogage)"
+    }
+    
+    for idx, (levier, ids) in enumerate(dic_leviers.items(), 1):
+        status_container.write(f"🎲 Évaluation aléatoire du levier ({idx}/{total_leviers}): {levier}")
+        
+        score = random.choice(scores_possibles)
+        
+        results[levier] = {
+            "ids": ids,
+            "raw_text": f'{{"score": {score}, "justification": "{justifications[score]}"}}',
+            "parsed": {
+                "score": score,
+                "justification": justifications[score]
+            },
+            "error": None,
+        }
+        
+        # Petite pause pour simuler le traitement
+        time.sleep(0.05)
+
+    return results
+
+
 def calculate_reductions(
     df_ratios: pd.DataFrame,
     region: str,
@@ -438,18 +514,40 @@ def calculate_reductions(
     df_ct = df_ratios[['Secteur', 'Leviers SGPE']].copy()
     df_ct['identifiant_referentiel'] = df_ct['Secteur'].map(D_MAP_SECTEUR)
     df_ct[region] = df_ratios[region]
+    st.write("📊 Étape 1: Dataframe initial avec mapping secteur")
+    st.dataframe(df_ct.head(10), use_container_width=True)
     
     # Calculer les réductions objectives par secteur
+    st.write("🔍 DEBUG: Analyse des dates dans df_indicateurs")
+    st.write(f"Type de date_valeur: {df_indicateurs['date_valeur'].dtype}")
+    st.write(f"Valeurs uniques de date_valeur: {df_indicateurs['date_valeur'].unique()}")
+    st.dataframe(df_indicateurs[['identifiant_referentiel', 'date_valeur', 'objectif']].head(10))
+    
     dic_reduction = {}
     for ids in df_indicateurs.identifiant_referentiel.unique():
         df_filtered = df_indicateurs[df_indicateurs.identifiant_referentiel == ids]
+        
         if len(df_filtered) >= 2:
-            val_2030 = df_filtered[df_filtered.date_valeur == '2030-01-01']['objectif'].iloc[0] if len(df_filtered[df_filtered.date_valeur == '2030-01-01']) > 0 else 0
-            val_2019 = df_filtered[df_filtered.date_valeur == '2019-01-01']['objectif'].iloc[0] if len(df_filtered[df_filtered.date_valeur == '2019-01-01']) > 0 else 0
-            dic_reduction[ids] = int(val_2030 - val_2019)
+            # Convertir date_valeur en string si nécessaire pour la comparaison
+            df_filtered['date_str'] = df_filtered['date_valeur'].astype(str)
+            
+            # Filtrer pour 2030
+            df_2030 = df_filtered[df_filtered['date_str'].str.startswith('2030')]
+            val_2030 = df_2030['objectif'].iloc[0] if len(df_2030) > 0 else 0
+            
+            # Filtrer pour 2019
+            df_2019 = df_filtered[df_filtered['date_str'].str.startswith('2019')]
+            val_2019 = df_2019['objectif'].iloc[0] if len(df_2019) > 0 else 0
+            
+            dic_reduction[ids] = float(val_2030 - val_2019)
+    
+    st.write("📊 Étape 2: Dictionnaire des réductions par secteur")
+    st.write(dic_reduction)
     
     df_ct['reduction'] = df_ct['identifiant_referentiel'].map(dic_reduction)
     df_ct['reduction_leveir'] = (df_ct['reduction'] * df_ct[region] / 100).round(1)
+    st.write("📊 Étape 3: Après calcul des réductions par levier")
+    st.dataframe(df_ct.head(10), use_container_width=True)
     
     # Extraire les scores d'implication
     ct_levier = {}
@@ -469,12 +567,14 @@ def calculate_reductions(
     df_ct['reduction_theorique'] = (df_ct['reduction_leveir'] * df_ct['implication'] / 100).round(1)
     df_ct['justification'] = df_ct['Leviers SGPE'].map(dic_justification)
     df_ct['ids'] = df_ct['Leviers SGPE'].map(dic_ids_fa)
+    st.write("📊 Étape 4: Dataframe final avec implication et réduction théorique")
+    st.dataframe(df_ct, use_container_width=True)
     
     return df_ct
 
 
 def save_to_database(df: pd.DataFrame, collectivite_id: int):
-    """Sauvegarde les résultats dans la table modelisation_impact."""
+    """Sauvegarde les résultats dans la table modelisation_impact sur OLAP."""
     df_to_save = df.copy()
     df_to_save['collectivite_id'] = collectivite_id
     df_to_save['created_at'] = datetime.now()
@@ -483,7 +583,8 @@ def save_to_database(df: pd.DataFrame, collectivite_id: int):
     if 'ids' in df_to_save.columns:
         df_to_save['ids'] = df_to_save['ids'].apply(lambda x: json.dumps(x) if isinstance(x, list) else x)
     
-    engine = get_engine_prod_writing()
+    # ⚠️ IMPORTANT: On écrit sur OLAP, jamais en prod !
+    engine = get_engine()
     df_to_save.to_sql('modelisation_impact', con=engine, if_exists='append', index=False)
 
 
@@ -541,6 +642,20 @@ if selected_nom:
 
 st.markdown("---")
 
+# Mode débogage
+debug_mode = st.toggle(
+    "🐛 Mode débogage (classification et notation aléatoires, sans appels API)",
+    value=False
+)
+
+full_access_mode = st.toggle(
+    "🔓 Accès à toutes les fiches actions (y compris restreintes)",
+    value=False
+)
+
+if debug_mode:
+    st.warning("⚠️ Mode débogage activé - Les résultats seront générés aléatoirement")
+
 # Bouton d'exécution
 if st.button("🚀 Lancer l'exécution", type="primary", disabled=not selected_nom):
     
@@ -556,18 +671,29 @@ if st.button("🚀 Lancer l'exécution", type="primary", disabled=not selected_n
             st.stop()
         
         st.write(f"✅ {len(plan)} actions récupérées")
+        st.dataframe(plan, use_container_width=True)
         
         # Étape 2: Récupération des indicateurs SNBC
         st.write("📊 Récupération des indicateurs SNBC...")
         df_indicateurs = fetch_indicateurs_snbc(selected_id)
         st.write(f"✅ {len(df_indicateurs)} indicateurs récupérés")
+        st.dataframe(df_indicateurs, use_container_width=True)
         
         # Étape 3: Classification des actions par levier
         st.write("🔍 Classification des actions par levier CO2...")
         try:
-            classification_response = classify_actions(plan, st)
+            if debug_mode:
+                classification_response = classify_actions_mock(plan, st)
+            else:
+                classification_response = classify_actions(plan, st)
             dic_leviers = invert_actions_by_lever(classification_response)
             st.write(f"✅ {len(dic_leviers)} leviers identifiés avec des actions")
+            # Afficher le dictionnaire des leviers
+            df_leviers_debug = pd.DataFrame([
+                {"Levier": levier, "Nombre d'actions": len(ids), "IDs actions": str(ids)}
+                for levier, ids in dic_leviers.items()
+            ])
+            st.dataframe(df_leviers_debug, use_container_width=True)
         except Exception as e:
             status.update(label="❌ Erreur", state="error")
             st.error(f"Erreur lors de la classification: {e}")
@@ -576,14 +702,34 @@ if st.button("🚀 Lancer l'exécution", type="primary", disabled=not selected_n
         # Étape 4: Évaluation de l'implication par levier
         st.write("📈 Évaluation de l'implication par levier...")
         try:
-            results_scores = score_all_levers(
-                plan=plan,
-                dic_leviers=dic_leviers,
-                collectivite_nom=selected_nom,
-                population=int(population),
-                status_container=st
-            )
+            if debug_mode:
+                results_scores = score_all_levers_mock(
+                    plan=plan,
+                    dic_leviers=dic_leviers,
+                    collectivite_nom=selected_nom,
+                    population=int(population),
+                    status_container=st
+                )
+            else:
+                results_scores = score_all_levers(
+                    plan=plan,
+                    dic_leviers=dic_leviers,
+                    collectivite_nom=selected_nom,
+                    population=int(population),
+                    status_container=st
+                )
             st.write(f"✅ {len(results_scores)} leviers évalués")
+            # Afficher les scores
+            df_scores_debug = pd.DataFrame([
+                {
+                    "Levier": levier,
+                    "Score": data.get('parsed', {}).get('score', 0) if data.get('parsed') else 0,
+                    "Justification": data.get('parsed', {}).get('justification', '') if data.get('parsed') else '',
+                    "Erreur": data.get('error', '')
+                }
+                for levier, data in results_scores.items()
+            ])
+            st.dataframe(df_scores_debug, use_container_width=True)
         except Exception as e:
             status.update(label="❌ Erreur", state="error")
             st.error(f"Erreur lors de l'évaluation: {e}")
@@ -600,16 +746,18 @@ if st.button("🚀 Lancer l'exécution", type="primary", disabled=not selected_n
                 df_indicateurs=df_indicateurs
             )
             st.write(f"✅ Calculs terminés pour {len(df_results)} leviers")
+            st.write("📊 Résultats finaux du calcul")
+            st.dataframe(df_results, use_container_width=True)
         except Exception as e:
             status.update(label="❌ Erreur", state="error")
             st.error(f"Erreur lors du calcul: {e}")
             st.stop()
         
-        # Étape 6: Sauvegarde en base
-        st.write("💾 Sauvegarde dans la base de données...")
+        # Étape 6: Sauvegarde en base OLAP
+        st.write("💾 Sauvegarde dans la base de données OLAP...")
         try:
             save_to_database(df_results, selected_id)
-            st.write("✅ Données sauvegardées dans `modelisation_impact`")
+            st.write("✅ Données sauvegardées dans `modelisation_impact` (OLAP)")
         except Exception as e:
             status.update(label="❌ Erreur", state="error")
             st.error(f"Erreur lors de la sauvegarde: {e}")
