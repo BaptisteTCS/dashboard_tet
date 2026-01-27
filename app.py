@@ -11,11 +11,11 @@ st.set_page_config(
 pages = {
     "Favoris": [
         st.Page("pages/26_Dashboard_okrs.py", title="Dashboard OKRs", icon="🌠"),
-        st.Page("pages/23_🐍_Dashboard_interne.py", title="Dashboard Interne", icon="🐍", default=True),
+        st.Page("pages/23_🐍_Dashboard_interne.py", title="Dashboard Interne", icon="🐍"),
         st.Page("pages/02_⚡_Weekly.py", title="Weekly", icon="⚡"),
         st.Page("pages/22_🪄_Import_Tool.py", title="Import Tool", icon="🪄"),
         st.Page("pages/06_✨_AI_Stats_assistant.py", title="AI Stats Assistant", icon="✨"),
-        st.Page("pages/25_Impact.py", title="Modélisation d'impact GES", icon="🎯"),
+        st.Page("pages/25_Impact.py", title="Modélisation d'impact GES", icon="🎯", default=True),
     ],
     "Tableaux de Bord": [
         st.Page("pages/04_🥐_TDB_collectivite.py", title="TDB Collectivité", icon="🥐"),

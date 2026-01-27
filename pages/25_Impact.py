@@ -98,7 +98,7 @@ def load_mapping_levier_mesure():
 # Titre et header
 # ==========================
 
-st.title("🎯 Modélisation d'impact GES des plans d'actions")
+st.title("🎯 Modélisation d'impact GES des Plans & Actions sur TET")
 
 # Chargement des collectivités disponibles
 df_collectivites = load_collectivites_disponibles()
