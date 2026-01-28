@@ -430,11 +430,18 @@ def score_all_levers(
         status_container.write(f"📊 Évaluation du levier ({idx}/{total_leviers}): {levier}")
         
         try:
-            resp = client.responses.create(
+            if reasoning_mode:
+                resp = client.responses.create(
                 model="gpt-5.1-2025-11-13",
                 input=prompt,
-                reasoning={"effort": "medium"}
-            )
+                reasoning={"effort": "low"}
+                )
+            else:
+                resp = client.responses.create(
+                    model="gpt-5.1-2025-11-13",
+                    input=prompt,
+                    reasoning={"effort": "medium"}
+                )
             raw_text = resp.output_text
         except Exception as e:
             results[levier] = {
@@ -585,6 +592,7 @@ def calculate_reductions(
 def save_to_database(df: pd.DataFrame, collectivite_id: int):
     """Sauvegarde les résultats dans la table modelisation_impact sur OLAP."""
     df_to_save = df.copy()
+    st.info(f"Collectivite : {collectivite_id}")
     df_to_save['collectivite_id'] = collectivite_id
     df_to_save['created_at'] = datetime.now()
     
@@ -593,8 +601,13 @@ def save_to_database(df: pd.DataFrame, collectivite_id: int):
         df_to_save['ids'] = df_to_save['ids'].apply(lambda x: json.dumps(x) if isinstance(x, list) else x)
     
     # ⚠️ IMPORTANT: On écrit sur OLAP, jamais en prod !
-    engine = get_engine()
-    df_to_save.to_sql('modelisation_impact', con=engine, if_exists='append', index=False)
+
+    if debug_mode:
+        st.info('Debug mode activé, on ne sauvegarde pas en base.')
+        st.dataframe(df_to_save, use_container_width=True)
+    else:
+        engine = get_engine()
+        df_to_save.to_sql('modelisation_impact', con=engine, if_exists='append', index=False)
 
 
 # ==========================
@@ -770,7 +783,7 @@ if st.button("🚀 Lancer l'exécution", type="primary", disabled=not selected_n
         # Étape 6: Sauvegarde en base OLAP
         st.write("💾 Sauvegarde dans la base de données OLAP...")
         try:
-            save_to_database(df_results, selected_id)
+            save_to_database(df_results.drop(columns=[selected_region]), selected_id)
             st.write("✅ Données sauvegardées dans `modelisation_impact` (OLAP)")
         except Exception as e:
             status.update(label="❌ Erreur", state="error")

@@ -661,7 +661,11 @@ with tabs[1]:
         else len(ordre_prioritaire)
     )
 
-    df_ct_actives_selected["date_activation"] = pd.to_datetime(df_ct_actives_selected["date_activation"])
+    df_ct_actives_selected["date_activation"] = pd.to_datetime(
+        df_ct_actives_selected["date_activation"], 
+        errors='coerce',
+        utc=False
+    ).dt.tz_localize(None)
 
 
     max_cols = 6
@@ -672,10 +676,13 @@ with tabs[1]:
         for col, cat in zip(cols, row_cats):
             with col:
                 df_cat = df_ct_actives_selected[df_ct_actives_selected["categorie"] == cat]
+                # Filtrer les activations récentes (30 derniers jours) en gérant les NaT
+                seuil_date = pd.Timestamp.now(tz=None) - timedelta(days=30)
+                recent_activations = df_cat[df_cat.date_activation.notna() & (df_cat.date_activation > seuil_date)].shape[0]
                 st.metric(
                     cat,
                     int(df_cat.shape[0]),
-                    delta=df_cat[df_cat.date_activation > (pd.Timestamp.now() - timedelta(days=30))].shape[0]
+                    delta=recent_activations
                 )
 
     # ===================================================
