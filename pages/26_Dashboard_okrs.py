@@ -32,10 +32,11 @@ def load_data():
     df_fiches_completude_historique = read_table('fiches_completude_historique')
     df_nb_fiches_complete_statut_13_semaines = read_table('nb_fiches_complete_statut_13_semaines')
     df_nb_fiches_complete_statut_52_semaines = read_table('nb_fiches_complete_statut_52_semaines')
-    return df_nb_fap_13, df_nb_fap_52, df_nb_fap_pilote_13, df_nb_fap_pilote_52, df_pap_13, df_pap_52, df_pap_date_passage, df_pap_note, df_fa_sharing, df_activation_user, df_activation_collectivite, df_activite_semaine, df_fiches_completude_historique, df_nb_fiches_complete_statut_13_semaines, df_nb_fiches_complete_statut_52_semaines
+    df_nb_labellisation = read_table('evolution_labellisation')
+    return df_nb_fap_13, df_nb_fap_52, df_nb_fap_pilote_13, df_nb_fap_pilote_52, df_pap_13, df_pap_52, df_pap_date_passage, df_pap_note, df_fa_sharing, df_activation_user, df_activation_collectivite, df_activite_semaine, df_fiches_completude_historique, df_nb_fiches_complete_statut_13_semaines, df_nb_fiches_complete_statut_52_semaines, df_nb_labellisation
 
 
-df_nb_fap_13, df_nb_fap_52, df_nb_fap_pilote_13, df_nb_fap_pilote_52, df_pap_13, df_pap_52, df_pap_date_passage, df_pap_note, df_fa_sharing, df_activation_user, df_activation_collectivite, df_activite_semaine, df_fiches_completude_historique, df_nb_fiches_complete_statut_13_semaines, df_nb_fiches_complete_statut_52_semaines = load_data()
+df_nb_fap_13, df_nb_fap_52, df_nb_fap_pilote_13, df_nb_fap_pilote_52, df_pap_13, df_pap_52, df_pap_date_passage, df_pap_note, df_fa_sharing, df_activation_user, df_activation_collectivite, df_activite_semaine, df_fiches_completude_historique, df_nb_fiches_complete_statut_13_semaines, df_nb_fiches_complete_statut_52_semaines, df_nb_labellisation = load_data()
 
 # ==========================
 # Configuration Plotly
@@ -427,7 +428,7 @@ def afficher_graphique_plotly(
 # ==========================
 
 st.title("🌠 Dashboard OKRs")
-tabs = st.tabs(["1 - Activation", "2 - Rétention", "3 - Qualité", "4 - Impact", "5 - Légitimité"])
+tabs = st.tabs(["1 - Activation", "2 - Rétention", "3 - Qualité", "4 - Impact", "5 - Légitimité", "6 - Budget"])
 
 # ==========================
 # TAB 1 : ACTIVATION
@@ -1228,3 +1229,160 @@ with tabs[4]:
         margin_right=180,
         color_scheme="category10"
     )
+
+
+    # ======================
+    st.markdown("---")
+    st.markdown('### L-3 (💫 - Activité) : Nombre de labellisations réalisées sur la plateforme')
+
+    # Préparation des données
+    df_evolution_statut = df_nb_labellisation[df_nb_labellisation.mois>"2021-01-01"].copy()
+    df_evolution_statut = df_evolution_statut.sort_values('mois')
+    df_evolution_statut['mois_label'] = df_evolution_statut['mois'].dt.strftime('%Y-%m')
+
+    afficher_metriques_temporelles(df_evolution_statut, 'nb_labellisation_cumule', label_prefix="Labellisations - ")
+
+    # Graphique (area simple)
+    afficher_graphique_plotly(
+        df_evolution_statut,
+        x_column='mois_label',
+        y_column='nb_labellisation_cumule',
+        element_id="line_evolution_statuts_nb_labellisation_cumule",
+        graph_type="area_simple",
+        legend_y="Nombre de labellisations réalisées",
+        margin_right=180,
+        trend_group_value="nb_labellisation_cumule",
+        target_value=None
+    )
+
+with tabs[5]: 
+
+    # ======================
+    # Objectif 6 : Budget
+    # ======================
+
+    st.markdown('## Objectif 6 : Budget')
+    # Champs de saisie pour les budgets
+    col1, col2, col3, col4 = st.columns(4)
+    with col1:
+        budget_2023 = st.number_input("Budget 2023", value=1_000_000, step=100_000, format="%d")
+    with col2:
+        budget_2024 = st.number_input("Budget 2024", value=1_200_000, step=100_000, format="%d")
+    with col3:
+        budget_2025 = st.number_input("Budget 2025", value=1_600_000, step=100_000, format="%d")
+    with col4:
+        budget_2026 = st.number_input("Budget 2026", value=1_400_000, step=100_000, format="%d")
+
+    st.markdown("---")
+
+    st.markdown('### B-1 (⭐ NS6 - externe) : Coût par action pilotable 52 semaines (€/Action)')
+    
+    # Préparation des données
+    df_evolution_statut = df_nb_fap_pilote_52.copy()
+    df_evolution_statut['mois'] = pd.to_datetime(df_evolution_statut['mois'])
+    df_evolution_statut = df_evolution_statut[df_evolution_statut['mois'] >= '2023-01-01']
+    df_evolution_statut = df_evolution_statut.sort_values('mois')
+    df_evolution_statut['mois_label'] = df_evolution_statut['mois'].dt.strftime('%Y-%m')
+    df_evolution_statut['annee'] = df_evolution_statut['mois'].dt.year
+    
+    # Associer le budget à chaque année
+    budget_mapping = {2023: budget_2023, 2024: budget_2024, 2025: budget_2025, 2026: budget_2026}
+    df_evolution_statut['budget_annuel'] = df_evolution_statut['annee'].map(budget_mapping)
+    
+    # Calculer le coût par action pilotable (budget annuel / 12 pour obtenir le budget mensuel, puis diviser par le nombre d'actions actives)
+    df_actif = df_evolution_statut[df_evolution_statut['statut'] == 'actif'].copy()
+    df_actif['Cout par action pilotable'] = (df_actif['budget_annuel'] / 12) / df_actif['fiche_id']
+    df_actif['Cout par action pilotable'] = df_actif['Cout par action pilotable'].fillna(0).round(2)
+    
+    # Métriques
+    afficher_metriques_temporelles(df_actif, 'Cout par action pilotable', label_prefix="Coût/Action - ")
+    
+    # Graphique
+    afficher_graphique_plotly(
+        df_actif,
+        x_column='mois_label',
+        y_column='Cout par action pilotable',
+        element_id="line_evolution_Cout_par_action_pilotable",
+        graph_type="line",
+        legend_y="Coût par action pilotable (€)",
+        trend_group_value="Cout par action pilotable",
+        target_value=None
+    )
+
+    # ======================
+    st.markdown('### B-2 (🌟 NS6 - interne ) : Coût par collectivité ayant un PAP actif 13 semaines (€/collectivité)')
+    
+    # Préparation des données
+    df_evolution_statut = df_pap_13.copy()
+    df_evolution_statut['mois'] = df_evolution_statut['mois'].dt.to_period('M').dt.to_timestamp()
+    df_evolution_statut = df_evolution_statut.sort_values('statut').drop_duplicates(subset=['collectivite_id', 'mois'], keep='first')
+    df_evolution_statut = df_evolution_statut[df_evolution_statut['mois'] >= '2023-01-01']
+    df_evolution_statut = df_evolution_statut.groupby(['mois', 'statut'])['collectivite_id'].nunique().reset_index(name='nb_collectivites')
+    df_evolution_statut = df_evolution_statut.sort_values('mois')
+    df_evolution_statut['mois_label'] = df_evolution_statut['mois'].dt.strftime('%Y-%m')
+    df_evolution_statut['annee'] = df_evolution_statut['mois'].dt.year
+
+    # Associer le budget à chaque année
+    budget_mapping = {2023: budget_2023, 2024: budget_2024, 2025: budget_2025, 2026: budget_2026}
+    df_evolution_statut['budget_annuel'] = df_evolution_statut['annee'].map(budget_mapping)
+    
+    # Calculer le coût par collectivité (budget annuel / 12 pour obtenir le budget mensuel, puis diviser par le nombre de collectivités actives)
+    df_actif = df_evolution_statut[df_evolution_statut['statut'] == 'actif'].copy()
+    df_actif['cout_par_collectivite'] = (df_actif['budget_annuel'] / 12) / df_actif['nb_collectivites']
+    df_actif['cout_par_collectivite'] = df_actif['cout_par_collectivite'].fillna(0).round(2)
+    
+    # Métriques
+    afficher_metriques_temporelles(df_actif, 'cout_par_collectivite', label_prefix="Coût/Collectivité - ")
+    
+    # Graphique
+    afficher_graphique_plotly(
+        df_actif,
+        x_column='mois_label',
+        y_column='cout_par_collectivite',
+        element_id="line_evolution_cout_par_collectivite",
+        graph_type="line",
+        legend_y="Coût par collectivité avec PAP actif (€)",
+        trend_group_value="cout_par_collectivite",
+        target_value=None
+    )
+
+
+    # ======================
+    st.markdown("---")
+    st.markdown('### B-3 (💫 - Activité) : Coût par utilisateur actif ≤ 12 mois (€/utilisateur)')
+    
+    # Préparation des données
+    df_evolution_statut = df_activite_semaine.copy()
+    df_evolution_statut = df_evolution_statut[df_evolution_statut['semaine'] >= '2023-01-01'].copy()
+    df_evolution_statut['semaine'] = pd.to_datetime(df_evolution_statut['semaine'])
+    df_evolution_statut['annee'] = df_evolution_statut['semaine'].dt.year
+    df_evolution_statut['mois'] = df_evolution_statut['semaine'].dt.to_period('M')
+    
+    # Grouper par année et mois pour obtenir le nombre d'utilisateurs uniques actifs par mois
+    df_evolution_statut = df_evolution_statut.groupby(['annee', 'mois'])['email'].nunique().reset_index(name='nb_users')
+    df_evolution_statut = df_evolution_statut.sort_values('mois')
+    df_evolution_statut['mois_label'] = df_evolution_statut['mois'].astype(str)
+    
+    # Associer le budget à chaque année
+    budget_mapping = {2023: budget_2023, 2024: budget_2024, 2025: budget_2025, 2026: budget_2026}
+    df_evolution_statut['budget_annuel'] = df_evolution_statut['annee'].map(budget_mapping)
+    
+    # Calculer le coût par utilisateur actif (budget annuel / 12 pour obtenir le budget mensuel, puis diviser par le nombre d'utilisateurs actifs)
+    df_evolution_statut['cout_par_user'] = (df_evolution_statut['budget_annuel'] / 12) / df_evolution_statut['nb_users']
+    df_evolution_statut['cout_par_user'] = df_evolution_statut['cout_par_user'].fillna(0).round(2)
+    
+    # Métriques
+    afficher_metriques_temporelles(df_evolution_statut, 'cout_par_user', label_prefix="Coût/User - ")
+    
+    # Graphique
+    afficher_graphique_plotly(
+        df_evolution_statut,
+        x_column='mois_label',
+        y_column='cout_par_user',
+        element_id="line_evolution_cout_par_user",
+        graph_type="line",
+        legend_y="Coût par utilisateur actif (€)",
+        trend_group_value="cout_par_user",
+        target_value=None
+    )
+    
