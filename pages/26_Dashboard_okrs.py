@@ -134,6 +134,7 @@ def afficher_graphique_plotly(
     margin_right=110,
     color_scheme="pastel2",
     trend_group_value=None,  # Valeur du groupe pour lequel afficher la tendance (ex: "actif", "Autonome", etc.)
+    trend_calculation="linear",  # "linear" (défaut) ou "budget_3m_pct"
     target_value=None  # Valeur cible à afficher comme ligne horizontale
 ):
     """
@@ -248,14 +249,32 @@ def afficher_graphique_plotly(
             # Prendre les 4 derniers points
             last_4_points = df_trend.tail(4)
             
-            # Calculer la pente : (valeur m-1 - valeur m-4) / 3
-            valeur_m1 = last_4_points.iloc[-1][y_column]  # Dernier point
-            valeur_m4 = last_4_points.iloc[0][y_column]   # 4ème point avant la fin
-            pente = (valeur_m1 - valeur_m4) / 3
+            # Calculer la pente / facteur (sur les 3 derniers mois)
+            valeur_m1 = float(last_4_points.iloc[-1][y_column])  # Dernier point
+            valeur_m4 = float(last_4_points.iloc[0][y_column])   # 4ème point avant la fin
+
+            pente = None
+            facteur_mensuel = None
+            if trend_calculation == "budget_3m_pct":
+                # Variation multiplicative sur 3 mois, appliquée en continu (composition mensuelle)
+                if valeur_m4 > 0:
+                    facteur_3m = valeur_m1 / valeur_m4
+                    # Si facteur_3m == 0 => décroissance vers 0 (ok). Si négatif => incohérent, on force le fallback.
+                    if facteur_3m >= 0:
+                        facteur_mensuel = facteur_3m ** (1 / 3)
+                # Fallback si données non compatibles (0 au dénominateur, valeurs incohérentes, etc.)
+                if facteur_mensuel is None:
+                    pente = (valeur_m1 - valeur_m4) / 3
+                    trend_calculation_effective = "linear"
+                else:
+                    trend_calculation_effective = "budget_3m_pct"
+            else:
+                pente = (valeur_m1 - valeur_m4) / 3
+                trend_calculation_effective = "linear"
             
             # Point de départ : dernier point de données
             dernier_x = df_trend.iloc[-1][x_column]
-            dernier_y = df_trend.iloc[-1][y_column]
+            dernier_y = float(df_trend.iloc[-1][y_column])
             
             # Générer les dates futures jusqu'à 2026-12
             dates_projection = []
@@ -280,7 +299,11 @@ def afficher_graphique_plotly(
                     mois_projection = 1
                     while date_courante <= date_fin:
                         dates_projection.append(date_courante.strftime('%Y-%m'))
-                        valeurs_projection.append(round(max(0, dernier_y + pente * mois_projection), 0))  # Éviter les valeurs négatives
+                        if trend_calculation_effective == "budget_3m_pct":
+                            valeur_projetee = dernier_y * (facteur_mensuel ** mois_projection)
+                            valeurs_projection.append(round(max(0, valeur_projetee), 2))
+                        else:
+                            valeurs_projection.append(round(max(0, dernier_y + pente * mois_projection), 0))  # Éviter les valeurs négatives
                         date_courante += 1
                         mois_projection += 1
                     
@@ -1306,6 +1329,7 @@ with tabs[5]:
         graph_type="line",
         legend_y="Coût par action pilotable (€)",
         trend_group_value="Cout par action pilotable",
+        trend_calculation="budget_3m_pct",
         target_value=None
     )
 
@@ -1343,6 +1367,7 @@ with tabs[5]:
         graph_type="line",
         legend_y="Coût par collectivité avec PAP actif (€)",
         trend_group_value="cout_par_collectivite",
+        trend_calculation="budget_3m_pct",
         target_value=None
     )
 
@@ -1383,6 +1408,7 @@ with tabs[5]:
         graph_type="line",
         legend_y="Coût par utilisateur actif (€)",
         trend_group_value="cout_par_user",
+        trend_calculation="budget_3m_pct",
         target_value=None
     )
     
