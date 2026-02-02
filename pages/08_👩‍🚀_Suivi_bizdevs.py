@@ -472,7 +472,7 @@ with tab3:
 
     st.markdown("---")
 
-    st.markdown("### Evenements et taux de remplissage")
+    st.markdown("### Evenements et taux de participation")
 
 
     # Filtrages
@@ -484,24 +484,24 @@ with tab3:
 
     type_selection = ['▶️ Démo Pilotage - Découverte & prise en main (1/2)', '▶️ Démo Pilotage - Fonctionnalités expertes (2/2)', '⏏️ Démo - Commencez votre état des lieux (T.E.T.E)']
 
-    # Calcul du taux de remplissage global
+    # Calcul du taux de participation global
     # Total participants = somme de nb_participants_reel sur tous les événements
     # Total inscrits = nombre d'inscrits (lignes dans invitees)
     total_participants_cur = int(events_cur[events_cur['type'].isin(type_selection)]['nb_participants_reel'].sum())
     total_inscrits_cur = len(inv_cur[inv_cur['type'].isin(type_selection)])
-    taux_remplissage_cur = (total_participants_cur / total_inscrits_cur * 100) if total_inscrits_cur > 0 else 0
+    taux_participation_cur = (total_participants_cur / total_inscrits_cur * 100) if total_inscrits_cur > 0 else 0
 
     # Calcul période précédente
     total_participants_prev = int(events_prev['nb_participants_reel'].sum())
     total_inscrits_prev = len(inv_prev)
-    taux_remplissage_prev = (total_participants_prev / total_inscrits_prev * 100) if total_inscrits_prev > 0 else 0
+    taux_participation_prev = (total_participants_prev / total_inscrits_prev * 100) if total_inscrits_prev > 0 else 0
 
-    delta_taux = taux_remplissage_cur - taux_remplissage_prev
+    delta_taux = taux_participation_cur - taux_participation_prev
 
-    # Affichage du taux de remplissage global
+    # Affichage du taux de participation global
     st.metric(
-        label="Taux de remplissage global (seulement démos)",
-        value=f"{taux_remplissage_cur:.0f}%",
+        label="Taux de participation global (seulement démos)",
+        value=f"{taux_participation_cur:.0f}%",
         delta=f"{delta_taux:+.0f}%",
         delta_color="normal"
     )
@@ -606,9 +606,15 @@ with tab3:
         
         dfm = pd.concat([ev, inscr, pa], axis=1).fillna(0).astype(int).sort_index()
         
-        # Calcul du taux de remplissage
-        dfm['Taux de remplissage (%)'] = dfm.apply(
+        # Calcul du taux de participation
+        dfm['Taux de participation des inscrits (%)'] = dfm.apply(
             lambda row: round(row['Participants'] / row['Inscrits'] * 100) if row['Inscrits'] > 0 else 0,
+            axis=1
+        )
+        
+        # Calcul du taux de remplissage absolu
+        dfm['Taux de participation absolu (%)'] = dfm.apply(
+            lambda row: round(row['Participants'] / (row['Événements'] * 8) * 100) if row['Événements'] > 0 else 0,
             axis=1
         )
         
@@ -675,7 +681,7 @@ with tab3:
         total_counts.columns = ['items', 'nb']
         left, center, right = st.columns([1, 5, 1])
         with center:
-            total_counts_filtre = total_counts[total_counts['nb'] > 3]
+            total_counts_filtre = total_counts[total_counts['nb'] > 0]
             fig_pie = px.pie(total_counts_filtre, values='nb', names='items', title="Répartition des retours (Démo 1/2)")
             st.plotly_chart(fig_pie, use_container_width=True)
             # Export CSV des comptes agrégés affichés

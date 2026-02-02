@@ -1288,13 +1288,13 @@ with tabs[5]:
     # Champs de saisie pour les budgets
     col1, col2, col3, col4 = st.columns(4)
     with col1:
-        budget_2023 = st.number_input("Budget 2023", value=1_000_000, step=100_000, format="%d")
+        budget_2023 = st.number_input("Budget 2023", value=1_345_421, step=100_000, format="%d")
     with col2:
-        budget_2024 = st.number_input("Budget 2024", value=1_200_000, step=100_000, format="%d")
+        budget_2024 = st.number_input("Budget 2024", value=1_776_764, step=100_000, format="%d")
     with col3:
-        budget_2025 = st.number_input("Budget 2025", value=1_600_000, step=100_000, format="%d")
+        budget_2025 = st.number_input("Budget 2025", value=1_948_146, step=100_000, format="%d")
     with col4:
-        budget_2026 = st.number_input("Budget 2026", value=1_400_000, step=100_000, format="%d")
+        budget_2026 = st.number_input("Budget 2026", value=1_600_000, step=100_000, format="%d")
 
     st.markdown("---")
 
