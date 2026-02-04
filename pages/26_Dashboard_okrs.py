@@ -24,19 +24,17 @@ def load_data():
     df_pap_13 = read_table('pap_statut_5_fiches_modifiees_13_semaines')
     df_pap_52 = read_table('pap_statut_5_fiches_modifiees_52_semaines')
     df_pap_date_passage = read_table('pap_date_passage')
-    df_pap_note = read_table('pap_note')
+    df_note_plan = read_table('note_plan_historique')
     df_fa_sharing = read_table('fa_sharing')
     df_activation_user = read_table('activation_user')
     df_activation_collectivite = read_table('activation_collectivite')
     df_activite_semaine = read_table('activite_semaine')
-    df_fiches_completude_historique = read_table('fiches_completude_historique')
-    df_nb_fiches_complete_statut_13_semaines = read_table('nb_fiches_complete_statut_13_semaines')
-    df_nb_fiches_complete_statut_52_semaines = read_table('nb_fiches_complete_statut_52_semaines')
     df_nb_labellisation = read_table('evolution_labellisation')
-    return df_nb_fap_13, df_nb_fap_52, df_nb_fap_pilote_13, df_nb_fap_pilote_52, df_pap_13, df_pap_52, df_pap_date_passage, df_pap_note, df_fa_sharing, df_activation_user, df_activation_collectivite, df_activite_semaine, df_fiches_completude_historique, df_nb_fiches_complete_statut_13_semaines, df_nb_fiches_complete_statut_52_semaines, df_nb_labellisation
+    df_note_fiche= read_table('note_fiche_historique', where_sql="note_fa>=5")
+    return df_nb_fap_13, df_nb_fap_52, df_nb_fap_pilote_13, df_nb_fap_pilote_52, df_pap_13, df_pap_52, df_pap_date_passage, df_note_plan, df_fa_sharing, df_activation_user, df_activation_collectivite, df_activite_semaine, df_nb_labellisation, df_note_fiche
 
 
-df_nb_fap_13, df_nb_fap_52, df_nb_fap_pilote_13, df_nb_fap_pilote_52, df_pap_13, df_pap_52, df_pap_date_passage, df_pap_note, df_fa_sharing, df_activation_user, df_activation_collectivite, df_activite_semaine, df_fiches_completude_historique, df_nb_fiches_complete_statut_13_semaines, df_nb_fiches_complete_statut_52_semaines, df_nb_labellisation = load_data()
+df_nb_fap_13, df_nb_fap_52, df_nb_fap_pilote_13, df_nb_fap_pilote_52, df_pap_13, df_pap_52, df_pap_date_passage, df_note_plan, df_fa_sharing, df_activation_user, df_activation_collectivite, df_activite_semaine, df_nb_labellisation, df_note_fiche = load_data()
 
 # ==========================
 # Configuration Plotly
@@ -463,7 +461,17 @@ with tabs[0]:
     st.markdown("Permettre à chaque collectivité territoriale française de piloter ses plans & actions.")
 
     # ======================
-    st.markdown("### A-1 (⭐ NS1 - externe)  : Nombre de collectivités avec ≥1 Plan d'Action Pilotable (PAP) dont actifs ≤1 an (12 mois | 52 semaines)")
+    st.badge('NS1 - externe', icon="🌟", color="orange")
+    st.markdown("### A-1 | Nombre de collectivités avec au moins un PAP actif 12 mois")
+    st.markdown("""
+    Un PAP actif 12 mois est défini comme un PAP avec 5 actions pilotables chacunes ayant reçu au moins une modification dans les 12 derniers mois.
+    Une action pilotable est définie comme une action ayant : 
+    - titre
+    - description
+    - statut
+    - personne pilote ou service/direction pilote
+    - *date de fin ou amélioration continue (pas encore sur)* 
+    """)
 
     # Préparation des données
     df_evolution_statut = df_pap_52.copy()
@@ -494,7 +502,18 @@ with tabs[0]:
 
 
     # ======================
-    st.markdown("### A-2 (🌟 NS1 - interne)  : Nombre de collectivités avec ≥1 Plan d'Action Pilotable (PAP) actif ≤3 mois")
+    st.markdown("---")
+    st.badge('NS1 - interne', icon="🌟", color="orange")
+    st.markdown("### A-2 | Nombre de collectivités avec au moins un PAP actif 3 mois")
+    st.markdown("""
+    Un PAP actif 3 mois est défini comme un PAP avec 5 actions pilotables chacunes ayant reçu au moins une modification dans les 3 derniers mois.
+    Une action pilotable est définie comme une action ayant : 
+    - titre
+    - description
+    - statut
+    - personne pilote ou service/direction pilote
+    - *date de fin ou amélioration continue (pas encore sur)* 
+    """)
 
     # Préparation des données
     df_evolution_statut = df_pap_13.copy()
@@ -525,7 +544,18 @@ with tabs[0]:
 
 
     # ======================
-    st.markdown("### A-3 (💫 - Activité) Nombre d'Actions pilotables actives ≤3 mois")
+    st.markdown("---")
+    st.badge('Activité', icon="💫", color="blue")
+    st.markdown("### A-3 | Nombre d'Actions pilotables actives ≤3 mois")
+    st.markdown("""
+    Une action pilotable active 3 mois est définie comme une action ayant : 
+    - titre
+    - description
+    - statut
+    - personne pilote ou service/direction pilote
+    - *date de fin ou amélioration continue (pas encore sur)* 
+    - reçue au moins une modification dans les 3 derniers mois
+    """)
 
     # Préparation des données
     df_evolution_statut = df_nb_fap_13.copy()
@@ -554,7 +584,18 @@ with tabs[0]:
 
 
     # ======================
-    st.markdown("### A-3 (bis) (💫 - Activité) Nombre d'Actions pilotables actives ≤12 mois")
+    st.markdown("---")
+    st.badge('Activité', icon="💫", color="blue")
+    st.markdown("### A-3 | Nombre d'Actions pilotables actives ≤12 mois")
+    st.markdown("""
+    Une action pilotable active 3 mois est définie comme une action ayant : 
+    - titre
+    - description
+    - statut
+    - personne pilote ou service/direction pilote
+    - *date de fin ou amélioration continue (pas encore sur)*
+    - reçue au moins une modification dans les 12 derniers mois
+    """)
 
     # Préparation des données
     df_evolution_statut = df_nb_fap_52.copy()
@@ -583,7 +624,12 @@ with tabs[0]:
 
 
     # ======================
-    st.markdown("### A-4 (🎇 - Exploration) : Nombre de PAP initialisés de façon autonome")
+    st.markdown("---")
+    st.badge('Exploration', icon="🎇", color="green")
+    st.markdown("### A-4 | Nombre de PAP initialisés de façon autonome")
+    st.markdown("""
+    Un PAP initialisé de façon autonome est défini comme un PAP qui n'a pas été importé par les bizdevs.
+    """)
 
     # Préparation des données
     df_evolution_statut = df_pap_date_passage.copy()
@@ -646,7 +692,17 @@ with tabs[1]:
     st.markdown('Faciliter la transversalité entre Plans & Actions & Contributeurs')
 
     # ======================
-    st.markdown('### R-1 (⭐ NS2 - externe) : Nombre de CT avec ≥ 2 PAP avec contribution active 12 mois')
+    st.badge('NS2 - externe', icon="🌟", color="orange")
+    st.markdown('### R-1 | Nombre de CT avec au moins 2 PAP avec contribution active 12 mois')
+    st.markdown("""
+    Un PAP actif 12 mois est défini comme un PAP avec 5 actions pilotables chacunes ayant reçu au moins une modification dans les 12 derniers mois.
+    Une action pilotable est définie comme une action ayant : 
+    - titre
+    - description
+    - statut
+    - personne pilote ou service/direction pilote
+    - *date de fin ou amélioration continue (pas encore sur)* 
+    """)
 
     # Préparation des données
     df_evolution_statut = df_pap_52.copy()
@@ -680,7 +736,19 @@ with tabs[1]:
 
     # ======================
     st.markdown("---")
-    st.markdown('### R-2 (🌟 NS2 - interne) : Nombre de CT avec ≥ 2 PAP avec contribution active 3 mois (dont avec/sans ≥2 pilotes de plans différents)')
+    st.badge('NS2 - interne', icon="🌟", color="orange")
+    st.markdown('### R-2 | Nombre de CT avec au moins 2 PAP avec contribution active 3 mois (dont avec/sans ≥2 pilotes de plans différents)')
+    st.markdown("""
+    Un PAP actif 3 mois est défini comme un PAP avec 5 actions pilotables chacunes ayant reçu au moins une modification dans les 3 derniers mois.
+    Une action pilotable est définie comme une action ayant : 
+    - titre
+    - description
+    - statut
+    - personne pilote ou service/direction pilote
+    - *date de fin ou amélioration continue (pas encore sur)*
+
+    On fait la distinction entre les CT qui ont au moins 2 pilotes de plans différents sur l'ensemble et les CT qui ont 1 pilote ou moins.
+    """)
 
     # Préparation des données
     df_evolution_statut = df_pap_13.copy()
@@ -729,7 +797,18 @@ with tabs[1]:
 
 
     # ======================
-    st.markdown("### R-3 (💫 - Activité) : Nombre d'Actions pilotables actives avec pilote de l'action actif ≤ 12 mois")
+    st.markdown("---")
+    st.badge('Activité', icon="💫", color="blue")   
+    st.markdown("### R-3 | Nombre d'Actions pilotables actives avec pilote de l'action actif ≤ 12 mois")
+    st.markdown("""
+    Une action pilotable active 12 mois est définie comme une action ayant :
+    - titre
+    - description
+    - statut
+    - personne pilote ou service/direction pilote
+    - *date de fin ou amélioration continue (pas encore sur)*
+    - reçue au moins une modification dans les 12 derniers mois
+    """)
 
     # Préparation des données
     df_evolution_statut = df_nb_fap_pilote_52.copy()
@@ -758,6 +837,7 @@ with tabs[1]:
 
     # ======================
     st.markdown("---")
+    st.badge('Activité', icon="💫", color="blue")
     st.markdown('### R-3 (bis) (💫 - Activité) : Nombre d\'Actions pilotables actives avec pilote de l\'action actif ≤ 3 mois')
 
     # Préparation des données
@@ -787,7 +867,9 @@ with tabs[1]:
 
     # ======================
     st.markdown("---")
-    st.markdown("### R-4 (🎇 - Exploration) : Nombre d'actions partagées/liées entre collectivités")
+    st.badge('Exploration', icon="🎇", color="green")
+    st.markdown("### R-4 | Nombre d'actions partagées/liées entre collectivités")
+    st.markdown("Nombre d'actions uniques partagées entre au moins deux collectivités")
 
     # Préparation des données
     df_evolution_statut = df_fa_sharing.copy()
@@ -815,231 +897,118 @@ with tabs[2]:
 
     st.markdown('## Objectif 3 : QUALITÉ')
     st.markdown('Augmenter la qualité des Plans & Actions')
-    st.markdown('### Définition de la note des PAP')
+    st.markdown('### Définition de la note d\'une fiche action')
     st.markdown(
     """
-    Une fiche action est jugée sur 5 axes, et 6 si la collectivité est engagée dans le programme TETE : 
-    - **Pilotabilité :** la fiche a un titre, une description, un statut et un pilote.
-    - **Indicateurs :** la fiche est liée à au moins un indicateur.
-    - **Objectifs :** les indicateurs liés ont au moins un objectif associé.
-    - **Avancement :** la fiche action a au moins une étape renseignée ou une note de suivi.
-    - **Budget :** la fiche action a la colonne "budget previsionnel" renseignée (à vérifier avec les devs la relation avec la table budget)
-    - **Référentiel (collectivité TETE uniquement) :** la fiche action est liée à au moins une mesure du référentiel.
-
-    Pour chaque fiche, on attribue 0 ou 1 à l'axe suivant si la condition est respectée. On obtient alors une note sur 5, et 6 pour les collectivités engagées TETE qu'on remene sur 5 (ex: 3/6 -> 2.5/5).
-
-    On calcule ensuite la moyenne des notes de toute les fiches du plan pour déterminer la note du plan.
-
-    La meilleur note parmi toutes les notes des plans d'une collectivité devient **LA** note de la collectivité.
+    - **Titre** + 1pt
+    - **Description** + 1pt
+    - **Statut** + 1pt
+    - **Personne pilote** + 0.5pt
+    - **Au moins une des personnes pilotes est rattachée à un compte utilisateur** +0.5pt
+    - **Date de début** + 0.5pt
+    - **Date de fin (ou action continue est coché)** + 0.5pt
+    - **Indicateur lié** + 1pt
+    - **Objectif** + 1pt *(au moins un objectif chiffré dans TOUS les indicateurs liés pour une année supérieur ou égalé à l’année actuelle)*
+    - **Budget** + 1pt *(budget investissement ou fonctionnement ou financeurs ou champs financements ou moyens humains)*
+    - **Note de suivi de moins d’un an** + 1pt
+    - **Date de dernière MAJ de l’action <12 mois** + 0.5pt (si statut non terminé/Abandonné) *(la modification d'une relation n'est pas comptabilisée comme lier des indicateurs, mesures, budget, etc.)*
+    - **Date de dernière MAJ de l’action <6 mois** + 0.5pt (si statut non terminé/Abandonné) *(idem)*
     """)
 
-    # ======================
-    st.markdown('---')
-    st.markdown('### Q-1 (⭐ NS3 - externe) : Nombre de PAP ayant un Score de complétude ≥ 2,5 (score ≥50%)')
-    
-    # Préparation des données
-    df_evolution_statut = df_pap_note.copy()
-    df_evolution_statut['semaine'] = pd.to_datetime(df_evolution_statut['semaine'])
-    df_evolution_statut['mois'] = df_evolution_statut['semaine'].dt.to_period('M').dt.to_timestamp()
-    df_evolution_statut = df_evolution_statut.sort_values('score', ascending=False).drop_duplicates(subset=['plan_id', 'mois'], keep='first')
-    df_evolution_statut = df_evolution_statut[df_evolution_statut['mois'] >= '2023-01-01']
-    df_evolution_statut['statut'] = df_evolution_statut['score'].apply(lambda x: "Score >=50%" if x>=2.5 else "Score <50%")
-    df_evolution_statut = df_evolution_statut.groupby(['mois', 'statut'])['plan_id'].nunique().reset_index(name='nb_plans')
-    df_evolution_statut = df_evolution_statut.sort_values('mois')
-    df_evolution_statut['mois_label'] = df_evolution_statut['mois'].dt.strftime('%Y-%m')
-
-    # Métriques
-    df_actif = df_evolution_statut[df_evolution_statut['statut'] == 'Score >=50%']
-    may_2025 = df_actif[df_actif['mois_label'] == '2025-05']['nb_plans'].values
-    dec_2025 = df_actif[df_actif['mois_label'] == '2025-12']['nb_plans'].values
-    
-    val_may_2025 = int(may_2025[0]) if len(may_2025) > 0 else 0
-    val_dec_2025 = int(dec_2025[0]) if len(dec_2025) > 0 else 0
-    
-    # Trouver la valeur la plus récente
-    if not df_actif.empty:
-        df_actif_sorted = df_actif.sort_values('mois_label', ascending=False)
-        derniere_date = df_actif_sorted.iloc[0]['mois_label']
-        derniere_valeur = int(df_actif_sorted.iloc[0]['nb_plans'])
-        
-        # Formater la date pour l'affichage
-        mois_labels = {
-            '01': 'Janvier', '02': 'Février', '03': 'Mars', '04': 'Avril',
-            '05': 'Mai', '06': 'Juin', '07': 'Juillet', '08': 'Août',
-            '09': 'Septembre', '10': 'Octobre', '11': 'Novembre', '12': 'Décembre'
-        }
-        annee, mois = derniere_date.split('-')
-        derniere_date_label = f"{mois_labels.get(mois, mois)} {annee}"
-    else:
-        derniere_valeur = 0
-        derniere_date_label = "N/A"
-    
-    col1, col2, col3 = st.columns(3)
-    with col1:
-        st.metric("Score >=50% - Mai 2025", val_may_2025)
-    with col2:
-        st.metric("Score >=50% - Décembre 2025", val_dec_2025, delta=val_dec_2025 - val_may_2025 if val_may_2025 > 0 else None)
-    with col3:
-        st.metric(f"Score >=50% - {derniere_date_label}", derniere_valeur, delta=derniere_valeur - val_dec_2025 if val_dec_2025 > 0 else None)
-
-    # Graphique
-    afficher_graphique_plotly(
-        df_evolution_statut,
-        x_column='mois_label',
-        y_column='nb_plans',
-        element_id="line_evolution_statuts_pap_note_13",
-        graph_type="area_stacked",
-        group_column='statut',
-        group_values=["Score >=50%", "Score <50%"],
-        legend_y="Nombre de PAP",
-        trend_group_value="Score >=50%",
-        target_value=300  # Cible à ajuster
-    )
-
+    st.markdown('### Définition de la note d\'un PAP')
+    st.markdown('La note d\'un PAP se calcule en prenant la moyenne des notes de toutes ses fiches actions.')
 
     # ======================
     st.markdown('---')
-    st.markdown('### Q-2 (🌟 NS3 - interne) : Nombre de PAP ayant un Score de complétude ≥4 (score ≥80%)')
-
+    st.badge('NS3 - externe', icon="🌟", color="orange")
+    st.markdown('### Q-1 | Nombre de PAP ayant une note supérieur à 5/10')
+    
     # Préparation des données
-    df_evolution_statut = df_pap_note.copy()
-    df_evolution_statut['semaine'] = pd.to_datetime(df_evolution_statut['semaine'])
-    df_evolution_statut['mois'] = df_evolution_statut['semaine'].dt.to_period('M').dt.to_timestamp()
-    df_evolution_statut = df_evolution_statut.sort_values('score', ascending=False).drop_duplicates(subset=['plan_id', 'mois'], keep='first')
-    df_evolution_statut = df_evolution_statut[df_evolution_statut['mois'] >= '2023-01-01']
-    df_evolution_statut['statut'] = df_evolution_statut['score'].apply(lambda x: "Score >=80%" if x>=4 else "Score <80%")
-    df_evolution_statut = df_evolution_statut.groupby(['mois', 'statut'])['plan_id'].nunique().reset_index(name='nb_plans')
-    df_evolution_statut = df_evolution_statut.sort_values('mois')
-    df_evolution_statut['mois_label'] = df_evolution_statut['mois'].dt.strftime('%Y-%m')
+    df_evolution_statut = df_note_plan.copy()
 
-    # Métriques
-    df_actif = df_evolution_statut[df_evolution_statut['statut'] == 'Score >=80%']
-    may_2025 = df_actif[df_actif['mois_label'] == '2025-05']['nb_plans'].values
-    dec_2025 = df_actif[df_actif['mois_label'] == '2025-12']['nb_plans'].values
-    
-    val_may_2025 = int(may_2025[0]) if len(may_2025) > 0 else 0
-    val_dec_2025 = int(dec_2025[0]) if len(dec_2025) > 0 else 0
-    
-    # Trouver la valeur la plus récente
-    if not df_actif.empty:
-        df_actif_sorted = df_actif.sort_values('mois_label', ascending=False)
-        derniere_date = df_actif_sorted.iloc[0]['mois_label']
-        derniere_valeur = int(df_actif_sorted.iloc[0]['nb_plans'])
-        
-        # Formater la date pour l'affichage
-        mois_labels = {
-            '01': 'Janvier', '02': 'Février', '03': 'Mars', '04': 'Avril',
-            '05': 'Mai', '06': 'Juin', '07': 'Juillet', '08': 'Août',
-            '09': 'Septembre', '10': 'Octobre', '11': 'Novembre', '12': 'Décembre'
-        }
-        annee, mois = derniere_date.split('-')
-        derniere_date_label = f"{mois_labels.get(mois, mois)} {annee}"
-    else:
-        derniere_valeur = 0
-        derniere_date_label = "N/A"
-    
-    col1, col2, col3 = st.columns(3)
-    with col1:
-        st.metric("Score >=80% - Mai 2025", val_may_2025)
-    with col2:
-        st.metric("Score >=80% - Décembre 2025", val_dec_2025, delta=val_dec_2025 - val_may_2025 if val_may_2025 > 0 else None)
-    with col3:
-        st.metric(f"Score >=80% - {derniere_date_label}", derniere_valeur, delta=derniere_valeur - val_dec_2025 if val_dec_2025 > 0 else None)
+    df_evolution_statut['statut'] = df_evolution_statut['note_plan'].apply(lambda x: '>= 5' if x>=5 else '< 5')
 
-    # Graphique
-    afficher_graphique_plotly(
-        df_evolution_statut,
-        x_column='mois_label',
-        y_column='nb_plans',
-        element_id="line_evolution_statuts_pap_note_13_80pct",
-        graph_type="area_stacked",
-        group_column='statut',
-        group_values=["Score >=80%", "Score <80%"],
-        legend_y="Nombre de PAP",
-        trend_group_value="Score >=80%",
-        target_value=100   # Cible à ajuster
-    )
-
-    # ======================
-    st.markdown('---')
-    st.markdown("### Q-3 (💫 - Activité) : Nombre d'Actions pilotées complètes à 12 ou 3 mois")
-
-    # Toggle pour choisir la période
-    periode_toggle = st.segmented_control(
-        "Période d'analyse",
-        options=["12 mois", "3 mois"],
-        default="12 mois",
-        label_visibility="collapsed"
-    )
-
-    # Préparation des données
-    if periode_toggle == "3 mois":
-        df_evolution_statut = df_nb_fiches_complete_statut_13_semaines.copy()
-    else:
-        df_evolution_statut = df_nb_fiches_complete_statut_52_semaines.copy()
     df_evolution_statut['mois'] = pd.to_datetime(df_evolution_statut['mois'])
     df_evolution_statut['mois'] = df_evolution_statut['mois'].dt.to_period('M').dt.to_timestamp()
+
+    df_evolution_statut = df_evolution_statut.groupby(['mois', 'statut'])['plan'].nunique().reset_index(name='nb_plans')
     
     df_evolution_statut = df_evolution_statut[df_evolution_statut['mois'] >= '2023-01-01']
     df_evolution_statut = df_evolution_statut.sort_values('mois')
     df_evolution_statut['mois_label'] = df_evolution_statut['mois'].dt.strftime('%Y-%m')
 
-    # Métriques
-    df_actif = df_evolution_statut[df_evolution_statut['statut'] == 'Complète et active']
-    afficher_metriques_temporelles(df_actif, 'nb_fiches', label_prefix="Complète et active - ")
+    # Graphique
+    afficher_graphique_plotly(
+        df_evolution_statut,
+        x_column='mois_label',
+        y_column='nb_plans',
+        element_id="line_evolution_note_plan_50pct",
+        graph_type="area_stacked",
+        group_column='statut',
+        group_values=['>= 5', '< 5'],
+        legend_y="Nombre de PAP",
+        trend_group_value=">= 5",
+        target_value=800  # Cible à ajuster
+    )
+
+
+    # ======================
+    st.markdown('---')
+    st.badge('NS3 - interne', icon="🌟", color="orange")
+    st.markdown('### Q-2 | Nombre de PAP ayant une note supérieur à 8/10')
+
+    # Préparation des données
+    df_evolution_statut = df_note_plan.copy()
+    df_evolution_statut['statut'] = df_evolution_statut['note_plan'].apply(lambda x: '>= 8' if x>=8 else '< 8')
+    df_evolution_statut['mois'] = pd.to_datetime(df_evolution_statut['mois'])
+    df_evolution_statut['mois'] = df_evolution_statut['mois'].dt.to_period('M').dt.to_timestamp()
+
+    df_evolution_statut = df_evolution_statut.groupby(['mois', 'statut'])['plan'].nunique().reset_index(name='nb_plans')
+    
+    df_evolution_statut = df_evolution_statut[df_evolution_statut['mois'] >= '2023-01-01']
+    df_evolution_statut = df_evolution_statut.sort_values('mois')
+    df_evolution_statut['mois_label'] = df_evolution_statut['mois'].dt.strftime('%Y-%m')
+
+    # Graphique
+    afficher_graphique_plotly(
+        df_evolution_statut,
+        x_column='mois_label',
+        y_column='nb_plans',
+        element_id="line_evolution_note_plan_80pct",
+        graph_type="area_stacked",
+        group_column='statut',
+        group_values=['>= 8', '< 8'],
+        legend_y="Nombre de PAP",
+        trend_group_value=">= 8",
+        target_value=600   # Cible à ajuster
+    )
+
+    # ======================
+    st.markdown('---')
+    st.badge('Complétude', icon="💫", color="blue")
+    st.markdown("### Q-3 | Nombre d'actions ayant une note de 10/10")
+
+    df_evolution_statut = df_note_fiche[df_note_fiche.note_fa==10].copy()
+    df_evolution_statut['mois'] = pd.to_datetime(df_evolution_statut['mois'])
+    df_evolution_statut['mois'] = df_evolution_statut['mois'].dt.to_period('M').dt.to_timestamp()
+
+    df_evolution_statut = df_evolution_statut.groupby(['mois'])['fiche_id'].nunique().reset_index(name='nb_fiches')
+    
+    df_evolution_statut = df_evolution_statut[df_evolution_statut['mois'] >= '2023-01-01']
+    df_evolution_statut = df_evolution_statut.sort_values('mois')
+    df_evolution_statut['mois_label'] = df_evolution_statut['mois'].dt.strftime('%Y-%m')
 
     # Graphique
     afficher_graphique_plotly(
         df_evolution_statut,
         x_column='mois_label',
         y_column='nb_fiches',
-        element_id="line_evolution_statuts_fiches_completes_et_actives",
-        graph_type="area_stacked",
-        group_column='statut',
-        group_values=["Complète et active", "Incomplète ou inactive"],
-        legend_y="Nombre de fiches complètes et actives",
-        trend_group_value="Complète et active",
+        element_id="line_evolution_statuts_fiches_10",
+        graph_type="line",
+        legend_y="Nombre de fiches à 10/10",
+        trend_group_value="nb_fiches",
         target_value=500   # Cible à ajuster
     )
-
-    # Histogramme de complétude par critère pour le mois actuel    
-    # Filtrer pour le mois actuel
-    aujourd_hui = datetime.today()
-    debut_mois = aujourd_hui.replace(day=1)
-    mois_actuel = debut_mois.strftime('%Y-%m-%d')
-    
-    df_completude_mois = df_fiches_completude_historique[df_fiches_completude_historique['mois'] == mois_actuel].copy()
-    
-    if len(df_completude_mois) > 0:
-        # Trouver toutes les colonnes qui commencent par "score"
-        score_columns = [col for col in df_completude_mois.columns if col.startswith('score')]
-        
-        # Compter le nombre de lignes avec la valeur 1 pour chaque colonne score
-        score_counts = {}
-        for col in score_columns:
-            score_counts[col] = (df_completude_mois[col] == 1).sum()
-        
-        # Créer un DataFrame pour l'histogramme
-        df_histogram = pd.DataFrame({
-            'Critère': [col.replace('score_', '') for col in score_counts.keys()],
-            'Nombre': list(score_counts.values())
-        })
-        
-        # Créer l'histogramme avec plotly
-        import plotly.express as px
-        fig = px.bar(
-            df_histogram,
-            x='Critère',
-            y='Nombre',
-            title=f"Nombre de fiches complètes par critère ({mois_actuel})",
-            labels={'Nombre': 'Nombre de fiches', 'Critère': 'Critères de complétude'},
-            color_discrete_sequence=['#B3E2CD']
-        )
-        fig.update_layout(height=400, xaxis_tickangle=-45)
-        st.plotly_chart(fig, use_container_width=True)
-    else:
-        st.info(f"Aucune donnée disponible pour le mois {mois_actuel}")
-
     
 
 # ==========================
