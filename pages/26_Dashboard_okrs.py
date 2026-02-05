@@ -31,10 +31,11 @@ def load_data():
     df_activite_semaine = read_table('activite_semaine')
     df_nb_labellisation = read_table('evolution_labellisation')
     df_note_fiche= read_table('note_fiche_historique', where_sql="note_fa>=5")
-    return df_nb_fap_13, df_nb_fap_52, df_nb_fap_pilote_13, df_nb_fap_pilote_52, df_pap_13, df_pap_52, df_pap_date_passage, df_note_plan, df_fa_sharing, df_activation_user, df_activation_collectivite, df_activite_semaine, df_nb_labellisation, df_note_fiche
+    df_user_actif_12_mois=read_table('user_actif_12_mois')
+    return df_nb_fap_13, df_nb_fap_52, df_nb_fap_pilote_13, df_nb_fap_pilote_52, df_pap_13, df_pap_52, df_pap_date_passage, df_note_plan, df_fa_sharing, df_activation_user, df_activation_collectivite, df_activite_semaine, df_nb_labellisation, df_note_fiche, df_user_actif_12_mois
 
 
-df_nb_fap_13, df_nb_fap_52, df_nb_fap_pilote_13, df_nb_fap_pilote_52, df_pap_13, df_pap_52, df_pap_date_passage, df_note_plan, df_fa_sharing, df_activation_user, df_activation_collectivite, df_activite_semaine, df_nb_labellisation, df_note_fiche = load_data()
+df_nb_fap_13, df_nb_fap_52, df_nb_fap_pilote_13, df_nb_fap_pilote_52, df_pap_13, df_pap_52, df_pap_date_passage, df_note_plan, df_fa_sharing, df_activation_user, df_activation_collectivite, df_activite_semaine, df_nb_labellisation, df_note_fiche, df_user_actif_12_mois = load_data()
 
 # ==========================
 # Configuration Plotly
@@ -109,13 +110,13 @@ def afficher_metriques_temporelles(df, value_column, label_prefix="", date_colum
     # Affichage des 4 colonnes
     col1, col2, col3, col4 = st.columns(4)
     with col1:
-        st.metric(f"{label_prefix}Décembre 2023", val_2024)
+        st.metric(f"{label_prefix}Dec 2023", f"{val_2024:,}".replace(",", " "))
     with col2:
-        st.metric(f"{label_prefix}Décembre 2024", val_2025, delta=val_2025 - val_2024 if val_2024 > 0 else None)
+        st.metric(f"{label_prefix}Dec 2024", f"{val_2025:,}".replace(",", " "), delta=val_2025 - val_2024 if val_2024 > 0 else None)
     with col3:
-        st.metric(f"{label_prefix}Décembre 2025", val_2026, delta=val_2026 - val_2025 if val_2025 > 0 else None)
+        st.metric(f"{label_prefix}Dec 2025", f"{val_2026:,}".replace(",", " "), delta=val_2026 - val_2025 if val_2025 > 0 else None)
     with col4:
-        st.metric(f"{label_prefix}{derniere_date_label}", derniere_valeur, delta=derniere_valeur - val_2026 if val_2026 > 0 else None)
+        st.metric(f"{label_prefix}{derniere_date_label}", f"{derniere_valeur:,}".replace(",", " "), delta=derniere_valeur - val_2026 if val_2026 > 0 else None)
 
 
 def afficher_graphique_plotly(
@@ -449,16 +450,92 @@ def afficher_graphique_plotly(
 # ==========================
 
 st.title("🌠 Dashboard OKRs")
-tabs = st.tabs(["1 - Activation", "2 - Rétention", "3 - Qualité", "4 - Impact", "5 - Légitimité", "6 - Budget"])
+tabs = st.tabs(["Menu", "1 - Activation", "2 - Rétention", "3 - Qualité", "4 - Impact", "5 - Légitimité", "6 - Budget"])
+
+# ==========================
+# TAB 0 : MENU - Liste des graphiques
+# ==========================
+
+with tabs[0]:
+    st.markdown("## Menu")
+    
+    # Structure des graphiques par catégorie
+    graphiques = {
+        "1 - ACTIVATION": [
+            ("A-1", "Nombre de collectivités avec au moins un PAP actif 12 mois", "🌟 NS1 - externe"),
+            ("A-2", "Nombre de collectivités avec au moins un PAP actif 3 mois", "🌟 NS1 - interne"),
+            ("A-3", "Nombre d'Actions pilotables actives ≤3 mois", "💫 Activité"),
+            ("A-3 bis", "Nombre d'Actions pilotables actives ≤12 mois", "💫 Activité"),
+            ("A-4", "Nombre de PAP initialisés de façon autonome", "🎇 Exploration"),
+        ],
+        "2 - RÉTENTION": [
+            ("R-1", "Nombre de CT avec au moins 2 PAP avec contribution active 12 mois", "🌟 NS2 - externe"),
+            ("R-2", "Nombre de CT avec au moins 2 PAP avec contribution active 3 mois", "🌟 NS2 - interne"),
+            ("R-3", "Nombre d'Actions pilotables actives avec pilote de l'action actif ≤ 12 mois", "💫 Activité"),
+            ("R-3 bis", "Nombre d'Actions pilotables actives avec pilote de l'action actif ≤ 3 mois", "💫 Activité"),
+            ("R-4", "Nombre d'actions partagées/liées entre collectivités", "🎇 Exploration"),
+        ],
+        "3 - QUALITÉ": [
+            ("Q-1", "Nombre de PAP ayant une note supérieure à 5/10", "🌟 NS3 - externe"),
+            ("Q-2", "Nombre de PAP ayant une note supérieure à 8/10", "🌟 NS3 - interne"),
+            ("Q-3", "Nombre d'actions ayant une note de 10/10", "💫 Complétude"),
+        ],
+        "4 - IMPACT": [
+            ("—", "Section en construction", ""),
+        ],
+        "5 - LÉGITIMITÉ": [
+            ("L-1", "Nombre d'utilisateurs activés", "🌟 NS5 - externe"),
+            ("L-1 bis", "Nombre de collectivités activées", "🌟 NS5 - externe"),
+            ("L-2", "Nombre de collectivités actives", "🌟 NS5 - interne"),
+            ("L-2 bis", "Nombre d'utilisateurs actifs", "🌟 NS5 - interne"),
+            ("L-3", "Nombre de labellisations réalisées sur la plateforme", "💫 Activité"),
+        ],
+        "6 - BUDGET": [
+            ("B-1", "Coût annuel par action pilotable actives 12 mois (€/action)", "🌟 NS6 - externe"),
+            ("B-2", "Coût annuel par collectivité ayant un PAP actif 3 mois (€/collectivité)", "🌟 NS6 - interne"),
+            ("B-3", "Coût annuel par utilisateur actif ≤ 12 mois (€/utilisateur)", "💫 Activité"),
+        ],
+    }
+    
+    # Affichage sous forme de colonnes (alternance gauche-droite)
+    categories = list(graphiques.keys())
+    
+    # Créer des paires de catégories (1-2, 3-4, 5-6)
+    for i in range(0, len(categories), 2):
+        col1, col2 = st.columns(2)
+        
+        # Catégorie de gauche
+        with col1:
+            categorie = categories[i]
+            st.markdown(f"### {categorie}")
+            for code, nom, badge in graphiques[categorie]:
+                if badge:
+                    st.markdown(f"**{code}** | {nom}  \n<small style='color: gray;'>{badge}</small>", unsafe_allow_html=True)
+                else:
+                    st.markdown(f"**{code}** | {nom}")
+            st.markdown("")
+        
+        # Catégorie de droite (si elle existe)
+        with col2:
+            if i + 1 < len(categories):
+                categorie = categories[i + 1]
+                st.markdown(f"### {categorie}")
+                for code, nom, badge in graphiques[categorie]:
+                    if badge:
+                        st.markdown(f"**{code}** | {nom}  \n<small style='color: gray;'>{badge}</small>", unsafe_allow_html=True)
+                    else:
+                        st.markdown(f"**{code}** | {nom}")
+                st.markdown("")
 
 # ==========================
 # TAB 1 : ACTIVATION
 # ==========================
 
-with tabs[0]:
+with tabs[1]:
 
     st.markdown("## Objectif 1 : ACTIVATION")
     st.markdown("Permettre à chaque collectivité territoriale française de piloter ses plans & actions.")
+    st.markdown("---")
 
     # ======================
     st.badge('NS1 - externe', icon="🌟", color="orange")
@@ -470,7 +547,6 @@ with tabs[0]:
     - description
     - statut
     - personne pilote ou service/direction pilote
-    - *date de fin ou amélioration continue (pas encore sur)* 
     """)
 
     # Préparation des données
@@ -512,7 +588,6 @@ with tabs[0]:
     - description
     - statut
     - personne pilote ou service/direction pilote
-    - *date de fin ou amélioration continue (pas encore sur)* 
     """)
 
     # Préparation des données
@@ -553,7 +628,6 @@ with tabs[0]:
     - description
     - statut
     - personne pilote ou service/direction pilote
-    - *date de fin ou amélioration continue (pas encore sur)* 
     - reçue au moins une modification dans les 3 derniers mois
     """)
 
@@ -593,7 +667,6 @@ with tabs[0]:
     - description
     - statut
     - personne pilote ou service/direction pilote
-    - *date de fin ou amélioration continue (pas encore sur)*
     - reçue au moins une modification dans les 12 derniers mois
     """)
 
@@ -686,10 +759,11 @@ with tabs[0]:
 # TAB 2 : RÉTENTION
 # ==========================
 
-with tabs[1]:
+with tabs[2]:
 
     st.markdown('## Objectif 2 : RÉTENTION')
     st.markdown('Faciliter la transversalité entre Plans & Actions & Contributeurs')
+    st.markdown("---")
 
     # ======================
     st.badge('NS2 - externe', icon="🌟", color="orange")
@@ -701,7 +775,6 @@ with tabs[1]:
     - description
     - statut
     - personne pilote ou service/direction pilote
-    - *date de fin ou amélioration continue (pas encore sur)* 
     """)
 
     # Préparation des données
@@ -745,7 +818,6 @@ with tabs[1]:
     - description
     - statut
     - personne pilote ou service/direction pilote
-    - *date de fin ou amélioration continue (pas encore sur)*
 
     On fait la distinction entre les CT qui ont au moins 2 pilotes de plans différents sur l'ensemble et les CT qui ont 1 pilote ou moins.
     """)
@@ -806,7 +878,6 @@ with tabs[1]:
     - description
     - statut
     - personne pilote ou service/direction pilote
-    - *date de fin ou amélioration continue (pas encore sur)*
     - reçue au moins une modification dans les 12 derniers mois
     """)
 
@@ -893,10 +964,11 @@ with tabs[1]:
 # TAB 3 : QUALITÉ
 # ==========================
 
-with tabs[2]:
+with tabs[3]:
 
     st.markdown('## Objectif 3 : QUALITÉ')
     st.markdown('Augmenter la qualité des Plans & Actions')
+    st.markdown("---")
     st.markdown('### Définition de la note d\'une fiche action')
     st.markdown(
     """
@@ -1012,24 +1084,32 @@ with tabs[2]:
     
 
 # ==========================
-# TAB 4 : LÉGITIMITÉ
-# ==========================
-
-with tabs[3]:
-    st.markdown("## Objectif 4 : Impact")
-
-
-
-
-# ==========================
-# TAB 4 : LÉGITIMITÉ
+# TAB 4 : IMPACT
 # ==========================
 
 with tabs[4]:
+    st.markdown("## Objectif 4 : Impact")
+
+
+# ==========================
+# TAB 5 : LÉGITIMITÉ
+# ==========================
+
+with tabs[5]:
 
     # ======================
     st.markdown('## Objectif 5: Légitimité')
-    st.markdown("### L-1 (⭐ NS5 - externe - Acquisition) : Nombre d'utilisateurs activés")
+    st.markdown("---")
+
+    st.badge('NS5 - externe', icon="🌟", color="orange")
+    st.markdown("### L-1 | Nombre d'utilisateurs activés")
+    st.markdown("""
+    Nombre d'utilisateurs uniques rattachés à une collectivité :
+
+    - qui n'est jamais défini comme conseiller ou partenaire
+    - qui n'est pas un utilisateur interne (nous)
+    - dont l'email ne contient pas 'ademe'
+    """)
 
     # Préparation des données
     df_evolution_statut = df_activation_user.copy()
@@ -1053,7 +1133,16 @@ with tabs[4]:
 
 
     # ======================
-    st.markdown('### L-1 (bis) (⭐ NS5 - externe - Acquisition) : Nombre de collectivités activées')
+    st.markdown('---')
+    st.badge('NS5 - externe', icon="🌟", color="orange")
+    st.markdown('### L-1 (bis) | Nombre de collectivités activées')
+    st.markdown("""
+    Nombre de collectivités avec au moins un utilisateur rattaché :
+
+    - qui n'est jamais défini comme conseiller ou partenaire
+    - qui n'est pas un utilisateur interne (nous)
+    - dont l'email ne contient pas 'ademe'
+    """)
 
     # Préparation des données
     df_evolution_statut = df_activation_collectivite.copy()
@@ -1077,7 +1166,15 @@ with tabs[4]:
 
     # ======================
     st.markdown("---")
-    st.markdown('### L-2 (🌟 NS5 - interne - Stickyness) : Nombre de collectivités actives')
+    st.badge('NS5 - interne', icon="🌟", color="orange") 
+    st.markdown('### L-2 | Nombre de collectivités actives')
+    st.markdown("""
+    Nombre de collectivités avec au moins un utilsateur actif au cours de la période sélectionnée :
+    - qui n'est jamais défini comme conseiller ou partenaire
+    - qui n'est pas un utilisateur interne (nous)
+    - dont l'email ne contient pas 'ademe'
+    """)
+
 
     # Segmented control
     periode_aggregation = st.segmented_control(
@@ -1151,7 +1248,15 @@ with tabs[4]:
 
 
     # ======================
-    st.markdown('### L-2 (🌟 NS5 - interne - Stickyness) : Nombre de users actifs')
+    st.markdown("---")
+    st.badge('NS5 - interne', icon="🌟", color="orange") 
+    st.markdown('### L-2 | Nombre d\'utilisateurs actifs')
+    st.markdown("""
+    Nombre d'utilisateurs actifs au cours de la période sélectionnée :
+    - qui n'est jamais défini comme conseiller ou partenaire
+    - qui n'est pas un utilisateur interne (nous)
+    - dont l'email ne contient pas 'ademe'
+    """)
 
     # Segmented control
     periode_aggregation_2 = st.segmented_control(
@@ -1225,7 +1330,11 @@ with tabs[4]:
 
     # ======================
     st.markdown("---")
-    st.markdown('### L-3 (💫 - Activité) : Nombre de labellisations réalisées sur la plateforme')
+    st.badge('Activité', icon="💫", color="blue")   
+    st.markdown('### L-3 | Nombre de labellisations réalisées sur la plateforme')
+    st.markdown("""
+    Nombre de labellisations réalisées sur la plateforme. Chaque audit qui aboutit au discernement d'une étoile est une labellisation.
+    """)
 
     # Préparation des données
     df_evolution_statut = df_nb_labellisation[df_nb_labellisation.mois>"2021-01-01"].copy()
@@ -1247,13 +1356,42 @@ with tabs[4]:
         target_value=None
     )
 
-with tabs[5]: 
+with tabs[6]: 
 
     # ======================
     # Objectif 6 : Budget
     # ======================
 
     st.markdown('## Objectif 6 : Budget')
+    st.markdown("---")
+    st.markdown("""
+        ### Principe de calcul
+
+        Chaque mois, on regarde une certaine **quantitée absolue** : actions pilotables actives, PAP actif, utilisateurs actifs... sur Territoires en Transitions. On divise ensuite le **budget annuel** par ce total pour avoir le cout annuel par quantitée arrété au mois.
+        ### Exemple
+
+        - **Budget annuel 2025** : 10 €
+
+        **Juin 2025**  
+        - 2 actions pilotables actives
+        - Coût par action = 10 € ÷ 2 = **5 €**
+
+        **Juillet 2025**  
+        - 4 actions pilotables actives  
+        - Coût par action = 10 € ÷ 4 = **2,50 €**
+
+        **Août 2025**  
+        - 1 action pilotable active  
+        - Coût par action = 10 € ÷ 1 = **10 €**
+
+        ### Comment interpréter cette métrique
+
+        Cette métrique doit être lue comme :  
+        > *« À ce mois donné, compte tenu du volume d’actions observé et du budget annuel, voici le coût par action pilotable. »*
+
+        Elle reflète donc une **photo à date**, et non une moyenne sur l’année.
+        """)
+
     # Champs de saisie pour les budgets
     col1, col2, col3, col4 = st.columns(4)
     with col1:
@@ -1266,11 +1404,20 @@ with tabs[5]:
         budget_2026 = st.number_input("Budget 2026", value=1_600_000, step=100_000, format="%d")
 
     st.markdown("---")
+    st.badge('NS6 - externe', icon="🌟", color="orange")
 
-    st.markdown('### B-1 (⭐ NS6 - externe) : Coût par action pilotable 52 semaines (€/Action)')
+    st.markdown('### B-1 | Coût annuel par action pilotable actives 12 mois (€/action)')
+    st.markdown("""
+    Une action pilotable 12 mois est définie comme une action ayant : 
+    - titre
+    - description
+    - statut
+    - personne pilote ou service/direction pilote
+    - reçue au moins une modification dans les 12 derniers mois
+    """)
     
     # Préparation des données
-    df_evolution_statut = df_nb_fap_pilote_52.copy()
+    df_evolution_statut = df_nb_fap_52.copy()
     df_evolution_statut['mois'] = pd.to_datetime(df_evolution_statut['mois'])
     df_evolution_statut = df_evolution_statut[df_evolution_statut['mois'] >= '2023-01-01']
     df_evolution_statut = df_evolution_statut.sort_values('mois')
@@ -1283,7 +1430,7 @@ with tabs[5]:
     
     # Calculer le coût par action pilotable (budget annuel / 12 pour obtenir le budget mensuel, puis diviser par le nombre d'actions actives)
     df_actif = df_evolution_statut[df_evolution_statut['statut'] == 'actif'].copy()
-    df_actif['Cout par action pilotable'] = (df_actif['budget_annuel'] / 12) / df_actif['fiche_id']
+    df_actif['Cout par action pilotable'] = (df_actif['budget_annuel']) / df_actif['fiche_id']
     df_actif['Cout par action pilotable'] = df_actif['Cout par action pilotable'].fillna(0).round(2)
     
     # Métriques
@@ -1303,7 +1450,18 @@ with tabs[5]:
     )
 
     # ======================
-    st.markdown('### B-2 (🌟 NS6 - interne ) : Coût par collectivité ayant un PAP actif 13 semaines (€/collectivité)')
+    st.markdown("---")
+    st.badge('NS6 - interne', icon="🌟", color="orange")
+    st.markdown('### B-2 | Coût annuel par collectivité ayant un PAP actif 3 mois (€/collectivité)')
+    st.markdown("""
+    Un PAP actif 3 mois est défini comme un PAP avec 5 actions pilotables actives 3 mois.
+    Une action pilotable active 3 mois est définie comme une action ayant : 
+    - titre
+    - description
+    - statut
+    - personne pilote ou service/direction pilote
+    - reçue au moins une modification dans les 3 derniers mois
+    """)
     
     # Préparation des données
     df_evolution_statut = df_pap_13.copy()
@@ -1321,7 +1479,7 @@ with tabs[5]:
     
     # Calculer le coût par collectivité (budget annuel / 12 pour obtenir le budget mensuel, puis diviser par le nombre de collectivités actives)
     df_actif = df_evolution_statut[df_evolution_statut['statut'] == 'actif'].copy()
-    df_actif['cout_par_collectivite'] = (df_actif['budget_annuel'] / 12) / df_actif['nb_collectivites']
+    df_actif['cout_par_collectivite'] = (df_actif['budget_annuel']) / df_actif['nb_collectivites']
     df_actif['cout_par_collectivite'] = df_actif['cout_par_collectivite'].fillna(0).round(2)
     
     # Métriques
@@ -1343,26 +1501,38 @@ with tabs[5]:
 
     # ======================
     st.markdown("---")
-    st.markdown('### B-3 (💫 - Activité) : Coût par utilisateur actif ≤ 12 mois (€/utilisateur)')
+    st.badge('Activité', icon="💫", color="blue")
+    st.markdown('### B-3 | Coût annuel par utilisateur actif ≤ 12 mois (€/utilisateur)')
+    st.markdown("""
+    Un utilisateur actif 12 mois est défini comme un utilisateur :
+
+    - qui n'est jamais défini comme conseiller ou partenaire
+    - qui n'est pas un utilisateur interne (nous)
+    - dont l'email ne contient pas 'ademe'
+    - qui a effectué au moins une connexion dans les 12 derniers mois
+
+    Limites : 
+    
+    - certains utilisateurs qui ne sont pas des agents passent quand même ces filtres
+    - certains utilisateurs utilisent des ad blockers, j'en récupère néanmoins une bonne partie en tenant compte aussi de toutes les modifications sur les FA
+    """)
     
     # Préparation des données
-    df_evolution_statut = df_activite_semaine.copy()
-    df_evolution_statut = df_evolution_statut[df_evolution_statut['semaine'] >= '2023-01-01'].copy()
-    df_evolution_statut['semaine'] = pd.to_datetime(df_evolution_statut['semaine'])
-    df_evolution_statut['annee'] = df_evolution_statut['semaine'].dt.year
-    df_evolution_statut['mois'] = df_evolution_statut['semaine'].dt.to_period('M')
+    df_evolution_statut = df_user_actif_12_mois.copy()
+    df_evolution_statut = df_evolution_statut[df_evolution_statut['mois'] >= '2023-01-01'].copy()
+    df_evolution_statut['annee'] = df_evolution_statut['mois'].dt.year
     
     # Grouper par année et mois pour obtenir le nombre d'utilisateurs uniques actifs par mois
     df_evolution_statut = df_evolution_statut.groupby(['annee', 'mois'])['email'].nunique().reset_index(name='nb_users')
     df_evolution_statut = df_evolution_statut.sort_values('mois')
-    df_evolution_statut['mois_label'] = df_evolution_statut['mois'].astype(str)
+    df_evolution_statut['mois_label'] = df_evolution_statut['mois'].apply(lambda x: x.strftime('%Y-%m'))
     
     # Associer le budget à chaque année
     budget_mapping = {2023: budget_2023, 2024: budget_2024, 2025: budget_2025, 2026: budget_2026}
     df_evolution_statut['budget_annuel'] = df_evolution_statut['annee'].map(budget_mapping)
     
     # Calculer le coût par utilisateur actif (budget annuel / 12 pour obtenir le budget mensuel, puis diviser par le nombre d'utilisateurs actifs)
-    df_evolution_statut['cout_par_user'] = (df_evolution_statut['budget_annuel'] / 12) / df_evolution_statut['nb_users']
+    df_evolution_statut['cout_par_user'] = (df_evolution_statut['budget_annuel']) / df_evolution_statut['nb_users']
     df_evolution_statut['cout_par_user'] = df_evolution_statut['cout_par_user'].fillna(0).round(2)
     
     # Métriques
