@@ -969,7 +969,7 @@ with tabs[3]:
     st.markdown('## Objectif 3 : QUALITÉ')
     st.markdown('Augmenter la qualité des Plans & Actions')
     st.markdown("---")
-    st.markdown('### Définition de la note d\'une fiche action')
+    st.markdown('### Définition de la note d\'une Action')
     st.markdown(
     """
     - **Titre** + 1pt
