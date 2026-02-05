@@ -17,10 +17,31 @@ from utils.db import (
     read_table
 )
 
-# Solution compatible avec pandas.read_sql_query et SQL natif PostgreSQL (pas de :param dans la requête, on place directement la valeur formatée)
-fa = read_table('fa_last_week')
+# Mise en cache des données avec TTL de 1 jour
+@st.cache_data(ttl=86400)
+def get_fa_last_week():
+    """Charge les fiches actions de la dernière semaine."""
+    return read_table('fa_last_week')
 
-df_notes = load_df_pap_notes()
+@st.cache_data(ttl=86400)
+def get_df_pap_notes():
+    """Charge les notes des PAP."""
+    return load_df_pap_notes()
+
+@st.cache_data(ttl=86400)
+def get_df_pap():
+    """Charge les données PAP."""
+    return load_df_pap()
+
+@st.cache_data(ttl=86400)
+def get_df_collectivite():
+    """Charge les données des collectivités."""
+    return load_df_collectivite()
+
+# Solution compatible avec pandas.read_sql_query et SQL natif PostgreSQL (pas de :param dans la requête, on place directement la valeur formatée)
+fa = get_fa_last_week()
+
+df_notes = get_df_pap_notes()
 
 st.set_page_config(layout="wide")
 
@@ -179,8 +200,8 @@ theme_radar_sombre = {
 theme_radar_actif = theme_radar_sombre if dark_mode else theme_radar_clair
 
 # === CHARGEMENT DES DONNÉES ===
-df_pap = load_df_pap()
-df_ct = load_df_collectivite()
+df_pap = get_df_pap()
+df_ct = get_df_collectivite()
 
 if df_pap.empty:
     st.info("Aucune donnée. Branchez vos sources dans `utils/data.py`.")
