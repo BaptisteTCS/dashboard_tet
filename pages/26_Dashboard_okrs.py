@@ -461,36 +461,36 @@ with tabs[0]:
     
     # Structure des graphiques par catégorie
     graphiques = {
-        "1 - ACTIVATION": [
+        "1 - Activation": [
             ("A-1", "Nombre de collectivités avec au moins un PAP actif 12 mois", "🌟 NS1 - externe"),
             ("A-2", "Nombre de collectivités avec au moins un PAP actif 3 mois", "🌟 NS1 - interne"),
             ("A-3", "Nombre d'Actions pilotables actives ≤3 mois", "💫 Activité"),
             ("A-3 bis", "Nombre d'Actions pilotables actives ≤12 mois", "💫 Activité"),
             ("A-4", "Nombre de PAP initialisés de façon autonome", "🎇 Exploration"),
         ],
-        "2 - RÉTENTION": [
+        "2 - Rétention": [
             ("R-1", "Nombre de CT avec au moins 2 PAP avec contribution active 12 mois", "🌟 NS2 - externe"),
             ("R-2", "Nombre de CT avec au moins 2 PAP avec contribution active 3 mois", "🌟 NS2 - interne"),
             ("R-3", "Nombre d'Actions pilotables actives avec pilote de l'action actif ≤ 12 mois", "💫 Activité"),
             ("R-3 bis", "Nombre d'Actions pilotables actives avec pilote de l'action actif ≤ 3 mois", "💫 Activité"),
             ("R-4", "Nombre d'actions partagées/liées entre collectivités", "🎇 Exploration"),
         ],
-        "3 - QUALITÉ": [
+        "3 - Qualité": [
             ("Q-1", "Nombre de PAP ayant une note supérieure à 5/10", "🌟 NS3 - externe"),
             ("Q-2", "Nombre de PAP ayant une note supérieure à 8/10", "🌟 NS3 - interne"),
             ("Q-3", "Nombre d'actions ayant une note de 10/10", "💫 Complétude"),
         ],
-        "4 - IMPACT": [
+        "4 - Impact": [
             ("—", "Section en construction", ""),
         ],
-        "5 - LÉGITIMITÉ": [
+        "5 - Légitimité": [
             ("L-1", "Nombre d'utilisateurs activés", "🌟 NS5 - externe"),
             ("L-1 bis", "Nombre de collectivités activées", "🌟 NS5 - externe"),
             ("L-2", "Nombre de collectivités actives", "🌟 NS5 - interne"),
             ("L-2 bis", "Nombre d'utilisateurs actifs", "🌟 NS5 - interne"),
             ("L-3", "Nombre de labellisations réalisées sur la plateforme", "💫 Activité"),
         ],
-        "6 - BUDGET": [
+        "6 - Budget": [
             ("B-1", "Coût annuel par action pilotable actives 12 mois (€/action)", "🌟 NS6 - externe"),
             ("B-2", "Coût annuel par collectivité ayant un PAP actif 3 mois (€/collectivité)", "🌟 NS6 - interne"),
             ("B-3", "Coût annuel par utilisateur actif ≤ 12 mois (€/utilisateur)", "💫 Activité"),
@@ -533,7 +533,7 @@ with tabs[0]:
 
 with tabs[1]:
 
-    st.markdown("## Objectif 1 : ACTIVATION")
+    st.markdown("## Objectif 1 : Activation")
     st.markdown("Permettre à chaque collectivité territoriale française de piloter ses plans & actions.")
     st.markdown("---")
 
@@ -761,7 +761,7 @@ with tabs[1]:
 
 with tabs[2]:
 
-    st.markdown('## Objectif 2 : RÉTENTION')
+    st.markdown('## Objectif 2 : Rétention')
     st.markdown('Faciliter la transversalité entre Plans & Actions & Contributeurs')
     st.markdown("---")
 
@@ -966,7 +966,7 @@ with tabs[2]:
 
 with tabs[3]:
 
-    st.markdown('## Objectif 3 : QUALITÉ')
+    st.markdown('## Objectif 3 : Qualité')
     st.markdown('Augmenter la qualité des Plans & Actions')
     st.markdown("---")
     st.markdown('### Définition de la note d\'une Action')
