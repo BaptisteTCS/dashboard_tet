@@ -1446,7 +1446,7 @@ with tabs[6]:
         legend_y="Coût par action pilotable (€)",
         trend_group_value="Cout par action pilotable",
         trend_calculation="budget_3m_pct",
-        target_value=None
+        target_value=20
     )
 
     # ======================
@@ -1495,7 +1495,7 @@ with tabs[6]:
         legend_y="Coût par collectivité avec PAP actif (€)",
         trend_group_value="cout_par_collectivite",
         trend_calculation="budget_3m_pct",
-        target_value=None
+        target_value=3000
     )
 
 
@@ -1548,6 +1548,6 @@ with tabs[6]:
         legend_y="Coût par utilisateur actif (€)",
         trend_group_value="cout_par_user",
         trend_calculation="budget_3m_pct",
-        target_value=None
+        target_value=120
     )
     
