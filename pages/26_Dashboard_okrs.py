@@ -67,7 +67,7 @@ def get_plotly_layout():
 # Fonctions utilitaires
 # ==========================
 
-def afficher_metriques_temporelles(df, value_column, label_prefix="", date_column='mois_label'):
+def afficher_metriques_temporelles(df, value_column, label_prefix="", date_column='mois_label', delta_color="normal"):
     """
     Affiche 4 métriques : Décembre 2023, 2024, 2025 et la valeur la plus récente.
     
@@ -76,6 +76,7 @@ def afficher_metriques_temporelles(df, value_column, label_prefix="", date_colum
     - value_column: nom de la colonne contenant les valeurs à afficher
     - label_prefix: préfixe pour les labels des métriques (ex: "Actifs - ")
     - date_column: nom de la colonne contenant les dates (défaut: 'mois_label')
+    - delta_color: couleur du delta ("normal" = vert si hausse, "inverse" = vert si baisse)
     """
     # Extraction des valeurs pour décembre de chaque année
     jan_2024 = df[df[date_column] == '2023-12'][value_column].values
@@ -112,11 +113,11 @@ def afficher_metriques_temporelles(df, value_column, label_prefix="", date_colum
     with col1:
         st.metric(f"{label_prefix}Dec 2023", f"{val_2024:,}".replace(",", " "))
     with col2:
-        st.metric(f"{label_prefix}Dec 2024", f"{val_2025:,}".replace(",", " "), delta=val_2025 - val_2024 if val_2024 > 0 else None)
+        st.metric(f"{label_prefix}Dec 2024", f"{val_2025:,}".replace(",", " "), delta=val_2025 - val_2024 if val_2024 > 0 else None, delta_color=delta_color)
     with col3:
-        st.metric(f"{label_prefix}Dec 2025", f"{val_2026:,}".replace(",", " "), delta=val_2026 - val_2025 if val_2025 > 0 else None)
+        st.metric(f"{label_prefix}Dec 2025", f"{val_2026:,}".replace(",", " "), delta=val_2026 - val_2025 if val_2025 > 0 else None, delta_color=delta_color)
     with col4:
-        st.metric(f"{label_prefix}{derniere_date_label}", f"{derniere_valeur:,}".replace(",", " "), delta=derniere_valeur - val_2026 if val_2026 > 0 else None)
+        st.metric(f"{label_prefix}{derniere_date_label}", f"{derniere_valeur:,}".replace(",", " "), delta=derniere_valeur - val_2026 if val_2026 > 0 else None, delta_color=delta_color)
 
 
 def afficher_graphique_plotly(
@@ -1434,7 +1435,7 @@ with tabs[6]:
     df_actif['Cout par action pilotable'] = df_actif['Cout par action pilotable'].fillna(0).round(2)
     
     # Métriques
-    afficher_metriques_temporelles(df_actif, 'Cout par action pilotable', label_prefix="Coût/Action - ")
+    afficher_metriques_temporelles(df_actif, 'Cout par action pilotable', label_prefix="Coût/Action - ", delta_color="inverse")
     
     # Graphique
     afficher_graphique_plotly(
@@ -1483,7 +1484,7 @@ with tabs[6]:
     df_actif['cout_par_collectivite'] = df_actif['cout_par_collectivite'].fillna(0).round(2)
     
     # Métriques
-    afficher_metriques_temporelles(df_actif, 'cout_par_collectivite', label_prefix="Coût/Collectivité - ")
+    afficher_metriques_temporelles(df_actif, 'cout_par_collectivite', label_prefix="Coût/Collectivité - ", delta_color="inverse")
     
     # Graphique
     afficher_graphique_plotly(
@@ -1536,7 +1537,7 @@ with tabs[6]:
     df_evolution_statut['cout_par_user'] = df_evolution_statut['cout_par_user'].fillna(0).round(2)
     
     # Métriques
-    afficher_metriques_temporelles(df_evolution_statut, 'cout_par_user', label_prefix="Coût/User - ")
+    afficher_metriques_temporelles(df_evolution_statut, 'cout_par_user', label_prefix="Coût/User - ", delta_color="inverse")
     
     # Graphique
     afficher_graphique_plotly(
