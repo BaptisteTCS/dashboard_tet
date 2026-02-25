@@ -18,22 +18,22 @@ from utils.db import (
 )
 
 # Mise en cache des données avec TTL de 1 jour
-@st.cache_data(ttl=86400)
+@st.cache_data(ttl="1d")
 def get_fa_last_week():
     """Charge les fiches actions de la dernière semaine."""
     return read_table('fa_last_week')
 
-@st.cache_data(ttl=86400)
+@st.cache_data(ttl="1d")
 def get_df_pap_notes():
     """Charge les notes des PAP."""
     return load_df_pap_notes()
 
-@st.cache_data(ttl=86400)
+@st.cache_data(ttl="1d")
 def get_df_pap():
     """Charge les données PAP."""
     return load_df_pap()
 
-@st.cache_data(ttl=86400)
+@st.cache_data(ttl="1d")
 def get_df_collectivite():
     """Charge les données des collectivités."""
     return load_df_collectivite()
