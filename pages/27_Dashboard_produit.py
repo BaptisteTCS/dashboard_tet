@@ -70,12 +70,16 @@ FEATURE_DOCS = {
     ("Rapport automatique", "Total"): "Nombre de rapports automatiques demandés.",
     ("Rapport automatique", "Type de plan"): "Breakdown par type de plan utilisé pour le rapport.",
     ("Rapport automatique", "Success/Fail"): "Breakdown par résultat de la génération (succès ou échec).",
-    ("Rapport automatique", "Retry"): "Breakdown par retry : nouvelle demande sur le même plan moins de 5 min après une première génération. `True` signifique que la tentative est un retry.",
+    ("Rapport automatique", "Retry"): "Breakdown par retry : nouvelle génération de rapport sur le même plan moins de 5 min après une première génération. `True` signifique que la génération est un retry.",
     ("Role contributeur", "Total"): "Nombre de user avec le rôle contributeur.",
     ("Référent plan", "Total"): "Nombre de référents de plan.",
     ("Référent plan", "Réel/Tag"): "Breakdown selon que le référent est un utilisateur réel ou un simple tag.",
     ("Sous actions", "Total"): "Nombre de sous-actions créées.",
     ("Sous actions", "Présence d'un pilote"): "Breakdown selon la présence ou non d'un pilote sur la sous-action.",
+    ("Ouverture FA depuis vue calendaire et tableau", "Total"): "Nombre d'ouvertures de FA depuis vue calendaire et tableau.",
+    ("Ouverture FA depuis vue calendaire et tableau", "Depuis vue tableau/calendaire"): "Breakdown par vue : calendaire ou tableau.",
+    ("Consultation vue calendaire et tableau", "Total"): "Nombre de consultations des vues calendaire et tableau.",
+    ("Consultation vue calendaire et tableau", "Depuis vue tableau/calendaire"): "Breakdown par vue : calendaire ou tableau.",
 }
 
 # ==========================
