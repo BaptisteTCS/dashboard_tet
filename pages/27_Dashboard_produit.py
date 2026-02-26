@@ -62,6 +62,22 @@ def parse_sub_feature(val):
 
 feature_df['sub_feature_parsed'] = feature_df['sub-feature'].apply(parse_sub_feature)
 
+FEATURE_DOCS = {
+    ("Bandeau incitation à la complétude", "Total"): "Nombre de fois où le CTA du bandeau d'incitation à la complétude a été cliqué.",
+    ("Bandeau incitation à la complétude", "Bandeau"): "Breakdown par type de bandeau affiché.",
+    ("Exporter une sauvegarde (référentiel)", "Total"): "Nombre d'exports de sauvegarde de référentiel réalisés.",
+    ("Exporter une sauvegarde (référentiel)", "Type d'export"): "Breakdown par type d'export.",
+    ("Rapport automatique", "Total"): "Nombre de rapports automatiques demandés.",
+    ("Rapport automatique", "Type de plan"): "Breakdown par type de plan utilisé pour le rapport.",
+    ("Rapport automatique", "Success/Fail"): "Breakdown par résultat de la génération (succès ou échec).",
+    ("Rapport automatique", "Retry"): "Breakdown par retry : nouvelle demande sur le même plan moins de 5 min après une première génération. `True` signifique que la tentative est un retry.",
+    ("Role contributeur", "Total"): "Nombre de user avec le rôle contributeur.",
+    ("Référent plan", "Total"): "Nombre de référents de plan.",
+    ("Référent plan", "Réel/Tag"): "Breakdown selon que le référent est un utilisateur réel ou un simple tag.",
+    ("Sous actions", "Total"): "Nombre de sous-actions créées.",
+    ("Sous actions", "Présence d'un pilote"): "Breakdown selon la présence ou non d'un pilote sur la sous-action.",
+}
+
 # ==========================
 # Interface
 # ==========================
@@ -91,6 +107,10 @@ sub_feature_options = ["Total"] + sub_feature_keys
 
 with col_usage:
     selected_sub_feature = st.selectbox("Usage", sub_feature_options, index=0)
+
+doc_text = FEATURE_DOCS.get((selected_feature, selected_sub_feature))
+if doc_text:
+    st.caption(doc_text)
 
 col1, col2, col3, col4, col5 = st.columns([1, 1, 1, 1, 1.5])
 
@@ -126,6 +146,7 @@ with col4:
         "Evolution : bar chart",
         "Total : Number",
         "Total : Pie chart",
+        "Total : Liste",
     ])
 
 with col5:
@@ -359,3 +380,22 @@ elif chart_type == "Total : Pie chart":
         margin=dict(l=40, r=40, t=20, b=40),
     )
     st.plotly_chart(fig, use_container_width=True)
+
+elif chart_type == "Total : Liste":
+    display_cols = ['datetime', 'collectivite_id', 'email']
+    if selected_sub_feature != "Total":
+        working_df['_sf_display'] = working_df['sub_feature_parsed'].apply(
+            lambda d: str(d.get(selected_sub_feature, '')) if isinstance(d, dict) else ''
+        )
+        display_cols.append('_sf_display')
+    for label in selected_breakdowns:
+        col_name = breakdown_options[label]
+        if col_name in working_df.columns and col_name not in display_cols:
+            display_cols.append(col_name)
+    rename_map = {'_sf_display': selected_sub_feature}
+    st.info("Vous pouvez trier les colonnes en cliquant sur leur en-tête et télécharger les données via l'icône en haut à droite du tableau.")
+    st.dataframe(
+        working_df[display_cols].rename(columns=rename_map).sort_values('datetime', ascending=False),
+        use_container_width=True,
+        hide_index=True,
+    )
