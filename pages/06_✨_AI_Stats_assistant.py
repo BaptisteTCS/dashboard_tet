@@ -173,12 +173,16 @@ if user_request:
                 - Un indicateur est "personnalisé" lorsque que indicateur_definition.collectivite_id est non null
                 - Un indicateur est "open data" lorsque indicateur_valeur.metadonnee_id est non null et indicateur_valeur.resultat est non null
                 - Le budget d'investissement pour une fiche action est dans fiche_action_budget avec type='investissement'
-                - Dans notre langage courant, on appelle "action" ce qui est en fait une "mesure" ou "mesure du référentiel"
+                - Dans notre langage courant, on appelle souven "mesure" ou "mesure du référentiel" ce qui est une action dans notre base de données.
                 - Une fiche action liée à une fiche action se trouve dans la table fiche_action_lien et une fiche action lié à une mesure se trouve dans la table fiche_action_action
                 - Le droit des utilisateurs se trouve dans la table private_utilisateur_droit, dans la colonne niveau_acces.
-                - On appelle souvent FA une fiche action
-                - Retire systématiquement les collectivités test de tes requêtes. Il suffit pour ça de mettre une clause where public.collectivite_id.type != 'test'
+                - On appelle souvent FA ou action ce qui est en fait une fiche_action dans notre base de données.
+                - Retire systématiquement les collectivités test de tes requêtes. Il suffit pour ça de mettre une clause where public.collectivite.type != 'test'
+                - Une sous-action est une action (fiche_action) dont le parent_id est non null.
+
+                ### Historique de la conversation :
                 {conversation_history}
+
                 ### Question utilisateur actuelle :
                 {user_request}
                 """
