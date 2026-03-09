@@ -24,7 +24,7 @@ pages = {
         
     ],
     "Livraison": [
-        st.Page("09_🌀_Import_indicateurs.py", title="Import Indicateurs", icon="🌀"),
+        st.Page("pages/09_🌀_Import_indicateurs.py", title="Import Indicateurs", icon="🌀"),
         st.Page("pages/10_🚚_Livraison_pre_prod.py", title="Livraison Pre-Prod", icon="🚚"),
         st.Page("pages/11_🚢🚨_Livraison_Prod.py", title="Livraison Prod", icon="🚨"),
     ],
