@@ -472,7 +472,6 @@ with elements("area_users_evolution"):
 # delta=df_users[df_users['email_confirmed_at'] >= date_12_mois]['id'].nunique()
 # st.metric("Utilisateurs actifs", df_user_actif[filtre]['email'].nunique(), delta=delta)
 
-
 # Chart Nivo - Pie chart utilisateurs actifs par collectivité
 st.markdown("### Un outil qui facilite la collaboration")
 
