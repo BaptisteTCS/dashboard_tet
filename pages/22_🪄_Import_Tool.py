@@ -342,7 +342,8 @@ Vous êtes un auditeur qualité spécialisé dans les plans d’actions de trans
 
 Contexte
 On vous fournit une extraction déjà structurée avec les éléments suivants :
-"axe", "sous-axe", "titre", "description", "sous-actions" et "direction ou service pilote", "personne pilote", "budget", "statut" s'ils sont disponibles.
+"axe", "sous-axe", "titre", "titre de la sous-action", "description", "direction ou service pilote", "personne pilote", "budget", "statut", "date de début", "date de fin" s'ils sont disponibles.
+Les actions classiques ont "titre" rempli. Les sous-actions apparaissent comme des lignes séparées marquées [SA], avec "titre" vide et "titre de la sous-action" rempli.
 
 Voici la sortie à évaluer
 {reponse_ia}
@@ -352,8 +353,8 @@ Votre travail n’est pas de corriger la sortie ni de la réécrire, mais de por
 
 Axes d’évaluation
 • Artefacts  vérifier qu’il ne subsiste pas d’artefacts évidents de conversion ou de mise en page comme "Unnamed", bouts de tableau, listes cassées, balises, répétitions absurdes, numérotations sans contenu.
-• Cohérence sémantique  vérifier que chaque "description" et chaque "sous-action" a du sens, est compréhensible, et correspond à une action concrète de plan d’actions.
-• Qualité des sous-actions  vérifier que les éléments de "sous-actions" sont bien des sous-actions opérationnelles ou des étapes de mise en œuvre
+• Cohérence sémantique  vérifier que chaque "description" a du sens, est compréhensible, et correspond à une action ou sous-action concrète de plan d’actions.
+• Qualité des sous-actions  vérifier que les lignes marquées [SA] sont bien des sous-actions opérationnelles ou des étapes de mise en œuvre
 • Cohérence hiérarchique  vérifier que "axe", "sous-axe" et "titre" sont cohérents entre eux, que la numérotation est plausible et stable, et que le contenu de l’action correspond bien à son axe et sous-axe.
 • Champs pilotage, budget, statut  vérifier que "direction ou service pilote", "personne pilote", "budget" et "statut" ne semblent pas inventés, sont utilisés seulement lorsque l’information est explicitement plausible, et restent vides sinon.
 • Doublons et éclatement inutile  vérifier qu’il n’y a pas de doublons évidents d’actions et que les actions ne sont pas artificiellement éclatées en plusieurs entrées identiques.
@@ -369,7 +370,62 @@ Format de réponse attendu
 • Ne pas dépasser une dizaine de lignes.
 
 Précision
-• C'est normal que les sous-actions soient mises l'une à la suite des autres par des ;
+• Les sous-actions apparaissent comme des lignes à part entière, avec "titre" vide et "titre de la sous-action" rempli.
+• Les actions classiques ont "titre" rempli et "titre de la sous-action" vide.
+"""
+
+prompt_enrich_sous_actions = """
+Vous êtes un agent d'enrichissement documentaire spécialisé dans les plans d'actions de transition écologique des collectivités, y compris les PCAET.
+
+Contexte
+On vous fournit :
+1) Une liste numérotée de sous-actions, chacune rattachée à son action parente (indiquée entre crochets pour le contexte).
+2) Le texte source complet du plan d'actions (issu d'un PDF parfois bruité).
+
+Objectif
+Pour chaque sous-action de la liste ci-dessous, parcourir le texte source et extraire les informations suivantes si elles sont explicitement présentes dans le document :
+• "description" : une description synthétique et fidèle au texte source de la sous-action
+• "personne_pilote" : le nom de la personne pilote ou référente de la sous-action.
+• "statut" : le statut de la sous-action
+• "date_debut" : la date de début
+• "date_fin" : la date de fin ou échéance
+
+Valeurs autorisées pour "statut"
+["À venir", "À discuter", "En cours", "Réalisé", "En retard", "En pause", "Bloqué"]
+Si le statut trouvé ne correspond à aucune de ces valeurs exactes, laisser "".
+
+Règles strictes
+1 Aucun champ n'est obligatoire. Si l'information n'est pas explicitement présente dans le texte source, laisser une chaîne vide "".
+2 Ne jamais inventer d'informations, de dates ou de statuts.
+3 Les dates doivent être au format JJ/MM/AAAA. Si seule l'année est disponible, utiliser 01/01/AAAA. Si seuls le mois et l'année sont disponibles, utiliser 01/MM/AAAA.
+4 La description doit être fidèle au texte source. Ne pas réécrire le sens, uniquement nettoyer les artefacts de conversion.
+5 Le titre de l'action parente entre crochets sert uniquement de contexte pour localiser la sous-action dans le document. Ne pas le reproduire dans la description.
+6 Si une sous-action est trop générique ou introuvable dans le texte source, laisser tous les champs à "".
+7 Une personne pilote doit forcément être une personne physique et NE PEUT PAS être une direction ou service
+
+Liste des sous-actions à enrichir
+
+-------- DEBUT LISTE --------
+{sous_actions_list}
+--------- FIN LISTE ---------
+
+Texte source du plan d'actions
+
+--------- TEXTE SOURCE ---------
+{texte_pdf_a_analyser}
+--------- FIN TEXTE SOURCE ---------
+
+Format de sortie
+1 Répondre uniquement avec un objet JSON valide
+2 Ne rien ajouter avant ni après le JSON
+3 Ne pas utiliser de balises Markdown
+4 Les clés sont les index numériques des sous-actions tels que fournis dans la liste
+
+Exemple de format attendu
+{{
+  "0": {{"description": "Description trouvée dans le texte", "personne_pilote": "Jean Dupont", "statut": "En cours", "date_debut": "01/01/2025", "date_fin": "31/12/2025"}},
+  "1": {{"description": "", "personne_pilote": "", "statut": "", "date_debut": "", "date_fin": ""}}
+}}
 """
 
 def extract_text_from_pdf(pdf_file):
@@ -403,19 +459,21 @@ def extract_text_from_csv(csv_file):
         return f"Erreur lors de la lecture du CSV : {str(e)}"
 
 def df_to_compact_text(df: pd.DataFrame, show_index: bool = True) -> str:
-    """Convertit un dataframe en texte compact pour l'envoyer à Gemini"""
-    # Sécurité : on travaille sur une copie triée
+    """Convertit un dataframe en texte compact pour l'envoyer à Gemini.
+    Gère deux formats : ancien (sous-actions en liste) et nouveau (titre de la sous-action en colonne)."""
     cols_expected = ["axe", "sous-axe"]
     for col in cols_expected:
         if col not in df.columns:
             raise ValueError(f"Colonne manquante dans le DataFrame : {col}")
+
+    has_sous_actions_list = "sous-actions" in df.columns
+    has_sous_action_col = "titre de la sous-action" in df.columns
 
     df_sorted = df.copy()
     df_sorted = df_sorted.sort_values(by=["axe", "sous-axe"]).reset_index(drop=True)
 
     parts = []
 
-    # Petite fonction utilitaire pour gérer le séparateur
     def add_segment(segment: str):
         if not segment:
             return
@@ -423,47 +481,50 @@ def df_to_compact_text(df: pd.DataFrame, show_index: bool = True) -> str:
 
     for axe in df_sorted["axe"].dropna().unique():
         df_axe = df_sorted[df_sorted["axe"] == axe]
-
-        # Présentation de l'axe (une seule fois)
         add_segment(f"{axe} :")
 
         for sous_axe in df_axe["sous-axe"].dropna().unique():
             df_sous_axe = df_axe[df_axe["sous-axe"] == sous_axe]
-
-            # Présentation du sous axe (une seule fois)
             add_segment(f"Sous axe {sous_axe} :")
 
             for index_row, row in df_sous_axe.iterrows():
                 champs_action = []
 
-                # Titre
                 titre = str(row.get("titre", "")).strip()
-                if titre:
+                titre_sa = str(row.get("titre de la sous-action", "")).strip() if has_sous_action_col else ""
+                is_sous_action_row = has_sous_action_col and not titre and titre_sa
+
+                if is_sous_action_row:
+                    if show_index:
+                        champs_action.append(f"| {index_row} | [SA] {titre_sa}")
+                    else:
+                        champs_action.append(f"[SA] {titre_sa}")
+                elif titre:
                     if show_index:
                         champs_action.append(f"| {index_row} | {titre}")
                     else:
                         champs_action.append(f"{titre}")
 
-                # Description
                 desc = str(row.get("description", "")).strip()
                 if desc:
                     champs_action.append(f"{desc}")
 
-                # Sous actions (liste ou chaîne)
-                sous_actions = row.get("sous-actions", None)
-                if isinstance(sous_actions, (list, tuple)):
-                    sa_clean = [str(sa).strip() for sa in sous_actions if str(sa).strip()]
-                    if sa_clean:
-                        champs_action.append("" + "; ".join(sa_clean))
-                elif isinstance(sous_actions, str) and sous_actions.strip():
-                    champs_action.append(f"{sous_actions.strip()}")
+                if has_sous_actions_list and not has_sous_action_col:
+                    sous_actions = row.get("sous-actions", None)
+                    if isinstance(sous_actions, (list, tuple)):
+                        sa_clean = [str(sa).strip() for sa in sous_actions if str(sa).strip()]
+                        if sa_clean:
+                            champs_action.append("" + "; ".join(sa_clean))
+                    elif isinstance(sous_actions, str) and sous_actions.strip():
+                        champs_action.append(f"{sous_actions.strip()}")
 
-                # Champs optionnels
                 champs_optionnels = [
                     ("direction ou service pilote", "Direction ou service pilote"),
                     ("personne pilote", "Personne pilote"),
                     ("budget", "Budget"),
                     ("statut", "Statut"),
+                    ("date de début", "Date de début"),
+                    ("date de fin", "Date de fin"),
                 ]
 
                 for col, label in champs_optionnels:
@@ -474,13 +535,10 @@ def df_to_compact_text(df: pd.DataFrame, show_index: bool = True) -> str:
                             if val_str:
                                 champs_action.append(f"{label} {val_str}")
 
-                # On ne garde l'action que si on a au moins un champ
                 if champs_action:
-                    # Une seule phrase par action, pour limiter les tokens
                     texte_action = "" + "; ".join(champs_action) + "."
                     add_segment(texte_action)
 
-    # Construction finale du texte
     return "\n".join(parts).strip()
 
 def parse_json_response(result_text: str):
@@ -499,7 +557,7 @@ def remplir_fichier_import(df: pd.DataFrame) -> io.BytesIO:
     """Remplit le fichier import avec les données du dataframe et retourne un BytesIO"""
     
     # 1 Charger le fichier source directement (sans copie sur disque)
-    src = "utils/modele-import-pa.xlsx"
+    src = "utils/template_pa.xlsx"
     wb = load_workbook(src)
     ws = wb["Fichier dimport"]
 
@@ -508,11 +566,14 @@ def remplir_fichier_import(df: pd.DataFrame) -> io.BytesIO:
         "A": "axe",
         "B": "sous-axe",
         "D": "titre",
-        "E": "description",
-        "L": "direction ou service pilote",
-        "M": "personne pilote",
-        "W": "budget",
-        "X": "statut"
+        "E": "titre de la sous-action",
+        "F": "description",
+        "M": "direction ou service pilote",
+        "N": "personne pilote",
+        "X": "budget",
+        "Y": "statut",
+        "AA": "date de début",
+        "AB": "date de fin",
     }
 
     # 3 Écrire les données à partir de la ligne 5
@@ -531,78 +592,97 @@ def remplir_fichier_import(df: pd.DataFrame) -> io.BytesIO:
     return output
 
 def display_df_markdown(df: pd.DataFrame):
-    """Affiche un dataframe en mode structuré (axes > sous-axes > actions)"""
-    # Affichage structuré par axes et sous-axes
+    """Affiche un dataframe en mode structuré (axes > sous-axes > actions et sous-actions)"""
+    has_sous_action_col = "titre de la sous-action" in df.columns
+
     axes = df["axe"].unique()
-    
+
     for axe in axes:
         st.markdown(f"### {axe}")
-        
+
         df_axe = df[df["axe"] == axe]
         sous_axes = df_axe["sous-axe"].unique()
-        
+
         for sous_axe in sous_axes:
             with st.expander(f"{sous_axe}", expanded=False):
                 df_sous_axe = df_axe[df_axe["sous-axe"] == sous_axe]
-                
-                for _, action in df_sous_axe.iterrows():
-                    # Afficher chaque action
-                    action_md = ""
-                    
-                    # Titre
-                    if action.get("titre") and str(action["titre"]).strip():
-                        action_md += f"**Titre :** {action['titre']}\n\n"
-                    
-                    # Description
-                    if action.get("description") and str(action["description"]).strip():
-                        action_md += f"**Description :** {action['description']}\n\n"
-                    
-                    # Sous-actions (liste)
-                    sous_actions = action.get("sous-actions", [])
-                    if sous_actions and len(sous_actions) > 0:
-                        action_md += "**Sous-actions :**\n"
-                        for sa in sous_actions:
-                            if sa and str(sa).strip():
-                                action_md += f"- {sa}\n"
-                        action_md += "\n"
-                    
-                    # Direction ou service pilote
-                    if action.get("direction ou service pilote") and str(action["direction ou service pilote"]).strip():
-                        action_md += f"**Direction ou service pilote :** {action['direction ou service pilote']}\n\n"
-                    
-                    # Personne pilote
-                    if action.get("personne pilote") and str(action["personne pilote"]).strip():
-                        action_md += f"**Personne pilote :** {action['personne pilote']}\n\n"
-                    
-                    # Budget
-                    if action.get("budget") and str(action["budget"]).strip():
-                        action_md += f"**Budget :** {action['budget']}\n\n"
-                    
-                    # Statut
-                    if action.get("statut") and str(action["statut"]).strip():
-                        action_md += f"**Statut :** {action['statut']}\n\n"
-                    
-                    st.markdown(action_md)
-                    
-                    # Affichage de la confiance dans un st.info
-                    if "score" in action and action.get("score") is not None:
-                        score = action["score"]
-                        if action.get("amelioree", False):
-                            # Action améliorée à l'étape 3
-                            st.info(f"FA consolidée. (confiance précédente: **{score}**)")
-                        else:
-                            # Action non améliorée
-                            explication = action.get("explication", "")
-                            if explication and str(explication).strip():
-                                st.info(f"Confiance: **{score}** - {explication}")
+
+                for _, row in df_sous_axe.iterrows():
+                    titre = str(row.get("titre", "")).strip() if pd.notna(row.get("titre")) else ""
+                    titre_sa = ""
+                    if has_sous_action_col:
+                        titre_sa = str(row.get("titre de la sous-action", "")).strip() if pd.notna(row.get("titre de la sous-action")) else ""
+
+                    is_sous_action = has_sous_action_col and not titre and titre_sa
+
+                    if is_sous_action:
+                        sa_md = ""
+                        sa_md += f"> **Sous-action :** {titre_sa}\n>\n"
+
+                        if row.get("description") and str(row["description"]).strip():
+                            sa_md += f"> **Description :** {row['description']}\n>\n"
+
+                        if row.get("personne pilote") and str(row["personne pilote"]).strip():
+                            sa_md += f"> **Personne pilote :** {row['personne pilote']}\n>\n"
+
+                        if row.get("statut") and str(row["statut"]).strip():
+                            sa_md += f"> **Statut :** {row['statut']}\n>\n"
+
+                        if row.get("date de début") and str(row["date de début"]).strip():
+                            sa_md += f"> **Date de début :** {row['date de début']}\n>\n"
+
+                        if row.get("date de fin") and str(row["date de fin"]).strip():
+                            sa_md += f"> **Date de fin :** {row['date de fin']}\n>\n"
+
+                        st.markdown(sa_md)
+                    else:
+                        action_md = ""
+
+                        if titre:
+                            action_md += f"**Titre :** {titre}\n\n"
+
+                        if row.get("description") and str(row["description"]).strip():
+                            action_md += f"**Description :** {row['description']}\n\n"
+
+                        if not has_sous_action_col:
+                            sous_actions = row.get("sous-actions", [])
+                            if sous_actions and len(sous_actions) > 0:
+                                action_md += "**Sous-actions :**\n"
+                                for sa in sous_actions:
+                                    if sa and str(sa).strip():
+                                        action_md += f"- {sa}\n"
+                                action_md += "\n"
+
+                        if row.get("direction ou service pilote") and str(row["direction ou service pilote"]).strip():
+                            action_md += f"**Direction ou service pilote :** {row['direction ou service pilote']}\n\n"
+
+                        if row.get("personne pilote") and str(row["personne pilote"]).strip():
+                            action_md += f"**Personne pilote :** {row['personne pilote']}\n\n"
+
+                        if row.get("budget") and str(row["budget"]).strip():
+                            action_md += f"**Budget :** {row['budget']}\n\n"
+
+                        if row.get("statut") and str(row["statut"]).strip():
+                            action_md += f"**Statut :** {row['statut']}\n\n"
+
+                        st.markdown(action_md)
+
+                        if "score" in df.columns and row.get("score") is not None:
+                            score = row["score"]
+                            if row.get("amelioree", False):
+                                st.info(f"FA consolidée. (confiance précédente: **{score}**)")
                             else:
-                                st.info(f"Confiance: **{score}**")
-                    
+                                explication = row.get("explication", "")
+                                if explication and str(explication).strip():
+                                    st.info(f"Confiance: **{score}** - {explication}")
+                                else:
+                                    st.info(f"Confiance: **{score}**")
+
                     st.markdown("---")
-    
-    # Afficher aussi le dataframe en dessous pour référence
+
     st.markdown("#### ✅ Vue tableau")
-    df_a_afficher = df.drop(columns=['score', 'explication', 'amelioree']).copy()
+    cols_to_drop = [c for c in ['score', 'explication', 'amelioree'] if c in df.columns]
+    df_a_afficher = df.drop(columns=cols_to_drop).copy()
     st.dataframe(df_a_afficher, use_container_width=True, height=600)
 
 
@@ -743,7 +823,7 @@ if uploaded_file is not None:
             
             user_prompt = custom_prompt.replace("{precisions}", precisions).replace("{texte_pdf_a_analyser}", extracted_text)
 
-            with st.spinner("🌀 Étape 1/4 : Définition de la structure et créations des fiches actions..."):
+            with st.spinner("🌀 Étape 1/5 : Définition de la structure et créations des fiches actions..."):
                 gemini_result, elapsed_time, tokens_count = asyncio.run(query_gemini(user_prompt, gemini_model))
                 total_tokens_consumed[0] += tokens_count[0]
                 total_tokens_consumed[1] += tokens_count[1]
@@ -766,7 +846,7 @@ if uploaded_file is not None:
                     reponse_ia = df_to_compact_text(df_actions)
                     user_prompt_verif = prompt_verif_1.replace("{texte_pdf_a_analyser}", extracted_text).replace("{reponse_ia}", reponse_ia or "")
                     
-                    with st.spinner("🌀 Étape 2/4 : Vérification de la qualité des fiches actions..."):
+                    with st.spinner("🌀 Étape 2/5 : Vérification de la qualité des fiches actions..."):
                         verif_result, elapsed_time, tokens_count = asyncio.run(query_gemini(user_prompt_verif, gemini_model))
                         total_tokens_consumed[0] += tokens_count[0]
                         total_tokens_consumed[1] += tokens_count[1]
@@ -797,7 +877,7 @@ if uploaded_file is not None:
                             # ÉTAPE 4 : Amélioration des actions à faible score
                             # ========================================
                             st.markdown("---")
-                            st.markdown("## 🔧 Étape 3/4 : Consolidation des fiches actions")
+                            st.markdown("## 🔧 Étape 3/5 : Consolidation des fiches actions")
                             
                             # Sélectionner les actions avec score < 90
                             df_low_score = df_actions[df_actions["score"] < 90].copy()
@@ -831,7 +911,7 @@ if uploaded_file is not None:
                                     tasks = [query_gemini(prompt, gemini_model) for prompt in batch_prompts]
                                     return await asyncio.gather(*tasks, return_exceptions=True)
                                 
-                                with st.spinner(f"🌀 Étape 3 : Consolidation des fiches actions ({len(batches)} batches en parallèle)..."):
+                                with st.spinner(f"🌀 Étape 3/5 : Consolidation des fiches actions ({len(batches)} batches en parallèle)..."):
                                     batch_results = asyncio.run(run_upgrade_batches())
                                 
                                 # Traiter les résultats de tous les batches
@@ -891,37 +971,166 @@ if uploaded_file is not None:
                                 st.success("✅ Toutes les actions ont un score > 90, pas de consolidation nécessaire")
                             
                             # ========================================
-                            # ÉTAPE 6 : Vérification qualitative finale
+                            # ÉTAPE 4 : Enrichissement des sous-actions
                             # ========================================
                             st.markdown("---")
-                            st.markdown("## ✅ Étape 4 : Vérifications finales")
-                            
-                            # Nettoyage des colonnes : remplacer "/" par ", "
+                            st.markdown("## 🔎 Étape 4/5 : Enrichissement des sous-actions")
+
+                            all_sous_actions = []
+                            sa_parent_map = {}
+                            global_idx = 0
+                            for df_idx, row in df_actions.iterrows():
+                                sous_actions = row.get("sous-actions", [])
+                                if isinstance(sous_actions, (list, tuple)):
+                                    for sa_pos, sa in enumerate(sous_actions):
+                                        sa_str = str(sa).strip()
+                                        if sa_str:
+                                            all_sous_actions.append({
+                                                "global_idx": global_idx,
+                                                "parent_idx": df_idx,
+                                                "parent_titre": row["titre"],
+                                                "sa_titre": sa_str,
+                                                "sa_pos": sa_pos,
+                                            })
+                                            sa_parent_map[(df_idx, sa_pos)] = global_idx
+                                            global_idx += 1
+
+                            if len(all_sous_actions) > 0:
+                                st.info(f"📋 {len(all_sous_actions)} sous-actions à enrichir")
+
+                                SA_BATCH_SIZE = 30
+                                sa_batches = [all_sous_actions[i:i + SA_BATCH_SIZE] for i in range(0, len(all_sous_actions), SA_BATCH_SIZE)]
+
+                                st.info(f"📦 Envoi de {len(sa_batches)} batch(s) à l'IA pour enrichissement des sous-actions")
+
+                                sa_batch_prompts = []
+                                for batch in sa_batches:
+                                    sous_actions_list = ""
+                                    for sa_info in batch:
+                                        sous_actions_list += f"{sa_info['global_idx']} | [Action parente : {sa_info['parent_titre']}] {sa_info['sa_titre']}\n"
+
+                                    batch_prompt = prompt_enrich_sous_actions.replace("{sous_actions_list}", sous_actions_list).replace("{texte_pdf_a_analyser}", extracted_text)
+                                    sa_batch_prompts.append(batch_prompt)
+
+                                async def run_enrich_batches():
+                                    tasks = [query_gemini(prompt, gemini_model) for prompt in sa_batch_prompts]
+                                    return await asyncio.gather(*tasks, return_exceptions=True)
+
+                                with st.spinner(f"🌀 Étape 4/5 : Enrichissement des sous-actions ({len(sa_batches)} batch(s) en parallèle)..."):
+                                    sa_batch_results = asyncio.run(run_enrich_batches())
+
+                                enrichment_data = {}
+                                sa_max_time = 0
+                                sa_total_tokens = [0, 0]
+                                sa_errors = []
+
+                                for batch_idx, result in enumerate(sa_batch_results):
+                                    if isinstance(result, Exception):
+                                        sa_errors.append(f"Batch {batch_idx + 1}: {str(result)}")
+                                        continue
+
+                                    enrich_result, elapsed_time, tokens_count = result
+                                    sa_max_time = max(sa_max_time, elapsed_time)
+                                    sa_total_tokens[0] += tokens_count[0]
+                                    sa_total_tokens[1] += tokens_count[1]
+
+                                    if enrich_result and not enrich_result.startswith("Erreur"):
+                                        try:
+                                            parsed = parse_json_response(enrich_result)
+                                            for idx_str, fields in parsed.items():
+                                                enrichment_data[int(idx_str)] = fields
+                                        except Exception as e:
+                                            sa_errors.append(f"Batch {batch_idx + 1}: Parsing error - {str(e)}")
+                                    else:
+                                        sa_errors.append(f"Batch {batch_idx + 1}: {enrich_result}")
+
+                                total_tokens_consumed[0] += sa_total_tokens[0]
+                                total_tokens_consumed[1] += sa_total_tokens[1]
+                                st.info(f"✨ Enrichissement : {sa_max_time:.1f}s | Entrée : {sa_total_tokens[1]:,} tokens | Sortie : {sa_total_tokens[0]:,} tokens")
+
+                                enriched_count = sum(1 for v in enrichment_data.values() if any(v.get(k) for k in ("description", "personne_pilote", "statut", "date_debut", "date_fin")))
+                                if enriched_count > 0:
+                                    st.success(f"✅ {enriched_count} sous-actions enrichies sur {len(all_sous_actions)}")
+
+                                if sa_errors:
+                                    for error in sa_errors:
+                                        st.error(f"❌ {error}")
+
+                                new_rows = []
+                                for df_idx, row in df_actions.iterrows():
+                                    action_row = row.to_dict()
+                                    action_row["titre de la sous-action"] = ""
+                                    action_row["date de début"] = ""
+                                    action_row["date de fin"] = ""
+                                    action_row.pop("sous-actions", None)
+                                    new_rows.append(action_row)
+
+                                    sous_actions_list_raw = row.get("sous-actions", [])
+                                    if isinstance(sous_actions_list_raw, (list, tuple)):
+                                        for sa_pos, sa in enumerate(sous_actions_list_raw):
+                                            sa_str = str(sa).strip()
+                                            if sa_str:
+                                                gidx = sa_parent_map.get((df_idx, sa_pos))
+                                                sa_enrichment = enrichment_data.get(gidx, {}) if gidx is not None else {}
+
+                                                sa_row = {
+                                                    "axe": row["axe"],
+                                                    "sous-axe": row["sous-axe"],
+                                                    "titre": "",
+                                                    "titre de la sous-action": sa_str,
+                                                    "description": sa_enrichment.get("description", ""),
+                                                    "direction ou service pilote": "",
+                                                    "personne pilote": sa_enrichment.get("personne_pilote", ""),
+                                                    "budget": "",
+                                                    "statut": sa_enrichment.get("statut", ""),
+                                                    "date de début": sa_enrichment.get("date_debut", ""),
+                                                    "date de fin": sa_enrichment.get("date_fin", ""),
+                                                    "score": None,
+                                                    "explication": "",
+                                                    "amelioree": False,
+                                                }
+                                                new_rows.append(sa_row)
+
+                                df_actions = pd.DataFrame(new_rows).reset_index(drop=True)
+                                st.success(f"✅ Dataframe restructuré : {len(df_actions)} lignes (actions + sous-actions)")
+                            else:
+                                df_actions["titre de la sous-action"] = ""
+                                df_actions["date de début"] = ""
+                                df_actions["date de fin"] = ""
+                                if "sous-actions" in df_actions.columns:
+                                    df_actions = df_actions.drop(columns=["sous-actions"])
+                                st.success("✅ Aucune sous-action à enrichir")
+
+                            # ========================================
+                            # ÉTAPE 5 : Vérification qualitative finale
+                            # ========================================
+                            st.markdown("---")
+                            st.markdown("## ✅ Étape 5/5 : Vérifications finales")
+
                             for col in ["direction ou service pilote", "personne pilote"]:
                                 if col in df_actions.columns:
                                     df_actions[col] = df_actions[col].apply(
                                         lambda x: x.replace("/", ", ") if isinstance(x, str) else x
                                     )
-                            
-                            # Nettoyage des doubles espaces
+
                             for col in df_actions.columns:
                                 df_actions[col] = df_actions[col].apply(
                                     lambda x: re.sub(r' +', ' ', x).strip() if isinstance(x, str) else x
                                 )
-                            
+
                             st.success("✅ Nettoyage effectué des colonnes pilotes")
-                            
+
                             reponse_ia_finale = df_to_compact_text(df_actions, show_index=False)
                             user_prompt_quali = prompt_verif_quali.replace("{reponse_ia}", reponse_ia_finale or "")
-                            
-                            with st.spinner("🌀 Étape 4/4 : Analyse qualitative finale..."):
+
+                            with st.spinner("🌀 Étape 5/5 : Analyse qualitative finale..."):
                                 quali_result, elapsed_time, tokens_count = asyncio.run(query_gemini(user_prompt_quali, gemini_model))
                                 total_tokens_consumed[0] += tokens_count[0]
                                 total_tokens_consumed[1] += tokens_count[1]
                                 st.info(f"✨ Vérifications finales : {elapsed_time:.1f}s | Entrée : {tokens_count[1]:,} tokens | Sortie : {tokens_count[0]:,} tokens")
-                            
+
                             # ========================================
-                            # ÉTAPE 7 : Affichage final
+                            # Affichage final
                             # ========================================
                             st.markdown("---")
                             st.markdown("## ✨ Plan final")
