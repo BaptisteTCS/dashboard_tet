@@ -449,7 +449,7 @@ def extract_text_from_csv(csv_file):
         text += "**Contenu complet :**\n\n"
 
         raw = df.to_string(index=False)
-        raw = re.sub(r'\s+', ' ', raw)  # compresse
+        raw = re.sub(r'\s+', ' ', raw)
 
         text += raw
         
@@ -457,6 +457,33 @@ def extract_text_from_csv(csv_file):
 
     except Exception as e:
         return f"Erreur lors de la lecture du CSV : {str(e)}"
+
+def extract_text_from_excel(excel_file):
+    try:
+        sheets = pd.read_excel(excel_file, sheet_name=None, engine='openpyxl')
+
+        parts = []
+        total_rows = 0
+        for sheet_name, df in sheets.items():
+            df = df.fillna('')
+            total_rows += len(df)
+
+            part = f"## Onglet : {sheet_name}\n\n"
+            part += f"**Dimensions :** {len(df)} lignes × {len(df.columns)} colonnes\n\n"
+            part += f"**Colonnes :** {', '.join(str(c) for c in df.columns)}\n\n"
+            part += "**Contenu :**\n\n"
+
+            raw = df.to_string(index=False)
+            raw = re.sub(r'\s+', ' ', raw)
+            part += raw
+
+            parts.append(part)
+
+        header = f"# Fichier Excel — {len(sheets)} onglet(s), {total_rows} lignes au total\n\n"
+        return header + "\n\n---\n\n".join(parts)
+
+    except Exception as e:
+        return f"Erreur lors de la lecture du fichier Excel : {str(e)}"
 
 def df_to_compact_text(df: pd.DataFrame, show_index: bool = True) -> str:
     """Convertit un dataframe en texte compact pour l'envoyer à Gemini.
@@ -754,11 +781,10 @@ async def query_gemini(user_prompt, model='gemini-3-pro-preview'):
 # Toggle pour le type de fichier
 file_type = st.segmented_control(
     "Type de fichier à importer",
-    options=["PDF", "CSV"],
+    options=["PDF", "CSV / Excel"],
     default="PDF"
 )
 
-# Titre dynamique
 if file_type == "PDF":
     uploaded_file = st.file_uploader(
         "Glissez-déposez votre fichier PDF ici",
@@ -768,9 +794,10 @@ if file_type == "PDF":
     )
 else:
     uploaded_file = st.file_uploader(
-        "Glissez-déposez votre fichier CSV ici",
-        type=['csv'],
-        key="csv_uploader"
+        "Glissez-déposez votre fichier CSV ou Excel ici",
+        type=['csv', 'xlsx', 'xls'],
+        help="Fichiers acceptés : .csv, .xlsx, .xls. Les fichiers Excel multi-onglets sont supportés.",
+        key="csv_excel_uploader"
     )
 
 precisions = st.text_area(
@@ -804,8 +831,13 @@ if uploaded_file is not None:
             with st.spinner("📖 Extraction du texte du PDF..."):
                 extracted_text = extract_text_from_pdf(uploaded_file)
         else:
-            with st.spinner("🔍 Lecture du fichier CSV..."):
-                extracted_text = extract_text_from_csv(uploaded_file)
+            file_ext = uploaded_file.name.rsplit('.', 1)[-1].lower() if '.' in uploaded_file.name else ''
+            if file_ext in ('xlsx', 'xls'):
+                with st.spinner("🔍 Lecture du fichier Excel..."):
+                    extracted_text = extract_text_from_excel(uploaded_file)
+            else:
+                with st.spinner("🔍 Lecture du fichier CSV..."):
+                    extracted_text = extract_text_from_csv(uploaded_file)
         
         if extracted_text and not extracted_text.startswith("Erreur"):
             st.success(f"✅ Texte extrait : {len(extracted_text)} caractères")
@@ -1171,8 +1203,9 @@ if uploaded_file is not None:
                 
         
         else:
-            st.error(f"❌ Erreur lors de l'extraction du texte du {file_type}")
+            st.error(f"❌ Erreur lors de l'extraction du texte du fichier")
             st.error(extracted_text)
 else:
-    st.info(f"👆 Veuillez charger un fichier {file_type} pour commencer")
+    label = "PDF" if file_type == "PDF" else "CSV ou Excel"
+    st.info(f"👆 Veuillez charger un fichier {label} pour commencer")
 
