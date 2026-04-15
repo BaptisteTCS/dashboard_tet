@@ -56,7 +56,7 @@ Chaque entrée du tableau est un objet avec exactement ces champs
 Types et formats attendus
 • "axe" est une chaîne
 • "sous-axe" est une chaîne
-• "titre" est une chaîne
+• "titre" est une chaîne courte (300 caractères maximum). Si le titre issu du texte source dépasse 300 caractères, conserver uniquement les 300 premiers caractères significatifs dans "titre" et reporter le reste dans "description"
 • "description" est une chaîne
 • "sous-actions" est une liste de chaînes. Si aucune sous action ne s’impose, mettre une liste vide []
 • "direction ou service pilote" est une chaîne
@@ -68,7 +68,7 @@ Définitions opérationnelles
 • Plan. Ensemble structuré d’orientations et de mesures d’une collectivité
 • Axe. Grande orientation stratégique du plan. Exemple "Vers une mobilité vertueuse et réfléchie"
 • Sous axe. Déclinaison thématique d’un axe. Exemple "Mettre en œuvre les conditions favorables à des déplacements plus sobres"
-• Action. Mesure opérationnelle unique qui peut être mise en œuvre et suivie. Elle a un titre court et une description synthétique
+• Action. Mesure opérationnelle unique qui peut être mise en œuvre et suivie. Elle a un titre court et, uniquement si nécessaire, une description synthétique apportant des informations complémentaires au titre
 • Sous action. Etape ou brique concrète qui détaille la mise en œuvre d’une action. Les sous actions sont listées dans "sous-actions"
 
 Hiérarchie et numérotation
@@ -114,6 +114,7 @@ Règles générales
 5 Majuscules. Mettre une majuscule au premier mot de chaque champ texte. Conserver les majuscules des noms propres et des sigles. Supprimer les espaces superflus au début et à la fin
 6 Respect strict des libellés existants pour axes et sous axes lorsque fournis. En l’absence de libellé explicite, créer un libellé concis et fidèle au contenu
 7 Ordre de tri. Le tableau doit être trié selon la hiérarchie axe puis sous axe puis ordre des actions
+8 "titre" et "description" ne doivent jamais contenir les mêmes informations. La description apporte un complément au titre. Si le titre suffit à décrire l’action et qu’il n’y a rien de pertinent à ajouter, laisser "description" à ""
 
 Exemples de bonne structure de plan
 Exemple de titres hiérarchiques attendus quand le texte les fournit
@@ -271,7 +272,7 @@ On vous fournit :
 Vous NE devez travailler QUE sur les actions explicitement listées ci dessous.
 
 Actions ciblées à traiter
-Ces actions sont données sous forme de titres d’actions :
+Ces actions sont données sous forme de titres d'actions :
 
 -------- DEBUT LISTE --------
 {actions_a_ameliorer}
@@ -314,7 +315,7 @@ L'index est donnée entre les | dans la liste en entrée
 
 
 Types et formats attendus
-• "titre" est une chaîne de la forme "n.X.Y Titre de l’action" qui doit correspondre à l’une des actions listées
+• "titre" est une chaîne de la forme "n.X.Y Titre de l'action" qui doit correspondre à l’une des actions listées. Le titre ne doit pas dépasser 300 caractères. Si le titre issu du texte source dépasse 300 caractères, conserver uniquement les 300 premiers caractères significatifs dans "titre" et reporter le reste dans "description"
 • "description" est une chaîne
 • "sous-actions" est une liste de chaînes. Si aucune sous action ne s’impose, mettre []
 
@@ -322,6 +323,7 @@ Règles d’extraction spécifiques
 1) Si l’information n’est pas explicitement présente dans le texte source, laisser ces champs à [] pour "sous-actions"
 2) **SOYEZ COMPLETEMENT EXHAUSTIF SUR L'EXTRACTION NOTAMMENT DES DESCRIPTIONS ET SOUS-ACTIONS** 
 3) Ne vous répétez pas entre les descriptions et les sous-actions, si certaines phrases s'apparentent à des sous-actions. Mettez les dans les sous-actions et non dans la description.
+4) Le titre et la description ne doivent JAMAIS contenir les mêmes informations. La description ne doit apporter que des informations complémentaires au titre. Si le titre est suffisant, laisser "description" à "".
 
 Nettoyage minimal
 • Corriger les espaces multiples
@@ -402,6 +404,7 @@ Règles strictes
 5 Le titre de l'action parente entre crochets sert uniquement de contexte pour localiser la sous-action dans le document. Ne pas le reproduire dans la description.
 6 Si une sous-action est trop générique ou introuvable dans le texte source, laisser tous les champs à "".
 7 Une personne pilote doit forcément être une personne physique et NE PEUT PAS être une direction ou service
+8 La description de la sous-action ne doit pas répéter le titre de la sous-action. Elle doit apporter des informations complémentaires. Si le titre est suffisant, laisser "description" à "".
 
 Liste des sous-actions à enrichir
 
@@ -579,6 +582,28 @@ def parse_json_response(result_text: str):
         cleaned_text = cleaned_text[:-3]
     cleaned_text = cleaned_text.strip()
     return json.loads(cleaned_text)
+
+
+def split_long_titles(df: pd.DataFrame, max_len: int = 300) -> pd.DataFrame:
+    """Scinde les titres trop longs : conserve max_len chars dans le titre, reporte le reste dans description."""
+    for col in ["titre", "titre de la sous-action"]:
+        if col not in df.columns:
+            continue
+        for idx in df.index:
+            val = df.at[idx, col]
+            if not isinstance(val, str) or len(val) <= max_len:
+                continue
+            cut = val.rfind(" ", 0, max_len)
+            if cut == -1:
+                cut = max_len
+            overflow = val[cut:].strip()
+            df.at[idx, col] = val[:cut].strip()
+            existing_desc = str(df.at[idx, "description"]).strip() if pd.notna(df.at[idx, "description"]) else ""
+            if existing_desc:
+                df.at[idx, "description"] = overflow + " - " + existing_desc
+            else:
+                df.at[idx, "description"] = overflow
+    return df
 
 def remplir_fichier_import(df: pd.DataFrame) -> io.BytesIO:
     """Remplit le fichier import avec les données du dataframe et retourne un BytesIO"""
@@ -1108,7 +1133,7 @@ if uploaded_file is not None:
                                                 sa_row = {
                                                     "axe": row["axe"],
                                                     "sous-axe": row["sous-axe"],
-                                                    "titre": "",
+                                                    "titre": row["titre"],
                                                     "titre de la sous-action": sa_str,
                                                     "description": sa_enrichment.get("description", ""),
                                                     "direction ou service pilote": "",
@@ -1138,6 +1163,8 @@ if uploaded_file is not None:
                             # ========================================
                             st.markdown("---")
                             st.markdown("## ✅ Étape 5/5 : Vérifications finales")
+
+                            df_actions = split_long_titles(df_actions)
 
                             for col in ["direction ou service pilote", "personne pilote"]:
                                 if col in df_actions.columns:
