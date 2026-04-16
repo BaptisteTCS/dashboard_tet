@@ -874,7 +874,7 @@ precisions = st.text_area(
 gemini_model = "gemini-2.5-pro"
 
 avec_sous_actions = st.toggle("Avec sous-actions", value=True, help="Si désactivé, les sous-actions ne seront pas extraites ni enrichies.")
-avec_verifications = st.toggle("Vérifications", value=True, help="Désactiver pour les fichiers simples (CSV, petits PDF). Ignore la vérification et la consolidation des fiches actions.")
+avec_verifications = st.toggle("Vérifications", value=(file_type == "PDF"), help="Désactiver pour les fichiers simples (CSV, petits PDF). Ignore la vérification et la consolidation des fiches actions.")
 
 # Mode test (tronque le texte à 10 000 caractères)
 # mode_test = st.toggle("🧪 Mode test (30 000 caractères max)", value=False)
