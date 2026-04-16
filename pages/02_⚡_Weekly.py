@@ -410,7 +410,8 @@ with tab2:
         'type_collectivite': 'first',
         'population_totale': 'first',
         'import': 'first' if 'import' in df_s1_nouvelles.columns else lambda x: 'N/A',
-        'nom_plan': lambda x: ', '.join(x.unique())  # Liste des plans
+        # nom_plan peut être numérique ou autre selon le back — tout passer en str pour join
+        'nom_plan': lambda x: ', '.join(str(v) for v in pd.unique(x.dropna())),
     }).reset_index()
 
     collectivites_s1.columns = [
