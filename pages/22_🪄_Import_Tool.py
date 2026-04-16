@@ -96,6 +96,7 @@ Tâches obligatoires et ordre d’exécution
    • Associer chaque action à son sous axe et à son axe
 5 Complétude des champs
    • Remplir "direction ou service pilote", "personne pilote", "budget" et "statut" uniquement si l’information est explicite et non ambiguë
+   • Lorsque le texte présente pour une action des dates ou un calendrier (sans libellé de statut explicite pour cette action), vous pouvez déduire « statut » uniquement parmi « À venir » et « En cours » en vous appuyant sur ces dates et la date du jour ({date_du_jour}). Si seule une année est mentionnée sans mois précis (par exemple "2026"), considérer le statut comme « En cours » si cette année correspond à l'année actuelle, et « À venir » si elle est dans le futur
 6 Validation du format
    • Produire un JSON valide
    • Vérifier que chaque objet contient exactement les champs définis
@@ -172,7 +173,8 @@ Rappel de robustesse
 
 Jusqu’à présent, le prompt décrivait les règles générales d’extraction. Si le champ suivant n’est pas vide, vous devez impérativement tenir compte des précisions spécifiques ci-dessous.  
 Elles peuvent modifier ou affiner l’interprétation de la structure du plan. Elles prévalent sur les règles générales lorsqu’il existe une contradiction ou une ambiguïté.
---- Précisions spécifiques (à appliquer strictement si présentes) ---
+
+--- Précisions spécifiques (à appliquer strictement si présentes) qui prennent le dessus sur les règles générales ---
 {precisions}
 --- Fin des précisions spécifiques ---
 
@@ -195,7 +197,7 @@ Les actions sont repérables car elles commencent par un identifiant numérique 
 Tout ce qui suit une action appartient à cette action jusqu’au prochain identifiant du même type ou la fin du texte.
 
 Objectif
-1 Tu dois identifier chaque action dans le texte fourn
+1 Tu dois identifier chaque action dans le texte fourni
 2 Pour chaque action, parcourir le document source via le file search.
 3 Retrouver le passage correspondant à cette action dans le plan d’action.
 4 Vérifier la fidélité de l’extraction pour cette action.
@@ -584,6 +586,38 @@ def parse_json_response(result_text: str):
     return json.loads(cleaned_text)
 
 
+def normalize_sous_actions_value(val):
+    """Retourne une liste de chaînes non vides pour la colonne « sous-actions ».
+
+    Si le modèle renvoie une chaîne au lieu d'une liste, pandas/itération la parcourt
+    caractère par caractère et déclenche à tort l'enrichissement des sous-actions.
+    """
+    if val is None:
+        return []
+    if isinstance(val, float) and pd.isna(val):
+        return []
+    if hasattr(val, "tolist") and not isinstance(val, (str, bytes, list, tuple, dict)):
+        try:
+            val = val.tolist()
+        except Exception:
+            return []
+    if isinstance(val, (list, tuple)):
+        return [str(x).strip() for x in val if str(x).strip()]
+    if isinstance(val, str):
+        s = val.strip()
+        if not s or s.lower() in ("[]", "null", "none", "nan"):
+            return []
+        if s.startswith("["):
+            try:
+                parsed = json.loads(s)
+                if isinstance(parsed, list):
+                    return [str(x).strip() for x in parsed if str(x).strip()]
+            except json.JSONDecodeError:
+                pass
+        return []
+    return []
+
+
 def split_long_titles(df: pd.DataFrame, max_len: int = 300) -> pd.DataFrame:
     """Scinde les titres trop longs : conserve max_len chars dans le titre, reporte le reste dans description."""
     for col in ["titre", "titre de la sous-action"]:
@@ -839,6 +873,9 @@ precisions = st.text_area(
 # )
 gemini_model = "gemini-2.5-pro"
 
+avec_sous_actions = st.toggle("Avec sous-actions", value=True, help="Si désactivé, les sous-actions ne seront pas extraites ni enrichies.")
+avec_verifications = st.toggle("Vérifications", value=True, help="Désactiver pour les fichiers simples (CSV, petits PDF). Ignore la vérification et la consolidation des fiches actions.")
+
 # Mode test (tronque le texte à 10 000 caractères)
 # mode_test = st.toggle("🧪 Mode test (30 000 caractères max)", value=False)
 mode_test = False
@@ -878,7 +915,7 @@ if uploaded_file is not None:
             st.markdown("---")
             st.markdown("## 🪄 Étape 1 : Définition de la structure et créations des fiches actions")
             
-            user_prompt = custom_prompt.replace("{precisions}", precisions).replace("{texte_pdf_a_analyser}", extracted_text)
+            user_prompt = custom_prompt.replace("{precisions}", precisions).replace("{texte_pdf_a_analyser}", extracted_text).replace("{date_du_jour}", datetime.now().strftime("%d/%m/%Y"))
 
             with st.spinner("🌀 Étape 1/5 : Définition de la structure et créations des fiches actions..."):
                 gemini_result, elapsed_time, tokens_count = asyncio.run(query_gemini(user_prompt, gemini_model))
@@ -891,141 +928,146 @@ if uploaded_file is not None:
                     # Parser le JSON et créer le dataframe
                     data = parse_json_response(gemini_result)
                     df_actions = pd.DataFrame(data)
+                    if not avec_sous_actions:
+                        df_actions["sous-actions"] = [[] for _ in range(len(df_actions))]
+                    elif "sous-actions" not in df_actions.columns:
+                        df_actions["sous-actions"] = [[] for _ in range(len(df_actions))]
+                    else:
+                        df_actions["sous-actions"] = df_actions["sous-actions"].apply(
+                            normalize_sous_actions_value
+                        )
                     st.success(f"✅ {len(df_actions)} actions extraites")
                     st.dataframe(df_actions, use_container_width=True, height=400)
                     
-                    # ========================================
-                    # ÉTAPE 2 : Vérification des scores
-                    # ========================================
-                    st.markdown("---")
-                    st.markdown("## 🔍 Étape 2 : Vérification de la qualité des fiches actions")
-                    
-                    reponse_ia = df_to_compact_text(df_actions)
-                    user_prompt_verif = prompt_verif_1.replace("{texte_pdf_a_analyser}", extracted_text).replace("{reponse_ia}", reponse_ia or "")
-                    
-                    with st.spinner("🌀 Étape 2/5 : Vérification de la qualité des fiches actions..."):
-                        verif_result, elapsed_time, tokens_count = asyncio.run(query_gemini(user_prompt_verif, gemini_model))
-                        total_tokens_consumed[0] += tokens_count[0]
-                        total_tokens_consumed[1] += tokens_count[1]
-                        st.info(f"✨ Vérification : {elapsed_time:.1f}s | Entrée : {tokens_count[1]:,} tokens | Sortie : {tokens_count[0]:,} tokens")
-                    
+                    if avec_verifications:
+                        # ========================================
+                        # ÉTAPE 2 : Vérification des scores
+                        # ========================================
+                        st.markdown("---")
+                        st.markdown("## 🔍 Étape 2 : Vérification de la qualité des fiches actions")
+                        
+                        reponse_ia = df_to_compact_text(df_actions)
+                        user_prompt_verif = prompt_verif_1.replace("{texte_pdf_a_analyser}", extracted_text).replace("{reponse_ia}", reponse_ia or "")
+                        
+                        with st.spinner("🌀 Étape 2/5 : Vérification de la qualité des fiches actions..."):
+                            verif_result, elapsed_time, tokens_count = asyncio.run(query_gemini(user_prompt_verif, gemini_model))
+                            total_tokens_consumed[0] += tokens_count[0]
+                            total_tokens_consumed[1] += tokens_count[1]
+                            st.info(f"✨ Vérification : {elapsed_time:.1f}s | Entrée : {tokens_count[1]:,} tokens | Sortie : {tokens_count[0]:,} tokens")
+                    else:
+                        st.markdown("---")
+                        st.info("⏭️ Vérifications désactivées — étapes 2 et 3 ignorées.")
+                        verif_result = "skip"
+
                     if verif_result and not verif_result.startswith("Erreur"):
                         try:
-                            # ========================================
-                            # ÉTAPE 3 : Ajout des scores au dataframe
-                            # ========================================
-                            scores_data = parse_json_response(verif_result)
-                            
-                            # Ajouter les colonnes score, explication et amelioree
-                            df_actions["score"] = None
-                            df_actions["explication"] = ""
-                            df_actions["amelioree"] = False
-                            
-                            for idx_str, score_info in scores_data.items():
-                                idx = int(idx_str)
-                                if idx < len(df_actions):
-                                    df_actions.at[idx, "score"] = score_info.get("score")
-                                    df_actions.at[idx, "explication"] = score_info.get("explication", "")
-                            
-                            st.success(f"✅ Scores ajoutés pour {len(scores_data)} actions")
-                            st.dataframe(df_actions[["titre", "score", "explication"]], use_container_width=True, height=300)
-                            
-                            # ========================================
-                            # ÉTAPE 4 : Amélioration des actions à faible score
-                            # ========================================
-                            st.markdown("---")
-                            st.markdown("## 🔧 Étape 3/5 : Consolidation des fiches actions")
-                            
-                            # Sélectionner les actions avec score < 90
-                            df_low_score = df_actions[df_actions["score"] < 90].copy()
-                            
-                            if len(df_low_score) > 0:
-                                st.warning(f"⚠️ {len(df_low_score)} actions avec un score < 90 à améliorer")
+                            if avec_verifications:
+                                # ========================================
+                                # ÉTAPE 3 : Ajout des scores au dataframe
+                                # ========================================
+                                scores_data = parse_json_response(verif_result)
                                 
-                                # Découper en batches de max 5 actions
-                                BATCH_SIZE = 5
-                                low_score_indices = list(df_low_score.index)
-                                batches = [low_score_indices[i:i + BATCH_SIZE] for i in range(0, len(low_score_indices), BATCH_SIZE)]
+                                df_actions["score"] = None
+                                df_actions["explication"] = ""
+                                df_actions["amelioree"] = False
                                 
-                                if len(batches) > 1:
-                                    st.info(f"📦 Envoi de {len(batches)} batchs en parallèle à l'IA pour consolidation")
-                                else:
-                                    st.info(f"📦 Envoi de {len(batches)} batch(s) en parallèle à l'IA pour consolidation")
+                                for idx_str, score_info in scores_data.items():
+                                    idx = int(idx_str)
+                                    if idx < len(df_actions):
+                                        df_actions.at[idx, "score"] = score_info.get("score")
+                                        df_actions.at[idx, "explication"] = score_info.get("explication", "")
                                 
-                                # Créer les prompts pour chaque batch
-                                batch_prompts = []
-                                for batch_indices in batches:
-                                    actions_a_ameliorer = ""
-                                    for idx in batch_indices:
-                                        row = df_actions.loc[idx]
-                                        actions_a_ameliorer += f"|{idx}| {row['titre']}\n"
+                                st.success(f"✅ Scores ajoutés pour {len(scores_data)} actions")
+                                st.dataframe(df_actions[["titre", "score", "explication"]], use_container_width=True, height=300)
+                                
+                                # ========================================
+                                # ÉTAPE 4 : Amélioration des actions à faible score
+                                # ========================================
+                                st.markdown("---")
+                                st.markdown("## 🔧 Étape 3/5 : Consolidation des fiches actions")
+                                
+                                df_low_score = df_actions[df_actions["score"] < 90].copy()
+                                
+                                if len(df_low_score) > 0:
+                                    st.warning(f"⚠️ {len(df_low_score)} actions avec un score < 90 à améliorer")
                                     
-                                    batch_prompt = prompt_upgrade_1.replace("{texte_pdf_a_analyser}", extracted_text).replace("{actions_a_ameliorer}", actions_a_ameliorer)
-                                    batch_prompts.append(batch_prompt)
-                                
-                                # Fonction async pour exécuter tous les batches en parallèle
-                                async def run_upgrade_batches():
-                                    tasks = [query_gemini(prompt, gemini_model) for prompt in batch_prompts]
-                                    return await asyncio.gather(*tasks, return_exceptions=True)
-                                
-                                with st.spinner(f"🌀 Étape 3/5 : Consolidation des fiches actions ({len(batches)} batches en parallèle)..."):
-                                    batch_results = asyncio.run(run_upgrade_batches())
-                                
-                                # Traiter les résultats de tous les batches
-                                total_upgraded = 0
-                                max_time = 0  # Renommer en max_time
-                                total_tokens = [0,0]
-                                all_errors = []
-                                
-                                for batch_idx, result in enumerate(batch_results):
-                                    if isinstance(result, Exception):
-                                        all_errors.append(f"Batch {batch_idx + 1}: {str(result)}")
-                                        continue
+                                    BATCH_SIZE = 5
+                                    low_score_indices = list(df_low_score.index)
+                                    batches = [low_score_indices[i:i + BATCH_SIZE] for i in range(0, len(low_score_indices), BATCH_SIZE)]
                                     
-                                    upgrade_result, elapsed_time, tokens_count = result
-                                    max_time = max(max_time, elapsed_time)  # Prendre le max
-                                    total_tokens[0] += tokens_count[0]
-                                    total_tokens[1] += tokens_count[1]
-                                    
-                                    if upgrade_result and not upgrade_result.startswith("Erreur"):
-                                        try:
-                                            # ========================================
-                                            # ÉTAPE 5 : Mise à jour du dataframe
-                                            # ========================================
-                                            upgrade_data = parse_json_response(upgrade_result)
-                                            
-                                            # Mettre à jour les champs titre, description, sous-actions
-                                            # Format: {"12": {"titre": "...", "description": "...", "sous-actions": [...]}}
-                                            for idx_str, item in upgrade_data.items():
-                                                idx = int(idx_str)
-                                                if idx < len(df_actions):
-                                                    if "titre" in item:
-                                                        df_actions.at[idx, "titre"] = item["titre"]
-                                                    if "description" in item:
-                                                        df_actions.at[idx, "description"] = item["description"]
-                                                    if "sous-actions" in item:
-                                                        df_actions.at[idx, "sous-actions"] = item["sous-actions"]
-                                                    # Marquer l'action comme améliorée
-                                                    df_actions.at[idx, "amelioree"] = True
-                                                    total_upgraded += 1
-                                        except Exception as e:
-                                            all_errors.append(f"Batch {batch_idx + 1}: Parsing error - {str(e)}")
+                                    if len(batches) > 1:
+                                        st.info(f"📦 Envoi de {len(batches)} batchs en parallèle à l'IA pour consolidation")
                                     else:
-                                        all_errors.append(f"Batch {batch_idx + 1}: {upgrade_result}")
-                                
-                                # Afficher le résumé
-                                total_tokens_consumed[0] += total_tokens[0]
-                                total_tokens_consumed[1] += total_tokens[1]
-                                st.info(f"✨ Consolidation : {max_time:.1f}s total | Entrée : {total_tokens[1]:,} tokens | Sortie : {total_tokens[0]:,} tokens")
-                                
-                                if total_upgraded > 0:
-                                    st.success(f"✅ {total_upgraded} actions consolidées")
-                                
-                                if all_errors:
-                                    for error in all_errors:
-                                        st.error(f"❌ {error}")
+                                        st.info(f"📦 Envoi de {len(batches)} batch(s) en parallèle à l'IA pour consolidation")
+                                    
+                                    batch_prompts = []
+                                    for batch_indices in batches:
+                                        actions_a_ameliorer = ""
+                                        for idx in batch_indices:
+                                            row = df_actions.loc[idx]
+                                            actions_a_ameliorer += f"|{idx}| {row['titre']}\n"
+                                        
+                                        batch_prompt = prompt_upgrade_1.replace("{texte_pdf_a_analyser}", extracted_text).replace("{actions_a_ameliorer}", actions_a_ameliorer)
+                                        batch_prompts.append(batch_prompt)
+                                    
+                                    async def run_upgrade_batches():
+                                        tasks = [query_gemini(prompt, gemini_model) for prompt in batch_prompts]
+                                        return await asyncio.gather(*tasks, return_exceptions=True)
+                                    
+                                    with st.spinner(f"🌀 Étape 3/5 : Consolidation des fiches actions ({len(batches)} batches en parallèle)..."):
+                                        batch_results = asyncio.run(run_upgrade_batches())
+                                    
+                                    total_upgraded = 0
+                                    max_time = 0
+                                    total_tokens = [0,0]
+                                    all_errors = []
+                                    
+                                    for batch_idx, result in enumerate(batch_results):
+                                        if isinstance(result, Exception):
+                                            all_errors.append(f"Batch {batch_idx + 1}: {str(result)}")
+                                            continue
+                                        
+                                        upgrade_result, elapsed_time, tokens_count = result
+                                        max_time = max(max_time, elapsed_time)
+                                        total_tokens[0] += tokens_count[0]
+                                        total_tokens[1] += tokens_count[1]
+                                        
+                                        if upgrade_result and not upgrade_result.startswith("Erreur"):
+                                            try:
+                                                upgrade_data = parse_json_response(upgrade_result)
+                                                
+                                                for idx_str, item in upgrade_data.items():
+                                                    idx = int(idx_str)
+                                                    if idx < len(df_actions):
+                                                        if "titre" in item:
+                                                            df_actions.at[idx, "titre"] = item["titre"]
+                                                        if "description" in item:
+                                                            df_actions.at[idx, "description"] = item["description"]
+                                                        if "sous-actions" in item and avec_sous_actions:
+                                                            df_actions.at[idx, "sous-actions"] = normalize_sous_actions_value(item["sous-actions"])
+                                                        df_actions.at[idx, "amelioree"] = True
+                                                        total_upgraded += 1
+                                            except Exception as e:
+                                                all_errors.append(f"Batch {batch_idx + 1}: Parsing error - {str(e)}")
+                                        else:
+                                            all_errors.append(f"Batch {batch_idx + 1}: {upgrade_result}")
+                                    
+                                    total_tokens_consumed[0] += total_tokens[0]
+                                    total_tokens_consumed[1] += total_tokens[1]
+                                    st.info(f"✨ Consolidation : {max_time:.1f}s total | Entrée : {total_tokens[1]:,} tokens | Sortie : {total_tokens[0]:,} tokens")
+                                    
+                                    if total_upgraded > 0:
+                                        st.success(f"✅ {total_upgraded} actions consolidées")
+                                    
+                                    if all_errors:
+                                        for error in all_errors:
+                                            st.error(f"❌ {error}")
+                                else:
+                                    st.success("✅ Toutes les actions ont un score > 90, pas de consolidation nécessaire")
                             else:
-                                st.success("✅ Toutes les actions ont un score > 90, pas de consolidation nécessaire")
+                                df_actions["score"] = None
+                                df_actions["explication"] = ""
+                                df_actions["amelioree"] = False
                             
                             # ========================================
                             # ÉTAPE 4 : Enrichissement des sous-actions
@@ -1033,24 +1075,30 @@ if uploaded_file is not None:
                             st.markdown("---")
                             st.markdown("## 🔎 Étape 4/5 : Enrichissement des sous-actions")
 
+                            if not avec_sous_actions:
+                                df_actions["sous-actions"] = [[] for _ in range(len(df_actions))]
+                                st.info("⏭️ Sous-actions désactivées par l'utilisateur, étape ignorée.")
+
                             all_sous_actions = []
                             sa_parent_map = {}
                             global_idx = 0
                             for df_idx, row in df_actions.iterrows():
-                                sous_actions = row.get("sous-actions", [])
-                                if isinstance(sous_actions, (list, tuple)):
-                                    for sa_pos, sa in enumerate(sous_actions):
-                                        sa_str = str(sa).strip()
-                                        if sa_str:
-                                            all_sous_actions.append({
-                                                "global_idx": global_idx,
-                                                "parent_idx": df_idx,
-                                                "parent_titre": row["titre"],
-                                                "sa_titre": sa_str,
-                                                "sa_pos": sa_pos,
-                                            })
-                                            sa_parent_map[(df_idx, sa_pos)] = global_idx
-                                            global_idx += 1
+                                raw_val = row.get("sous-actions", None)
+                                sous_actions = normalize_sous_actions_value(raw_val)
+                                df_actions.at[df_idx, "sous-actions"] = sous_actions
+                                for sa_pos, sa_str in enumerate(sous_actions):
+                                    if sa_str:
+                                        all_sous_actions.append({
+                                            "global_idx": global_idx,
+                                            "parent_idx": df_idx,
+                                            "parent_titre": row["titre"],
+                                            "sa_titre": sa_str,
+                                            "sa_pos": sa_pos,
+                                        })
+                                        sa_parent_map[(df_idx, sa_pos)] = global_idx
+                                        global_idx += 1
+
+                            st.info(f"🔢 Sous-actions détectées : {len(all_sous_actions)}")
 
                             if len(all_sous_actions) > 0:
                                 st.info(f"📋 {len(all_sous_actions)} sous-actions à enrichir")
