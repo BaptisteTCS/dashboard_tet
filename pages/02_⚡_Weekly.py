@@ -18,10 +18,6 @@ from utils.db import (
 )
 
 # Mise en cache des données avec TTL de 1 jour
-@st.cache_data(ttl="1d")
-def get_fa_last_week():
-    """Charge les fiches actions de la dernière semaine."""
-    return read_table('fa_last_week')
 
 @st.cache_data(ttl="1d")
 def get_df_pap_notes():
@@ -39,8 +35,6 @@ def get_df_collectivite():
     return load_df_collectivite()
 
 # Solution compatible avec pandas.read_sql_query et SQL natif PostgreSQL (pas de :param dans la requête, on place directement la valeur formatée)
-fa = get_fa_last_week()
-
 df_notes = get_df_pap_notes()
 
 st.set_page_config(layout="wide")
@@ -548,7 +542,4 @@ with tab3:
                         st.markdown("---")
                         
                     rank += 1
-
-with tab4:
-    st.dataframe(fa, hide_index=True)
     
