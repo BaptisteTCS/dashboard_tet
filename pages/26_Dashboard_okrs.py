@@ -26,17 +26,18 @@ def load_data():
     df_pap_date_passage = read_table('pap_date_passage')
     df_note_plan = read_table('note_plan_historique')
     df_fa_sharing = read_table('fa_sharing')
-    df_activation_user = read_table('activation_user')
-    df_activation_collectivite = read_table('activation_collectivite')
+    df_user_actifs_ct_mois = read_table('user_actifs_ct_mois')
+    df_ct_actives = read_table('ct_actives')
     df_activite_semaine = read_table('activite_semaine')
     df_nb_labellisation = read_table('evolution_labellisation')
     df_note_fiche= read_table('note_fiche_historique', where_sql="note_fa>=5")
     df_user_actif_12_mois=read_table('user_actif_12_mois')
-    return df_nb_fap_13, df_nb_fap_52, df_nb_fap_pilote_13, df_nb_fap_pilote_52, df_pap_13, df_pap_52, df_pap_date_passage, df_note_plan, df_fa_sharing, df_activation_user, df_activation_collectivite, df_activite_semaine, df_nb_labellisation, df_note_fiche, df_user_actif_12_mois
+    return df_nb_fap_13, df_nb_fap_52, df_nb_fap_pilote_13, df_nb_fap_pilote_52, df_pap_13, df_pap_52, df_pap_date_passage, df_note_plan, df_fa_sharing, df_user_actifs_ct_mois, df_ct_actives, df_activite_semaine, df_nb_labellisation, df_note_fiche, df_user_actif_12_mois
 
 
-df_nb_fap_13, df_nb_fap_52, df_nb_fap_pilote_13, df_nb_fap_pilote_52, df_pap_13, df_pap_52, df_pap_date_passage, df_note_plan, df_fa_sharing, df_activation_user, df_activation_collectivite, df_activite_semaine, df_nb_labellisation, df_note_fiche, df_user_actif_12_mois = load_data()
+df_nb_fap_13, df_nb_fap_52, df_nb_fap_pilote_13, df_nb_fap_pilote_52, df_pap_13, df_pap_52, df_pap_date_passage, df_note_plan, df_fa_sharing, df_user_actifs_ct_mois, df_ct_actives, df_activite_semaine, df_nb_labellisation, df_note_fiche, df_user_actif_12_mois = load_data()
 
+df_user_actifs_ct_mois = df_user_actifs_ct_mois[df_user_actifs_ct_mois.email.isin(df_activite_semaine.email.to_list())].copy()
 # ==========================
 # Configuration Plotly
 # ==========================
@@ -1110,12 +1111,39 @@ with tabs[5]:
     - qui n'est jamais défini comme conseiller ou partenaire
     - qui n'est pas un utilisateur interne (nous)
     - dont l'email ne contient pas 'ademe'
+    - considéré comme activé s'il apparaît au moins une fois sur les 24 derniers mois (fenêtre glissante mensuelle)
     """)
 
-    # Préparation des données
-    df_evolution_statut = df_activation_user.copy()
-    df_evolution_statut = df_evolution_statut.sort_values('mois')
-    df_evolution_statut['mois_label'] = df_evolution_statut['mois'].dt.strftime('%Y-%m')
+    # Préparation des données à partir de user_actifs_ct_mois :
+    # pour chaque mois, on compte les emails uniques vus sur les 24 derniers mois.
+    df_users_window = df_user_actifs_ct_mois.copy()
+    df_users_window["mois"] = pd.to_datetime(df_users_window["mois"], errors="coerce")
+    if getattr(df_users_window["mois"].dt, "tz", None) is not None:
+        df_users_window["mois"] = df_users_window["mois"].dt.tz_localize(None)
+    df_users_window = df_users_window.dropna(subset=["mois", "email"]).copy()
+    df_users_window["mois"] = df_users_window["mois"].dt.to_period("M").dt.to_timestamp()
+    df_users_window = df_users_window[["mois", "email"]].drop_duplicates()
+
+    if not df_users_window.empty:
+        all_months = pd.date_range(
+            start=df_users_window["mois"].min(),
+            end=df_users_window["mois"].max(),
+            freq="MS"
+        )
+        rolling_rows = []
+        for month in all_months:
+            window_start = month - pd.DateOffset(months=23)
+            nb_users = df_users_window.loc[
+                (df_users_window["mois"] >= window_start) & (df_users_window["mois"] <= month),
+                "email"
+            ].nunique()
+            rolling_rows.append({"mois": month, "nb_users": int(nb_users)})
+        df_evolution_statut = pd.DataFrame(rolling_rows)
+    else:
+        df_evolution_statut = pd.DataFrame(columns=["mois", "nb_users"])
+
+    df_evolution_statut = df_evolution_statut.sort_values("mois")
+    df_evolution_statut["mois_label"] = df_evolution_statut["mois"].dt.strftime("%Y-%m")
 
     afficher_metriques_temporelles(df_evolution_statut, 'nb_users', label_prefix="Actifs - ")
 
@@ -1145,10 +1173,43 @@ with tabs[5]:
     - dont l'email ne contient pas 'ademe'
     """)
 
-    # Préparation des données
-    df_evolution_statut = df_activation_collectivite.copy()
-    df_evolution_statut = df_evolution_statut.sort_values('mois')
-    df_evolution_statut['mois_label'] = df_evolution_statut['mois'].dt.strftime('%Y-%m')
+    # Préparation des données à partir de ct_actives :
+    # comptage mensuel des collectivités activées, puis cumul pour conserver l'historique total.
+    df_evolution_statut = df_ct_actives.copy()
+    df_evolution_statut["date_activation"] = pd.to_datetime(
+        df_evolution_statut["date_activation"],
+        errors="coerce"
+    )
+    # La colonne peut être naive (datetime64[ns]) ou tz-aware selon la source.
+    # On retire le fuseau uniquement s'il existe pour éviter les erreurs sur séries naive.
+    if getattr(df_evolution_statut["date_activation"].dt, "tz", None) is not None:
+        df_evolution_statut["date_activation"] = df_evolution_statut["date_activation"].dt.tz_localize(None)
+    df_evolution_statut = df_evolution_statut.dropna(subset=["date_activation"]).copy()
+    df_evolution_statut["mois"] = df_evolution_statut["date_activation"].dt.to_period("M").dt.to_timestamp()
+    df_evolution_statut = (
+        df_evolution_statut.groupby("mois")["collectivite_id"]
+        .nunique()
+        .reset_index(name="nb_collectivite_mensuel")
+    )
+
+    if not df_evolution_statut.empty:
+        all_months = pd.date_range(
+            start=df_evolution_statut["mois"].min(),
+            end=df_evolution_statut["mois"].max(),
+            freq="MS"
+        )
+        df_evolution_statut = (
+            pd.DataFrame({"mois": all_months})
+            .merge(df_evolution_statut, on="mois", how="left")
+            .fillna({"nb_collectivite_mensuel": 0})
+        )
+        df_evolution_statut["nb_collectivite_mensuel"] = df_evolution_statut["nb_collectivite_mensuel"].astype(int)
+        df_evolution_statut["nb_collectivite"] = df_evolution_statut["nb_collectivite_mensuel"].cumsum()
+    else:
+        df_evolution_statut["nb_collectivite"] = pd.Series(dtype="int")
+
+    df_evolution_statut = df_evolution_statut.sort_values("mois")
+    df_evolution_statut["mois_label"] = df_evolution_statut["mois"].dt.strftime("%Y-%m")
 
     # Métriques (3 colonnes pour cette section)
     afficher_metriques_temporelles(df_evolution_statut, 'nb_collectivite', label_prefix="Actifs - ")

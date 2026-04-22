@@ -1,12 +1,10 @@
 import streamlit as st
 from openai import OpenAI
 from utils.db_text import tables_text, relations_text
-from utils.db import get_engine_prod, get_engine
+from utils.db import get_engine_prod
 import pandas as pd
 from sqlalchemy import text
 import re
-import json
-from datetime import datetime
 
 st.set_page_config(layout="wide", page_title="SQL AI Assistant", page_icon="✨")
 
@@ -42,32 +40,6 @@ def build_conversation_history(messages, max_exchanges=10):
             history_text += f"Assistant (SQL généré) : {msg['sql_query']}\n"
     
     return history_text
-
-
-# === FONCTIONS DE LOGGING ===
-@st.cache_resource(show_spinner=False)
-
-def log_ai_answer(question: str, sql: str, reponse: dict):
-    """Enregistre une réponse de l'IA dans la base de données"""
-    try:
-        engine = get_engine()
-        with engine.connect() as conn:
-            conn.execute(
-                text("""
-                    INSERT INTO ai_answers (question, sql, reponse, created_at)
-                    VALUES (:question, :sql, :reponse, :created_at)
-                """),
-                {
-                    "question": question,
-                    "sql": sql,
-                    "reponse": json.dumps(reponse, ensure_ascii=False, default=str),
-                    "created_at": datetime.now()
-                }
-            )
-            conn.commit()
-    except Exception as e:
-        # On ne veut pas bloquer l'utilisateur si le logging échoue
-        st.warning(f"⚠️ Impossible d'enregistrer la requête : {e}")
 
 
 # Initialisation de l'historique de session
@@ -173,7 +145,7 @@ if user_request:
                 - Un indicateur est "personnalisé" lorsque que indicateur_definition.collectivite_id est non null
                 - Un indicateur est "open data" lorsque indicateur_valeur.metadonnee_id est non null et indicateur_valeur.resultat est non null
                 - Le budget d'investissement pour une fiche action est dans fiche_action_budget avec type='investissement'
-                - Dans notre langage courant, on appelle souven "mesure" ou "mesure du référentiel" ce qui est une action dans notre base de données.
+                - Dans notre langage courant, on appelle souvent "mesure" ou "mesure du référentiel" ce qui est une action dans notre base de données.
                 - Une fiche action liée à une fiche action se trouve dans la table fiche_action_lien et une fiche action lié à une mesure se trouve dans la table fiche_action_action
                 - Le droit des utilisateurs se trouve dans la table private_utilisateur_droit, dans la colonne niveau_acces.
                 - On appelle souvent FA ou action ce qui est en fait une fiche_action dans notre base de données.
@@ -227,16 +199,6 @@ if user_request:
                     error_msg = "❌ Requête refusée : commandes de modification non autorisées (INSERT, UPDATE, DELETE, etc.)"
                     st.error(error_msg)
                     assistant_message["error"] = error_msg
-                    
-                    # Logger la réponse interdite
-                    log_ai_answer(
-                        question=user_request,
-                        sql=sql_query,
-                        reponse={
-                            "status": "forbidden",
-                            "error": error_msg
-                        }
-                    )
                 else:
                     st.markdown("**✨ Résultats**")
                     try:
@@ -248,34 +210,11 @@ if user_request:
                             st.info("Aucun résultat trouvé")
                             assistant_message["row_count"] = 0
                             assistant_message["dataframe"] = df
-                            
-                            # Logger la réponse vide
-                            log_ai_answer(
-                                question=user_request,
-                                sql=sql_query,
-                                reponse={
-                                    "status": "success",
-                                    "row_count": 0,
-                                    "columns": list(df.columns) if not df.empty else []
-                                }
-                            )
                         else:
                             st.caption(f"{len(df)} ligne(s)")
                             st.dataframe(df, width='stretch')
                             assistant_message["row_count"] = len(df)
                             assistant_message["dataframe"] = df
-                            
-                            # Logger la réponse avec succès
-                            log_ai_answer(
-                                question=user_request,
-                                sql=sql_query,
-                                reponse={
-                                    "status": "success",
-                                    "row_count": len(df),
-                                    "columns": list(df.columns),
-                                    "sample_data": df.head(3).to_dict('records') if len(df) <= 100 else None
-                                }
-                            )
                             
                             # Option de téléchargement
                             csv = df.to_csv(index=False).encode('utf-8')
@@ -290,16 +229,6 @@ if user_request:
                         error_msg = f"❌ Erreur d'exécution : {str(e)}"
                         st.error(error_msg)
                         assistant_message["error"] = error_msg
-                        
-                        # Logger l'erreur d'exécution
-                        log_ai_answer(
-                            question=user_request,
-                            sql=sql_query,
-                            reponse={
-                                "status": "error",
-                                "error": str(e)
-                            }
-                        )
                 
                 # Ajouter la réponse à l'historique
                 st.session_state.messages.append(assistant_message)
@@ -312,13 +241,3 @@ if user_request:
                     "sql_query": "",
                     "error": error_msg
                 })
-                
-                # Logger l'erreur de génération
-                log_ai_answer(
-                    question=user_request,
-                    sql="",
-                    reponse={
-                        "status": "generation_error",
-                        "error": str(e)
-                    }
-                )
