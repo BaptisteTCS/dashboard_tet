@@ -35,6 +35,7 @@ pages = {
         st.Page("pages/07_💡_Suggestion_indicateurs.py", title="Suggestion Indicateurs", icon="🤖"),
         st.Page("pages/25_Impact.py", title="Modélisation d'impact GES", icon="🎯"),
         st.Page("pages/24_🗺️_Carte_de_france.py", title="Dashboard Carte de France", icon="🗺️"),
+        st.Page("pages/28_Agent_IA_Benchmark.py", title="Agent IA Benchmark", icon="🥸"),
     ],
     "Osbolètes": [
         st.Page("pages/01_🌟_North_Star_&_metrics.py", title="North Star & Metrics", icon="🌟"),
