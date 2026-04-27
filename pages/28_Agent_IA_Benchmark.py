@@ -772,6 +772,16 @@ if "last_tool_context" not in st.session_state:
 if "previous_response_id" not in st.session_state:
     st.session_state.previous_response_id = None
 
+# En-tete minimaliste
+st.markdown(
+    """
+<div style='text-align: center; padding: 1rem 0 2rem 0;'>
+    <h1 style='font-size: 2.5rem; margin-bottom: 0.5rem;'>🔍 Qu'est-ce que font les autres collectivités ?</h1>
+</div>
+""",
+    unsafe_allow_html=True,
+)
+
 
 def _render_results_tools(container, results: list[dict], *, key_suffix: str) -> None:
     """Affiche l'expander de resultats bruts + le bouton d'export CSV."""
