@@ -19,7 +19,7 @@ def get_openai_client() -> OpenAI:
     return OpenAI(api_key=st.secrets.get("OPENAI_API_KEY", ""))
 
 
-st.set_page_config(layout="wide", page_title="AI Benchmark Assistant", page_icon="🔍")
+st.set_page_config(layout="wide", page_title="Qu'est ce que font les autres collectivités ?", page_icon="🔍")
 
 logger = logging.getLogger(__name__)
 if not logger.handlers:
@@ -771,19 +771,6 @@ if "last_tool_context" not in st.session_state:
     st.session_state.last_tool_context = None
 if "previous_response_id" not in st.session_state:
     st.session_state.previous_response_id = None
-
-# En-tete minimaliste
-st.markdown(
-    """
-<div style='text-align: center; padding: 1rem 0 2rem 0;'>
-    <h1 style='font-size: 2.5rem; margin-bottom: 0.5rem;'>🔍 AI Benchmark Assistant</h1>
-    <p style='color: #666; font-size: 1rem;'>
-        Demande : "Qu'est-ce que font les autres collectivites sur [thematique] ?"
-    </p>
-</div>
-""",
-    unsafe_allow_html=True,
-)
 
 
 def _render_results_tools(container, results: list[dict], *, key_suffix: str) -> None:
