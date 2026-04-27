@@ -18,6 +18,21 @@ nest_asyncio.apply()
 st.set_page_config(layout="wide")
 st.title("✨ Import Tool :blue-badge[:material/experiment: Beta]")
 
+# Colonnes optionnelles dont on peut activer/désactiver le remplissage par l'IA.
+# Format : (label affiché, nom de colonne dans le DataFrame, clé JSON utilisée
+# dans le prompt d'enrichissement des sous-actions)
+TOGGLABLE_COLUMNS = [
+    ("Description", "description", "description"),
+    ("Objectifs", "objectifs", None),
+    ("Structure pilote", "structure pilote", None),
+    ("Direction ou service pilote", "direction ou service pilote", None),
+    ("Personne pilote", "personne pilote", "personne_pilote"),
+    ("Budget", "budget", None),
+    ("Statut", "statut", "statut"),
+    ("Date de début", "date de début", "date_debut"),
+    ("Date de fin", "date de fin", "date_fin"),
+]
+
 # Configuration des APIs
 GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
 
@@ -47,6 +62,8 @@ Chaque entrée du tableau est un objet avec exactement ces champs
  "titre",
  "description",
  "sous-actions",
+ "objectifs",
+ "structure pilote",
  "direction ou service pilote",
  "personne pilote",
  "budget",
@@ -59,6 +76,8 @@ Types et formats attendus
 • "titre" est une chaîne courte (300 caractères maximum). Si le titre issu du texte source dépasse 300 caractères, conserver uniquement les 300 premiers caractères significatifs dans "titre" et reporter le reste dans "description"
 • "description" est une chaîne
 • "sous-actions" est une liste de chaînes. Si aucune sous action ne s’impose, mettre une liste vide []
+• "objectifs" est une chaîne. Reprendre fidèlement le contenu du champ "Objectifs" du document source si présent (par exemple "Préserver la qualité et la diversité des productions agricoles"). Si l'information n'est pas explicitement présente, laisser ""
+• "structure pilote" est une chaîne. Une ou plusieurs structures (organisme englobant : la collectivité elle-même, ou par exemple "Chambre d'agriculture", "DDT", etc.) séparées par ", ". Distinct de "direction ou service pilote" qui est interne à la structure. Si l'information n'est pas explicitement présente, laisser ""
 • "direction ou service pilote" est une chaîne
 • "personne pilote" est une chaîne
 • "budget" est soit la valeur vide "", soit un entier sans séparateur d’espace
@@ -95,7 +114,7 @@ Tâches obligatoires et ordre d’exécution
 4 Rattachement hiérarchique
    • Associer chaque action à son sous axe et à son axe
 5 Complétude des champs
-   • Remplir "direction ou service pilote", "personne pilote", "budget" et "statut" uniquement si l’information est explicite et non ambiguë
+   • Remplir "objectifs", "structure pilote", "direction ou service pilote", "personne pilote", "budget" et "statut" uniquement si l’information est explicite et non ambiguë. "objectifs" et "structure pilote" sont des champs facultatifs : ne pas inventer, laisser "" en l'absence d'information explicite
    • Lorsque le texte présente pour une action des dates ou un calendrier (sans libellé de statut explicite pour cette action), vous pouvez déduire « statut » uniquement parmi « À venir » et « En cours » en vous appuyant sur ces dates et la date du jour ({date_du_jour}). Si seule une année est mentionnée sans mois précis (par exemple "2026"), considérer le statut comme « En cours » si cette année correspond à l'année actuelle, et « À venir » si elle est dans le futur
 6 Validation du format
    • Produire un JSON valide
@@ -112,6 +131,11 @@ Règles générales
 3 "statut" ne peut prendre que l’une des valeurs suivantes sinon ""
    ["À venir", "À discuter", "En cours", "Réalisé", "En retard", "En pause", "Bloqué"]
 4 "direction ou service pilote" contient uniquement des organismes ou services. "personne pilote" contient uniquement des noms de personnes
+4 bis Distinction entre "structure pilote" et "direction ou service pilote" :
+   • "structure pilote" est l'organisme global englobant (ex. la collectivité, "Chambre d'agriculture", "DDT", "Communauté de communes X").
+   • "direction ou service pilote" est l'entité interne à cette structure (ex. "Service urbanisme", "Service économique", "Direction de la transition écologique").
+   • Exemple : si le document indique "Service urbanisme de la Collectivité X", alors "structure pilote" = "Collectivité X" et "direction ou service pilote" = "Service urbanisme".
+   • Si une seule des deux informations est présente, ne remplir que ce champ et laisser l'autre à "".
 5 Majuscules. Mettre une majuscule au premier mot de chaque champ texte. Conserver les majuscules des noms propres et des sigles. Supprimer les espaces superflus au début et à la fin
 6 Respect strict des libellés existants pour axes et sous axes lorsque fournis. En l’absence de libellé explicite, créer un libellé concis et fidèle au contenu
 7 Ordre de tri. Le tableau doit être trié selon la hiérarchie axe puis sous axe puis ordre des actions
@@ -148,6 +172,8 @@ Extraction attendue pour une action située dans le sous axe "4.2 Mettre en œuv
    "Déployer des lignes de covoiturage à haut niveau de service et les aménagements associés",
    "Réfléchir à des solutions d’autopartage en boucle"
  ],
+ "objectifs": "",
+ "structure pilote": "",
  "direction ou service pilote": "",
  "personne pilote": "",
  "budget": "",
@@ -346,7 +372,7 @@ Vous êtes un auditeur qualité spécialisé dans les plans d’actions de trans
 
 Contexte
 On vous fournit une extraction déjà structurée avec les éléments suivants :
-"axe", "sous-axe", "titre", "titre de la sous-action", "description", "direction ou service pilote", "personne pilote", "budget", "statut", "date de début", "date de fin" s'ils sont disponibles.
+"axe", "sous-axe", "titre", "titre de la sous-action", "description", "objectifs", "structure pilote", "direction ou service pilote", "personne pilote", "budget", "statut", "date de début", "date de fin" s'ils sont disponibles.
 Les actions classiques ont "titre" rempli. Les sous-actions apparaissent comme des lignes séparées marquées [SA], avec "titre" vide et "titre de la sous-action" rempli.
 
 Voici la sortie à évaluer
@@ -360,7 +386,7 @@ Axes d’évaluation
 • Cohérence sémantique  vérifier que chaque "description" a du sens, est compréhensible, et correspond à une action ou sous-action concrète de plan d’actions.
 • Qualité des sous-actions  vérifier que les lignes marquées [SA] sont bien des sous-actions opérationnelles ou des étapes de mise en œuvre
 • Cohérence hiérarchique  vérifier que "axe", "sous-axe" et "titre" sont cohérents entre eux, que la numérotation est plausible et stable, et que le contenu de l’action correspond bien à son axe et sous-axe.
-• Champs pilotage, budget, statut  vérifier que "direction ou service pilote", "personne pilote", "budget" et "statut" ne semblent pas inventés, sont utilisés seulement lorsque l’information est explicitement plausible, et restent vides sinon.
+• Champs pilotage, budget, statut  vérifier que "objectifs", "structure pilote", "direction ou service pilote", "personne pilote", "budget" et "statut" ne semblent pas inventés, sont utilisés seulement lorsque l’information est explicitement plausible, et restent vides sinon. Pour "structure pilote" et "direction ou service pilote", vérifier que la distinction est respectée (structure = organisme englobant, direction/service = entité interne).
 • Doublons et éclatement inutile  vérifier qu’il n’y a pas de doublons évidents d’actions et que les actions ne sont pas artificiellement éclatées en plusieurs entrées identiques.
 • Vérifier que les directions ou service pilote et personnes pilotes, si pluriel, sont des listes séparées par une virgule et un espace. S'il y a des tirets qui semble séparer deux entités **distinctes**, le relever.
 
@@ -551,6 +577,8 @@ def df_to_compact_text(df: pd.DataFrame, show_index: bool = True) -> str:
                         champs_action.append(f"{sous_actions.strip()}")
 
                 champs_optionnels = [
+                    ("objectifs", "Objectifs"),
+                    ("structure pilote", "Structure pilote"),
                     ("direction ou service pilote", "Direction ou service pilote"),
                     ("personne pilote", "Personne pilote"),
                     ("budget", "Budget"),
@@ -572,6 +600,30 @@ def df_to_compact_text(df: pd.DataFrame, show_index: bool = True) -> str:
                     add_segment(texte_action)
 
     return "\n".join(parts).strip()
+
+def build_ignore_directive(disabled_fields: list[str]) -> str:
+    """Construit un bloc d'instruction prioritaire à préfixer aux prompts Gemini
+    pour ignorer le remplissage de certains champs/colonnes.
+
+    Retourne une chaîne vide si aucun champ n'est désactivé.
+    """
+    if not disabled_fields:
+        return ""
+
+    lines = "\n".join(f'- "{f}"' for f in disabled_fields)
+    return (
+        "================================================================\n"
+        "INSTRUCTION PRIORITAIRE — COLONNES / CHAMPS À IGNORER\n"
+        "Les colonnes/champs suivants NE doivent PAS être remplis :\n"
+        f"{lines}\n"
+        "Pour chacun de ces champs, retournez systématiquement la valeur "
+        "vide (\"\" pour les chaînes, [] pour les listes, \"\" pour les nombres).\n"
+        "Si les règles, exemples ou précisions ci-dessous décrivent comment "
+        "remplir ces champs, IGNOREZ ces instructions : ne remplissez que "
+        "les autres champs. Cette consigne est PRIORITAIRE sur tout le reste.\n"
+        "================================================================\n\n"
+    )
+
 
 def parse_json_response(result_text: str):
     """Parse une réponse JSON de Gemini en nettoyant les balises markdown"""
@@ -618,8 +670,12 @@ def normalize_sous_actions_value(val):
     return []
 
 
-def split_long_titles(df: pd.DataFrame, max_len: int = 300) -> pd.DataFrame:
-    """Scinde les titres trop longs : conserve max_len chars dans le titre, reporte le reste dans description."""
+def split_long_titles(df: pd.DataFrame, max_len: int = 300, description_enabled: bool = True) -> pd.DataFrame:
+    """Scinde les titres trop longs : conserve max_len chars dans le titre, reporte le reste dans description.
+
+    Si `description_enabled` est False, le titre est simplement tronqué (l'overflow est ignoré)
+    pour éviter de remplir une colonne désactivée par l'utilisateur.
+    """
     for col in ["titre", "titre de la sous-action"]:
         if col not in df.columns:
             continue
@@ -632,6 +688,8 @@ def split_long_titles(df: pd.DataFrame, max_len: int = 300) -> pd.DataFrame:
                 cut = max_len
             overflow = val[cut:].strip()
             df.at[idx, col] = val[:cut].strip()
+            if not description_enabled or "description" not in df.columns:
+                continue
             existing_desc = str(df.at[idx, "description"]).strip() if pd.notna(df.at[idx, "description"]) else ""
             if existing_desc:
                 df.at[idx, "description"] = overflow + " - " + existing_desc
@@ -654,6 +712,8 @@ def remplir_fichier_import(df: pd.DataFrame) -> io.BytesIO:
         "D": "titre",
         "E": "titre de la sous-action",
         "F": "description",
+        "H": "objectifs",
+        "J": "structure pilote",
         "M": "direction ou service pilote",
         "N": "personne pilote",
         "X": "budget",
@@ -738,6 +798,12 @@ def display_df_markdown(df: pd.DataFrame):
                                     if sa and str(sa).strip():
                                         action_md += f"- {sa}\n"
                                 action_md += "\n"
+
+                        if row.get("objectifs") and str(row["objectifs"]).strip():
+                            action_md += f"**Objectifs :** {row['objectifs']}\n\n"
+
+                        if row.get("structure pilote") and str(row["structure pilote"]).strip():
+                            action_md += f"**Structure pilote :** {row['structure pilote']}\n\n"
 
                         if row.get("direction ou service pilote") and str(row["direction ou service pilote"]).strip():
                             action_md += f"**Direction ou service pilote :** {row['direction ou service pilote']}\n\n"
@@ -876,6 +942,26 @@ gemini_model = "gemini-2.5-pro"
 avec_sous_actions = st.toggle("Avec sous-actions", value=True, help="Si désactivé, les sous-actions ne seront pas extraites ni enrichies.")
 avec_verifications = st.toggle("Vérifications", value=(file_type == "PDF"), help="Désactiver pour les fichiers simples (CSV, petits PDF). Ignore la vérification et la consolidation des fiches actions.")
 
+with st.expander("⚙️ Colonnes à remplir", expanded=False):
+    st.caption(
+        "Désactivez les colonnes que vous ne souhaitez pas faire remplir par l'IA "
+        "pour soulager le modèle et améliorer la qualité du reste."
+    )
+    _toggle_cols = st.columns(3)
+    column_toggles: dict[str, bool] = {}
+    for _i, (_label, _df_col, _json_key) in enumerate(TOGGLABLE_COLUMNS):
+        with _toggle_cols[_i % 3]:
+            column_toggles[_df_col] = st.toggle(
+                _label, value=True, key=f"col_toggle_{_df_col}"
+            )
+
+disabled_columns = [c for c, on in column_toggles.items() if not on]
+disabled_json_keys = [
+    json_key
+    for (_, df_col, json_key) in TOGGLABLE_COLUMNS
+    if json_key is not None and df_col in disabled_columns
+]
+
 # Mode test (tronque le texte à 10 000 caractères)
 # mode_test = st.toggle("🧪 Mode test (30 000 caractères max)", value=False)
 mode_test = False
@@ -915,7 +1001,8 @@ if uploaded_file is not None:
             st.markdown("---")
             st.markdown("## 🪄 Étape 1 : Définition de la structure et créations des fiches actions")
             
-            user_prompt = custom_prompt.replace("{precisions}", precisions).replace("{texte_pdf_a_analyser}", extracted_text).replace("{date_du_jour}", datetime.now().strftime("%d/%m/%Y"))
+            ignore_directive = build_ignore_directive(disabled_columns)
+            user_prompt = ignore_directive + custom_prompt.replace("{precisions}", precisions).replace("{texte_pdf_a_analyser}", extracted_text).replace("{date_du_jour}", datetime.now().strftime("%d/%m/%Y"))
 
             with st.spinner("🌀 Étape 1/5 : Définition de la structure et créations des fiches actions..."):
                 gemini_result, elapsed_time, tokens_count = asyncio.run(query_gemini(user_prompt, gemini_model))
@@ -935,6 +1022,19 @@ if uploaded_file is not None:
                     else:
                         df_actions["sous-actions"] = df_actions["sous-actions"].apply(
                             normalize_sous_actions_value
+                        )
+                    for _col_optional in ("objectifs", "structure pilote"):
+                        if _col_optional not in df_actions.columns:
+                            df_actions[_col_optional] = ""
+                        else:
+                            df_actions[_col_optional] = df_actions[_col_optional].fillna("")
+                    for _col_disabled in disabled_columns:
+                        if _col_disabled in df_actions.columns:
+                            df_actions[_col_disabled] = ""
+                    if disabled_columns:
+                        st.caption(
+                            "🚫 Colonnes désactivées (ignorées par l'IA) : "
+                            + ", ".join(disabled_columns)
                         )
                     st.success(f"✅ {len(df_actions)} actions extraites")
                     st.dataframe(df_actions, use_container_width=True, height=400)
@@ -1007,7 +1107,7 @@ if uploaded_file is not None:
                                             row = df_actions.loc[idx]
                                             actions_a_ameliorer += f"|{idx}| {row['titre']}\n"
                                         
-                                        batch_prompt = prompt_upgrade_1.replace("{texte_pdf_a_analyser}", extracted_text).replace("{actions_a_ameliorer}", actions_a_ameliorer)
+                                        batch_prompt = ignore_directive + prompt_upgrade_1.replace("{texte_pdf_a_analyser}", extracted_text).replace("{actions_a_ameliorer}", actions_a_ameliorer)
                                         batch_prompts.append(batch_prompt)
                                     
                                     async def run_upgrade_batches():
@@ -1041,7 +1141,7 @@ if uploaded_file is not None:
                                                     if idx < len(df_actions):
                                                         if "titre" in item:
                                                             df_actions.at[idx, "titre"] = item["titre"]
-                                                        if "description" in item:
+                                                        if "description" in item and "description" not in disabled_columns:
                                                             df_actions.at[idx, "description"] = item["description"]
                                                         if "sous-actions" in item and avec_sous_actions:
                                                             df_actions.at[idx, "sous-actions"] = normalize_sous_actions_value(item["sous-actions"])
@@ -1114,7 +1214,8 @@ if uploaded_file is not None:
                                     for sa_info in batch:
                                         sous_actions_list += f"{sa_info['global_idx']} | [Action parente : {sa_info['parent_titre']}] {sa_info['sa_titre']}\n"
 
-                                    batch_prompt = prompt_enrich_sous_actions.replace("{sous_actions_list}", sous_actions_list).replace("{texte_pdf_a_analyser}", extracted_text)
+                                    enrich_ignore_directive = build_ignore_directive(disabled_json_keys)
+                                    batch_prompt = enrich_ignore_directive + prompt_enrich_sous_actions.replace("{sous_actions_list}", sous_actions_list).replace("{texte_pdf_a_analyser}", extracted_text)
                                     sa_batch_prompts.append(batch_prompt)
 
                                 async def run_enrich_batches():
@@ -1178,18 +1279,23 @@ if uploaded_file is not None:
                                                 gidx = sa_parent_map.get((df_idx, sa_pos))
                                                 sa_enrichment = enrichment_data.get(gidx, {}) if gidx is not None else {}
 
+                                                def _sa_field(col_name: str, value: str) -> str:
+                                                    return "" if col_name in disabled_columns else value
+
                                                 sa_row = {
                                                     "axe": row["axe"],
                                                     "sous-axe": row["sous-axe"],
                                                     "titre": row["titre"],
                                                     "titre de la sous-action": sa_str,
-                                                    "description": sa_enrichment.get("description", ""),
+                                                    "description": _sa_field("description", sa_enrichment.get("description", "")),
+                                                    "objectifs": "",
+                                                    "structure pilote": "",
                                                     "direction ou service pilote": "",
-                                                    "personne pilote": sa_enrichment.get("personne_pilote", ""),
+                                                    "personne pilote": _sa_field("personne pilote", sa_enrichment.get("personne_pilote", "")),
                                                     "budget": "",
-                                                    "statut": sa_enrichment.get("statut", ""),
-                                                    "date de début": sa_enrichment.get("date_debut", ""),
-                                                    "date de fin": sa_enrichment.get("date_fin", ""),
+                                                    "statut": _sa_field("statut", sa_enrichment.get("statut", "")),
+                                                    "date de début": _sa_field("date de début", sa_enrichment.get("date_debut", "")),
+                                                    "date de fin": _sa_field("date de fin", sa_enrichment.get("date_fin", "")),
                                                     "score": None,
                                                     "explication": "",
                                                     "amelioree": False,
@@ -1197,6 +1303,9 @@ if uploaded_file is not None:
                                                 new_rows.append(sa_row)
 
                                 df_actions = pd.DataFrame(new_rows).reset_index(drop=True)
+                                for _col_disabled in disabled_columns:
+                                    if _col_disabled in df_actions.columns:
+                                        df_actions[_col_disabled] = ""
                                 st.success(f"✅ Dataframe restructuré : {len(df_actions)} lignes (actions + sous-actions)")
                             else:
                                 df_actions["titre de la sous-action"] = ""
@@ -1212,7 +1321,14 @@ if uploaded_file is not None:
                             st.markdown("---")
                             st.markdown("## ✅ Étape 5/5 : Vérifications finales")
 
-                            df_actions = split_long_titles(df_actions)
+                            for _col_disabled in disabled_columns:
+                                if _col_disabled in df_actions.columns:
+                                    df_actions[_col_disabled] = ""
+
+                            df_actions = split_long_titles(
+                                df_actions,
+                                description_enabled="description" not in disabled_columns,
+                            )
 
                             for col in ["direction ou service pilote", "personne pilote"]:
                                 if col in df_actions.columns:
