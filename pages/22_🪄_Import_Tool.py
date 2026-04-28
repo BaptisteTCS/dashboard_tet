@@ -838,7 +838,7 @@ def display_df_markdown(df: pd.DataFrame):
     st.dataframe(df_a_afficher, use_container_width=True, height=600)
 
 
-async def query_gemini(user_prompt, model='gemini-3-pro-preview'):
+async def query_gemini(user_prompt, model='gemini-3.1-pro-preview'):
     """Interroge Gemini avec streaming asynchrone"""
     start_time = time.time()
     print(f"[{datetime.now().strftime('%H:%M:%S.%f')[:-3]}] ✨ Gemini START ({model})")
