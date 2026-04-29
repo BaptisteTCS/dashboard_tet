@@ -167,7 +167,7 @@ def pap_actifs_52_du_mois(mois: pd.Timestamp) -> int:
     return int(df['plan'].nunique())
 
 
-def fap_actifs_52_du_mois(mois: pd.Timestamp) -> int:
+def fap_actifs_52_semaines(mois: pd.Timestamp) -> int:
     """Nombre de FAP actives (fiches d'action pilotables, statut='actif', définition 52 semaines) au mois donné."""
     df = df_fap_52.copy()
     df['mois'] = pd.to_datetime(df['mois'], errors='coerce').dt.to_period('M').dt.to_timestamp()
@@ -278,8 +278,8 @@ with col_utile:
 
     st.badge("Pilotage des actions de la transition écologique", icon=":material/add_notes:", color="blue")
 
-    nb_fap_actifs_actuel = fap_actifs_52_du_mois(MOIS_REF)
-    nb_fap_actifs_prev = fap_actifs_52_du_mois(MOIS_REF_M12)
+    nb_fap_actifs_actuel = fap_actifs_52_semaines(MOIS_REF)
+    nb_fap_actifs_prev = fap_actifs_52_semaines(MOIS_REF_M12)
 
     col_fap, _, _ = st.columns(3)
     with col_fap:
