@@ -282,7 +282,7 @@ with col_utile:
     with cols_utile[0]:
         st.badge("Satisfaction des utilisateurs", icon=":material/thumb_up_off_alt:", color="blue")
 
-        nps_moyen_actuel = nps.iloc[0]
+        nps_moyen_actuel = nps['nps'].iloc[0]
 
         kpi_card(
             label=f"NPS",
