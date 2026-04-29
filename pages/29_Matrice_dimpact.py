@@ -188,7 +188,7 @@ st.caption(f"Toutes les statistiques présentées sont pour {_format_mois_fr(MOI
 # ==========================
 st.markdown("---")
 st.markdown("## 1. Utilisable")
-st.info("Section en construction.")
+st.info("En attente du survey Posthog.")
 
 
 # ==========================
