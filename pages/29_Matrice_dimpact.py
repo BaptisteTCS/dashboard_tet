@@ -172,7 +172,7 @@ def fap_actifs_52_semaines(mois: pd.Timestamp) -> int:
     df = df_fap_52.copy()
     df['mois'] = pd.to_datetime(df['mois'], errors='coerce').dt.to_period('M').dt.to_timestamp()
     df = df[(df['mois'] == mois) & (df['statut'] == 'actif')]
-    return int(df['fiche_id'])
+    return int(df['fiche_id'].iloc[0])
 
 
 # ==========================
