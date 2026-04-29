@@ -27,10 +27,11 @@ def load_data():
     df_ct_actives = read_table('ct_actives')
     df_pap_52 = read_table('pap_statut_5_fiches_modifiees_52_semaines')
     df_fap_52 = read_table('nb_fap_52')
-    return df_user_actifs_ct_mois, df_activite_semaine, df_ct_actives, df_pap_52, df_fap_52
+    nps = read_table('nps')
+    return df_user_actifs_ct_mois, df_activite_semaine, df_ct_actives, df_pap_52, df_fap_52, nps
 
 
-df_user_actifs_ct_mois, df_activite_semaine, df_ct_actives, df_pap_52, df_fap_52 = load_data()
+df_user_actifs_ct_mois, df_activite_semaine, df_ct_actives, df_pap_52, df_fap_52, nps = load_data()
 
 # Exclusion BE/conseillers/internes via intersection des emails avec activite_semaine
 df_user_actifs_ct_mois = df_user_actifs_ct_mois[
@@ -82,14 +83,14 @@ def kpi_card(
     """Affiche un st.metric uniforme.
 
     Paramètres :
-    - fmt : "number" (entier formaté) ou "percent" (en %, 1 décimale)
+    - fmt : "number" (entier formaté) ou "percent" (en %, arrondi à l'entier)
     - suffixe : suffixe à coller à la valeur (ex: " utilisateurs")
     """
     if fmt == "percent":
-        val_str = f"{valeur_actuelle * 100:.1f}%"
+        val_str = f"{int(round(valeur_actuelle * 100))}%"
         if valeur_precedente is not None:
             delta = (valeur_actuelle - valeur_precedente) * 100
-            delta_str = f"{delta:+.1f} pts"
+            delta_str = f"{int(round(delta)):+d} pts"
         else:
             delta_str = None
     else:
@@ -276,20 +277,35 @@ col_utile, col_impactant = st.columns(2)
 with col_utile:
     st.markdown("## 3. Utile")
 
-    st.badge("Pilotage des actions de la transition écologique", icon=":material/add_notes:", color="blue")
+    cols_utile = st.columns(2)
 
-    nb_fap_actifs_actuel = fap_actifs_52_semaines(MOIS_REF)
-    nb_fap_actifs_prev = fap_actifs_52_semaines(MOIS_REF_M12)
+    with cols_utile[0]:
+        st.badge("Satisfaction des utilisateurs", icon=":material/thumb_up_off_alt:", color="blue")
 
-    col_fap, _, _ = st.columns(3)
-    with col_fap:
+        nps_moyen_actuel = nps.iloc[0]
+
         kpi_card(
-            label=f"Fiches actions pilotables actives",
-            valeur_actuelle=nb_fap_actifs_actuel,
-            valeur_precedente=nb_fap_actifs_prev,
+            label=f"NPS",
+            valeur_actuelle=nps_moyen_actuel,
             fmt="number",
-            help_text=f"Nombre de fiches actions pilotables actives en {_format_mois_fr(MOIS_REF)}. Une fiche action pilotable active est une fiche, avec au moins un titre, une personne pilote et un statut, qui a été modifiée sur les 12 derniers mois.",
+            help_text=f"NPS en {_format_mois_fr(MOIS_REF)}. Le Net Promoter Score (NPS) est évalue la probabilité qu'un utilisateur recommande Territoires en Transitions à un collègue sur une échelle de 0 à 10. Le score varie de -100 à +100, calculé en soustrayant le % de détracteurs du % de promoteurs.",
         )
+
+    with cols_utile[1]:
+        st.badge("Pilotage des actions de la transition écologique", icon=":material/add_notes:", color="blue")
+
+        nb_fap_actifs_actuel = fap_actifs_52_semaines(MOIS_REF)
+        nb_fap_actifs_prev = fap_actifs_52_semaines(MOIS_REF_M12)
+
+        col_fap, _, _ = st.columns(3)
+        with col_fap:
+            kpi_card(
+                label=f"Fiches actions",
+                valeur_actuelle=nb_fap_actifs_actuel,
+                valeur_precedente=nb_fap_actifs_prev,
+                fmt="number",
+                help_text=f"Nombre de fiches actions pilotables actives en {_format_mois_fr(MOIS_REF)}. Une fiche action pilotable active est une fiche, avec au moins un titre, une personne pilote et un statut, qui a été modifiée sur les 12 derniers mois.",
+            )
 
 
 # ==========================
