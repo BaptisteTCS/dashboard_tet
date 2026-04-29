@@ -140,6 +140,7 @@ Règles générales
 6 Respect strict des libellés existants pour axes et sous axes lorsque fournis. En l’absence de libellé explicite, créer un libellé concis et fidèle au contenu
 7 Ordre de tri. Le tableau doit être trié selon la hiérarchie axe puis sous axe puis ordre des actions
 8 "titre" et "description" ne doivent jamais contenir les mêmes informations. La description apporte un complément au titre. Si le titre suffit à décrire l’action et qu’il n’y a rien de pertinent à ajouter, laisser "description" à ""
+9 Ne recopie pas les objectifs dans les descriptions. S'il n'y a pas de description et seulement des objectifs, les mettre dans le champ "objectifs"
 
 Exemples de bonne structure de plan
 Exemple de titres hiérarchiques attendus quand le texte les fournit
@@ -159,7 +160,8 @@ Texte source
 "Réduire l’autosolisme. Développer la pratique du covoiturage en s’appuyant tout d’abord sur des services existants mais aussi en mettant en place des infrastructures permettant de diversifier les offres
 • S’appuyer sur l’offre existante proposée par Blablacar Daily pour le covoiturage domicile travail
 • Déployer des lignes de covoiturage à haut niveau de service et les aménagements associés
-• Réfléchir à des solutions d’autopartage en boucle"
+• Réfléchir à des solutions d’autopartage en boucle. 
+Budget de 24000€ pour cette action en cours menée par Jean Dupoint du Service mobilité, piloté par la DDT, qui a pour but de rendre la pratique du covoiturage plus courante."
 
 Extraction attendue pour une action située dans le sous axe "4.2 Mettre en œuvre les conditions favorables à des déplacements plus sobres"
 {
@@ -172,12 +174,12 @@ Extraction attendue pour une action située dans le sous axe "4.2 Mettre en œuv
    "Déployer des lignes de covoiturage à haut niveau de service et les aménagements associés",
    "Réfléchir à des solutions d’autopartage en boucle"
  ],
- "objectifs": "",
- "structure pilote": "",
- "direction ou service pilote": "",
- "personne pilote": "",
- "budget": "",
- "statut": ""
+ "objectifs": "Rendre la pratique du covoiturage plus courante",
+ "structure pilote": "DDT",
+ "direction ou service pilote": "Service mobilité",
+ "personne pilote": "Jean Dupoint",
+ "budget": "24000",
+ "statut": "En cours"
 }
 
 Précisions sur le nettoyage minimal

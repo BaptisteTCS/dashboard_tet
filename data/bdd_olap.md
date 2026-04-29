@@ -23,7 +23,7 @@
 ---
 
 #### `user_actif_12_mois`
-**Description :** Agrégation mensuelle des utilisateurs actifs à 12 mois, dérivée de `activite_semaine`. Pour chaque mois, on regarde ce mois et les 11 précédent et on compte le nombre de distinct email dans `activite_semaine`.
+**Description :** Agrégation mensuelle des utilisateurs actifs à 12 mois, dérivée de `activite_semaine`. Pour chaque mois, on regarde ce mois et les 11 précédents et on compte le nombre de distinct email dans `activite_semaine`.
 
 **Calculé dans :** [OKRs > L-2](https://datalore.jetbrains.com/notebook/3z8wdKwizolR7wA321R4Rl/Dz9DmMwquBQiWTJN0JKlCn/)
 
@@ -32,32 +32,32 @@
 ---
 
 #### `user_actifs_ct_mois`
-**Description :** Liste des utilisateurs actifs par collectivité et par mois. ⚠️ Inclut les BE et conseillers (contrairement à `activite_semaine`). C'est à utiliser quand on veut les stats globales de fréquentation mais pas dans la plupart des cas quand on veut juste les utilisateurs des collectivités.
+**Description :** Liste des utilisateurs actifs par collectivité et par mois. ⚠️ Inclut les BE et conseillers (contrairement à `activite_semaine`). C'est à utiliser quand on veut les stats globales de fréquentation (tous les utilisateurs) mais pas dans la plupart des cas quand on veut juste les utilisateurs des collectivités (agents)
 
 **Calculé dans :** [Stats > User actifs](https://datalore.jetbrains.com/notebook/3z8wdKwizolR7wA321R4Rl/zDBnbKbrbzhC1RYZAKnhxB/)
 
-**Utilisé pour :** Dahsboard okrs, stats publiques. C'est à modifier en utilisant activite_semaine à la place.
+**Utilisé pour :** Dahsboard okrs, stats publiques.
 
 ---
 
 ### Collectivités
 
 #### `ct_actives`
-**Description :** Table de référence des collectivités activées avec métadonnées enrichies.
+**Description :** Table des collectivités activées avec métadonnées enrichies. Utile pour les stats notamment avec la colonne catégorie qui es pertinente. Cette table n'est uniquement à utiliser pour faire des croisements et/ou quand on parle d'activation. Pour l'activité, c'est activite_semaine à utiliser.
 
 **Contenu :**
 - Date d'activation : première attribution d'un membre (hors BE/partenaires/conseillers)
 - Catégorisation : EPCI, Syndicats, Communes, Départements, Régions
-- ⚠️ Peut exclure des collectivités ayant uniquement des conseillers/BE si fonction non renseignée
+- ⚠️ Peut inclure des collectivités ayant uniquement des conseillers/BE si fonction non renseignée
 
 **Calculé dans :** [Stats > Date activation](https://datalore.jetbrains.com/notebook/3z8wdKwizolR7wA321R4Rl/zDBnbKbrbzhC1RYZAKnhxB/)
 
-**Clé pour comprendre :** Date d'activation = premier membre "réel" (ni BE, ni partenaire, ni conseiller)
+**Utilisé pour :** Stat publiques.
 
 ---
 
 #### `collectivite`
-**Description :** Export de la table collectivités pour l'ADEME via Metabase.
+**Description :** Export de la table collectivités pour l'ADEME via Metabase. Contient toutes les info nécessaires sur les collectivités. Sauf cas spécifique, pour les stats on préfère utiliser ct_actives pour directement avoir les ct activés.
 
 **Calculé dans :** [Export TET → Ademe > Collectivités](https://datalore.jetbrains.com/notebook/3z8wdKwizolR7wA321R4Rl/LhsccNs3HBiP4wnuv67kP7/)
 
@@ -75,15 +75,14 @@
 ### Plans d'Action 
 
 #### `pap_date_passage`
-**Description :** 🔑 **Table critique** - Historique des dates de passage en PAP (Plan d'Action Personnalisé) pour chaque plan.
+**Description :** 🔑 **Table critique** - Historique des dates de passage PAP (Plan d'Action Pilotable) pour chaque plan.
 
 **Contenu :**
-- `collectivite_id`, `plan_id`, `date_passage_pap`
 - Permet de déduire les collectivités PAP via `SELECT DISTINCT collectivite_id`
 
 **Calculé dans :** [Calcul PAP & Score > Passage PAP](https://datalore.jetbrains.com/notebook/3z8wdKwizolR7wA321R4Rl/TUsBeh2ErVoeFgtptt9A8g/)
 
-**Cas d'usage typique :** "Donne-moi les stats uniquement pour les collectivités PAP" → récupérer les IDs depuis cette table
+**Cas d'usage typique :** "Donne-moi les stats uniquement pour les collectivités PAP" → récupérer les ids depuis cette table
 
 ---
 
@@ -461,6 +460,94 @@
 
 ---
 
+
+## Colonnes de toutes les tables
+
+Score_mesures: siren (text), pointPasFait (double precision), pointPotentiel (double precision), actionId (text), type_jalon (text), pointFait (double precision), nom_mesure (text), date_fin_audit (timestamp with time zone), date (timestamp with time zone), referentiel_id (text), pointProgramme (double precision), actionid (text), nom (text), sujet (text)
+action_referentiel: action_id (text), referentiel (text), depth (bigint), type (text), nom (text), exemples (text)
+activite_semaine: email (text), semaine (text), collectivite_id (double precision)
+airtable_sync: derniere_modif (text), nb_pap (bigint), top_contributeur (text), nb_fa (bigint), score_budget (double precision), derniere_creation_compte (timestamp without time zone), nb_fiches_modifiees_12_mois (bigint), score_indicateur (double precision), nb_contributeurs (bigint), nb_fa_pilotables (bigint), statut (text), owner_plan (text), plans_type (text), score_objectif (double precision), nb_super_contributeurs (bigint), pageviews_plan (bigint), ct_tete (double precision), type (text), url_plan (text), activite_depuis_pap (bigint), plan (double precision), semaine (text), nb_indicateur_perso (bigint), score (double precision), derniere_visite (text), collectivite_id (bigint), score_avancement (double precision), nb_fiches_modifiees_3_mois (bigint), key (text), nb_fiches_modifiees_6_mois (bigint), nb_fiches_modifiees (bigint), pipeline (text), passage_pap (text), score_pilotabilite (double precision), score_referentiel (double precision), semaine_passage_retention (text)
+airtable_sync_semaine: nb_pap (bigint), ct_tete (double precision), collectivite_id (bigint), score_budget (double precision), nb_super_contributeurs (bigint), nb_fa (bigint), derniere_visite (text), semaine (text), pipeline (text), owner_plan (text), pageviews_plan (bigint), score_indicateur (double precision), score_pilotabilite (double precision), nb_contribution (bigint), score (double precision), nb_fa_pilotables (bigint), plans_type (text), activite_depuis_pap (bigint), top_contributeur (text), nb_contributeurs (bigint), score_referentiel (double precision), key (text), nb_indicateur_perso (bigint), score_objectif (double precision), derniere_modif (text), statut (text), score_avancement (double precision), note_max_pap (double precision), derniere_creation_compte (text), passage_pap (text)
+audit: audit_id (bigint), type (text), collectivite_id (bigint), clos (boolean), audit_valide (boolean), date_demande (timestamp with time zone), valide_labellisation (boolean), audit_fin (timestamp with time zone), audit_debut (timestamp with time zone), date_cnl (timestamp with time zone), referentiel (text)
+auditeur: audit_id (bigint), date_attribution (timestamp with time zone), nom_auditeur (text), email_auditeur (text), user_id (text), prenom_auditeur (text)
+bizdev_A_F_contact: collectivite_id (double precision), echange_type (text), date (text)
+bizdev_contact_collectivite: collectivite_id (bigint), date_contact (timestamp without time zone)
+bizdev_note_de_suivi_contact: collectivite_id (bigint), date (timestamp without time zone)
+calendly_events: uri (text), status (text), name (text), nb_participants_reel (bigint), start_time (text), event_type (text)
+calendly_invitees: status (text), uri_event (text), reponse (text), email (text)
+collectivite: departement_name (text), code_siren_insee (text), region_code (text), collectivite_id (bigint), nature_collectivite (text), departement_code (text), nom (text), completude_eci (double precision), type_collectivite (text), departement_iso_3166 (text), activee (boolean), date_activation_tet (timestamp without time zone), region_iso_3166 (text), population_totale (bigint), region_name (text), pa_pilotables (double precision), completude_cae (double precision)
+cot: collectivite_id (bigint), signataire (bigint), actif (boolean)
+ct_actives: region_name (text), nature_insee (text), nom (text), siren (text), type (text), departement_name (text), categorie (text), collectivite_id (bigint), date_activation (timestamp with time zone)
+evenements_airtable: Date (timestamp without time zone), index (bigint), evenements (text)
+evolution_ind_od: mois (text), departement_name (text), nb_values_od_cum (double precision), region_name (text)
+evolution_ind_pers: nb_ind_perso (double precision), region_name (text), nb_lignes (double precision), mois (text), nb_ind_perso_ct (double precision), departement_name (text)
+evolution_labellisation: nb_labellisation_cumule (bigint), mois (timestamp without time zone)
+fa_distrib: nb_fiches (double precision), action_pilotable (double precision), action (bigint), departement_name (text), action_pilotable_actives (double precision), realise (double precision), region_name (text), mois (timestamp without time zone)
+fa_sharing: nb_fa_shared (bigint), mois (timestamp without time zone)
+feature: datetime (timestamp with time zone), sub-feature (json), email (text), feature (text), collectivite_id (bigint)
+ind_od_producteur_indicateur: departement_name (text), titre (text), producteur (text), region_name (text)
+indicateur_definition: id (bigint), description (text), titre_long (text), indicateur_specifique (text), unite (text), identifiant_referentiel (text), titre (text)
+indicateurs_od: unite (text), titre (text), thematique (text), sources_libelle (text), identifiant_referentiel (text), types_collectivite (text)
+indicateurs_valeurs_olap: resultat (double precision), indicateur_id (bigint), date_valeur (timestamp without time zone), metadonnee_id (bigint), collectivite_id (double precision), identifiant_referentiel (text), api_nom_cube (text)
+internal_users: email (text)
+labellisation: points_potentiels (double precision), score_realise (double precision), collectivite_id (bigint), etoiles (bigint), referentiel (text), score_programme (double precision), obtenue_le (timestamp without time zone)
+labellisation_region: referentiel (text), region_name (text), collectivite_id (bigint), departement_name (text), obtenue_le (timestamp without time zone), etoiles (bigint)
+labellisation_stock_evolution: departement_name (text), region_name (text), referentiel (text), etoiles (bigint), nb_collectivites (bigint), year (bigint)
+mapping_levier_mesure: levier (text), mesure (text)
+modelisation_impact: reduction_theorique (double precision), identifiant_referentiel (text), justification (text), reduction_leveir (double precision), reduction (double precision), implication (double precision), collectivite_id (bigint), Secteur (text), Leviers SGPE (text), ids (text), created_at (timestamp without time zone)
+nb_fap_13: fiche_id (bigint), mois (text), statut (text)
+nb_fap_52: fiche_id (bigint), statut (text), mois (text)
+nb_fap_pilote_13: statut (text), mois (text), fiche_id (bigint)
+nb_fap_pilote_52: statut (text), fiche_id (bigint), mois (text)
+note_fiche_historique: nom_ct (text), score_date_fin (double precision), score_description (bigint), score_indicateur (bigint), score_objectif (double precision), score_suivi (bigint), fiche_id (bigint), score_date_debut (double precision), score_modif_6_mois (double precision), score_titre (bigint), collectivite_id (bigint), score_modif_12_mois (double precision), score_pilote (double precision), score_statut (bigint), score_budget (bigint), note_fa (double precision), score_pilote_user (double precision), mois (text)
+note_fiche_historique_backup: note_fa (double precision), nom_ct (text), score_statut (bigint), score_description (bigint), score_indicateur (bigint), score_modif_6_mois (double precision), collectivite_id (bigint), score_modif_12_mois (double precision), score_titre (bigint), score_objectif (double precision), score_date_fin (double precision), score_pilote_user (double precision), mois (text), score_date_debut (double precision), score_budget (bigint), fiche_id (bigint), score_pilote (double precision), score_suivi (bigint)
+note_plan_historique: note_plan (double precision), plan (bigint), mois (text)
+note_plan_historique_backup: plan (bigint), mois (text), note_plan (double precision)
+pap_date_passage: collectivite_id (bigint), import (text), nom (text), plan (bigint), type (double precision), nom_plan (text), nom_plan_ct (text), passage_pap (timestamp with time zone)
+pap_note: score_avancement (double precision), semaine (text), collectivite_id (bigint), score_budget (double precision), score_objectif (double precision), nom (text), plan_id (bigint), nom_ct (text), etoiles_visuelles (text), score_indicateur (double precision), score_pilotabilite (double precision), key (text), score_referentiel (double precision), c_referentiel (double precision), type (double precision), score (double precision), nb_fiche_action_total (bigint)
+pap_note_backup: nb_fiche_action_total (bigint), semaine (text), score_budget (double precision), score_referentiel (double precision), nom_ct (text), plan_id (bigint), nom (text), score_indicateur (double precision), c_referentiel (double precision), score_avancement (double precision), score_objectif (double precision), score (double precision), collectivite_id (bigint), key (text), score_pilotabilite (double precision), type (double precision), etoiles_visuelles (text)
+pap_note_region: score (double precision), semaine (text), region_name (text), plan_id (bigint), collectivite_id (bigint), nom_plan (text), nom (text), departement_name (text)
+pap_note_snapshot: key (text), score_budget (double precision), c_referentiel (double precision), nom (text), score_objectif (double precision), collectivite_id (bigint), semaine (text), type (double precision), score_indicateur (double precision), score_avancement (double precision), etoiles_visuelles (text), plan_id (bigint), nom_ct (text), score (double precision), score_referentiel (double precision), nb_fiche_action_total (bigint), score_pilotabilite (double precision)
+pap_statut_5_fiches_modifiees_13_semaines: plan (bigint), nb_pilotes (bigint), statut (text), mois (timestamp without time zone), collectivite_id (bigint)
+pap_statut_5_fiches_modifiees_52_semaines: nb_pilotes (bigint), collectivite_id (bigint), mois (timestamp without time zone), plan (bigint), statut (text), nom_plan (text)
+passage_pap_region: collectivite_id (bigint), plan (bigint), nom_plan (text), region_name (text), mois (text), departement_name (text)
+pipeline: collectivite_id (bigint), pipeline (text), semaine (text)
+plan_distrib: departement_name (text), plan (bigint), actif_12_mois (boolean), region_name (text), pilotable (boolean), score_sup_5 (boolean)
+score_snapshot: sujet (text), type_jalon (text), point_fait (double precision), nom (text), point_pas_fait (double precision), etoiles (bigint), referentiel_id (text), siren (text), date_fin_audit (timestamp with time zone), point_programme (double precision), date (timestamp with time zone), point_potentiel (double precision)
+stats_hero_section_site: nb_action_pilotable_active_12_mois (bigint), nb_pap_actif_12_mois (bigint), nb_ct_actif_12_mois (bigint), nb_user_actif_12_mois (bigint)
+statut_fiche_13_semaines: statut (text), mois (text), fiche_id (bigint)
+statut_fiche_52_semaines: mois (text), statut (text), fiche_id (bigint)
+tmp_backup_indicateur_source_metadonnee: diffuseur (text), source_id (text), id (bigint), producteur (text), limites (text), date_version (timestamp without time zone), methodologie (text), nom_donnees (text)
+tmp_backup_indicateur_valeur: objectif_commentaire (text), collectivite_id (bigint), objectif (text), calcul_auto_identifiants_manquants (text), created_at (timestamp with time zone), modified_at (timestamp with time zone), resultat_commentaire (text), modified_by (text), date_valeur (timestamp without time zone), id (bigint), estimation (text), metadonnee_id (bigint), indicateur_id (bigint), resultat (double precision), calcul_auto (boolean), created_by (text)
+tr_comm: lb_comm_majs (text), cd_comm (text), id_tech_comm (bigint), cd_sirn_comm (double precision)
+user_actif_12_mois: email (text), collectivite_id (double precision), mois (timestamp without time zone)
+user_actifs_ct_mois: region_name (text), departement_name (text), email (text), collectivite_id (bigint), mois (text)
+utilisateurs: nom (text), user_id (text), email (text), telephone (text), prenom (text)
+utilisateurs_droits: est_referent (boolean), collectivite_id (bigint), user_id (text), champ_intervention (text), invitation (boolean), date_creation (timestamp with time zone), fonction (text), details_fonction (text), niveau_acces (text)
+visite_annuelle: derniere_date (timestamp with time zone), collectivite_id (bigint)
+
+## Aperçu de certaines colonnes
+
+Voici le contenu de certaines colonnes quand on fait un `select distinct`.
+
+ct_actives.categorie : ['Syndicats', None, 'Communes', 'Départements', 'Régions', 'EPCI']
+ct_activtes.type : ['region', 'departement', 'epci', 'service_public', 'commune', 'prefecture_region']
+ct_actives.nature_insee : ['epci', 'POLEM', 'CA', 'commune', 'SMO', 'CC', 'CU', 'PETR', 'region', 'departement', 'EPT', 'prefecture_region', 'SIVOM', 'service_public', 'SIVU', 'METRO', 'SMF']
+
+airtable_sync.pipeline : 
+['En pilotage (à surveiller)',
+ 'En conversion',
+ 'En pilotage',
+ 'A acquérir',
+ 'En pilotage multiplans',
+ 'A réactiver',
+ 'En rétention (à surveiller)',
+ 'En test (+6 mois)',
+ 'En test (-6 mois)',
+ 'En rétention',
+ 'En activation',
+ 'En conversion actif']
+
 ## 📖 Glossaire
 
 | Terme | Définition |
@@ -486,25 +573,26 @@ SELECT DISTINCT collectivite_id
 FROM pap_date_passage
 ```
 
-### "Activité des collectivités sur les 3 derniers mois" A CHANGER
+### "Quelles sont les collectivités actives sur les 3 derniers mois"
 ```sql
-SELECT * FROM activite_semaine 
-WHERE semaine >= DATE_SUB(CURRENT_DATE, INTERVAL 12 WEEK)
+SELECT distinct collectivite_id 
+FROM activite_semaine
+WHERE TO_DATE(semaine, 'YYYY-MM-DD') >= CURRENT_DATE - INTERVAL '3 months';
 ```
 
-### "Niveau de labellisation actuel d'une collectivité" A CHANGER
+### "Niveau de labellisation actuel des collectivités sur le référentiel cae"
 ```sql
-SELECT etoiles, referentiel 
-FROM labellisation_region 
-WHERE collectivite_id = X 
-ORDER BY date_labellisation DESC 
-LIMIT 1
+select collectivite_id, max(etoiles)
+from labellisation l 
+where referentiel ='cae'
+group by collectivite_id 
 ```
 
-### "Plans actifs (North Star publique)" A CHANGER
+### "PAP actifs 52 semaines (North Star publique)"
 ```sql
 SELECT * FROM pap_statut_5_fiches_modifiees_52_semaines 
-WHERE statut = 'actif'
+where mois= (select max(mois) from pap_statut_5_fiches_modifiees_52_semaines) 
+and statut = 'actif'
 ```
 
 ---
@@ -512,12 +600,4 @@ WHERE statut = 'actif'
 ## ⚠️ Notes Importantes
 
 1. **Filtrage systématique** : Toutes les stats excluent par défaut les utilisateurs internes et collectivités tests
-2. **Transition scoring** : Migration en cours de l'ancien scoring (sur 5) vers le nouveau (sur 10)
-3. **Tables critiques à ne pas modifier** : `stats_hero_section_site`, `airtable_sync`
-4. **Redondances connues** : `nb_fap_*` calculés 2 fois (A-3 et A-1), à factoriser
-5. **Casse importante** : `Score_mesures` (avec S majuscule)
-
----
-
-**Dernière mise à jour :** 2026-04-21  
-**Maintenu par :** Équipe Data - Territoires en Transitions
+2. **Casse importante** : `Score_mesures` (avec S majuscule)
