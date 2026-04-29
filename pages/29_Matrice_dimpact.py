@@ -26,7 +26,7 @@ def load_data():
     df_activite_semaine = read_table('activite_semaine')
     df_ct_actives = read_table('ct_actives')
     df_pap_52 = read_table('pap_statut_5_fiches_modifiees_52_semaines')
-    df_fap_52 = read_table('nb_fap_52')
+    df_fap_52 = read_table('fa_distrib')
     nps = read_table('nps')
     return df_user_actifs_ct_mois, df_activite_semaine, df_ct_actives, df_pap_52, df_fap_52, nps
 
@@ -172,8 +172,8 @@ def fap_actifs_52_semaines(mois: pd.Timestamp) -> int:
     """Nombre de FAP actives (fiches d'action pilotables, statut='actif', définition 52 semaines) au mois donné."""
     df = df_fap_52.copy()
     df['mois'] = pd.to_datetime(df['mois'], errors='coerce').dt.to_period('M').dt.to_timestamp()
-    df = df[(df['mois'] == mois) & (df['statut'] == 'actif')]
-    return int(df['fiche_id'].iloc[0])
+    df = df[(df['mois'] == mois)]
+    return int(df['action_pilotable_actives'].sum())
 
 
 # ==========================
