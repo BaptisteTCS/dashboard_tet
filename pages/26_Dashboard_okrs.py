@@ -55,13 +55,45 @@ CATEGORY10_COLORS = [
     '#bcbd22', '#17becf'
 ]
 
+# Thème des graphiques (clair / sombre)
+def get_chart_theme():
+    """
+    Retourne un dictionnaire de couleurs pour les graphiques Plotly
+    en fonction de l'état du toggle 'Mode sombre' (st.session_state.dark_mode_charts).
+
+    Les fonds sont toujours transparents pour que le graphique hérite
+    du fond Streamlit (clair ou sombre).
+    """
+    dark = st.session_state.get("dark_mode_charts", False)
+    if dark:
+        return {
+            'font_color': '#E8E8E8',
+            'paper_bgcolor': 'rgba(0,0,0,0)',
+            'plot_bgcolor': 'rgba(0,0,0,0)',
+            'grid_color': 'rgba(200, 200, 200, 0.15)',
+            'line_color': 'rgba(200, 200, 200, 0.3)',
+            'legend_bgcolor': 'rgba(30, 30, 30, 0.6)',
+            'legend_bordercolor': 'rgba(200, 200, 200, 0.2)',
+        }
+    return {
+        'font_color': '#31333F',
+        'paper_bgcolor': 'rgba(0,0,0,0)',
+        'plot_bgcolor': 'rgba(0,0,0,0)',
+        'grid_color': 'rgba(128, 128, 128, 0.2)',
+        'line_color': 'rgba(128, 128, 128, 0.3)',
+        'legend_bgcolor': 'rgba(255, 255, 255, 0.8)',
+        'legend_bordercolor': 'rgba(0, 0, 0, 0.1)',
+    }
+
+
 # Configuration du layout Plotly
 def get_plotly_layout():
+    theme = get_chart_theme()
     return {
-        'font': {'family': 'Source Sans Pro, sans-serif', 'size': 13, 'color': '#31333F'},
+        'font': {'family': 'Source Sans Pro, sans-serif', 'size': 13, 'color': theme['font_color']},
         'hovermode': 'x unified',
-        'plot_bgcolor': 'white',
-        'paper_bgcolor': 'white',
+        'plot_bgcolor': theme['plot_bgcolor'],
+        'paper_bgcolor': theme['paper_bgcolor'],
     }
 
 # ==========================
@@ -412,6 +444,7 @@ def afficher_graphique_plotly(
                 ))
     
     # Configuration du layout
+    theme = get_chart_theme()
     fig.update_layout(
         **get_plotly_layout(),
         height=height,
@@ -419,16 +452,16 @@ def afficher_graphique_plotly(
             title=legend_x,
             tickangle=-45,
             showgrid=True,
-            gridcolor='rgba(128, 128, 128, 0.2)',
+            gridcolor=theme['grid_color'],
             showline=True,
-            linecolor='rgba(128, 128, 128, 0.3)'
+            linecolor=theme['line_color']
         ),
         yaxis=dict(
             title=legend_y,
             showgrid=True,
-            gridcolor='rgba(128, 128, 128, 0.2)',
+            gridcolor=theme['grid_color'],
             showline=True,
-            linecolor='rgba(128, 128, 128, 0.3)',
+            linecolor=theme['line_color'],
             rangemode='tozero'
         ),
         legend=dict(
@@ -436,8 +469,8 @@ def afficher_graphique_plotly(
             y=0.99,
             xanchor="left",
             x=1.01,
-            bgcolor='rgba(255, 255, 255, 0.8)',
-            bordercolor='rgba(0, 0, 0, 0.1)',
+            bgcolor=theme['legend_bgcolor'],
+            bordercolor=theme['legend_bordercolor'],
             borderwidth=1
         ),
         margin=dict(l=60, r=margin_right, t=20, b=60)
@@ -451,7 +484,13 @@ def afficher_graphique_plotly(
 # Interface
 # ==========================
 
-st.title("🌠 Dashboard OKRs")
+col_titre, col_toggle = st.columns([5, 1])
+with col_titre:
+    st.title("🌠 Dashboard OKRs")
+with col_toggle:
+    st.write("")
+    st.toggle("🌙 Mode sombre", key="dark_mode_charts", value=False, help="Adapte les graphes au thème sombre de Streamlit")
+
 tabs = st.tabs(["Menu", "1 - Activation", "2 - Rétention", "3 - Qualité", "4 - Impact", "5 - Légitimité", "6 - Budget"])
 
 # ==========================
