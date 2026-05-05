@@ -7,6 +7,8 @@ st.set_page_config(
 )
 
 import pandas as pd
+from streamlit_elements import elements, mui, nivo
+
 from utils.db import read_table
 
 # ==========================
@@ -14,6 +16,52 @@ from utils.db import read_table
 # ==========================
 
 TOTAL_EPCI_FRANCE = 1189  # Total des EPCI en France (dénominateur fixe)
+
+# Palette de couleurs partagée
+COULEUR_MINT = "#A4E7C7"
+COULEUR_MINT_FONCE = "#7DD9B0"
+COULEUR_BLEU = "#96C7DA"
+COULEUR_BLEU_CLAIR = "#B8D6F7"
+COULEUR_BLEU_PALE = "#D8EEFE"
+COULEUR_PECHE = "#FFB595"
+COULEUR_PECHE_CLAIR = "#FFD0BB"
+COULEUR_VIOLET = "#E4CDEE"
+COULEUR_VIOLET_FONCE = "#C49DD3"
+COULEUR_VIOLET_CLAIR = "#E1E1FD"
+COULEUR_GRIS = "#D9D9D9"
+
+# Couleurs des graphes par section de la matrice d'impact
+COULEUR_GRAPHE_UTILISE = COULEUR_PECHE       # Section "Utilisé" (badges orange)
+COULEUR_GRAPHE_UTILE = COULEUR_BLEU          # Section "Utile" (badges bleu)
+COULEUR_GRAPHE_IMPACTANT = COULEUR_BLEU      # Section "Impactant" (badges bleu)
+
+# Thème Nivo partagé
+theme_actif = {
+    "text": {
+        "fontFamily": "Source Sans Pro, sans-serif",
+        "fontSize": 13,
+        "fill": "#31333F"
+    },
+    "labels": {
+        "text": {
+            "fontFamily": "Source Sans Pro, sans-serif",
+            "fontSize": 13,
+            "fill": "#000000"
+        }
+    },
+    "tooltip": {
+        "container": {
+            "background": "rgba(255, 255, 255, 0.95)",
+            "color": "#31333F",
+            "fontSize": "13px",
+            "fontFamily": "Source Sans Pro, sans-serif",
+            "borderRadius": "4px",
+            "boxShadow": "0 2px 8px rgba(0,0,0,0.15)",
+            "padding": "8px 12px",
+            "border": "1px solid rgba(0, 0, 0, 0.1)"
+        }
+    }
+}
 
 
 # ==========================
@@ -71,6 +119,38 @@ def _format_mois_fr(ts: pd.Timestamp) -> str:
     return f"{mois_fr.get(ts.month, ts.month)} {ts.year}"
 
 
+_MOIS_FR_ABREG = {
+    1: "janv.", 2: "févr.", 3: "mars", 4: "avr.",
+    5: "mai", 6: "juin", 7: "juil.", 8: "août",
+    9: "sept.", 10: "oct.", 11: "nov.", 12: "déc."
+}
+
+
+def _label_mois_court(ts: pd.Timestamp) -> str:
+    """Label compact pour l'axe X (ex: 'janv. 24')."""
+    return f"{_MOIS_FR_ABREG.get(ts.month, ts.month)} {str(ts.year)[2:]}"
+
+
+def _liste_24m(mois_fin: pd.Timestamp) -> list[pd.Timestamp]:
+    """Retourne les 24 derniers mois (du plus ancien au plus récent inclus)."""
+    return [(mois_fin - pd.DateOffset(months=i)).normalize() for i in range(23, -1, -1)]
+
+
+def _serie_nivo(
+    mois_list: list[pd.Timestamp],
+    valeur_fn,
+    serie_id: str = "serie",
+) -> list[dict]:
+    """Construit le format Nivo Line pour une série mensuelle."""
+    return [{
+        "id": serie_id,
+        "data": [
+            {"x": _label_mois_court(m), "y": float(valeur_fn(m))}
+            for m in mois_list
+        ]
+    }]
+
+
 def kpi_card(
     label: str,
     valeur_actuelle: float,
@@ -102,6 +182,81 @@ def kpi_card(
             delta_str = None
 
     st.metric(label, val_str, delta=delta_str, delta_color=delta_color, help=help_text)
+
+
+def kpi_chart_card(
+    key: str,
+    badge_label: str,
+    badge_icon: str,
+    badge_color: str,
+    markdown_phrase: str,
+    help_text: str,
+    chart_data: list[dict],
+    y_legend: str,
+    chart_color: str = COULEUR_GRAPHE_UTILE,
+    fmt: str = "number",
+    height: int = 400,
+):
+    """Affiche un bloc badge + phrase markdown (avec help) + graphe Nivo Line.
+
+    Paramètres :
+    - key : identifiant unique pour `elements()` (doit être unique par appel sur la page).
+    - markdown_phrase : phrase pré-formatée (avec valeurs et delta en gras) à afficher au-dessus du graphe.
+    - chart_data : données au format Nivo Line ([{"id": ..., "data": [{"x": ..., "y": ...}, ...]}]).
+
+    - fmt : "number" (axe Y en valeurs entières) ou "percent" (axe Y formaté en %, max=1).
+    """
+    st.badge(badge_label, icon=badge_icon, color=badge_color)
+    st.markdown(markdown_phrase, help=help_text)
+
+    if fmt == "percent":
+        y_scale = {"type": "linear", "min": 0, "max": 1, "stacked": False, "reverse": False}
+        axis_left_format = " >-.0%"
+        y_format = " >-.2%"
+    else:
+        y_scale = {"type": "linear", "min": 0, "max": "auto", "stacked": False, "reverse": False}
+        axis_left_format = None
+        y_format = None
+
+    axis_left = {
+        "tickSize": 5,
+        "tickPadding": 5,
+        "tickRotation": 0,
+        "legend": y_legend,
+        "legendPosition": "middle",
+        "legendOffset": -70,
+    }
+    if axis_left_format:
+        axis_left["format"] = axis_left_format
+
+    line_kwargs = dict(
+        data=chart_data,
+        margin={"top": 20, "right": 30, "bottom": 60, "left": 90},
+        xScale={"type": "point"},
+        yScale=y_scale,
+        curve="monotoneX",
+        axisTop=None,
+        axisRight=None,
+        axisBottom={
+            "tickSize": 5,
+            "tickPadding": 5,
+            "tickRotation": -45,
+        },
+        axisLeft=axis_left,
+        enableArea=True,
+        areaOpacity=0.6,
+        enablePoints=False,
+        useMesh=True,
+        enableSlices="x",
+        colors=[chart_color],
+        theme=theme_actif,
+    )
+    if y_format:
+        line_kwargs["yFormat"] = y_format
+
+    with elements(key):
+        with mui.Box(sx={"height": height}):
+            nivo.Line(**line_kwargs)
 
 
 # ==========================
@@ -181,15 +336,61 @@ def fap_actifs_52_semaines(mois: pd.Timestamp) -> int:
 # ==========================
 
 st.title("🎯 Matrice d'impact")
-st.caption(f"Toutes les statistiques présentées sont pour {_format_mois_fr(MOIS_REF)} et sont comparées à celle de {_format_mois_fr(MOIS_REF_M12)}.")
-
-
+    
 # ==========================
 # 1. UTILISABLE
 # ==========================
 st.markdown("---")
 st.markdown("## 1. Utilisable")
-st.info("En attente du survey Posthog.")
+st.info("En attente de la collecte des retours utilisateurs.")
+
+
+# ==========================
+# Helpers de formatage des phrases markdown
+# ==========================
+
+def _fmt_int_fr(v: float) -> str:
+    """Formate un entier avec espace fine comme séparateur de milliers."""
+    return f"{int(round(v)):,}".replace(",", " ")
+
+
+def _fmt_delta_int_fr(v: float) -> str:
+    """Formate un delta entier avec espace fine. Le signe '-' est conservé, le '+' est omis."""
+    return f"{int(round(v)):,}".replace(",", " ")
+
+
+# ==========================
+# Pré-calcul des séries 24 mois
+# ==========================
+
+MOIS_24 = _liste_24m(MOIS_REF)
+
+
+def _serie_users_actifs(m):
+    return utilisateurs_actifs_du_mois(m)
+
+
+def _serie_activation_epci(m):
+    return len(collectivites_actives_12m(m) & epci_ids) / TOTAL_EPCI_FRANCE if TOTAL_EPCI_FRANCE else 0
+
+
+def _serie_epci_pilotage(m):
+    actifs = collectivites_actives_12m(m) & epci_ids
+    avec_pap = epci_avec_pap_actif_52(m) & epci_ids
+    return len(actifs & avec_pap) / TOTAL_EPCI_FRANCE if TOTAL_EPCI_FRANCE else 0
+
+
+def _serie_retention(m):
+    nb_ret, nb_act = retention_4_sur_12(m)
+    return (nb_ret / nb_act) if nb_act else 0
+
+
+def _serie_fap(m):
+    return fap_actifs_52_semaines(m)
+
+
+def _serie_pap(m):
+    return pap_actifs_52_du_mois(m)
 
 
 # ==========================
@@ -198,136 +399,197 @@ st.info("En attente du survey Posthog.")
 st.markdown("---")
 st.markdown("## 2. Utilisé")
 
-col1, col2, col3, col4 = st.columns(4)
-
 # --- Utilisateurs actifs ---
-with col1:
-    st.badge("Activité", icon=":material/person_check:", color="orange")
-    nb_users_actuel = utilisateurs_actifs_du_mois(MOIS_REF)
-    nb_users_precedent = utilisateurs_actifs_du_mois(MOIS_REF_M12)
-    kpi_card(
-        label=f"Utilisateurs actifs",
-        valeur_actuelle=nb_users_actuel,
-        valeur_precedente=nb_users_precedent,
-        fmt="number",
-        help_text=f"Nombre d'utilisateurs actifs au cours de {_format_mois_fr(MOIS_REF)}. Tout utilisateurs confondu : agents, conseillers, bureaux d'études, etc.",
-    )
+nb_users_actuel = utilisateurs_actifs_du_mois(MOIS_REF)
+nb_users_precedent = utilisateurs_actifs_du_mois(MOIS_REF_M12)
+delta_users = nb_users_actuel - nb_users_precedent
+sens_users = "de plus" if delta_users >= 0 else "de moins"
 
-# --- Taux de pénétration ---
-with col2:
-    st.badge("Taux de pénétration", icon=":material/trending_up:", color="orange")
-    epci_actifs_12m = collectivites_actives_12m(MOIS_REF) & epci_ids
-    epci_actifs_12m_prev = collectivites_actives_12m(MOIS_REF_M12) & epci_ids
+kpi_chart_card(
+    key="chart_users_actifs",
+    badge_label="Activité",
+    badge_icon=":material/person_check:",
+    badge_color="orange",
+    markdown_phrase=(
+        f"Territoires en Transitions compte **{_fmt_int_fr(nb_users_actuel)} utilisateurs actifs** "
+        f"en {_format_mois_fr(MOIS_REF)}. C'est **{_fmt_delta_int_fr(delta_users)} {sens_users}** "
+        f"qu'il y a un an."
+    ),
+    help_text=(
+        f"Nombre d'utilisateurs actifs au cours de {_format_mois_fr(MOIS_REF)}. "
+        "Tout utilisateurs confondu : agents, conseillers, bureaux d'études, etc."
+    ),
+    chart_data=_serie_nivo(MOIS_24, _serie_users_actifs, serie_id="Utilisateurs actifs"),
+    y_legend="Utilisateurs actifs",
+    chart_color=COULEUR_GRAPHE_UTILISE,
+    fmt="number",
+)
 
-    taux_penetration_actuel = len(epci_actifs_12m) / TOTAL_EPCI_FRANCE if TOTAL_EPCI_FRANCE else 0
-    taux_penetration_prev = len(epci_actifs_12m_prev) / TOTAL_EPCI_FRANCE if TOTAL_EPCI_FRANCE else 0
+# --- Activation des EPCI ---
+epci_actifs_12m = collectivites_actives_12m(MOIS_REF) & epci_ids
+epci_actifs_12m_prev = collectivites_actives_12m(MOIS_REF_M12) & epci_ids
+taux_penetration_actuel = len(epci_actifs_12m) / TOTAL_EPCI_FRANCE if TOTAL_EPCI_FRANCE else 0
+taux_penetration_prev = len(epci_actifs_12m_prev) / TOTAL_EPCI_FRANCE if TOTAL_EPCI_FRANCE else 0
+delta_pen = (taux_penetration_actuel - taux_penetration_prev) * 100
+sens_pen = "de plus" if delta_pen >= 0 else "de moins"
 
-    kpi_card(
-        label=f"Activation des EPCI",
-        valeur_actuelle=taux_penetration_actuel,
-        valeur_precedente=taux_penetration_prev,
-        fmt="percent",
-        help_text=f"% d'EPCI avec au moins un utilisateur actif sur les 12 derniers mois.",
-    )
+kpi_chart_card(
+    key="chart_activation_epci",
+    badge_label="Taux de pénétration",
+    badge_icon=":material/trending_up:",
+    badge_color="green",
+    markdown_phrase=(
+        f"**{taux_penetration_actuel * 100:.0f}% des EPCI** sont actifs sur Territoires en Transitions en {_format_mois_fr(MOIS_REF)}. "
+        f" C'est **{delta_pen:.0f} pts {sens_pen}** "
+        f"qu'il y a un an."
+    ),
+    help_text="% d'EPCI avec au moins un utilisateur actif sur les 12 derniers mois.",
+    chart_data=_serie_nivo(MOIS_24, _serie_activation_epci, serie_id="Activation des EPCI"),
+    y_legend="Activation des EPCI",
+    chart_color=COULEUR_MINT,
+    fmt="percent",
+)
 
-# --- Utilisations complètes ---
-with col3:
-    st.badge("Utilisations complètes", icon=":material/check_circle:", color="orange")
-    epci_pap_actuel = epci_avec_pap_actif_52(MOIS_REF) & epci_ids
-    epci_pap_prev = epci_avec_pap_actif_52(MOIS_REF_M12) & epci_ids
+# --- EPCI en pilotage ---
+epci_pap_actuel = epci_avec_pap_actif_52(MOIS_REF) & epci_ids
+epci_pap_prev = epci_avec_pap_actif_52(MOIS_REF_M12) & epci_ids
+set_a_actuel = epci_actifs_12m & epci_pap_actuel
+set_a_prev = epci_actifs_12m_prev & epci_pap_prev
+taux_complet_actuel = len(set_a_actuel) / TOTAL_EPCI_FRANCE if TOTAL_EPCI_FRANCE else 0
+taux_complet_prev = len(set_a_prev) / TOTAL_EPCI_FRANCE if TOTAL_EPCI_FRANCE else 0
+delta_complet = (taux_complet_actuel - taux_complet_prev) * 100
+sens_complet = "de plus" if delta_complet >= 0 else "de moins"
 
-    set_a_actuel = epci_actifs_12m & epci_pap_actuel
-    set_a_prev = epci_actifs_12m_prev & epci_pap_prev
+kpi_chart_card(
+    key="chart_epci_pilotage",
+    badge_label="Utilisations complètes",
+    badge_icon=":material/check_circle:",
+    badge_color="green",
+    markdown_phrase=(
+        f"**{taux_complet_actuel * 100:.0f}% des EPCI** ont au moins un plan d'action pilotable "
+        f"actif en {_format_mois_fr(MOIS_REF)}. C'est **{delta_complet:.0f} pts {sens_complet}** "
+        f"qu'il y a un an."
+    ),
+    help_text=(
+        "Un plan d'action pilotable actif est un plan dont 5 fiches, avec au moins un titre, "
+        "une personne pilote et un statut, ont modifiées sur les 12 derniers mois."
+    ),
+    chart_data=_serie_nivo(MOIS_24, _serie_epci_pilotage, serie_id="EPCI en pilotage"),
+    y_legend="EPCI en pilotage",
+    chart_color=COULEUR_MINT,
+    fmt="percent",
+)
 
-    taux_complet_actuel = len(set_a_actuel) / TOTAL_EPCI_FRANCE if TOTAL_EPCI_FRANCE else 0
-    taux_complet_prev = len(set_a_prev) / TOTAL_EPCI_FRANCE if TOTAL_EPCI_FRANCE else 0
+# --- Rétention des collectivités ---
+nb_ret_actuel, nb_act_actuel = retention_4_sur_12(MOIS_REF)
+nb_ret_prev, nb_act_prev = retention_4_sur_12(MOIS_REF_M12)
+taux_retention_actuel = (nb_ret_actuel / nb_act_actuel) if nb_act_actuel else 0
+taux_retention_prev = (nb_ret_prev / nb_act_prev) if nb_act_prev else 0
+delta_ret = (taux_retention_actuel - taux_retention_prev) * 100
+sens_ret = "de plus" if delta_ret >= 0 else "de moins"
 
-    kpi_card(
-        label=f"EPCI en pilotage",
-        valeur_actuelle=taux_complet_actuel,
-        valeur_precedente=taux_complet_prev,
-        fmt="percent",
-        help_text=f"% d'EPCI avec au moins un plan d'action pilotable actif au cours de {_format_mois_fr(MOIS_REF)}. Un plan d'action pilotable actif est un plan dont 5 fiches, avec au moins un titre, une personne pilote et un statut, ont modifiées sur les 12 derniers mois.",
-    )
-
-# --- Taux de rétention ---
-with col4:
-    st.badge("Taux de rétention", icon=":material/radio_button_checked:", color="orange")
-    nb_ret_actuel, nb_act_actuel = retention_4_sur_12(MOIS_REF)
-    nb_ret_prev, nb_act_prev = retention_4_sur_12(MOIS_REF_M12)
-
-    taux_retention_actuel = (nb_ret_actuel / nb_act_actuel) if nb_act_actuel else 0
-    taux_retention_prev = (nb_ret_prev / nb_act_prev) if nb_act_prev else 0
-
-    kpi_card(
-        label=f"Rétention des collectivités",
-        valeur_actuelle=taux_retention_actuel,
-        valeur_precedente=taux_retention_prev,
-        fmt="percent",
-        help_text=f"% des collectivités s'étant connectées au moins 1 fois sur 4 mois différents au cours des 12 derniers mois. Métrique choisie pour rendre compte de la temporalité de l'usage de la plateforme par les agents des collectivités (suivi trimestriel).",
-    )
+kpi_chart_card(
+    key="chart_retention",
+    badge_label="Taux de rétention",
+    badge_icon=":material/radio_button_checked:",
+    badge_color="orange",
+    markdown_phrase=(
+        f"**{taux_retention_actuel * 100:.0f}% des collectivités** avec un profil sur Territoires en Transitions sont en rétention en {_format_mois_fr(MOIS_REF)}."
+        f" C'est **{delta_ret:.0f} pts {sens_ret}** qu'il y a un an."
+    ),
+    help_text=("Parmis toutes les collectivités avec un profil (au moins un agent rattaché à la collectivité),"
+        " % des collectivités s'étant connectées au moins 1 fois sur 4 mois différents "
+        "au cours des 12 derniers mois. Métrique choisie pour rendre compte de la temporalité "
+        "de l'usage de la plateforme par les agents des collectivités (suivi trimestriel)."
+    ),
+    chart_data=_serie_nivo(MOIS_24, _serie_retention, serie_id="Rétention"),
+    y_legend="Rétention",
+    chart_color=COULEUR_GRAPHE_UTILISE,
+    fmt="percent",
+)
 
 
 # ==========================
 # 3. UTILE
 # ==========================
 st.markdown("---")
+st.markdown("## 3. Utile")
 
-col_utile, col_impactant = st.columns(2)
-with col_utile:
-    st.markdown("## 3. Utile")
+# --- NPS (kpi_card classique, pas de graphe demandé) ---
+st.badge("Satisfaction des utilisateurs", icon=":material/thumb_up_off_alt:", color="blue")
+nps_moyen_actuel = nps['nps'].iloc[0]
+col_nps, _, _ = st.columns(3)
+with col_nps:
+    kpi_card(
+        label="NPS",
+        valeur_actuelle=nps_moyen_actuel,
+        fmt="number",
+        help_text=(
+            f"NPS en {_format_mois_fr(MOIS_REF)}. Le Net Promoter Score (NPS) évalue la probabilité "
+            "qu'un utilisateur recommande Territoires en Transitions à un collègue sur une échelle "
+            "de 0 à 10. Le score varie de -100 à +100, calculé en soustrayant le % de détracteurs "
+            "du % de promoteurs."
+        ),
+    )
 
-    cols_utile = st.columns(2)
+# --- Fiches actions pilotables actives ---
+nb_fap_actifs_actuel = fap_actifs_52_semaines(MOIS_REF)
+nb_fap_actifs_prev = fap_actifs_52_semaines(MOIS_REF_M12)
+delta_fap = nb_fap_actifs_actuel - nb_fap_actifs_prev
+sens_fap = "de plus" if delta_fap >= 0 else "de moins"
 
-    with cols_utile[0]:
-        st.badge("Satisfaction des utilisateurs", icon=":material/thumb_up_off_alt:", color="blue")
-
-        nps_moyen_actuel = nps['nps'].iloc[0]
-
-        kpi_card(
-            label=f"NPS",
-            valeur_actuelle=nps_moyen_actuel,
-            fmt="number",
-            help_text=f"NPS en {_format_mois_fr(MOIS_REF)}. Le Net Promoter Score (NPS) est évalue la probabilité qu'un utilisateur recommande Territoires en Transitions à un collègue sur une échelle de 0 à 10. Le score varie de -100 à +100, calculé en soustrayant le % de détracteurs du % de promoteurs.",
-        )
-
-    with cols_utile[1]:
-        st.badge("Pilotage des actions de la transition écologique", icon=":material/add_notes:", color="blue")
-
-        nb_fap_actifs_actuel = fap_actifs_52_semaines(MOIS_REF)
-        nb_fap_actifs_prev = fap_actifs_52_semaines(MOIS_REF_M12)
-
-        col_fap, _, _ = st.columns(3)
-        with col_fap:
-            kpi_card(
-                label=f"Fiches actions",
-                valeur_actuelle=nb_fap_actifs_actuel,
-                valeur_precedente=nb_fap_actifs_prev,
-                fmt="number",
-                help_text=f"Nombre de fiches actions pilotables actives en {_format_mois_fr(MOIS_REF)}. Une fiche action pilotable active est une fiche, avec au moins un titre, une personne pilote et un statut, qui a été modifiée sur les 12 derniers mois.",
-            )
+kpi_chart_card(
+    key="chart_fap",
+    badge_label="Pilotage des actions de la transition écologique",
+    badge_icon=":material/add_notes:",
+    badge_color="blue",
+    markdown_phrase=(
+        f"**{_fmt_int_fr(nb_fap_actifs_actuel)} actions actives** sont sur Territoires en Transitions en {_format_mois_fr(MOIS_REF)}. "
+        f"C'est **{_fmt_delta_int_fr(delta_fap)} "
+        f"{sens_fap}** qu'il y a un an."
+    ),
+    help_text=(
+        f"Une action active est une fiche, avec au moins un titre, une personne "
+        "pilote et un statut, qui a été modifiée sur les 12 derniers mois."
+    ),
+    chart_data=_serie_nivo(MOIS_24, _serie_fap, serie_id="Fiches actions"),
+    y_legend="Fiches actions",
+    chart_color=COULEUR_GRAPHE_UTILE,
+    fmt="number",
+)
 
 
 # ==========================
 # 4. IMPACTANT
 # ==========================
-with col_impactant:
-    st.markdown("## 4. Impactant")
+st.markdown("---")
+st.markdown("## 4. Impactant")
 
-    st.badge("Pilotage de la transition écologique", icon=":material/globe_book:", color="blue")
+nb_pap_actifs_actuel = pap_actifs_52_du_mois(MOIS_REF)
+nb_pap_actifs_prev = pap_actifs_52_du_mois(MOIS_REF_M12)
+delta_pap = nb_pap_actifs_actuel - nb_pap_actifs_prev
+sens_pap = "de plus" if delta_pap >= 0 else "de moins"
 
-    nb_pap_actifs_actuel = pap_actifs_52_du_mois(MOIS_REF)
-    nb_pap_actifs_prev = pap_actifs_52_du_mois(MOIS_REF_M12)
-
-    col_pap, _, _ = st.columns(3)
-    with col_pap:
-        kpi_card(
-            label=f"Plans d'action pilotables actifs",
-            valeur_actuelle=nb_pap_actifs_actuel,
-            valeur_precedente=nb_pap_actifs_prev,
-            fmt="number",
-            help_text=f"Nombre de plans d'action pilotables actifs en {_format_mois_fr(MOIS_REF)}. Un plan d'action pilotable actif est un plan dont 5 fiches, avec au moins un titre, une personne pilote et un statut, ont modifiées sur les 12 derniers mois.",
-        )
+kpi_chart_card(
+    key="chart_pap",
+    badge_label="Pilotage de la transition écologique",
+    badge_icon=":material/globe_book:",
+    badge_color="blue",
+    markdown_phrase=(
+        f"Territoires en Transitions compte **{_fmt_int_fr(nb_pap_actifs_actuel)} plans d'action "
+        f"pilotables actifs** en {_format_mois_fr(MOIS_REF)}. C'est **{_fmt_delta_int_fr(delta_pap)} "
+        f"{sens_pap}** qu'il y a un an."
+    ),
+    help_text=(
+        f"Nombre de plans d'action pilotables actifs en {_format_mois_fr(MOIS_REF)}. "
+        "Un plan d'action pilotable actif est un plan dont 5 fiches, avec au moins un titre, "
+        "une personne pilote et un statut, ont modifiées sur les 12 derniers mois."
+    ),
+    chart_data=_serie_nivo(MOIS_24, _serie_pap, serie_id="Plans d'action"),
+    y_legend="Plans d'action pilotables actifs",
+    chart_color=COULEUR_GRAPHE_IMPACTANT,
+    fmt="number",
+)
 
 
 # ==========================
