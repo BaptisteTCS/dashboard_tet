@@ -336,7 +336,7 @@ def fap_actifs_52_semaines(mois: pd.Timestamp) -> int:
 # ==========================
 
 st.title("🎯 Matrice d'impact")
-st.markdown('Visualisez les chiffres clés de la matrice d\'impact du service numérique')
+st.markdown('Visualisez les chiffres clés de la matrice d\'impact du service numérique.')
 
 # ==========================
 # 1. UTILISABLE
