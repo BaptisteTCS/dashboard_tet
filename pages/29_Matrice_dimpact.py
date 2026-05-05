@@ -15,7 +15,7 @@ from utils.db import read_table
 # Constantes
 # ==========================
 
-TOTAL_EPCI_FRANCE = 1189  # Total des EPCI en France (dénominateur fixe)
+TOTAL_EPCI_FRANCE = 1254  # Total des EPCI en France (dénominateur fixe)
 
 # Palette de couleurs partagée
 COULEUR_MINT = "#A4E7C7"
@@ -336,13 +336,13 @@ def fap_actifs_52_semaines(mois: pd.Timestamp) -> int:
 # ==========================
 
 st.title("🎯 Matrice d'impact")
-    
+
 # ==========================
 # 1. UTILISABLE
 # ==========================
-st.markdown("---")
-st.markdown("## 1. Utilisable")
-st.info("En attente de la collecte des retours utilisateurs.")
+# st.markdown("---")
+# st.markdown("## 1. Utilisable")
+# st.info("En attente de la collecte des retours utilisateurs.")
 
 
 # ==========================
@@ -397,7 +397,7 @@ def _serie_pap(m):
 # 2. UTILISÉ
 # ==========================
 st.markdown("---")
-st.markdown("## 2. Utilisé")
+st.markdown("## 1. Utilisé")
 
 # --- Utilisateurs actifs ---
 nb_users_actuel = utilisateurs_actifs_du_mois(MOIS_REF)
@@ -411,7 +411,7 @@ kpi_chart_card(
     badge_icon=":material/person_check:",
     badge_color="orange",
     markdown_phrase=(
-        f"Territoires en Transitions compte **{_fmt_int_fr(nb_users_actuel)} utilisateurs actifs** "
+        f"Territoires en Transitions comptait **{_fmt_int_fr(nb_users_actuel)} utilisateurs actifs** "
         f"en {_format_mois_fr(MOIS_REF)}. C'est **{_fmt_delta_int_fr(delta_users)} {sens_users}** "
         f"qu'il y a un an."
     ),
@@ -439,7 +439,7 @@ kpi_chart_card(
     badge_icon=":material/trending_up:",
     badge_color="green",
     markdown_phrase=(
-        f"**{taux_penetration_actuel * 100:.0f}% des EPCI** sont actifs sur Territoires en Transitions en {_format_mois_fr(MOIS_REF)}. "
+        f"**{taux_penetration_actuel * 100:.0f}% des EPCI** étaient actifs sur Territoires en Transitions en {_format_mois_fr(MOIS_REF)}. "
         f" C'est **{delta_pen:.0f} pts {sens_pen}** "
         f"qu'il y a un an."
     ),
@@ -466,7 +466,7 @@ kpi_chart_card(
     badge_icon=":material/check_circle:",
     badge_color="green",
     markdown_phrase=(
-        f"**{taux_complet_actuel * 100:.0f}% des EPCI** ont au moins un plan d'action pilotable "
+        f"**{taux_complet_actuel * 100:.0f}% des EPCI** avaient au moins un plan d'action pilotable "
         f"actif en {_format_mois_fr(MOIS_REF)}. C'est **{delta_complet:.0f} pts {sens_complet}** "
         f"qu'il y a un an."
     ),
@@ -494,7 +494,7 @@ kpi_chart_card(
     badge_icon=":material/radio_button_checked:",
     badge_color="orange",
     markdown_phrase=(
-        f"**{taux_retention_actuel * 100:.0f}% des collectivités** avec un profil sur Territoires en Transitions sont en rétention en {_format_mois_fr(MOIS_REF)}."
+        f"**{taux_retention_actuel * 100:.0f}% des collectivités** avec un profil sur Territoires en Transitions étaient en rétention en {_format_mois_fr(MOIS_REF)}."
         f" C'est **{delta_ret:.0f} pts {sens_ret}** qu'il y a un an."
     ),
     help_text=("Parmis toutes les collectivités avec un profil (au moins un agent rattaché à la collectivité),"
@@ -513,7 +513,7 @@ kpi_chart_card(
 # 3. UTILE
 # ==========================
 st.markdown("---")
-st.markdown("## 3. Utile")
+st.markdown("## 2. Utile")
 
 # --- NPS (kpi_card classique, pas de graphe demandé) ---
 st.badge("Satisfaction des utilisateurs", icon=":material/thumb_up_off_alt:", color="blue")
@@ -525,10 +525,9 @@ with col_nps:
         valeur_actuelle=nps_moyen_actuel,
         fmt="number",
         help_text=(
-            f"NPS en {_format_mois_fr(MOIS_REF)}. Le Net Promoter Score (NPS) évalue la probabilité "
-            "qu'un utilisateur recommande Territoires en Transitions à un collègue sur une échelle "
-            "de 0 à 10. Le score varie de -100 à +100, calculé en soustrayant le % de détracteurs "
-            "du % de promoteurs."
+            f"Le Net Promoter Score (NPS) est un système de mesure de la satisfaction des utilisateurs. Il évalue la probabilité "
+            "qu'un utilisateur recommande Territoires en Transitions à un collègue sur une échelle de 1 à 10. Un score entre -100 et +100 est ensuite calculé. "
+            "Au dessus de 0 est bon, au dessus de 20 est favorable, au dessus de 50 est excellent, au dessus de 80 est world class."
         ),
     )
 
@@ -544,7 +543,7 @@ kpi_chart_card(
     badge_icon=":material/add_notes:",
     badge_color="blue",
     markdown_phrase=(
-        f"**{_fmt_int_fr(nb_fap_actifs_actuel)} actions actives** sont sur Territoires en Transitions en {_format_mois_fr(MOIS_REF)}. "
+        f"**{_fmt_int_fr(nb_fap_actifs_actuel)} actions actives** étaient sur Territoires en Transitions en {_format_mois_fr(MOIS_REF)}. "
         f"C'est **{_fmt_delta_int_fr(delta_fap)} "
         f"{sens_fap}** qu'il y a un an."
     ),
@@ -563,7 +562,7 @@ kpi_chart_card(
 # 4. IMPACTANT
 # ==========================
 st.markdown("---")
-st.markdown("## 4. Impactant")
+st.markdown("## 3. Impactant")
 
 nb_pap_actifs_actuel = pap_actifs_52_du_mois(MOIS_REF)
 nb_pap_actifs_prev = pap_actifs_52_du_mois(MOIS_REF_M12)
@@ -576,7 +575,7 @@ kpi_chart_card(
     badge_icon=":material/globe_book:",
     badge_color="blue",
     markdown_phrase=(
-        f"Territoires en Transitions compte **{_fmt_int_fr(nb_pap_actifs_actuel)} plans d'action "
+        f"Territoires en Transitions comptait **{_fmt_int_fr(nb_pap_actifs_actuel)} plans d'action "
         f"pilotables actifs** en {_format_mois_fr(MOIS_REF)}. C'est **{_fmt_delta_int_fr(delta_pap)} "
         f"{sens_pap}** qu'il y a un an."
     ),
@@ -596,7 +595,7 @@ kpi_chart_card(
 # 5. EFFICIENT
 # ==========================
 st.markdown("---")
-st.markdown("## 5. Efficient")
+st.markdown("## 4. Efficient")
 
 BUDGET_ANNUEL = 1_600_000  # Budget annuel brut alloué à la plateforme (€)
 
