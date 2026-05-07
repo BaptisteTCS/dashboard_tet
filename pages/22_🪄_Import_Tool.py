@@ -1,6 +1,9 @@
 import streamlit as st
 from google import genai
 from google.genai import types
+from google.oauth2 import service_account
+from googleapiclient.discovery import build
+from googleapiclient.http import MediaIoBaseUpload
 from pypdf import PdfReader
 import asyncio
 import os
@@ -14,6 +17,9 @@ import nest_asyncio
 import pandas as pd
 from openpyxl import load_workbook
 nest_asyncio.apply()
+
+# ID du dossier Google Drive de destination pour les fichiers d'import générés
+DRIVE_FOLDER_ID = "1wu0jAgxrkPRUm3uDjcgZvCSVwgUVkbCG"
 
 st.set_page_config(layout="wide")
 st.title("✨ Import Tool :blue-badge[:material/experiment: Beta]")
@@ -202,9 +208,9 @@ Rappel de robustesse
 Jusqu’à présent, le prompt décrivait les règles générales d’extraction. Si le champ suivant n’est pas vide, vous devez impérativement tenir compte des précisions spécifiques ci-dessous.  
 Elles peuvent modifier ou affiner l’interprétation de la structure du plan. Elles prévalent sur les règles générales lorsqu’il existe une contradiction ou une ambiguïté.
 
---- Précisions spécifiques (à appliquer strictement si présentes) qui prennent le dessus sur les règles générales ---
+--- Consignes spécifiques IMPORTANTES (à appliquer strictement si présentes) qui prennent le dessus sur les règles générales ---
 {precisions}
---- Fin des précisions spécifiques ---
+--- Fin des consignes spécifiques IMPORTANTES ---
 
 
 Voici le texte à analyser :
@@ -738,6 +744,54 @@ def remplir_fichier_import(df: pd.DataFrame) -> io.BytesIO:
     output.seek(0)
 
     return output
+
+
+def upload_excel_to_drive(excel_bytes: io.BytesIO, filename: str, folder_id: str = DRIVE_FOLDER_ID):
+    """Upload un fichier Excel (BytesIO) sur Google Drive dans le dossier configuré.
+
+    Renvoie l'objet file Drive (avec id, name, webViewLink).
+    """
+    service_account_info = st.secrets["SERVICE_ACCOUNT_INFO"]
+    if not isinstance(service_account_info, dict):
+        service_account_info = dict(service_account_info)
+
+    credentials = service_account.Credentials.from_service_account_info(
+        service_account_info,
+        scopes=["https://www.googleapis.com/auth/drive.file"],
+    )
+    service = build("drive", "v3", credentials=credentials)
+
+    excel_bytes.seek(0)
+
+    file_metadata = {
+        "name": filename,
+        "parents": [folder_id],
+    }
+    media = MediaIoBaseUpload(
+        excel_bytes,
+        mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        resumable=False,
+    )
+
+    file = (
+        service.files()
+        .create(
+            body=file_metadata,
+            media_body=media,
+            fields="id, name, webViewLink",
+            supportsAllDrives=True,
+        )
+        .execute()
+    )
+    return file
+
+
+def build_drive_filename(source_filename: str) -> str:
+    """Construit le nom de fichier au format YYYY-MM-DD_HH-MM-SS_[nom de base].xlsx."""
+    base_name = os.path.splitext(source_filename or "import")[0].strip() or "import"
+    timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+    return f"{timestamp}_{base_name}.xlsx"
+
 
 def display_df_markdown(df: pd.DataFrame):
     """Affiche un dataframe en mode structuré (axes > sous-axes > actions et sous-actions)"""
@@ -1371,11 +1425,33 @@ if uploaded_file is not None:
                             # Remplir le fichier import et proposer le téléchargement
                             try:
                                 excel_data = remplir_fichier_import(df_actions)
-                                
+
+                                drive_filename = build_drive_filename(uploaded_file.name)
+
+                                try:
+                                    with st.spinner("☁️ Sauvegarde sur Google Drive..."):
+                                        drive_file = upload_excel_to_drive(excel_data, drive_filename)
+                                    drive_link = drive_file.get("webViewLink")
+                                    if drive_link:
+                                        st.success(
+                                            f"✅ Fichier sauvegardé sur Google Drive : "
+                                            f"[{drive_file.get('name', drive_filename)}]({drive_link})"
+                                        )
+                                    else:
+                                        st.success(
+                                            f"✅ Fichier sauvegardé sur Google Drive : "
+                                            f"{drive_file.get('name', drive_filename)}"
+                                        )
+                                except Exception as drive_err:
+                                    st.warning(
+                                        f"⚠️ Sauvegarde sur Google Drive impossible : {str(drive_err)}"
+                                    )
+
+                                excel_data.seek(0)
                                 st.download_button(
                                     label="📥 Télécharger le fichier d'import rempli au format Excel",
                                     data=excel_data,
-                                    file_name="import_plan_actions_" + pd.Timestamp.now().strftime('%Y%m%d_%H%M%S') + ".xlsx",
+                                    file_name=drive_filename,
                                     mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
                                     type="primary"
                                 )

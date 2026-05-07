@@ -723,7 +723,7 @@ indicateurs:
     libelle: Cerema
     ordre_affichage: '1'
   ratio: 1.0
-  
+
 - api_nom_cube: sequestr_nette_co2_com
   ID: '615'
   api_nom_axe: type_sol
@@ -755,3 +755,28 @@ indicateurs:
     libelle: Aldo
     ordre_affichage: '1'
   ratio: 0.001
+
+- api_nom_cube: parc_vp_e_com
+  ID: '826'
+  api_nom_axe: ''
+  type_collectivite:
+  - commune
+  - epci
+  - departement
+  - region
+  correspondance_indicateurs: parc_vp_e
+  metadata:
+    source_id: sdes
+    nom_donnees: Part de voitures particulières électriques (Crit'Air E) dans le
+      parc
+    diffuseur: Ecolab
+    producteur: SDES
+    methodologie: Plus d'info 
+      [ici](https://ecologie.data.gouv.fr/indicators/67fa2469969107cf262989dc)
+    limites: ''
+    date_version: '2026-03-25'
+  source:
+    id: sdes
+    libelle: SDES
+    ordre_affichage: '1'
+  ratio: 1

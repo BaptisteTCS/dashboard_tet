@@ -24,3 +24,7 @@ openpyxl>=3.1.0
 # PDF
 pypdf>=5.0.0
 
+# Google Drive
+google-api-python-client>=2.100.0
+google-auth>=2.20.0
+

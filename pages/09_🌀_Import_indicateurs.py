@@ -385,7 +385,12 @@ def mettre_a_jour_yaml(indicateurs_yaml: list, metadonnees_api: dict, keys_a_mod
         debug_print("✅ Fichier écrit avec succès")
 
 
-def recuperer_donnees_api(indic: dict, detail_container=None, ct_filter=None) -> pd.DataFrame:
+def recuperer_donnees_api(
+    indic: dict,
+    detail_container=None,
+    ct_filter=None,
+    paginer_par_annee: bool = True,
+) -> pd.DataFrame:
     """Récupère les données d'un indicateur depuis l'API data.gouv.
     
     Applique automatiquement le ratio défini dans la config YAML sur les résultats
@@ -395,6 +400,9 @@ def recuperer_donnees_api(indic: dict, detail_container=None, ct_filter=None) ->
         indic: Dictionnaire de configuration de l'indicateur (doit contenir 'ratio')
         detail_container: Container Streamlit pour afficher les détails
         ct_filter: Dictionnaire de filtres par type de collectivité {'commune': [list_siren], 'epci': [list_siren]}
+        paginer_par_annee: Si True, pagine par tranches d'années pour commune/epci.
+            Si False, on bascule sur la pagination simple (par offset uniquement) pour
+            tous les types de collectivités.
     
     Returns:
         DataFrame avec les résultats (déjà multipliés par le ratio)
@@ -434,21 +442,37 @@ def recuperer_donnees_api(indic: dict, detail_container=None, ct_filter=None) ->
         limit = 10000
         lignes_tc = 0
         
-        # Pour commune et epci : pagination par année (beaucoup de données)
+        # Pour commune et epci : pagination par tranches d'années (beaucoup de données)
         # Pour region, departement, ept : pagination simple (peu de données)
-        if tc in ['commune', 'epci']:
+        # Si paginer_par_annee=False, on bascule tout le monde sur la pagination simple.
+        if tc in ['commune', 'epci'] and paginer_par_annee:
             annee_actuelle = datetime.now().year
+            # On récupère les années par paquets pour limiter le nombre d'allers-retours HTTP
+            BATCH_YEARS = 3
+            annee_debut = 2010
             
-            if detail_container:
-                detail_container.caption(f"    🔄 Pagination par année pour {tc}...")
-            
-            for annee in range(2000, annee_actuelle + 1):
-                offset = 0
-                lignes_annee = 0
+            for batch_start in range(annee_debut, annee_actuelle + 1, BATCH_YEARS):
+                batch_end = min(batch_start + BATCH_YEARS - 1, annee_actuelle)
                 
-                # Pagination avec offset pour chaque année
+                # Libellé de la plage d'années (réutilisé pour tous les messages du batch)
+                if batch_start == batch_end:
+                    libelle_plage = f"{batch_start}"
+                else:
+                    libelle_plage = f"{batch_start} → {batch_end}"
+                
+                # Affichage de la plage en cours AVANT la requête (pour suivre l'avancement)
+                if detail_container:
+                    detail_container.caption(
+                        f"    📅 {tc} — récupération {libelle_plage}… "
+                        f"(cumul {tc} : {lignes_tc:,} lignes)"
+                    )
+                
+                offset = 0
+                lignes_batch = 0
+                
+                # Pagination avec offset pour chaque batch d'années
                 while True:
-                    # Construction de la requête avec filtre sur l'année
+                    # Construction de la requête avec filtre sur la plage d'années
                     query = {
                         "measures": [measure_name],
                         "timezone": "UTC",
@@ -457,7 +481,7 @@ def recuperer_donnees_api(indic: dict, detail_container=None, ct_filter=None) ->
                             {
                                 "dimension": date_dim,
                                 "granularity": "year",
-                                "dateRange": [f"{annee}-01-01", f"{annee}-12-31"]
+                                "dateRange": [f"{batch_start}-01-01", f"{batch_end}-12-31"]
                             }
                         ],
                         "order": {date_dim: "asc"},
@@ -488,29 +512,44 @@ def recuperer_donnees_api(indic: dict, detail_container=None, ct_filter=None) ->
                         df["type_collectivite"] = tc
                         all_dfs.append(df)
 
-                        lignes_annee += len(rows)
+                        lignes_batch += len(rows)
                         lignes_tc += len(rows)
                         total_lignes += len(rows)
                         
-                        # Si on reçoit moins de lignes que la limite, on a tout récupéré pour cette année
+                        # Affichage en temps réel après chaque page reçue
+                        if detail_container:
+                            detail_container.caption(
+                                f"    📥 {tc} — {libelle_plage} : "
+                                f"{lignes_batch:,} lignes reçues "
+                                f"(cumul {tc} : {lignes_tc:,} | total : {total_lignes:,})"
+                            )
+                        
+                        # Si on reçoit moins de lignes que la limite, on a tout récupéré pour ce batch
                         if len(rows) < limit:
                             break
                         
                         offset += limit
                     else:
-                        st.error(f"Erreur {response.status_code} pour {tc} - année {annee} : {response.text}")
+                        st.error(
+                            f"Erreur {response.status_code} pour {tc} - années {batch_start}-{batch_end} : {response.text}"
+                        )
                         break
                 
-                # Affichage du résumé pour cette année
-                if detail_container and lignes_annee > 0:
-                    detail_container.caption(f"    ✅ {annee} : {lignes_annee:,} lignes")
+                # Affichage du résumé pour ce batch d'années
+                if detail_container and lignes_batch > 0:
+                    detail_container.caption(
+                        f"    ✅ {tc} — {libelle_plage} : {lignes_batch:,} lignes "
+                        f"(cumul {tc} : {lignes_tc:,} | total : {total_lignes:,})"
+                    )
         
         else:
             # Pagination simple pour region, departement, ept (peu de données)
             offset = 0
             
             if detail_container:
-                detail_container.caption(f"    🔄 Pagination simple pour {tc}...")
+                detail_container.caption(
+                    f"    🔄 Pagination simple pour {tc}… (cumul {tc} : {lignes_tc:,} lignes)"
+                )
             
             while True:
                 # Construction de la requête sans filtre d'année
@@ -549,6 +588,13 @@ def recuperer_donnees_api(indic: dict, detail_container=None, ct_filter=None) ->
 
                     lignes_tc += len(rows)
                     total_lignes += len(rows)
+                    
+                    # Affichage en temps réel après chaque page reçue
+                    if detail_container:
+                        detail_container.caption(
+                            f"    📥 {tc} : {lignes_tc:,} lignes reçues "
+                            f"(total : {total_lignes:,})"
+                        )
                     
                     # Si on reçoit moins de lignes que la limite, on a tout récupéré
                     if len(rows) < limit:
@@ -1250,12 +1296,34 @@ try:
         if indicateurs_selectionnes:
             st.info(f"💡 {len(indicateurs_selectionnes)} indicateur(s) sélectionné(s)")
         
-        lancer_import = st.button(
-            "🚀 Lancer l'import",
-            disabled=len(indicateurs_selectionnes) == 0,
-            type="primary",
-            width='stretch'
-        )
+        col_btn, col_toggle1, col_toggle2 = st.columns([3, 2, 2])
+        with col_btn:
+            lancer_import = st.button(
+                "🚀 Lancer l'import",
+                disabled=len(indicateurs_selectionnes) == 0,
+                type="primary",
+                width='stretch'
+            )
+        with col_toggle1:
+            desactiver_filtre_siren = st.toggle(
+                "🚫 Désactiver le filtrage SIREN",
+                value=False,
+                help=(
+                    "Si activé, l'API renvoie toutes les collectivités françaises "
+                    "(la jointure TET se fera ensuite côté Python). "
+                    "Utile pour debug ou si le filtre SIREN ne renvoie rien."
+                ),
+            )
+        with col_toggle2:
+            desactiver_pagination_annee = st.toggle(
+                "📅 Désactiver la pagination par année",
+                value=False,
+                help=(
+                    "Si activé, on récupère commune/epci en une seule série de pages "
+                    "(pagination par offset uniquement, sans découpage par année). "
+                    "Utile si la pagination par année renvoie zéro ligne."
+                ),
+            )
     
     # Traitement de l'import
     if lancer_import:
@@ -1270,10 +1338,25 @@ try:
         )
         
         # Créer le dictionnaire de filtres pour commune et epci
-        ct_filter_tet = {
-            'commune': [str(siren) for siren in cts_tet[cts_tet['type'] == 'commune']['siren'].tolist()],
-            'epci': [str(siren) for siren in cts_tet[cts_tet['type'] == 'epci']['siren'].tolist()]
-        }
+        # (ignoré si l'utilisateur a désactivé le filtrage SIREN via le toggle)
+        if desactiver_filtre_siren:
+            ct_filter_tet = None
+            st.warning(
+                "🚫 Filtrage SIREN désactivé : l'API va renvoyer toutes les collectivités françaises. "
+                "La jointure avec les collectivités TET se fera après la récupération."
+            )
+        else:
+            ct_filter_tet = {
+                'commune': [str(siren) for siren in cts_tet[cts_tet['type'] == 'commune']['siren'].tolist()],
+                'epci': [str(siren) for siren in cts_tet[cts_tet['type'] == 'epci']['siren'].tolist()]
+            }
+        
+        # Information sur le mode de pagination utilisé
+        if desactiver_pagination_annee:
+            st.warning(
+                "📅 Pagination par année désactivée : pour commune/epci, on récupère tout "
+                "via une simple pagination par offset (sans découpage par année)."
+            )
         
         progress_bar = st.progress(0)
         
@@ -1299,7 +1382,12 @@ try:
                 detail_container = st.empty()
                 
                 # Récupération des données API avec affichage des détails et filtres
-                df_api = recuperer_donnees_api(indic, detail_container, ct_filter_tet)
+                df_api = recuperer_donnees_api(
+                    indic,
+                    detail_container,
+                    ct_filter_tet,
+                    paginer_par_annee=not desactiver_pagination_annee,
+                )
 
                 if st.session_state.debug_mode:
                     with st.expander("df_api 1"):
