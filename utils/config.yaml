@@ -780,3 +780,127 @@ indicateurs:
     libelle: SDES
     ordre_affichage: '1'
   ratio: 1
+- api_nom_cube: immatriculations_veh_com
+  ID: '1055'
+  api_nom_axe: carburant
+  type_collectivite:
+  - commune
+  - epci
+  - ept
+  - departement
+  - region
+  correspondance_indicateurs:
+    immatriculations_veh_ener.a: Electrique et hydrogène
+    immatriculations_veh_ener.b: Essence - thermique
+    immatriculations_veh_ener.c: Essence - hybride NR
+    immatriculations_veh_ener.d: Diesel - thermique
+    immatriculations_veh_ener.e: Diesel - hybride NR
+    immatriculations_veh_ener.f: Hybride rechargeable
+    immatriculations_veh_ener.g: Gaz et ND
+  metadata:
+    source_id: sdes
+    nom_donnees: Part de véhicules neufs par source d'énergie
+    diffuseur: Ecolab
+    producteur: SDES
+    methodologie: Plus d'infos 
+      [ici](https://ecologie.data.gouv.fr/indicators/6894ba0c42a37e6b22be9c74)
+    limites: ''
+    date_version: '2026-03-25'
+  source:
+    id: sdes
+    libelle: sdes
+    ordre_affichage: '1'
+  ratio: 1.0
+- api_nom_cube: immatriculations_veh_com
+  ID: '1055'
+  api_nom_axe: type_vehicule
+  type_collectivite:
+  - commune
+  - epci
+  - ept
+  - departement
+  - region
+  correspondance_indicateurs:
+    immatriculations_veh_type.a: VP
+    immatriculations_veh_type.b: VUL
+    immatriculations_veh_type.c: TCP_BUS
+    immatriculations_veh_type.d: TCP_CAR
+    immatriculations_veh_type.e: PL
+    immatriculations_veh_type.f: DEUX-ROUES MOTORISES
+    immatriculations_veh_type.g: AUTRES
+  metadata:
+    source_id: sdes
+    nom_donnees: Part de véhicules neufs par type de véhicule
+    diffuseur: Ecolab
+    producteur: SDES
+    methodologie: Plus d'infos 
+      [ici](https://ecologie.data.gouv.fr/indicators/6894ba0c42a37e6b22be9c74)
+    limites: ''
+    date_version: '2026-03-25'
+  source:
+    id: sdes
+    libelle: sdes
+    ordre_affichage: '1'
+  ratio: 1.0
+- api_nom_cube: covoit_lieux_com
+  ID: '1083'
+  api_nom_axe: type_lieu
+  type_collectivite:
+  - commune
+  - epci
+  - departement
+  - region
+  - ept
+  correspondance_indicateurs:
+    covoit_lieu.a: Aire de covoiturage
+    covoit_lieu.b: Auto-stop
+    covoit_lieu.c: Délaissé routier
+    covoit_lieu.d: Parking
+    covoit_lieu.e: Parking relais
+    covoit_lieu.f: Sortie d'autoroute
+    covoit_lieu.g: Supermarché
+  metadata:
+    source_id: Registre de Preuve de Covoiturage
+    nom_donnees: Nombre de lieux de covoiturage selon la typologie
+    diffuseur: Ecolab
+    producteur: Registre de Preuve de Covoiturage
+    methodologie: Plus d'infos 
+      [ici](https://ecologie.data.gouv.fr/indicators/6895bfb731236d05833982a1)
+    limites: ''
+    date_version: '2026-03-25'
+  source:
+    id: Registre de Preuve de Covoiturage
+    libelle: Registre de Preuve de Covoiturage
+    ordre_affichage: '1'
+  ratio: 1.0
+- api_nom_cube: parc_autocar_com
+  ID: '1044'
+  api_nom_axe: critair
+  type_collectivite:
+  - commune
+  - epci
+  - departement
+  - region
+  correspondance_indicateurs:
+    critair.a: Crit'Air 1
+    critair.b: Crit'Air 2
+    critair.c: Crit'Air 3
+    critair.d: Crit'Air 4
+    critair.e: Crit'Air 5
+    critair.f: Crit'Air E
+    critair.g: Inconnu
+    critair.h: Non classé
+  metadata:
+    source_id: sdes
+    nom_donnees: Part d'autocars par vignette crit'air
+    diffuseur: Ecolab
+    producteur: SDES
+    methodologie: Plus d'infos 
+      [ici](https://ecologie.data.gouv.fr/indicators/67f988bf9ea6979ac6079373)
+    limites: ''
+    date_version: '2026-03-25'
+  source:
+    id: sdes
+    libelle: SDES
+    ordre_affichage: '1'
+  ratio: 1.0

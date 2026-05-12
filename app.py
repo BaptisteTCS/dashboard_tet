@@ -11,7 +11,6 @@ st.set_page_config(
 pages = {
     "Favoris": [
         st.Page("pages/26_Dashboard_okrs.py", title="Dashboard OKRs", icon="🌠"),
-        st.Page("pages/23_🐍_Dashboard_interne.py", title="Dashboard Interne", icon="🐍"),
         st.Page("pages/02_⚡_Weekly.py", title="Weekly", icon="⚡", default=True),
         st.Page("pages/22_🪄_Import_Tool.py", title="Import Tool", icon="🪄"),
         st.Page("pages/06_✨_AI_Stats_assistant.py", title="AI Stats Assistant", icon="✨"),
@@ -37,13 +36,6 @@ pages = {
         st.Page("pages/24_🗺️_Carte_de_france.py", title="Dashboard Carte de France", icon="🗺️"),
         st.Page("pages/28_Agent_IA_Benchmark.py", title="Agent IA Benchmark", icon="🥸"),
         st.Page("pages/29_Matrice_dimpact.py", title="Matrice d'impact", icon="🎯"),
-    ],
-    "Osbolètes": [
-        st.Page("pages/01_🌟_North_Star_&_metrics.py", title="North Star & Metrics", icon="🌟"),
-        st.Page("pages/03_🏆_Champions.py", title="Champions", icon="🏆"),
-        st.Page("pages/20_📢_Stats_publiques.py", title="Stats Publiques", icon="📢"),
-        st.Page("pages/19_🪐_Experimentation_Nivo.py", title="Expérimentation Nivo", icon="🪐"),
-        st.Page("pages/17_🌍_Suivi_Campagne_Regions.py", title="Campagne Régions", icon="🌍"),
     ],
 }
 
