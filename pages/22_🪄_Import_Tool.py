@@ -752,7 +752,9 @@ def upload_excel_to_drive(excel_bytes: io.BytesIO, filename: str, folder_id: str
     Renvoie l'objet file Drive (avec id, name, webViewLink).
     """
     service_account_info = st.secrets["SERVICE_ACCOUNT_INFO"]
-    if not isinstance(service_account_info, dict):
+    if isinstance(service_account_info, str):
+        service_account_info = json.loads(service_account_info)
+    elif not isinstance(service_account_info, dict):
         service_account_info = dict(service_account_info)
 
     credentials = service_account.Credentials.from_service_account_info(
