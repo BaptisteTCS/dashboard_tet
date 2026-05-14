@@ -134,6 +134,28 @@ with tab_plan:
 
     plans_ct = df_plans_ct['plan'].dropna().unique().tolist()
 
+    with st.expander("Définition de la notation"):
+        st.markdown('### Définition de la note d\'une action')
+        st.markdown(
+        """
+        - **Titre** + 1pt
+        - **Description** + 1pt
+        - **Statut** + 1pt
+        - **Personne pilote** + 0.5pt
+        - **Au moins une des personnes pilotes est rattachée à un compte utilisateur** +0.5pt
+        - **Date de début** + 0.5pt
+        - **Date de fin (ou action continue est coché)** + 0.5pt
+        - **Indicateur lié** + 1pt
+        - **Objectif** + 1pt *(au moins un objectif chiffré dans TOUS les indicateurs liés pour une année supérieur ou égalé à l’année actuelle)*
+        - **Budget** + 1pt *(budget investissement ou fonctionnement ou financeurs ou champs financements ou moyens humains)*
+        - **Note de suivi de moins d’un an** + 1pt
+        - **Date de dernière MAJ de l’action <12 mois** + 0.5pt (si statut non terminé/Abandonné) *(la modification d'une relation n'est pas comptabilisée comme lier des indicateurs, mesures, budget, etc.)*
+        - **Date de dernière MAJ de l’action <6 mois** + 0.5pt (si statut non terminé/Abandonné) *(idem)*
+        """)
+
+        st.markdown('### Définition de la note d\'un plan')
+        st.markdown('La note d\'un plan se calcule en prenant la moyenne des notes de toutes ses fiches actions.')
+
     if not plans_ct:
         st.warning("Aucun plan PAP trouvé pour cette collectivité.")
     else:
@@ -193,12 +215,19 @@ with tab_plan:
                 .copy()
                 .sort_values('mois')
             )
+            if len(top_plans) >= 10:
+                st.badge(
+                    f"Évolution des 10 meilleurs plans",
+                    icon=":material/trending_up:",
+                    color="green",
+                )
 
-            st.badge(
-                f"Évolution des {len(top_plans)} meilleurs plans",
-                icon=":material/trending_up:",
-                color="green",
-            )
+            else:
+                st.badge(
+                    f"Évolution des plans",
+                    icon=":material/trending_up:",
+                    color="green",
+                )
 
             if df_evol_top.empty:
                 st.info("Pas d'historique de note pour ces plans.")
