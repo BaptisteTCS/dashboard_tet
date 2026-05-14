@@ -1,6 +1,15 @@
 import pandas as pd
 from .db import read_table
 
+
+def tet_plan_url(collectivite_id: int | float, plan_id: int | float) -> str:
+    """Construit l'URL d'un plan dans l'app Territoires en Transitions."""
+    return (
+        f"https://app.territoiresentransitions.fr/collectivite/"
+        f"{int(collectivite_id)}/plans/{int(plan_id)}"
+    )
+
+
 def load_df_pap() -> pd.DataFrame:
     df = read_table("pap_date_passage")
     return df

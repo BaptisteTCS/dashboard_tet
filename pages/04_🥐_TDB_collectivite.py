@@ -1,198 +1,490 @@
 import streamlit as st
 import pandas as pd
+from streamlit_elements import elements, nivo, mui
 
-from utils.data import load_df_pap_notes
-from utils.plots import radar_spider_graph_plotly
+from utils.db import read_table
+from utils.data import tet_plan_url
+from utils.plots import new_note_spider_graph
 
 
-st.title("🥐 Tableau de bord des collectivités")
+st.set_page_config(layout="wide")
+st.title("🛰️ Dashboard Collectivités")
 
-# Charger les données
-df_notes = load_df_pap_notes()
 
-# Conserver la dernière note par plan
-pap_note = df_notes.sort_values(by='semaine', ascending=False).drop_duplicates(subset=['plan_id'], keep='first').copy()
-
-# === SIDEBAR - FILTRES DE RECHERCHE ===
-st.sidebar.header("🔍 Filtres de recherche")
-
-# Filtre par type de collectivité
-types_available = sorted(pap_note['type_collectivite'].dropna().unique().tolist())
-selected_types = st.sidebar.multiselect(
-    "Type de collectivité",
-    options=types_available,
-    default=None,
-    help="Sélectionnez un ou plusieurs types"
-)
-
-# Filtre par nature de collectivité
-natures_available = sorted(pap_note['nature_collectivite'].dropna().unique().tolist())
-selected_natures = st.sidebar.multiselect(
-    "Nature de collectivité",
-    options=natures_available,
-    default=None,
-    help="Sélectionnez une ou plusieurs natures"
-)
-
-# Filtre par région
-regions_available = sorted(pap_note['region_name'].dropna().unique().tolist())
-selected_regions = st.sidebar.multiselect(
-    "Région",
-    options=regions_available,
-    default=None,
-    help="Sélectionnez une ou plusieurs régions"
-)
-
-# Filtre par département
-departements_available = sorted(pap_note['departement_name'].dropna().unique().tolist())
-selected_departements = st.sidebar.multiselect(
-    "Département",
-    options=departements_available,
-    default=None,
-    help="Sélectionnez un ou plusieurs départements"
-)
-
-# Filtre par tranche de population
-st.sidebar.markdown("**Tranche de population**")
-pop_min = int(pap_note['population_totale'].min()) if pap_note['population_totale'].notna().any() else 0
-pop_max = int(pap_note['population_totale'].max()) if pap_note['population_totale'].notna().any() else 1000000
-
-selected_pop_range = st.sidebar.slider(
-    "Population (habitants)",
-    min_value=pop_min,
-    max_value=pop_max,
-    value=(pop_min, pop_max),
-    step=1000,
-    format="%d",
-    help="Ajustez la tranche de population"
-)
-
-# === APPLICATION DES FILTRES ===
-filtered_df = pap_note.copy()
-
-# Filtre par type
-if selected_types:
-    filtered_df = filtered_df[filtered_df['type_collectivite'].isin(selected_types)]
-
-# Filtre par nature
-if selected_natures:
-    filtered_df = filtered_df[filtered_df['nature_collectivite'].isin(selected_natures)]
-
-# Filtre par région
-if selected_regions:
-    filtered_df = filtered_df[filtered_df['region_name'].isin(selected_regions)]
-
-# Filtre par département
-if selected_departements:
-    filtered_df = filtered_df[filtered_df['departement_name'].isin(selected_departements)]
-
-# Filtre par population
-filtered_df = filtered_df[
-    (filtered_df['population_totale'] >= selected_pop_range[0]) &
-    (filtered_df['population_totale'] <= selected_pop_range[1])
-]
-
-# Tri par score décroissant
-filtered_df = filtered_df.sort_values(by='score', ascending=False)
-
-# === AFFICHAGE DES RÉSULTATS ===
-st.sidebar.markdown("---")
-st.sidebar.metric("📊 Collectivités trouvées", len(filtered_df['nom_ct'].unique()))
-
-if len(filtered_df) == 0:
-    st.warning("⚠️ Aucune collectivité ne correspond à vos critères de recherche.")
-else:
-    # === VUE LISTE DES COLLECTIVITÉS ===
-    st.markdown("---")
-    st.markdown(f"**{len(filtered_df['nom_ct'].unique())} collectivité(s) trouvée(s)** - Triées par score moyen décroissant")
-    
-    # Grouper par collectivité et calculer le score moyen et nombre de plans
-    collectivites_summary = filtered_df.groupby('nom_ct').agg({
-        'score': 'mean',
-        'plan_id': 'count',
-        'type_collectivite': 'first',
-        'nature_collectivite': 'first',
-        'region_name': 'first',
-        'departement_name': 'first',
-        'population_totale': 'first',
-        'collectivite_id': 'first'
-    }).reset_index()
-    
-    collectivites_summary.columns = ['Collectivité', 'Score moyen', 'Nombre de plans', 'Type', 'Nature', 'Région', 'Département', 'Population', 'ID']
-    collectivites_summary = collectivites_summary.sort_values(by='Score moyen', ascending=False)
-    collectivites_summary['Score moyen'] = collectivites_summary['Score moyen'].round(2)
-    collectivites_summary['Population'] = collectivites_summary['Population'].fillna(0).astype(int)
-    
-    # Afficher le tableau des collectivités
-    st.dataframe(
-        collectivites_summary[['Collectivité', 'Score moyen', 'Nombre de plans', 'Type', 'Nature', 'Région', 'Département', 'Population']],
-        use_container_width=True,
-        hide_index=True,
-        height=400
+# === CHARGEMENT DES DONNÉES ===
+@st.cache_resource(ttl="1d")
+def load_data():
+    df_airtable_sync = read_table('airtable_sync')
+    df_activite_semaine = read_table('activite_semaine')
+    df_note_plan = read_table('note_plan_historique')
+    df_note_fiche = read_table(
+        'note_fiche_historique',
+        where_sql="mois=(select max(mois) from note_fiche_historique)",
     )
-    
-    # === SÉLECTION D'UNE COLLECTIVITÉ ===
-    st.markdown("---")
-    st.markdown("### 🔎 Sélectionnez une collectivité pour voir ses plans en détail")
-    
-    # Liste des collectivités triées par score
-    collectivites_list = collectivites_summary['Collectivité'].tolist()
-    
-    selected_collectivite = st.selectbox(
-        "Collectivité",
-        options=collectivites_list,
-        help="Sélectionnez une collectivité pour afficher tous ses plans en mode galerie"
+    df_pap_date_passage = read_table('pap_date_passage')
+    df_collectivite = read_table('collectivite')
+    df_fiche_action_plan = read_table('fiche_action_plan')
+    return (
+        df_airtable_sync,
+        df_activite_semaine,
+        df_note_plan,
+        df_note_fiche,
+        df_pap_date_passage,
+        df_collectivite,
+        df_fiche_action_plan,
     )
-    
-    if selected_collectivite:
-        # Filtrer les plans de la collectivité sélectionnée
-        plans_collectivite = filtered_df[filtered_df['nom_ct'] == selected_collectivite].sort_values(by='score', ascending=False)
-        
-        # Informations sur la collectivité
-        ct_info = collectivites_summary[collectivites_summary['Collectivité'] == selected_collectivite].iloc[0]
-        
-        st.markdown("---")
-        col_info1, col_info2, col_info3, col_info4 = st.columns(4)
-        with col_info1:
-            st.metric("Score moyen", f"{ct_info['Score moyen']} / 5")
-        with col_info2:
-            st.metric("Nombre de plans", int(ct_info['Nombre de plans']))
-        with col_info3:
-            st.info(f"**Type :** {ct_info['Type']}")
-        with col_info4:
-            st.info(f"**Population :** {int(ct_info['Population']):,} hab.".replace(',', ' '))
-        
-        # Options d'affichage
-        st.markdown("---")
-        col1, col2 = st.columns([3, 1])
-        with col1:
-            st.markdown(f"### ⬇️ Plans de {selected_collectivite}")
-        with col2:
-            nb_cols = st.selectbox("Graphes par ligne", options=[1, 2, 3], index=1, help="Nombre de graphes par ligne")
-        
-        st.markdown("---")
-        
-        # === GALERIE DE GRAPHES RADAR POUR LES PLANS DE LA COLLECTIVITÉ ===
-        for idx in range(0, len(plans_collectivite), nb_cols):
-            cols = st.columns(nb_cols)
-            for col_idx, col in enumerate(cols):
-                row_idx = idx + col_idx
-                if row_idx < len(plans_collectivite):
-                    row = plans_collectivite.iloc[row_idx]
+
+
+(
+    df_airtable_sync,
+    df_activite_semaine,
+    df_note_plan,
+    df_note_fiche,
+    df_pap_date_passage,
+    df_collectivite,
+    df_fiche_action_plan,
+) = load_data()
+
+
+# === THÈMES NIVO ===
+theme_nivo = {
+    "text": {
+        "fontFamily": "Source Sans Pro, sans-serif",
+        "fontSize": 13,
+        "fill": "#31333F",
+    },
+    "labels": {
+        "text": {
+            "fontFamily": "Source Sans Pro, sans-serif",
+            "fontSize": 16,
+            "fill": "#31333F",
+        }
+    },
+    "grid": {
+        "line": {
+            "stroke": "#e0e0e0",
+            "strokeWidth": 1,
+            "strokeOpacity": 0.8,
+        }
+    },
+    "legends": {
+        "text": {
+            "fontFamily": "Source Sans Pro, sans-serif",
+            "fontSize": 12,
+            "fill": "#31333F",
+        }
+    },
+    "tooltip": {
+        "container": {
+            "background": "rgba(255, 255, 255, 0.95)",
+            "color": "#31333F",
+            "fontSize": "13px",
+            "fontFamily": "Source Sans Pro, sans-serif",
+            "borderRadius": "4px",
+            "boxShadow": "0 2px 8px rgba(0,0,0,0.15)",
+            "padding": "8px 12px",
+            "border": "1px solid rgba(0, 0, 0, 0.1)",
+        }
+    },
+}
+
+
+# === SÉLECTION COLLECTIVITÉ ===
+collectivites_pap = (
+    df_pap_date_passage[['collectivite_id']]
+    .drop_duplicates()
+    .merge(
+        df_collectivite[['collectivite_id', 'nom']],
+        on='collectivite_id',
+        how='left',
+    )
+)
+collectivites_pap['nom'] = collectivites_pap['nom'].fillna(
+    collectivites_pap['collectivite_id'].astype(str)
+)
+collectivites_pap = collectivites_pap.sort_values('nom')
+
+nom_par_id = dict(zip(collectivites_pap['collectivite_id'], collectivites_pap['nom']))
+options_ct = collectivites_pap['collectivite_id'].tolist()
+
+cid_selected = st.selectbox(
+    "Collectivité",
+    options=options_ct,
+    format_func=lambda cid: nom_par_id.get(cid, str(cid)),
+    index=None,
+    placeholder="Tapez le nom d'une collectivité...",
+)
+
+if cid_selected is None:
+    st.info("Sélectionnez une collectivité pour afficher son dashboard.")
+    st.stop()
+
+st.markdown(f"### {nom_par_id[cid_selected]}")
+
+tab_plan, tab_activite = st.tabs(["📋 Plan", "👥 Activité"])
+
+
+# ============================================================================
+# ONGLET PLAN
+# ============================================================================
+with tab_plan:
+    df_plans_ct = df_pap_date_passage[
+        df_pap_date_passage['collectivite_id'] == cid_selected
+    ].copy()
+
+    plans_ct = df_plans_ct['plan'].dropna().unique().tolist()
+
+    if not plans_ct:
+        st.warning("Aucun plan PAP trouvé pour cette collectivité.")
+    else:
+        nom_plan_par_id = (
+            df_plans_ct.dropna(subset=['plan'])
+            .drop_duplicates(subset=['plan'])
+            .set_index('plan')['nom_plan_ct']
+            .to_dict()
+        )
+
+        df_fiches_plans = df_fiche_action_plan[
+            df_fiche_action_plan['plan'].isin(plans_ct)
+        ]
+
+        df_join = df_fiches_plans.merge(
+            df_note_fiche,
+            on='fiche_id',
+            how='inner',
+            suffixes=('', '_note'),
+        )
+
+        df_join['axe_pilote'] = df_join['score_pilote'].fillna(0) + df_join['score_pilote_user'].fillna(0)
+        df_join['axe_dates'] = df_join['score_date_debut'].fillna(0) + df_join['score_date_fin'].fillna(0)
+        df_join['axe_activite'] = (
+            df_join['score_modif_6_mois'].fillna(0) + df_join['score_modif_12_mois'].fillna(0)
+        )
+
+        axes_cols = [
+            'score_titre',
+            'score_description',
+            'score_statut',
+            'score_indicateur',
+            'score_objectif',
+            'score_budget',
+            'score_suivi',
+            'axe_pilote',
+            'axe_dates',
+            'axe_activite',
+        ]
+
+        if df_join.empty:
+            st.warning("Aucune fiche notée pour les plans de cette collectivité ce mois-ci.")
+        else:
+            df_plan_scores = (
+                df_join.groupby('plan')[axes_cols + ['note_fa']]
+                .mean()
+                .reset_index()
+                .sort_values('note_fa', ascending=False)
+                .reset_index(drop=True)
+            )
+
+            # --- LINE CHART : ÉVOLUTION DES TOP 10 PLANS ---
+            top_plans = df_plan_scores.head(10)['plan'].tolist()
+
+            df_evol_top = (
+                df_note_plan[df_note_plan['plan'].isin(top_plans)]
+                .copy()
+                .sort_values('mois')
+            )
+
+            st.badge(
+                f"Évolution des {len(top_plans)} meilleurs plans",
+                icon=":material/trending_up:",
+                color="green",
+            )
+
+            if df_evol_top.empty:
+                st.info("Pas d'historique de note pour ces plans.")
+            else:
+                line_data = []
+                for plan_id in top_plans:
+                    plan_nom = nom_plan_par_id.get(plan_id, str(int(plan_id)))
+                    df_p = df_evol_top[df_evol_top['plan'] == plan_id]
+                    serie = [
+                        {"x": str(row['mois']), "y": round(float(row['note_plan']), 1)}
+                        for _, row in df_p.iterrows()
+                        if pd.notna(row['note_plan'])
+                    ]
+                    if serie:
+                        line_data.append({"id": plan_nom, "data": serie})
+
+                with elements("line_top_plans"):
+                    with mui.Box(sx={"height": 350}):
+                        nivo.Line(
+                            data=line_data,
+                            margin={"top": 30, "right": 260, "bottom": 70, "left": 60},
+                            xScale={"type": "point"},
+                            yScale={
+                                "type": "linear",
+                                "min": 0,
+                                "max": 10,
+                                "stacked": False,
+                                "reverse": False,
+                            },
+                            curve="monotoneX",
+                            axisTop=None,
+                            axisRight=None,
+                            axisBottom={
+                                "tickSize": 5,
+                                "tickPadding": 5,
+                                "tickRotation": -45,
+                                "legend": "Mois",
+                                "legendOffset": 55,
+                                "legendPosition": "middle",
+                            },
+                            axisLeft={
+                                "tickSize": 5,
+                                "tickPadding": 5,
+                                "tickRotation": 0,
+                                "legend": "Note /10",
+                                "legendOffset": -45,
+                                "legendPosition": "middle",
+                            },
+                            enablePoints=True,
+                            pointSize=6,
+                            pointBorderWidth=2,
+                            pointBorderColor={"from": "serieColor"},
+                            pointColor={"theme": "background"},
+                            useMesh=True,
+                            enableSlices="x",
+                            colors={"scheme": "category10"},
+                            legends=[
+                                {
+                                    "anchor": "right",
+                                    "direction": "column",
+                                    "justify": False,
+                                    "translateX": 250,
+                                    "translateY": 0,
+                                    "itemsSpacing": 4,
+                                    "itemDirection": "left-to-right",
+                                    "itemWidth": 240,
+                                    "itemHeight": 18,
+                                    "itemOpacity": 0.85,
+                                    "symbolSize": 12,
+                                    "symbolShape": "circle",
+                                }
+                            ],
+                            theme=theme_nivo,
+                        )
+
+            # --- GALERIE DE RADARS ---
+            st.markdown("---")
+            nb_plans = len(df_plan_scores)
+            st.badge(
+                f"{nb_plans} plan{'s' if nb_plans != 1 else ''}",
+                icon=":material/radar:",
+                color="orange",
+            )
+
+            for idx in range(0, len(df_plan_scores), 2):
+                cols = st.columns(2)
+
+                for col_idx, col in enumerate(cols):
+                    row_idx = idx + col_idx
+                    if row_idx >= len(df_plan_scores):
+                        continue
+
+                    row = df_plan_scores.iloc[row_idx]
+                    plan_id = row['plan']
+                    rank = row_idx + 1
+                    plan_nom = nom_plan_par_id.get(plan_id, str(int(plan_id)))
+                    note_fa = row['note_fa']
+
                     with col:
-                        # Informations du plan
-                        with st.expander(f"ℹ️ {row['nom']}", expanded=False):
-                            st.write(f"**Nom du plan :** {row['nom']}")
-                            st.write(f"**Score global :** {round(row['score'], 2)} / 5")
-                            st.write(f"**Score Pilotabilité :** {round(row['score_pilotabilite'], 2)} / 5")
-                            st.write(f"**Score Indicateur :** {round(row['score_indicateur'], 2)} / 5")
-                            st.write(f"**Score Objectif :** {round(row['score_objectif'], 2)} / 5")
-                            st.write(f"**Score Référentiel :** {round(row['score_referentiel'], 2)} / 5")
-                            st.write(f"**Score Avancement :** {round(row['score_avancement'], 2)} / 5")
-                            st.write(f"**Score Budget :** {round(row['score_budget'], 2)} / 5")
-                        
-                        # Graphe radar
-                        fig = radar_spider_graph_plotly(row)
-                        st.plotly_chart(fig, width='stretch')
+                        badge_color = "green" if rank == 1 else "orange" if rank <= 3 else "gray"
+                        plan_link = tet_plan_url(cid_selected, plan_id)
+                        st.markdown(
+                            f"#### :{badge_color}-badge[{rank}] [{plan_nom}]({plan_link})"
+                        )
+                        st.metric("Note du plan", f"{round(float(note_fa), 1)} / 10")
+
+                        radar_data = new_note_spider_graph(row)
+
+                        with elements(f"radar_plan_{int(plan_id)}_{rank}"):
+                            with mui.Box(sx={"height": 500}):
+                                nivo.Radar(
+                                    data=radar_data,
+                                    keys=["Note"],
+                                    indexBy="axe",
+                                    maxValue=10,
+                                    margin={"top": 70, "right": 80, "bottom": 40, "left": 80},
+                                    curve="linearClosed",
+                                    borderWidth=2,
+                                    borderColor={"from": "color"},
+                                    gridLevels=5,
+                                    gridShape="circular",
+                                    gridLabelOffset=20,
+                                    enableDots=True,
+                                    dotSize=6,
+                                    dotColor={"theme": "background"},
+                                    dotBorderWidth=2,
+                                    dotBorderColor={"from": "color"},
+                                    enableDotLabel=False,
+                                    colors=["#ffc121"],
+                                    fillOpacity=0.5,
+                                    blendMode="multiply",
+                                    animate=True,
+                                    motionConfig="wobbly",
+                                    isInteractive=True,
+                                    theme=theme_nivo,
+                                )
+
+                        st.markdown("---")
 
 
+# ============================================================================
+# ONGLET ACTIVITÉ
+# ============================================================================
+with tab_activite:
+    df_act_ct = df_activite_semaine[
+        df_activite_semaine['collectivite_id'] == cid_selected
+    ].copy()
+
+    if df_act_ct.empty:
+        st.info("Aucune activité enregistrée pour cette collectivité.")
+    else:
+        df_act_ct['semaine_dt'] = pd.to_datetime(df_act_ct['semaine'], errors='coerce')
+        df_act_ct = df_act_ct.dropna(subset=['semaine_dt'])
+
+        st.markdown("Activité des agents uniquement.")
+
+        col_chart, col_lb = st.columns([2, 1])
+
+
+        # --- LINE CHART : NB USERS CONNECTÉS PAR SEMAINE (12 derniers mois) ---
+        with col_chart:
+            st.badge(
+                "Utilisateurs connectés par semaine",
+                icon=":material/group:",
+                color="blue",
+            )
+
+            cutoff_1y = pd.Timestamp.now().normalize() - pd.DateOffset(years=1)
+            df_chart = df_act_ct[df_act_ct['semaine_dt'] >= cutoff_1y]
+
+            if df_chart.empty:
+                st.info("Aucune activité sur les 12 derniers mois.")
+            else:
+                nb_users_by_week = df_chart.groupby('semaine_dt')['email'].nunique()
+                start = max(cutoff_1y, nb_users_by_week.index.min())
+                end = nb_users_by_week.index.max()
+
+                # Grille hebdomadaire alignée sur le jour de semaine présent dans les données
+                all_weeks = pd.date_range(start=start, end=end, freq='7D')
+                grid = (
+                    nb_users_by_week.reindex(all_weeks, fill_value=0)
+                    .reset_index()
+                )
+                grid.columns = ['semaine_dt', 'nb_users']
+
+                line_data_act = [
+                    {
+                        "id": "Utilisateurs",
+                        "data": [
+                            {
+                                "x": row['semaine_dt'].strftime('%d/%m/%Y'),
+                                "y": int(row['nb_users']),
+                            }
+                            for _, row in grid.iterrows()
+                        ],
+                    }
+                ]
+
+                # Ticks tous les 4 semaines pour aérer l'axe X
+                tick_values = [
+                    row['semaine_dt'].strftime('%d/%m/%Y')
+                    for i, (_, row) in enumerate(grid.iterrows())
+                    if i % 4 == 0
+                ]
+
+                with elements("line_users_per_semaine"):
+                    with mui.Box(sx={"height": 500}):
+                        nivo.Line(
+                            data=line_data_act,
+                            margin={"top": 30, "right": 40, "bottom": 80, "left": 60},
+                            xScale={"type": "point"},
+                            yScale={
+                                "type": "linear",
+                                "min": 0,
+                                "max": "auto",
+                                "stacked": False,
+                                "reverse": False,
+                            },
+                            curve="monotoneX",
+                            axisTop=None,
+                            axisRight=None,
+                            axisBottom={
+                                "tickSize": 5,
+                                "tickPadding": 5,
+                                "tickRotation": -45,
+                                "tickValues": tick_values,
+                                "legend": "Semaine",
+                                "legendOffset": 65,
+                                "legendPosition": "middle",
+                            },
+                            axisLeft={
+                                "tickSize": 5,
+                                "tickPadding": 5,
+                                "tickRotation": 0,
+                                "legend": "Nb utilisateurs",
+                                "legendOffset": -45,
+                                "legendPosition": "middle",
+                            },
+                            enablePoints=True,
+                            pointSize=5,
+                            pointBorderWidth=2,
+                            pointBorderColor={"from": "serieColor"},
+                            pointColor={"theme": "background"},
+                            enableArea=True,
+                            areaOpacity=0.15,
+                            useMesh=True,
+                            enableSlices="x",
+                            colors=["#1f77b4"],
+                            theme=theme_nivo,
+                        )
+
+        # --- LEADERBOARD : NB SEMAINES DE CONNEXION SUR LES 6 DERNIERS MOIS ---
+        with col_lb:
+            st.badge(
+                "Classement (6 derniers mois)",
+                icon=":material/leaderboard:",
+                color="violet",
+            )
+
+            cutoff_6m = pd.Timestamp.now().normalize() - pd.DateOffset(months=6)
+            df_6m = df_act_ct[df_act_ct['semaine_dt'] >= cutoff_6m]
+
+            if df_6m.empty:
+                st.info("Aucune activité sur les 6 derniers mois.")
+            else:
+                df_leaderboard = (
+                    df_6m.groupby('email')['semaine_dt']
+                    .nunique()
+                    .reset_index(name='Semaines')
+                    .sort_values('Semaines', ascending=False)
+                    .reset_index(drop=True)
+                )
+                df_leaderboard.index += 1
+                df_leaderboard.index.name = 'Rang'
+                df_leaderboard = df_leaderboard.rename(columns={'email': 'Utilisateur'})
+
+                st.dataframe(
+                    df_leaderboard,
+                    use_container_width=True,
+                    height=500,
+                    column_config={
+                        'Semaines': st.column_config.ProgressColumn(
+                            'Semaines',
+                            format='%d',
+                            min_value=0,
+                            max_value=int(df_leaderboard['Semaines'].max()),
+                        ),
+                    },
+                )

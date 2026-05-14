@@ -215,6 +215,47 @@ def prepare_radar_data_nivo(row: pd.Series, row_precedente: pd.Series):
     return data
 
 
+def new_note_spider_graph(plan_row: pd.Series) -> list[dict]:
+    """Prépare les données nivo Radar pour le nouveau scoring (note_fiche_historique).
+
+    `plan_row` doit contenir, déjà agrégés par plan (moyenne sur les fiches du plan),
+    les 10 axes regroupés à valeurs dans [0, 1] :
+
+      - score_titre, score_description, score_statut, score_indicateur,
+        score_objectif, score_budget, score_suivi
+      - axe_pilote   = score_pilote + score_pilote_user
+      - axe_dates    = score_date_debut + score_date_fin
+      - axe_activite = score_modif_6_mois + score_modif_12_mois
+
+    Chaque valeur est multipliée par 10 pour s'afficher sur une échelle /10
+    (à utiliser avec `nivo.Radar(..., keys=["Note"], indexBy="axe", maxValue=10)`).
+    """
+    axes = [
+        ("Titre", "score_titre"),
+        ("Description", "score_description"),
+        ("Statut", "score_statut"),
+        ("Pilote", "axe_pilote"),
+        ("Indicateur", "score_indicateur"),
+        ("Objectif", "score_objectif"),
+        ("Budget", "score_budget"),
+        ("Dates", "axe_dates"),
+        ("Suivi", "score_suivi"),
+        ("Activité", "axe_activite"),
+    ]
+
+    data = []
+    for label, key in axes:
+        val = plan_row.get(key, 0)
+        if pd.isna(val):
+            val = 0
+        data.append({
+            "axe": label,
+            "Note": round(float(val) * 10, 1),
+        })
+
+    return data
+
+
 def radar_spider_graph_plotly(row: pd.Series):
     categories = [
         'Pilotabilité des FA',
