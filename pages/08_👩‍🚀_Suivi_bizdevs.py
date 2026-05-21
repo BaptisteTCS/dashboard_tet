@@ -80,29 +80,95 @@ def monthly_single_table(events_df: pd.DataFrame, invitees_df: pd.DataFrame, par
 
 st.title("👩‍🚀 Dashboard Bizdevs")
 
-st.segmented_control("Période", options=["Semaine", "Mois", "3 mois", "All Time"], default="Mois", key="view_bizdevs")
-
 _MOIS_FR = ["", "Janvier", "Février", "Mars", "Avril", "Mai", "Juin",
             "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"]
-if st.session_state.get("view_bizdevs", "Mois") == "Mois":
-    _today_for_picker = pd.Timestamp.today().normalize()
-    _month_options = []
-    _y, _m = 2025, 1
-    while (_y, _m) <= (_today_for_picker.year, _today_for_picker.month):
-        _month_options.append(f"{_y}-{_m:02d}")
-        _m += 1
-        if _m > 12:
-            _m = 1
-            _y += 1
-    _col_month, _ = st.columns([1, 3])
-    with _col_month:
+_today_for_picker = pd.Timestamp.today().normalize()
+_col_seg, _col_sel, _ = st.columns(3)
+with _col_seg:
+    st.segmented_control(
+        "Période",
+        options=["Semaine", "Mois", "Trimestre", "Année", "All Time", "Custom"],
+        default="Mois",
+        key="view_bizdevs",
+    )
+_view_picker = st.session_state.get("view_bizdevs", "Mois")
+
+with _col_sel:
+    if _view_picker == "Semaine":
+        _week_cursor = pd.Timestamp("2025-01-01") - pd.Timedelta(days=pd.Timestamp("2025-01-01").weekday())
+        _week_options = []
+        while _week_cursor <= _today_for_picker:
+            _week_options.append(_week_cursor.strftime("%Y-%m-%d"))
+            _week_cursor += pd.Timedelta(days=7)
         st.selectbox(
-            "Mois à afficher",
+            "Semaine",
+            options=_week_options,
+            index=len(_week_options) - 1,
+            format_func=lambda x: f"Semaine du {pd.Timestamp(x).strftime('%d/%m/%Y')}",
+            key="selected_week_bizdevs",
+        )
+    elif _view_picker == "Mois":
+        _month_options = []
+        _y, _m = 2025, 1
+        while (_y, _m) <= (_today_for_picker.year, _today_for_picker.month):
+            _month_options.append(f"{_y}-{_m:02d}")
+            _m += 1
+            if _m > 12:
+                _m = 1
+                _y += 1
+        st.selectbox(
+            "Mois",
             options=_month_options,
             index=len(_month_options) - 1,
             format_func=lambda x: f"{_MOIS_FR[int(x.split('-')[1])]} {x.split('-')[0]}",
-            key="selected_month_bizdevs"
+            key="selected_month_bizdevs",
         )
+    elif _view_picker == "Trimestre":
+        _quarter_options = []
+        _y, _q = 2025, 1
+        _cur_q = (_today_for_picker.month - 1) // 3 + 1
+        while (_y, _q) <= (_today_for_picker.year, _cur_q):
+            _quarter_options.append(f"T{_q} {_y}")
+            _q += 1
+            if _q > 4:
+                _q = 1
+                _y += 1
+        st.selectbox(
+            "Trimestre",
+            options=_quarter_options,
+            index=len(_quarter_options) - 1,
+            key="selected_quarter_bizdevs",
+        )
+    elif _view_picker == "Année":
+        _year_options = list(range(2025, _today_for_picker.year + 1))
+        st.selectbox(
+            "Année",
+            options=_year_options,
+            index=len(_year_options) - 1,
+            format_func=lambda x: str(x),
+            key="selected_year_bizdevs",
+        )
+    elif _view_picker == "Custom":
+        _c_de, _c_a = st.columns(2)
+        with _c_de:
+            st.date_input(
+                "De",
+                value=_today_for_picker.replace(day=1).date(),
+                max_value=_today_for_picker.date(),
+                key="custom_start_bizdevs",
+            )
+        with _c_a:
+            st.date_input(
+                "A",
+                value=_today_for_picker.date(),
+                max_value=_today_for_picker.date(),
+                key="custom_end_bizdevs",
+            )
+
+if _view_picker == "Custom":
+    if pd.Timestamp(st.session_state["custom_start_bizdevs"]) > pd.Timestamp(st.session_state["custom_end_bizdevs"]):
+        st.error("La date de début doit être antérieure ou égale à la date de fin.")
+        st.stop()
 
 st.markdown("---")
 
@@ -192,17 +258,217 @@ ct_first_multiplan = ct_multiplans.sort_values(['collectivite_id', 'mois']).drop
 ct_first_multiplan.rename(columns={'mois': 'date_premier_multiplan'}, inplace=True)
 
 # === Note des plans PAP ===
-df_evolution_note = df_note_plan.copy()
-df_evolution_note['statut'] = df_evolution_note['note_plan'].apply(lambda x: '>= 8' if x>=8 else '< 8')
-df_evolution_note['mois'] = pd.to_datetime(df_evolution_note['mois'])
-df_evolution_note['mois'] = df_evolution_note['mois'].dt.to_period('M').dt.to_timestamp()
-df_evolution_note = df_evolution_note[df_evolution_note['mois'] >= '2024-01-01']
-df_evolution_note = df_evolution_note.groupby(['mois', 'statut'])['plan'].nunique().reset_index(name='nb_plans')
-df_evolution_note = df_evolution_note.sort_values('mois')
+df_note_mensuel = df_note_plan.copy()
+df_note_mensuel['mois'] = pd.to_datetime(df_note_mensuel['mois'])
+df_note_mensuel['mois'] = df_note_mensuel['mois'].dt.to_period('M').dt.to_timestamp()
+df_note_mensuel = df_note_mensuel[df_note_mensuel['mois'] >= '2024-01-01']
 
-# Filtrer uniquement les plans >= 8 pour les métriques
-df_plans_8plus = df_evolution_note[df_evolution_note['statut'] == '>= 8'].copy()
+def _agg_plans_par_seuil(df, seuil):
+    d = df.copy()
+    d['statut'] = d['note_plan'].apply(lambda x: f'>= {seuil}' if x >= seuil else f'< {seuil}')
+    return d.groupby(['mois', 'statut'])['plan'].nunique().reset_index(name='nb_plans').sort_values('mois')
 
+df_evolution_note_5 = _agg_plans_par_seuil(df_note_mensuel, 5)
+df_evolution_note_8 = _agg_plans_par_seuil(df_note_mensuel, 8)
+df_plans_5plus = df_evolution_note_5[df_evolution_note_5['statut'] == '>= 5'].copy()
+df_plans_8plus = df_evolution_note_8[df_evolution_note_8['statut'] == '>= 8'].copy()
+
+
+def _month_start(ts):
+    return pd.Timestamp(year=ts.year, month=ts.month, day=1)
+
+
+def _snapshot_statut(df_statut, ref_month):
+    df_f = df_statut[df_statut['mois'] <= ref_month]
+    if df_f.empty:
+        return 0, 0
+    latest = df_f['mois'].max()
+    df_l = df_f[df_f['mois'] == latest]
+    actif = int(df_l.loc[df_l['statut'] == 'actif', 'nb_collectivites'].sum())
+    inactif = int(df_l.loc[df_l['statut'] == 'inactif', 'nb_collectivites'].sum())
+    return actif, inactif
+
+
+def _snapshot_plans(df_plans, ref_month):
+    df_f = df_plans[df_plans['mois'] <= ref_month]
+    if df_f.empty:
+        return 0
+    latest = df_f['mois'].max()
+    return int(df_f.loc[df_f['mois'] == latest, 'nb_plans'].sum())
+
+
+def _nouveaux_plans_periode(df_plans, end_m, start_before_m):
+    df_by_month = df_plans.set_index('mois')['nb_plans']
+    if end_m not in df_by_month.index or start_before_m not in df_by_month.index:
+        available = df_by_month.index[df_by_month.index <= end_m]
+        if len(available) < 2:
+            return None
+        end_m = available[-1]
+        start_before_m = available[-2]
+    return int(df_by_month.loc[end_m] - df_by_month.loc[start_before_m])
+
+
+_NS_GRAPH_START = pd.Timestamp('2025-01-01')
+
+
+def _plot_statut_evolution(df_statut, end_date, target=None, height=280):
+    if df_statut.empty:
+        st.info("Aucune donnée disponible")
+        return
+    all_statuts = df_statut['statut'].unique()
+    all_months = pd.date_range(start=_NS_GRAPH_START, end=end_date, freq='MS')
+    full_index = pd.MultiIndex.from_product([all_months, all_statuts], names=['mois', 'statut'])
+    df_chart = df_statut.set_index(['mois', 'statut']).reindex(full_index, fill_value=0).reset_index()
+    df_chart = df_chart.sort_values('mois')
+    df_chart['mois_label'] = df_chart['mois'].dt.strftime('%Y-%m')
+    fig = px.line(
+        df_chart,
+        x='mois_label',
+        y='nb_collectivites',
+        color='statut',
+        markers=True,
+        height=height,
+        color_discrete_map={'actif': '#22c55e', 'inactif': '#f97316'},
+    )
+    fig.update_layout(xaxis_title="", yaxis_title="", xaxis_tickangle=-45, legend_title="Statut")
+    if target is not None:
+        fig.add_hline(y=target, line_dash="dash", line_color="#94a3b8", line_width=1.5)
+    st.plotly_chart(fig, use_container_width=True)
+
+
+def _plot_plans_evolution(df_plans, end_date, target=None, height=280):
+    if df_plans.empty:
+        st.info("Aucune donnée disponible")
+        return
+    start_date = df_plans['mois'].min()
+    all_months = pd.date_range(start=start_date, end=end_date, freq='MS')
+    df_chart = df_plans.set_index('mois').reindex(all_months, fill_value=0).reset_index().rename(columns={'index': 'mois'})
+    df_chart['nb_plans'] = df_chart['nb_plans'].fillna(0).astype(int)
+    df_chart = df_chart.sort_values('mois')
+    df_chart['mois_label'] = df_chart['mois'].dt.strftime('%Y-%m')
+    fig = px.line(df_chart, x='mois_label', y='nb_plans', markers=True, height=height)
+    fig.update_traces(line_color='#22c55e')
+    fig.update_layout(xaxis_title="", yaxis_title="", xaxis_tickangle=-45)
+    if target is not None:
+        fig.add_hline(y=target, line_dash="dash", line_color="#94a3b8", line_width=1.5)
+    st.plotly_chart(fig, use_container_width=True)
+
+
+def _prepare_pipeline_semaine(df_pipe):
+    if df_pipe.empty:
+        return df_pipe
+    df = df_pipe.copy()
+    df['semaine'] = pd.to_datetime(df['semaine'], errors='coerce').dt.normalize()
+    return df.dropna(subset=['semaine'])
+
+
+def get_pipe_transitions_to(df_pipe, target_states, start_date, end_date):
+    """
+    Retourne les CT passées à l'un des target_states sur la période.
+    Compare le dernier état pipe avant start_date avec le plus récent dans [start_date, end_date].
+    """
+    if isinstance(target_states, str):
+        target_states = [target_states]
+
+    df = _prepare_pipeline_semaine(df_pipe)
+    if df.empty or not target_states:
+        return pd.DataFrame(columns=['collectivite_id', 'pipeline'])
+
+    start_date = pd.Timestamp(start_date).normalize()
+    end_date = pd.Timestamp(end_date).normalize()
+    target_states = set(target_states)
+
+    period_df = df[(df['semaine'] >= start_date) & (df['semaine'] <= end_date)]
+    if period_df.empty:
+        return pd.DataFrame(columns=['collectivite_id', 'pipeline'])
+
+    before_df = df[df['semaine'] < start_date]
+    period_latest = period_df.sort_values('semaine').groupby('collectivite_id')['pipeline'].last()
+    before_latest = (
+        before_df.sort_values('semaine').groupby('collectivite_id')['pipeline'].last()
+        if not before_df.empty else pd.Series(dtype=object)
+    )
+
+    rows = []
+    for ct_id, state_in_period in period_latest.items():
+        if state_in_period not in target_states:
+            continue
+        if ct_id not in before_latest.index:
+            continue
+        if before_latest[ct_id] != state_in_period:
+            rows.append({'collectivite_id': ct_id, 'pipeline': state_in_period})
+    return pd.DataFrame(rows)
+
+
+def count_pipe_transitions_to(df_pipe, target_state, start_date, end_date):
+    return len(get_pipe_transitions_to(df_pipe, target_state, start_date, end_date))
+
+
+def _has_pipe_history_before(df_pipe, date):
+    df = _prepare_pipeline_semaine(df_pipe)
+    if df.empty:
+        return False
+    return (df['semaine'] < pd.Timestamp(date).normalize()).any()
+
+
+def get_note_progression_period(df_note, df_passage_pap, start_prev, end_prev, start_cur, end_cur):
+    """
+    Retourne les CT dont la note a progressé entre deux périodes.
+    La note d'une collectivité est la meilleure note parmi tous ses plans.
+    """
+    empty = pd.DataFrame(columns=['collectivite_id', 'progression'])
+    if df_note.empty or df_passage_pap.empty:
+        return empty
+
+    df = df_note.copy()
+    df['mois'] = pd.to_datetime(df['mois'])
+    df = df.merge(df_passage_pap[['collectivite_id', 'plan']], on='plan', how='inner')
+    if df.empty:
+        return empty
+
+    df_prev = df[(df['mois'] >= start_prev) & (df['mois'] <= end_prev)].copy()
+    df_cur = df[(df['mois'] >= start_cur) & (df['mois'] <= end_cur)].copy()
+    if df_prev.empty or df_cur.empty:
+        return empty
+
+    df_prev_last_date = df_prev.groupby('collectivite_id')['mois'].max().reset_index()
+    df_cur_last_date = df_cur.groupby('collectivite_id')['mois'].max().reset_index()
+    df_prev_last = df_prev.merge(df_prev_last_date, on=['collectivite_id', 'mois'])
+    df_cur_last = df_cur.merge(df_cur_last_date, on=['collectivite_id', 'mois'])
+    df_prev_best = df_prev_last.groupby('collectivite_id')['note_plan'].max().reset_index()
+    df_cur_best = df_cur_last.groupby('collectivite_id')['note_plan'].max().reset_index()
+
+    df_compare = df_prev_best.merge(df_cur_best, on='collectivite_id', suffixes=('_prev', '_cur'))
+    df_compare['progression'] = df_compare['note_plan_cur'] - df_compare['note_plan_prev']
+    return df_compare.loc[df_compare['progression'] > 0, ['collectivite_id', 'progression']].copy()
+
+
+def get_note_progression_alltime(df_note, df_passage_pap, end_date):
+    """
+    Retourne les CT dont la note a progressé entre la première et la dernière mesure disponible.
+    """
+    empty = pd.DataFrame(columns=['collectivite_id', 'progression'])
+    if df_note.empty or df_passage_pap.empty:
+        return empty
+
+    df = df_note.copy()
+    df['mois'] = pd.to_datetime(df['mois'])
+    df = df[df['mois'] <= end_date]
+    df = df.merge(df_passage_pap[['collectivite_id', 'plan']], on='plan', how='inner')
+    if df.empty:
+        return empty
+
+    df_sorted = df.sort_values('mois')
+    df_first_date = df_sorted.groupby('collectivite_id')['mois'].min().reset_index()
+    df_last_date = df_sorted.groupby('collectivite_id')['mois'].max().reset_index()
+    df_first = df_sorted.merge(df_first_date, on=['collectivite_id', 'mois'])
+    df_last = df_sorted.merge(df_last_date, on=['collectivite_id', 'mois'])
+    df_first_best = df_first.groupby('collectivite_id')['note_plan'].max().reset_index()
+    df_last_best = df_last.groupby('collectivite_id')['note_plan'].max().reset_index()
+
+    df_compare = df_first_best.merge(df_last_best, on='collectivite_id', suffixes=('_first', '_last'))
+    df_compare['progression'] = df_compare['note_plan_last'] - df_compare['note_plan_first']
+    return df_compare.loc[df_compare['progression'] > 0, ['collectivite_id', 'progression']].copy()
 
 
 # Calcul des périodes selon la vue sélectionnée
@@ -210,7 +476,16 @@ today = pd.Timestamp.today().normalize()
 view = st.session_state.get("view_bizdevs", "Mois")
 is_all_time = (view == "All Time")
 
-if view == "Mois":
+if view == "Semaine":
+    _default_monday = (today - pd.Timedelta(days=today.weekday())).strftime("%Y-%m-%d")
+    _selected = st.session_state.get("selected_week_bizdevs", _default_monday)
+    cur_start = pd.Timestamp(_selected)
+    cur_end = cur_start + pd.Timedelta(days=6)
+    if cur_end > today:
+        cur_end = today
+    prev_start = cur_start - pd.Timedelta(days=7)
+    prev_end = cur_start - pd.Timedelta(days=1)
+elif view == "Mois":
     _selected = st.session_state.get("selected_month_bizdevs", f"{today.year}-{today.month:02d}")
     sel_y, sel_m = int(_selected.split('-')[0]), int(_selected.split('-')[1])
     cur_start = pd.Timestamp(year=sel_y, month=sel_m, day=1)
@@ -218,276 +493,334 @@ if view == "Mois":
         cur_end = today
     else:
         cur_end = pd.Timestamp(year=sel_y, month=sel_m, day=calendar.monthrange(sel_y, sel_m)[1])
-    # Mois précédent pour le delta
     prev_m = sel_m - 1 if sel_m > 1 else 12
     prev_y = sel_y if sel_m > 1 else sel_y - 1
     prev_start = pd.Timestamp(year=prev_y, month=prev_m, day=1)
     prev_end = pd.Timestamp(year=prev_y, month=prev_m, day=calendar.monthrange(prev_y, prev_m)[1])
-elif view == "Semaine":
-    nb_days = 7
-    cur_start = today - pd.Timedelta(days=nb_days)
-    cur_end = today
-    prev_start = cur_start - pd.Timedelta(days=nb_days)
-    prev_end = cur_start - pd.Timedelta(seconds=1)
-elif view == "3 mois":
-    nb_days = 90
-    cur_start = today - pd.Timedelta(days=nb_days)
-    cur_end = today
-    prev_start = cur_start - pd.Timedelta(days=nb_days)
-    prev_end = cur_start - pd.Timedelta(seconds=1)
-else:  # All Time
-    nb_days = 31
-    cur_start = today - pd.Timedelta(days=nb_days)
-    cur_end = today
-    prev_start = cur_start - pd.Timedelta(days=nb_days)
-    prev_end = cur_start - pd.Timedelta(seconds=1)
-
-# === Métriques CT PAP et Multiplans ===
-if view == "Semaine":
-    st.warning("Pas de vue semaine pour les North Stars, rendez-vous sur le [dashboard Weekly](/Weekly) pour voir ces stats.")
-elif is_all_time:
-    # Mode All Time : afficher 5 métriques sur une ligne
-    col1, col2, col3, col4, col5 = st.columns(5)
-    
-    with col1:
-        if not df_pap_statut.empty:
-            latest_month = df_pap_statut['mois'].max()
-            df_latest_pap = df_pap_statut[df_pap_statut['mois'] == latest_month]
-            actif_pap = int(df_latest_pap.loc[df_latest_pap['statut'] == 'actif', 'nb_collectivites'].sum())
-            st.metric(
-                label="CT PAP actives", 
-                value=actif_pap,
-                help="CT avec au moins 1 PAP actif (5+ fiches modifiées sur les 3 derniers mois)"
-            )
-        else:
-            st.metric(label="CT PAP actives", value=0, help="CCT avec au moins 1 PAP actif (5+ fiches modifiées sur les 3 derniers mois)")
-    
-    with col2:
-        if not df_pap_statut.empty:
-            latest_month = df_pap_statut['mois'].max()
-            df_latest_pap = df_pap_statut[df_pap_statut['mois'] == latest_month]
-            inactif_pap = int(df_latest_pap.loc[df_latest_pap['statut'] == 'inactif', 'nb_collectivites'].sum())
-            st.metric(
-                label="CT PAP inactives", 
-                value=inactif_pap
-            )
-        else:
-            st.metric(label="CT PAP inactives", value=0)
-    
-    with col3:
-        if not df_multiplans_statut.empty:
-            latest_month = df_multiplans_statut['mois'].max()
-            df_latest_mp = df_multiplans_statut[df_multiplans_statut['mois'] == latest_month]
-            actif_mp = int(df_latest_mp.loc[df_latest_mp['statut'] == 'actif', 'nb_collectivites'].sum())
-            st.metric(
-                label="CT multiplans actives", 
-                value=actif_mp,
-                help="CT avec au moins 2 PAP actifs (5+ fiches modifiées sur les 3 derniers mois)"
-            )
-        else:
-            st.metric(label="CT multiplans actives", value=0, help="CT avec au moins 2 PAP actifs (5+ fiches modifiées sur les 3 derniers mois)")
-    
-    with col4:
-        if not df_multiplans_statut.empty:
-            latest_month = df_multiplans_statut['mois'].max()
-            df_latest_mp = df_multiplans_statut[df_multiplans_statut['mois'] == latest_month]
-            inactif_mp = int(df_latest_mp.loc[df_latest_mp['statut'] == 'inactif', 'nb_collectivites'].sum())
-            st.metric(
-                label="CT multiplans inactives", 
-                value=inactif_mp
-            )
-        else:
-            st.metric(label="CT multiplans inactives", value=0, help="Collectivités avec 2+ plans mais moins de 2 plans actifs")
-    
-    with col5:
-        if not df_plans_8plus.empty:
-            latest_month = df_plans_8plus['mois'].max()
-            df_latest_8plus = df_plans_8plus[df_plans_8plus['mois'] == latest_month]
-            plans_8plus = int(df_latest_8plus['nb_plans'].sum())
-            st.metric(
-                label="Plans >= 8/10", 
-                value=plans_8plus,
-                help="Plans avec une note supérieure ou égale à 8/10"
-            )
-        else:
-            st.metric(label="Plans >= 8/10", value=0, help="Plans avec une note supérieure ou égale à 8/10")
-    
-    # Graphiques All Time côte à côte avec 2 lignes chacun
-    col_graph1, col_graph2 = st.columns(2)
-    
-    with col_graph1:
-        st.markdown("#### CT PAP")
-        if not df_pap_statut.empty:
-            all_statuts = df_pap_statut['statut'].unique()
-            first_month = df_pap_statut['mois'].min()
-            all_months = pd.date_range(start=first_month, end=today, freq='MS')
-            full_index = pd.MultiIndex.from_product([all_months, all_statuts], names=['mois', 'statut'])
-            df_pap_chart = df_pap_statut.set_index(['mois', 'statut']).reindex(full_index, fill_value=0).reset_index()
-            df_pap_chart = df_pap_chart.sort_values('mois')
-            df_pap_chart['mois_label'] = df_pap_chart['mois'].dt.strftime('%Y-%m')
-
-            fig_pap = px.line(
-                df_pap_chart, 
-                x='mois_label', 
-                y='nb_collectivites', 
-                color='statut', 
-                markers=True, 
-                height=400,
-                color_discrete_map={'actif': '#22c55e', 'inactif': '#f97316'}
-            )
-            fig_pap.update_layout(
-                xaxis_title="Mois",
-                yaxis_title="Nombre de CT PAP",
-                xaxis_tickangle=-45,
-                legend_title="Statut"
-            )
-            st.plotly_chart(fig_pap, use_container_width=True)
-        else:
-            st.info("Aucune donnée disponible")
-    
-    with col_graph2:
-        st.markdown("#### CT multiplans")
-        if not df_multiplans_statut.empty:
-            all_statuts = df_multiplans_statut['statut'].unique()
-            first_month = df_multiplans_statut['mois'].min()
-            all_months = pd.date_range(start=first_month, end=today, freq='MS')
-            full_index = pd.MultiIndex.from_product([all_months, all_statuts], names=['mois', 'statut'])
-            df_mp_chart = df_multiplans_statut.set_index(['mois', 'statut']).reindex(full_index, fill_value=0).reset_index()
-            df_mp_chart = df_mp_chart.sort_values('mois')
-            df_mp_chart['mois_label'] = df_mp_chart['mois'].dt.strftime('%Y-%m')
-
-            fig_mp = px.line(
-                df_mp_chart, 
-                x='mois_label', 
-                y='nb_collectivites', 
-                color='statut', 
-                markers=True, 
-                height=400,
-                color_discrete_map={'actif': '#22c55e', 'inactif': '#f97316'}
-            )
-            fig_mp.update_layout(
-                xaxis_title="Mois",
-                yaxis_title="Nombre de CT multiplans",
-                xaxis_tickangle=-45,
-                legend_title="Statut"
-            )
-            st.plotly_chart(fig_mp, use_container_width=True)
-        else:
-            st.info("Aucune donnée disponible")
-    
-    # Graphique Plans >= 8 (full width)
-    st.markdown("#### Plans >= 8")
-    if not df_plans_8plus.empty:
-        first_month = df_plans_8plus['mois'].min()
-        all_months = pd.date_range(start=first_month, end=today, freq='MS')
-        df_8plus_chart = df_plans_8plus.set_index('mois').reindex(all_months, fill_value=0).reset_index().rename(columns={'index': 'mois'})
-        df_8plus_chart['nb_plans'] = df_8plus_chart['nb_plans'].fillna(0).astype(int)
-        df_8plus_chart = df_8plus_chart.sort_values('mois')
-        df_8plus_chart['mois_label'] = df_8plus_chart['mois'].dt.strftime('%Y-%m')
-        
-        fig_8plus = px.line(
-            df_8plus_chart, 
-            x='mois_label', 
-            y='nb_plans', 
-            markers=True, 
-            height=400
-        )
-        fig_8plus.update_traces(line_color='#22c55e')
-        fig_8plus.update_layout(
-            xaxis_title="Mois",
-            yaxis_title="Nombre de plans >= 8",
-            xaxis_tickangle=-45
-        )
-        st.plotly_chart(fig_8plus, use_container_width=True)
+elif view == "Trimestre":
+    _cur_q = (today.month - 1) // 3 + 1
+    _default_quarter = f"T{_cur_q} {today.year}"
+    _selected = st.session_state.get("selected_quarter_bizdevs", _default_quarter)
+    _q = int(_selected[1])
+    sel_y = int(_selected.split(" ")[1])
+    month_start = (_q - 1) * 3 + 1
+    month_end = _q * 3
+    cur_start = pd.Timestamp(year=sel_y, month=month_start, day=1)
+    cur_end_month = pd.Timestamp(year=sel_y, month=month_end, day=calendar.monthrange(sel_y, month_end)[1])
+    if sel_y == today.year and _q == _cur_q:
+        cur_end = today
     else:
-        st.info("Aucune donnée disponible")
-else:
-    # Mode période : afficher 3 métriques sur une ligne
-    col1, col2, col3 = st.columns(3)
-    
-    with col1:
+        cur_end = cur_end_month
+    prev_q = _q - 1 if _q > 1 else 4
+    prev_y = sel_y if _q > 1 else sel_y - 1
+    prev_month_start = (prev_q - 1) * 3 + 1
+    prev_month_end = prev_q * 3
+    prev_start = pd.Timestamp(year=prev_y, month=prev_month_start, day=1)
+    prev_end = pd.Timestamp(year=prev_y, month=prev_month_end, day=calendar.monthrange(prev_y, prev_month_end)[1])
+elif view == "Année":
+    sel_y = st.session_state.get("selected_year_bizdevs", today.year)
+    cur_start = pd.Timestamp(year=sel_y, month=1, day=1)
+    if sel_y == today.year:
+        cur_end = today
+    else:
+        cur_end = pd.Timestamp(year=sel_y, month=12, day=31)
+    prev_y = sel_y - 1
+    prev_start = pd.Timestamp(year=prev_y, month=1, day=1)
+    prev_end = pd.Timestamp(year=prev_y, month=12, day=31)
+elif view == "Custom":
+    cur_start = pd.Timestamp(st.session_state["custom_start_bizdevs"])
+    cur_end = pd.Timestamp(st.session_state["custom_end_bizdevs"])
+    _duration = (cur_end - cur_start).days + 1
+    prev_end = cur_start - pd.Timedelta(days=1)
+    prev_start = prev_end - pd.Timedelta(days=_duration - 1)
+elif view == "All Time":
+    cur_start = today - pd.Timedelta(days=31)
+    cur_end = today
+    prev_start = cur_start - pd.Timedelta(days=31)
+    prev_end = cur_start - pd.Timedelta(days=1)
+
+# === North Stars : grille 2×2 ===
+end_date = today if is_all_time else cur_end
+end_month = _month_start(end_date)
+prev_snapshot_month = _month_start(prev_end) if not is_all_time else end_month - pd.DateOffset(months=1)
+before_period = _month_start(cur_start - pd.Timedelta(days=1))
+prev_end_month = _month_start(prev_end)
+
+row1_col1, row1_col2 = st.columns(2)
+row2_col1, row2_col2 = st.columns(2)
+
+# --- NS1 : CT PAP actifs ---
+with row1_col1:
+    st.badge(
+        "NS1 — CT PAP actifs",
+        color="orange",
+        help="Collectivités avec un plan d'action ayant au moins 5 fiches pilotables (titre, description, statut et pilote) modifiées au cours des 3 derniers mois.",
+    )
+    m1, m2, m3 = st.columns(3)
+    with m1:
         if not ct_first_pap.empty:
             new_pap_cur = len(ct_first_pap[(ct_first_pap['date_premier_pap'] >= cur_start) & (ct_first_pap['date_premier_pap'] <= cur_end)])
             new_pap_prev = len(ct_first_pap[(ct_first_pap['date_premier_pap'] >= prev_start) & (ct_first_pap['date_premier_pap'] <= prev_end)])
-            delta_pap = new_pap_cur - new_pap_prev
-            st.metric(
-                label="Nouvelles CT PAP",
-                value=new_pap_cur,
-                delta=f"{delta_pap:+d}",
-                delta_color="normal",
-                help="5+ fiches avec titre, pilote et statut"
-            )
+            st.metric(label="Nouvelles CT PAP", value=new_pap_cur, delta=f"{new_pap_cur - new_pap_prev:+d}", delta_color="normal")
         else:
-            st.metric(
-                label="Nouvelles CT PAP", 
-                value=0,
-                help="5+ fiches avec titre, pilote et statut"
-            )
-    
-    with col2:
+            st.metric(label="Nouvelles CT PAP", value=0)
+    actif_pap, inactif_pap = _snapshot_statut(df_pap_statut, end_month)
+    actif_pap_prev, inactif_pap_prev = _snapshot_statut(df_pap_statut, prev_snapshot_month)
+    with m2:
+        st.metric(label="CT PAP actives", value=actif_pap, delta=f"{actif_pap - actif_pap_prev:+d}", delta_color="normal")
+    with m3:
+        st.metric(label="CT PAP inactives", value=inactif_pap, delta=f"{inactif_pap - inactif_pap_prev:+d}", delta_color="normal")
+    _plot_statut_evolution(df_pap_statut, end_date, target=350)
+
+# --- NS2 : CT multiplan ---
+with row1_col2:
+    st.badge(
+        "NS2 — CT multiplan",
+        color="orange",
+        help="Collectivités avec au moins 2 PAP ayant chacun au moins 5 fiches pilotables modifiées au cours des 3 derniers mois.",
+    )
+    m1, m2, m3 = st.columns(3)
+    with m1:
         if not ct_first_multiplan.empty:
             new_mp_cur = len(ct_first_multiplan[(ct_first_multiplan['date_premier_multiplan'] >= cur_start) & (ct_first_multiplan['date_premier_multiplan'] <= cur_end)])
             new_mp_prev = len(ct_first_multiplan[(ct_first_multiplan['date_premier_multiplan'] >= prev_start) & (ct_first_multiplan['date_premier_multiplan'] <= prev_end)])
-            delta_mp = new_mp_cur - new_mp_prev
-            st.metric(
-                label="Nouvelles CT multiplans",
-                value=new_mp_cur,
-                delta=f"{delta_mp:+d}",
-                delta_color="normal",
-                help="CT avec au moins 2 PAP"
-            )
+            st.metric(label="Nouvelles CT multiplans", value=new_mp_cur, delta=f"{new_mp_cur - new_mp_prev:+d}", delta_color="normal")
         else:
-            st.metric(
-                label="Nouvelles CT multiplans", 
-                value=0,
-                help="CT avec au moins 2 PAP"
-            )
-    
-    with col3:
-        if not df_plans_8plus.empty:
-            # Filtrer par mois sélectionné si vue Mois
-            _df_8plus_filtered = df_plans_8plus[df_plans_8plus['mois'] <= cur_end] if view == "Mois" else df_plans_8plus
-            # Trier par mois décroissant pour obtenir les derniers mois
-            df_sorted = _df_8plus_filtered.sort_values('mois', ascending=False)
-            
-            if len(df_sorted) >= 2:
-                # Dernier mois et mois précédent
-                last_month = df_sorted.iloc[0]
-                prev_month = df_sorted.iloc[1]
-                
-                # Nouveaux plans >= 8 ce mois = différence entre dernier mois et mois précédent
-                new_8plus_cur = int(last_month['nb_plans'] - prev_month['nb_plans'])
-                
-                # Pour le delta, on calcule les nouveaux plans du mois précédent
-                if len(df_sorted) >= 3:
-                    prev_prev_month = df_sorted.iloc[2]
-                    new_8plus_prev = int(prev_month['nb_plans'] - prev_prev_month['nb_plans'])
-                    delta_8plus = new_8plus_cur - new_8plus_prev
-                else:
-                    delta_8plus = new_8plus_cur
-                
-                st.metric(
-                    label="Nouveaux Plans >= 8/10",
-                    value=new_8plus_cur,
-                    delta=f"{delta_8plus:+d}",
-                    delta_color="normal",
-                    help="Nouveaux plans avec note >= 8/10"
-                )
-            else:
-                st.metric(
-                    label="Nouveaux Plans >= 8/10", 
-                    value=0,
-                    help="Nouveaux plans avec note >= 8/10"
-                )
+            st.metric(label="Nouvelles CT multiplans", value=0)
+    actif_mp, inactif_mp = _snapshot_statut(df_multiplans_statut, end_month)
+    actif_mp_prev, inactif_mp_prev = _snapshot_statut(df_multiplans_statut, prev_snapshot_month)
+    with m2:
+        st.metric(label="CT multiplans actives", value=actif_mp, delta=f"{actif_mp - actif_mp_prev:+d}", delta_color="normal")
+    with m3:
+        st.metric(label="CT multiplans inactives", value=inactif_mp, delta=f"{inactif_mp - inactif_mp_prev:+d}", delta_color="normal")
+    _plot_statut_evolution(df_multiplans_statut, end_date, target=100)
+
+# --- NS3 externe : Qualité >= 5/10 ---
+with row2_col1:
+    st.badge(
+        "NS3 externe — Qualité",
+        color="orange",
+        help="Plans dont la note est supérieure à 5/10.",
+    )
+    m1, m2 = st.columns(2)
+    new_5_cur = _nouveaux_plans_periode(df_plans_5plus, end_month, before_period)
+    new_5_prev = _nouveaux_plans_periode(df_plans_5plus, prev_end_month, _month_start(prev_start - pd.Timedelta(days=1)))
+    with m1:
+        if new_5_cur is not None:
+            delta_5 = new_5_cur - (new_5_prev if new_5_prev is not None else 0)
+            st.metric(label="Nouveaux plans >=5/10", value=new_5_cur, delta=f"{delta_5:+d}", delta_color="normal")
         else:
-            st.metric(
-                label="Nouveaux Plans >= 8/10", 
-                value=0,
-                help="Nouveaux plans avec note >= 8/10"
-            )
+            st.metric(label="Nouveaux plans >=5/10", value=0)
+    with m2:
+        st.metric(label="Plans >=5/10", value=_snapshot_plans(df_plans_5plus, end_month))
+    _plot_plans_evolution(df_plans_5plus, end_date, target=800)
+
+# --- NS3 interne : Qualité >= 8/10 ---
+with row2_col2:
+    st.badge(
+        "NS3 interne — Qualité",
+        color="orange",
+        help="Plans dont la note est supérieure à 8/10.",
+    )
+    m1, m2 = st.columns(2)
+    new_8_cur = _nouveaux_plans_periode(df_plans_8plus, end_month, before_period)
+    new_8_prev = _nouveaux_plans_periode(df_plans_8plus, prev_end_month, _month_start(prev_start - pd.Timedelta(days=1)))
+    with m1:
+        if new_8_cur is not None:
+            delta_8 = new_8_cur - (new_8_prev if new_8_prev is not None else 0)
+            st.metric(label="Nouveaux plans >=8/10", value=new_8_cur, delta=f"{delta_8:+d}", delta_color="normal")
+        else:
+            st.metric(label="Nouveaux plans >=8/10", value=0)
+    with m2:
+        st.metric(label="Plans >=8/10", value=_snapshot_plans(df_plans_8plus, end_month))
+    _plot_plans_evolution(df_plans_8plus, end_date, target=50)
 
 st.markdown("---")
 
+st.badge("Zoom plans", icon="🔍", color="violet")
+
+_cols_zoom = ['nom', 'nom_plan_ct', 'import', 'createur_plan']
+df_pap_zoom_base = df_passage_pap.copy()
+if not df_pap_zoom_base.empty and 'passage_pap' in df_pap_zoom_base.columns:
+    df_pap_zoom_base['passage_pap'] = pd.to_datetime(df_pap_zoom_base['passage_pap'], errors='coerce')
+    if df_pap_zoom_base['passage_pap'].dt.tz is not None:
+        df_pap_zoom_base['passage_pap'] = df_pap_zoom_base['passage_pap'].dt.tz_localize(None)
+
+    df_pap_cur = df_pap_zoom_base[
+        (df_pap_zoom_base['passage_pap'] >= cur_start) & (df_pap_zoom_base['passage_pap'] <= cur_end)
+    ]
+    df_pap_prev = df_pap_zoom_base[
+        (df_pap_zoom_base['passage_pap'] >= prev_start) & (df_pap_zoom_base['passage_pap'] <= prev_end)
+    ]
+
+    nb_nouveaux_cur = len(df_pap_cur)
+    nb_nouveaux_prev = len(df_pap_prev)
+    nb_autonome_cur = len(df_pap_cur[df_pap_cur['import'] == 'Autonome']) if 'import' in df_pap_cur.columns else 0
+    nb_autonome_prev = len(df_pap_prev[df_pap_prev['import'] == 'Autonome']) if 'import' in df_pap_prev.columns else 0
+    nb_importe_cur = len(df_pap_cur[df_pap_cur['import'] == 'Importé']) if 'import' in df_pap_cur.columns else 0
+    nb_importe_prev = len(df_pap_prev[df_pap_prev['import'] == 'Importé']) if 'import' in df_pap_prev.columns else 0
+
+    part_autonome_cur = round(nb_autonome_cur / nb_nouveaux_cur * 100) if nb_nouveaux_cur > 0 else 0
+    part_autonome_prev = round(nb_autonome_prev / nb_nouveaux_prev * 100) if nb_nouveaux_prev > 0 else 0
+
+    m_nouveaux, m_autonome, m_importe, m_part = st.columns(4)
+    with m_nouveaux:
+        st.metric(
+            label="Nouveaux PAP",
+            value=nb_nouveaux_cur,
+            delta=f"{nb_nouveaux_cur - nb_nouveaux_prev:+d}",
+            delta_color="normal",
+        )
+    with m_autonome:
+        st.metric(
+            label="PAP autonome",
+            value=nb_autonome_cur,
+            delta=f"{nb_autonome_cur - nb_autonome_prev:+d}",
+            delta_color="normal",
+        )
+    with m_importe:
+        st.metric(
+            label="PAP importés",
+            value=nb_importe_cur,
+            delta=f"{nb_importe_cur - nb_importe_prev:+d}",
+            delta_color="normal",
+        )
+    with m_part:
+        st.metric(
+            label="Part de nouveaux plan autonome",
+            value=f"{part_autonome_cur:.0f}%",
+            delta=f"{part_autonome_cur - part_autonome_prev:+.0f}%",
+            delta_color="normal",
+        )
+
+    df_pap_zoom = df_pap_cur.sort_values('passage_pap', ascending=False)
+    _cols_present = [c for c in _cols_zoom if c in df_pap_zoom.columns]
+    if _cols_present and not df_pap_zoom.empty:
+        df_table_zoom = df_pap_zoom[_cols_present].rename(columns={
+            'nom': 'Collectivité',
+            'nom_plan_ct': 'Nom du plan',
+            'import': 'Import',
+            'createur_plan': 'Créateur du plan',
+        })
+        st.dataframe(df_table_zoom, width='stretch', hide_index=True)
+    else:
+        st.info("Aucun passage PAP sur la période sélectionnée.")
+else:
+    st.info("Aucune donnée disponible.")
+
+st.markdown("---")
+
+st.badge("Evolution du pipe", icon="📈", color="violet")
+
+_PIPE_EVOLUTION_TARGETS_POSITIVE = [
+    "En conversion",
+    "En rétention - activé",
+    "En rétention - multiplan",
+    "En pilotage",
+    "En pilotage - multiplan",
+]
+_PIPE_EVOLUTION_TARGETS_WATCH = [
+    "En pilotage - à surveiller",
+    "En rétention - à surveiller",
+    "A réactiver - 6 mois",
+    "A réactiver - 12 mois",
+    "A réactiver - 18 mois"
+]
+_can_pipe_delta = _has_pipe_history_before(df_pipeline_semaine, prev_start)
+
+_row_pipe_pos = st.columns(5)
+for _col, _target in zip(_row_pipe_pos, _PIPE_EVOLUTION_TARGETS_POSITIVE):
+    _cur = count_pipe_transitions_to(df_pipeline_semaine, _target, cur_start, cur_end)
+    with _col:
+        if _can_pipe_delta:
+            _prev = count_pipe_transitions_to(df_pipeline_semaine, _target, prev_start, prev_end)
+            st.metric(
+                label=f"{_target}",
+                value=_cur,
+                delta=f"{_cur - _prev:+d}",
+                delta_color="normal",
+            )
+        else:
+            st.metric(label=f"{_target}", value=_cur)
+
+_row_pipe_watch = st.columns(5)
+for _col, _target in zip(_row_pipe_watch, _PIPE_EVOLUTION_TARGETS_WATCH):
+    _cur = count_pipe_transitions_to(df_pipeline_semaine, _target, cur_start, cur_end)
+    with _col:
+        if _can_pipe_delta:
+            _prev = count_pipe_transitions_to(df_pipeline_semaine, _target, prev_start, prev_end)
+            st.metric(
+                label=f"{_target}",
+                value=_cur,
+                delta=f"{_cur - _prev:+d}",
+                delta_color="normal",
+            )
+        else:
+            st.metric(label=f"{_target}", value=_cur)
+
+_PIPE_EVOLUTION_ALL = _PIPE_EVOLUTION_TARGETS_POSITIVE + _PIPE_EVOLUTION_TARGETS_WATCH
+_selected_pipelines = st.multiselect(
+    "Pipelines",
+    options=_PIPE_EVOLUTION_ALL,
+    default=["En pilotage - multiplan"],
+    key="pipe_evolution_filter",
+)
+if _selected_pipelines:
+    df_pipe_evolution = get_pipe_transitions_to(
+        df_pipeline_semaine, _selected_pipelines, cur_start, cur_end
+    )
+    if not df_pipe_evolution.empty and not df_passage_pap.empty and 'nom' in df_passage_pap.columns:
+        df_ct_nom = df_passage_pap[['collectivite_id', 'nom']].drop_duplicates(subset='collectivite_id', keep='first')
+        df_pipe_evolution = df_pipe_evolution.merge(df_ct_nom, on='collectivite_id', how='left')
+        df_pipe_table = df_pipe_evolution[['nom', 'pipeline']].rename(columns={'nom': 'collectivite'})
+        df_pipe_table = df_pipe_table.sort_values('collectivite', na_position='last')
+        st.dataframe(df_pipe_table, use_container_width=True, hide_index=True)
+    elif df_pipe_evolution.empty:
+        st.info("Aucune collectivité n'a évolué vers les pipelines sélectionnés sur cette période.")
+    else:
+        st.info("Impossible d'afficher les noms de collectivités (données pap_date_passage indisponibles).")
+else:
+    st.info("Sélectionnez au moins un pipeline pour afficher le détail des collectivités.")
+
+st.markdown("---")
+
+st.badge("Progression plan", icon="📊", color="violet")
+
+if is_all_time:
+    df_note_progression = get_note_progression_alltime(df_note_plan, df_passage_pap, today)
+    _help_nb = "Nombre de CT dont la note du plan a progressé depuis la première mesure"
+    _help_moy = "Progression moyenne de la note pour les CT ayant progressé"
+else:
+    df_note_progression = get_note_progression_period(
+        df_note_plan, df_passage_pap, prev_start, prev_end, cur_start, cur_end
+    )
+    _help_nb = "Nombre de CT dont la note du plan a progressé entre la période précédente et la période actuelle"
+    _help_moy = "Progression moyenne de la note pour les CT ayant progressé"
+
+_nb_ct_prog = len(df_note_progression)
+_prog_moyenne = df_note_progression['progression'].mean() if _nb_ct_prog > 0 else 0.0
+
+_col_prog_nb, _col_prog_moy = st.columns(2)
+with _col_prog_nb:
+    st.metric(label="CT dont la note a progressé", value=_nb_ct_prog, help=_help_nb)
+with _col_prog_moy:
+    st.metric(label="Progression moyenne", value=f"{_prog_moyenne:.2f}", help=_help_moy)
+
+if not df_note_progression.empty and not df_passage_pap.empty and 'nom' in df_passage_pap.columns:
+    df_ct_nom_prog = df_passage_pap[['collectivite_id', 'nom']].drop_duplicates(subset='collectivite_id', keep='first')
+    df_note_progression_table = df_note_progression.merge(df_ct_nom_prog, on='collectivite_id', how='left')
+    df_note_progression_table = (
+        df_note_progression_table[['nom', 'progression']]
+        .rename(columns={'nom': 'collectivite'})
+        .sort_values('progression', ascending=False)
+    )
+    st.dataframe(df_note_progression_table, use_container_width=True, hide_index=True)
+elif df_note_progression.empty:
+    st.info("Aucune collectivité n'a progressé sur la période sélectionnée.")
+else:
+    st.info("Impossible d'afficher les noms de collectivités (données pap_date_passage indisponibles).")
+
+st.markdown("---")
 
 st.badge("Effort bizdevs", icon="💪", color="green")
 
@@ -777,7 +1110,29 @@ else:
 
 st.markdown("---")
 
+_DEMO_TYPES = [
+    '▶️ Démo Pilotage - Découverte & prise en main (1/2)',
+    '⏩ Démo Pilotage - Fonctionnalités expertes (2/2)',
+    '⏏️ Démo - Commencez votre état des lieux (T.E.T.E)',
+]
+
 st.badge("Activation", icon="🐣", color="blue")
+
+if is_all_time:
+    _time_min_activation = pd.Timestamp('2025-05-01')
+    _total_demos = len(df_calendly_events[
+        (df_calendly_events['type'].isin(_DEMO_TYPES))
+        & (df_calendly_events['start_time'] >= _time_min_activation)
+        & (df_calendly_events['start_time'] <= today)
+    ])
+else:
+    _total_demos = len(df_calendly_events[
+        (df_calendly_events['type'].isin(_DEMO_TYPES))
+        & (df_calendly_events['start_time'] >= cur_start)
+        & (df_calendly_events['start_time'] <= cur_end)
+    ])
+
+st.markdown(f"Il y a eu **{_total_demos}** démo au total.")
 
 if is_all_time:
     # All Time : métriques totales + graphique mensuel d'évolution des participants par type de démo (depuis le 01/01/2024)
@@ -854,7 +1209,7 @@ if is_all_time:
     # Rendu du tableau
     table_single = monthly_single_table(events_filtres, invitees_filtres, participants_reel_filtres, 'start_time')
     if not table_single.empty:
-        st.dataframe(table_single, use_container_width=True)
+        st.dataframe(table_single, width='stretch')
     else:
         st.info("Aucune donnée disponible pour la période et l'événement sélectionnés.")
 
@@ -893,11 +1248,7 @@ else:
     kpis = kpis[['type', 'events_cur', 'inscrits_cur', 'taux_participation_cur', 'delta_events', 'delta_inscrits', 'delta_taux']]
     
     # Filtrer et ordonner par type spécifique
-    types_ordre = [
-        '▶️ Démo Pilotage - Découverte & prise en main (1/2)',
-        '⏩ Démo Pilotage - Fonctionnalités expertes (2/2)',
-        '⏏️ Démo - Commencez votre état des lieux (T.E.T.E)'
-    ]
+    types_ordre = _DEMO_TYPES
     kpis = kpis[kpis['type'].isin(types_ordre)].copy()
     kpis['ordre'] = kpis['type'].map({t: i for i, t in enumerate(types_ordre)})
     kpis = kpis.sort_values('ordre').drop(columns=['ordre'])
@@ -925,461 +1276,6 @@ else:
                     st.metric(label="Inscrits", value=int(row['inscrits_cur']), delta=f"{int(row['delta_inscrits']):+d}", delta_color="normal")
                 with c_pa:
                     st.metric(label="Participation", value=f"{row['taux_participation_cur']:.0f}%", delta=f"{row['delta_taux']:+.0f}%", delta_color="normal")
-
-
-st.markdown("---")
-
-st.badge("Conversion et progression", icon="🐤", color="violet")
-
-# Fonction pour détecter les transitions entre états
-def detect_transitions(df_pipe, state_from, state_to, start_date, end_date):
-    """
-    Détecte les CT qui sont passées de state_from à state_to pendant la période donnée.
-    Retourne le nombre de CT ayant effectué cette transition.
-    """
-    if df_pipe.empty:
-        return 0
-    
-    # Convertir la colonne semaine en datetime si nécessaire
-    df_pipe_copy = df_pipe.copy()
-    df_pipe_copy['semaine'] = pd.to_datetime(df_pipe_copy['semaine'])
-    
-    # Filtrer les données dans la plage de dates
-    df_period = df_pipe_copy[(df_pipe_copy['semaine'] >= start_date) & (df_pipe_copy['semaine'] <= end_date)].copy()
-    if df_period.empty:
-        return 0
-    
-    # Trier par collectivite_id et semaine
-    df_period = df_period.sort_values(['collectivite_id', 'semaine'])
-    
-    # Pour chaque CT, regarder les transitions
-    transitions = []
-    for ct_id, group in df_period.groupby('collectivite_id'):
-        group = group.sort_values('semaine')
-        pipelines = group['pipeline'].tolist()
-        
-        # Vérifier si la transition state_from -> state_to apparaît
-        for i in range(len(pipelines) - 1):
-            if pipelines[i] == state_from and pipelines[i + 1] == state_to:
-                transitions.append(ct_id)
-                break  # Compter une seule fois par CT
-    
-    return len(set(transitions))
-
-def detect_all_transitions(df_pipe, end_date):
-    """
-    Détecte toutes les CT qui ont fait les transitions depuis le début jusqu'à end_date.
-    """
-    if df_pipe.empty:
-        return 0, 0
-    
-    # Convertir la colonne semaine en datetime si nécessaire
-    df_pipe_copy = df_pipe.copy()
-    df_pipe_copy['semaine'] = pd.to_datetime(df_pipe_copy['semaine'])
-    
-    # Filtrer toutes les données jusqu'à end_date
-    df_all = df_pipe_copy[df_pipe_copy['semaine'] <= end_date].copy()
-    if df_all.empty:
-        return 0, 0
-    
-    # Trier par collectivite_id et semaine
-    df_all = df_all.sort_values(['collectivite_id', 'semaine'])
-    
-    # Pour chaque CT, regarder les transitions
-    transition_activation_conversion = []
-    transition_conversion_retention = []
-    
-    for ct_id, group in df_all.groupby('collectivite_id'):
-        group = group.sort_values('semaine')
-        pipelines = group['pipeline'].tolist()
-        
-        # Vérifier transition activation -> conversion
-        for i in range(len(pipelines) - 1):
-            if pipelines[i] == "En activation" and pipelines[i + 1] == "En conversion":
-                transition_activation_conversion.append(ct_id)
-                break
-        
-        # Vérifier transition conversion -> rétention
-        for i in range(len(pipelines) - 1):
-            if pipelines[i] == "En conversion" and pipelines[i + 1] == "En rétention":
-                transition_conversion_retention.append(ct_id)
-                break
-    
-    return len(set(transition_activation_conversion)), len(set(transition_conversion_retention))
-
-# Calcul des transitions
-if is_all_time:
-    # Mode All Time : afficher les totaux depuis le début
-    total_activ_to_conv, total_conv_to_ret = detect_all_transitions(df_pipeline_semaine, today)
-    
-    col1, col2 = st.columns(2)
-    with col1:
-        st.metric(
-            label="En activation → En conversion",
-            value=total_activ_to_conv,
-            help="Nombre total de CT ayant effectué cette transition"
-        )
-    with col2:
-        st.metric(
-            label="En conversion → En rétention",
-            value=total_conv_to_ret,
-            help="Nombre total de CT ayant effectué cette transition"
-        )
-else:
-    # Mode période : afficher avec deltas
-    trans_activ_conv_cur = detect_transitions(df_pipeline_semaine, "En activation", "En conversion", cur_start, cur_end)
-    trans_activ_conv_prev = detect_transitions(df_pipeline_semaine, "En activation", "En conversion", prev_start, prev_end)
-    
-    trans_conv_ret_cur = detect_transitions(df_pipeline_semaine, "En conversion", "En rétention", cur_start, cur_end)
-    trans_conv_ret_prev = detect_transitions(df_pipeline_semaine, "En conversion", "En rétention", prev_start, prev_end)
-    
-    delta_activ_conv = trans_activ_conv_cur - trans_activ_conv_prev
-    delta_conv_ret = trans_conv_ret_cur - trans_conv_ret_prev
-    
-    col1, col2 = st.columns(2)
-    with col1:
-        st.metric(
-            label="En activation → En conversion",
-            value=trans_activ_conv_cur,
-            delta=f"{delta_activ_conv:+d}",
-            delta_color="normal",
-            help="Nombre de CT ayant effectué cette transition pendant la période"
-        )
-    with col2:
-        st.metric(
-            label="En conversion → En rétention",
-            value=trans_conv_ret_cur,
-            delta=f"{delta_conv_ret:+d}",
-            delta_color="normal",
-            help="Nombre de CT ayant effectué cette transition pendant la période"
-        )
-
-st.markdown("---")
-
-st.badge('Rétention', icon="🕊️", color="green")
-
-# Fonction pour détecter les transitions vers "En pilotage multiplans"
-def detect_transitions_to_multiplans(df_pipe, start_date, end_date):
-    """
-    Détecte les CT qui sont passées de "En rétention" vers "En pilotage" ou "En pilotage multiplans" pendant la période donnée.
-    Retourne le nombre de CT ayant effectué cette transition.
-    """
-    if df_pipe.empty:
-        return 0
-    
-    # Convertir la colonne semaine en datetime si nécessaire
-    df_pipe_copy = df_pipe.copy()
-    df_pipe_copy['semaine'] = pd.to_datetime(df_pipe_copy['semaine'])
-    
-    # Filtrer les données dans la plage de dates
-    df_period = df_pipe_copy[(df_pipe_copy['semaine'] >= start_date) & (df_pipe_copy['semaine'] <= end_date)].copy()
-    if df_period.empty:
-        return 0
-    
-    # Trier par collectivite_id et semaine
-    df_period = df_period.sort_values(['collectivite_id', 'semaine'])
-    
-    # Pour chaque CT, regarder les transitions
-    transitions = []
-    for ct_id, group in df_period.groupby('collectivite_id'):
-        group = group.sort_values('semaine')
-        pipelines = group['pipeline'].tolist()
-        
-        # Vérifier si la transition "En rétention" -> "En pilotage" OU "En pilotage multiplans" apparaît
-        for i in range(len(pipelines) - 1):
-            if pipelines[i] == "En rétention" and pipelines[i + 1] in ["En pilotage", "En pilotage multiplans"]:
-                transitions.append(ct_id)
-                break  # Compter une seule fois par CT
-    
-    return len(set(transitions))
-
-def detect_all_transitions_to_multiplans(df_pipe, end_date):
-    """
-    Détecte toutes les CT qui ont fait la transition de "En rétention" vers "En pilotage" ou "En pilotage multiplans" depuis le début jusqu'à end_date.
-    """
-    if df_pipe.empty:
-        return 0
-    
-    # Convertir la colonne semaine en datetime si nécessaire
-    df_pipe_copy = df_pipe.copy()
-    df_pipe_copy['semaine'] = pd.to_datetime(df_pipe_copy['semaine'])
-    
-    # Filtrer toutes les données jusqu'à end_date
-    df_all = df_pipe_copy[df_pipe_copy['semaine'] <= end_date].copy()
-    if df_all.empty:
-        return 0
-    
-    # Trier par collectivite_id et semaine
-    df_all = df_all.sort_values(['collectivite_id', 'semaine'])
-    
-    # Pour chaque CT, regarder les transitions
-    transitions = []
-    
-    for ct_id, group in df_all.groupby('collectivite_id'):
-        group = group.sort_values('semaine')
-        pipelines = group['pipeline'].tolist()
-        
-        # Vérifier transition "En rétention" -> "En pilotage" OU "En pilotage multiplans"
-        for i in range(len(pipelines) - 1):
-            if pipelines[i] == "En rétention" and pipelines[i + 1] in ["En pilotage", "En pilotage multiplans"]:
-                transitions.append(ct_id)
-                break
-    
-    return len(set(transitions))
-
-# === Progression des notes ===
-def calculate_note_progression_period(df_note, df_passage_pap, start_prev, end_prev, start_cur, end_cur):
-    """
-    Calcule le nombre de CT dont la note a progressé entre deux périodes et la progression moyenne.
-    Compare la dernière note de la période précédente avec la dernière note de la période actuelle.
-    La note d'une collectivité est définie comme la meilleure note parmi tous ses plans.
-    """
-    if df_note.empty or df_passage_pap.empty:
-        return 0, 0.0
-    
-    df = df_note.copy()
-    df['mois'] = pd.to_datetime(df['mois'])
-    
-    # Jointure avec df_passage_pap pour obtenir collectivite_id
-    df = df.merge(df_passage_pap[['collectivite_id', 'plan']], on='plan', how='inner')
-    
-    if df.empty:
-        return 0, 0.0
-    
-    # Pour chaque période, obtenir la meilleure note par collectivité
-    df_prev = df[(df['mois'] >= start_prev) & (df['mois'] <= end_prev)].copy()
-    df_cur = df[(df['mois'] >= start_cur) & (df['mois'] <= end_cur)].copy()
-    
-    if df_prev.empty or df_cur.empty:
-        return 0, 0.0
-    
-    # Pour chaque collectivité, obtenir la meilleure note (max) de la dernière date de chaque période
-    # D'abord, obtenir la dernière date par collectivité pour chaque période
-    df_prev_last_date = df_prev.groupby('collectivite_id')['mois'].max().reset_index()
-    df_cur_last_date = df_cur.groupby('collectivite_id')['mois'].max().reset_index()
-    
-    # Merger avec les notes pour obtenir toutes les notes de cette dernière date
-    df_prev_last = df_prev.merge(df_prev_last_date, on=['collectivite_id', 'mois'])
-    df_cur_last = df_cur.merge(df_cur_last_date, on=['collectivite_id', 'mois'])
-    
-    # Prendre la meilleure note par collectivité
-    df_prev_best = df_prev_last.groupby('collectivite_id')['note_plan'].max().reset_index()
-    df_cur_best = df_cur_last.groupby('collectivite_id')['note_plan'].max().reset_index()
-    
-    # Merge pour comparer
-    df_compare = df_prev_best.merge(df_cur_best, on='collectivite_id', suffixes=('_prev', '_cur'))
-    
-    # Calculer la progression
-    df_compare['progression'] = df_compare['note_plan_cur'] - df_compare['note_plan_prev']
-    
-    # Compter les CT avec progression positive
-    nb_progression = len(df_compare[df_compare['progression'] > 0])
-    
-    # Progression moyenne (uniquement pour celles qui ont progressé)
-    if nb_progression > 0:
-        prog_moyenne = df_compare[df_compare['progression'] > 0]['progression'].mean()
-    else:
-        prog_moyenne = 0.0
-    
-    return nb_progression, prog_moyenne
-
-def calculate_note_progression_alltime(df_note, df_passage_pap, end_date):
-    """
-    Calcule le nombre de CT dont la note a progressé entre la valeur la plus ancienne et la plus récente.
-    La note d'une collectivité est définie comme la meilleure note parmi tous ses plans.
-    """
-    if df_note.empty or df_passage_pap.empty:
-        return 0, 0.0
-    
-    df = df_note.copy()
-    df['mois'] = pd.to_datetime(df['mois'])
-    df = df[df['mois'] <= end_date]
-    
-    # Jointure avec df_passage_pap pour obtenir collectivite_id
-    df = df.merge(df_passage_pap[['collectivite_id', 'plan']], on='plan', how='inner')
-    
-    if df.empty:
-        return 0, 0.0
-    
-    # Pour chaque collectivité, obtenir la première et dernière date
-    df_sorted = df.sort_values('mois')
-    df_first_date = df_sorted.groupby('collectivite_id')['mois'].min().reset_index()
-    df_last_date = df_sorted.groupby('collectivite_id')['mois'].max().reset_index()
-    
-    # Merger avec les notes pour obtenir toutes les notes de ces dates
-    df_first = df_sorted.merge(df_first_date, on=['collectivite_id', 'mois'])
-    df_last = df_sorted.merge(df_last_date, on=['collectivite_id', 'mois'])
-    
-    # Prendre la meilleure note par collectivité pour chaque période
-    df_first_best = df_first.groupby('collectivite_id')['note_plan'].max().reset_index()
-    df_last_best = df_last.groupby('collectivite_id')['note_plan'].max().reset_index()
-    
-    # Merge pour comparer
-    df_compare = df_first_best.merge(df_last_best, on='collectivite_id', suffixes=('_first', '_last'))
-    
-    # Calculer la progression
-    df_compare['progression'] = df_compare['note_plan_last'] - df_compare['note_plan_first']
-    
-    # Compter les CT avec progression positive
-    nb_progression = len(df_compare[df_compare['progression'] > 0])
-    
-    # Progression moyenne (uniquement pour celles qui ont progressé)
-    if nb_progression > 0:
-        prog_moyenne = df_compare[df_compare['progression'] > 0]['progression'].mean()
-    else:
-        prog_moyenne = 0.0
-    
-    return nb_progression, prog_moyenne
-
-# Calcul des transitions vers multiplans et progression des notes
-if is_all_time:
-    # Mode All Time : afficher les totaux depuis le début
-    total_to_multiplans = detect_all_transitions_to_multiplans(df_pipeline_semaine, today)
-    nb_ct_prog, prog_moyenne = calculate_note_progression_alltime(df_note_plan, df_passage_pap, today)
-    
-    col1, col2, col3 = st.columns(3)
-    with col1:
-        st.metric(
-            label="En rétention → En pilotage / En pilotage multiplans",
-            value=total_to_multiplans,
-            help="Nombre total de CT ayant effectué cette transition"
-        )
-    with col2:
-        st.metric(
-            label="CT dont la note a progressé",
-            value=nb_ct_prog,
-            help="Nombre de CT dont la note du plan a progressé depuis la première mesure"
-        )
-    with col3:
-        st.metric(
-            label="Progression moyenne",
-            value=f"{prog_moyenne:.2f}",
-            help="Progression moyenne de la note pour les CT ayant progressé"
-        )
-else:
-    # Mode période : afficher avec deltas
-    trans_to_multiplans_cur = detect_transitions_to_multiplans(df_pipeline_semaine, cur_start, cur_end)
-    trans_to_multiplans_prev = detect_transitions_to_multiplans(df_pipeline_semaine, prev_start, prev_end)
-    delta_to_multiplans = trans_to_multiplans_cur - trans_to_multiplans_prev
-    
-    nb_ct_prog, prog_moyenne = calculate_note_progression_period(df_note_plan, df_passage_pap, prev_start, prev_end, cur_start, cur_end)
-    
-    col1, col2, col3 = st.columns(3)
-    with col1:
-        st.metric(
-            label="En rétention → En pilotage / En pilotage multiplans",
-            value=trans_to_multiplans_cur,
-            delta=f"{delta_to_multiplans:+d}",
-            delta_color="normal",
-            help="Nombre de CT ayant effectué cette transition pendant la période"
-        )
-    with col2:
-        st.metric(
-            label="CT dont la note a progressé",
-            value=nb_ct_prog,
-            help="Nombre de CT dont la note du plan a progressé entre la période précédente et la période actuelle"
-        )
-    with col3:
-        st.metric(
-            label="Progression moyenne",
-            value=f"{prog_moyenne:.2f}",
-            help="Progression moyenne de la note pour les CT ayant progressé"
-        )
-
-st.markdown("---")
-st.badge("Support", icon="💬", color="gray")
-
-# Préparation des données de passage PAP
-df_pap = df_passage_pap.copy()
-if not df_pap.empty and 'passage_pap' in df_pap.columns:
-    df_pap['passage_pap'] = pd.to_datetime(df_pap['passage_pap'], errors='coerce')
-    # Supprimer la timezone si présente pour permettre les comparaisons avec today
-    if df_pap['passage_pap'].dt.tz is not None:
-        df_pap['passage_pap'] = df_pap['passage_pap'].dt.tz_localize(None)
-
-# Calcul des plans autonomes vs importés
-if is_all_time:
-    # Mode All Time : graphique avec évolution mensuelle
-    if not df_pap.empty and 'import' in df_pap.columns:
-        df_pap_at = df_pap[df_pap['passage_pap'] <= today].copy()
-        df_pap_at['mois'] = df_pap_at['passage_pap'].dt.to_period('M').dt.to_timestamp()
-        
-        # Grouper par mois et type d'import
-        df_pap_monthly = df_pap_at.groupby(['mois', 'import']).size().reset_index(name='nb_plans')
-        df_pap_monthly = df_pap_monthly.sort_values('mois')
-        
-        if not df_pap_monthly.empty:
-            # Compléter les mois manquants
-            all_imports = df_pap_monthly['import'].unique()
-            first_month = df_pap_monthly['mois'].min()
-            all_months = pd.date_range(start=first_month, end=today, freq='MS')
-            full_index = pd.MultiIndex.from_product([all_months, all_imports], names=['mois', 'import'])
-            df_pap_chart = df_pap_monthly.set_index(['mois', 'import']).reindex(full_index, fill_value=0).reset_index()
-            df_pap_chart = df_pap_chart.sort_values('mois')
-            df_pap_chart['mois_label'] = df_pap_chart['mois'].dt.strftime('%Y-%m')
-            
-            # Créer le graphique avec les couleurs appropriées
-            colors_import = {
-                'Importé': '#f97316',    # orange
-                'Autonome': '#22c55e'     # vert
-            }
-            
-            fig = px.line(
-                df_pap_chart, 
-                x='mois_label', 
-                y='nb_plans', 
-                color='import', 
-                markers=True, 
-                height=400,
-                color_discrete_map=colors_import
-            )
-            fig.update_layout(
-                xaxis_title="Mois",
-                yaxis_title="Nombre de plans",
-                xaxis_tickangle=-45,
-                legend_title="Type"
-            )
-            st.plotly_chart(fig, use_container_width=True)
-        else:
-            st.info("Aucune donnée disponible")
-    else:
-        st.info("Aucune donnée disponible")
-else:
-    # Mode période : métriques avec deltas
-    if not df_pap.empty and 'import' in df_pap.columns:
-        # Filtrer par période
-        df_pap_cur = df_pap[(df_pap['passage_pap'] >= cur_start) & (df_pap['passage_pap'] <= cur_end)]
-        df_pap_prev = df_pap[(df_pap['passage_pap'] >= prev_start) & (df_pap['passage_pap'] <= prev_end)]
-        
-        # Compter par type
-        nb_autonome_cur = len(df_pap_cur[df_pap_cur['import'] == 'Autonome'])
-        nb_autonome_prev = len(df_pap_prev[df_pap_prev['import'] == 'Autonome'])
-        nb_importe_cur = len(df_pap_cur[df_pap_cur['import'] == 'Importé'])
-        nb_importe_prev = len(df_pap_prev[df_pap_prev['import'] == 'Importé'])
-        
-        delta_autonome = nb_autonome_cur - nb_autonome_prev
-        delta_importe = nb_importe_cur - nb_importe_prev
-        
-        col1, col2 = st.columns(2)
-        with col1:
-            st.metric(
-                label="Plans autonomes",
-                value=nb_autonome_cur,
-                delta=f"{delta_autonome:+d}",
-                delta_color="normal",
-                help="Plans créés de manière autonome"
-            )
-        with col2:
-            st.metric(
-                label="Plans importés",
-                value=nb_importe_cur,
-                delta=f"{delta_importe:+d}",
-                delta_color="normal",
-                help="Plans importés"
-            )
-    else:
-        st.info("Aucune donnée disponible")
-
 
 
 ############################################
@@ -1458,115 +1354,3 @@ else:
         file_name="retours_demo12_agg.csv",
         mime="text/csv"
     )
-
-
-st.markdown("---")
-st.badge("Pipelines", icon="🚧", color="orange")
-st.warning("Cette section est la seule section indépendante de la période sélectionnée plus haut. Les deltas sont calculés par rapport à l'état des pipes 4 semaines plus tôt.")
-
-# Mapping des couleurs par pipeline
-pipe_color_mapping = {
-    "A acquérir": "#C8C8C8",            # gris clair
-    "En activation": "#E6B0FF",         # rose/violet clair
-    "En test (+6 mois)": "#D7D6FF",     # lavande
-    "En test (-6 mois)": "#BCA6FF",     # violet moyen
-    "En conversion": "#FFD966",         # jaune
-    "En rétention": "#A6ECA5",          # vert clair
-    "En pilotage": "#8FD9A8",           # vert menthe
-    "En rétention (à surveiller)": "#F7B896",   # orange clair
-    "En pilotage (à surveiller)": "#F7C8A0",    # beige orangé
-    "En rétention (à réactiver)": "#FF9966",    # orange soutenu
-    "En pilotage (à réactiver)": "#FFB399"      # saumon clair
-}
-
-# Chargement et préparation des données
-df_pipe = df_pipeline_semaine.copy()
-df_ct = df_collectivite.copy()
-
-# Filtrer les collectivités de test
-df_ct = df_ct[df_ct['type'] != 'test'].copy()
-
-# Prendre uniquement id et type
-df_ct = df_ct[['id', 'type']].copy()
-
-# Jointure avec collectivités
-df_pipe = df_pipe.merge(df_ct, left_on='collectivite_id', right_on='id', how='inner')
-
-# Prendre la semaine la plus récente
-if not df_pipe.empty:
-    semaine_recente = df_pipe['semaine'].max()
-    
-    # Filtre par semaine uniquement
-    semaine_selection = st.selectbox(
-        "Sélectionner une semaine",
-        options=df_pipe['semaine'].sort_values(ascending=False).unique().tolist(),
-        key="semaine_selection"
-    )
-    
-    # Appliquer le filtre
-    df_pipe = df_pipe[df_pipe['pipeline'] != 'A acquérir'].copy()
-    df_pipe_filtre = df_pipe[df_pipe['semaine'] == semaine_selection].copy()
-    
-    if not df_pipe_filtre.empty:
-        # Calcul des comptes par pipeline
-        pipeline_counts = df_pipe_filtre['pipeline'].value_counts().reset_index()
-        pipeline_counts.columns = ['Pipeline', 'Nombre de collectivités']
-        
-        # Trouver la semaine S-4
-        semaines_triees = sorted(df_pipe['semaine'].unique())
-        idx_semaine_actuelle = semaines_triees.index(semaine_selection) if semaine_selection in semaines_triees else -1
-        
-        if idx_semaine_actuelle >= 4:
-            semaine_s4 = semaines_triees[idx_semaine_actuelle - 4]
-            
-            # Calculer les counts pour S-4
-            df_pipe_s4 = df_pipe[df_pipe['semaine'] == semaine_s4].copy()
-            
-            if not df_pipe_s4.empty:
-                pipeline_counts_s4 = df_pipe_s4['pipeline'].value_counts().reset_index()
-                pipeline_counts_s4.columns = ['Pipeline', 'Nombre S-4']
-                
-                # Joindre avec les counts actuels
-                pipeline_counts = pipeline_counts.merge(pipeline_counts_s4, on='Pipeline', how='left')
-                pipeline_counts['Nombre S-4'] = pipeline_counts['Nombre S-4'].fillna(0).astype(int)
-                
-                # Calculer le delta
-                pipeline_counts['delta'] = pipeline_counts['Nombre de collectivités'] - pipeline_counts['Nombre S-4']
-                
-                # Créer le texte d'affichage
-                pipeline_counts['text_display'] = pipeline_counts.apply(
-                    lambda row: f"{int(row['Nombre de collectivités'])} ({row['delta']:+d})" 
-                    if row['delta'] != 0 
-                    else f"{int(row['Nombre de collectivités'])}",
-                    axis=1
-                )
-            else:
-                # Pas de données S-4, afficher juste le nombre
-                pipeline_counts['text_display'] = pipeline_counts['Nombre de collectivités'].astype(str)
-        else:
-            # Pas assez de semaines historiques, afficher juste le nombre
-            pipeline_counts['text_display'] = pipeline_counts['Nombre de collectivités'].astype(str)
-
-        # Histogramme
-        fig = px.bar(
-            pipeline_counts,
-            x='Pipeline',
-            y='Nombre de collectivités',
-            color='Pipeline',
-            color_discrete_map=pipe_color_mapping,
-            text='text_display',
-            height=500
-        )
-        fig.update_traces(textposition='outside')
-        fig.update_layout(
-            xaxis_title="",
-            yaxis_title="",
-            showlegend=False
-        )
-        
-        st.plotly_chart(fig, use_container_width=True)
-
-    else:
-        st.info("Aucune donnée disponible pour la semaine sélectionnée.")
-else:
-    st.info("Aucune donnée de pipeline disponible.")
