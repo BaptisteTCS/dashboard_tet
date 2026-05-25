@@ -4,10 +4,8 @@ st.set_page_config(layout="wide")
 
 import pandas as pd
 import plotly.express as px
-import plotly.graph_objects as go
-from sqlalchemy import text
 import calendar
-from utils.db import get_engine_prod, read_table
+from utils.db import read_table
 
 # ==========================
 # Chargement des données
@@ -21,19 +19,11 @@ def load_data():
     df_bizdev_af = read_table('bizdev_A_F_contact')
     df_pipeline_semaine = read_table('airtable_sync_semaine', columns=['collectivite_id', 'semaine', 'pipeline'])
     df_passage_pap = read_table('pap_date_passage')
-    df_pap_13 = read_table('pap_statut_5_fiches_modifiees_13_semaines')
-    df_note_plan = read_table('note_plan_historique')
+    df_note_plan = read_table('note_plan_semaine')
+    df_collectivite = read_table('collectivite', columns=['collectivite_id', 'nom'])
+    return df_calendly_events, df_calendly_invitees, df_bizdev_note_de_suivi, df_bizdev_af, df_pipeline_semaine, df_collectivite, df_passage_pap, df_note_plan
 
-    # Lire la table collectivite directement depuis la prod
-    engine_prod = get_engine_prod()
-    with engine_prod.connect() as conn:
-        df_collectivite = pd.read_sql_query(
-            text('SELECT * FROM collectivite'),
-            conn
-        )
-    return df_calendly_events, df_calendly_invitees, df_bizdev_note_de_suivi, df_bizdev_af, df_pipeline_semaine, df_collectivite, df_passage_pap, df_pap_13, df_note_plan
-
-df_calendly_events, df_calendly_invitees, df_bizdev_note_de_suivi, df_bizdev_af, df_pipeline_semaine, df_collectivite, df_passage_pap, df_pap_13, df_note_plan = load_data()
+df_calendly_events, df_calendly_invitees, df_bizdev_note_de_suivi, df_bizdev_af, df_pipeline_semaine, df_collectivite, df_passage_pap, df_note_plan = load_data()
 
 
 def monthly_single_table(events_df: pd.DataFrame, invitees_df: pd.DataFrame, participants_df: pd.DataFrame, date_col: str) -> pd.DataFrame:
@@ -210,145 +200,324 @@ df_invitees_active = df_invitees_active[df_invitees_active['type'].notna()].copy
 st.badge("🌟 North Stars", color="orange")
 #st.markdown("## 🌟 North Stars")
 
-# Préparation des données à partir de df_pap_13
-df_pap_data = df_pap_13.copy()
-df_pap_data['mois'] = pd.to_datetime(df_pap_data['mois']).dt.to_period('M').dt.to_timestamp()
-df_pap_data = df_pap_data[df_pap_data['mois'] >= '2024-01-01']
+# === CT PAP & multiplans : cumul depuis pap_date_passage ===
+df_pap_passage = df_passage_pap.copy()
+if not df_pap_passage.empty and 'passage_pap' in df_pap_passage.columns:
+    df_pap_passage['passage_pap'] = pd.to_datetime(df_pap_passage['passage_pap'], errors='coerce')
+    if df_pap_passage['passage_pap'].dt.tz is not None:
+        df_pap_passage['passage_pap'] = df_pap_passage['passage_pap'].dt.tz_localize(None)
+    df_pap_passage = df_pap_passage.dropna(subset=['passage_pap', 'collectivite_id'])
+    if 'plan' in df_pap_passage.columns:
+        df_pap_passage = df_pap_passage.drop_duplicates(subset='plan', keep='first')
 
-# === CT PAP (1+ plan) : calcul actif/inactif ===
-# Pour chaque CT/mois, déterminer si elle a au moins 1 plan actif
-df_pap_actifs = df_pap_data[df_pap_data['statut'] == 'actif'].groupby(['mois', 'collectivite_id'])['plan'].nunique().reset_index(name='nb_plans_actifs')
-ct_pap_all = df_pap_data.groupby(['mois', 'collectivite_id'])['plan'].nunique().reset_index(name='nb_plans_total')
-ct_pap_all = ct_pap_all.merge(df_pap_actifs, on=['mois', 'collectivite_id'], how='left')
-ct_pap_all['nb_plans_actifs'] = ct_pap_all['nb_plans_actifs'].fillna(0)
-ct_pap_all['statut_pap'] = ct_pap_all['nb_plans_actifs'].apply(lambda x: 'actif' if x >= 1 else 'inactif')
+    ct_first_pap = (
+        df_pap_passage.sort_values('passage_pap')
+        .drop_duplicates(subset='collectivite_id', keep='first')
+        .rename(columns={'passage_pap': 'date_premier_pap'})
+    )
 
-# Grouper par mois/statut pour CT PAP
-df_pap_statut = ct_pap_all.groupby(['mois', 'statut_pap'])['collectivite_id'].nunique().reset_index(name='nb_collectivites')
-df_pap_statut.rename(columns={'statut_pap': 'statut'}, inplace=True)
-df_pap_statut = df_pap_statut.sort_values('mois')
+    df_plans_sorted = df_pap_passage.sort_values(['collectivite_id', 'passage_pap'])
+    df_plans_sorted['_rank'] = df_plans_sorted.groupby('collectivite_id').cumcount()
+    ct_first_multiplan = (
+        df_plans_sorted[df_plans_sorted['_rank'] == 1]
+        .rename(columns={'passage_pap': 'date_premier_multiplan'})
+    )
+else:
+    ct_first_pap = pd.DataFrame(columns=['collectivite_id', 'date_premier_pap'])
+    ct_first_multiplan = pd.DataFrame(columns=['collectivite_id', 'date_premier_multiplan', 'plan'])
 
-# Pour nouvelles CT PAP : première apparition d'une CT dans df_pap_data
-ct_first_pap = df_pap_data.sort_values(['collectivite_id', 'mois']).drop_duplicates(subset='collectivite_id', keep='first')[['collectivite_id', 'mois']].copy()
-ct_first_pap.rename(columns={'mois': 'date_premier_pap'}, inplace=True)
+_COLS_PAP_TABLE = ['nom', 'nom_plan_ct', 'import', 'statut_pre_import', 'statut_post_import', 'createur_plan']
+_COLS_PAP_RENAME = {
+    'nom': 'Collectivité',
+    'nom_plan_ct': 'Nom du plan',
+    'import': 'Import',
+    'statut_pre_import': 'Statut pré-import',
+    'statut_post_import': 'Statut post-import',
+    'createur_plan': 'Créateur du plan',
+}
+_COLS_NOTE_TABLE = ['nom', 'nom_plan_ct', 'note_plan', 'createur_plan']
+_COLS_NOTE_RENAME = {
+    'nom': 'Collectivité',
+    'nom_plan_ct': 'Nom du plan',
+    'note_plan': 'Note',
+    'createur_plan': 'Créateur du plan',
+}
 
-# === CT Multiplans (2+ plans) : calcul actif/inactif ===
-# Étape 1 : Compter le nombre total de plans par CT/mois
-nb_plans_total = df_pap_data.groupby(['mois', 'collectivite_id'])['plan'].nunique().reset_index(name='nb_plans_total')
 
-# Étape 2 : Garder uniquement les CT qui ont 2+ plans
-ct_multiplans = nb_plans_total[nb_plans_total['nb_plans_total'] >= 2][['mois', 'collectivite_id']]
+def _render_pap_table(df, empty_msg="Aucun plan sur la période sélectionnée."):
+    cols = [c for c in _COLS_PAP_TABLE if c in df.columns]
+    if cols and not df.empty:
+        st.dataframe(
+            df[cols].rename(columns=_COLS_PAP_RENAME),
+            width='stretch',
+            hide_index=True,
+        )
+    else:
+        st.info(empty_msg)
 
-# Étape 3 : Pour ces CT multiplans, compter le nombre de plans actifs
-df_multiplans = df_pap_data.merge(ct_multiplans, on=['mois', 'collectivite_id'], how='inner')
-nb_plans_actifs_mp = df_multiplans[df_multiplans['statut'] == 'actif'].groupby(['mois', 'collectivite_id'])['plan'].nunique().reset_index(name='nb_plans_actifs')
 
-# Étape 4 : Fusionner et déterminer le statut final (actif si 2+ plans actifs, sinon inactif)
-df_multiplans_final = ct_multiplans.merge(nb_plans_actifs_mp, on=['mois', 'collectivite_id'], how='left')
-df_multiplans_final['nb_plans_actifs'] = df_multiplans_final['nb_plans_actifs'].fillna(0)
-df_multiplans_final['statut_mp'] = df_multiplans_final['nb_plans_actifs'].apply(lambda x: 'actif' if x >= 2 else 'inactif')
+def _render_note_table(df, empty_msg="Aucun plan sur la période sélectionnée."):
+    cols = [c for c in _COLS_NOTE_TABLE if c in df.columns]
+    if cols and not df.empty:
+        st.dataframe(
+            df[cols].rename(columns=_COLS_NOTE_RENAME),
+            width='stretch',
+            hide_index=True,
+        )
+    else:
+        st.info(empty_msg)
 
-# Grouper par mois/statut pour CT multiplans
-df_multiplans_statut = df_multiplans_final.groupby(['mois', 'statut_mp'])['collectivite_id'].nunique().reset_index(name='nb_collectivites')
-df_multiplans_statut.rename(columns={'statut_mp': 'statut'}, inplace=True)
-df_multiplans_statut = df_multiplans_statut.sort_values('mois')
 
-# Pour nouvelles CT multiplans : première apparition d'une CT avec 2+ plans
-ct_first_multiplan = ct_multiplans.sort_values(['collectivite_id', 'mois']).drop_duplicates(subset='collectivite_id', keep='first')[['collectivite_id', 'mois']].copy()
-ct_first_multiplan.rename(columns={'mois': 'date_premier_multiplan'}, inplace=True)
+def _pap_plans_periode(df_pap, cur_start, cur_end):
+    if df_pap.empty:
+        return df_pap
+    return df_pap[
+        (df_pap['passage_pap'] >= cur_start) & (df_pap['passage_pap'] <= cur_end)
+    ].sort_values('passage_pap', ascending=False)
 
-# === Note des plans PAP ===
-df_note_mensuel = df_note_plan.copy()
-df_note_mensuel['mois'] = pd.to_datetime(df_note_mensuel['mois'])
-df_note_mensuel['mois'] = df_note_mensuel['mois'].dt.to_period('M').dt.to_timestamp()
-df_note_mensuel = df_note_mensuel[df_note_mensuel['mois'] >= '2024-01-01']
 
-def _agg_plans_par_seuil(df, seuil):
+def _statut_pap_par_collectivite(df_pap, *, before=None, on_or_before=None):
+    """Compte les plans PAP par collectivité et retourne Nouveau / PAP / PAP multiplan."""
+    df = df_pap.copy()
+    if not df.empty and 'plan' in df.columns:
+        df = df.drop_duplicates(subset='plan', keep='first')
+    if before is not None:
+        df = df[df['passage_pap'] < before]
+    if on_or_before is not None:
+        df = df[df['passage_pap'] <= on_or_before]
+    if df.empty:
+        return pd.Series(dtype=object)
+    nb_plans = df.groupby('collectivite_id')['plan'].nunique()
+    return nb_plans.apply(lambda n: 'PAP' if n == 1 else 'PAP multiplan')
+
+
+def _resolve_statut_pap(collectivite_id, statut_series):
+    if collectivite_id not in statut_series.index:
+        return 'Nouveau'
+    return statut_series[collectivite_id]
+
+
+def _add_statuts_import(df_plans, df_pap, period_start, period_end):
+    """Statuts pré/post import pour chaque plan de la période."""
+    if df_plans.empty:
+        return df_plans
+
+    statut_pre = _statut_pap_par_collectivite(df_pap, before=period_start)
+    statut_post = _statut_pap_par_collectivite(df_pap, on_or_before=period_end)
+    df = df_plans.copy()
+    df['statut_pre_import'] = df['collectivite_id'].map(lambda c: _resolve_statut_pap(c, statut_pre))
+    df['statut_post_import'] = df['collectivite_id'].map(lambda c: _resolve_statut_pap(c, statut_post))
+    return df
+
+
+def _count_import_transitions(df_pap, period_start, period_end):
+    """Compte les collectivités ayant eu un PAP sur la période et ayant changé de statut."""
+    df_period = df_pap[
+        (df_pap['passage_pap'] >= period_start) & (df_pap['passage_pap'] <= period_end)
+    ]
+    if df_period.empty:
+        return {'nouveau_pap': 0, 'nouveau_multiplan': 0, 'pap_multiplan': 0}
+
+    statut_pre = _statut_pap_par_collectivite(df_pap, before=period_start)
+    statut_post = _statut_pap_par_collectivite(df_pap, on_or_before=period_end)
+    counts = {'nouveau_pap': 0, 'nouveau_multiplan': 0, 'pap_multiplan': 0}
+    for collectivite_id in df_period['collectivite_id'].unique():
+        pre = _resolve_statut_pap(collectivite_id, statut_pre)
+        post = _resolve_statut_pap(collectivite_id, statut_post)
+        if pre == 'Nouveau' and post == 'PAP':
+            counts['nouveau_pap'] += 1
+        elif pre == 'Nouveau' and post == 'PAP multiplan':
+            counts['nouveau_multiplan'] += 1
+        elif pre == 'PAP' and post == 'PAP multiplan':
+            counts['pap_multiplan'] += 1
+    return counts
+
+
+def _nouvelles_ct_periode(df, date_col, cur_start, cur_end):
+    if df.empty:
+        return df
+    return df[
+        (df[date_col] >= cur_start) & (df[date_col] <= cur_end)
+    ].sort_values(date_col, ascending=False)
+
+
+def _prepare_note_semaine(df_note):
+    if df_note.empty:
+        return df_note
+    df = df_note.copy()
+    df['plan'] = pd.to_numeric(df['plan'], errors='coerce')
+    df['semaine'] = pd.to_datetime(df['semaine'], errors='coerce').dt.normalize()
+    return df.dropna(subset=['semaine', 'plan']).astype({'plan': 'int64'})
+
+
+def _note_to_monthly(df_note):
+    """Dernière note connue par plan et par mois (à partir des snapshots hebdomadaires)."""
+    if df_note.empty:
+        return pd.DataFrame(columns=['plan', 'note_plan', 'semaine', 'mois'])
+    d = df_note.sort_values('semaine').copy()
+    d['mois'] = d['semaine'].dt.to_period('M').dt.to_timestamp()
+    return d.drop_duplicates(subset=['plan', 'mois'], keep='last')
+
+
+def _resolve_ref_periodes(df_plans_agg, end_period, before_period, period_col):
+    df_by_period = df_plans_agg.set_index(period_col)['nb_plans']
+    end_p, start_before_p = end_period, before_period
+    if end_p not in df_by_period.index or start_before_p not in df_by_period.index:
+        available = df_by_period.index[df_by_period.index <= end_p]
+        if len(available) < 2:
+            return None, None
+        end_p = available[-1]
+        start_before_p = available[-2]
+    return end_p, start_before_p
+
+
+def _plans_seuil_sets(df_note, df_plans_agg, seuil, end_period, before_period, period_col):
+    end_p, start_before_p = _resolve_ref_periodes(df_plans_agg, end_period, before_period, period_col)
+    if end_p is None:
+        return None, None, set(), set()
+    plans_end = set(
+        df_note.loc[(df_note[period_col] == end_p) & (df_note['note_plan'] >= seuil), 'plan']
+    )
+    plans_before = set(
+        df_note.loc[(df_note[period_col] == start_before_p) & (df_note['note_plan'] >= seuil), 'plan']
+    )
+    return end_p, start_before_p, plans_end, plans_before
+
+
+def _nouveaux_plans_seuil_df(df_note, df_plans_agg, seuil, end_period, before_period, period_col):
+    """Plans >= seuil à la période de fin mais pas à la période de référence précédente."""
+    end_p, _, plans_end, plans_before = _plans_seuil_sets(
+        df_note, df_plans_agg, seuil, end_period, before_period, period_col
+    )
+    if end_p is None:
+        return pd.DataFrame(columns=['plan', 'note_plan'])
+    new_plan_ids = plans_end - plans_before
+    return (
+        df_note.loc[(df_note[period_col] == end_p) & (df_note['plan'].isin(new_plan_ids))]
+        .drop_duplicates('plan')
+    )
+
+
+def _sortants_plans_seuil_df(df_note, df_plans_agg, seuil, end_period, before_period, period_col):
+    """Plans >= seuil à la période de référence mais plus à la période de fin."""
+    _, start_before_p, plans_end, plans_before = _plans_seuil_sets(
+        df_note, df_plans_agg, seuil, end_period, before_period, period_col
+    )
+    if start_before_p is None:
+        return pd.DataFrame(columns=['plan', 'note_plan'])
+    sortant_plan_ids = plans_before - plans_end
+    return (
+        df_note.loc[(df_note[period_col] == start_before_p) & (df_note['plan'].isin(sortant_plan_ids))]
+        .drop_duplicates('plan')
+    )
+
+
+def _count_nouveaux_plans_seuil(df_note, df_plans_agg, seuil, end_period, before_period, period_col):
+    return len(_nouveaux_plans_seuil_df(df_note, df_plans_agg, seuil, end_period, before_period, period_col))
+
+
+def _count_sortants_plans_seuil(df_note, df_plans_agg, seuil, end_period, before_period, period_col):
+    return len(_sortants_plans_seuil_df(df_note, df_plans_agg, seuil, end_period, before_period, period_col))
+
+
+def _note_plans_table(df_nouveaux, df_pap):
+    if df_nouveaux.empty:
+        return pd.DataFrame()
+    meta_cols = ['plan', 'nom', 'nom_plan_ct', 'createur_plan']
+    meta = df_pap[[c for c in meta_cols if c in df_pap.columns]].drop_duplicates('plan')
+    return (
+        df_nouveaux.merge(meta, on='plan', how='left')
+        .sort_values('note_plan', ascending=False)
+    )
+
+# === Note des plans PAP (granularité semaine, agrégation mensuelle dérivée) ===
+df_note_semaine = _prepare_note_semaine(df_note_plan)
+df_note_semaine = df_note_semaine[df_note_semaine['semaine'] >= pd.Timestamp('2024-01-01')]
+df_note_mensuel = _note_to_monthly(df_note_semaine)
+
+
+def _agg_plans_par_seuil(df, seuil, period_col):
     d = df.copy()
     d['statut'] = d['note_plan'].apply(lambda x: f'>= {seuil}' if x >= seuil else f'< {seuil}')
-    return d.groupby(['mois', 'statut'])['plan'].nunique().reset_index(name='nb_plans').sort_values('mois')
+    return (
+        d.groupby([period_col, 'statut'])['plan']
+        .nunique()
+        .reset_index(name='nb_plans')
+        .sort_values(period_col)
+    )
 
-df_evolution_note_5 = _agg_plans_par_seuil(df_note_mensuel, 5)
-df_evolution_note_8 = _agg_plans_par_seuil(df_note_mensuel, 8)
-df_plans_5plus = df_evolution_note_5[df_evolution_note_5['statut'] == '>= 5'].copy()
-df_plans_8plus = df_evolution_note_8[df_evolution_note_8['statut'] == '>= 8'].copy()
+
+df_plans_5plus_m = _agg_plans_par_seuil(df_note_mensuel, 5, 'mois')
+df_plans_5plus_m = df_plans_5plus_m[df_plans_5plus_m['statut'] == '>= 5'].copy()
+df_plans_8plus_m = _agg_plans_par_seuil(df_note_mensuel, 8, 'mois')
+df_plans_8plus_m = df_plans_8plus_m[df_plans_8plus_m['statut'] == '>= 8'].copy()
+df_plans_5plus_w = _agg_plans_par_seuil(df_note_semaine, 5, 'semaine')
+df_plans_5plus_w = df_plans_5plus_w[df_plans_5plus_w['statut'] == '>= 5'].copy()
+df_plans_8plus_w = _agg_plans_par_seuil(df_note_semaine, 8, 'semaine')
+df_plans_8plus_w = df_plans_8plus_w[df_plans_8plus_w['statut'] == '>= 8'].copy()
 
 
 def _month_start(ts):
     return pd.Timestamp(year=ts.year, month=ts.month, day=1)
 
 
-def _snapshot_statut(df_statut, ref_month):
-    df_f = df_statut[df_statut['mois'] <= ref_month]
-    if df_f.empty:
-        return 0, 0
-    latest = df_f['mois'].max()
-    df_l = df_f[df_f['mois'] == latest]
-    actif = int(df_l.loc[df_l['statut'] == 'actif', 'nb_collectivites'].sum())
-    inactif = int(df_l.loc[df_l['statut'] == 'inactif', 'nb_collectivites'].sum())
-    return actif, inactif
-
-
-def _snapshot_plans(df_plans, ref_month):
-    df_f = df_plans[df_plans['mois'] <= ref_month]
-    if df_f.empty:
-        return 0
-    latest = df_f['mois'].max()
-    return int(df_f.loc[df_f['mois'] == latest, 'nb_plans'].sum())
-
-
-def _nouveaux_plans_periode(df_plans, end_m, start_before_m):
-    df_by_month = df_plans.set_index('mois')['nb_plans']
-    if end_m not in df_by_month.index or start_before_m not in df_by_month.index:
-        available = df_by_month.index[df_by_month.index <= end_m]
-        if len(available) < 2:
-            return None
-        end_m = available[-1]
-        start_before_m = available[-2]
-    return int(df_by_month.loc[end_m] - df_by_month.loc[start_before_m])
-
-
 _NS_GRAPH_START = pd.Timestamp('2025-01-01')
 
 
-def _plot_statut_evolution(df_statut, end_date, target=None, height=280):
-    if df_statut.empty:
-        st.info("Aucune donnée disponible")
-        return
-    all_statuts = df_statut['statut'].unique()
-    all_months = pd.date_range(start=_NS_GRAPH_START, end=end_date, freq='MS')
-    full_index = pd.MultiIndex.from_product([all_months, all_statuts], names=['mois', 'statut'])
-    df_chart = df_statut.set_index(['mois', 'statut']).reindex(full_index, fill_value=0).reset_index()
-    df_chart = df_chart.sort_values('mois')
-    df_chart['mois_label'] = df_chart['mois'].dt.strftime('%Y-%m')
-    fig = px.line(
-        df_chart,
-        x='mois_label',
-        y='nb_collectivites',
-        color='statut',
-        markers=True,
-        height=height,
-        color_discrete_map={'actif': '#22c55e', 'inactif': '#f97316'},
-    )
-    fig.update_layout(xaxis_title="", yaxis_title="", xaxis_tickangle=-45, legend_title="Statut")
-    if target is not None:
-        fig.add_hline(y=target, line_dash="dash", line_color="#94a3b8", line_width=1.5)
-    st.plotly_chart(fig, use_container_width=True)
+def _build_ct_cumul(df_ct_dates, date_col):
+    if df_ct_dates.empty:
+        return pd.DataFrame(columns=['mois', 'nb_plans'])
+    df = df_ct_dates.copy()
+    df['mois'] = pd.to_datetime(df[date_col]).dt.to_period('M').dt.to_timestamp()
+    df_mensuel = df.groupby('mois')['collectivite_id'].nunique().reset_index(name='nb_nouveaux')
+    start = min(df_mensuel['mois'].min(), _NS_GRAPH_START)
+    end = df_mensuel['mois'].max()
+    all_months = pd.date_range(start=start, end=end, freq='MS')
+    df_full = pd.DataFrame({'mois': all_months}).merge(df_mensuel, on='mois', how='left').fillna(0)
+    df_full['nb_plans'] = df_full['nb_nouveaux'].astype(int).cumsum()
+    return df_full[['mois', 'nb_plans']]
 
 
-def _plot_plans_evolution(df_plans, end_date, target=None, height=280):
+df_pap_cumul = _build_ct_cumul(ct_first_pap, 'date_premier_pap')
+df_multiplans_cumul = _build_ct_cumul(ct_first_multiplan, 'date_premier_multiplan')
+
+
+def _snapshot_plans(df_plans, ref_period, period_col='mois'):
+    df_f = df_plans[df_plans[period_col] <= ref_period]
+    if df_f.empty:
+        return 0
+    latest = df_f[period_col].max()
+    return int(df_f.loc[df_f[period_col] == latest, 'nb_plans'].sum())
+
+
+def _plot_plans_evolution(
+    df_plans, end_date, target=None, height=280, start_date=None, cumulatif=False, period_col='mois'
+):
     if df_plans.empty:
         st.info("Aucune donnée disponible")
         return
-    start_date = df_plans['mois'].min()
-    all_months = pd.date_range(start=start_date, end=end_date, freq='MS')
-    df_chart = df_plans.set_index('mois').reindex(all_months, fill_value=0).reset_index().rename(columns={'index': 'mois'})
-    df_chart['nb_plans'] = df_chart['nb_plans'].fillna(0).astype(int)
-    df_chart = df_chart.sort_values('mois')
-    df_chart['mois_label'] = df_chart['mois'].dt.strftime('%Y-%m')
-    fig = px.line(df_chart, x='mois_label', y='nb_plans', markers=True, height=height)
+    start_date = start_date or df_plans[period_col].min()
+    if period_col == 'semaine':
+        start_date = start_date - pd.Timedelta(days=start_date.weekday())
+        end_monday = end_date - pd.Timedelta(days=end_date.weekday())
+        all_periods = pd.date_range(start=start_date, end=end_monday, freq='W-MON')
+        label_fmt = '%d/%m/%Y'
+    else:
+        all_periods = pd.date_range(start=start_date, end=end_date, freq='MS')
+        label_fmt = '%Y-%m'
+    df_chart = df_plans.set_index(period_col).reindex(all_periods).reset_index().rename(columns={'index': period_col})
+    if cumulatif:
+        prior = df_plans[df_plans[period_col] < start_date]
+        if not prior.empty and df_chart['nb_plans'].isna().iloc[0]:
+            df_chart.loc[df_chart.index[0], 'nb_plans'] = prior.iloc[-1]['nb_plans']
+        df_chart['nb_plans'] = df_chart['nb_plans'].ffill().fillna(0).astype(int)
+    else:
+        df_chart['nb_plans'] = df_chart['nb_plans'].fillna(0).astype(int)
+    df_chart = df_chart.sort_values(period_col)
+    df_chart['periode_label'] = df_chart[period_col].dt.strftime(label_fmt)
+    fig = px.line(df_chart, x='periode_label', y='nb_plans', markers=True, height=height)
     fig.update_traces(line_color='#22c55e')
-    fig.update_layout(xaxis_title="", yaxis_title="", xaxis_tickangle=-45)
+    fig.update_layout(xaxis_title="", yaxis_title="", xaxis_tickangle=-45, showlegend=False)
     if target is not None:
         fig.add_hline(y=target, line_dash="dash", line_color="#94a3b8", line_width=1.5)
     st.plotly_chart(fig, use_container_width=True)
@@ -360,6 +529,54 @@ def _prepare_pipeline_semaine(df_pipe):
     df = df_pipe.copy()
     df['semaine'] = pd.to_datetime(df['semaine'], errors='coerce').dt.normalize()
     return df.dropna(subset=['semaine'])
+
+
+def _pipeline_snapshot(df_pipe, ref_date):
+    df = _prepare_pipeline_semaine(df_pipe)
+    if df.empty:
+        return pd.DataFrame(columns=['collectivite_id', 'pipeline'])
+    ref = pd.Timestamp(ref_date).normalize()
+    snap = (
+        df[df['semaine'] <= ref]
+        .sort_values('semaine')
+        .drop_duplicates(subset='collectivite_id', keep='last')[['collectivite_id', 'pipeline']]
+    )
+    snap['collectivite_id'] = pd.to_numeric(snap['collectivite_id'], errors='coerce').astype('int64')
+    return snap.dropna(subset=['collectivite_id'])
+
+
+def _effort_ct_nom_from_collectivite(df_collectivite):
+    if df_collectivite.empty or 'nom' not in df_collectivite.columns:
+        return pd.DataFrame(columns=['collectivite_id', 'nom'])
+    return (
+        df_collectivite[['collectivite_id', 'nom']]
+        .assign(collectivite_id=lambda d: pd.to_numeric(d['collectivite_id'], errors='coerce'))
+        .dropna(subset=['collectivite_id'])
+        .drop_duplicates(subset='collectivite_id', keep='first')
+        .astype({'collectivite_id': 'int64'})
+    )
+
+
+def _effort_ct_contact_table(df_actions, df_pipe, ref_date, df_collectivite):
+    """Tableau des CT uniques contactées avec nom (collectivite) et pipeline."""
+    empty = pd.DataFrame(columns=['Collectivité', 'Pipeline'])
+    if df_actions.empty or 'collectivite_id' not in df_actions.columns:
+        return empty
+
+    ct_ids = pd.to_numeric(df_actions['collectivite_id'], errors='coerce').dropna().unique()
+    if len(ct_ids) == 0:
+        return empty
+
+    df_ct = pd.DataFrame({'collectivite_id': ct_ids.astype('int64')})
+    df_ct = df_ct.merge(_pipeline_snapshot(df_pipe, ref_date), on='collectivite_id', how='left')
+    df_ct = df_ct.merge(_effort_ct_nom_from_collectivite(df_collectivite), on='collectivite_id', how='left')
+
+    df_ct['Pipeline'] = df_ct['pipeline'].fillna('Non classé')
+    df_ct['Collectivité'] = df_ct['nom']
+    return (
+        df_ct[['Collectivité', 'Pipeline']]
+        .sort_values(['Pipeline', 'Collectivité'], na_position='last')
+    )
 
 
 def get_pipe_transitions_to(df_pipe, target_states, start_date, end_date):
@@ -420,21 +637,25 @@ def get_note_progression_period(df_note, df_passage_pap, start_prev, end_prev, s
     if df_note.empty or df_passage_pap.empty:
         return empty
 
-    df = df_note.copy()
-    df['mois'] = pd.to_datetime(df['mois'])
+    df = _prepare_note_semaine(df_note)
     df = df.merge(df_passage_pap[['collectivite_id', 'plan']], on='plan', how='inner')
     if df.empty:
         return empty
 
-    df_prev = df[(df['mois'] >= start_prev) & (df['mois'] <= end_prev)].copy()
-    df_cur = df[(df['mois'] >= start_cur) & (df['mois'] <= end_cur)].copy()
+    start_prev = pd.Timestamp(start_prev).normalize()
+    end_prev = pd.Timestamp(end_prev).normalize()
+    start_cur = pd.Timestamp(start_cur).normalize()
+    end_cur = pd.Timestamp(end_cur).normalize()
+
+    df_prev = df[(df['semaine'] >= start_prev) & (df['semaine'] <= end_prev)].copy()
+    df_cur = df[(df['semaine'] >= start_cur) & (df['semaine'] <= end_cur)].copy()
     if df_prev.empty or df_cur.empty:
         return empty
 
-    df_prev_last_date = df_prev.groupby('collectivite_id')['mois'].max().reset_index()
-    df_cur_last_date = df_cur.groupby('collectivite_id')['mois'].max().reset_index()
-    df_prev_last = df_prev.merge(df_prev_last_date, on=['collectivite_id', 'mois'])
-    df_cur_last = df_cur.merge(df_cur_last_date, on=['collectivite_id', 'mois'])
+    df_prev_last_date = df_prev.groupby('collectivite_id')['semaine'].max().reset_index()
+    df_cur_last_date = df_cur.groupby('collectivite_id')['semaine'].max().reset_index()
+    df_prev_last = df_prev.merge(df_prev_last_date, on=['collectivite_id', 'semaine'])
+    df_cur_last = df_cur.merge(df_cur_last_date, on=['collectivite_id', 'semaine'])
     df_prev_best = df_prev_last.groupby('collectivite_id')['note_plan'].max().reset_index()
     df_cur_best = df_cur_last.groupby('collectivite_id')['note_plan'].max().reset_index()
 
@@ -451,18 +672,17 @@ def get_note_progression_alltime(df_note, df_passage_pap, end_date):
     if df_note.empty or df_passage_pap.empty:
         return empty
 
-    df = df_note.copy()
-    df['mois'] = pd.to_datetime(df['mois'])
-    df = df[df['mois'] <= end_date]
+    df = _prepare_note_semaine(df_note)
+    df = df[df['semaine'] <= pd.Timestamp(end_date).normalize()]
     df = df.merge(df_passage_pap[['collectivite_id', 'plan']], on='plan', how='inner')
     if df.empty:
         return empty
 
-    df_sorted = df.sort_values('mois')
-    df_first_date = df_sorted.groupby('collectivite_id')['mois'].min().reset_index()
-    df_last_date = df_sorted.groupby('collectivite_id')['mois'].max().reset_index()
-    df_first = df_sorted.merge(df_first_date, on=['collectivite_id', 'mois'])
-    df_last = df_sorted.merge(df_last_date, on=['collectivite_id', 'mois'])
+    df_sorted = df.sort_values('semaine')
+    df_first_date = df_sorted.groupby('collectivite_id')['semaine'].min().reset_index()
+    df_last_date = df_sorted.groupby('collectivite_id')['semaine'].max().reset_index()
+    df_first = df_sorted.merge(df_first_date, on=['collectivite_id', 'semaine'])
+    df_last = df_sorted.merge(df_last_date, on=['collectivite_id', 'semaine'])
     df_first_best = df_first.groupby('collectivite_id')['note_plan'].max().reset_index()
     df_last_best = df_last.groupby('collectivite_id')['note_plan'].max().reset_index()
 
@@ -546,17 +766,36 @@ prev_snapshot_month = _month_start(prev_end) if not is_all_time else end_month -
 before_period = _month_start(cur_start - pd.Timedelta(days=1))
 prev_end_month = _month_start(prev_end)
 
+if view == "Semaine":
+    _note_period_col = 'semaine'
+    _note_df = df_note_semaine
+    _plans_5plus = df_plans_5plus_w
+    _plans_8plus = df_plans_8plus_w
+    _note_end = cur_start
+    _note_before = prev_start
+    _note_prev_end = prev_start
+    _note_prev_before = prev_start - pd.Timedelta(days=7)
+else:
+    _note_period_col = 'mois'
+    _note_df = df_note_mensuel
+    _plans_5plus = df_plans_5plus_m
+    _plans_8plus = df_plans_8plus_m
+    _note_end = end_month
+    _note_before = before_period
+    _note_prev_end = prev_end_month
+    _note_prev_before = _month_start(prev_start - pd.Timedelta(days=1))
+
 row1_col1, row1_col2 = st.columns(2)
 row2_col1, row2_col2 = st.columns(2)
 
-# --- NS1 : CT PAP actifs ---
+# --- NS1 : CT PAP (cumul) ---
 with row1_col1:
     st.badge(
-        "NS1 — CT PAP actifs",
+        "NS1 — CT PAP",
         color="orange",
-        help="Collectivités avec un plan d'action ayant au moins 5 fiches pilotables (titre, description, statut et pilote) modifiées au cours des 3 derniers mois.",
+        help="Collectivités ayant passé au moins un plan en mode pilotable (date de première occurrence par collectivité).",
     )
-    m1, m2, m3 = st.columns(3)
+    m1, m2 = st.columns(2)
     with m1:
         if not ct_first_pap.empty:
             new_pap_cur = len(ct_first_pap[(ct_first_pap['date_premier_pap'] >= cur_start) & (ct_first_pap['date_premier_pap'] <= cur_end)])
@@ -564,22 +803,20 @@ with row1_col1:
             st.metric(label="Nouvelles CT PAP", value=new_pap_cur, delta=f"{new_pap_cur - new_pap_prev:+d}", delta_color="normal")
         else:
             st.metric(label="Nouvelles CT PAP", value=0)
-    actif_pap, inactif_pap = _snapshot_statut(df_pap_statut, end_month)
-    actif_pap_prev, inactif_pap_prev = _snapshot_statut(df_pap_statut, prev_snapshot_month)
+    total_pap = _snapshot_plans(df_pap_cumul, end_month)
     with m2:
-        st.metric(label="CT PAP actives", value=actif_pap, delta=f"{actif_pap - actif_pap_prev:+d}", delta_color="normal")
-    with m3:
-        st.metric(label="CT PAP inactives", value=inactif_pap, delta=f"{inactif_pap - inactif_pap_prev:+d}", delta_color="normal")
-    _plot_statut_evolution(df_pap_statut, end_date, target=350)
+        st.metric(label="NS1 — Total", value=total_pap)
+    _plot_plans_evolution(df_pap_cumul, end_date, target=600, start_date=_NS_GRAPH_START, cumulatif=True)
+    _render_pap_table(_nouvelles_ct_periode(ct_first_pap, 'date_premier_pap', cur_start, cur_end))
 
-# --- NS2 : CT multiplan ---
+# --- NS2 : CT multiplan (cumul) ---
 with row1_col2:
     st.badge(
         "NS2 — CT multiplan",
         color="orange",
-        help="Collectivités avec au moins 2 PAP ayant chacun au moins 5 fiches pilotables modifiées au cours des 3 derniers mois.",
+        help="Collectivités ayant au moins 2 plans passés en mode pilotable (date du 2e plan par collectivité).",
     )
-    m1, m2, m3 = st.columns(3)
+    m1, m2 = st.columns(2)
     with m1:
         if not ct_first_multiplan.empty:
             new_mp_cur = len(ct_first_multiplan[(ct_first_multiplan['date_premier_multiplan'] >= cur_start) & (ct_first_multiplan['date_premier_multiplan'] <= cur_end)])
@@ -587,13 +824,11 @@ with row1_col2:
             st.metric(label="Nouvelles CT multiplans", value=new_mp_cur, delta=f"{new_mp_cur - new_mp_prev:+d}", delta_color="normal")
         else:
             st.metric(label="Nouvelles CT multiplans", value=0)
-    actif_mp, inactif_mp = _snapshot_statut(df_multiplans_statut, end_month)
-    actif_mp_prev, inactif_mp_prev = _snapshot_statut(df_multiplans_statut, prev_snapshot_month)
+    total_mp = _snapshot_plans(df_multiplans_cumul, end_month)
     with m2:
-        st.metric(label="CT multiplans actives", value=actif_mp, delta=f"{actif_mp - actif_mp_prev:+d}", delta_color="normal")
-    with m3:
-        st.metric(label="CT multiplans inactives", value=inactif_mp, delta=f"{inactif_mp - inactif_mp_prev:+d}", delta_color="normal")
-    _plot_statut_evolution(df_multiplans_statut, end_date, target=100)
+        st.metric(label="NS2 — Total", value=total_mp)
+    _plot_plans_evolution(df_multiplans_cumul, end_date, target=300, start_date=_NS_GRAPH_START, cumulatif=True)
+    _render_pap_table(_nouvelles_ct_periode(ct_first_multiplan, 'date_premier_multiplan', cur_start, cur_end))
 
 # --- NS3 externe : Qualité >= 5/10 ---
 with row2_col1:
@@ -602,18 +837,33 @@ with row2_col1:
         color="orange",
         help="Plans dont la note est supérieure à 5/10.",
     )
-    m1, m2 = st.columns(2)
-    new_5_cur = _nouveaux_plans_periode(df_plans_5plus, end_month, before_period)
-    new_5_prev = _nouveaux_plans_periode(df_plans_5plus, prev_end_month, _month_start(prev_start - pd.Timedelta(days=1)))
+    m1, m2, m3 = st.columns(3)
+    df_nouveaux_5 = _nouveaux_plans_seuil_df(
+        _note_df, _plans_5plus, 5, _note_end, _note_before, _note_period_col
+    )
+    new_5_cur = len(df_nouveaux_5)
+    new_5_prev = _count_nouveaux_plans_seuil(
+        _note_df, _plans_5plus, 5, _note_prev_end, _note_prev_before, _note_period_col
+    )
+    sortants_5_cur = _count_sortants_plans_seuil(
+        _note_df, _plans_5plus, 5, _note_end, _note_before, _note_period_col
+    )
+    sortants_5_prev = _count_sortants_plans_seuil(
+        _note_df, _plans_5plus, 5, _note_prev_end, _note_prev_before, _note_period_col
+    )
     with m1:
-        if new_5_cur is not None:
-            delta_5 = new_5_cur - (new_5_prev if new_5_prev is not None else 0)
-            st.metric(label="Nouveaux plans >=5/10", value=new_5_cur, delta=f"{delta_5:+d}", delta_color="normal")
-        else:
-            st.metric(label="Nouveaux plans >=5/10", value=0)
+        delta_5 = new_5_cur - new_5_prev
+        st.metric(label="Nouveaux plans >=5/10", value=new_5_cur, delta=f"{delta_5:+d}", delta_color="normal")
     with m2:
-        st.metric(label="Plans >=5/10", value=_snapshot_plans(df_plans_5plus, end_month))
-    _plot_plans_evolution(df_plans_5plus, end_date, target=800)
+        st.metric(label="Plans >=5/10", value=_snapshot_plans(_plans_5plus, _note_end, _note_period_col))
+    with m3:
+        delta_sortants_5 = sortants_5_cur - sortants_5_prev
+        st.metric(label="Plan sortants", value=sortants_5_cur, delta=f"{delta_sortants_5:+d}", delta_color="inverse")
+    _plot_plans_evolution(
+        _plans_5plus, end_date, target=800, period_col=_note_period_col,
+        start_date=_NS_GRAPH_START if _note_period_col == 'mois' else None,
+    )
+    _render_note_table(_note_plans_table(df_nouveaux_5, df_pap_passage))
 
 # --- NS3 interne : Qualité >= 8/10 ---
 with row2_col2:
@@ -622,36 +872,46 @@ with row2_col2:
         color="orange",
         help="Plans dont la note est supérieure à 8/10.",
     )
-    m1, m2 = st.columns(2)
-    new_8_cur = _nouveaux_plans_periode(df_plans_8plus, end_month, before_period)
-    new_8_prev = _nouveaux_plans_periode(df_plans_8plus, prev_end_month, _month_start(prev_start - pd.Timedelta(days=1)))
+    m1, m2, m3 = st.columns(3)
+    df_nouveaux_8 = _nouveaux_plans_seuil_df(
+        _note_df, _plans_8plus, 8, _note_end, _note_before, _note_period_col
+    )
+    new_8_cur = len(df_nouveaux_8)
+    new_8_prev = _count_nouveaux_plans_seuil(
+        _note_df, _plans_8plus, 8, _note_prev_end, _note_prev_before, _note_period_col
+    )
+    sortants_8_cur = _count_sortants_plans_seuil(
+        _note_df, _plans_8plus, 8, _note_end, _note_before, _note_period_col
+    )
+    sortants_8_prev = _count_sortants_plans_seuil(
+        _note_df, _plans_8plus, 8, _note_prev_end, _note_prev_before, _note_period_col
+    )
     with m1:
-        if new_8_cur is not None:
-            delta_8 = new_8_cur - (new_8_prev if new_8_prev is not None else 0)
-            st.metric(label="Nouveaux plans >=8/10", value=new_8_cur, delta=f"{delta_8:+d}", delta_color="normal")
-        else:
-            st.metric(label="Nouveaux plans >=8/10", value=0)
+        delta_8 = new_8_cur - new_8_prev
+        st.metric(label="Nouveaux plans >=8/10", value=new_8_cur, delta=f"{delta_8:+d}", delta_color="normal")
     with m2:
-        st.metric(label="Plans >=8/10", value=_snapshot_plans(df_plans_8plus, end_month))
-    _plot_plans_evolution(df_plans_8plus, end_date, target=50)
+        st.metric(label="Plans >=8/10", value=_snapshot_plans(_plans_8plus, _note_end, _note_period_col))
+    with m3:
+        delta_sortants_8 = sortants_8_cur - sortants_8_prev
+        st.metric(label="Plan sortants", value=sortants_8_cur, delta=f"{delta_sortants_8:+d}", delta_color="inverse")
+    _plot_plans_evolution(
+        _plans_8plus, end_date, target=50, period_col=_note_period_col,
+        start_date=_NS_GRAPH_START if _note_period_col == 'mois' else None,
+    )
+    _render_note_table(_note_plans_table(df_nouveaux_8, df_pap_passage))
 
 st.markdown("---")
 
 st.badge("Zoom plans", icon="🔍", color="violet")
 
-_cols_zoom = ['nom', 'nom_plan_ct', 'import', 'createur_plan']
 df_pap_zoom_base = df_passage_pap.copy()
 if not df_pap_zoom_base.empty and 'passage_pap' in df_pap_zoom_base.columns:
     df_pap_zoom_base['passage_pap'] = pd.to_datetime(df_pap_zoom_base['passage_pap'], errors='coerce')
     if df_pap_zoom_base['passage_pap'].dt.tz is not None:
         df_pap_zoom_base['passage_pap'] = df_pap_zoom_base['passage_pap'].dt.tz_localize(None)
 
-    df_pap_cur = df_pap_zoom_base[
-        (df_pap_zoom_base['passage_pap'] >= cur_start) & (df_pap_zoom_base['passage_pap'] <= cur_end)
-    ]
-    df_pap_prev = df_pap_zoom_base[
-        (df_pap_zoom_base['passage_pap'] >= prev_start) & (df_pap_zoom_base['passage_pap'] <= prev_end)
-    ]
+    df_pap_cur = _pap_plans_periode(df_pap_zoom_base, cur_start, cur_end)
+    df_pap_prev = _pap_plans_periode(df_pap_zoom_base, prev_start, prev_end)
 
     nb_nouveaux_cur = len(df_pap_cur)
     nb_nouveaux_prev = len(df_pap_prev)
@@ -693,18 +953,33 @@ if not df_pap_zoom_base.empty and 'passage_pap' in df_pap_zoom_base.columns:
             delta_color="normal",
         )
 
-    df_pap_zoom = df_pap_cur.sort_values('passage_pap', ascending=False)
-    _cols_present = [c for c in _cols_zoom if c in df_pap_zoom.columns]
-    if _cols_present and not df_pap_zoom.empty:
-        df_table_zoom = df_pap_zoom[_cols_present].rename(columns={
-            'nom': 'Collectivité',
-            'nom_plan_ct': 'Nom du plan',
-            'import': 'Import',
-            'createur_plan': 'Créateur du plan',
-        })
-        st.dataframe(df_table_zoom, width='stretch', hide_index=True)
-    else:
-        st.info("Aucun passage PAP sur la période sélectionnée.")
+    trans_cur = _count_import_transitions(df_pap_zoom_base, cur_start, cur_end)
+    trans_prev = _count_import_transitions(df_pap_zoom_base, prev_start, prev_end)
+    m_trans1, m_trans2, m_trans3, _ = st.columns(4)
+    with m_trans1:
+        st.metric(
+            label="Import - CT : Nouveau → PAP",
+            value=trans_cur['nouveau_pap'],
+            delta=f"{trans_cur['nouveau_pap'] - trans_prev['nouveau_pap']:+d}",
+            delta_color="normal",
+        )
+    with m_trans2:
+        st.metric(
+            label="Import - CT : Nouveau → Multiplan",
+            value=trans_cur['nouveau_multiplan'],
+            delta=f"{trans_cur['nouveau_multiplan'] - trans_prev['nouveau_multiplan']:+d}",
+            delta_color="normal",
+        )
+    with m_trans3:
+        st.metric(
+            label="Import - CT : PAP → Multiplan",
+            value=trans_cur['pap_multiplan'],
+            delta=f"{trans_cur['pap_multiplan'] - trans_prev['pap_multiplan']:+d}",
+            delta_color="normal",
+        )
+
+    df_pap_cur = _add_statuts_import(df_pap_cur, df_pap_zoom_base, cur_start, cur_end)
+    _render_pap_table(df_pap_cur, empty_msg="Aucun passage PAP sur la période sélectionnée.")
 else:
     st.info("Aucune donnée disponible.")
 
@@ -824,14 +1099,6 @@ st.markdown("---")
 
 st.badge("Effort bizdevs", icon="💪", color="green")
 
-# Segmented control pour la vue
-vue_effort = st.segmented_control(
-    "Vue",
-    options=["Ensemble", "Par pipe"],
-    default="Ensemble",
-    key="vue_effort_tab1"
-)
-
 # Préparation des données — Actions globales (notes de suivi)
 df_biz_global = df_bizdev_note_de_suivi.copy()
 if not df_biz_global.empty:
@@ -844,7 +1111,6 @@ if not df_biz_qualif.empty:
 
 alltime_min = pd.Timestamp('2024-01-01')
 alltime_min_ensemble = pd.Timestamp('2024-11-01')
-alltime_min_pipe = pd.Timestamp('2025-08-01')
 
 _card_style_qualif = "background: linear-gradient(90deg,#F0FFF4,#F8FFF8); border:1px solid #C6F6D5; border-radius: 12px; padding: 14px; margin-bottom: 4px; display: flex; align-items: left; justify-content: left;"
 _card_style_global = "background: linear-gradient(90deg,#EEF6FF,#F8FAFF); border:1px solid #E5EAF2; border-radius: 12px; padding: 14px; margin-bottom: 4px; display: flex; align-items: center; justify-content: left;"
@@ -855,258 +1121,117 @@ colors_actions = {
     'Actions qualifiées': '#6B9BD1'     # Bleu clair
 }
 
-if vue_effort == "Ensemble":
-    # ─── VUE ENSEMBLE ───
-    if is_all_time:
-        # Totaux sur toute la période
-        df_g_at = df_biz_global[(df_biz_global['date'] >= alltime_min) & (df_biz_global['date'] <= today)] if not df_biz_global.empty else df_biz_global
-        df_q_at = df_biz_qualif[(df_biz_qualif['date'] >= alltime_min) & (df_biz_qualif['date'] <= today)] if not df_biz_qualif.empty else df_biz_qualif
+if is_all_time:
+    # Totaux sur toute la période
+    df_g_at = df_biz_global[(df_biz_global['date'] >= alltime_min) & (df_biz_global['date'] <= today)] if not df_biz_global.empty else df_biz_global
+    df_q_at = df_biz_qualif[(df_biz_qualif['date'] >= alltime_min) & (df_biz_qualif['date'] <= today)] if not df_biz_qualif.empty else df_biz_qualif
 
-        col_left, col_right = st.columns(2)
-        with col_left:
-            st.markdown(f'<div style="{_card_style_qualif}"><div style="font-weight:600; font-size:14px; color:#334155;">🎯 Actions qualifiées</div></div>', unsafe_allow_html=True)
-            c1, c2 = st.columns(2)
-            with c1:
-                st.metric(label="Actions (total)", value=f"{len(df_q_at):,}".replace(",", " "))
-            with c2:
-                st.metric(label="CT uniques (total)", value=f"{df_q_at['collectivite_id'].nunique() if not df_q_at.empty else 0:,}".replace(",", " "))
-        with col_right:
-            st.markdown(f'<div style="{_card_style_global}"><div style="font-weight:600; font-size:14px; color:#334155;">📋 Actions globales</div></div>', unsafe_allow_html=True)
-            c1, c2 = st.columns(2)
-            with c1:
-                st.metric(label="Actions (total)", value=f"{len(df_g_at):,}".replace(",", " "))
-            with c2:
-                st.metric(label="CT uniques (total)", value=f"{df_g_at['collectivite_id'].nunique() if not df_g_at.empty else 0:,}".replace(",", " "))
+    col_left, col_right = st.columns(2)
+    with col_left:
+        st.markdown(f'<div style="{_card_style_qualif}"><div style="font-weight:600; font-size:14px; color:#334155;">🎯 Actions qualifiées</div></div>', unsafe_allow_html=True)
+        c1, c2 = st.columns(2)
+        with c1:
+            st.metric(label="Actions (total)", value=f"{len(df_q_at):,}".replace(",", " "))
+        with c2:
+            st.metric(label="CT uniques (total)", value=f"{df_q_at['collectivite_id'].nunique() if not df_q_at.empty else 0:,}".replace(",", " "))
+        st.dataframe(
+            _effort_ct_contact_table(df_q_at, df_pipeline_semaine, today, df_collectivite),
+            use_container_width=True,
+            hide_index=True,
+        )
+    with col_right:
+        st.markdown(f'<div style="{_card_style_global}"><div style="font-weight:600; font-size:14px; color:#334155;">📋 Actions globales</div></div>', unsafe_allow_html=True)
+        c1, c2 = st.columns(2)
+        with c1:
+            st.metric(label="Actions (total)", value=f"{len(df_g_at):,}".replace(",", " "))
+        with c2:
+            st.metric(label="CT uniques (total)", value=f"{df_g_at['collectivite_id'].nunique() if not df_g_at.empty else 0:,}".replace(",", " "))
+        st.dataframe(
+            _effort_ct_contact_table(df_g_at, df_pipeline_semaine, today, df_collectivite),
+            use_container_width=True,
+            hide_index=True,
+        )
 
-        # Line charts avec 2 lignes (global / qualifié)
-        def _agg_monthly(df):
-            if df.empty:
-                return pd.DataFrame(columns=['mois', 'Actions', 'CT_uniques'])
-            d = df.copy()
-            d['mois'] = d['date'].dt.to_period('M').dt.to_timestamp()
-            return d.groupby('mois').agg(Actions=('date', 'count'), CT_uniques=('collectivite_id', 'nunique')).reset_index()
+    # Line charts avec 2 lignes (global / qualifié)
+    def _agg_monthly(df):
+        if df.empty:
+            return pd.DataFrame(columns=['mois', 'Actions', 'CT_uniques'])
+        d = df.copy()
+        d['mois'] = d['date'].dt.to_period('M').dt.to_timestamp()
+        return d.groupby('mois').agg(Actions=('date', 'count'), CT_uniques=('collectivite_id', 'nunique')).reset_index()
 
-        agg_g = _agg_monthly(df_g_at)
-        agg_g['type'] = 'Actions globales'
-        agg_q = _agg_monthly(df_q_at)
-        agg_q['type'] = 'Actions qualifiées'
+    agg_g = _agg_monthly(df_g_at)
+    agg_g['type'] = 'Actions globales'
+    agg_q = _agg_monthly(df_q_at)
+    agg_q['type'] = 'Actions qualifiées'
 
-        all_months = pd.date_range(start=alltime_min_ensemble, end=today, freq='MS')
-        frames = []
-        for t, sub_df in [('Actions globales', agg_g), ('Actions qualifiées', agg_q)]:
-            sub = sub_df.set_index('mois')[['Actions', 'CT_uniques']].reindex(all_months, fill_value=0).reset_index().rename(columns={'index': 'mois'})
-            sub['type'] = t
-            frames.append(sub)
-        df_agg_combined = pd.concat(frames, ignore_index=True)
-        df_agg_combined = df_agg_combined[df_agg_combined['mois'] >= alltime_min_ensemble]
-        df_agg_combined['mois_label'] = df_agg_combined['mois'].dt.strftime('%Y-%m')
+    all_months = pd.date_range(start=alltime_min_ensemble, end=today, freq='MS')
+    frames = []
+    for t, sub_df in [('Actions globales', agg_g), ('Actions qualifiées', agg_q)]:
+        sub = sub_df.set_index('mois')[['Actions', 'CT_uniques']].reindex(all_months, fill_value=0).reset_index().rename(columns={'index': 'mois'})
+        sub['type'] = t
+        frames.append(sub)
+    df_agg_combined = pd.concat(frames, ignore_index=True)
+    df_agg_combined = df_agg_combined[df_agg_combined['mois'] >= alltime_min_ensemble]
+    df_agg_combined['mois_label'] = df_agg_combined['mois'].dt.strftime('%Y-%m')
 
-        col1, col2 = st.columns(2)
-        with col1:
-            fig = px.line(df_agg_combined, x='mois_label', y='Actions', color='type', height=400, markers=True, color_discrete_map=colors_actions)
-            fig.update_layout(xaxis_title="Mois", yaxis_title="Actions de contact", xaxis_tickangle=-45, legend_title="")
-            st.plotly_chart(fig, use_container_width=True)
-        with col2:
-            fig = px.line(df_agg_combined, x='mois_label', y='CT_uniques', color='type', height=400, markers=True, color_discrete_map=colors_actions)
-            fig.update_layout(xaxis_title="Mois", yaxis_title="Collectivités uniques", xaxis_tickangle=-45, legend_title="")
-            st.plotly_chart(fig, use_container_width=True)
-
-    else:
-        # Période : 4 métriques en cards avec deltas
-        def _period_metrics(df, start, end):
-            if df.empty:
-                return 0, 0
-            sub = df[(df['date'] >= start) & (df['date'] <= end)]
-            return int(len(sub)), int(sub['collectivite_id'].nunique()) if not sub.empty else 0
-
-        g_cur_a, g_cur_ct = _period_metrics(df_biz_global, cur_start, cur_end)
-        g_prev_a, g_prev_ct = _period_metrics(df_biz_global, prev_start, prev_end)
-        q_cur_a, q_cur_ct = _period_metrics(df_biz_qualif, cur_start, cur_end)
-        q_prev_a, q_prev_ct = _period_metrics(df_biz_qualif, prev_start, prev_end)
-
-        col_left, col_right = st.columns(2)
-        with col_left:
-            st.markdown(f'<div style="{_card_style_qualif}"><div style="font-weight:600; font-size:14px; color:#334155;">💬 Actions qualifiées : Activités & Feedbacks</div></div>', unsafe_allow_html=True)
-            c1, c2 = st.columns(2)
-            with c1:
-                st.metric(label="Actions", value=q_cur_a, delta=f"{q_cur_a - q_prev_a:+d}", delta_color="normal", help="Toutes les lignes de la table Activités et Feedbacks")
-            with c2:
-                st.metric(label="CT uniques", value=q_cur_ct, delta=f"{q_cur_ct - q_prev_ct:+d}", delta_color="normal")
-        with col_right:
-            st.markdown(f'<div style="{_card_style_global}"><div style="font-weight:600; font-size:14px; color:#334155;">✏️ Actions globales : Notes de suivi</div></div>', unsafe_allow_html=True)
-            c1, c2 = st.columns(2)
-            with c1:
-                st.metric(label="Actions", value=g_cur_a, delta=f"{g_cur_a - g_prev_a:+d}", delta_color="normal", help="Toutes les dates renseignées dans les notes de suivis")
-            with c2:
-                st.metric(label="CT uniques", value=g_cur_ct, delta=f"{g_cur_ct - g_prev_ct:+d}", delta_color="normal")
+    col1, col2 = st.columns(2)
+    with col1:
+        fig = px.line(df_agg_combined, x='mois_label', y='Actions', color='type', height=400, markers=True, color_discrete_map=colors_actions)
+        fig.update_layout(xaxis_title="Mois", yaxis_title="Actions de contact", xaxis_tickangle=-45, legend_title="")
+        st.plotly_chart(fig, use_container_width=True)
+    with col2:
+        fig = px.line(df_agg_combined, x='mois_label', y='CT_uniques', color='type', height=400, markers=True, color_discrete_map=colors_actions)
+        fig.update_layout(xaxis_title="Mois", yaxis_title="Collectivités uniques", xaxis_tickangle=-45, legend_title="")
+        st.plotly_chart(fig, use_container_width=True)
 
 else:
-    # ─── VUE PAR PIPE : ventilation par pipeline ───
-    metrique_pipe = st.segmented_control(
-        "Métrique",
-        options=["Total", "Collectivités uniques"],
-        default="Total",
-        key="metrique_pipe_tab1"
+    # Période : 4 métriques en cards avec deltas
+    def _period_metrics(df, start, end):
+        if df.empty:
+            return 0, 0
+        sub = df[(df['date'] >= start) & (df['date'] <= end)]
+        return int(len(sub)), int(sub['collectivite_id'].nunique()) if not sub.empty else 0
+
+    g_cur_a, g_cur_ct = _period_metrics(df_biz_global, cur_start, cur_end)
+    g_prev_a, g_prev_ct = _period_metrics(df_biz_global, prev_start, prev_end)
+    q_cur_a, q_cur_ct = _period_metrics(df_biz_qualif, cur_start, cur_end)
+    q_prev_a, q_prev_ct = _period_metrics(df_biz_qualif, prev_start, prev_end)
+
+    df_q_cur = (
+        df_biz_qualif[(df_biz_qualif['date'] >= cur_start) & (df_biz_qualif['date'] <= cur_end)]
+        if not df_biz_qualif.empty else df_biz_qualif
+    )
+    df_g_cur = (
+        df_biz_global[(df_biz_global['date'] >= cur_start) & (df_biz_global['date'] <= cur_end)]
+        if not df_biz_global.empty else df_biz_global
     )
 
-    df_pipe = df_pipeline_semaine.copy()
-    df_pipe['semaine'] = pd.to_datetime(df_pipe['semaine'])
-
-    # Combiner global + qualifié en un seul df avec colonne source
-    _dfs_combined = []
-    if not df_biz_global.empty:
-        _tmp = df_biz_global[['collectivite_id', 'date']].copy()
-        _tmp['source'] = 'Actions globales'
-        _dfs_combined.append(_tmp)
-    if not df_biz_qualif.empty:
-        _tmp = df_biz_qualif[['collectivite_id', 'date']].copy()
-        _tmp['source'] = 'Actions qualifiées'
-        _dfs_combined.append(_tmp)
-    df_biz_combined = pd.concat(_dfs_combined, ignore_index=True) if _dfs_combined else pd.DataFrame(columns=['collectivite_id', 'date', 'source'])
-
-    if is_all_time:
-        # All Time par pipe : un seul graphe selon la métrique choisie
-        st.warning("Pour cette vue, les actions globales et qualifiées ont été sommées.")
-        if not df_biz_combined.empty:
-            df_biz_at = df_biz_combined[(df_biz_combined['date'] >= alltime_min) & (df_biz_combined['date'] <= today)].copy()
-            df_biz_at['mois'] = df_biz_at['date'].dt.to_period('M').dt.to_timestamp()
-
-            df_pipe_monthly = df_pipe[df_pipe['semaine'] >= alltime_min].copy()
-            df_pipe_monthly['mois'] = df_pipe_monthly['semaine'].dt.to_period('M').dt.to_timestamp()
-            df_pipe_latest = df_pipe_monthly.sort_values('semaine').drop_duplicates(
-                subset=['collectivite_id', 'mois'], keep='last'
-            )[['collectivite_id', 'mois', 'pipeline']]
-
-            df_biz_pipe = df_biz_at.merge(df_pipe_latest, on=['collectivite_id', 'mois'], how='left')
-            df_biz_pipe['pipeline'] = df_biz_pipe['pipeline'].fillna('Non classé')
-
-            df_agg_pipe = df_biz_pipe.groupby(['mois', 'pipeline']).agg(
-                Actions=('date', 'count'),
-                CT_uniques=('collectivite_id', 'nunique')
-            ).reset_index().sort_values('mois')
-            df_agg_pipe = df_agg_pipe[df_agg_pipe['mois'] >= alltime_min_pipe]
-            df_agg_pipe['mois_label'] = df_agg_pipe['mois'].dt.strftime('%Y-%m')
-
-            if metrique_pipe == "Total":
-                fig = px.line(df_agg_pipe, x='mois_label', y='Actions', color='pipeline', height=500, markers=True)
-                fig.update_layout(xaxis_title="Mois", yaxis_title="Actions (globales + qualifiées)", xaxis_tickangle=-45, legend_title="Pipeline")
-            else:
-                fig = px.line(df_agg_pipe, x='mois_label', y='CT_uniques', color='pipeline', height=500, markers=True)
-                fig.update_layout(xaxis_title="Mois", yaxis_title="CT uniques contactées", xaxis_tickangle=-45, legend_title="Pipeline")
-            st.plotly_chart(fig, use_container_width=True)
-        else:
-            st.info("Aucune donnée de contacts disponible.")
-    else:
-        # Période par pipe : stacked bar (global + qualifié) par pipeline avec deltas
-        if not df_biz_combined.empty:
-            df_pipe_cur = df_pipe[df_pipe['semaine'] <= cur_end].sort_values('semaine').drop_duplicates(
-                subset=['collectivite_id'], keep='last'
-            )[['collectivite_id', 'pipeline']]
-
-            reach_cur = df_biz_combined[(df_biz_combined['date'] >= cur_start) & (df_biz_combined['date'] <= cur_end)].copy()
-            reach_prev = df_biz_combined[(df_biz_combined['date'] >= prev_start) & (df_biz_combined['date'] <= prev_end)].copy()
-
-            reach_cur = reach_cur.merge(df_pipe_cur, on='collectivite_id', how='left')
-            reach_cur['pipeline'] = reach_cur['pipeline'].fillna('Non classé')
-            reach_prev = reach_prev.merge(df_pipe_cur, on='collectivite_id', how='left')
-            reach_prev['pipeline'] = reach_prev['pipeline'].fillna('Non classé')
-
-            if metrique_pipe == "Total":
-                # Stacked bar : actions par source
-                agg_cur_src = reach_cur.groupby(['pipeline', 'source']).size().reset_index(name='Valeur')
-                agg_cur_total = reach_cur.groupby('pipeline').size().reset_index(name='Total_cur')
-                agg_prev_total = reach_prev.groupby('pipeline').size().reset_index(name='Total_prev')
-                
-                agg_totals = agg_cur_total.merge(agg_prev_total, on='pipeline', how='outer').fillna(0)
-                agg_totals['Total_cur'] = agg_totals['Total_cur'].astype(int)
-                agg_totals['Total_prev'] = agg_totals['Total_prev'].astype(int)
-                agg_totals['delta'] = agg_totals['Total_cur'] - agg_totals['Total_prev']
-                agg_totals['label_total'] = agg_totals.apply(lambda r: f"{r['Total_cur']} ({r['delta']:+d})", axis=1)
-
-                pipeline_order = agg_totals.sort_values('Total_cur', ascending=True)['pipeline'].tolist()
-
-                fig = go.Figure()
-                sources_ordered = ['Actions globales', 'Actions qualifiées']
-                colors_src = colors_actions
-
-                for i, source in enumerate(sources_ordered):
-                    sub = agg_cur_src[agg_cur_src['source'] == source].copy()
-                    sub = sub.set_index('pipeline').reindex(pipeline_order, fill_value=0).reset_index()
-
-                    is_last = (i == len(sources_ordered) - 1)
-                    if is_last:
-                        totals_map = agg_totals.set_index('pipeline')['label_total']
-                        text_vals = sub['pipeline'].map(totals_map).fillna('')
-                        textposition = 'outside'
-                    else:
-                        text_vals = sub['Valeur'].apply(lambda v: str(int(v)) if v > 0 else '')
-                        textposition = 'inside'
-
-                    fig.add_trace(go.Bar(
-                        y=sub['pipeline'], x=sub['Valeur'],
-                        name=source, orientation='h',
-                        text=text_vals, textposition=textposition,
-                        marker_color=colors_src.get(source)
-                    ))
-
-                fig.update_layout(
-                    barmode='stack',
-                    height=max(450, len(pipeline_order) * 70),
-                    yaxis_title="Pipeline",
-                    xaxis_title="Nombre d'actions",
-                    legend=dict(orientation='h', yanchor='bottom', y=1.02, xanchor='center', x=0.5),
-                    margin=dict(r=120)
-                )
-            else:
-                # Stacked bar : CT uniques par source
-                agg_cur_src = reach_cur.groupby(['pipeline', 'source'])['collectivite_id'].nunique().reset_index(name='Valeur')
-                agg_cur_total = reach_cur.groupby('pipeline')['collectivite_id'].nunique().reset_index(name='Total_cur')
-                agg_prev_total = reach_prev.groupby('pipeline')['collectivite_id'].nunique().reset_index(name='Total_prev')
-                
-                agg_totals = agg_cur_total.merge(agg_prev_total, on='pipeline', how='outer').fillna(0)
-                agg_totals['Total_cur'] = agg_totals['Total_cur'].astype(int)
-                agg_totals['Total_prev'] = agg_totals['Total_prev'].astype(int)
-                agg_totals['delta'] = agg_totals['Total_cur'] - agg_totals['Total_prev']
-                agg_totals['label_total'] = agg_totals.apply(lambda r: f"{r['Total_cur']} ({r['delta']:+d})", axis=1)
-
-                pipeline_order = agg_totals.sort_values('Total_cur', ascending=True)['pipeline'].tolist()
-
-                fig = go.Figure()
-                sources_ordered = ['Actions globales', 'Actions qualifiées']
-                colors_src = colors_actions
-
-                for i, source in enumerate(sources_ordered):
-                    sub = agg_cur_src[agg_cur_src['source'] == source].copy()
-                    sub = sub.set_index('pipeline').reindex(pipeline_order, fill_value=0).reset_index()
-
-                    is_last = (i == len(sources_ordered) - 1)
-                    if is_last:
-                        totals_map = agg_totals.set_index('pipeline')['label_total']
-                        text_vals = sub['pipeline'].map(totals_map).fillna('')
-                        textposition = 'outside'
-                    else:
-                        text_vals = sub['Valeur'].apply(lambda v: str(int(v)) if v > 0 else '')
-                        textposition = 'inside'
-
-                    fig.add_trace(go.Bar(
-                        y=sub['pipeline'], x=sub['Valeur'],
-                        name=source, orientation='h',
-                        text=text_vals, textposition=textposition,
-                        marker_color=colors_src.get(source)
-                    ))
-
-                fig.update_layout(
-                    barmode='stack',
-                    height=max(450, len(pipeline_order) * 70),
-                    yaxis_title="Pipeline",
-                    xaxis_title="Collectivités uniques",
-                    legend=dict(orientation='h', yanchor='bottom', y=1.02, xanchor='center', x=0.5),
-                    margin=dict(r=120)
-                )
-
-            st.plotly_chart(fig, use_container_width=True)
-        else:
-            st.info("Aucune donnée de contacts disponible.")
+    col_left, col_right = st.columns(2)
+    with col_left:
+        st.markdown(f'<div style="{_card_style_qualif}"><div style="font-weight:600; font-size:14px; color:#334155;">💬 Actions qualifiées : Activités & Feedbacks</div></div>', unsafe_allow_html=True)
+        c1, c2 = st.columns(2)
+        with c1:
+            st.metric(label="Actions", value=q_cur_a, delta=f"{q_cur_a - q_prev_a:+d}", delta_color="normal", help="Toutes les lignes de la table Activités et Feedbacks")
+        with c2:
+            st.metric(label="CT uniques", value=q_cur_ct, delta=f"{q_cur_ct - q_prev_ct:+d}", delta_color="normal")
+        st.dataframe(
+            _effort_ct_contact_table(df_q_cur, df_pipeline_semaine, cur_end, df_collectivite),
+            use_container_width=True,
+            hide_index=True,
+        )
+    with col_right:
+        st.markdown(f'<div style="{_card_style_global}"><div style="font-weight:600; font-size:14px; color:#334155;">✏️ Actions globales : Notes de suivi</div></div>', unsafe_allow_html=True)
+        c1, c2 = st.columns(2)
+        with c1:
+            st.metric(label="Actions", value=g_cur_a, delta=f"{g_cur_a - g_prev_a:+d}", delta_color="normal", help="Toutes les dates renseignées dans les notes de suivis")
+        with c2:
+            st.metric(label="CT uniques", value=g_cur_ct, delta=f"{g_cur_ct - g_prev_ct:+d}", delta_color="normal")
+        st.dataframe(
+            _effort_ct_contact_table(df_g_cur, df_pipeline_semaine, cur_end, df_collectivite),
+            use_container_width=True,
+            hide_index=True,
+        )
 
 st.markdown("---")
 
