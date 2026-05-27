@@ -187,6 +187,28 @@ def load_priorisation(collectivite_id: int) -> pd.DataFrame:
 
 
 @st.cache_data(ttl="1h")
+def load_priorisation_all(collectivite_ids: tuple[int, ...]) -> pd.DataFrame:
+    """Notes et ids les plus récents par collectivité × case (levier × catégorie)."""
+    if not collectivite_ids:
+        return pd.DataFrame(
+            columns=["collectivite_id", "levier", "categorie", "note", "ids"]
+        )
+    engine = get_engine()
+    with engine.connect() as conn:
+        return pd.read_sql_query(
+            text("""
+                SELECT DISTINCT ON (collectivite_id, levier, categorie)
+                    collectivite_id, levier, categorie, note, ids
+                FROM priorisation
+                WHERE collectivite_id = ANY(:ids)
+                ORDER BY collectivite_id, levier, categorie, created_at DESC
+            """),
+            conn,
+            params={"ids": list(collectivite_ids)},
+        )
+
+
+@st.cache_data(ttl="1h")
 def load_fiches_action(collectivite_ids: tuple[int, ...]) -> pd.DataFrame:
     """Fiches action prod pour les collectivités priorisées."""
     if not collectivite_ids:
@@ -416,7 +438,7 @@ MOBILISATION_BAR_ROW_PX = 34
 MOBILISATION_BAR_MIN_HEIGHT = 280
 
 VUE_ENSEMBLE_THRESHOLDS = [50, 60, 70, 80, 90, 100]
-VUE_ENSEMBLE_CHART_HEIGHT = 1200
+VUE_ENSEMBLE_CHART_HEIGHT = 1000
 NOTES_ENJEU_BAS = {0, 1}
 
 TREEMAP_HEIGHT = 800
@@ -670,9 +692,9 @@ def build_echarts_options(treemap_children: list[dict], *, show_labels: bool = T
 # Interface
 # ==========================
 
-st.title("🗺️ Priorisation - Mobilisation des leviers")
+st.title("🏅 Priorisation - Mobilisation des leviers")
 st.markdown(
-    "Visualisation de l'état de mobilisation des leviers."
+    "Visualisation de l'état de mobilisation des leviers. "
     "**Une grande case rouge = fort enjeu peu mobilisé = priorité d'action.**"
 )
 
@@ -698,6 +720,7 @@ selected_id = st.selectbox(
 st.markdown("---")
 
 df_priorisation = load_priorisation(selected_id)
+df_priorisation_all = load_priorisation_all(tuple(collectivite_ids))
 df_reductions = load_reductions(selected_id)
 df_poids = load_poids_categories()
 
@@ -718,7 +741,7 @@ treemap_children, excluded_leviers = build_treemap_data(
     leviers, reductions, notes, weights
 )
 
-tabs = st.tabs(["Treemap", "Mobilisation", "Vue d'ensemble"])
+tabs = st.tabs(["Impact Map", "Impact Chart", "Détail mobilisation"])
 
 with tabs[0]:
     for levier in excluded_leviers:
@@ -816,7 +839,78 @@ with tabs[0]:
                 )
                 st.warning("Aucune action de référence pour le moment.")
 
-with tabs[1]:
+                st.badge("Actions des autres collectivités", icon=":material/search_check:", color="yellow")
+
+                with st.expander("Voir les actions des autres collectivités"):
+                    if cat_id is None:
+                        st.info(
+                            f"Aucune action d'autres collectivités associée à : "
+                            f"{levier} · {cat_label}."
+                        )
+                    else:
+                        df_priorisation_autres = df_priorisation_all[
+                            (df_priorisation_all["levier"] == levier)
+                            & (df_priorisation_all["categorie"] == int(cat_id))
+                            & (df_priorisation_all["collectivite_id"] != selected_id)
+                        ]
+                        collectivites_avec_actions: list[tuple[int, list[int]]] = []
+                        for _, row in df_priorisation_autres.iterrows():
+                            ct_ids = parse_ids(row["ids"])
+                            if ct_ids:
+                                collectivites_avec_actions.append(
+                                    (int(row["collectivite_id"]), ct_ids)
+                                )
+
+                        if not collectivites_avec_actions:
+                            st.info(
+                                f"Aucune action d'autres collectivités pour : "
+                                f"{levier} · {cat_label}."
+                            )
+                        else:
+                            collectivites_avec_actions.sort(
+                                key=lambda item: nom_par_id.get(item[0], "").lower()
+                            )
+                            affiche = False
+                            for ct_id, ct_action_ids in collectivites_avec_actions:
+                                df_fiches_ct = df_fiches_action[
+                                    df_fiches_action["id"].isin(ct_action_ids)
+                                    & (df_fiches_action["collectivite_id"] == ct_id)
+                                ]
+                                if df_fiches_ct.empty:
+                                    continue
+
+                                affiche = True
+                                collectivite_nom = nom_par_id.get(
+                                    ct_id, f"Collectivité #{ct_id}"
+                                )
+                                st.markdown(f"**{collectivite_nom}**")
+                                id_order = {
+                                    aid: i for i, aid in enumerate(ct_action_ids)
+                                }
+                                df_fiches_ct = df_fiches_ct.assign(
+                                    _ord=df_fiches_ct["id"].map(id_order)
+                                ).sort_values("_ord")
+
+                                for _, fiche in df_fiches_ct.iterrows():
+                                    titre = fiche.get("titre") or f"Fiche #{fiche['id']}"
+                                    with st.expander(titre):
+                                        description = clean_rich_text(
+                                            fiche.get("description")
+                                        )
+                                        if description:
+                                            st.write(description)
+                                        else:
+                                            st.caption("Aucune description.")
+
+                            if not affiche:
+                                st.info(
+                                    "Des identifiants sont enregistrés pour d'autres "
+                                    "collectivités, mais aucune fiche action correspondante "
+                                    "n'a été trouvée."
+                                )
+
+
+with tabs[2]:
     note_options = [NOTE_LABELS[i] for i in range(4)]
     selected_note_label = st.segmented_control(
         "État de mobilisation",
@@ -857,7 +951,7 @@ with tabs[1]:
             key=f"mobilisation_bar_{selected_id}_{selected_note}",
         )
 
-with tabs[2]:
+with tabs[1]:
     threshold_pct = st.select_slider(
         "Part de réduction couverte (leviers)",
         options=VUE_ENSEMBLE_THRESHOLDS,

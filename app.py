@@ -26,12 +26,12 @@ pages = {
         st.Page("pages/10_🚚_Livraison_pre_prod.py", title="Livraison Pre-Prod", icon="🚚"),
         st.Page("pages/11_🚢🚨_Livraison_Prod.py", title="Livraison Prod", icon="🚨"),
     ],
+    "Priorisation": [
+        st.Page("pages/26_run_impact.py", title="Analyse des actions par CT", icon="🔧"),
+       st.Page("pages/30_priorisation.py", title="Priorisation", icon="🏅"),
+    ],
 }
 
 pg = st.navigation(pages)
 pg.run()
 
-# "Priorisation": [
-        # st.Page("pages/26_run_impact.py", title="Analyse des actions par CT", icon="🔧"),
-        #st.Page("pages/30_priorisation.py", title="Treemap priorisation", icon="🗺️"),
-    #],

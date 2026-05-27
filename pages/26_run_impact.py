@@ -86,6 +86,30 @@ D_MAP_SECTEUR = {
     'Branche énergie': 'cae_1.j',
 }
 
+# Codes INSEE région → libellés colonnes de data/leviers_sgpe_region.csv
+REGION_CODE_TO_LABEL = {
+    '84': 'Auvergne-Rhône-Alpes',
+    '27': 'Bourgogne-Franche-Comté',
+    '53': 'Bretagne',
+    '24': 'Centre-Val de Loire',
+    '94': 'Corse',
+    '44': 'Grand Est',
+    '32': 'Hauts-de-France',
+    '11': 'Île-de-France',
+    '28': 'Normandie',
+    '75': 'Nouvelle-Aquitaine',
+    '76': 'Occitanie',
+    '52': 'Pays de la Loire',
+    '93': "Provence-Alpes-Côte d'Azur",
+}
+
+
+def region_label_from_code(region_code: str | None) -> str | None:
+    """Retourne le libellé région CSV à partir du region_code collectivité."""
+    if region_code is None or pd.isna(region_code):
+        return None
+    return REGION_CODE_TO_LABEL.get(str(region_code).strip())
+
 # ==========================
 # Fonctions de chargement des données
 # ==========================
@@ -806,22 +830,14 @@ if df_ratios is None or df_leviers_ref is None:
     )
     st.stop()
 
-region_options = sorted(get_region_columns(df_ratios))
-
-selected_region = st.selectbox(
-    "🗺️ Région (ratios SGPE du CSV)",
-    options=region_options,
-    index=None,
-    placeholder="Sélectionner la région pour les ratios...",
-    help="Doit correspondre exactement à une colonne de data/leviers_sgpe_region.csv",
-)
-
 selected_nom = st.selectbox(
     "🏛️ Sélectionner une collectivité",
     options=df_collectivites["nom"].tolist(),
     index=None,
     placeholder="Rechercher une collectivité...",
 )
+
+selected_region: str | None = None
 
 if selected_nom:
     collectivite_info = df_collectivites[df_collectivites["nom"] == selected_nom].iloc[0]
@@ -831,9 +847,15 @@ if selected_nom:
         if pd.notna(collectivite_info["population"])
         else 0
     )
+    selected_region = region_label_from_code(collectivite_info["region_code"])
+    region_info = (
+        f" — Région : **{selected_region}**"
+        if selected_region
+        else " — ⚠️ Région inconnue (region_code absent ou non mappé)"
+    )
     st.info(
         f"**Collectivité sélectionnée:** {selected_nom} (ID: {selected_id}) "
-        f"— Population: {population:,}"
+        f"— Population: {population:,}{region_info}"
     )
 
 st.markdown("---")
@@ -1023,6 +1045,6 @@ if st.button("🚀 Lancer l'exécution", type="primary", disabled=not can_run):
 
 else:
     st.info(
-        "👆 Sélectionnez une **région** et une **collectivité**, "
+        "👆 Sélectionnez une **collectivité**, "
         "puis cliquez sur **Lancer l'exécution**."
     )
