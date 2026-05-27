@@ -30,3 +30,8 @@ pages = {
 
 pg = st.navigation(pages)
 pg.run()
+
+# "Priorisation": [
+        # st.Page("pages/26_run_impact.py", title="Analyse des actions par CT", icon="🔧"),
+        #st.Page("pages/30_priorisation.py", title="Treemap priorisation", icon="🗺️"),
+    #],

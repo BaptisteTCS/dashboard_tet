@@ -2,18 +2,17 @@ import streamlit as st
 
 # Configuration de la page en premier
 st.set_page_config(
-    page_title="Calcul impact",
+    page_title="Priorisation des actions",
     page_icon="🎯",
     layout="wide"
 )
 
 import json
 import random
-import re
 import time
 from collections import defaultdict
 from datetime import datetime
-from typing import Any, Dict
+from typing import Any
 
 import pandas as pd
 from openai import OpenAI
@@ -49,7 +48,7 @@ Efficacité et sobriété logistique
 Bâtiments & Machines agricoles
 Elevage durable
 Changements de pratiques de fertilisation azotée
-Production industrielle
+Production Industrielle
 Captage de méthane dans les ISDND
 Prévention des déchets
 Valorisation matière des déchets
@@ -63,6 +62,19 @@ Biogaz
 Réseaux de chaleur décarbonés
 """
 
+LEVIERS_LIST = [l.strip() for l in LEVIERS.strip().split("\n") if l.strip()]
+LEVIERS_SET = set(LEVIERS_LIST)
+VALID_CATEGORIES = {1, 2, 3, 4, 5, 6}
+
+CATEGORIES = {
+    1: "Aménagement & infrastructures",
+    2: "Réglementation & planification",
+    3: "Financement & fiscalité",
+    4: "Gouvernance & partenariats",
+    5: "Exemplarité interne",
+    6: "Sensibilisation & accompagnement",
+}
+
 D_MAP_SECTEUR = {
     'Résidentiel': 'cae_1.c',
     'Tertiaire': 'cae_1.d',
@@ -71,7 +83,7 @@ D_MAP_SECTEUR = {
     'Industrie': 'cae_1.i',
     'Déchets': 'cae_1.h',
     'UTCATF': 'cae_1.csc',
-    'Branche énergie': 'cae_1.j'
+    'Branche énergie': 'cae_1.j',
 }
 
 # ==========================
@@ -97,23 +109,133 @@ def load_collectivites():
 
 
 @st.cache_data(ttl="1h")
-def load_ratios_csv():
+def load_ratios_csv() -> pd.DataFrame | None:
     """Charge le CSV des ratios de leviers SGPE par région."""
     try:
-        df = pd.read_csv('data/leviers_sgpe_region.csv', sep=';')
-        return df
+        return pd.read_csv('data/leviers_sgpe_region.csv', sep=';')
     except FileNotFoundError:
         return None
 
 
-def get_regions_from_csv(df_ratios):
-    """Extrait la liste des régions disponibles dans le CSV."""
-    if df_ratios is None:
-        return []
-    # Les colonnes qui ne sont pas 'Secteur' ou 'Leviers SGPE' sont des régions
-    exclude_cols = ['Secteur', 'Leviers SGPE', 'identifiant_referentiel']
-    regions = [col for col in df_ratios.columns if col not in exclude_cols]
-    return regions
+@st.cache_data(ttl="1h")
+def load_leviers_ref():
+    """Charge le référentiel leviers / secteurs depuis le CSV."""
+    df = load_ratios_csv()
+    if df is None:
+        return None
+    df_ref = df[['Secteur', 'Leviers SGPE']].copy()
+    df_ref['identifiant_referentiel'] = df_ref['Secteur'].map(D_MAP_SECTEUR)
+    return df_ref
+
+
+def get_region_columns(df_ratios: pd.DataFrame) -> list[str]:
+    """Liste les noms de région (colonnes du CSV leviers_sgpe_region)."""
+    return [c for c in df_ratios.columns if c not in ('Secteur', 'Leviers SGPE')]
+
+
+def fetch_indicateurs_snbc(collectivite_id: int) -> pd.DataFrame:
+    """Récupère les indicateurs SNBC pour calculer les objectifs de réduction."""
+    engine = get_engine_prod()
+    with engine.connect() as conn:
+        df = pd.read_sql_query(
+            text("""
+                SELECT id.titre, id.identifiant_referentiel, iv.date_valeur, iv.objectif
+                FROM indicateur_valeur iv
+                JOIN indicateur_definition id ON iv.indicateur_id = id.id
+                WHERE iv.collectivite_id = :collectivite_id
+                AND metadonnee_id = 17
+                AND objectif IS NOT NULL
+                AND date_valeur IN ('2019-01-01', '2030-01-01')
+            """),
+            conn,
+            params={"collectivite_id": collectivite_id},
+        )
+    return df
+
+
+def calculate_reductions_by_lever(
+    df_ratios: pd.DataFrame,
+    region: str,
+    df_indicateurs: pd.DataFrame,
+) -> pd.DataFrame:
+    """
+    Calcule la réduction de CO2 par levier (potentiel brut, sans score d'implication).
+
+    Réduction par levier = (objectif 2030 − objectif 2019 du secteur) × ratio régional / 100.
+    """
+    df_ct = df_ratios[['Secteur', 'Leviers SGPE']].copy()
+    df_ct['identifiant_referentiel'] = df_ct['Secteur'].map(D_MAP_SECTEUR)
+    df_ct[region] = df_ratios[region]
+
+    dic_reduction: dict[str, float] = {}
+    for ref in df_indicateurs['identifiant_referentiel'].unique():
+        df_filtered = df_indicateurs[df_indicateurs['identifiant_referentiel'] == ref]
+
+        if len(df_filtered) >= 2:
+            df_filtered = df_filtered.copy()
+            df_filtered['date_str'] = df_filtered['date_valeur'].astype(str)
+
+            df_2030 = df_filtered[df_filtered['date_str'].str.startswith('2030')]
+            val_2030 = df_2030['objectif'].iloc[0] if len(df_2030) > 0 else 0
+
+            df_2019 = df_filtered[df_filtered['date_str'].str.startswith('2019')]
+            val_2019 = df_2019['objectif'].iloc[0] if len(df_2019) > 0 else 0
+
+            dic_reduction[ref] = float(val_2030 - val_2019)
+
+    df_ct['reduction_secteur'] = df_ct['identifiant_referentiel'].map(dic_reduction)
+    df_ct['reduction'] = (df_ct['reduction_secteur'] * df_ct[region] / 100).round(1)
+
+    df_result = df_ct[['Leviers SGPE', 'reduction']].rename(
+        columns={'Leviers SGPE': 'levier'}
+    )
+    return df_result.dropna(subset=['reduction']).reset_index(drop=True)
+
+
+def save_reductions_by_lever(df: pd.DataFrame, collectivite_id: int):
+    """Sauvegarde les réductions par levier dans priorisation_reduction_levier (OLAP)."""
+    df_to_save = df[['levier', 'reduction']].copy()
+    df_to_save['collectivite_id'] = collectivite_id
+    df_to_save = df_to_save[['collectivite_id', 'levier', 'reduction']]
+
+    if debug_mode:
+        st.info("Mode débogage — réductions par levier non sauvegardées.")
+        st.dataframe(df_to_save, use_container_width=True)
+        return
+
+    engine = get_engine()
+    with engine.begin() as conn:
+        conn.execute(
+            text(
+                "DELETE FROM priorisation_reduction_levier "
+                "WHERE collectivite_id = :id"
+            ),
+            {"id": collectivite_id},
+        )
+        df_to_save.to_sql(
+            'priorisation_reduction_levier',
+            con=conn,
+            if_exists='append',
+            index=False,
+        )
+
+
+def run_reductions_by_lever(
+    collectivite_id: int,
+    region: str,
+    df_ratios: pd.DataFrame,
+) -> pd.DataFrame:
+    """Calcule et enregistre les réductions potentielles par levier."""
+    if region not in get_region_columns(df_ratios):
+        raise ValueError(f"Région invalide : {region}")
+    df_indicateurs = fetch_indicateurs_snbc(collectivite_id)
+    df_result = calculate_reductions_by_lever(
+        df_ratios=df_ratios,
+        region=region,
+        df_indicateurs=df_indicateurs,
+    )
+    save_reductions_by_lever(df_result, collectivite_id)
+    return df_result
 
 
 def fetch_plan_actions(collectivite_id: int) -> pd.DataFrame:
@@ -127,7 +249,7 @@ def fetch_plan_actions(collectivite_id: int) -> pd.DataFrame:
                     SELECT DISTINCT fa.id, fa.titre, fa.description
                     FROM fiche_action fa
                     JOIN fiche_action_axe faa ON faa.fiche_id = fa.id
-                    WHERE fa.collectivite_id = :collectivite_id
+                    WHERE fa.collectivite_id = :collectivite_id and parent_id is null
                 """),
                 conn,
                 params={"collectivite_id": collectivite_id}
@@ -138,32 +260,12 @@ def fetch_plan_actions(collectivite_id: int) -> pd.DataFrame:
                     SELECT DISTINCT fa.id, fa.titre, fa.description
                     FROM fiche_action fa
                     JOIN fiche_action_axe faa ON faa.fiche_id = fa.id
-                    WHERE fa.collectivite_id = :collectivite_id
+                    WHERE fa.collectivite_id = :collectivite_id and parent_id is null
                     AND fa.restreint = False
                 """),
                 conn,
                 params={"collectivite_id": collectivite_id}
             )
-    return df
-
-
-def fetch_indicateurs_snbc(collectivite_id: int) -> pd.DataFrame:
-    """Récupère les indicateurs SNBC pour calculer les objectifs de réduction."""
-    engine = get_engine_prod()
-    with engine.connect() as conn:
-        df = pd.read_sql_query(
-            text("""
-                SELECT id.titre, id.identifiant_referentiel, iv.date_valeur, iv.objectif 
-                FROM indicateur_valeur iv
-                JOIN indicateur_definition id ON iv.indicateur_id = id.id
-                WHERE iv.collectivite_id = :collectivite_id
-                AND metadonnee_id = 17
-                AND objectif IS NOT NULL
-                AND date_valeur IN ('2019-01-01', '2030-01-01')
-            """),
-            conn,
-            params={"collectivite_id": collectivite_id}
-        )
     return df
 
 
@@ -176,45 +278,56 @@ def build_prompt_classification(plan_texte: str) -> str:
     return f"""
 Tu es un expert en analyse d'impact carbone des politiques publiques et en modélisation par leviers CO2.
 
-Contexte
-On te fournit deux éléments :
+# Contexte
+On te fournit trois éléments :
 
-1 Un plan d'actions sous forme de texte structuré.
-Chaque action est identifiée par un id unique et décrite par un titre et une description.
+1. Un plan d'actions sous forme de texte structuré. Chaque action est identifiée par un id unique et décrite par un titre et une description.
 
-2 Une liste fermée de leviers CO2.
-Chaque levier correspond à un mécanisme d'impact direct ou quasi direct sur les émissions de CO2, avec un facteur quantifiable connu en aval.
+2. Une liste fermée de leviers CO2. Chaque levier correspond à un mécanisme d'impact direct ou quasi direct sur les émissions de CO2.
 
-Objectif
-Pour chaque action du plan, identifier les leviers CO2 auxquels elle correspond de manière SÛRE.
+3. Une liste fermée de 6 catégories de TYPE D'ACTION. La catégorie ne décrit pas l'impact carbone mais le MOYEN par lequel la collectivité agit.
 
-Règles fondamentales
-• Une action peut correspondre à zéro, un ou plusieurs leviers.
-• N'associe un levier à une action que si le lien est clair, direct ou très fortement plausible.
-• Si le lien est trop indirect, spéculatif, dépendant d'hypothèses non explicites ou uniquement comportemental sans levier physique clair, ne pas associer.
-• En cas de doute, s'abstenir. La précision est prioritaire sur l'exhaustivité.
-• Ne jamais inventer de levier en dehors de la liste fournie.
-• Ne pas reformuler les leviers. Utiliser exactement les libellés fournis.
+# Les 6 catégories
+1. Aménagement & infrastructures — Actions physiques sur le territoire à destination des habitants et des acteurs économiques : urbanisme, mobilités douces, espaces verts, réseaux (eau, chaleur, assainissement), renaturation, équipements publics ouverts au public.
+2. Réglementation & planification — Documents cadres et actes juridiques qui orientent l'action du territoire : PLU/PLUi, PCAET, SCoT, règlements locaux, zones à faibles émissions, arrêtés municipaux.
+3. Financement & fiscalité — Orientation des flux économiques : subventions aux particuliers et entreprises, tarification incitative, budgets participatifs écologiques, fiscalité locale verte.
+4. Gouvernance & partenariats — Pilotage de la politique de transition : élu référent, service dédié, stratégie et feuille de route, coopération intercommunale, partenariats privés/associatifs, concertation citoyenne, suivi-évaluation.
+5. Exemplarité interne — Transition écologique appliquée au fonctionnement PROPRE de la collectivité : rénovation du patrimoine bâti public, flotte de véhicules, restauration collective, achats et commande publique responsables, numérique responsable, formation des agents.
+6. Sensibilisation & accompagnement — Information, éducation et conseil aux habitants, entreprises et associations : guichet unique rénovation, animations scolaires, ateliers, communication, accompagnement de projets citoyens.
 
-Méthode attendue
-Pour chaque action :
-1 Analyser le titre et la description.
-2 Identifier si l'action déclenche directement un ou plusieurs mécanismes d'impact CO2 connus.
-3 Associer uniquement les leviers correspondant à ces mécanismes directs.
+# Distinctions à respecter impérativement
+- Catégorie 1 vs 5 : une action sur un bâtiment ou un véhicule relève de la 5 si elle porte sur le patrimoine ou les moyens PROPRES de la collectivité, et de la 1 seulement si l'équipement est destiné aux habitants/acteurs du territoire.
+- Catégorie 2 vs 4 : la 2 concerne l'acte juridique ou le document opposable lui-même ; la 4 concerne la manière de piloter, décider et coopérer. Adopter un PLU = 2. Créer un comité de suivi = 4.
+- Catégorie 3 vs 6 : verser une subvention = 3 ; informer, orienter ou accompagner sans flux financier = 6.
+- Une action peut relever de plusieurs catégories AU SEIN d'un même levier si elle agit réellement par plusieurs de ces mécanismes (ex : créer une piste cyclable + la subventionner). N'attribue une catégorie que si l'action agit CONCRÈTEMENT par ce mécanisme, pas si elle l'évoque seulement.
 
-Format de sortie attendu
-Tu dois répondre UNIQUEMENT avec un JSON valide, sans texte additionnel.
+# Objectif
+Pour chaque action, identifier de manière SÛRE :
+- les leviers CO2 auxquels elle correspond ;
+- pour chaque levier retenu, la ou les catégories de type d'action correspondantes.
 
-Le format exact est :
+# Règles fondamentales
+- Une action peut correspondre à zéro, un ou plusieurs leviers.
+- N'associe un levier que si le lien avec un mécanisme d'impact CO2 est clair, direct ou très fortement plausible.
+- Si le lien est trop indirect, spéculatif ou dépend d'hypothèses non explicites, ne pas associer le levier.
+- En cas de doute sur un levier, s'abstenir : la précision prime sur l'exhaustivité.
+- Pour chaque levier retenu, il doit y avoir AU MOINS une catégorie. Une liste de catégories vide pour un levier retenu est interdite.
+- Ne jamais inventer de levier hors de la liste fournie. Ne pas reformuler les leviers : utiliser exactement les libellés fournis.
+- Les catégories sont des entiers de 1 à 6 uniquement.
+
+# Format de sortie attendu
+Réponds UNIQUEMENT avec un JSON valide, sans texte ni balise additionnels.
+Chaque action est une clé. Sa valeur est un objet associant chaque levier retenu à la liste (entiers, 1 à 6) de ses catégories.
+Si aucun levier sûr n'existe pour une action, la valeur est un objet vide {{}}.
+
+Exemple de format :
 {{
-  "id_action_1": ["levier_1", "levier_2"],
-  "id_action_2": [],
-  "id_action_3": ["levier_3"]
+  "id_action_1": {{ "levier_A": [1, 3], "levier_B": [4] }},
+  "id_action_2": {{}},
+  "id_action_3": {{ "levier_C": [2] }}
 }}
 
-Si aucune correspondance sûre n'existe pour une action, retourner une liste vide.
-
-Entrées
+# Entrées
 Plan d'actions :
 {plan_texte}
 
@@ -223,121 +336,217 @@ Liste des leviers CO2 :
 """
 
 
-def build_prompt_implication(actions: str, levier: str, collectivite_nom: str, population: int) -> str:
-    """Construit le prompt pour évaluer l'implication sur un levier."""
-    return f"""
-Tu es un expert en politiques publiques locales et en évaluation qualitative d'impact climat.
+def build_prompt_implication(
+    actions_par_categorie: str,
+    levier: str,
+    collectivite_nom: str,
+    population: int,
+    references_par_categorie: str | None = None,
+) -> str:
+    """Construit le prompt pour évaluer l'activation d'un levier, catégorie par catégorie.
 
-Contexte
+    `actions_par_categorie` : actions de la collectivité regroupées par catégorie (1 à 6).
+        Une catégorie sans action doit apparaître explicitement comme vide.
+    `references_par_categorie` : actions de référence par catégorie, si disponibles.
+    """
+    bloc_reference = (
+        f"\n# Actions de référence par catégorie\n"
+        f"Pour chaque catégorie, voici à quoi ressemblerait une mobilisation exemplaire. "
+        f"Sers-t'en comme étalon du niveau 3.\n{references_par_categorie}\n"
+        if references_par_categorie
+        else "\n# Référentiel\nAucune liste de référence fournie : pour chaque catégorie, "
+        "raisonne à partir de ce qu'une collectivité comparable et volontariste ferait.\n"
+    )
+
+    return f"""Tu es un expert en politiques publiques locales et en évaluation qualitative d'impact climat.
+
+# Contexte
 On te fournit :
-1 Le nom d'une collectivité et sa population.
-2 Un levier d'action précis (ex : « Co-voiturage »).
-3 Une liste d'actions mises en œuvre par la collectivité concernant ce levier
+1. Le nom d'une collectivité et sa population.
+2. UN levier d'action climat (ex : « Co-voiturage »).
+3. Les actions de la collectivité rattachées à ce levier, déjà regroupées par catégorie de type d'action.
 
-Objectif
-Évaluer à quel point la collectivité exploite le levier donné, au regard de ce qu'une collectivité de taille comparable pourrait raisonnablement faire aujourd'hui.
+# Les 6 catégories de type d'action
+La catégorie ne décrit pas l'impact carbone mais le MOYEN par lequel la collectivité agit.
+1. Aménagement & infrastructures — Actions physiques sur le territoire à destination des habitants et acteurs économiques : urbanisme, mobilités douces, espaces verts, réseaux, renaturation, équipements publics ouverts au public.
+2. Réglementation & planification — Documents cadres et actes juridiques : PLU/PLUi, PCAET, SCoT, règlements locaux, zones à faibles émissions, arrêtés.
+3. Financement & fiscalité — Orientation des flux économiques : subventions, tarification incitative, budgets participatifs écologiques, fiscalité locale verte.
+4. Gouvernance & partenariats — Pilotage de la transition : élu référent, service dédié, stratégie et feuille de route, coopération intercommunale, partenariats, concertation, suivi-évaluation.
+5. Exemplarité interne — Transition appliquée au fonctionnement propre de la collectivité : patrimoine bâti public, flotte, restauration collective, commande publique responsable, numérique responsable, formation des agents.
+6. Sensibilisation & accompagnement — Information, éducation et conseil aux habitants, entreprises et associations : guichet unique rénovation, animations, ateliers, communication, accompagnement de projets citoyens.
 
-IMPORTANT – usage du score
-Le score que tu produis sera utilisé directement comme un coefficient d'activation du potentiel de réduction de CO2 du levier.
+# Objectif
+Pour CHACUNE des 6 catégories, évaluer à quel point la collectivité mobilise ce type d'action SUR CE levier,
+comparé à ce qui serait raisonnablement attendu d'une collectivité de taille comparable.
 
-Par exemple :
-• un score de 25% signifie que la collectivité ne mobilise qu'environ 25 % du potentiel théorique du levier
-• un score de 75% signifie que la majorité du potentiel du levier est effectivement mobilisée
-• un score de 100% signifie que le potentiel est exploité au maximum raisonnablement atteignable
+# Cadrage important
+Tu évalues 6 cases « levier x catégorie », une note par catégorie.
+Tu n'évalues pas le levier dans son ensemble, ni un impact CO2 chiffré.
+Une catégorie seule ne peut pas activer tout le potentiel d'un levier — ce n'est pas la question.
+La question, pour chaque catégorie, est : sur ce type précis d'action, la collectivité fait-elle peu,
+ou fait-elle ce qu'on peut raisonnablement attendre de mieux ?
+{bloc_reference}
+# Échelle d'évaluation — 4 niveaux
+Pour chaque catégorie, un entier parmi [0, 1, 2, 3] :
 
-Tu dois donc positionner la note en te demandant explicitement :
-« Quelle part du potentiel de réduction CO2 de ce levier est réellement activée par les actions observées ? »
+- 0 — non couvert : aucune action crédible sur cette case, ou actions hors sujet.
+- 1 — amorcé : actions ponctuelles, symboliques ou expérimentales ; intention visible mais portée très limitée.
+- 2 — partiel : actions réelles et concrètes mais incomplètes ; une part significative de l'attendu est faite, des pans importants manquent.
+- 3 — pleinement activé : mobilisation structurée, cohérente et à large portée ; l'essentiel de l'attendu est fait.
 
-Il ne s'agit pas de mesurer un impact chiffré réel, mais d'estimer la fraction du potentiel du levier effectivement mobilisée.
+# Principes d'évaluation
+- Raisonner relativement à la taille et à la population de la collectivité.
+- Juger la portée réelle (couverture, intensité, durée, public touché), pas le nombre d'actions ni leur formulation.
+- Une catégorie sans aucune action rattachée reçoit obligatoirement 0.
+- Ne pas surévaluer les actions purement incitatives, communicationnelles ou expérimentales — SAUF pour la catégorie 6 (Sensibilisation & accompagnement), où ces actions sont précisément le cœur du sujet.
+- Une action seulement annoncée, non financée ou non engagée, ne peut pas porter un niveau 3.
+- En cas de doute entre deux niveaux, retenir le plus bas.
 
-Échelle d'évaluation
-Tu dois retourner une valeur entière parmis [0, 25, 50, 75, 100], selon la logique suivante :
+# Méthode attendue
+Pour chaque catégorie, raisonne en interne (portée réelle vs attendu) puis fixe la note.
+Ne fais PAS apparaître ce raisonnement dans la réponse : la sortie ne contient que les notes.
 
-• 0 %  
-Les actions entreprises ne permettent pas d'activer de manière crédible le potentiel de réduction CO2 du levier.
-
-• 25 %  
-Actions ponctuelles, symboliques ou très limitées, activant seulement une faible part du potentiel du levier.
-
-• 50 %  
-Actions réelles mais partielles. Le levier est activé sur une part significative mais incomplète de son potentiel
-(par exemple en couverture, en intensité, en population touchée ou en durée).
-
-• 75 %  
-Effort important, structuré et cohérent. La majorité du potentiel du levier est activée, même si des marges de progression existent encore.
-
-• 100 %  
-Mobilisation maximale et systémique du levier. Le potentiel est exploité au niveau le plus élevé raisonnablement atteignable pour une collectivité de cette taille.
-
-Principes d'évaluation
-• Toujours raisonner relativement à la taille de la collectivité et à sa population.
-• Toujours raisonner en termes d'activation du potentiel du levier, et non en valeur absolue des actions.
-• Privilégier les actions structurantes, durables et à large portée.
-• Ne pas surévaluer des actions uniquement incitatives, communicationnelles ou expérimentales.
-• En cas de doute, adopter une approche prudente.
-• La note doit être cohérente avec la justification fournie.
-
-Méthode attendue
-1 Évaluer la part du potentiel du levier qu'elles permettent d'activer (couverture, intensité, durée).
-2 Positionner la collectivité sur l'échelle 0–100 de manière argumentée.
-
-Format de sortie attendu
-Tu dois répondre UNIQUEMENT avec un JSON valide, sans texte additionnel.
-
+# Format de sortie attendu
+Réponds UNIQUEMENT avec un JSON valide, sans texte ni balise additionnels.
+Les 6 catégories doivent toutes être présentes, clés "1" à "6", même si la note est 0.
 Format exact :
 {{
-  "score": <entier entre 0 et 100 parmis [0, 25, 50, 75, 100]>,
-  "justification": "<quelques phrases claires expliquant le score>"
+  "1": <0-3>,
+  "2": <0-3>,
+  "3": <0-3>,
+  "4": <0-3>,
+  "5": <0-3>,
+  "6": <0-3>
 }}
 
-Entrées
+# Entrées
 Collectivité : {collectivite_nom}
 Population : {population}
 Levier évalué : {levier}
 
-Actions mises en œuvre :
-{actions}
+Actions de la collectivité, regroupées par catégorie :
+{actions_par_categorie}
 """
 
 
-def invert_actions_by_lever(response_text: str) -> Dict[str, list]:
-    """
-    Transforme un texte JSON de la forme:
-    { "id": ["levier1", "levier2"], ... }
-    en:
-    { "levier1": [id1, id2], ... }
-    avec id en int
-    """
-    if not response_text or not response_text.strip():
-        return {}
+def strip_json_fences(text: str) -> str:
+    """Enlève les ```json ... ``` si présents."""
+    if not text:
+        return ""
+    t = text.strip()
+    if t.startswith("```"):
+        t = t.replace("```json", "").replace("```JSON", "").replace("```", "").strip()
+    return t
 
-    txt = response_text.strip()
 
-    # Gère les blocs ```json ... ```
-    fence = re.search(r"```(?:json)?\s*([\s\S]*?)\s*```", txt, flags=re.IGNORECASE)
-    if fence:
-        txt = fence.group(1).strip()
+def _call_llm_json(
+    prompt: str,
+    label: str,
+    status_container,
+    max_retries: int = 3,
+    max_output_tokens: int | None = None,
+) -> Any:
+    """Appelle le LLM avec sortie JSON forcée, parse et retry en cas d'échec."""
+    last_error = None
 
-    data = json.loads(txt)
-    inverted = defaultdict(list)
-
-    for action_id, leviers in data.items():
+    for attempt in range(1, max_retries + 1):
         try:
-            action_id_int = int(action_id)
-        except (ValueError, TypeError):
+            if attempt > 1:
+                status_container.write(f"🔄 Retry {attempt}/{max_retries} ({label})...")
+
+            kwargs: dict[str, Any] = {
+                "model": "gpt-5.1-2025-11-13",
+                "input": prompt,
+                "reasoning": {"effort": "low" if reasoning_mode else "medium"},
+                "text": {"format": {"type": "json_object"}},
+            }
+            if max_output_tokens:
+                kwargs["max_output_tokens"] = max_output_tokens
+
+            try:
+                response = client.responses.create(**kwargs)
+            except TypeError:
+                kwargs.pop("text", None)
+                response = client.responses.create(**kwargs)
+
+            raw_text = strip_json_fences(response.output_text or "")
+            return json.loads(raw_text)
+        except json.JSONDecodeError as e:
+            last_error = f"json_parse_error: {e}"
+        except Exception as e:
+            last_error = f"generation_error: {type(e).__name__}: {e}"
+
+    raise RuntimeError(f"Échec LLM ({label}) après {max_retries} tentatives: {last_error}")
+
+
+def validate_classification(
+    data: Any,
+    known_action_ids: set[int],
+    known_leviers: set[str],
+) -> dict[int, dict[str, list[int]]]:
+    """Valide et normalise la sortie JSON de l'étape 1."""
+    if not isinstance(data, dict):
+        raise ValueError("La classification doit être un objet JSON")
+
+    result: dict[int, dict[str, list[int]]] = {}
+    for action_key, leviers_map in data.items():
+        try:
+            action_id = int(action_key)
+        except (ValueError, TypeError) as e:
+            raise ValueError(f"Identifiant d'action invalide: {action_key}") from e
+
+        if action_id not in known_action_ids:
+            raise ValueError(f"Action inconnue: {action_id}")
+
+        if not leviers_map:
+            result[action_id] = {}
             continue
 
-        for levier in leviers or []:
-            inverted[levier].append(action_id_int)
+        if not isinstance(leviers_map, dict):
+            raise ValueError(f"Valeur invalide pour l'action {action_id}")
 
-    return dict(inverted)
+        parsed_leviers: dict[str, list[int]] = {}
+        for levier, categories in leviers_map.items():
+            if levier not in known_leviers:
+                raise ValueError(f"Levier inconnu: {levier}")
+            if not isinstance(categories, list) or len(categories) == 0:
+                raise ValueError(
+                    f"Catégories vides pour le levier « {levier} » (action {action_id})"
+                )
+            cats: list[int] = []
+            for cat in categories:
+                cat_int = int(cat)
+                if cat_int not in VALID_CATEGORIES:
+                    raise ValueError(
+                        f"Catégorie invalide {cat} pour l'action {action_id}"
+                    )
+                cats.append(cat_int)
+            parsed_leviers[levier] = sorted(set(cats))
+
+        result[action_id] = parsed_leviers
+
+    return result
+
+
+def validate_activation_scores(data: Any) -> dict[int, int]:
+    """Valide et normalise la sortie JSON de l'étape 2."""
+    if not isinstance(data, dict):
+        raise ValueError("Les scores d'activation doivent être un objet JSON")
+
+    scores: dict[int, int] = {}
+    for cat_key in ("1", "2", "3", "4", "5", "6"):
+        if cat_key not in data:
+            raise ValueError(f"Catégorie manquante: {cat_key}")
+        note = int(data[cat_key])
+        if note not in {0, 1, 2, 3}:
+            raise ValueError(f"Note invalide pour la catégorie {cat_key}: {note}")
+        scores[int(cat_key)] = note
+
+    return scores
 
 
 def build_actions_text(plan: pd.DataFrame, ids: list) -> str:
-    """
-    Construit un texte d'actions à partir de plan (colonnes: id, titre, description)
-    pour une liste d'ids (int).
-    """
+    """Construit un texte d'actions pour une liste d'ids."""
     df = plan[plan["id"].isin(ids)].copy()
     if df.empty:
         return ""
@@ -351,475 +560,469 @@ def build_actions_text(plan: pd.DataFrame, ids: list) -> str:
     ).strip()
 
 
-def strip_json_fences(text: str) -> str:
-    """Enlève les ```json ... ``` si présents."""
-    if not text:
-        return ""
-    t = text.strip()
-    if t.startswith("```"):
-        t = t.replace("```json", "").replace("```JSON", "").replace("```", "").strip()
-    return t
+def group_actions_by_lever_and_category(
+    classification: dict[int, dict[str, list[int]]],
+) -> dict[str, dict[int, list[int]]]:
+    """Regroupe les actions classées par levier puis par catégorie."""
+    grouped: dict[str, dict[int, list[int]]] = defaultdict(
+        lambda: {cat: [] for cat in range(1, 7)}
+    )
+
+    for action_id, leviers_map in classification.items():
+        for levier, categories in leviers_map.items():
+            for cat in categories:
+                grouped[levier][cat].append(action_id)
+
+    result: dict[str, dict[int, list[int]]] = {}
+    for levier, actions_by_cat in grouped.items():
+        result[levier] = {
+            cat: sorted(set(actions_by_cat[cat])) for cat in range(1, 7)
+        }
+
+    return result
 
 
-def classify_actions(plan: pd.DataFrame, status_container) -> str:
-    """Appelle l'API OpenAI pour classifier les actions par levier."""
+def format_actions_by_category(
+    plan: pd.DataFrame,
+    actions_by_cat: dict[int, list[int]],
+) -> str:
+    """Formate les actions regroupées par catégorie pour le prompt étape 2."""
+    blocks: list[str] = []
+    for cat in range(1, 7):
+        label = CATEGORIES[cat]
+        blocks.append(f"Catégorie {cat} — {label} :")
+        ids = actions_by_cat.get(cat, [])
+        if ids:
+            blocks.append(build_actions_text(plan, ids))
+        else:
+            blocks.append("(aucune action)")
+        blocks.append("")
+    return "\n".join(blocks).strip()
+
+
+def classify_actions(
+    plan: pd.DataFrame,
+    status_container,
+) -> dict[int, dict[str, list[int]]]:
+    """Appelle l'API OpenAI pour classifier les actions (étape 1)."""
     plan_texte = "{" + ", ".join(
         f"{row.id}:{row.titre} - {row.description}"
         for _, row in plan.iterrows()
     ) + "}"
-    
+
     prompt = build_prompt_classification(plan_texte)
-    
-    status_container.write("🤖 Appel à l'API OpenAI pour classification...")
+    status_container.write("🤖 Classification des actions (étape 1)...")
 
-    if reasoning_mode:
-        response = client.responses.create(
-        model="gpt-5.1-2025-11-13",
-        input=prompt,
-        reasoning={"effort": "low"},
-        max_output_tokens=120000
-    )
+    known_ids = set(plan["id"].astype(int))
+    for attempt in range(1, 4):
+        try:
+            data = _call_llm_json(
+                prompt,
+                "classification",
+                status_container,
+                max_retries=1,
+                max_output_tokens=120000,
+            )
+            return validate_classification(data, known_ids, LEVIERS_SET)
+        except (ValueError, RuntimeError) as e:
+            if attempt == 3:
+                raise
+            status_container.write(f"🔄 Validation échouée, retry {attempt + 1}/3: {e}")
 
-    else:
-        response = client.responses.create(
-            model="gpt-5.1-2025-11-13",
-            input=prompt,
-            reasoning={"effort": "medium"},
-            max_output_tokens=120000
-        )
-    
-    return response.output_text
+    raise RuntimeError("Classification impossible")
 
 
-def classify_actions_mock(plan: pd.DataFrame, status_container) -> str:
-    """Version mock pour le débogage - classifie aléatoirement les actions."""
-    status_container.write("🎲 Mode débogage - Classification aléatoire...")
-    
-    # Liste des leviers disponibles
-    leviers_list = [l.strip() for l in LEVIERS.strip().split('\n') if l.strip()]
-    
-    # Pour chaque action, assigner aléatoirement 0 à 3 leviers
-    result = {}
+def classify_actions_mock(
+    plan: pd.DataFrame,
+    status_container,
+) -> dict[int, dict[str, list[int]]]:
+    """Version mock — classification aléatoire levier × catégorie."""
+    status_container.write("🎲 Mode débogage — Classification aléatoire...")
+
+    result: dict[int, dict[str, list[int]]] = {}
     for _, row in plan.iterrows():
-        num_leviers = random.randint(0, min(3, len(leviers_list)))
-        if num_leviers > 0:
-            result[str(row.id)] = random.sample(leviers_list, num_leviers)
+        num_leviers = random.randint(0, min(3, len(LEVIERS_LIST)))
+        if num_leviers == 0:
+            result[int(row.id)] = {}
         else:
-            result[str(row.id)] = []
-    
-    return json.dumps(result)
+            mapping: dict[str, list[int]] = {}
+            for levier in random.sample(LEVIERS_LIST, num_leviers):
+                num_cats = random.randint(1, 3)
+                mapping[levier] = sorted(random.sample(list(range(1, 7)), num_cats))
+            result[int(row.id)] = mapping
+
+    return result
+
+
+def _apply_empty_category_override(
+    scores: dict[int, int],
+    actions_by_cat: dict[int, list[int]],
+) -> dict[int, int]:
+    """Force la note à 0 pour les catégories sans action rattachée."""
+    result = dict(scores)
+    for cat in range(1, 7):
+        if not actions_by_cat.get(cat, []):
+            result[cat] = 0
+    return result
 
 
 def score_all_levers(
     plan: pd.DataFrame,
-    dic_leviers: Dict[str, list],
+    lever_category_actions: dict[str, dict[int, list[int]]],
     collectivite_nom: str,
     population: int,
-    status_container
-) -> Dict[str, Any]:
-    """
-    Boucle sur tous les leviers pour évaluer l'implication.
-    """
-    results: Dict[str, Any] = {}
-    total_leviers = len(dic_leviers)
-    
-    for idx, (levier, ids) in enumerate(dic_leviers.items(), 1):
-        actions_text = build_actions_text(plan, ids)
-        prompt = build_prompt_implication(actions_text, levier, collectivite_nom, population)
-        
-        status_container.write(f"📊 Évaluation du levier ({idx}/{total_leviers}): {levier}")
-        
-        try:
-            if reasoning_mode:
-                resp = client.responses.create(
-                model="gpt-5.1-2025-11-13",
-                input=prompt,
-                reasoning={"effort": "low"}
-                )
-            else:
-                resp = client.responses.create(
-                    model="gpt-5.1-2025-11-13",
-                    input=prompt,
-                    reasoning={"effort": "medium"}
-                )
-            raw_text = resp.output_text
-        except Exception as e:
-            results[levier] = {
-                "ids": ids,
-                "raw_text": "",
-                "parsed": None,
-                "error": f"generation_error: {type(e).__name__}: {e}",
-            }
-            continue
+    status_container,
+) -> dict[str, dict[int, int]]:
+    """Évalue l'activation catégorie par catégorie pour chaque levier actif (étape 2)."""
+    lever_scores: dict[str, dict[int, int]] = {}
+    total_leviers = len(lever_category_actions)
 
-        raw_text_clean = strip_json_fences(raw_text)
+    for idx, (levier, actions_by_cat) in enumerate(lever_category_actions.items(), 1):
+        status_container.write(
+            f"📊 Notation ({idx}/{total_leviers}): {levier}"
+        )
 
-        parsed = None
-        parse_error = None
-        try:
-            parsed = json.loads(raw_text_clean)
-        except Exception as e:
-            parse_error = f"json_parse_error: {type(e).__name__}: {e}"
+        actions_par_categorie = format_actions_by_category(plan, actions_by_cat)
+        prompt = build_prompt_implication(
+            actions_par_categorie,
+            levier,
+            collectivite_nom,
+            population,
+        )
 
-        results[levier] = {
-            "ids": ids,
-            "raw_text": raw_text,
-            "parsed": parsed,
-            "error": parse_error,
-        }
-        
-        # Petite pause pour ne pas surcharger l'API
+        for attempt in range(1, 4):
+            try:
+                data = _call_llm_json(prompt, f"activation_{levier}", status_container, max_retries=1)
+                scores = validate_activation_scores(data)
+                lever_scores[levier] = _apply_empty_category_override(scores, actions_by_cat)
+                break
+            except (ValueError, RuntimeError) as e:
+                if attempt == 3:
+                    raise RuntimeError(f"Notation impossible pour « {levier} »: {e}") from e
+                status_container.write(f"🔄 Validation échouée, retry {attempt + 1}/3: {e}")
+
         time.sleep(0.2)
 
-    return results
+    return lever_scores
 
 
 def score_all_levers_mock(
     plan: pd.DataFrame,
-    dic_leviers: Dict[str, list],
+    lever_category_actions: dict[str, dict[int, list[int]]],
     collectivite_nom: str,
     population: int,
-    status_container
-) -> Dict[str, Any]:
-    """
-    Version mock pour le débogage - génère des scores aléatoires.
-    """
-    results: Dict[str, Any] = {}
-    total_leviers = len(dic_leviers)
-    scores_possibles = [0, 25, 50, 75, 100]
-    
-    justifications = {
-        0: "Aucune action concrète identifiée pour ce levier. (Mode débogage)",
-        25: "Actions ponctuelles et limitées identifiées. (Mode débogage)",
-        50: "Actions partielles mais significatives mises en œuvre. (Mode débogage)",
-        75: "Effort important et structuré observé. (Mode débogage)",
-        100: "Mobilisation maximale du potentiel du levier. (Mode débogage)"
-    }
-    
-    for idx, (levier, ids) in enumerate(dic_leviers.items(), 1):
-        status_container.write(f"🎲 Évaluation aléatoire du levier ({idx}/{total_leviers}): {levier}")
-        
-        score = random.choice(scores_possibles)
-        
-        results[levier] = {
-            "ids": ids,
-            "raw_text": f'{{"score": {score}, "justification": "{justifications[score]}"}}',
-            "parsed": {
-                "score": score,
-                "justification": justifications[score]
-            },
-            "error": None,
-        }
-        
-        # Petite pause pour simuler le traitement
+    status_container,
+) -> dict[str, dict[int, int]]:
+    """Version mock — notes aléatoires 0-3 par catégorie."""
+    lever_scores: dict[str, dict[int, int]] = {}
+    total_leviers = len(lever_category_actions)
+
+    for idx, (levier, actions_by_cat) in enumerate(lever_category_actions.items(), 1):
+        status_container.write(
+            f"🎲 Notation aléatoire ({idx}/{total_leviers}): {levier}"
+        )
+        scores = {cat: random.randint(0, 3) for cat in range(1, 7)}
+        lever_scores[levier] = _apply_empty_category_override(scores, actions_by_cat)
         time.sleep(0.05)
 
-    return results
+    return lever_scores
 
 
-def calculate_reductions(
-    df_ratios: pd.DataFrame,
-    region: str,
-    dic_leviers: Dict[str, Any],
-    results_scores: Dict[str, Any],
-    df_indicateurs: pd.DataFrame
+def build_priorisation_dataframe(
+    collectivite_id: int,
+    df_leviers_ref: pd.DataFrame,
+    lever_scores: dict[str, dict[int, int]],
+    lever_category_actions: dict[str, dict[int, list[int]]],
 ) -> pd.DataFrame:
-    """Calcule les réductions de CO2 par levier."""
-    
-    # Ajouter le mapping identifiant_referentiel
-    df_ct = df_ratios[['Secteur', 'Leviers SGPE']].copy()
-    df_ct['identifiant_referentiel'] = df_ct['Secteur'].map(D_MAP_SECTEUR)
-    df_ct[region] = df_ratios[region]
-    st.write("📊 Étape 1: Dataframe initial avec mapping secteur")
-    st.dataframe(df_ct.head(10), use_container_width=True)
-    
-    # Calculer les réductions objectives par secteur
-    st.write("🔍 DEBUG: Analyse des dates dans df_indicateurs")
-    st.write(f"Type de date_valeur: {df_indicateurs['date_valeur'].dtype}")
-    st.write(f"Valeurs uniques de date_valeur: {df_indicateurs['date_valeur'].unique()}")
-    st.dataframe(df_indicateurs[['identifiant_referentiel', 'date_valeur', 'objectif']].head(10))
-    
-    dic_reduction = {}
-    for ids in df_indicateurs.identifiant_referentiel.unique():
-        df_filtered = df_indicateurs[df_indicateurs.identifiant_referentiel == ids]
-        
-        if len(df_filtered) >= 2:
-            # Convertir date_valeur en string si nécessaire pour la comparaison
-            df_filtered['date_str'] = df_filtered['date_valeur'].astype(str)
-            
-            # Filtrer pour 2030
-            df_2030 = df_filtered[df_filtered['date_str'].str.startswith('2030')]
-            val_2030 = df_2030['objectif'].iloc[0] if len(df_2030) > 0 else 0
-            
-            # Filtrer pour 2019
-            df_2019 = df_filtered[df_filtered['date_str'].str.startswith('2019')]
-            val_2019 = df_2019['objectif'].iloc[0] if len(df_2019) > 0 else 0
-            
-            dic_reduction[ids] = float(val_2030 - val_2019)
-    
-    st.write("📊 Étape 2: Dictionnaire des réductions par secteur")
-    st.write(dic_reduction)
-    
-    df_ct['reduction'] = df_ct['identifiant_referentiel'].map(dic_reduction)
-    df_ct['reduction_leveir'] = (df_ct['reduction'] * df_ct[region] / 100).round(1)
-    st.write("📊 Étape 3: Après calcul des réductions par levier")
-    st.dataframe(df_ct.head(10), use_container_width=True)
-    
-    # Extraire les scores d'implication
-    ct_levier = {}
-    dic_justification = {}
-    dic_ids_fa = {}
-    
-    for levier, data in results_scores.items():
-        if data.get('parsed'):
-            ct_levier[levier] = data['parsed'].get('score', 0)
-            dic_justification[levier] = data['parsed'].get('justification', '')
-        else:
-            ct_levier[levier] = 0
-            dic_justification[levier] = ''
-        dic_ids_fa[levier] = data.get('ids', [])
-    
-    df_ct['implication'] = df_ct['Leviers SGPE'].map(ct_levier).fillna(0)
-    df_ct['reduction_theorique'] = (df_ct['reduction_leveir'] * df_ct['implication'] / 100).round(1)
-    df_ct['justification'] = df_ct['Leviers SGPE'].map(dic_justification)
-    df_ct['ids'] = df_ct['Leviers SGPE'].map(dic_ids_fa)
-    st.write("📊 Étape 4: Dataframe final avec implication et réduction théorique")
-    st.dataframe(df_ct, use_container_width=True)
-    
-    return df_ct
+    """Construit le dataframe final : une ligne par case levier × catégorie."""
+    rows: list[dict[str, Any]] = []
+    created_at = datetime.now()
+    zero_scores = {cat: 0 for cat in range(1, 7)}
+    empty_actions = {cat: [] for cat in range(1, 7)}
+
+    for _, row in df_leviers_ref.iterrows():
+        levier = row["Leviers SGPE"]
+        scores = lever_scores.get(levier, zero_scores)
+        actions = lever_category_actions.get(levier, empty_actions)
+
+        for cat in range(1, 7):
+            rows.append({
+                "collectivite_id": collectivite_id,
+                "secteur": row["Secteur"],
+                "identifiant_referentiel": row["identifiant_referentiel"],
+                "levier": levier,
+                "categorie": cat,
+                "note": scores.get(cat, 0),
+                "ids": actions.get(cat, []),
+                "created_at": created_at,
+            })
+
+    return pd.DataFrame(rows)
 
 
 def save_to_database(df: pd.DataFrame, collectivite_id: int):
-    """Sauvegarde les résultats dans la table modelisation_impact sur OLAP."""
+    """Sauvegarde les résultats dans la table priorisation sur OLAP (replace)."""
     df_to_save = df.copy()
-    st.info(f"Collectivite : {collectivite_id}")
-    df_to_save['collectivite_id'] = collectivite_id
-    df_to_save['created_at'] = datetime.now()
-    
-    # Convertir les listes en JSON string pour le stockage
-    if 'ids' in df_to_save.columns:
-        df_to_save['ids'] = df_to_save['ids'].apply(lambda x: json.dumps(x) if isinstance(x, list) else x)
-    
-    # ⚠️ IMPORTANT: On écrit sur OLAP, jamais en prod !
+
+    if "ids" in df_to_save.columns:
+        df_to_save["ids"] = df_to_save["ids"].apply(
+            lambda x: json.dumps(x) if isinstance(x, list) else x
+        )
 
     if debug_mode:
-        st.info('Debug mode activé, on ne sauvegarde pas en base.')
+        st.info("Debug mode activé, on ne sauvegarde pas en base.")
         st.dataframe(df_to_save, use_container_width=True)
-    else:
-        engine = get_engine()
-        df_to_save.to_sql('modelisation_impact', con=engine, if_exists='append', index=False)
+        return
+
+    engine = get_engine()
+    with engine.begin() as conn:
+        conn.execute(
+            text("DELETE FROM priorisation WHERE collectivite_id = :id"),
+            {"id": collectivite_id},
+        )
+        df_to_save.to_sql("priorisation", con=conn, if_exists="append", index=False)
 
 
 # ==========================
 # Interface Streamlit
 # ==========================
 
-st.title("🎯 Calcul de modélisation d'impact")
-st.markdown("Exécutez la modélisation d'impact CO2 pour une collectivité à partir de son plan d'actions.")
+st.title("🎯 Priorisation des actions")
+st.markdown(
+    "Analyse qualitative du plan d'actions d'une collectivité : "
+    "classification par levier × catégorie et notation d'activation (0–3)."
+)
 
 st.markdown("---")
 
-# Chargement des données
 df_collectivites = load_collectivites()
 df_ratios = load_ratios_csv()
+df_leviers_ref = load_leviers_ref()
 
-# Vérification du fichier CSV
-if df_ratios is None:
-    st.error("❌ Le fichier `data/leviers_sgpe_region.csv` est introuvable. Veuillez l'ajouter au projet.")
+if df_ratios is None or df_leviers_ref is None:
+    st.error(
+        "❌ Le fichier `data/leviers_sgpe_region.csv` est introuvable. "
+        "Veuillez l'ajouter au projet."
+    )
     st.stop()
 
-regions = get_regions_from_csv(df_ratios)
+region_options = sorted(get_region_columns(df_ratios))
 
-if not regions:
-    st.error("❌ Aucune région trouvée dans le fichier CSV.")
-    st.stop()
+selected_region = st.selectbox(
+    "🗺️ Région (ratios SGPE du CSV)",
+    options=region_options,
+    index=None,
+    placeholder="Sélectionner la région pour les ratios...",
+    help="Doit correspondre exactement à une colonne de data/leviers_sgpe_region.csv",
+)
 
-# Sélecteurs
-col1, col2 = st.columns(2)
+selected_nom = st.selectbox(
+    "🏛️ Sélectionner une collectivité",
+    options=df_collectivites["nom"].tolist(),
+    index=None,
+    placeholder="Rechercher une collectivité...",
+)
 
-with col1:
-    # Créer une liste pour le selectbox avec nom et id
-    collectivite_options = df_collectivites['nom'].tolist()
-    selected_nom = st.selectbox(
-        "🏛️ Sélectionner une collectivité",
-        options=collectivite_options,
-        index=None,
-        placeholder="Rechercher une collectivité..."
-    )
-
-with col2:
-    selected_region = st.selectbox(
-        "🗺️ Sélectionner une région",
-        options=regions,
-        index=0
-    )
-
-# Afficher les infos de la collectivité sélectionnée
 if selected_nom:
-    collectivite_info = df_collectivites[df_collectivites['nom'] == selected_nom].iloc[0]
-    selected_id = collectivite_info['id']
-    population = collectivite_info['population'] if pd.notna(collectivite_info['population']) else 0
-    
-    st.info(f"**Collectivité sélectionnée:** {selected_nom} (ID: {selected_id}) — Population: {population:,}")
+    collectivite_info = df_collectivites[df_collectivites["nom"] == selected_nom].iloc[0]
+    selected_id = collectivite_info["id"]
+    population = (
+        collectivite_info["population"]
+        if pd.notna(collectivite_info["population"])
+        else 0
+    )
+    st.info(
+        f"**Collectivité sélectionnée:** {selected_nom} (ID: {selected_id}) "
+        f"— Population: {population:,}"
+    )
 
 st.markdown("---")
 
-# Mode débogage
 debug_mode = st.toggle(
     "🐛 Mode débogage (classification et notation aléatoires, sans appels API)",
-    value=False
+    value=False,
 )
 
 full_access_mode = st.toggle(
     "🔓 Accès à toutes les fiches actions (y compris restreintes)",
-    value=False
+    value=False,
 )
 
 reasoning_mode = st.toggle(
     "😴 Low reasoning (Medium par défaut)",
-    value=False
+    value=False,
 )
 
 if debug_mode:
-    st.warning("⚠️ Mode débogage activé - Les résultats seront générés aléatoirement")
+    st.warning("⚠️ Mode débogage activé — les résultats seront générés aléatoirement")
 
-# Bouton d'exécution
-if st.button("🚀 Lancer l'exécution", type="primary", disabled=not selected_nom):
-    
+can_run = bool(selected_nom and selected_region)
+
+if st.button("🚀 Lancer l'exécution", type="primary", disabled=not can_run):
+
     with st.status("⏳ Exécution en cours...", expanded=True) as status:
-        
-        # Étape 1: Récupération du plan d'actions
+
         st.write("📋 Récupération du plan d'actions...")
         plan = fetch_plan_actions(selected_id)
-        
+
         if plan.empty:
             status.update(label="❌ Erreur", state="error")
             st.error(f"Aucune action trouvée pour la collectivité {selected_nom}")
             st.stop()
-        
+
         st.write(f"✅ {len(plan)} actions récupérées")
         st.dataframe(plan, use_container_width=True)
-        
-        # Étape 2: Récupération des indicateurs SNBC
-        st.write("📊 Récupération des indicateurs SNBC...")
-        df_indicateurs = fetch_indicateurs_snbc(selected_id)
-        st.write(f"✅ {len(df_indicateurs)} indicateurs récupérés")
-        st.dataframe(df_indicateurs, use_container_width=True)
-        
-        # Étape 3: Classification des actions par levier
-        st.write("🔍 Classification des actions par levier CO2...")
+
+        st.write("📉 Calcul des réductions par levier (SNBC × ratios région)...")
+        try:
+            st.write(f"✅ Région utilisée : **{selected_region}**")
+            df_reductions = run_reductions_by_lever(
+                collectivite_id=selected_id,
+                region=selected_region,
+                df_ratios=df_ratios,
+            )
+            st.write(f"✅ {len(df_reductions)} leviers avec réduction calculée")
+            if not df_reductions.empty:
+                st.dataframe(df_reductions, use_container_width=True)
+            if not debug_mode:
+                st.write(
+                    "✅ Réductions sauvegardées dans "
+                    "`priorisation_reduction_levier` (OLAP)"
+                )
+        except Exception as e:
+            status.update(label="❌ Erreur", state="error")
+            st.error(f"Erreur lors du calcul des réductions par levier : {e}")
+            st.stop()
+
+        st.write("🔍 Classification des actions par levier × catégorie (étape 1)...")
         try:
             if debug_mode:
-                classification_response = classify_actions_mock(plan, st)
+                classification = classify_actions_mock(plan, st)
             else:
-                classification_response = classify_actions(plan, st)
-            dic_leviers = invert_actions_by_lever(classification_response)
-            st.write(f"✅ {len(dic_leviers)} leviers identifiés avec des actions")
-            # Afficher le dictionnaire des leviers
-            df_leviers_debug = pd.DataFrame([
-                {"Levier": levier, "Nombre d'actions": len(ids), "IDs actions": str(ids)}
-                for levier, ids in dic_leviers.items()
+                classification = classify_actions(plan, st)
+
+            lever_category_actions = group_actions_by_lever_and_category(classification)
+            st.write(f"✅ {len(lever_category_actions)} leviers identifiés avec des actions")
+
+            df_classif_debug = pd.DataFrame([
+                {
+                    "Levier": levier,
+                    "Catégorie": cat,
+                    "Nb actions": len(ids),
+                    "IDs": str(ids),
+                }
+                for levier, cats in lever_category_actions.items()
+                for cat, ids in cats.items()
+                if ids
             ])
-            st.dataframe(df_leviers_debug, use_container_width=True)
+            if not df_classif_debug.empty:
+                st.dataframe(df_classif_debug, use_container_width=True)
+            else:
+                st.warning("Aucune action classée sur un levier.")
         except Exception as e:
             status.update(label="❌ Erreur", state="error")
             st.error(f"Erreur lors de la classification: {e}")
             st.stop()
-        
-        # Étape 4: Évaluation de l'implication par levier
-        st.write("📈 Évaluation de l'implication par levier...")
+
+        st.write("📈 Notation de l'activation par levier (étape 2)...")
         try:
             if debug_mode:
-                results_scores = score_all_levers_mock(
+                lever_scores = score_all_levers_mock(
                     plan=plan,
-                    dic_leviers=dic_leviers,
+                    lever_category_actions=lever_category_actions,
                     collectivite_nom=selected_nom,
                     population=int(population),
-                    status_container=st
+                    status_container=st,
                 )
             else:
-                results_scores = score_all_levers(
+                lever_scores = score_all_levers(
                     plan=plan,
-                    dic_leviers=dic_leviers,
+                    lever_category_actions=lever_category_actions,
                     collectivite_nom=selected_nom,
                     population=int(population),
-                    status_container=st
+                    status_container=st,
                 )
-            st.write(f"✅ {len(results_scores)} leviers évalués")
-            # Afficher les scores
+            st.write(f"✅ {len(lever_scores)} leviers notés")
+
             df_scores_debug = pd.DataFrame([
                 {
                     "Levier": levier,
-                    "Score": data.get('parsed', {}).get('score', 0) if data.get('parsed') else 0,
-                    "Justification": data.get('parsed', {}).get('justification', '') if data.get('parsed') else '',
-                    "Erreur": data.get('error', '')
+                    **{CATEGORIES[cat]: scores.get(cat, 0) for cat in range(1, 7)},
                 }
-                for levier, data in results_scores.items()
+                for levier, scores in lever_scores.items()
             ])
             st.dataframe(df_scores_debug, use_container_width=True)
         except Exception as e:
             status.update(label="❌ Erreur", state="error")
-            st.error(f"Erreur lors de l'évaluation: {e}")
+            st.error(f"Erreur lors de la notation: {e}")
             st.stop()
-        
-        # Étape 5: Calcul des réductions
-        st.write("🧮 Calcul des réductions de CO2...")
+
+        st.write("📦 Construction du résultat priorisation...")
         try:
-            df_results = calculate_reductions(
-                df_ratios=df_ratios,
-                region=selected_region,
-                dic_leviers=dic_leviers,
-                results_scores=results_scores,
-                df_indicateurs=df_indicateurs
+            df_results = build_priorisation_dataframe(
+                collectivite_id=selected_id,
+                df_leviers_ref=df_leviers_ref,
+                lever_scores=lever_scores,
+                lever_category_actions=lever_category_actions,
             )
-            st.write(f"✅ Calculs terminés pour {len(df_results)} leviers")
-            st.write("📊 Résultats finaux du calcul")
-            st.dataframe(df_results, use_container_width=True)
+            st.write(f"✅ {len(df_results)} cases levier × catégorie générées")
         except Exception as e:
             status.update(label="❌ Erreur", state="error")
-            st.error(f"Erreur lors du calcul: {e}")
+            st.error(f"Erreur lors de la construction du résultat: {e}")
             st.stop()
-        
-        # Étape 6: Sauvegarde en base OLAP
+
         st.write("💾 Sauvegarde dans la base de données OLAP...")
         try:
-            save_to_database(df_results.drop(columns=[selected_region]), selected_id)
-            st.write("✅ Données sauvegardées dans `modelisation_impact` (OLAP)")
+            save_to_database(df_results, selected_id)
+            if not debug_mode:
+                st.write("✅ Données sauvegardées dans `priorisation` (OLAP)")
         except Exception as e:
             status.update(label="❌ Erreur", state="error")
             st.error(f"Erreur lors de la sauvegarde: {e}")
             st.stop()
-        
+
         status.update(label="✅ Exécution terminée avec succès!", state="complete")
-    
-    # Afficher un résumé des résultats
-    st.success(f"🎉 Modélisation terminée pour **{selected_nom}**!")
-    
-    # Afficher un aperçu des résultats
+
+    st.success(f"🎉 Priorisation terminée pour **{selected_nom}**!")
+
     st.subheader("📊 Aperçu des résultats")
-    
+
+    cases_activees = (df_results["note"] > 0).sum()
+    leviers_couverts = df_results.loc[df_results["note"] > 0, "levier"].nunique()
+    note_counts = df_results["note"].value_counts().sort_index().to_dict()
+
     col1, col2, col3 = st.columns(3)
     with col1:
-        reduction_totale = df_results['reduction_theorique'].sum()
-        st.metric("Réduction modélisée", f"{abs(reduction_totale):.0f} kt CO₂eq")
+        st.metric("Cases activées (note > 0)", cases_activees)
     with col2:
-        potentiel_total = df_results['reduction_leveir'].sum()
-        st.metric("Potentiel total", f"{abs(potentiel_total):.0f} kt CO₂eq")
+        st.metric("Leviers couverts", leviers_couverts)
     with col3:
-        pct = (abs(reduction_totale) / abs(potentiel_total) * 100) if potentiel_total != 0 else 0
-        st.metric("% du potentiel activé", f"{pct:.0f}%")
-    
-    # Tableau des résultats
+        st.metric("Cases totales", len(df_results))
+
+    st.caption(f"Répartition des notes : {note_counts}")
+
+    df_display = df_results.copy()
+    df_display["categorie_libelle"] = df_display["categorie"].map(CATEGORIES)
+    df_display["nb_actions"] = df_display["ids"].apply(
+        lambda x: len(x) if isinstance(x, list) else 0
+    )
+
     st.dataframe(
-        df_results[['Secteur', 'Leviers SGPE', 'implication', 'reduction_theorique', 'justification']].rename(columns={
-            'Leviers SGPE': 'Levier',
-            'implication': 'Implication (%)',
-            'reduction_theorique': 'Réduction (kt)',
-            'justification': 'Justification'
+        df_display[
+            ["secteur", "levier", "categorie_libelle", "note", "nb_actions"]
+        ].rename(columns={
+            "secteur": "Secteur",
+            "levier": "Levier",
+            "categorie_libelle": "Catégorie",
+            "note": "Note",
+            "nb_actions": "Nb actions",
         }),
         use_container_width=True,
-        hide_index=True
+        hide_index=True,
     )
 
 else:
-    st.info("👆 Sélectionnez une collectivité et une région, puis cliquez sur **Lancer l'exécution**.")
+    st.info(
+        "👆 Sélectionnez une **région** et une **collectivité**, "
+        "puis cliquez sur **Lancer l'exécution**."
+    )
