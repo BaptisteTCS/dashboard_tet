@@ -27,8 +27,12 @@ pages = {
         st.Page("pages/11_🚢🚨_Livraison_Prod.py", title="Livraison Prod", icon="🚨"),
     ],
     "Priorisation": [
-        st.Page("pages/26_run_impact.py", title="Analyse des actions par CT", icon="🔧"),
-       st.Page("pages/30_priorisation.py", title="Priorisation", icon="🏅"),
+        st.Page("pages/26_run_impact.py", title="Analyse des actions par CT", icon="🌀"),
+        st.Page("pages/31_priorisation_perimetre.py", title="1 - Périmètre d'action", icon="🔧"),
+        st.Page("pages/30_priorisation.py", title="2 - Diagnostic", icon="🧭"),
+        st.Page("pages/32_priorisation_faisabilite.py", title="3 - Faisabilité politique", icon="⚖️"),
+        st.Page("pages/33_priorisation_action.py", title="4 - Choix des actions", icon="🏅"),
+        st.Page("pages/34_priorisation_synthese.py", title="5 - Synthèse", icon="🏆"),
     ],
 }
 

@@ -24,6 +24,8 @@ openpyxl>=3.1.0
 
 # PDF
 pypdf>=5.0.0
+reportlab>=4.0
+Pillow>=10.0
 
 # HTML parsing
 beautifulsoup4>=4.12

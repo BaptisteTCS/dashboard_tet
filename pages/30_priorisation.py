@@ -36,12 +36,50 @@ NOTE_LABELS = {
     3: "Pleinement mobilisé",
 }
 
-NOTE_COLORS = {
-    0: "#E8622A",
-    1: "#F5C842",
-    2: "#A8D44A",
-    3: "#3A9E5F",
+COLOR_grey = {
+    0: "#ADADAD",
+    1: "#E8E8E8",
+    2: "#B5D96A",
+    3: "#4CAF7D",
 }
+
+COLOR_yellow = {
+    0: "#FBE8CE",
+    1: "#E4DFB5",
+    2: "#C3CC9B",
+    3: "#9AB17A",
+}
+
+COLOR_mobilisation = {
+    0: "#E8E8E8",
+    1: "#F5E170",
+    2: "#B5D96A",
+    3: "#4CAF7D",
+}
+
+COLOR_green = {
+    0: "#f2e8cf",
+    1: "#a7c957",
+    2: "#6a994e",
+    3: "#386641",
+}
+
+COLOR_green_2 = {
+    0: "#E8E8E8",
+    1: "#D0F0C0",
+    2: "#74C365",
+    3: "#018749",
+}
+
+COLOR_green_3 = {
+    0: "#E2E5E9",
+    1: "#f5ebe0",
+    2: "#5DCF69",
+    3: "#389D49",
+}
+
+NOTE_COLORS = COLOR_green_3
+
 
 # Couleurs st.badge (proches de NOTE_COLORS ; 2 et 3 en vert)
 NOTE_BADGE_COLORS = {
@@ -227,6 +265,29 @@ def load_fiches_action(collectivite_ids: tuple[int, ...]) -> pd.DataFrame:
 
 
 @st.cache_data(ttl="1h")
+def load_hors_competence(collectivite_id: int) -> pd.DataFrame:
+    """Couples levier × catégorie hors compétence pour une collectivité."""
+    engine = get_engine()
+    with engine.connect() as conn:
+        return pd.read_sql_query(
+            text("""
+                SELECT levier, categorie
+                FROM priorisation_hors_competence
+                WHERE collectivite_id = :collectivite_id
+            """),
+            conn,
+            params={"collectivite_id": collectivite_id},
+        )
+
+
+def hors_competence_pairs(df: pd.DataFrame) -> set[tuple[str, int]]:
+    return {
+        (row["levier"], int(row["categorie"]))
+        for _, row in df.iterrows()
+    }
+
+
+@st.cache_data(ttl="1h")
 def load_reductions(collectivite_id: int) -> pd.DataFrame:
     """Réductions les plus récentes par levier."""
     engine = get_engine()
@@ -260,10 +321,12 @@ def build_treemap_data(
     reductions: dict[str, float],
     notes: dict[tuple[str, int], int],
     weights: dict[str, dict[int, float]],
+    exclusions: set[tuple[str, int]] | None = None,
 ) -> tuple[list[dict], list[str]]:
     """Construit la structure ECharts et retourne les leviers exclus (sans réduction)."""
     excluded_leviers: list[str] = []
     children: list[dict] = []
+    exclusions = exclusions or set()
 
     for levier in sorted(leviers):
         if levier not in reductions:
@@ -275,6 +338,8 @@ def build_treemap_data(
         cat_nodes: list[dict] = []
 
         for cat in range(1, 7):
+            if (levier, cat) in exclusions:
+                continue
             poids = levier_weights.get(cat)
             if poids is None or pd.isna(poids) or poids == 0:
                 continue
@@ -309,15 +374,19 @@ def build_priorisation_cases(
     reductions: dict[str, float],
     notes: dict[tuple[str, int], int],
     weights: dict[str, dict[int, float]],
+    exclusions: set[tuple[str, int]] | None = None,
 ) -> list[dict]:
     """Cases levier × catégorie avec note et potentiel de réduction (ktCO₂e)."""
     cases: list[dict] = []
+    exclusions = exclusions or set()
     for levier in sorted(leviers):
         if levier not in reductions:
             continue
         reduction_abs = abs(reductions[levier])
         levier_weights = weights.get(levier, {})
         for cat in range(1, 7):
+            if (levier, cat) in exclusions:
+                continue
             poids = levier_weights.get(cat)
             if poids is None or pd.isna(poids) or poids == 0:
                 continue
@@ -355,7 +424,7 @@ def build_mobilisation_bar_options(
         "backgroundColor": "transparent",
         "animationDuration": 600,
         "animationEasing": "cubicOut",
-        "grid": {"left": 8, "right": 72, "top": 16, "bottom": 28, "containLabel": True},
+        "grid": {"left": 24, "right": 72, "top": 16, "bottom": 28, "containLabel": True},
         "tooltip": {
             "trigger": "axis",
             "axisPointer": {"type": "shadow", "shadowStyle": {"opacity": 0.08}},
@@ -390,8 +459,9 @@ def build_mobilisation_bar_options(
             "axisLabel": {
                 "fontSize": 12,
                 "color": "#333",
-                "width": 280,
-                "overflow": "truncate",
+                "width": 400,
+                "overflow": "break",
+                "lineHeight": 16,
             },
         },
         "series": [
@@ -434,7 +504,7 @@ def build_mobilisation_bar_options(
     }
 
 
-MOBILISATION_BAR_ROW_PX = 34
+MOBILISATION_BAR_ROW_PX = 40
 MOBILISATION_BAR_MIN_HEIGHT = 280
 
 VUE_ENSEMBLE_THRESHOLDS = [50, 60, 70, 80, 90, 100]
@@ -659,8 +729,8 @@ def build_echarts_options(treemap_children: list[dict], *, show_labels: bool = T
                     {
                         "itemStyle": {
                             "borderColor": "#444",
-                            "borderWidth": 2,
-                            "gapWidth": 2,
+                            "borderWidth": 1,
+                            "gapWidth": 1,
                         },
                         "upperLabel": {"show": False},
                         "label": {"show": False},
@@ -688,18 +758,37 @@ def build_echarts_options(treemap_children: list[dict], *, show_labels: bool = T
     }
 
 
+def render_note_color_legend() -> None:
+    """Légende des couleurs par état de mobilisation (treemap, Impact Chart)."""
+    items = "".join(
+        f'<span style="display:inline-flex;align-items:center;margin-right:1.5rem;">'
+        f'<span style="display:inline-block;width:14px;height:14px;border-radius:3px;'
+        f"background:{NOTE_COLORS[note]};border:1px solid rgba(0,0,0,0.12);"
+        f'margin-right:0.45rem;flex-shrink:0;"></span>'
+        f'<span style="font-size:0.875rem;color:#333;">{NOTE_LABELS[note]}</span>'
+        f"</span>"
+        for note in range(4)
+    )
+    st.markdown(
+        f'<div style="display:flex;flex-wrap:wrap;align-items:center;'
+        f'margin-bottom:0.75rem;">{items}</div>',
+        unsafe_allow_html=True,
+    )
+
+
 # ==========================
 # Interface
 # ==========================
 
-st.title("🏅 Priorisation - Mobilisation des leviers")
+st.title("🧭 Diagnostic")
+
 st.markdown(
-    "Visualisation de l'état de mobilisation des leviers. "
-    "**Une grande case rouge = fort enjeu peu mobilisé = priorité d'action.**"
+    "Après le **périmètre d'action**, cette étape permet de **visualiser l'état "
+    "de mobilisation** des leviers de votre collectivité. Toutes les actions "
+    "retenues ont été **classées par cible** (levier × type d'action). "
+    "La vue d'ensemble met en évidence les **priorités d'action** : une grande "
+    "case indique un **fort enjeu peu mobilisé**."
 )
-
-show_labels = st.toggle("Libellés", value=True)
-
 
 df_collectivites = load_collectivites_priorisees()
 
@@ -723,27 +812,59 @@ df_priorisation = load_priorisation(selected_id)
 df_priorisation_all = load_priorisation_all(tuple(collectivite_ids))
 df_reductions = load_reductions(selected_id)
 df_poids = load_poids_categories()
+hors_competence = hors_competence_pairs(load_hors_competence(selected_id))
 
 leviers = sorted(df_priorisation["levier"].unique().tolist())
 reductions = df_reductions.set_index("levier")["reduction"].to_dict()
 notes = {
     (row["levier"], int(row["categorie"])): int(row["note"])
     for _, row in df_priorisation.iterrows()
+    if (row["levier"], int(row["categorie"])) not in hors_competence
 }
 ids_by_case = {
     (row["levier"], int(row["categorie"])): parse_ids(row["ids"])
     for _, row in df_priorisation.iterrows()
+    if (row["levier"], int(row["categorie"])) not in hors_competence
 }
 weights = build_category_weights(df_poids)
-priorisation_cases = build_priorisation_cases(leviers, reductions, notes, weights)
 
-treemap_children, excluded_leviers = build_treemap_data(
-    leviers, reductions, notes, weights
+with st.expander(
+    "Réduire le nombre de cibles en selectionnant uniquement les plus importantes"
+):
+    threshold_pct = st.select_slider(
+        "Part de réduction d'émissions de GES couvertes par les leviers.",
+        options=VUE_ENSEMBLE_THRESHOLDS,
+        value=100,
+        key=f"vue_ensemble_threshold_{selected_id}",
+        help=(
+            "Conserve le minimum de leviers les plus contributeurs "
+            "dont la réduction cumulée atteint ce seuil. Ex: 80% = les 80% des leviers les plus contributeurs couvrent au moins 80% de la réduction d'émissions de GES."
+        ),
+    )
+    selected_leviers = select_leviers_pareto(leviers, reductions, threshold_pct)
+    n_leviers_total = len({levier for levier in leviers if levier in reductions})
+    st.caption(
+        f"**{len(selected_leviers)}** leviers retenus sur {n_leviers_total} "
+        f"(seuil Pareto {threshold_pct} %)."
+    )
+
+leviers_pareto = [levier for levier in leviers if levier in selected_leviers]
+
+priorisation_cases = build_priorisation_cases(
+    leviers_pareto, reductions, notes, weights, hors_competence
 )
+
+treemap_children, _ = build_treemap_data(
+    leviers_pareto, reductions, notes, weights, hors_competence
+)
+excluded_leviers = [levier for levier in leviers if levier not in reductions]
 
 tabs = st.tabs(["Impact Map", "Impact Chart", "Détail mobilisation"])
 
 with tabs[0]:
+
+    show_labels = st.toggle("Libellés", value=True)
+
     for levier in excluded_leviers:
         st.warning(
             f"Le levier **{levier}** est présent dans la priorisation "
@@ -757,16 +878,21 @@ with tabs[0]:
             st.session_state.pop("treemap_selection", None)
         st.session_state["treemap_collectivite_id"] = selected_id
 
+        treemap_selection = st.session_state.get("treemap_selection")
+        if treemap_selection and treemap_selection.get("levier") not in selected_leviers:
+            st.session_state.pop("treemap_selection", None)
+
         detail_slot = st.empty()
 
         # TODO: zoom par levier
 
+        render_note_color_legend()
         options = build_echarts_options(treemap_children, show_labels=show_labels)
         click = st_echarts(
             options=options,
             events=TREEMAP_CLICK_EVENTS,
             height=f"{TREEMAP_HEIGHT}px",
-            key=f"treemap_{selected_id}_labels_{int(show_labels)}",
+            key=f"treemap_{selected_id}_{threshold_pct}_labels_{int(show_labels)}",
         )
 
         click_event = extract_chart_event(click)
@@ -948,41 +1074,15 @@ with tabs[2]:
         st_echarts(
             options=bar_options,
             height=f"{chart_height}px",
-            key=f"mobilisation_bar_{selected_id}_{selected_note}",
+            key=f"mobilisation_bar_{selected_id}_{selected_note}_{threshold_pct}",
         )
 
 with tabs[1]:
-    threshold_pct = st.select_slider(
-        "Part de réduction couverte (leviers)",
-        options=VUE_ENSEMBLE_THRESHOLDS,
-        value=80,
-        key=f"vue_ensemble_threshold_{selected_id}",
-        help=(
-            "Conserve le minimum de leviers les plus contributeurs "
-            "dont la réduction cumulée atteint ce seuil."
-        ),
-    )
-
-    selected_leviers = select_leviers_pareto(leviers, reductions, threshold_pct)
-    vue_cases = [
-        c for c in priorisation_cases if c["levier"] in selected_leviers
-    ]
-
-    n_leviers_total = len(
-        {levier for levier in leviers if levier in reductions}
-    )
-    st.caption(
-        f"**{len(selected_leviers)}** leviers retenus sur {n_leviers_total} "
-    )
-
-    vue_options = build_vue_ensemble_bar_options(vue_cases)
+    vue_options = build_vue_ensemble_bar_options(priorisation_cases)
     if vue_options is None:
         st.info("Aucune case à afficher pour ce seuil.")
     else:
-        if selected_leviers:
-            leviers_list = ", ".join(
-                f"{levier_label_court(lv)}" for lv in sorted(selected_leviers)
-            )
+        render_note_color_legend()
         st_echarts(
             options=vue_options,
             height=f"{VUE_ENSEMBLE_CHART_HEIGHT}px",

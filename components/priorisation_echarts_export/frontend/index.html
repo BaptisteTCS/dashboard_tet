@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.1/dist/echarts.min.js"></script>
+    <style>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+      }
+
+      .chart-host {
+        position: absolute;
+        left: -10000px;
+        top: 0;
+        visibility: hidden;
+        width: 1200px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="treemap" class="chart-host"></div>
+    <div id="bar" class="chart-host"></div>
+
+    <script>
+      let treemapChart = null;
+      let barChart = null;
+      let captureSent = false;
+
+      function disposeCharts() {
+        if (treemapChart) {
+          treemapChart.dispose();
+          treemapChart = null;
+        }
+        if (barChart) {
+          barChart.dispose();
+          barChart = null;
+        }
+      }
+
+      function captureCharts() {
+        if (captureSent || !treemapChart || !barChart) {
+          return;
+        }
+        captureSent = true;
+        try {
+          const treemap_png = treemapChart.getDataURL({
+            type: "png",
+            pixelRatio: 2,
+            backgroundColor: "#ffffff",
+          });
+          const bar_png = barChart.getDataURL({
+            type: "png",
+            pixelRatio: 2,
+            backgroundColor: "#ffffff",
+          });
+          Streamlit.setComponentValue({ treemap_png, bar_png });
+        } catch (error) {
+          Streamlit.setComponentValue(null);
+        }
+      }
+
+      function renderCharts(args) {
+        disposeCharts();
+        captureSent = false;
+
+        const treemapEl = document.getElementById("treemap");
+        const barEl = document.getElementById("bar");
+        const treemapHeight = args.treemap_height || 800;
+        const barHeight = args.bar_height || 1000;
+
+        treemapEl.style.height = treemapHeight + "px";
+        barEl.style.height = barHeight + "px";
+
+        treemapChart = echarts.init(treemapEl, null, { renderer: "canvas" });
+        barChart = echarts.init(barEl, null, { renderer: "canvas" });
+
+        let treemapDone = false;
+        let barDone = false;
+
+        function maybeCapture() {
+          if (treemapDone && barDone) {
+            captureCharts();
+          }
+        }
+
+        treemapChart.on("finished", function () {
+          treemapDone = true;
+          maybeCapture();
+        });
+        barChart.on("finished", function () {
+          barDone = true;
+          maybeCapture();
+        });
+
+        treemapChart.setOption(args.treemap_option || {}, { notMerge: true });
+        barChart.setOption(args.bar_option || {}, { notMerge: true });
+
+        treemapChart.resize();
+        barChart.resize();
+
+        setTimeout(function () {
+          if (!captureSent) {
+            treemapDone = true;
+            barDone = true;
+            captureCharts();
+          }
+        }, 3000);
+      }
+
+      function onRender(event) {
+        const args = event.detail.args;
+        if (!args || !args.treemap_option || !args.bar_option) {
+          Streamlit.setComponentValue(null);
+          return;
+        }
+        renderCharts(args);
+      }
+
+      Streamlit.events.addEventListener(Streamlit.RENDER_EVENT, onRender);
+      Streamlit.setComponentReady();
+      Streamlit.setFrameHeight(0);
+    </script>
+  </body>
+</html>
