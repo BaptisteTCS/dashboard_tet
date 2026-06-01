@@ -2,7 +2,7 @@ import streamlit as st
 
 st.set_page_config(
     page_title="Priorisation — choix des actions",
-    page_icon="🎯",
+    page_icon="🏅",
     layout="wide",
 )
 
@@ -578,12 +578,15 @@ def render_fiche_checkbox(
 
 st.title("🏅 Choix des actions")
 
-st.markdown(
-    "Après l'arbitrage politique, cette étape sert à **choisir**, parmi des actions "
-    "**éprouvées** (fiches de référence et actions d'autres collectivités), celles que "
-    "votre collectivité souhaite **engager** sur ses **cibles prioritaires** — les "
-    "angles morts retenus à l'étape précédente."
-)
+st.markdown("""
+Après l'arbitrage politique, cette étape sert à **réunir**, 
+parmi des **actions éprouvées** (actions de référence et
+d'autres collectivités), **des pistes concrètes** sur vos cibles prioritaires. 
+Rien ici n'est engageant : ces actions ne sont pas votre futur plan, 
+mais des **ressources que vous pouvez mettre de côté pour alimenter les échanges 
+sur ce qui est possible**, cible par cible. Retenez celles qui apportent 
+quelque chose à la discussion.""")
+
 
 df_collectivites = load_collectivites_priorisees()
 if df_collectivites.empty:

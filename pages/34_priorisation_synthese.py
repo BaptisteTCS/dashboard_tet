@@ -2,7 +2,7 @@ import streamlit as st
 
 st.set_page_config(
     page_title="Priorisation — synthèse",
-    page_icon="📋",
+    page_icon="🏆",
     layout="wide",
 )
 
@@ -11,6 +11,11 @@ from sqlalchemy import text
 from streamlit_echarts import JsCode, st_echarts
 
 from utils.db import get_engine, get_engine_prod
+from utils.priorisation_pareto import (
+    enjeu_cible,
+    list_cibles_enjeu,
+    render_seuil_impact_cibles_expander,
+)
 
 # ==========================
 # Constantes
@@ -45,8 +50,6 @@ NOTE_COLORS = COLOR_green_3
 COLOR_ACTION_RETENUE = "#D84315"
 
 NOTES_ENJEU_BAS = {0, 1}
-
-VUE_ENSEMBLE_THRESHOLDS = [50, 60, 70, 80, 90, 100]
 
 LEVIER_LABELS = {
     "Captage de méthane dans les ISDND": "Captage méthane",
@@ -83,6 +86,11 @@ LEVIER_LABELS = {
 TREEMAP_HEIGHT = 800
 VUE_ENSEMBLE_CHART_HEIGHT = 750
 
+QUANTIGES_URL = (
+    "https://librairie.ademe.fr/changement-climatique/"
+    "4827-methode-quantiges-9791029718236.html"
+)
+
 
 def levier_label_court(levier: str) -> str:
     return LEVIER_LABELS.get(levier, levier)
@@ -101,14 +109,14 @@ def origine_depuis_fiche(
 
 
 @st.cache_data(ttl="1h")
-def load_collectivites_priorisees() -> pd.DataFrame:
+def load_collectivites_avec_actions() -> pd.DataFrame:
     engine = get_engine()
     with engine.connect() as conn:
         return pd.read_sql_query(
             text("""
                 SELECT DISTINCT c.collectivite_id, c.nom
                 FROM collectivite c
-                INNER JOIN priorisation p ON p.collectivite_id = c.collectivite_id
+                INNER JOIN priorisation_action pa ON pa.collectivite_id = c.collectivite_id
                 WHERE c.nom IS NOT NULL
                 ORDER BY c.nom
             """),
@@ -240,34 +248,32 @@ def actions_by_cible(
     return result
 
 
-def select_leviers_pareto(
+def potentiel_priorise_kt(
+    df_actions: pd.DataFrame,
+    reductions: dict[str, float],
+    weights: dict[str, dict[int, float]],
+) -> float:
+    """Somme des enjeux des couples (levier, catégorie) présents dans priorisation_action."""
+    if df_actions.empty:
+        return 0.0
+    pairs = df_actions[["levier", "categorie"]].drop_duplicates()
+    return sum(
+        enjeu_cible(row["levier"], int(row["categorie"]), reductions, weights)
+        for _, row in pairs.iterrows()
+    )
+
+
+def potentiel_total_plan_kt(
     leviers: list[str],
     reductions: dict[str, float],
-    threshold_pct: int,
-) -> set[str]:
-    """Plus petit ensemble de leviers couvrant au moins threshold_pct % de la réduction totale."""
-    contributions = [
-        (levier, abs(float(reductions[levier])))
-        for levier in leviers
-        if levier in reductions
-    ]
-    if not contributions:
-        return set()
-
-    total = sum(value for _, value in contributions)
-    if total == 0:
-        return set()
-
-    contributions.sort(key=lambda item: item[1], reverse=True)
-    target = total * threshold_pct / 100
-    selected: list[str] = []
-    cumul = 0.0
-    for levier, value in contributions:
-        selected.append(levier)
-        cumul += value
-        if cumul >= target:
-            break
-    return set(selected)
+    weights: dict[str, dict[int, float]],
+    exclusions: set[tuple[str, int]],
+) -> float:
+    """T1 : potentiel cumulé de toutes les cibles du plan (avant priorisation des actions)."""
+    return sum(
+        value
+        for _, value in list_cibles_enjeu(leviers, reductions, weights, exclusions)
+    )
 
 
 # ==========================
@@ -298,6 +304,7 @@ def build_treemap_data(
     weights: dict[str, dict[int, float]],
     exclusions: set[tuple[str, int]],
     cibles_actions: set[tuple[str, int]],
+    selected_cibles: set[tuple[str, int]] | None = None,
 ) -> tuple[list[dict], list[str]]:
     """Treemap : taille = enjeu relatif, couleur = mobilisation ou action retenue."""
     excluded_leviers: list[str] = []
@@ -314,6 +321,8 @@ def build_treemap_data(
 
         for cat in range(1, 7):
             if (levier, cat) in exclusions:
+                continue
+            if selected_cibles is not None and (levier, cat) not in selected_cibles:
                 continue
             poids = levier_weights.get(cat)
             if poids is None or pd.isna(poids) or poids == 0:
@@ -354,6 +363,7 @@ def build_priorisation_cases(
     weights: dict[str, dict[int, float]],
     exclusions: set[tuple[str, int]],
     cibles_actions: set[tuple[str, int]],
+    selected_cibles: set[tuple[str, int]] | None = None,
 ) -> list[dict]:
     cases: list[dict] = []
     for levier in sorted(leviers):
@@ -363,6 +373,8 @@ def build_priorisation_cases(
         levier_weights = weights.get(levier, {})
         for cat in range(1, 7):
             if (levier, cat) in exclusions:
+                continue
+            if selected_cibles is not None and (levier, cat) not in selected_cibles:
                 continue
             poids = levier_weights.get(cat)
             if poids is None or pd.isna(poids) or poids == 0:
@@ -453,7 +465,7 @@ def build_vue_ensemble_bar_options(cases: list[dict]) -> dict | None:
                         + (d.noteLevel || '') + '<br/>'
                         + '<b>' + val + ' ktCO₂e</b>';
                     if (d.actionRetenue) {
-                        lines += '<br/><b>Action(s) retenue(s)</b>';
+                        lines += '<br/><b>Actions retenues</b>';
                     }
                     return lines;
                 }
@@ -527,7 +539,7 @@ def build_echarts_options(
                         + 'Note : ' + d.noteLevel + '<br/>'
                         + 'Taille : ' + taille + ' ktCO2';
                     if (d.actionRetenue) {
-                        lines += '<br/><b>Action(s) retenue(s)</b>';
+                        lines += '<br/><b>Actions retenues</b>';
                     }
                     return lines;
                 }
@@ -593,7 +605,7 @@ def render_note_color_legend() -> None:
         f'<span style="display:inline-block;width:14px;height:14px;border-radius:3px;'
         f"background:{COLOR_ACTION_RETENUE};border:1px solid rgba(0,0,0,0.12);"
         f'margin-right:0.45rem;flex-shrink:0;"></span>'
-        f'<span style="font-size:0.875rem;color:#333;">Action(s) retenue(s)</span>'
+        f'<span style="font-size:0.875rem;color:#333;">Actions retenues</span>'
         f"</span>"
     )
     st.markdown(
@@ -661,9 +673,12 @@ st.markdown(
     "sans valeur chiffrée affichée."
 )
 
-df_collectivites = load_collectivites_priorisees()
+df_collectivites = load_collectivites_avec_actions()
 if df_collectivites.empty:
-    st.warning("Aucune collectivité avec des données de priorisation disponible.")
+    st.warning(
+        "Aucune collectivité avec des actions enregistrées. "
+        "Complétez d'abord l'étape « Choix des actions »."
+    )
     st.stop()
 
 nom_par_id = df_collectivites.set_index("collectivite_id")["nom"].to_dict()
@@ -710,40 +725,122 @@ actions_map = actions_by_cible(df_actions)
 
 leviers = sorted(reductions.keys())
 
-with st.expander(
-    "Réduire le nombre de cibles en selectionnant uniquement les plus importantes"
-):
-    threshold_pct = st.select_slider(
-        "Part de réduction d'émissions de GES couvertes par les leviers.",
-        options=VUE_ENSEMBLE_THRESHOLDS,
-        value=100,
-        key=f"synthese_vue_ensemble_threshold_{collectivite_id}",
-        help=(
-            "Conserve le minimum de leviers les plus contributeurs "
-            "dont la réduction cumulée atteint ce seuil. Ex: 80% = les 80% des leviers "
-            "les plus contributeurs couvrent au moins 80% de la réduction d'émissions de GES."
-        ),
+n_cibles_priorisees = (
+    len(df_actions[["levier", "categorie"]].drop_duplicates())
+    if not df_actions.empty
+    else 0
+)
+n_actions_retenues = (
+    int(df_actions["fiche_action_id"].nunique()) if not df_actions.empty else 0
+)
+potentiel_kt = potentiel_priorise_kt(df_actions, reductions, weights)
+t1_avant_priorisation = potentiel_total_plan_kt(
+    leviers, reductions, weights, exclusions
+)
+x_potentiel_mobilise = potentiel_kt
+t2_apres_priorisation = t1_avant_priorisation + x_potentiel_mobilise
+pct_potentiel_supplementaire = (
+    (x_potentiel_mobilise / t1_avant_priorisation * 100)
+    if t1_avant_priorisation > 0
+    else 0.0
+)
+
+col_cibles, col_actions = st.columns(2)
+with col_cibles:
+    st.metric("Nombre de cibles priorisées", n_cibles_priorisees)
+with col_actions:
+    st.metric("Nombre d'actions retenues", n_actions_retenues)
+
+_potentiel_sk = f"synthese_potentiel_etape_{collectivite_id}"
+etape_potentiel = st.session_state.get(_potentiel_sk, 0)
+
+if etape_potentiel == 0:
+    if st.button(
+        "Afficher le potentiel CO₂ mobilisé",
+        key=f"synthese_btn_potentiel_intro_{collectivite_id}",
+    ):
+        st.session_state[_potentiel_sk] = 1
+        st.rerun()
+elif etape_potentiel == 1:
+    lib_actions = (
+        "action retenue" if n_actions_retenues == 1 else "actions retenues"
     )
-    selected_leviers = select_leviers_pareto(leviers, reductions, threshold_pct)
-    n_leviers_total = len({levier for levier in leviers if levier in reductions})
-    st.caption(
-        f"**{len(selected_leviers)}** leviers retenus sur {n_leviers_total} "
-        f"(seuil Pareto {threshold_pct} %)."
+    lib_cibles = (
+        "cible priorisée" if n_cibles_priorisees == 1 else "cibles priorisées"
+    )
+    st.info(
+        f"Les **{n_actions_retenues}** {lib_actions} agissent sur "
+        f"**{n_cibles_priorisees}** {lib_cibles}. Pour chacune de ces cibles, "
+        f"l'outil fournit une estimation du potentiel de réduction de GES "
+        f"(ktCO₂e).\n\n"
+        f"En les agrégeant, on obtient un **ordre de grandeur** du potentiel "
+        f"de réduction sur lequel portent vos actions. Ce chiffre n'est pas une "
+        f"vérité absolue : c'est une approximation **plutôt fidèle**, utile pour "
+        f"donner une représentation concrète de l'impact attendu et nourrir la "
+        f"discussion avec les élus."
+    )
+    if st.button(
+        "J'ai compris. Voir l'ordre de grandeur estimé",
+        key=f"synthese_btn_potentiel_confirm_{collectivite_id}",
+    ):
+        st.session_state[_potentiel_sk] = 2
+        st.rerun()
+else:
+    st.metric(
+        "Estimation du potentiel global priorisé (ktCO₂)",
+        f"{int(potentiel_kt)}",
+    )
+    if t1_avant_priorisation > 0:
+        st.markdown(
+            f"**{int(x_potentiel_mobilise)}** ktCO₂e de réduction représentent "
+            f"**{int(pct_potentiel_supplementaire)} %** de réduction potentielle "
+            f"supplémentaire par rapport à votre plan original. "
+            f"*({int(t2_apres_priorisation)} ktCO₂e après priorisation vs "
+            f"{int(t1_avant_priorisation)} ktCO₂e avant)*"
+        )
+    else:
+        st.caption(
+            "Potentiel du plan original indisponible (aucune cible avec enjeu calculable)."
+        )
+    st.link_button(
+        "Aller plus loin dans le calcul de réduction des émissions de GES "
+        "avec l'outil QuantiGES",
+        QUANTIGES_URL,
+        key=f"synthese_btn_quantiges_{collectivite_id}",
+        type="primary",
     )
 
-leviers_pareto = [levier for levier in leviers if levier in selected_leviers]
+threshold_pct, selected_cibles = render_seuil_impact_cibles_expander(
+    leviers,
+    reductions,
+    weights,
+    exclusions,
+    key_prefix=f"synthese_vue_ensemble_{collectivite_id}",
+)
 
 treemap_children, excluded_leviers = build_treemap_data(
-    leviers_pareto, reductions, notes, weights, exclusions, cibles_actions
+    leviers,
+    reductions,
+    notes,
+    weights,
+    exclusions,
+    cibles_actions,
+    selected_cibles=selected_cibles,
 )
 priorisation_cases = build_priorisation_cases(
-    leviers_pareto, reductions, notes, weights, exclusions, cibles_actions
+    leviers,
+    reductions,
+    notes,
+    weights,
+    exclusions,
+    cibles_actions,
+    selected_cibles=selected_cibles,
 )
 
 tabs = st.tabs(["Impact Map", "Impact Chart"])
 
 with tabs[0]:
-    show_labels = st.toggle("Libellés", value=True, key="synthese_show_labels")
+    show_labels = st.toggle("Libellés", value=False, key="synthese_show_labels")
 
     for levier in excluded_leviers:
         st.warning(
@@ -756,6 +853,7 @@ with tabs[0]:
     else:
         render_note_color_legend()
         options = build_echarts_options(treemap_children, show_labels=show_labels)
+
         st_echarts(
             options=options,
             height=f"{TREEMAP_HEIGHT}px",

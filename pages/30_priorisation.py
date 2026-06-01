@@ -2,7 +2,7 @@ import streamlit as st
 
 st.set_page_config(
     page_title="Priorisation — treemap",
-    page_icon="🗺️",
+    page_icon="🧭",
     layout="wide",
 )
 
@@ -15,6 +15,7 @@ from sqlalchemy import text
 from streamlit_echarts import JsCode, st_echarts
 
 from utils.db import get_engine, get_engine_prod
+from utils.priorisation_pareto import render_seuil_impact_cibles_expander
 
 # ==========================
 # Constantes
@@ -322,6 +323,7 @@ def build_treemap_data(
     notes: dict[tuple[str, int], int],
     weights: dict[str, dict[int, float]],
     exclusions: set[tuple[str, int]] | None = None,
+    selected_cibles: set[tuple[str, int]] | None = None,
 ) -> tuple[list[dict], list[str]]:
     """Construit la structure ECharts et retourne les leviers exclus (sans réduction)."""
     excluded_leviers: list[str] = []
@@ -339,6 +341,8 @@ def build_treemap_data(
 
         for cat in range(1, 7):
             if (levier, cat) in exclusions:
+                continue
+            if selected_cibles is not None and (levier, cat) not in selected_cibles:
                 continue
             poids = levier_weights.get(cat)
             if poids is None or pd.isna(poids) or poids == 0:
@@ -375,6 +379,7 @@ def build_priorisation_cases(
     notes: dict[tuple[str, int], int],
     weights: dict[str, dict[int, float]],
     exclusions: set[tuple[str, int]] | None = None,
+    selected_cibles: set[tuple[str, int]] | None = None,
 ) -> list[dict]:
     """Cases levier × catégorie avec note et potentiel de réduction (ktCO₂e)."""
     cases: list[dict] = []
@@ -386,6 +391,8 @@ def build_priorisation_cases(
         levier_weights = weights.get(levier, {})
         for cat in range(1, 7):
             if (levier, cat) in exclusions:
+                continue
+            if selected_cibles is not None and (levier, cat) not in selected_cibles:
                 continue
             poids = levier_weights.get(cat)
             if poids is None or pd.isna(poids) or poids == 0:
@@ -507,41 +514,10 @@ def build_mobilisation_bar_options(
 MOBILISATION_BAR_ROW_PX = 40
 MOBILISATION_BAR_MIN_HEIGHT = 280
 
-VUE_ENSEMBLE_THRESHOLDS = [50, 60, 70, 80, 90, 100]
 VUE_ENSEMBLE_CHART_HEIGHT = 1000
 NOTES_ENJEU_BAS = {0, 1}
 
 TREEMAP_HEIGHT = 800
-
-
-def select_leviers_pareto(
-    leviers: list[str],
-    reductions: dict[str, float],
-    threshold_pct: int,
-) -> set[str]:
-    """Plus petit ensemble de leviers couvrant au moins threshold_pct % de la réduction totale."""
-    contributions = [
-        (levier, abs(float(reductions[levier])))
-        for levier in leviers
-        if levier in reductions
-    ]
-    if not contributions:
-        return set()
-
-    total = sum(value for _, value in contributions)
-    if total == 0:
-        return set()
-
-    contributions.sort(key=lambda item: item[1], reverse=True)
-    target = total * threshold_pct / 100
-    selected: list[str] = []
-    cumul = 0.0
-    for levier, value in contributions:
-        selected.append(levier)
-        cumul += value
-        if cumul >= target:
-            break
-    return set(selected)
 
 
 def case_sort_value(case: dict) -> float:
@@ -828,34 +804,30 @@ ids_by_case = {
 }
 weights = build_category_weights(df_poids)
 
-with st.expander(
-    "Réduire le nombre de cibles en selectionnant uniquement les plus importantes"
-):
-    threshold_pct = st.select_slider(
-        "Part de réduction d'émissions de GES couvertes par les leviers.",
-        options=VUE_ENSEMBLE_THRESHOLDS,
-        value=100,
-        key=f"vue_ensemble_threshold_{selected_id}",
-        help=(
-            "Conserve le minimum de leviers les plus contributeurs "
-            "dont la réduction cumulée atteint ce seuil. Ex: 80% = les 80% des leviers les plus contributeurs couvrent au moins 80% de la réduction d'émissions de GES."
-        ),
-    )
-    selected_leviers = select_leviers_pareto(leviers, reductions, threshold_pct)
-    n_leviers_total = len({levier for levier in leviers if levier in reductions})
-    st.caption(
-        f"**{len(selected_leviers)}** leviers retenus sur {n_leviers_total} "
-        f"(seuil Pareto {threshold_pct} %)."
-    )
-
-leviers_pareto = [levier for levier in leviers if levier in selected_leviers]
+threshold_pct, selected_cibles = render_seuil_impact_cibles_expander(
+    leviers,
+    reductions,
+    weights,
+    hors_competence,
+    key_prefix=f"vue_ensemble_{selected_id}",
+)
 
 priorisation_cases = build_priorisation_cases(
-    leviers_pareto, reductions, notes, weights, hors_competence
+    leviers,
+    reductions,
+    notes,
+    weights,
+    hors_competence,
+    selected_cibles=selected_cibles,
 )
 
 treemap_children, _ = build_treemap_data(
-    leviers_pareto, reductions, notes, weights, hors_competence
+    leviers,
+    reductions,
+    notes,
+    weights,
+    hors_competence,
+    selected_cibles=selected_cibles,
 )
 excluded_leviers = [levier for levier in leviers if levier not in reductions]
 
@@ -863,7 +835,7 @@ tabs = st.tabs(["Impact Map", "Impact Chart", "Détail mobilisation"])
 
 with tabs[0]:
 
-    show_labels = st.toggle("Libellés", value=True)
+    show_labels = st.toggle("Libellés", value=False)
 
     for levier in excluded_leviers:
         st.warning(

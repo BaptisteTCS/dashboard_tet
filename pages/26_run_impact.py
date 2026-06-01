@@ -15,6 +15,7 @@ from datetime import datetime
 from typing import Any
 
 import pandas as pd
+import requests
 from openai import OpenAI
 from sqlalchemy import text
 
@@ -64,6 +65,9 @@ Réseaux de chaleur décarbonés
 
 LEVIERS_LIST = [l.strip() for l in LEVIERS.strip().split("\n") if l.strip()]
 LEVIERS_SET = set(LEVIERS_LIST)
+API_LEVIER_NAME_MAP = {
+    "Production industrielle": "Production Industrielle",
+}
 VALID_CATEGORIES = {1, 2, 3, 4, 5, 6}
 
 CATEGORIES = {
@@ -152,68 +156,53 @@ def load_leviers_ref():
     return df_ref
 
 
-def get_region_columns(df_ratios: pd.DataFrame) -> list[str]:
-    """Liste les noms de région (colonnes du CSV leviers_sgpe_region)."""
-    return [c for c in df_ratios.columns if c not in ('Secteur', 'Leviers SGPE')]
+def _normalize_levier_name(api_name: str) -> str:
+    """Mappe un libellé API vers le libellé canonique du référentiel local."""
+    name = API_LEVIER_NAME_MAP.get(api_name, api_name)
+    if name not in LEVIERS_SET:
+        raise ValueError(f"Levier API inconnu : {api_name!r}")
+    return name
 
 
-def fetch_indicateurs_snbc(collectivite_id: int) -> pd.DataFrame:
-    """Récupère les indicateurs SNBC pour calculer les objectifs de réduction."""
-    engine = get_engine_prod()
-    with engine.connect() as conn:
-        df = pd.read_sql_query(
-            text("""
-                SELECT id.titre, id.identifiant_referentiel, iv.date_valeur, iv.objectif
-                FROM indicateur_valeur iv
-                JOIN indicateur_definition id ON iv.indicateur_id = id.id
-                WHERE iv.collectivite_id = :collectivite_id
-                AND metadonnee_id = 17
-                AND objectif IS NOT NULL
-                AND date_valeur IN ('2019-01-01', '2030-01-01')
-            """),
-            conn,
-            params={"collectivite_id": collectivite_id},
+@st.cache_data(ttl="1h")
+def _fetch_snbc_leviers_raw(collectivite_id: int) -> dict:
+    """Appelle l'API TET trajectoires SNBC leviers."""
+    api_token = st.secrets.get("api_prod_token", "")
+    if not api_token:
+        raise ValueError(
+            "Token API manquant : configurez api_prod_token dans secrets.toml"
         )
-    return df
-
-
-def calculate_reductions_by_lever(
-    df_ratios: pd.DataFrame,
-    region: str,
-    df_indicateurs: pd.DataFrame,
-) -> pd.DataFrame:
-    """
-    Calcule la réduction de CO2 par levier (potentiel brut, sans score d'implication).
-
-    Réduction par levier = (objectif 2030 − objectif 2019 du secteur) × ratio régional / 100.
-    """
-    df_ct = df_ratios[['Secteur', 'Leviers SGPE']].copy()
-    df_ct['identifiant_referentiel'] = df_ct['Secteur'].map(D_MAP_SECTEUR)
-    df_ct[region] = df_ratios[region]
-
-    dic_reduction: dict[str, float] = {}
-    for ref in df_indicateurs['identifiant_referentiel'].unique():
-        df_filtered = df_indicateurs[df_indicateurs['identifiant_referentiel'] == ref]
-
-        if len(df_filtered) >= 2:
-            df_filtered = df_filtered.copy()
-            df_filtered['date_str'] = df_filtered['date_valeur'].astype(str)
-
-            df_2030 = df_filtered[df_filtered['date_str'].str.startswith('2030')]
-            val_2030 = df_2030['objectif'].iloc[0] if len(df_2030) > 0 else 0
-
-            df_2019 = df_filtered[df_filtered['date_str'].str.startswith('2019')]
-            val_2019 = df_2019['objectif'].iloc[0] if len(df_2019) > 0 else 0
-
-            dic_reduction[ref] = float(val_2030 - val_2019)
-
-    df_ct['reduction_secteur'] = df_ct['identifiant_referentiel'].map(dic_reduction)
-    df_ct['reduction'] = (df_ct['reduction_secteur'] * df_ct[region] / 100).round(1)
-
-    df_result = df_ct[['Leviers SGPE', 'reduction']].rename(
-        columns={'Leviers SGPE': 'levier'}
+    base = st.secrets["api_prod_url"].split("/api/v1")[0]
+    url = f"{base}/api/v1/trajectoires/snbc/leviers"
+    headers = {
+        "Authorization": f"Bearer {api_token}",
+        "Content-Type": "application/json",
+    }
+    response = requests.get(
+        url,
+        headers=headers,
+        params={"collectiviteId": collectivite_id},
+        timeout=60,
     )
-    return df_result.dropna(subset=['reduction']).reset_index(drop=True)
+    response.raise_for_status()
+    return response.json()
+
+
+def fetch_reductions_from_api(collectivite_id: int) -> tuple[pd.DataFrame, list[str]]:
+    """Récupère les réductions par levier depuis l'API SNBC."""
+    data = _fetch_snbc_leviers_raw(collectivite_id)
+    rows: list[dict[str, Any]] = []
+    for secteur in data.get("secteurs", []):
+        for levier in secteur.get("leviers", []):
+            objectif = levier.get("objectifReduction")
+            reduction = round(float(objectif), 1) if objectif is not None else 0.0
+            rows.append({
+                "levier": _normalize_levier_name(levier["nom"]),
+                "reduction": reduction,
+            })
+    df_result = pd.DataFrame(rows)
+    identifiants_manquants = data.get("identifiantManquants", []) or []
+    return df_result, identifiants_manquants
 
 
 def save_reductions_by_lever(df: pd.DataFrame, collectivite_id: int):
@@ -244,22 +233,11 @@ def save_reductions_by_lever(df: pd.DataFrame, collectivite_id: int):
         )
 
 
-def run_reductions_by_lever(
-    collectivite_id: int,
-    region: str,
-    df_ratios: pd.DataFrame,
-) -> pd.DataFrame:
-    """Calcule et enregistre les réductions potentielles par levier."""
-    if region not in get_region_columns(df_ratios):
-        raise ValueError(f"Région invalide : {region}")
-    df_indicateurs = fetch_indicateurs_snbc(collectivite_id)
-    df_result = calculate_reductions_by_lever(
-        df_ratios=df_ratios,
-        region=region,
-        df_indicateurs=df_indicateurs,
-    )
+def run_reductions_by_lever(collectivite_id: int) -> tuple[pd.DataFrame, list[str]]:
+    """Récupère via l'API SNBC et enregistre les réductions potentielles par levier."""
+    df_result, identifiants_manquants = fetch_reductions_from_api(collectivite_id)
     save_reductions_by_lever(df_result, collectivite_id)
-    return df_result
+    return df_result, identifiants_manquants
 
 
 def fetch_plan_actions(collectivite_id: int) -> pd.DataFrame:
@@ -895,14 +873,16 @@ if st.button("🚀 Lancer l'exécution", type="primary", disabled=not can_run):
         st.write(f"✅ {len(plan)} actions récupérées")
         st.dataframe(plan, use_container_width=True)
 
-        st.write("📉 Calcul des réductions par levier (SNBC × ratios région)...")
+        st.write("📉 Calcul des réductions par levier (API SNBC)...")
         try:
-            st.write(f"✅ Région utilisée : **{selected_region}**")
-            df_reductions = run_reductions_by_lever(
+            df_reductions, identifiants_manquants = run_reductions_by_lever(
                 collectivite_id=selected_id,
-                region=selected_region,
-                df_ratios=df_ratios,
             )
+            if identifiants_manquants:
+                st.warning(
+                    "Indicateurs SNBC manquants pour cette collectivité : "
+                    + ", ".join(identifiants_manquants)
+                )
             st.write(f"✅ {len(df_reductions)} leviers avec réduction calculée")
             if not df_reductions.empty:
                 st.dataframe(df_reductions, use_container_width=True)
