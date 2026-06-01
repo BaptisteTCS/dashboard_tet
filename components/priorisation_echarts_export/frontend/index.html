@@ -22,42 +22,95 @@
     </style>
   </head>
   <body>
-    <div id="treemap" class="chart-host"></div>
-    <div id="bar" class="chart-host"></div>
+    <div id="charts-root"></div>
 
     <script>
-      let treemapChart = null;
-      let barChart = null;
+      (function () {
+        var RENDER_EVENT = "streamlit:render";
+        var Streamlit = {
+          API_VERSION: 1,
+          RENDER_EVENT: RENDER_EVENT,
+          events: new EventTarget(),
+          registeredMessageListener: false,
+          lastFrameHeight: null,
+          setComponentReady: function () {
+            if (!Streamlit.registeredMessageListener) {
+              window.addEventListener("message", Streamlit.onMessageEvent);
+              Streamlit.registeredMessageListener = true;
+            }
+            Streamlit.sendBackMsg("streamlit:componentReady", {
+              apiVersion: Streamlit.API_VERSION,
+            });
+          },
+          setFrameHeight: function (height) {
+            if (height === undefined) {
+              height = document.body.scrollHeight;
+            }
+            if (height === Streamlit.lastFrameHeight) {
+              return;
+            }
+            Streamlit.lastFrameHeight = height;
+            Streamlit.sendBackMsg("streamlit:setFrameHeight", { height: height });
+          },
+          setComponentValue: function (value) {
+            Streamlit.sendBackMsg("streamlit:setComponentValue", {
+              value: value,
+              dataType: "json",
+            });
+          },
+          onMessageEvent: function (event) {
+            if (event.data && event.data.type === RENDER_EVENT) {
+              Streamlit.onRenderMessage(event.data);
+            }
+          },
+          onRenderMessage: function (data) {
+            var args = data.args || {};
+            Streamlit.events.dispatchEvent(
+              new CustomEvent(RENDER_EVENT, {
+                detail: {
+                  disabled: Boolean(data.disabled),
+                  args: args,
+                  theme: data.theme,
+                },
+              })
+            );
+          },
+          sendBackMsg: function (type, payload) {
+            window.parent.postMessage(
+              Object.assign({ isStreamlitMessage: true, type: type }, payload),
+              "*"
+            );
+          },
+        };
+        window.Streamlit = Streamlit;
+      })();
+    </script>
+
+    <script>
+      let chartInstances = [];
       let captureSent = false;
 
       function disposeCharts() {
-        if (treemapChart) {
-          treemapChart.dispose();
-          treemapChart = null;
-        }
-        if (barChart) {
-          barChart.dispose();
-          barChart = null;
-        }
+        chartInstances.forEach(function (instance) {
+          instance.dispose();
+        });
+        chartInstances = [];
       }
 
       function captureCharts() {
-        if (captureSent || !treemapChart || !barChart) {
+        if (captureSent || chartInstances.length === 0) {
           return;
         }
         captureSent = true;
         try {
-          const treemap_png = treemapChart.getDataURL({
-            type: "png",
-            pixelRatio: 2,
-            backgroundColor: "#ffffff",
+          const pngs = chartInstances.map(function (instance) {
+            return instance.getDataURL({
+              type: "png",
+              pixelRatio: 2,
+              backgroundColor: "#ffffff",
+            });
           });
-          const bar_png = barChart.getDataURL({
-            type: "png",
-            pixelRatio: 2,
-            backgroundColor: "#ffffff",
-          });
-          Streamlit.setComponentValue({ treemap_png, bar_png });
+          Streamlit.setComponentValue({ pngs: pngs });
         } catch (error) {
           Streamlit.setComponentValue(null);
         }
@@ -67,53 +120,48 @@
         disposeCharts();
         captureSent = false;
 
-        const treemapEl = document.getElementById("treemap");
-        const barEl = document.getElementById("bar");
-        const treemapHeight = args.treemap_height || 800;
-        const barHeight = args.bar_height || 1000;
+        const root = document.getElementById("charts-root");
+        root.innerHTML = "";
 
-        treemapEl.style.height = treemapHeight + "px";
-        barEl.style.height = barHeight + "px";
+        const specs = args.charts || [];
+        if (!specs.length) {
+          Streamlit.setComponentValue(null);
+          return;
+        }
 
-        treemapChart = echarts.init(treemapEl, null, { renderer: "canvas" });
-        barChart = echarts.init(barEl, null, { renderer: "canvas" });
+        let pending = specs.length;
 
-        let treemapDone = false;
-        let barDone = false;
-
-        function maybeCapture() {
-          if (treemapDone && barDone) {
+        function markDone() {
+          pending -= 1;
+          if (pending <= 0) {
             captureCharts();
           }
         }
 
-        treemapChart.on("finished", function () {
-          treemapDone = true;
-          maybeCapture();
-        });
-        barChart.on("finished", function () {
-          barDone = true;
-          maybeCapture();
-        });
+        specs.forEach(function (spec, index) {
+          const host = document.createElement("div");
+          host.className = "chart-host";
+          host.style.height = (spec.height || 800) + "px";
+          root.appendChild(host);
 
-        treemapChart.setOption(args.treemap_option || {}, { notMerge: true });
-        barChart.setOption(args.bar_option || {}, { notMerge: true });
+          const instance = echarts.init(host, null, { renderer: "canvas" });
+          chartInstances.push(instance);
 
-        treemapChart.resize();
-        barChart.resize();
+          instance.on("finished", markDone);
+          instance.setOption(spec.option || {}, { notMerge: true });
+          instance.resize();
+        });
 
         setTimeout(function () {
           if (!captureSent) {
-            treemapDone = true;
-            barDone = true;
             captureCharts();
           }
-        }, 3000);
+        }, 4000);
       }
 
       function onRender(event) {
         const args = event.detail.args;
-        if (!args || !args.treemap_option || !args.bar_option) {
+        if (!args || !args.charts || !args.charts.length) {
           Streamlit.setComponentValue(null);
           return;
         }

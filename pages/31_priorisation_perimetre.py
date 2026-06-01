@@ -9,7 +9,7 @@ st.set_page_config(
 import pandas as pd
 from sqlalchemy import text
 
-from utils.db import get_engine, get_engine_prod
+from utils.db import get_engine
 
 # ==========================
 # Constantes
@@ -49,16 +49,17 @@ SESSION_COLLECTIVITE = "perimetre_collectivite_id"
 
 
 @st.cache_data(ttl="1h")
-def load_collectivites() -> pd.DataFrame:
-    """Liste des collectivités (prod), hors type test."""
-    engine = get_engine_prod()
+def load_collectivites_priorisees() -> pd.DataFrame:
+    """Collectivités ayant au moins une ligne dans priorisation (OLAP)."""
+    engine = get_engine()
     with engine.connect() as conn:
         return pd.read_sql_query(
             text("""
-                SELECT id, nom
-                FROM collectivite
-                WHERE type != 'test' AND nom IS NOT NULL
-                ORDER BY nom
+                SELECT DISTINCT c.collectivite_id, c.nom
+                FROM collectivite c
+                INNER JOIN priorisation p ON p.collectivite_id = c.collectivite_id
+                WHERE c.nom IS NOT NULL
+                ORDER BY c.nom
             """),
             conn,
         )
@@ -301,13 +302,13 @@ st.markdown(
     "(partenariats, sensibilisation, etc.)."
 )
 
-df_collectivites = load_collectivites()
+df_collectivites = load_collectivites_priorisees()
 if df_collectivites.empty:
-    st.warning("Aucune collectivité disponible.")
+    st.warning("Aucune collectivité avec des données de priorisation disponible.")
     st.stop()
 
-nom_par_id = df_collectivites.set_index("id")["nom"].to_dict()
-ids = df_collectivites["id"].tolist()
+nom_par_id = df_collectivites.set_index("collectivite_id")["nom"].to_dict()
+collectivite_ids = df_collectivites["collectivite_id"].tolist()
 
 # Paramètre optionnel ?collectivite_id= pour pré-sélection
 default_index = 0
@@ -315,14 +316,14 @@ qp_id = st.query_params.get("collectivite_id")
 if qp_id is not None:
     try:
         qp_id_int = int(qp_id)
-        if qp_id_int in ids:
-            default_index = ids.index(qp_id_int)
+        if qp_id_int in collectivite_ids:
+            default_index = collectivite_ids.index(qp_id_int)
     except (TypeError, ValueError):
         pass
 
 collectivite_id = st.selectbox(
     "Collectivité",
-    options=ids,
+    options=collectivite_ids,
     index=default_index,
     format_func=lambda cid: nom_par_id[cid],
     key="perimetre_select_collectivite",

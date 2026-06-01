@@ -15,118 +15,29 @@ from sqlalchemy import text
 from streamlit_echarts import JsCode, st_echarts
 
 from utils.db import get_engine, get_engine_prod
+from utils.priorisation_impact_charts import (
+    CATEGORIES,
+    NOTE_COLORS,
+    NOTE_LABELS,
+    TREEMAP_CLICK_EVENTS,
+    build_priorisation_cases,
+    build_treemap_data,
+    extract_chart_event,
+    render_impact_chart,
+    render_impact_map,
+)
 from utils.priorisation_pareto import render_seuil_impact_cibles_expander
 
 # ==========================
 # Constantes
 # ==========================
 
-CATEGORIES = {
-    1: "Aménagement",
-    2: "Réglementation",
-    3: "Financement",
-    4: "Gouvernance",
-    5: "Exemplarité",
-    6: "Sensibilisation",
-}
-
-NOTE_LABELS = {
-    0: "Non mobilisé",
-    1: "Partiellement mobilisé",
-    2: "Bien mobilisé",
-    3: "Pleinement mobilisé",
-}
-
-COLOR_grey = {
-    0: "#ADADAD",
-    1: "#E8E8E8",
-    2: "#B5D96A",
-    3: "#4CAF7D",
-}
-
-COLOR_yellow = {
-    0: "#FBE8CE",
-    1: "#E4DFB5",
-    2: "#C3CC9B",
-    3: "#9AB17A",
-}
-
-COLOR_mobilisation = {
-    0: "#E8E8E8",
-    1: "#F5E170",
-    2: "#B5D96A",
-    3: "#4CAF7D",
-}
-
-COLOR_green = {
-    0: "#f2e8cf",
-    1: "#a7c957",
-    2: "#6a994e",
-    3: "#386641",
-}
-
-COLOR_green_2 = {
-    0: "#E8E8E8",
-    1: "#D0F0C0",
-    2: "#74C365",
-    3: "#018749",
-}
-
-COLOR_green_3 = {
-    0: "#E2E5E9",
-    1: "#f5ebe0",
-    2: "#5DCF69",
-    3: "#389D49",
-}
-
-NOTE_COLORS = COLOR_green_3
-
-
-# Couleurs st.badge (proches de NOTE_COLORS ; 2 et 3 en vert)
 NOTE_BADGE_COLORS = {
     0: "orange",
     1: "yellow",
     2: "green",
     3: "green",
 }
-
-# Libellés courts des leviers — affichage treemap uniquement (tooltip = nom complet)
-LEVIER_LABELS = {
-    "Captage de méthane dans les ISDND": "Captage méthane",
-    "Biogaz": "Biogaz",
-    "Véhicules électriques": "Véhicules électriques",
-    "Efficacité et carburants décarbonés des véhicules privés": "Carburants décarbonés",
-    "Sobriété des bâtiments (résidentiel)": "Sobriété bâtiments résidentiel",
-    "Pratiques stockantes": "Pratiques stockantes",
-    "Changement chaudières gaz + rénovation (résidentiel)": "Chaudières gaz & rénovation résidentiel",
-    "Vélo et transport en commun": "Vélo & TEC",
-    "Bus et cars décarbonés": "Bus et cars décarbonés",
-    "Changement de chaudière à fioul (tertiaire)": "Chaudière fioul (tertiaire)",
-    "Réduction des déplacements": "Réduction des déplacements",
-    "Sobriété et isolation des bâtiments (tertiaire)": "Sobriété et isolation des bâtiments (tertiaire)",
-    "Gestion des forêts et produits bois": "Gestion des forêts",
-    "Changements de pratiques de fertilisation azotée": "Fertilisation azotée",
-    "Elevage durable": "Elevage durable",
-    "Bâtiments & Machines agricoles": "Bâtiments & Machines agricoles",
-    "Valorisation matière des déchets": "Valorisation déchets",
-    "Changement chaudières fioul + rénovation (résidentiel)": "Chaudières fioul & rénovation (résidentiel)",
-    "Gestion des haies": "Gestion des haies",
-    "Sobriété foncière": "Sobriété foncière",
-    "Réseaux de chaleur décarbonés": "Réseaux de chaleur",
-    "Prévention des déchets": "Prévention des déchets",
-    "Changement de chaudière à gaz (tertiaire)": "Chaudière gaz (tertiaire)",
-    "Fret décarboné et multimodalité": "Fret décarboné",
-    "Electricité renouvelable": "Electricité renouvelable",
-    "Efficacité et sobriété logistique": "Sobriété logistique",
-    "Covoiturage": "Covoiturage",
-    "Production Industrielle": "Production Industrielle",
-    "Gestion des prairies": "Gestion des prairies",
-}
-
-
-def levier_label_court(levier: str) -> str:
-    """Libellé court pour l'affichage sur les cases de la treemap."""
-    return LEVIER_LABELS.get(levier, levier)
 
 
 def clean_rich_text(text) -> str:
@@ -317,104 +228,6 @@ def build_category_weights(df_poids: pd.DataFrame) -> dict[str, dict[int, float]
     return weights
 
 
-def build_treemap_data(
-    leviers: list[str],
-    reductions: dict[str, float],
-    notes: dict[tuple[str, int], int],
-    weights: dict[str, dict[int, float]],
-    exclusions: set[tuple[str, int]] | None = None,
-    selected_cibles: set[tuple[str, int]] | None = None,
-) -> tuple[list[dict], list[str]]:
-    """Construit la structure ECharts et retourne les leviers exclus (sans réduction)."""
-    excluded_leviers: list[str] = []
-    children: list[dict] = []
-    exclusions = exclusions or set()
-
-    for levier in sorted(leviers):
-        if levier not in reductions:
-            excluded_leviers.append(levier)
-            continue
-
-        reduction_abs = abs(reductions[levier])
-        levier_weights = weights.get(levier, {})
-        cat_nodes: list[dict] = []
-
-        for cat in range(1, 7):
-            if (levier, cat) in exclusions:
-                continue
-            if selected_cibles is not None and (levier, cat) not in selected_cibles:
-                continue
-            poids = levier_weights.get(cat)
-            if poids is None or pd.isna(poids) or poids == 0:
-                continue
-
-            taille = reduction_abs * float(poids)
-            if taille == 0:
-                continue
-
-            note = int(notes.get((levier, cat), 0))
-            categorie = CATEGORIES[cat]
-            cat_nodes.append(
-                {
-                    "name": f"{levier_label_court(levier)}\n{categorie}",
-               
-                    "value": round(taille, 2),
-                    "itemStyle": {"color": NOTE_COLORS.get(note, NOTE_COLORS[0])},
-                    "levierName": levier,
-                    "categorieName": categorie,
-                    "categorieId": cat,
-                    "noteLevel": NOTE_LABELS.get(note, NOTE_LABELS[0]),
-                }
-            )
-
-        if cat_nodes:
-            children.append({"name": levier, "children": cat_nodes})
-
-    return children, excluded_leviers
-
-
-def build_priorisation_cases(
-    leviers: list[str],
-    reductions: dict[str, float],
-    notes: dict[tuple[str, int], int],
-    weights: dict[str, dict[int, float]],
-    exclusions: set[tuple[str, int]] | None = None,
-    selected_cibles: set[tuple[str, int]] | None = None,
-) -> list[dict]:
-    """Cases levier × catégorie avec note et potentiel de réduction (ktCO₂e)."""
-    cases: list[dict] = []
-    exclusions = exclusions or set()
-    for levier in sorted(leviers):
-        if levier not in reductions:
-            continue
-        reduction_abs = abs(reductions[levier])
-        levier_weights = weights.get(levier, {})
-        for cat in range(1, 7):
-            if (levier, cat) in exclusions:
-                continue
-            if selected_cibles is not None and (levier, cat) not in selected_cibles:
-                continue
-            poids = levier_weights.get(cat)
-            if poids is None or pd.isna(poids) or poids == 0:
-                continue
-            potentiel = reduction_abs * float(poids)
-            if potentiel == 0:
-                continue
-            note = int(notes.get((levier, cat), 0))
-            categorie = CATEGORIES[cat]
-            cases.append(
-                {
-                    "levier": levier,
-                    "categorie": categorie,
-                    "categorie_id": cat,
-                    "note": note,
-                    "potentiel": round(potentiel, 2),
-                    "label": f"{levier_label_court(levier)} · {categorie}",
-                }
-            )
-    return cases
-
-
 def build_mobilisation_bar_options(
     cases: list[dict], selected_note: int
 ) -> dict | None:
@@ -423,7 +236,7 @@ def build_mobilisation_bar_options(
     if not filtered:
         return None
 
-    filtered.sort(key=lambda c: c["potentiel"], reverse=True)
+    filtered.sort(key=lambda c: c["enjeu"], reverse=True)
     labels = [c["label"] for c in filtered]
     color = NOTE_COLORS.get(selected_note, NOTE_COLORS[0])
 
@@ -476,7 +289,7 @@ def build_mobilisation_bar_options(
                 "type": "bar",
                 "data": [
                     {
-                        "value": c["potentiel"],
+                        "value": c["enjeu"],
                         "levierFull": c["levier"],
                         "categorie": c["categorie"],
                         "itemStyle": {
@@ -513,243 +326,6 @@ def build_mobilisation_bar_options(
 
 MOBILISATION_BAR_ROW_PX = 40
 MOBILISATION_BAR_MIN_HEIGHT = 280
-
-VUE_ENSEMBLE_CHART_HEIGHT = 1000
-NOTES_ENJEU_BAS = {0, 1}
-
-TREEMAP_HEIGHT = 800
-
-
-def case_sort_value(case: dict) -> float:
-    """Valeur de tri : négative pour non/partiellement mobilisé, positive sinon."""
-    potentiel = case["potentiel"]
-    if case["note"] in NOTES_ENJEU_BAS:
-        return -potentiel
-    return potentiel
-
-
-def case_chart_value(case: dict) -> float:
-    """Valeur affichée dans le graphique (signée pour les barres orange/jaune)."""
-    if case["note"] in NOTES_ENJEU_BAS:
-        return -case["potentiel"]
-    return case["potentiel"]
-
-
-def build_vue_ensemble_bar_options(cases: list[dict]) -> dict | None:
-    """Barres verticales, couleur par note, tri par potentiel signé décroissant."""
-    if not cases:
-        return None
-
-    ordered = sorted(cases, key=case_sort_value, reverse=True)
-    series_data = []
-    for c in ordered:
-        chart_val = case_chart_value(c)
-        series_data.append(
-            {
-                "value": chart_val,
-                "levierFull": c["levier"],
-                "categorie": c["categorie"],
-                "noteLevel": NOTE_LABELS.get(c["note"], NOTE_LABELS[0]),
-                "itemStyle": {
-                    "color": NOTE_COLORS.get(c["note"], NOTE_COLORS[0]),
-                    "borderRadius": (
-                        [6, 6, 0, 0] if chart_val >= 0 else [0, 0, 6, 6]
-                    ),
-                    "shadowColor": "rgba(0,0,0,0.06)",
-                    "shadowBlur": 6,
-                },
-            }
-        )
-
-    return {
-        "backgroundColor": "transparent",
-        "animationDuration": 600,
-        "animationEasing": "cubicOut",
-        "grid": {
-            "left": 48,
-            "right": 24,
-            "top": 40,
-            "bottom": 32,
-            "containLabel": False,
-        },
-        "tooltip": {
-            "trigger": "axis",
-            "axisPointer": {"type": "shadow", "shadowStyle": {"opacity": 0.08}},
-            "formatter": JsCode(
-                """
-                function(params) {
-                    var p = params && params[0];
-                    if (!p || !p.data) return '';
-                    var d = p.data;
-                    var val = Math.abs(Number(p.value)).toFixed(1);
-                    return (d.levierFull || '') + '<br/>'
-                        + (d.categorie || '') + '<br/>'
-                        + (d.noteLevel || '') + '<br/>'
-                        + '<b>' + val + ' ktCO₂e</b>';
-                }
-                """
-            ),
-        },
-        "xAxis": {
-            "type": "category",
-            "data": [""] * len(ordered),
-            "axisLine": {"show": False},
-            "axisTick": {"show": False},
-            "axisLabel": {"show": False},
-        },
-        "yAxis": {
-            "type": "value",
-            "name": "ktCO₂e",
-            "nameTextStyle": {"color": "#888", "fontSize": 11},
-            "axisLine": {"show": False},
-            "axisTick": {"show": False},
-            "axisLabel": {"color": "#888", "fontSize": 11},
-            "splitLine": {"lineStyle": {"color": "#ebebeb", "type": "dashed"}},
-        },
-        "series": [
-            {
-                "type": "bar",
-                "data": series_data,
-                "barMaxWidth": 36,
-                "emphasis": {
-                    "itemStyle": {
-                        "shadowColor": "rgba(0,0,0,0.12)",
-                        "shadowBlur": 10,
-                    }
-                },
-                "label": {"show": False},
-            }
-        ],
-    }
-
-TREEMAP_CLICK_EVENTS = {
-    "click": """
-    function(params) {
-        var d = params.data;
-        if (!d || !d.levierName) return null;
-        return {
-            levier: d.levierName,
-            categorie: d.categorieName,
-            categorieId: d.categorieId,
-        };
-    }
-    """,
-}
-
-
-def extract_chart_event(component_value) -> dict | None:
-    """Extrait l'événement JS depuis la valeur retournée par st_echarts v0.6+."""
-    if component_value is None:
-        return None
-    if hasattr(component_value, "chart_event"):
-        event = component_value.chart_event
-        return event if isinstance(event, dict) else None
-    if isinstance(component_value, dict):
-        if "chart_event" in component_value:
-            event = component_value["chart_event"]
-            return event if isinstance(event, dict) else None
-        if component_value.get("levier"):
-            return component_value
-    return None
-
-
-def prepare_treemap_display_data(
-    treemap_children: list[dict], *, show_labels: bool
-) -> list[dict]:
-    """Prépare les données affichées : libellés vides si masqués."""
-    if show_labels:
-        return treemap_children
-
-    return [
-        {
-            **levier_node,
-            "children": [{**leaf, "name": ""} for leaf in levier_node["children"]],
-        }
-        for levier_node in treemap_children
-    ]
-
-
-def build_echarts_options(treemap_children: list[dict], *, show_labels: bool = True) -> dict:
-    """Construit l'option ECharts pour la treemap à deux niveaux."""
-    display_data = prepare_treemap_display_data(
-        treemap_children, show_labels=show_labels
-    )
-    return {
-        "backgroundColor": "transparent",
-        "tooltip": {
-            "formatter": JsCode(
-                """
-                function(params) {
-                    var d = params.data;
-                    if (!d || !d.levierName) return '';
-                    var taille = Number(d.value).toFixed(1);
-                    return d.levierName + '<br/>'
-                        + d.categorieName + '<br/>'
-                        + 'Note : ' + d.noteLevel + '<br/>'
-                        + 'Taille : ' + taille + ' ktCO2';
-                }
-                """
-            ),
-        },
-        "series": [
-            {
-                "type": "treemap",
-                "roam": False,
-                "nodeClick": False,
-                "left": 0,
-                "top": 0,
-                "right": 0,
-                "bottom": 0,
-                "breadcrumb": {"show": False},
-                "levels": [
-                    {
-                        "itemStyle": {
-                            "borderColor": "#444",
-                            "borderWidth": 1,
-                            "gapWidth": 1,
-                        },
-                        "upperLabel": {"show": False},
-                        "label": {"show": False},
-                    },
-                    {
-                        "itemStyle": {
-                            "borderColor": "#fff",
-                            "borderWidth": 1,
-                            "gapWidth": 1,
-                        },
-                        "label": {
-                            "show": True,
-                            "fontSize": 10,
-                            "lineHeight": 14,
-                            "color": "#333",
-                            "overflow": "break",
-                            "width": 80,
-                        },
-                        "upperLabel": {"show": False},
-                    },
-                ],
-                "data": display_data,
-            }
-        ],
-    }
-
-
-def render_note_color_legend() -> None:
-    """Légende des couleurs par état de mobilisation (treemap, Impact Chart)."""
-    items = "".join(
-        f'<span style="display:inline-flex;align-items:center;margin-right:1.5rem;">'
-        f'<span style="display:inline-block;width:14px;height:14px;border-radius:3px;'
-        f"background:{NOTE_COLORS[note]};border:1px solid rgba(0,0,0,0.12);"
-        f'margin-right:0.45rem;flex-shrink:0;"></span>'
-        f'<span style="font-size:0.875rem;color:#333;">{NOTE_LABELS[note]}</span>'
-        f"</span>"
-        for note in range(4)
-    )
-    st.markdown(
-        f'<div style="display:flex;flex-wrap:wrap;align-items:center;'
-        f'margin-bottom:0.75rem;">{items}</div>',
-        unsafe_allow_html=True,
-    )
 
 
 # ==========================
@@ -833,46 +409,38 @@ excluded_leviers = [levier for levier in leviers if levier not in reductions]
 
 tabs = st.tabs(["Impact Map", "Impact Chart", "Détail mobilisation"])
 
+_detail_slot_holder: dict = {}
+
+
+def _before_treemap_chart() -> None:
+    if st.session_state.get("treemap_collectivite_id") != selected_id:
+        st.session_state.pop("treemap_selection", None)
+    st.session_state["treemap_collectivite_id"] = selected_id
+
+    treemap_selection = st.session_state.get("treemap_selection")
+    if treemap_selection and treemap_selection.get("levier") not in leviers:
+        st.session_state.pop("treemap_selection", None)
+
+    _detail_slot_holder["slot"] = st.empty()
+
+
 with tabs[0]:
+    _, click = render_impact_map(
+        treemap_children,
+        excluded_leviers,
+        chart_key_prefix=f"treemap_{selected_id}",
+        threshold_pct=threshold_pct,
+        click_events=TREEMAP_CLICK_EVENTS,
+        before_chart=_before_treemap_chart if treemap_children else None,
+    )
 
-    show_labels = st.toggle("Libellés", value=False)
-
-    for levier in excluded_leviers:
-        st.warning(
-            f"Le levier **{levier}** est présent dans la priorisation "
-            f"mais sans réduction CO₂ — il est exclu de la treemap."
-        )
-
-    if not treemap_children:
-        st.info("Aucune case à afficher pour cette collectivité.")
-    else:
-        if st.session_state.get("treemap_collectivite_id") != selected_id:
-            st.session_state.pop("treemap_selection", None)
-        st.session_state["treemap_collectivite_id"] = selected_id
-
-        treemap_selection = st.session_state.get("treemap_selection")
-        if treemap_selection and treemap_selection.get("levier") not in selected_leviers:
-            st.session_state.pop("treemap_selection", None)
-
-        detail_slot = st.empty()
-
-        # TODO: zoom par levier
-
-        render_note_color_legend()
-        options = build_echarts_options(treemap_children, show_labels=show_labels)
-        click = st_echarts(
-            options=options,
-            events=TREEMAP_CLICK_EVENTS,
-            height=f"{TREEMAP_HEIGHT}px",
-            key=f"treemap_{selected_id}_{threshold_pct}_labels_{int(show_labels)}",
-        )
-
+    if treemap_children:
         click_event = extract_chart_event(click)
         if click_event and click_event.get("levier"):
             st.session_state["treemap_selection"] = click_event
 
         selection = st.session_state.get("treemap_selection")
-        with detail_slot.container():
+        with _detail_slot_holder["slot"].container():
             if selection:
                 levier = selection["levier"]
                 cat_id = selection.get("categorieId")
@@ -1050,13 +618,7 @@ with tabs[2]:
         )
 
 with tabs[1]:
-    vue_options = build_vue_ensemble_bar_options(priorisation_cases)
-    if vue_options is None:
-        st.info("Aucune case à afficher pour ce seuil.")
-    else:
-        render_note_color_legend()
-        st_echarts(
-            options=vue_options,
-            height=f"{VUE_ENSEMBLE_CHART_HEIGHT}px",
-            key=f"vue_ensemble_{selected_id}_{threshold_pct}",
-        )
+    render_impact_chart(
+        priorisation_cases,
+        chart_key=f"vue_ensemble_{selected_id}_{threshold_pct}",
+    )

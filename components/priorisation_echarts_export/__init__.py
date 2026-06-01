@@ -1,4 +1,4 @@
-"""Composant Streamlit : capture de deux graphiques ECharts en PNG."""
+"""Composant Streamlit : capture de graphiques ECharts en PNG."""
 
 from pathlib import Path
 
@@ -12,18 +12,16 @@ _priorisation_echarts_export = components.declare_component(
 
 
 def priorisation_echarts_export(
-    treemap_option: dict,
-    bar_option: dict,
-    treemap_height: int,
-    bar_height: int,
+    charts: list[dict],
     key: str | None = None,
 ) -> dict | None:
-    """Rend deux graphiques ECharts hors écran et retourne leurs PNG base64."""
+    """Rend des graphiques ECharts hors écran et retourne leurs PNG base64.
+
+    Chaque élément de ``charts`` : ``{"type": "treemap"|"bar", "option": dict, "height": int}``.
+    Retourne ``{"pngs": [data_url, ...]}`` dans le même ordre.
+    """
     return _priorisation_echarts_export(
-        treemap_option=treemap_option,
-        bar_option=bar_option,
-        treemap_height=treemap_height,
-        bar_height=bar_height,
+        charts=charts,
         key=key,
         default=None,
     )
