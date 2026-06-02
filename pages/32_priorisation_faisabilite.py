@@ -34,10 +34,12 @@ FAISABILITE_OPTIONS = (
 FAISABILITE_TO_INT = {label: i for i, label in enumerate(FAISABILITE_OPTIONS, start=1)}
 INT_TO_FAISABILITE = {v: k for k, v in FAISABILITE_TO_INT.items()}
 
-TOP_N = 10
+TOP_N_INITIAL = 5
+TOP_N_MAX = 10
 
 SESSION_FAISABILITE = "faisabilite_choices"
 SESSION_COLLECTIVITE = "faisabilite_collectivite_id"
+SESSION_SHOW_MORE = "faisabilite_show_more"
 
 
 # ==========================
@@ -233,7 +235,7 @@ def top_leviers_angles_morts(
     notes: dict[tuple[str, int], int],
     exclusions: set[tuple[str, int]],
     weights: dict[str, dict[int, float]],
-    n: int = TOP_N,
+    n: int = TOP_N_MAX,
 ) -> list[tuple[str, float]]:
     """Top N leviers par potentiel non mobilisé décroissant."""
     scored: list[tuple[str, float]] = []
@@ -344,6 +346,7 @@ def init_session_faisabilite(
         df, notes, exclusions, weights
     )
     st.session_state[SESSION_COLLECTIVITE] = collectivite_id
+    st.session_state.pop(SESSION_SHOW_MORE, None)
 
 
 def sync_segmented_key(key: str, label: str | None) -> None:
@@ -457,6 +460,7 @@ reductions = df_reductions.set_index("levier")["reduction"].to_dict()
 exclusions = hors_competence_pairs(load_hors_competence(collectivite_id))
 weights = build_category_weights(df_poids)
 
+
 if SESSION_FAISABILITE not in st.session_state:
     st.session_state[SESSION_FAISABILITE] = {}
 
@@ -477,9 +481,13 @@ if not top:
 
 max_potentiel = top[0][1]
 
-st.subheader(f"Top {len(top)} des leviers sous mobilisés")
+show_more = st.session_state.get(SESSION_SHOW_MORE, False)
+n_visible = TOP_N_MAX if show_more else TOP_N_INITIAL
+visible_top = top[:n_visible]
 
-for rank, (levier, potentiel) in enumerate(top, start=1):
+st.subheader(f"Top {len(visible_top)} des leviers sous mobilisés")
+
+for rank, (levier, potentiel) in enumerate(visible_top, start=1):
     angle_mort_cats = angle_mort_categories(levier, notes, exclusions, weights)
     levier_key = f"faisabilite_levier_{levier}"
 
@@ -527,6 +535,15 @@ for rank, (levier, potentiel) in enumerate(top, start=1):
                 )
 
     st.markdown("")
+
+if len(top) > TOP_N_INITIAL and not show_more:
+    if st.button("Afficher plus", type="secondary"):
+        st.session_state[SESSION_SHOW_MORE] = True
+        st.rerun()
+elif len(top) > TOP_N_INITIAL and show_more:
+    if st.button("Afficher moins", type="secondary"):
+        st.session_state[SESSION_SHOW_MORE] = False
+        st.rerun()
 
 st.markdown("---")
 

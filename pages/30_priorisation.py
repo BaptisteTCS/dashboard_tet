@@ -335,11 +335,11 @@ MOBILISATION_BAR_MIN_HEIGHT = 280
 st.title("🧭 Diagnostic")
 
 st.markdown(
-    "Après le **périmètre d'action**, cette étape permet de **visualiser l'état "
-    "de mobilisation** des leviers de votre collectivité. Toutes les actions "
-    "retenues ont été **classées par cible** (levier × type d'action). "
-    "La vue d'ensemble met en évidence les **priorités d'action** : une grande "
-    "case indique un **fort enjeu peu mobilisé**."
+    "Cette page permet, à partir de toutes les actions de vos plans, de **visualiser l'état "
+    "de mobilisation** des leviers de la transition écologique de votre collectivité. Toutes vos actions "
+    "ont été **classées par cible** (levier × type d'action). "
+    "La vue Map met en évidence les **priorités d'action** : une grande "
+    "case clair indique un **fort enjeu peu mobilisé**."
 )
 
 df_collectivites = load_collectivites_priorisees()

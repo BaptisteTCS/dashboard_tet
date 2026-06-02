@@ -45,8 +45,15 @@ NOTE_BADGE_COLORS = {
 # Faisabilité 2 = À discuter, 3 = Prioritaire
 FAISABILITE_ELIGIBLE = {2, 3}
 
+MAX_ACTIONS_PER_CIBLE = 3
+CIBLES_PAGE_SIZE = 3
+
+INTERET_SELECTION = "Cette action m'intéresse"
+
 SESSION_SELECTIONS = "action_selections"
 SESSION_COLLECTIVITE = "action_collectivite_id"
+SESSION_EXPANDED_CIBLES = "action_expanded_cibles"
+SESSION_VISIBLE_CIBLES_COUNT = "action_visible_cibles_count"
 
 
 # ==========================
@@ -457,28 +464,103 @@ def fiches_autres_collectivites(
     )
 
 
-def checkbox_key(levier: str, cat: int, fiche_id: int) -> str:
+def iter_fiches_limitees(
+    df_ref: pd.DataFrame,
+    df_autres: pd.DataFrame,
+    limit: int | None = MAX_ACTIONS_PER_CIBLE,
+):
+    """Parcourt les fiches d'une cible (référence puis autres), plafonnées à `limit`."""
+    remaining = limit
+    for _, fiche in df_ref.iterrows():
+        if limit is not None and remaining <= 0:
+            break
+        yield fiche, True
+        if limit is not None:
+            remaining -= 1
+    for _, fiche in df_autres.iterrows():
+        if limit is not None and remaining <= 0:
+            break
+        yield fiche, False
+        if limit is not None:
+            remaining -= 1
+
+
+def fiches_pour_cible(
+    levier: str,
+    cat: int,
+    collectivite_id: int,
+    df_priorisation_all: pd.DataFrame,
+    df_fiches_action: pd.DataFrame,
+    nom_par_id: dict[int, str],
+) -> tuple[pd.DataFrame, pd.DataFrame]:
+    df_ref = fiches_reference_pour_cible()
+    df_autres = fiches_autres_collectivites(
+        levier,
+        cat,
+        collectivite_id,
+        df_priorisation_all,
+        df_fiches_action,
+        nom_par_id,
+    )
+    return df_ref, df_autres
+
+
+def is_cible_expanded(levier: str, cat: int) -> bool:
+    expanded: set[tuple[str, int]] = st.session_state.get(SESSION_EXPANDED_CIBLES, set())
+    return (levier, cat) in expanded
+
+
+def fiches_limit_for_cible(levier: str, cat: int) -> int | None:
+    return None if is_cible_expanded(levier, cat) else MAX_ACTIONS_PER_CIBLE
+
+
+def fiche_selection_key(levier: str, cat: int, fiche_id: int) -> str:
     return f"sel_action_{levier}_{cat}_{fiche_id}"
 
 
-def clear_checkbox_keys() -> None:
+def clear_fiche_selection_keys() -> None:
     for key in list(st.session_state.keys()):
         if str(key).startswith("sel_action_"):
             del st.session_state[key]
 
 
-def init_session_selections(collectivite_id: int, saved: dict[tuple[str, int], set[int]]) -> None:
+def is_fiche_selected(levier: str, cat: int, fiche_id: int) -> bool:
+    return (
+        st.session_state.get(fiche_selection_key(levier, cat, fiche_id))
+        == INTERET_SELECTION
+    )
+
+
+def sync_segmented_key(key: str, label: str | None) -> None:
+    """Synchronise un segmented control : sélectionné ou indéterminé (default=None)."""
+    if label is not None:
+        st.session_state[key] = label
+    elif key in st.session_state:
+        del st.session_state[key]
+
+
+def init_session_selections(
+    collectivite_id: int,
+    saved: dict[tuple[str, int], set[int]],
+    *,
+    reset_pagination: bool = True,
+) -> None:
     if st.session_state.get(SESSION_COLLECTIVITE) == collectivite_id:
         return
-    clear_checkbox_keys()
+    clear_fiche_selection_keys()
     st.session_state[SESSION_SELECTIONS] = {
         key: set(ids) for key, ids in saved.items()
     }
     st.session_state[SESSION_COLLECTIVITE] = collectivite_id
+    if reset_pagination:
+        st.session_state[SESSION_EXPANDED_CIBLES] = set()
+        st.session_state[SESSION_VISIBLE_CIBLES_COUNT] = CIBLES_PAGE_SIZE
 
 
 def collect_selections_from_widgets(
     cibles: list[dict],
+    visible_cible_keys: set[tuple[str, int]],
+    saved: dict[tuple[str, int], set[int]],
     collectivite_id: int,
     df_priorisation_all: pd.DataFrame,
     df_fiches_action: pd.DataFrame,
@@ -488,8 +570,12 @@ def collect_selections_from_widgets(
     for cible in cibles:
         levier = cible["levier"]
         cat = cible["categorie_id"]
-        df_ref = fiches_reference_pour_cible()
-        df_autres = fiches_autres_collectivites(
+        cible_key = (levier, cat)
+        if cible_key not in visible_cible_keys:
+            for fid in saved.get(cible_key, set()):
+                rows.append((levier, cat, fid))
+            continue
+        df_ref, df_autres = fiches_pour_cible(
             levier,
             cat,
             collectivite_id,
@@ -497,9 +583,11 @@ def collect_selections_from_widgets(
             df_fiches_action,
             nom_par_id,
         )
-        for _, fiche in pd.concat([df_ref, df_autres], ignore_index=True).iterrows():
+        for fiche, _reference in iter_fiches_limitees(
+            df_ref, df_autres, limit=fiches_limit_for_cible(levier, cat)
+        ):
             fid = int(fiche["id"])
-            if st.session_state.get(checkbox_key(levier, cat, fid), False):
+            if is_fiche_selected(levier, cat, fid):
                 rows.append((levier, cat, fid))
     return sorted(rows, key=lambda x: (x[0], x[1], x[2]))
 
@@ -536,7 +624,7 @@ def save_priorisation_action(
             )
 
 
-def render_fiche_checkbox(
+def render_fiche_action(
     fiche: pd.Series,
     levier: str,
     cat: int,
@@ -545,21 +633,17 @@ def render_fiche_checkbox(
     reference: bool,
 ) -> None:
     fid = int(fiche["id"])
-    key = checkbox_key(levier, cat, fid)
+    key = fiche_selection_key(levier, cat, fid)
     if key not in st.session_state:
-        st.session_state[key] = fid in saved_ids
+        sync_segmented_key(
+            key, INTERET_SELECTION if fid in saved_ids else None
+        )
 
     badge = origine_label(fiche.get("origine"))
     titre = fiche.get("intitule") or f"Fiche #{fid}"
     desc = short_description(fiche.get("description"))
 
-    col_check, col_content = st.columns([0.06, 0.94])
-    with col_check:
-        st.checkbox(
-            titre,
-            key=key,
-            label_visibility="collapsed",
-        )
+    col_content, col_toggle = st.columns([3, 2])
     with col_content:
         st.markdown(f"**{titre}**")
         if reference:
@@ -570,13 +654,21 @@ def render_fiche_checkbox(
             st.caption(desc)
         else:
             st.caption("Aucune description.")
+    with col_toggle:
+        st.segmented_control(
+            "Intérêt",
+            options=[INTERET_SELECTION],
+            key=key,
+            default=None,
+            label_visibility="collapsed",
+        )
 
 
 # ==========================
 # Interface
 # ==========================
 
-st.title("🏅 Choix des actions")
+st.title("🏅 Exploration des actions de référence")
 
 st.markdown("""
 Après l'arbitrage politique, cette étape sert à **réunir**, 
@@ -649,65 +741,112 @@ st.caption(
     f"**{len(cibles)}** cibles prioritaires classées par impact décroissant."
 )
 
-for levier, cibles_levier in group_cibles_by_levier(cibles):
-    for cible in cibles_levier:
-        cat = cible["categorie_id"]
-        cat_label = cible["categorie"]
-        saved_ids = saved.get((levier, cat), set())
-        note = cible["note"]
-        note_label = NOTE_LABELS.get(note, NOTE_LABELS[0])
-        note_badge_color = NOTE_BADGE_COLORS.get(note, "orange")
+n_visible_cibles = st.session_state.get(SESSION_VISIBLE_CIBLES_COUNT, CIBLES_PAGE_SIZE)
+visible_cibles = cibles[:n_visible_cibles]
+visible_cible_keys = {
+    (cible["levier"], cible["categorie_id"]) for cible in visible_cibles
+}
 
-        st.subheader(f"{levier} - {cat_label} :{note_badge_color}-badge[{note_label}]")
+for cible in visible_cibles:
+    levier = cible["levier"]
+    cat = cible["categorie_id"]
+    cat_label = cible["categorie"]
+    saved_ids = saved.get((levier, cat), set())
+    note = cible["note"]
+    note_label = NOTE_LABELS.get(note, NOTE_LABELS[0])
+    note_badge_color = NOTE_BADGE_COLORS.get(note, "orange")
 
-        df_ref = fiches_reference_pour_cible()
-        df_autres = fiches_autres_collectivites(
-            levier,
-            cat,
-            collectivite_id,
-            df_priorisation_all,
-            df_fiches_action,
-            nom_par_id,
-        )
+    st.subheader(f"{levier} - {cat_label} :{note_badge_color}-badge[{note_label}]")
 
-        if df_ref.empty and df_autres.empty:
-            st.info("Aucune fiche action disponible pour cette cible.")
-            st.markdown("")
-            continue
-
-        st.badge(
-            "Actions de référence",
-            icon=":material/cards_star:",
-            color="green",
-        )
-        if df_ref.empty:
-            st.caption("Aucune action de référence pour le moment.")
+    df_ref, df_autres = fiches_pour_cible(
+        levier,
+        cat,
+        collectivite_id,
+        df_priorisation_all,
+        df_fiches_action,
+        nom_par_id,
+    )
+    total_fiches = len(df_ref) + len(df_autres)
+    expanded = is_cible_expanded(levier, cat)
+    visible_ref: list[pd.Series] = []
+    visible_autres: list[pd.Series] = []
+    for fiche, reference in iter_fiches_limitees(
+        df_ref, df_autres, limit=fiches_limit_for_cible(levier, cat)
+    ):
+        if reference:
+            visible_ref.append(fiche)
         else:
-            for _, fiche in df_ref.iterrows():
-                render_fiche_checkbox(
-                    fiche, levier, cat, saved_ids, reference=True
-                )
+            visible_autres.append(fiche)
 
-        st.badge(
-            "Actions des autres collectivités",
-            icon=":material/search_check:",
-            color="green",
-        )
-        if df_autres.empty:
-            st.caption("Aucune action d'autres collectivités pour cette cible.")
-        else:
-            for _, fiche in df_autres.iterrows():
-                render_fiche_checkbox(
-                    fiche, levier, cat, saved_ids, reference=False
-                )
-
+    if total_fiches == 0:
+        st.info("Aucune fiche action disponible pour cette cible.")
         st.markdown("")
+        continue
+
+    st.badge(
+        "Actions de référence",
+        icon=":material/cards_star:",
+        color="green",
+    )
+    if df_ref.empty:
+        st.caption("Aucune action de référence pour le moment.")
+    else:
+        for fiche in visible_ref:
+            render_fiche_action(
+                fiche, levier, cat, saved_ids, reference=True
+            )
+
+    st.badge(
+        "Actions des autres collectivités",
+        icon=":material/search_check:",
+        color="green",
+    )
+    if df_autres.empty:
+        st.caption("Aucune action d'autres collectivités pour cette cible.")
+    else:
+        for fiche in visible_autres:
+            render_fiche_action(
+                fiche, levier, cat, saved_ids, reference=False
+            )
+
+    if total_fiches > MAX_ACTIONS_PER_CIBLE and not expanded:
+        if st.button(
+            "Afficher plus d'actions",
+            type="secondary",
+            key=f"explore_more_{levier}_{cat}",
+        ):
+            st.session_state.setdefault(SESSION_EXPANDED_CIBLES, set()).add(
+                (levier, cat)
+            )
+            st.rerun()
+    elif total_fiches > MAX_ACTIONS_PER_CIBLE and expanded:
+        if st.button(
+            "Afficher moins",
+            type="secondary",
+            key=f"explore_less_{levier}_{cat}",
+        ):
+            st.session_state.setdefault(SESSION_EXPANDED_CIBLES, set()).discard(
+                (levier, cat)
+            )
+            st.rerun()
+
+    st.markdown("")
+
+if len(cibles) > n_visible_cibles:
+    if st.button("Afficher plus de cibles", type="secondary", key="action_show_more_cibles"):
+        st.session_state[SESSION_VISIBLE_CIBLES_COUNT] = min(
+            n_visible_cibles + CIBLES_PAGE_SIZE,
+            len(cibles),
+        )
+        st.rerun()
 
 st.markdown("---")
 
 if st.button("Sauvegarder", type="primary"):
     to_save = collect_selections_from_widgets(
         cibles,
+        visible_cible_keys,
+        saved,
         collectivite_id,
         df_priorisation_all,
         df_fiches_action,
@@ -716,10 +855,12 @@ if st.button("Sauvegarder", type="primary"):
     try:
         save_priorisation_action(collectivite_id, to_save)
         load_actions_choisies.clear()
-        clear_checkbox_keys()
+        clear_fiche_selection_keys()
         st.session_state.pop(SESSION_COLLECTIVITE, None)
         init_session_selections(
-            collectivite_id, selections_from_db(load_actions_choisies(collectivite_id))
+            collectivite_id,
+            selections_from_db(load_actions_choisies(collectivite_id)),
+            reset_pagination=False,
         )
         n = len(to_save)
         if n == 0:

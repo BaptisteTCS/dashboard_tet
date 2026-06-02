@@ -54,6 +54,22 @@ def origine_depuis_fiche(
 
 
 @st.cache_data(ttl="1h")
+def load_collectivites_priorisees() -> pd.DataFrame:
+    engine = get_engine()
+    with engine.connect() as conn:
+        return pd.read_sql_query(
+            text("""
+                SELECT DISTINCT c.collectivite_id, c.nom
+                FROM collectivite c
+                INNER JOIN priorisation p ON p.collectivite_id = c.collectivite_id
+                WHERE c.nom IS NOT NULL
+                ORDER BY c.nom
+            """),
+            conn,
+        )
+
+
+@st.cache_data(ttl="1h")
 def load_collectivites_avec_actions() -> pd.DataFrame:
     engine = get_engine()
     with engine.connect() as conn:
@@ -288,7 +304,7 @@ def build_detail_par_cible(
 st.title("🏆 Synthèse opérationnelle")
 
 st.markdown(
-    "Cette synthèse présente les **actions retenues** et **où elles s'inscrivent** "
+    "Cette synthèse présente les **actions sauvegardées** et **où elles s'inscrivent** "
     "sur la cartographie de mobilisation de votre collectivité. C'est un **support "
     "pour la discussion avec les élus** : la taille des cases traduit l'enjeu relatif, "
     "sans valeur chiffrée affichée."
@@ -302,8 +318,13 @@ if df_collectivites.empty:
     )
     st.stop()
 
-nom_par_id = df_collectivites.set_index("collectivite_id")["nom"].to_dict()
+nom_par_id_select = df_collectivites.set_index("collectivite_id")["nom"].to_dict()
 collectivite_ids = df_collectivites["collectivite_id"].tolist()
+nom_par_id = (
+    load_collectivites_priorisees()
+    .set_index("collectivite_id")["nom"]
+    .to_dict()
+)
 
 default_index = 0
 qp_id = st.query_params.get("collectivite_id")
@@ -319,7 +340,7 @@ collectivite_id = st.selectbox(
     "Collectivité",
     options=collectivite_ids,
     index=default_index,
-    format_func=lambda cid: nom_par_id[cid],
+    format_func=lambda cid: nom_par_id_select[cid],
     key="synthese_select_collectivite",
 )
 
@@ -370,7 +391,7 @@ col_cibles, col_actions = st.columns(2)
 with col_cibles:
     st.metric("Nombre de cibles priorisées", n_cibles_priorisees)
 with col_actions:
-    st.metric("Nombre d'actions retenues", n_actions_retenues)
+    st.metric("Nombre d'actions sauvergardées", n_actions_retenues)
 
 _potentiel_sk = f"synthese_potentiel_etape_{collectivite_id}"
 etape_potentiel = st.session_state.get(_potentiel_sk, 0)
@@ -384,7 +405,7 @@ if etape_potentiel == 0:
         st.rerun()
 elif etape_potentiel == 1:
     lib_actions = (
-        "action retenue" if n_actions_retenues == 1 else "actions retenues"
+        "action sauvegardée" if n_actions_retenues == 1 else "actions sauvegardées"
     )
     lib_cibles = (
         "cible priorisée" if n_cibles_priorisees == 1 else "cibles priorisées"
@@ -654,7 +675,7 @@ if st.session_state.get(_pdf_pending_key):
             del st.session_state[_pdf_pending_key]
 
 st.markdown("---")
-st.subheader("Actions retenues par cible")
+st.subheader("Actions sauvegardées par cible")
 
 detail = build_detail_par_cible(
     cibles_actions, actions_map, df_fiches, notes, nom_par_id
