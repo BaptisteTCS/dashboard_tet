@@ -17,6 +17,7 @@ pages = {
     ],
     "Dashboards": [
         st.Page("pages/08_👩‍🚀_Suivi_bizdevs.py", title="Bizdevs", icon="👩‍🚀"),
+        st.Page("pages/35_dashboard_bug.py", title="Bug - Support", icon="🐛"),
         st.Page("pages/04_🥐_TDB_collectivite.py", title="Collectivité", icon="🥐"),
         st.Page("pages/16_👥_Implication_Conseillers.py", title="Conseillers", icon="👥"),
         st.Page("pages/27_Dashboard_produit.py", title="Produit", icon="🚀"),

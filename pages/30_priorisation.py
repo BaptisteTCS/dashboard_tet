@@ -26,6 +26,7 @@ from utils.priorisation_impact_charts import (
     render_impact_chart,
     render_impact_map,
 )
+from utils.priorisation_navigation import render_etape_1_suivant
 from utils.priorisation_pareto import render_seuil_impact_cibles_expander
 
 # ==========================
@@ -352,10 +353,22 @@ nom_par_id = df_collectivites.set_index("collectivite_id")["nom"].to_dict()
 collectivite_ids = df_collectivites["collectivite_id"].tolist()
 df_fiches_action = load_fiches_action(tuple(collectivite_ids))
 
+default_index = 0
+qp_id = st.query_params.get("collectivite_id")
+if qp_id is not None:
+    try:
+        qp_id_int = int(qp_id)
+        if qp_id_int in collectivite_ids:
+            default_index = collectivite_ids.index(qp_id_int)
+    except (TypeError, ValueError):
+        pass
+
 selected_id = st.selectbox(
     "Collectivité",
     options=collectivite_ids,
+    index=default_index,
     format_func=lambda cid: nom_par_id[cid],
+    key="diag_select_collectivite",
 )
 
 st.markdown("---")
@@ -430,6 +443,8 @@ with tabs[0]:
         excluded_leviers,
         chart_key_prefix=f"treemap_{selected_id}",
         threshold_pct=threshold_pct,
+        labels_toggle_key=f"diag_treemap_labels_{selected_id}",
+        labels_toggle_default=True,
         click_events=TREEMAP_CLICK_EVENTS,
         before_chart=_before_treemap_chart if treemap_children else None,
     )
@@ -622,3 +637,6 @@ with tabs[1]:
         priorisation_cases,
         chart_key=f"vue_ensemble_{selected_id}_{threshold_pct}",
     )
+
+st.markdown("---")
+render_etape_1_suivant(selected_id, key=f"nav_diag_suivant_{selected_id}")

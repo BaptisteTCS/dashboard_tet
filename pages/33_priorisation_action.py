@@ -14,6 +14,7 @@ from bs4 import BeautifulSoup
 from sqlalchemy import text
 
 from utils.db import get_engine, get_engine_prod
+from utils.priorisation_navigation import render_etape_3_nav
 
 # ==========================
 # Constantes
@@ -735,6 +736,12 @@ if not cibles:
         "le périmètre et l'arbitrage politique (faisabilité « À discuter » ou "
         "« Prioritaire » sur des cibles peu mobilisées)."
     )
+    st.markdown("---")
+    render_etape_3_nav(
+        collectivite_id,
+        back_key=f"nav_action_retour_empty_{collectivite_id}",
+        forward_key=f"nav_action_suivant_empty_{collectivite_id}",
+    )
     st.stop()
 
 st.caption(
@@ -880,3 +887,10 @@ if st.button("Sauvegarder", type="primary"):
             )
     except Exception as e:
         st.error(f"Erreur lors de l'enregistrement : {e}")
+
+st.markdown("---")
+render_etape_3_nav(
+    collectivite_id,
+    back_key=f"nav_action_retour_{collectivite_id}",
+    forward_key=f"nav_action_suivant_{collectivite_id}",
+)

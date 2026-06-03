@@ -29,6 +29,7 @@ from utils.priorisation_pdf import (
     build_cibles_par_levier,
     sanitize_filename,
 )
+from utils.priorisation_navigation import render_etape_4_retour
 from utils.priorisation_pareto import (
     enjeu_cible,
     list_cibles_enjeu,
@@ -692,3 +693,6 @@ else:
         for action in bloc["actions"]:
             st.markdown(f"- {action['intitule']} — *{action['origine']}*")
         st.markdown("")
+
+st.markdown("---")
+render_etape_4_retour(collectivite_id, key=f"nav_synth_retour_{collectivite_id}")

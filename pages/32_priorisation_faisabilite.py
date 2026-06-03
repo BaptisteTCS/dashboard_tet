@@ -10,6 +10,7 @@ import pandas as pd
 from sqlalchemy import text
 
 from utils.db import get_engine
+from utils.priorisation_navigation import render_etape_2_nav
 
 # ==========================
 # Constantes
@@ -477,6 +478,12 @@ if not top:
         "(toutes les cibles dans le périmètre sont bien mobilisées, "
         "ou aucune réduction disponible)."
     )
+    st.markdown("---")
+    render_etape_2_nav(
+        collectivite_id,
+        back_key=f"nav_fais_retour_empty_{collectivite_id}",
+        forward_key=f"nav_fais_suivant_empty_{collectivite_id}",
+    )
     st.stop()
 
 max_potentiel = top[0][1]
@@ -570,3 +577,10 @@ if st.button("Sauvegarder", type="primary"):
             )
     except Exception as e:
         st.error(f"Erreur lors de l'enregistrement : {e}")
+
+st.markdown("---")
+render_etape_2_nav(
+    collectivite_id,
+    back_key=f"nav_fais_retour_{collectivite_id}",
+    forward_key=f"nav_fais_suivant_{collectivite_id}",
+)

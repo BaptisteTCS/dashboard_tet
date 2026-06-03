@@ -536,13 +536,14 @@ def render_impact_map(
     chart_key_prefix: str,
     threshold_pct: int,
     labels_toggle_key: str | None = None,
+    labels_toggle_default: bool = False,
     show_actions_retenues: bool = False,
     click_events: dict | None = None,
     height: int = TREEMAP_HEIGHT,
     before_chart: Callable[[], None] | None = None,
 ) -> tuple[bool, object | None]:
     """Affiche l'onglet Impact Map. Retourne (show_labels, valeur st_echarts ou None)."""
-    toggle_kwargs: dict = {"label": "Libellés", "value": False}
+    toggle_kwargs: dict = {"label": "Libellés", "value": labels_toggle_default}
     if labels_toggle_key is not None:
         toggle_kwargs["key"] = labels_toggle_key
     show_labels = st.toggle(**toggle_kwargs)
