@@ -272,6 +272,106 @@ def monthly_category_evolution(df_conv: pd.DataFrame) -> pd.DataFrame:
     )
 
 
+def _normalize_email(series: pd.Series) -> pd.Series:
+    return series.fillna("").astype(str).str.strip().str.lower()
+
+
+def _dedupe_fonction_par_user(df: pd.DataFrame) -> pd.DataFrame:
+    """Une ligne par user_id : conseiller > première fonction non nulle > première ligne."""
+    if df.empty or "user_id" not in df.columns:
+        return pd.DataFrame(columns=["user_id", "fonction"])
+
+    rows: list[dict] = []
+    for user_id, group in df.groupby("user_id", dropna=False):
+        conseiller = group[group["fonction"] == "conseiller"]
+        if not conseiller.empty:
+            fonction = conseiller.iloc[0]["fonction"]
+        else:
+            non_null = group[group["fonction"].notna()]
+            fonction = (
+                non_null.iloc[0]["fonction"]
+                if not non_null.empty
+                else group.iloc[0]["fonction"]
+            )
+        rows.append({"user_id": user_id, "fonction": fonction})
+    return pd.DataFrame(rows)
+
+
+def _build_user_fonction_lookup(
+    _df_users: pd.DataFrame,
+    df_droits: pd.DataFrame,
+    df_membres: pd.DataFrame,
+) -> pd.DataFrame:
+    """private_utilisateur_droit → private_collectivite_membre (LEFT sur collectivite_id)."""
+    if df_membres.empty:
+        return pd.DataFrame(columns=["user_id", "fonction"])
+
+    pcm = df_membres[["user_id", "collectivite_id", "fonction"]].copy()
+    droits = df_droits[["user_id", "collectivite_id"]].drop_duplicates()
+
+    via_droits = droits.merge(pcm, on=["user_id", "collectivite_id"], how="left")
+    membres_hors_droit = pcm.merge(droits, on=["user_id", "collectivite_id"], how="left", indicator=True)
+    membres_hors_droit = membres_hors_droit.loc[
+        membres_hors_droit["_merge"] == "left_only", ["user_id", "fonction"]
+    ]
+    linked = pd.concat(
+        [via_droits[["user_id", "fonction"]], membres_hors_droit],
+        ignore_index=True,
+    )
+    return _dedupe_fonction_par_user(linked.drop_duplicates())
+
+
+def _fonction_display_label(fonction: object) -> str:
+    if fonction is None or (isinstance(fonction, float) and pd.isna(fonction)):
+        return "Non renseigné"
+    s = str(fonction).strip()
+    if not s or s.lower() in ("none", "nan"):
+        return "Non renseigné"
+    labels = {
+        "conseiller": "Conseiller",
+        "partenaire": "Partenaire (BE)",
+        "politique": "Élu / politique",
+        "technique": "Agent technique",
+    }
+    return labels.get(s, s.replace("_", " ").capitalize())
+
+
+def contacts_by_fonction(
+    df_conv: pd.DataFrame,
+    df_auth_users: pd.DataFrame,
+    user_fonction_lookup: pd.DataFrame,
+    start: pd.Timestamp,
+    end: pd.Timestamp,
+) -> pd.Series:
+    """Nombre de contacts uniques (email) par fonction sur la période."""
+    conv = conversations_in_period(df_conv, start, end)
+    if conv.empty or "email" not in conv.columns:
+        return pd.Series(dtype=int)
+
+    contacts = (
+        conv[["email"]]
+        .dropna()
+        .drop_duplicates()
+        .assign(_email_key=lambda d: _normalize_email(d["email"]))
+    )
+    if contacts.empty:
+        return pd.Series(dtype=int)
+
+    users = df_auth_users.rename(columns={"id": "user_id"}).copy()
+    users["_email_key"] = _normalize_email(users["email"])
+    users = users.drop_duplicates(subset=["_email_key"], keep="first")
+
+    merged = contacts.merge(
+        users[["user_id", "_email_key"]],
+        on="_email_key",
+        how="left",
+    ).merge(user_fonction_lookup, on="user_id", how="left")
+    merged["fonction_label"] = merged["fonction"].apply(_fonction_display_label)
+    merged.loc[merged["user_id"].isna(), "fonction_label"] = "Non identifié"
+
+    return merged["fonction_label"].value_counts()
+
+
 def operator_counts(df_conv: pd.DataFrame, start: pd.Timestamp, end: pd.Timestamp) -> pd.Series:
     conv = conversations_in_period(df_conv, start, end)
     if conv.empty or "operator" not in conv.columns:
@@ -596,6 +696,11 @@ data = load_data()
 
 df_conv = _prepare_conversations(data["crisp_conversation"])
 df_users = _prepare_user_actifs(data["user_actifs_ct_mois"])
+_user_fonction_lookup = _build_user_fonction_lookup(
+    data["auth_users"],
+    data["private_utilisateur_droit"],
+    data["private_collectivite_membre"],
+)
 df_rating = _prepare_monthly_crisp(data["crisp_rating"])
 df_temps_rep = _prepare_monthly_crisp(data["crisp_temps_reponse"])
 df_temps_res = _prepare_monthly_crisp(data["crisp_temps_resolution"])
@@ -735,12 +840,14 @@ with c1:
         label="Nombre de conversations",
         value=nb_conv_cur,
         delta=_d_conv,
+        delta_color="inverse",
     )
 with c2:
     st.metric(
         label="Taux de support",
         value=f"{taux_cur:.1f} %" if taux_cur is not None else "—",
         delta=_d_taux,
+        delta_color="inverse",
         help="Nombre d'utilisateurs qui ont contacté le support sur le nombre d'utilisateurs actifs à cette période.",
     )
 with c3:
@@ -832,3 +939,30 @@ with col_op:
             color="blue",
             chart_key=f"bug_bar_operator_{_period_key}",
         )
+
+st.markdown("---")
+
+# ==========================
+# Section 3 : Profil des contacteurs
+# ==========================
+
+st.subheader("Profil de ceux qui nous contacte")
+
+_fonction_start = chart_start if is_all_time else cur_start
+_fonction_end = chart_end if is_all_time else cur_end
+_fonction_counts = contacts_by_fonction(
+    df_conv,
+    data["auth_users"],
+    _user_fonction_lookup,
+    _fonction_start,
+    _fonction_end,
+)
+
+_nivo_horizontal_bar(
+    counts=_fonction_counts,
+    index_key="Fonction",
+    title="Contacts par fonction",
+    icon=":material/groups:",
+    color="green",
+    chart_key=f"bug_bar_fonction_{_period_key}",
+)
