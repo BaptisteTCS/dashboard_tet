@@ -74,6 +74,7 @@ def load_data():
     df_crisp_temps_resolution = read_table("crisp_temps_resoluton")
     df_collectivite = read_table("collectivite")
     df_user_actifs = read_table("user_actifs_ct_mois")
+    df_notion_ticket = read_table("notion_ticket")
 
     engine_prod = get_engine_prod()
     with engine_prod.connect() as conn:
@@ -97,6 +98,7 @@ def load_data():
         "private_utilisateur_droit": df_droits,
         "private_collectivite_membre": df_membres,
         "auth_users": df_users,
+        "notion_ticket": df_notion_ticket,
     }
 
 
@@ -124,6 +126,59 @@ def _prepare_conversations(df: pd.DataFrame) -> pd.DataFrame:
     if out["updated_at"].dt.tz is not None:
         out["updated_at"] = out["updated_at"].dt.tz_localize(None)
     return out.dropna(subset=["updated_at"])
+
+
+def _ticket_is_bug(names: object) -> bool:
+    """Vrai si 'Bugs' apparait dans epic_name.
+
+    epic_name peut arriver sous plusieurs formes selon le driver SQL :
+    liste/tuple, numpy.ndarray, ou chaine (ex. '{Bugs,...}' ou un seul nom).
+    """
+    if names is None:
+        return False
+    # NaN scalaire
+    if isinstance(names, float):
+        return False
+    # Chaine (nom unique ou representation texte d'un tableau Postgres)
+    if isinstance(names, (str, bytes)):
+        return "Bugs" in (names.decode() if isinstance(names, bytes) else names)
+    # Iterable (list, tuple, ndarray, pandas array)
+    try:
+        return any(
+            "Bugs" in str(n)
+            for n in names
+            if n is not None and not (isinstance(n, float) and pd.isna(n))
+        )
+    except TypeError:
+        return "Bugs" in str(names)
+
+
+def _prepare_tickets(df: pd.DataFrame) -> pd.DataFrame:
+    """Parse created_at et restreint aux tickets bug (epic_name contient 'Bugs')."""
+    if df.empty:
+        print("[bug] _prepare_tickets: notion_ticket vide en entree")
+        return df
+    out = df.copy()
+    out["created_at"] = pd.to_datetime(out["created_at"], errors="coerce", utc=True)
+    out["created_at"] = out["created_at"].dt.tz_localize(None)
+    n_total = len(out)
+    out = out.dropna(subset=["created_at"])
+    n_after_date = len(out)
+    if "epic_name" not in out.columns:
+        print(
+            f"[bug] _prepare_tickets: colonne 'epic_name' absente. "
+            f"Colonnes={list(out.columns)}"
+        )
+        return out.iloc[0:0].copy()
+    mask = out["epic_name"].apply(_ticket_is_bug)
+    out_bug = out[mask].copy()
+    _sample = out["epic_name"].dropna().head(3).tolist()
+    print(
+        f"[bug] _prepare_tickets: total={n_total}, apres parse date={n_after_date}, "
+        f"bugs={len(out_bug)} | epic_name dtype={out['epic_name'].dtype}, "
+        f"exemples={_sample!r}"
+    )
+    return out_bug
 
 
 def _prepare_user_actifs(df: pd.DataFrame) -> pd.DataFrame:
@@ -184,6 +239,43 @@ def conversations_in_period(df: pd.DataFrame, start: pd.Timestamp, end: pd.Times
         return df
     end_inclusive = end + pd.Timedelta(days=1) - pd.Timedelta(microseconds=1)
     return df[(df["updated_at"] >= start) & (df["updated_at"] <= end_inclusive)]
+
+
+def tickets_in_period(df: pd.DataFrame, start: pd.Timestamp, end: pd.Timestamp) -> pd.DataFrame:
+    if df.empty:
+        return df
+    end_inclusive = end + pd.Timedelta(days=1) - pd.Timedelta(microseconds=1)
+    return df[(df["created_at"] >= start) & (df["created_at"] <= end_inclusive)]
+
+
+def count_bugs(df: pd.DataFrame, start: pd.Timestamp, end: pd.Timestamp) -> int:
+    return len(tickets_in_period(df, start, end))
+
+
+def count_bugs_bloquant(df: pd.DataFrame, start: pd.Timestamp, end: pd.Timestamp) -> int:
+    sub = tickets_in_period(df, start, end)
+    if sub.empty or "criticite" not in sub.columns:
+        return 0
+    return int((sub["criticite"] == "Bloquant").sum())
+
+
+def monthly_bug_counts(df: pd.DataFrame) -> pd.DataFrame:
+    if df.empty:
+        return pd.DataFrame(columns=["mois", "value"])
+    work = df.copy()
+    work["mois"] = work["created_at"].dt.to_period("M").dt.to_timestamp()
+    return work.groupby("mois").size().reset_index(name="value")
+
+
+def monthly_bug_by_category(df: pd.DataFrame, col: str) -> pd.DataFrame:
+    if df.empty or col not in df.columns:
+        return pd.DataFrame(columns=["mois", col, "value"])
+    work = df.copy()
+    work["mois"] = work["created_at"].dt.to_period("M").dt.to_timestamp()
+    work = work.dropna(subset=[col])
+    if work.empty:
+        return pd.DataFrame(columns=["mois", col, "value"])
+    return work.groupby(["mois", col]).size().reset_index(name="value")
 
 
 def _weighted_avg(
@@ -801,6 +893,147 @@ def _nivo_multi_line(
     )
 
 
+def _value_counts_to_nivo_pie(counts: pd.Series) -> list[dict]:
+    if counts.empty:
+        return []
+    return [
+        {"id": str(k), "label": str(k), "value": int(v)}
+        for k, v in counts.items()
+    ]
+
+
+def _nivo_pie(
+    counts: pd.Series,
+    title: str,
+    icon: str,
+    color: str,
+    chart_key: str,
+):
+    st.badge(f"{title}", icon=icon, color=color)
+    data = _value_counts_to_nivo_pie(counts)
+    if not data:
+        st.info("Aucune donnée sur la période sélectionnée.")
+        return
+
+    with elements(chart_key):
+        with mui.Box(sx={"height": 360}):
+            nivo.Pie(
+                data=data,
+                margin={"top": 20, "right": 80, "bottom": 60, "left": 80},
+                innerRadius=0.5,
+                padAngle=0.7,
+                cornerRadius=3,
+                activeOuterRadiusOffset=8,
+                colors=_PALETTE_SEGMENTS,
+                borderWidth=1,
+                borderColor={"from": "color", "modifiers": [["darker", 0.2]]},
+                arcLinkLabelsSkipAngle=10,
+                arcLinkLabelsTextColor="#31333F",
+                arcLinkLabelsThickness=2,
+                arcLinkLabelsColor={"from": "color"},
+                arcLabelsSkipAngle=10,
+                arcLabelsTextColor="#ffffff",
+                animate=True,
+                motionConfig="gentle",
+                theme=theme_actif,
+            )
+
+
+def _monthly_long_to_stacked(
+    df: pd.DataFrame, cat_col: str, *, value_col: str = "value"
+) -> tuple[list[dict], list[str]]:
+    """df long {mois, cat_col, value_col} -> (bar_data indexBy mois, keys cat triées par total)."""
+    if df.empty:
+        return [], []
+    work = df.copy()
+    work["mois"] = pd.to_datetime(work["mois"])
+    months = sorted(work["mois"].unique())
+    cat_totals = work.groupby(cat_col)[value_col].sum().sort_values(ascending=False)
+    keys = [str(c) for c in cat_totals.index]
+    bar_data = []
+    for m in months:
+        row = {"mois": _mois_label(m)}
+        sub = work[work["mois"] == m]
+        for cat in cat_totals.index:
+            row[str(cat)] = int(sub[sub[cat_col] == cat][value_col].sum())
+        bar_data.append(row)
+    return bar_data, keys
+
+
+def _nivo_monthly_stacked_bar(
+    bar_data: list[dict],
+    keys: list[str],
+    title: str,
+    icon: str,
+    color: str,
+    chart_key: str,
+    *,
+    y_legend: str = "Tickets",
+):
+    st.badge(f"{title}", icon=icon, color=color)
+    if not bar_data or not keys:
+        st.info("Aucune donnée disponible.")
+        return
+
+    n_keys = len(keys)
+    colors = [_PALETTE_SEGMENTS[i % len(_PALETTE_SEGMENTS)] for i in range(n_keys)]
+
+    with elements(chart_key):
+        with mui.Box(sx={"height": 550}):
+            nivo.Bar(
+                data=bar_data,
+                keys=keys,
+                indexBy="mois",
+                layout="vertical",
+                groupMode="stacked",
+                margin={"top": 20, "right": 180, "bottom": 80, "left": 70},
+                padding=0.3,
+                valueScale={"type": "linear", "min": 0},
+                indexScale={"type": "band", "round": True},
+                colors=colors,
+                borderRadius=2,
+                borderColor={"from": "color", "modifiers": [["darker", 0.4]]},
+                axisTop=None,
+                axisRight=None,
+                axisBottom={
+                    "tickSize": 5,
+                    "tickPadding": 5,
+                    "tickRotation": -45,
+                },
+                axisLeft={
+                    "tickSize": 5,
+                    "tickPadding": 5,
+                    "tickRotation": 0,
+                    "legend": y_legend,
+                    "legendPosition": "middle",
+                    "legendOffset": -55,
+                },
+                enableLabel=True,
+                labelSkipWidth=16,
+                labelSkipHeight=12,
+                labelTextColor="#ffffff",
+                legends=[
+                    {
+                        "dataFrom": "keys",
+                        "anchor": "bottom-right",
+                        "direction": "column",
+                        "justify": False,
+                        "translateX": 170,
+                        "translateY": 0,
+                        "itemsSpacing": 2,
+                        "itemWidth": 160,
+                        "itemHeight": 20,
+                        "itemDirection": "left-to-right",
+                        "symbolSize": 12,
+                        "symbolShape": "circle",
+                    }
+                ],
+                animate=True,
+                motionConfig="gentle",
+                theme=theme_actif,
+            )
+
+
 def _graphe_mean(series: pd.DataFrame) -> float | None:
     """Moyenne sur les mois présents dans la série (sans imputer 0 aux mois absents)."""
     if series.empty or "value" not in series.columns:
@@ -822,16 +1055,6 @@ def _format_graphe_average(stat_id: str, series: pd.DataFrame) -> str:
     if stat_id == "satisfaction":
         return f"{avg:.2f}"
     return f"{avg:.0f}"
-
-
-def _format_graphe_average_multi(df: pd.DataFrame, value_col: str = "conversations") -> str:
-    if df.empty:
-        return "—"
-    monthly_totals = df.groupby("mois")[value_col].sum()
-    monthly_totals = monthly_totals[monthly_totals > 0]
-    if monthly_totals.empty:
-        return "—"
-    return f"{float(monthly_totals.mean()):.0f}"
 
 
 def _first_mois_with_positive_value(series: pd.DataFrame) -> pd.Timestamp | None:
@@ -932,27 +1155,41 @@ def _render_graphe_view(
         group_col = "fonction"
         y_legend = "Contacts"
 
+    _multi_stat = stat_id in ("segments", "operateurs", "profil_contact")
+    avg_value = "—"
+
+    if _multi_stat and evo is not None and group_col is not None:
+        chart_start = _effective_graphe_start(_first_mois_with_positive_total(evo))
+        evo = _clip_from_start(evo, chart_start)
+        bar_data, keys = _monthly_long_to_stacked(
+            evo, group_col, value_col="conversations"
+        )
+        _nivo_monthly_stacked_bar(
+            bar_data,
+            keys=keys,
+            title=stat_label,
+            icon=":material/bar_chart:",
+            color="blue",
+            chart_key="bug_graphe",
+            y_legend=y_legend,
+        )
+        return
+
     if series is not None:
         chart_start = _effective_graphe_start(_first_mois_with_positive_value(series))
         series = _clip_from_start(series, chart_start)
         line_data = _scalar_series_to_nivo_line(series)
         avg_value = _format_graphe_average(stat_id, series)
-    elif evo is not None and group_col is not None:
-        chart_start = _effective_graphe_start(_first_mois_with_positive_total(evo))
-        evo = _clip_from_start(evo, chart_start)
-        line_data = _monthly_to_nivo_lines(evo, group_col)
-        avg_value = _format_graphe_average_multi(evo)
     else:
         line_data = []
-        avg_value = "—"
 
     st.metric(label=f"{stat_label} (moyenne)", value=avg_value)
     st.badge(stat_label, icon=":material/show_chart:", color="blue")
     _nivo_line_chart(
         line_data,
-        f"bug_graphe_{stat_id}",
+        "bug_graphe",
         y_legend=y_legend,
-        show_legend=stat_id in ("segments", "operateurs", "profil_contact"),
+        show_legend=False,
     )
 
 
@@ -994,18 +1231,42 @@ def _metric_delta(cur, prev, *, fmt: str):
 # Données & période
 # ==========================
 
-data = load_data()
+@st.cache_resource(ttl="1d")
+def get_prepared_data():
+    """Charge ET prépare les données une seule fois (évite de recalculer à chaque rerun).
 
-df_conv = _prepare_conversations(data["crisp_conversation"])
-df_users = _prepare_user_actifs(data["user_actifs_ct_mois"])
-_user_fonction_lookup = _build_user_fonction_lookup(
-    data["auth_users"],
-    data["private_utilisateur_droit"],
-    data["private_collectivite_membre"],
-)
-df_rating = _prepare_monthly_crisp(data["crisp_rating"])
-df_temps_rep = _prepare_monthly_crisp(data["crisp_temps_reponse"])
-df_temps_res = _prepare_monthly_crisp(data["crisp_temps_resolution"])
+    La préparation (notamment la construction du lookup user→fonction qui boucle
+    en Python) est coûteuse : la mettre en cache évite de la rejouer à chaque
+    interaction avec un sélecteur.
+    """
+    raw = load_data()
+    return {
+        "df_conv": _prepare_conversations(raw["crisp_conversation"]),
+        "df_users": _prepare_user_actifs(raw["user_actifs_ct_mois"]),
+        "user_fonction_lookup": _build_user_fonction_lookup(
+            raw["auth_users"],
+            raw["private_utilisateur_droit"],
+            raw["private_collectivite_membre"],
+        ),
+        "df_rating": _prepare_monthly_crisp(raw["crisp_rating"]),
+        "df_temps_rep": _prepare_monthly_crisp(raw["crisp_temps_reponse"]),
+        "df_temps_res": _prepare_monthly_crisp(raw["crisp_temps_resolution"]),
+        "auth_users": raw["auth_users"],
+        "df_tickets": _prepare_tickets(raw["notion_ticket"]),
+        "df_tickets_raw": raw["notion_ticket"],
+    }
+
+
+_prepared = get_prepared_data()
+
+df_conv = _prepared["df_conv"]
+df_users = _prepared["df_users"]
+_user_fonction_lookup = _prepared["user_fonction_lookup"]
+df_rating = _prepared["df_rating"]
+df_temps_rep = _prepared["df_temps_rep"]
+df_temps_res = _prepared["df_temps_res"]
+df_tickets = _prepared["df_tickets"]
+df_tickets_raw = _prepared["df_tickets_raw"]
 
 st.title("🐛 Dashboard Support & Bugs")
 
@@ -1026,13 +1287,7 @@ with _col_seg:
 view = st.session_state.get("view_bug", "Mois")
 
 with _col_sel:
-    if view == "Graphe":
-        st.selectbox(
-            "Statistique",
-            options=list(_GRAPHE_STATS.keys()),
-            key="graphe_stat_bug",
-        )
-    elif view == "Mois":
+    if view == "Mois":
         _month_options = []
         _y, _m = 2024, 1
         while (_y, _m) <= (today.year, today.month):
@@ -1118,141 +1373,284 @@ prev_months = months_in_period(prev_start, prev_end)
 
 st.markdown("---")
 
-if is_graphe:
-    st.subheader("Graphe")
-    _render_graphe_view(
-        st.session_state.get("graphe_stat_bug", list(_GRAPHE_STATS.keys())[0]),
-        df_conv=df_conv,
-        df_users=df_users,
-        df_rating=df_rating,
-        df_temps_rep=df_temps_rep,
-        df_temps_res=df_temps_res,
-        df_auth_users=data["auth_users"],
-        user_fonction_lookup=_user_fonction_lookup,
-        graphe_end=graphe_end,
-    )
-    st.stop()
+tab_support, tab_bug = st.tabs(["Support", "Bug"])
+
 
 # ==========================
-# Section 1 : Les chiffres du support
+# Onglet Support (vue actuelle)
 # ==========================
 
-st.subheader("Les chiffres du support")
+with tab_support:
+    if is_graphe:
+        st.selectbox(
+            "Statistique",
+            options=list(_GRAPHE_STATS.keys()),
+            key="graphe_stat_bug",
+        )
+        st.subheader("Graphe")
+        _render_graphe_view(
+            st.session_state.get("graphe_stat_bug", list(_GRAPHE_STATS.keys())[0]),
+            df_conv=df_conv,
+            df_users=df_users,
+            df_rating=df_rating,
+            df_temps_rep=df_temps_rep,
+            df_temps_res=df_temps_res,
+            df_auth_users=_prepared["auth_users"],
+            user_fonction_lookup=_user_fonction_lookup,
+            graphe_end=graphe_end,
+        )
+    else:
+        # ----- Section 1 : Les chiffres du support -----
+        st.subheader("Les chiffres du support")
 
-nb_conv_cur = count_conversations(df_conv, cur_start, cur_end)
-taux_cur = support_rate(df_conv, df_users, cur_start, cur_end)
-rep_cur = _weighted_avg(df_temps_rep, "response_time_h", cur_months)
-res_cur = _weighted_avg(df_temps_res, "temps_resolution_h", cur_months)
-sat_cur = _weighted_avg(df_rating, "rating", cur_months)
+        nb_conv_cur = count_conversations(df_conv, cur_start, cur_end)
+        taux_cur = support_rate(df_conv, df_users, cur_start, cur_end)
+        rep_cur = _weighted_avg(df_temps_rep, "response_time_h", cur_months)
+        res_cur = _weighted_avg(df_temps_res, "temps_resolution_h", cur_months)
+        sat_cur = _weighted_avg(df_rating, "rating", cur_months)
 
-nb_conv_prev = count_conversations(df_conv, prev_start, prev_end)
-taux_prev = support_rate(df_conv, df_users, prev_start, prev_end)
-rep_prev = _weighted_avg(df_temps_rep, "response_time_h", prev_months)
-res_prev = _weighted_avg(df_temps_res, "temps_resolution_h", prev_months)
-sat_prev = _weighted_avg(df_rating, "rating", prev_months)
-_d_conv = _metric_delta(nb_conv_cur, nb_conv_prev, fmt="int")
-_d_taux = _metric_delta(taux_cur, taux_prev, fmt="pct")
-_d_rep = _metric_delta(rep_cur, rep_prev, fmt="hours")
-_d_res = _metric_delta(res_cur, res_prev, fmt="hours")
-_d_sat = _metric_delta(sat_cur, sat_prev, fmt="rating")
+        nb_conv_prev = count_conversations(df_conv, prev_start, prev_end)
+        taux_prev = support_rate(df_conv, df_users, prev_start, prev_end)
+        rep_prev = _weighted_avg(df_temps_rep, "response_time_h", prev_months)
+        res_prev = _weighted_avg(df_temps_res, "temps_resolution_h", prev_months)
+        sat_prev = _weighted_avg(df_rating, "rating", prev_months)
+        _d_conv = _metric_delta(nb_conv_cur, nb_conv_prev, fmt="int")
+        _d_taux = _metric_delta(taux_cur, taux_prev, fmt="pct")
+        _d_rep = _metric_delta(rep_cur, rep_prev, fmt="hours")
+        _d_res = _metric_delta(res_cur, res_prev, fmt="hours")
+        _d_sat = _metric_delta(sat_cur, sat_prev, fmt="rating")
 
-c1, c2, c3, c4, c5 = st.columns(5)
-with c1:
-    st.metric(
-        label="Nombre de conversations",
-        value=nb_conv_cur,
-        delta=_d_conv,
-        delta_color="inverse",
-    )
-with c2:
-    st.metric(
-        label="Taux de support",
-        value=f"{taux_cur:.1f} %" if taux_cur is not None else "—",
-        delta=_d_taux,
-        delta_color="inverse",
-        help="Nombre d'utilisateurs qui ont contacté le support sur le nombre d'utilisateurs actifs à cette période.",
-    )
-with c3:
-    st.metric(
-        label="Temps de première réponse",
-        value=format_duration_h(rep_cur) if rep_cur is not None else "—",
-        delta=_d_rep,
-        delta_color="inverse",
-    )
-with c4:
-    st.metric(
-        label="Temps de résolution moyen",
-        value=format_duration_h(res_cur) if res_cur is not None else "—",
-        delta=_d_res,
-        delta_color="inverse",
-    )
-with c5:
-    st.metric(
-        label="Satisfaction moyenne",
-        value=f"{sat_cur:.2f}" if sat_cur is not None else "—",
-        delta=_d_sat,
-    )
+        c1, c2, c3, c4, c5 = st.columns(5)
+        with c1:
+            st.metric(
+                label="Nombre de conversations",
+                value=nb_conv_cur,
+                delta=_d_conv,
+                delta_color="inverse",
+            )
+        with c2:
+            st.metric(
+                label="Taux de support",
+                value=f"{taux_cur:.1f} %" if taux_cur is not None else "—",
+                delta=_d_taux,
+                delta_color="inverse",
+                help="Nombre d'utilisateurs qui ont contacté le support sur le nombre d'utilisateurs actifs à cette période.",
+            )
+        with c3:
+            st.metric(
+                label="Temps de première réponse",
+                value=format_duration_h(rep_cur) if rep_cur is not None else "—",
+                delta=_d_rep,
+                delta_color="inverse",
+            )
+        with c4:
+            st.metric(
+                label="Temps de résolution moyen",
+                value=format_duration_h(res_cur) if res_cur is not None else "—",
+                delta=_d_res,
+                delta_color="inverse",
+            )
+        with c5:
+            st.metric(
+                label="Satisfaction moyenne",
+                value=f"{sat_cur:.2f}" if sat_cur is not None else "—",
+                delta=_d_sat,
+            )
 
-st.markdown("---")
+        st.markdown("---")
+
+        # ----- Section 2 : Type de contact -----
+        st.subheader("Conversations par segment et opérateur")
+
+        _top3_segments = top_segment_counts(df_conv, cur_start, cur_end, n=3)
+        st.markdown(_format_top_segments_md(_top3_segments))
+
+        col_seg, col_op = st.columns(2)
+
+        with col_seg:
+            _cat_seg_df = category_segment_counts(df_conv, cur_start, cur_end)
+            _cat_data, _cat_keys, _cat_colors = _category_segment_to_nivo_horizontal(_cat_seg_df)
+            _nivo_horizontal_stacked_bar(
+                _cat_data,
+                keys=_cat_keys,
+                index_key="Catégorie",
+                title="Segments",
+                icon=":material/bar_chart:",
+                color="blue",
+                chart_key="bug_bar_category",
+                segment_colors=_cat_colors,
+            )
+
+        with col_op:
+            _nivo_horizontal_bar(
+                counts=operator_counts(df_conv, cur_start, cur_end),
+                index_key="Opérateur",
+                title="Opérateurs",
+                icon=":material/person:",
+                color="blue",
+                chart_key="bug_bar_operator",
+            )
+
+        st.markdown("---")
+
+        # ----- Section 3 : Profil des contacteurs -----
+        st.subheader("Profil de ceux qui nous contacte")
+
+        _fonction_counts = contacts_by_fonction(
+            df_conv,
+            _prepared["auth_users"],
+            _user_fonction_lookup,
+            cur_start,
+            cur_end,
+        )
+
+        _nivo_horizontal_bar(
+            counts=_fonction_counts,
+            index_key="Fonction",
+            title="Contacts par fonction",
+            icon=":material/groups:",
+            color="green",
+            chart_key="bug_bar_fonction",
+        )
+
 
 # ==========================
-# Section 2 : Type de contact
+# Onglet Bug (notion_ticket)
 # ==========================
 
-st.subheader("Conversations par segment et opérateur")
+with tab_bug:
+    if df_tickets.empty:
+        with st.expander("⚠️ Diagnostic : aucun ticket bug trouvé", expanded=True):
+            st.write(
+                f"notion_ticket brut : {len(df_tickets_raw)} lignes, "
+                f"df_tickets (filtré bugs) : {len(df_tickets)} lignes."
+            )
+            if not df_tickets_raw.empty:
+                st.write("Colonnes :", list(df_tickets_raw.columns))
+                if "epic_name" in df_tickets_raw.columns:
+                    _ep = df_tickets_raw["epic_name"]
+                    st.write(
+                        f"epic_name → dtype={_ep.dtype}, "
+                        f"type d'une cellule={type(_ep.dropna().iloc[0]).__name__ if _ep.notna().any() else 'aucune valeur'}"
+                    )
+                    st.write("Exemples epic_name :", _ep.dropna().head(10).tolist())
+                else:
+                    st.warning("La colonne 'epic_name' est absente de notion_ticket.")
+                st.dataframe(df_tickets_raw.head(50))
+            else:
+                st.warning("La table notion_ticket est vide côté base.")
 
-_period_key = f"{cur_start.strftime('%Y%m%d')}_{cur_end.strftime('%Y%m%d')}"
+    if is_graphe:
+        st.subheader("Évolution des bugs")
 
-_top3_segments = top_segment_counts(df_conv, cur_start, cur_end, n=3)
-st.markdown(_format_top_segments_md(_top3_segments))
+        _bug_monthly = monthly_bug_counts(df_tickets)
+        _bug_monthly = _clip_from_start(_bug_monthly, _GRAPHE_START)
+        st.badge("Tickets bugs par mois", icon=":material/show_chart:", color="red")
+        _nivo_line_chart(
+            _scalar_series_to_nivo_line(_bug_monthly),
+            "bug_tab_line",
+            y_legend="Tickets",
+            show_legend=False,
+        )
 
-col_seg, col_op = st.columns(2)
+        st.markdown("---")
 
-with col_seg:
-    _cat_seg_df = category_segment_counts(df_conv, cur_start, cur_end)
-    _cat_data, _cat_keys, _cat_colors = _category_segment_to_nivo_horizontal(_cat_seg_df)
-    _nivo_horizontal_stacked_bar(
-        _cat_data,
-        keys=_cat_keys,
-        index_key="Catégorie",
-        title="Segments",
-        icon=":material/bar_chart:",
-        color="blue",
-        chart_key=f"bug_bar_category_{_period_key}",
-        segment_colors=_cat_colors,
-    )
+        _them_monthly = monthly_bug_by_category(df_tickets, "thematique")
+        _them_monthly = _clip_from_start(_them_monthly, _GRAPHE_START)
+        _them_data, _them_keys = _monthly_long_to_stacked(_them_monthly, "thematique")
+        _nivo_monthly_stacked_bar(
+            _them_data,
+            keys=_them_keys,
+            title="Bugs par thématique (mensuel)",
+            icon=":material/bar_chart:",
+            color="red",
+            chart_key="bug_tab_stacked_thematique",
+        )
 
-with col_op:
-    _nivo_horizontal_bar(
-        counts=operator_counts(df_conv, cur_start, cur_end),
-        index_key="Opérateur",
-        title="Opérateurs",
-        icon=":material/person:",
-        color="blue",
-        chart_key=f"bug_bar_operator_{_period_key}",
-    )
+        st.markdown("---")
 
-st.markdown("---")
+        _crit_monthly = monthly_bug_by_category(df_tickets, "criticite")
+        _crit_monthly = _clip_from_start(_crit_monthly, _GRAPHE_START)
+        _crit_data, _crit_keys = _monthly_long_to_stacked(_crit_monthly, "criticite")
+        _nivo_monthly_stacked_bar(
+            _crit_data,
+            keys=_crit_keys,
+            title="Bugs par criticité (mensuel)",
+            icon=":material/bar_chart:",
+            color="red",
+            chart_key="bug_tab_stacked_criticite",
+        )
+    else:
+        st.subheader("Les chiffres des bugs")
 
-# ==========================
-# Section 3 : Profil des contacteurs
-# ==========================
+        nb_bug_cur = count_bugs(df_tickets, cur_start, cur_end)
+        nb_bug_prev = count_bugs(df_tickets, prev_start, prev_end)
+        nb_bloq_cur = count_bugs_bloquant(df_tickets, cur_start, cur_end)
+        nb_bloq_prev = count_bugs_bloquant(df_tickets, prev_start, prev_end)
+        _d_bug = _metric_delta(nb_bug_cur, nb_bug_prev, fmt="int")
+        _d_bloq = _metric_delta(nb_bloq_cur, nb_bloq_prev, fmt="int")
 
-st.subheader("Profil de ceux qui nous contacte")
+        m1, m2 = st.columns(2)
+        with m1:
+            st.metric(
+                label="Nombre de tickets bugs",
+                value=nb_bug_cur,
+                delta=_d_bug,
+                delta_color="inverse",
+            )
+        with m2:
+            st.metric(
+                label="Bugs bloquants",
+                value=nb_bloq_cur,
+                delta=_d_bloq,
+                delta_color="inverse",
+            )
 
-_fonction_counts = contacts_by_fonction(
-    df_conv,
-    data["auth_users"],
-    _user_fonction_lookup,
-    cur_start,
-    cur_end,
-)
+        st.markdown("---")
 
-_nivo_horizontal_bar(
-    counts=_fonction_counts,
-    index_key="Fonction",
-    title="Contacts par fonction",
-    icon=":material/groups:",
-    color="green",
-    chart_key=f"bug_bar_fonction_{_period_key}",
-)
+        st.subheader("Répartition des bugs")
+
+        _bug_period = tickets_in_period(df_tickets, cur_start, cur_end)
+
+        p1, p2 = st.columns(2)
+        with p1:
+            _statut_counts = (
+                _bug_period["statut"].dropna().value_counts()
+                if not _bug_period.empty and "statut" in _bug_period.columns
+                else pd.Series(dtype=int)
+            )
+            _nivo_pie(
+                _statut_counts,
+                title="Statut",
+                icon=":material/donut_large:",
+                color="red",
+                chart_key="bug_tab_pie_statut",
+            )
+        with p2:
+            _them_counts = (
+                _bug_period["thematique"].dropna().value_counts()
+                if not _bug_period.empty and "thematique" in _bug_period.columns
+                else pd.Series(dtype=int)
+            )
+            _nivo_pie(
+                _them_counts,
+                title="Thématique",
+                icon=":material/donut_large:",
+                color="red",
+                chart_key="bug_tab_pie_thematique",
+            )
+
+        p3, _p4 = st.columns(2)
+        with p3:
+            _crit_counts = (
+                _bug_period["criticite"].dropna().value_counts()
+                if not _bug_period.empty and "criticite" in _bug_period.columns
+                else pd.Series(dtype=int)
+            )
+            _nivo_pie(
+                _crit_counts,
+                title="Criticité",
+                icon=":material/donut_large:",
+                color="red",
+                chart_key="bug_tab_pie_criticite",
+            )
