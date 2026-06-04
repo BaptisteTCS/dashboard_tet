@@ -11,7 +11,7 @@ from streamlit_elements import elements, mui, nivo
 from utils.db import read_table, get_engine_prod
 
 SEGMENT_EXCLU = "autre_mail_non_support"
-_ALL_TIME_START = pd.Timestamp("2024-01-01")
+_GRAPHE_START = pd.Timestamp("2025-01-01")
 _COULEUR_BAR = "#5B8FF9"
 _PALETTE_SEGMENTS = [
     "#5B8FF9",
@@ -66,7 +66,7 @@ theme_actif = {
 # ==========================
 
 
-@st.cache_resource(ttl="2d")
+@st.cache_resource(ttl="1d")
 def load_data():
     df_crisp_conversation = read_table("crisp_conversation")
     df_crisp_rating = read_table("crisp_rating")
@@ -150,6 +150,33 @@ def months_in_period(start: pd.Timestamp, end: pd.Timestamp) -> list[pd.Timestam
         months.append(cursor)
         cursor += pd.DateOffset(months=1)
     return months
+
+
+def _month_bounds(
+    month_ts: pd.Timestamp, period_end: pd.Timestamp
+) -> tuple[pd.Timestamp, pd.Timestamp]:
+    start = pd.Timestamp(year=month_ts.year, month=month_ts.month, day=1)
+    if month_ts.year == period_end.year and month_ts.month == period_end.month:
+        end = period_end
+    else:
+        end = pd.Timestamp(
+            year=month_ts.year,
+            month=month_ts.month,
+            day=calendar.monthrange(month_ts.year, month_ts.month)[1],
+        )
+    return start, end
+
+
+_GRAPHE_STATS: dict[str, str] = {
+    "Conversations": "conversations",
+    "Taux de support": "taux_support",
+    "Temps de première réponse": "temps_reponse",
+    "Temps de résolution moyen": "temps_resolution",
+    "Satisfaction": "satisfaction",
+    "Segments": "segments",
+    "Opérateurs": "operateurs",
+    "Profil de ceux qui nous contacte": "profil_contact",
+}
 
 
 def conversations_in_period(df: pd.DataFrame, start: pd.Timestamp, end: pd.Timestamp) -> pd.DataFrame:
@@ -382,6 +409,65 @@ def operator_counts(df_conv: pd.DataFrame, start: pd.Timestamp, end: pd.Timestam
     return conv["operator"].value_counts()
 
 
+def monthly_conversations_series(
+    df_conv: pd.DataFrame, start: pd.Timestamp, end: pd.Timestamp
+) -> pd.DataFrame:
+    rows = []
+    for m in months_in_period(start, end):
+        m_start, m_end = _month_bounds(m, end)
+        n = count_conversations(df_conv, m_start, m_end)
+        if n > 0:
+            rows.append({"mois": m, "value": n})
+    return pd.DataFrame(rows)
+
+
+def monthly_support_rate_series(
+    df_conv: pd.DataFrame,
+    df_users: pd.DataFrame,
+    start: pd.Timestamp,
+    end: pd.Timestamp,
+) -> pd.DataFrame:
+    rows = []
+    for m in months_in_period(start, end):
+        m_start, m_end = _month_bounds(m, end)
+        taux = support_rate(df_conv, df_users, m_start, m_end)
+        if taux is not None:
+            rows.append({"mois": m, "value": taux})
+    return pd.DataFrame(rows)
+
+
+def monthly_crisp_metric_series(
+    df: pd.DataFrame,
+    value_col: str,
+    start: pd.Timestamp,
+    end: pd.Timestamp,
+) -> pd.DataFrame:
+    rows = []
+    for m in months_in_period(start, end):
+        val = _weighted_avg(df, value_col, [m])
+        if val is not None:
+            rows.append({"mois": m, "value": val})
+    return pd.DataFrame(rows)
+
+
+def monthly_fonction_evolution(
+    df_conv: pd.DataFrame,
+    df_auth_users: pd.DataFrame,
+    user_fonction_lookup: pd.DataFrame,
+    start: pd.Timestamp,
+    end: pd.Timestamp,
+) -> pd.DataFrame:
+    rows = []
+    for m in months_in_period(start, end):
+        m_start, m_end = _month_bounds(m, end)
+        counts = contacts_by_fonction(
+            df_conv, df_auth_users, user_fonction_lookup, m_start, m_end
+        )
+        for fonction, nb in counts.items():
+            rows.append({"mois": m, "fonction": fonction, "conversations": int(nb)})
+    return pd.DataFrame(rows)
+
+
 def monthly_operator_evolution(df_conv: pd.DataFrame) -> pd.DataFrame:
     if df_conv.empty:
         return pd.DataFrame(columns=["mois", "operator", "conversations"])
@@ -444,7 +530,17 @@ def _category_segment_to_nivo_horizontal(
     return bar_data[::-1], keys, colors
 
 
-def _monthly_to_nivo_lines(df: pd.DataFrame, group_col: str) -> list[dict]:
+def _mois_label(mois) -> str:
+    return pd.Timestamp(mois).strftime("%Y-%m")
+
+
+def _monthly_to_nivo_lines(
+    df: pd.DataFrame,
+    group_col: str,
+    *,
+    value_col: str = "conversations",
+    value_cast: type = int,
+) -> list[dict]:
     if df.empty:
         return []
     work = df.copy()
@@ -452,15 +548,33 @@ def _monthly_to_nivo_lines(df: pd.DataFrame, group_col: str) -> list[dict]:
     all_months = sorted(work["mois"].unique())
     series = []
     for grp, sub in work.groupby(group_col, sort=False):
-        by_mois = sub.groupby("mois")["conversations"].sum()
+        by_mois = sub.groupby("mois")[value_col].sum()
         series.append({
             "id": str(grp),
             "data": [
-                {"x": pd.Timestamp(m).strftime("%Y-%m"), "y": int(by_mois.get(m, 0))}
+                {"x": _mois_label(m), "y": value_cast(by_mois.get(m, 0))}
                 for m in all_months
             ],
         })
     return series
+
+
+def _scalar_series_to_nivo_line(df: pd.DataFrame) -> list[dict]:
+    if df.empty:
+        return []
+    work = df.copy()
+    work["mois"] = pd.to_datetime(work["mois"])
+    work = work.sort_values("mois").dropna(subset=["value"])
+    if work.empty:
+        return []
+    return [{
+        "id": "valeur",
+        "data": [
+            {"x": _mois_label(m), "y": float(v)}
+            for m, v in zip(work["mois"], work["value"], strict=True)
+            if pd.notna(v)
+        ],
+    }]
 
 
 def _nivo_horizontal_bar(
@@ -580,31 +694,56 @@ def _nivo_horizontal_stacked_bar(
             )
 
 
-def _nivo_multi_line(
-    df: pd.DataFrame,
-    group_col: str,
-    title: str,
-    icon: str,
-    color: str,
+def _nivo_line_chart(
+    line_data: list[dict],
     chart_key: str,
+    *,
+    y_legend: str = "Valeur",
+    show_legend: bool = False,
 ):
-    st.badge(f"{title}", icon=icon, color=color)
-    line_data = _monthly_to_nivo_lines(df, group_col)
     if not line_data:
         st.info("Aucune donnée disponible.")
         return
 
+    n_series = len(line_data)
+    if show_legend and n_series > 1:
+        chart_colors = _PALETTE_SEGMENTS[:n_series]
+        if n_series > len(_PALETTE_SEGMENTS):
+            chart_colors = [
+                _PALETTE_SEGMENTS[i % len(_PALETTE_SEGMENTS)] for i in range(n_series)
+            ]
+    else:
+        chart_colors = [_COULEUR_BAR]
+
+    legends = []
+    if show_legend and n_series > 1:
+        legends = [
+            {
+                "anchor": "bottom-right",
+                "direction": "column",
+                "justify": False,
+                "translateX": 120,
+                "translateY": 0,
+                "itemsSpacing": 2,
+                "itemDirection": "left-to-right",
+                "itemWidth": 100,
+                "itemHeight": 20,
+                "symbolSize": 12,
+                "symbolShape": "circle",
+            }
+        ]
+
     with elements(chart_key):
-        with mui.Box(sx={"height": 420}):
+        with mui.Box(sx={"height": 550}):
             nivo.Line(
                 data=line_data,
-                margin={"top": 20, "right": 130, "bottom": 60, "left": 60},
-                xScale={
-                    "type": "time",
-                    "format": "%Y-%m",
-                    "precision": "month",
-                    "useUTC": False,
+                margin={
+                    "top": 20,
+                    "right": 180 if show_legend else 30,
+                    "bottom": 50,
+                    "left": 90,
                 },
+                xScale={"type": "point"},
                 yScale={
                     "type": "linear",
                     "min": 0,
@@ -624,34 +763,197 @@ def _nivo_multi_line(
                     "tickSize": 5,
                     "tickPadding": 5,
                     "tickRotation": 0,
-                    "legend": "Conversations",
+                    "legend": y_legend,
                     "legendPosition": "middle",
-                    "legendOffset": -48,
+                    "legendOffset": -60,
                 },
-                enablePoints=True,
-                pointSize=6,
-                pointBorderWidth=1,
-                pointBorderColor={"from": "serieColor"},
+                enableArea=False,
+                enablePoints=False,
                 useMesh=True,
                 enableSlices="x",
-                colors={"scheme": "category10"},
-                legends=[
-                    {
-                        "anchor": "bottom-right",
-                        "direction": "column",
-                        "justify": False,
-                        "translateX": 120,
-                        "translateY": 0,
-                        "itemsSpacing": 2,
-                        "itemWidth": 100,
-                        "itemHeight": 18,
-                        "itemOpacity": 0.85,
-                        "symbolSize": 10,
-                        "symbolShape": "circle",
-                    }
-                ],
+                colors=chart_colors,
+                legends=legends,
                 theme=theme_actif,
             )
+
+
+def _nivo_multi_line(
+    df: pd.DataFrame,
+    group_col: str,
+    title: str,
+    icon: str,
+    color: str,
+    chart_key: str,
+    *,
+    y_legend: str = "Conversations",
+    value_col: str = "conversations",
+    value_cast: type = int,
+):
+    st.badge(f"{title}", icon=icon, color=color)
+    line_data = _monthly_to_nivo_lines(
+        df, group_col, value_col=value_col, value_cast=value_cast
+    )
+    _nivo_line_chart(
+        line_data,
+        chart_key,
+        y_legend=y_legend,
+        show_legend=True,
+    )
+
+
+def _graphe_mean(series: pd.DataFrame) -> float | None:
+    """Moyenne sur les mois présents dans la série (sans imputer 0 aux mois absents)."""
+    if series.empty or "value" not in series.columns:
+        return None
+    vals = series["value"].dropna()
+    if vals.empty:
+        return None
+    return float(vals.mean())
+
+
+def _format_graphe_average(stat_id: str, series: pd.DataFrame) -> str:
+    avg = _graphe_mean(series)
+    if avg is None:
+        return "—"
+    if stat_id == "taux_support":
+        return f"{avg:.1f} %"
+    if stat_id in ("temps_reponse", "temps_resolution"):
+        return format_duration_h(avg)
+    if stat_id == "satisfaction":
+        return f"{avg:.2f}"
+    return f"{avg:.0f}"
+
+
+def _format_graphe_average_multi(df: pd.DataFrame, value_col: str = "conversations") -> str:
+    if df.empty:
+        return "—"
+    monthly_totals = df.groupby("mois")[value_col].sum()
+    monthly_totals = monthly_totals[monthly_totals > 0]
+    if monthly_totals.empty:
+        return "—"
+    return f"{float(monthly_totals.mean()):.0f}"
+
+
+def _first_mois_with_positive_value(series: pd.DataFrame) -> pd.Timestamp | None:
+    if series.empty or "value" not in series.columns:
+        return None
+    work = series.copy()
+    work["mois"] = pd.to_datetime(work["mois"])
+    pos = work[work["value"] > 0]
+    if pos.empty:
+        return None
+    return pd.Timestamp(year=pos["mois"].min().year, month=pos["mois"].min().month, day=1)
+
+
+def _first_mois_with_positive_total(
+    df: pd.DataFrame, value_col: str = "conversations"
+) -> pd.Timestamp | None:
+    if df.empty:
+        return None
+    work = df.copy()
+    work["mois"] = pd.to_datetime(work["mois"])
+    monthly = work.groupby("mois")[value_col].sum()
+    monthly = monthly[monthly > 0]
+    if monthly.empty:
+        return None
+    first = monthly.index.min()
+    return pd.Timestamp(year=first.year, month=first.month, day=1)
+
+
+def _effective_graphe_start(first_mois: pd.Timestamp | None) -> pd.Timestamp:
+    if first_mois is None:
+        return _GRAPHE_START
+    first = pd.Timestamp(year=first_mois.year, month=first_mois.month, day=1)
+    return max(_GRAPHE_START, first)
+
+
+def _clip_from_start(df: pd.DataFrame, start: pd.Timestamp) -> pd.DataFrame:
+    if df.empty or "mois" not in df.columns:
+        return df
+    out = df.copy()
+    out["mois"] = pd.to_datetime(out["mois"])
+    return out[out["mois"] >= start].copy()
+
+
+def _render_graphe_view(
+    stat_label: str,
+    *,
+    df_conv: pd.DataFrame,
+    df_users: pd.DataFrame,
+    df_rating: pd.DataFrame,
+    df_temps_rep: pd.DataFrame,
+    df_temps_res: pd.DataFrame,
+    df_auth_users: pd.DataFrame,
+    user_fonction_lookup: pd.DataFrame,
+    graphe_end: pd.Timestamp,
+):
+    stat_id = _GRAPHE_STATS[stat_label]
+    scan_start = _GRAPHE_START
+    df_conv_scan = df_conv[
+        (df_conv["updated_at"] >= scan_start) & (df_conv["updated_at"] <= graphe_end)
+    ] if not df_conv.empty else df_conv
+
+    series: pd.DataFrame | None = None
+    evo: pd.DataFrame | None = None
+    group_col: str | None = None
+    y_legend = "Valeur"
+
+    if stat_id == "conversations":
+        series = monthly_conversations_series(df_conv, scan_start, graphe_end)
+        y_legend = "Conversations"
+    elif stat_id == "taux_support":
+        series = monthly_support_rate_series(df_conv, df_users, scan_start, graphe_end)
+        y_legend = "Taux (%)"
+    elif stat_id == "temps_reponse":
+        series = monthly_crisp_metric_series(
+            df_temps_rep, "response_time_h", scan_start, graphe_end
+        )
+        y_legend = "Heures"
+    elif stat_id == "temps_resolution":
+        series = monthly_crisp_metric_series(
+            df_temps_res, "temps_resolution_h", scan_start, graphe_end
+        )
+        y_legend = "Heures"
+    elif stat_id == "satisfaction":
+        series = monthly_crisp_metric_series(df_rating, "rating", scan_start, graphe_end)
+        y_legend = "Note"
+    elif stat_id == "segments":
+        evo = monthly_category_evolution(df_conv_scan)
+        group_col = "categorie"
+        y_legend = "Conversations"
+    elif stat_id == "operateurs":
+        evo = monthly_operator_evolution(df_conv_scan)
+        group_col = "operator"
+        y_legend = "Conversations"
+    else:
+        evo = monthly_fonction_evolution(
+            df_conv, df_auth_users, user_fonction_lookup, scan_start, graphe_end
+        )
+        group_col = "fonction"
+        y_legend = "Contacts"
+
+    if series is not None:
+        chart_start = _effective_graphe_start(_first_mois_with_positive_value(series))
+        series = _clip_from_start(series, chart_start)
+        line_data = _scalar_series_to_nivo_line(series)
+        avg_value = _format_graphe_average(stat_id, series)
+    elif evo is not None and group_col is not None:
+        chart_start = _effective_graphe_start(_first_mois_with_positive_total(evo))
+        evo = _clip_from_start(evo, chart_start)
+        line_data = _monthly_to_nivo_lines(evo, group_col)
+        avg_value = _format_graphe_average_multi(evo)
+    else:
+        line_data = []
+        avg_value = "—"
+
+    st.metric(label=f"{stat_label} (moyenne)", value=avg_value)
+    st.badge(stat_label, icon=":material/show_chart:", color="blue")
+    _nivo_line_chart(
+        line_data,
+        f"bug_graphe_{stat_id}",
+        y_legend=y_legend,
+        show_legend=stat_id in ("segments", "operateurs", "profil_contact"),
+    )
 
 
 def format_duration_h(hours: float) -> str:
@@ -717,14 +1019,20 @@ _col_seg, _col_sel, _ = st.columns(3)
 with _col_seg:
     st.segmented_control(
         "Période",
-        options=["Mois", "Trimestre", "All Time"],
+        options=["Mois", "Trimestre", "Graphe"],
         default="Mois",
         key="view_bug",
     )
 view = st.session_state.get("view_bug", "Mois")
 
 with _col_sel:
-    if view == "Mois":
+    if view == "Graphe":
+        st.selectbox(
+            "Statistique",
+            options=list(_GRAPHE_STATS.keys()),
+            key="graphe_stat_bug",
+        )
+    elif view == "Mois":
         _month_options = []
         _y, _m = 2024, 1
         while (_y, _m) <= (today.year, today.month):
@@ -757,7 +1065,9 @@ with _col_sel:
             key="selected_quarter_bug",
         )
 
-is_all_time = view == "All Time"
+is_graphe = view == "Graphe"
+graphe_start = _GRAPHE_START
+graphe_end = today
 
 if view == "Mois":
     _selected = st.session_state.get("selected_month_bug", f"{today.year}-{today.month:02d}")
@@ -797,9 +1107,9 @@ elif view == "Trimestre":
         month=prev_month_end,
         day=calendar.monthrange(prev_y, prev_month_end)[1],
     )
-else:
-    cur_start = _ALL_TIME_START
-    cur_end = today
+elif is_graphe:
+    cur_start = graphe_start
+    cur_end = graphe_end
     prev_start = cur_start
     prev_end = cur_end
 
@@ -807,6 +1117,21 @@ cur_months = months_in_period(cur_start, cur_end)
 prev_months = months_in_period(prev_start, prev_end)
 
 st.markdown("---")
+
+if is_graphe:
+    st.subheader("Graphe")
+    _render_graphe_view(
+        st.session_state.get("graphe_stat_bug", list(_GRAPHE_STATS.keys())[0]),
+        df_conv=df_conv,
+        df_users=df_users,
+        df_rating=df_rating,
+        df_temps_rep=df_temps_rep,
+        df_temps_res=df_temps_res,
+        df_auth_users=data["auth_users"],
+        user_fonction_lookup=_user_fonction_lookup,
+        graphe_end=graphe_end,
+    )
+    st.stop()
 
 # ==========================
 # Section 1 : Les chiffres du support
@@ -820,19 +1145,16 @@ rep_cur = _weighted_avg(df_temps_rep, "response_time_h", cur_months)
 res_cur = _weighted_avg(df_temps_res, "temps_resolution_h", cur_months)
 sat_cur = _weighted_avg(df_rating, "rating", cur_months)
 
-if not is_all_time:
-    nb_conv_prev = count_conversations(df_conv, prev_start, prev_end)
-    taux_prev = support_rate(df_conv, df_users, prev_start, prev_end)
-    rep_prev = _weighted_avg(df_temps_rep, "response_time_h", prev_months)
-    res_prev = _weighted_avg(df_temps_res, "temps_resolution_h", prev_months)
-    sat_prev = _weighted_avg(df_rating, "rating", prev_months)
-    _d_conv = _metric_delta(nb_conv_cur, nb_conv_prev, fmt="int")
-    _d_taux = _metric_delta(taux_cur, taux_prev, fmt="pct")
-    _d_rep = _metric_delta(rep_cur, rep_prev, fmt="hours")
-    _d_res = _metric_delta(res_cur, res_prev, fmt="hours")
-    _d_sat = _metric_delta(sat_cur, sat_prev, fmt="rating")
-else:
-    _d_conv = _d_taux = _d_rep = _d_res = _d_sat = None
+nb_conv_prev = count_conversations(df_conv, prev_start, prev_end)
+taux_prev = support_rate(df_conv, df_users, prev_start, prev_end)
+rep_prev = _weighted_avg(df_temps_rep, "response_time_h", prev_months)
+res_prev = _weighted_avg(df_temps_res, "temps_resolution_h", prev_months)
+sat_prev = _weighted_avg(df_rating, "rating", prev_months)
+_d_conv = _metric_delta(nb_conv_cur, nb_conv_prev, fmt="int")
+_d_taux = _metric_delta(taux_cur, taux_prev, fmt="pct")
+_d_rep = _metric_delta(rep_cur, rep_prev, fmt="hours")
+_d_res = _metric_delta(res_cur, res_prev, fmt="hours")
+_d_sat = _metric_delta(sat_cur, sat_prev, fmt="rating")
 
 c1, c2, c3, c4, c5 = st.columns(5)
 with c1:
@@ -879,66 +1201,36 @@ st.markdown("---")
 
 st.subheader("Conversations par segment et opérateur")
 
-chart_start = _ALL_TIME_START if is_all_time else cur_start
-chart_end = today if is_all_time else cur_end
-df_conv_chart = df_conv[
-    (df_conv["updated_at"] >= chart_start) & (df_conv["updated_at"] <= chart_end)
-] if not df_conv.empty else df_conv
+_period_key = f"{cur_start.strftime('%Y%m%d')}_{cur_end.strftime('%Y%m%d')}"
 
-_period_key = (
-    "all"
-    if is_all_time
-    else f"{cur_start.strftime('%Y%m%d')}_{cur_end.strftime('%Y%m%d')}"
-)
-
-_top3_segments = top_segment_counts(df_conv, chart_start, chart_end, n=3)
+_top3_segments = top_segment_counts(df_conv, cur_start, cur_end, n=3)
 st.markdown(_format_top_segments_md(_top3_segments))
 
 col_seg, col_op = st.columns(2)
 
 with col_seg:
-    if is_all_time:
-        _nivo_multi_line(
-            monthly_category_evolution(df_conv_chart),
-            group_col="categorie",
-            title="Segments",
-            icon=":material/bar_chart:",
-            color="blue",
-            chart_key=f"bug_line_category_{_period_key}",
-        )
-    else:
-        _cat_seg_df = category_segment_counts(df_conv, cur_start, cur_end)
-        _cat_data, _cat_keys, _cat_colors = _category_segment_to_nivo_horizontal(_cat_seg_df)
-        _nivo_horizontal_stacked_bar(
-            _cat_data,
-            keys=_cat_keys,
-            index_key="Catégorie",
-            title="Segments",
-            icon=":material/bar_chart:",
-            color="blue",
-            chart_key=f"bug_bar_category_{_period_key}",
-            segment_colors=_cat_colors,
-        )
+    _cat_seg_df = category_segment_counts(df_conv, cur_start, cur_end)
+    _cat_data, _cat_keys, _cat_colors = _category_segment_to_nivo_horizontal(_cat_seg_df)
+    _nivo_horizontal_stacked_bar(
+        _cat_data,
+        keys=_cat_keys,
+        index_key="Catégorie",
+        title="Segments",
+        icon=":material/bar_chart:",
+        color="blue",
+        chart_key=f"bug_bar_category_{_period_key}",
+        segment_colors=_cat_colors,
+    )
 
 with col_op:
-    if is_all_time:
-        _nivo_multi_line(
-            monthly_operator_evolution(df_conv_chart),
-            group_col="operator",
-            title="Opérateurs",
-            icon=":material/bar_chart:",
-            color="blue",
-            chart_key=f"bug_line_operator_{_period_key}",
-        )
-    else:
-        _nivo_horizontal_bar(
-            counts=operator_counts(df_conv, cur_start, cur_end),
-            index_key="Opérateur",
-            title="Opérateurs",
-            icon=":material/person:",
-            color="blue",
-            chart_key=f"bug_bar_operator_{_period_key}",
-        )
+    _nivo_horizontal_bar(
+        counts=operator_counts(df_conv, cur_start, cur_end),
+        index_key="Opérateur",
+        title="Opérateurs",
+        icon=":material/person:",
+        color="blue",
+        chart_key=f"bug_bar_operator_{_period_key}",
+    )
 
 st.markdown("---")
 
@@ -948,14 +1240,12 @@ st.markdown("---")
 
 st.subheader("Profil de ceux qui nous contacte")
 
-_fonction_start = chart_start if is_all_time else cur_start
-_fonction_end = chart_end if is_all_time else cur_end
 _fonction_counts = contacts_by_fonction(
     df_conv,
     data["auth_users"],
     _user_fonction_lookup,
-    _fonction_start,
-    _fonction_end,
+    cur_start,
+    cur_end,
 )
 
 _nivo_horizontal_bar(
