@@ -33,6 +33,13 @@ _CATEGORY_PREFIXES: list[tuple[str, str]] = [
 ]
 _BAR_ROW_PX = 40
 _BAR_MIN_HEIGHT = 280
+# Segments comptabilisés dans le "Taux de support bug"
+_SEGMENTS_SUPPORT_BUG = ("bug", "support_obligatoire", "besoin_guidage")
+# Segments suivis dans la section "Résolution par IA" (segment exact -> libellé affiché)
+_SEGMENTS_RESOLUTION_IA = {
+    "assistant accepté": "Assistant accepté",
+    "support demandé": "Support demandé",
+}
 
 theme_actif = {
     "text": {
@@ -70,6 +77,8 @@ theme_actif = {
 def load_data():
     df_crisp_conversation = read_table("crisp_conversation")
     df_crisp_rating = read_table("crisp_rating")
+    df_crisp_nb_conversation = read_table("crisp_nb_conversation")
+    df_crisp_nb_message = read_table("crisp_nb_message")
     df_crisp_temps_reponse = read_table("crisp_temps_reponse")
     df_crisp_temps_resolution = read_table("crisp_temps_resoluton")
     df_collectivite = read_table("collectivite")
@@ -91,6 +100,8 @@ def load_data():
     return {
         "crisp_conversation": df_crisp_conversation,
         "crisp_rating": df_crisp_rating,
+        "crisp_nb_conversation": df_crisp_nb_conversation,
+        "crisp_nb_message": df_crisp_nb_message,
         "crisp_temps_reponse": df_crisp_temps_reponse,
         "crisp_temps_resolution": df_crisp_temps_resolution,
         "collectivite": df_collectivite,
@@ -122,6 +133,22 @@ def _prepare_conversations(df: pd.DataFrame) -> pd.DataFrame:
     if df.empty:
         return df
     out = _exclude_non_support(df)
+    out["updated_at"] = pd.to_datetime(out["updated_at"], errors="coerce")
+    if out["updated_at"].dt.tz is not None:
+        out["updated_at"] = out["updated_at"].dt.tz_localize(None)
+    return out.dropna(subset=["updated_at"])
+
+
+def _prepare_non_support_conversations(df: pd.DataFrame) -> pd.DataFrame:
+    """Conservé : uniquement les conversations taguées non-support (exclues du support).
+
+    Sert à compter les conversations 'autre_mail_non_support' par période afin de
+    les soustraire au nombre total de conversations.
+    """
+    if df.empty or "segments" not in df.columns:
+        return df.iloc[0:0].copy() if not df.empty else df
+    mask = df["segments"].fillna("").str.contains(SEGMENT_EXCLU, regex=False)
+    out = df.loc[mask].copy()
     out["updated_at"] = pd.to_datetime(out["updated_at"], errors="coerce")
     if out["updated_at"].dt.tz is not None:
         out["updated_at"] = out["updated_at"].dt.tz_localize(None)
@@ -231,6 +258,7 @@ _GRAPHE_STATS: dict[str, str] = {
     "Segments": "segments",
     "Opérateurs": "operateurs",
     "Profil de ceux qui nous contacte": "profil_contact",
+    "Résolution par IA": "resolution_ia",
 }
 
 
@@ -295,6 +323,19 @@ def _weighted_avg(
     return float((sub[value_col] * weights).sum() / weights.sum())
 
 
+def _sum_monthly(
+    df: pd.DataFrame,
+    value_col: str,
+    months: list[pd.Timestamp],
+) -> int | None:
+    if df.empty:
+        return None
+    sub = df[df["mois_ts"].isin(months)]
+    if sub.empty:
+        return None
+    return int(sub[value_col].fillna(0).sum())
+
+
 def count_conversations(df_conv: pd.DataFrame, start: pd.Timestamp, end: pd.Timestamp) -> int:
     return len(conversations_in_period(df_conv, start, end))
 
@@ -306,6 +347,40 @@ def support_rate(
     end: pd.Timestamp,
 ) -> float | None:
     conv = conversations_in_period(df_conv, start, end)
+    months = months_in_period(start, end)
+    users = df_users[df_users["mois_ts"].isin(months)]
+    n_support = conv["email"].dropna().nunique()
+    n_actifs = users["email"].dropna().nunique()
+    if n_actifs == 0:
+        return None
+    return n_support / n_actifs * 100
+
+
+def _filter_support_bug(df: pd.DataFrame) -> pd.DataFrame:
+    """Conserve les conversations ayant au moins un segment bug / support
+    obligatoire / besoin de guidage."""
+    if df.empty or "segments" not in df.columns:
+        return df.iloc[0:0].copy() if not df.empty else df
+
+    def _match(value: object) -> bool:
+        for seg in str(value).split(","):
+            seg = seg.strip()
+            if any(seg.startswith(p) for p in _SEGMENTS_SUPPORT_BUG):
+                return True
+        return False
+
+    mask = df["segments"].fillna("").apply(_match)
+    return df[mask]
+
+
+def support_rate_bug(
+    df_conv: pd.DataFrame,
+    df_users: pd.DataFrame,
+    start: pd.Timestamp,
+    end: pd.Timestamp,
+) -> float | None:
+    conv = conversations_in_period(df_conv, start, end)
+    conv = _filter_support_bug(conv)
     months = months_in_period(start, end)
     users = df_users[df_users["mois_ts"].isin(months)]
     n_support = conv["email"].dropna().nunique()
@@ -386,6 +461,39 @@ def monthly_category_evolution(df_conv: pd.DataFrame) -> pd.DataFrame:
         return pd.DataFrame(columns=["mois", "categorie", "conversations"])
     return (
         exploded.groupby(["mois", "categorie"])
+        .size()
+        .reset_index(name="conversations")
+    )
+
+
+def ia_resolution_counts(
+    df_conv: pd.DataFrame, start: pd.Timestamp, end: pd.Timestamp
+) -> pd.Series:
+    """Nombre de conversations 'assistant accepté' vs 'support demandé' sur la période."""
+    counts = {label: 0 for label in _SEGMENTS_RESOLUTION_IA.values()}
+    conv = conversations_in_period(df_conv, start, end)
+    if not conv.empty and "segments" in conv.columns:
+        vc = _explode_segments(conv)["segment"].value_counts()
+        for segment, label in _SEGMENTS_RESOLUTION_IA.items():
+            counts[label] = int(vc.get(segment, 0))
+    return pd.Series(counts, dtype=int)
+
+
+def monthly_ia_resolution_evolution(df_conv: pd.DataFrame) -> pd.DataFrame:
+    cols = ["mois", "type", "conversations"]
+    if df_conv.empty:
+        return pd.DataFrame(columns=cols)
+    conv = df_conv.copy()
+    conv["mois"] = conv["updated_at"].dt.to_period("M").dt.to_timestamp()
+    conv["segment"] = conv["segments"].fillna("").str.split(",")
+    exploded = conv.explode("segment")
+    exploded["segment"] = exploded["segment"].str.strip()
+    exploded["type"] = exploded["segment"].map(_SEGMENTS_RESOLUTION_IA)
+    exploded = exploded.dropna(subset=["type"])
+    if exploded.empty:
+        return pd.DataFrame(columns=cols)
+    return (
+        exploded.groupby(["mois", "type"])
         .size()
         .reset_index(name="conversations")
     )
@@ -715,6 +823,65 @@ def _nivo_horizontal_bar(
                     "tickSize": 5,
                     "tickPadding": 8,
                     "tickRotation": 0,
+                },
+                enableLabel=True,
+                labelSkipWidth=16,
+                labelSkipHeight=12,
+                labelTextColor="#ffffff",
+                animate=True,
+                motionConfig="gentle",
+                theme=theme_actif,
+            )
+
+
+def _nivo_vertical_bar(
+    counts: pd.Series,
+    index_key: str,
+    title: str,
+    icon: str,
+    color: str,
+    chart_key: str,
+    *,
+    y_legend: str = "Conversations",
+):
+    st.badge(f"{title}", icon=icon, color=color)
+    if counts.empty or int(counts.sum()) == 0:
+        st.info("Aucune donnée sur la période sélectionnée.")
+        return
+
+    bar_data = [
+        {index_key: str(label), "conversations": int(value)}
+        for label, value in counts.items()
+    ]
+
+    with elements(chart_key):
+        with mui.Box(sx={"height": 420}):
+            nivo.Bar(
+                data=bar_data,
+                keys=["conversations"],
+                indexBy=index_key,
+                layout="vertical",
+                margin={"top": 20, "right": 40, "bottom": 60, "left": 70},
+                padding=0.4,
+                valueScale={"type": "linear", "min": 0},
+                indexScale={"type": "band", "round": True},
+                colors=[_COULEUR_BAR],
+                borderRadius=4,
+                borderColor={"from": "color", "modifiers": [["darker", 0.4]]},
+                axisTop=None,
+                axisRight=None,
+                axisBottom={
+                    "tickSize": 5,
+                    "tickPadding": 5,
+                    "tickRotation": 0,
+                },
+                axisLeft={
+                    "tickSize": 5,
+                    "tickPadding": 5,
+                    "tickRotation": 0,
+                    "legend": y_legend,
+                    "legendPosition": "middle",
+                    "legendOffset": -55,
                 },
                 enableLabel=True,
                 labelSkipWidth=16,
@@ -1148,6 +1315,10 @@ def _render_graphe_view(
         evo = monthly_operator_evolution(df_conv_scan)
         group_col = "operator"
         y_legend = "Conversations"
+    elif stat_id == "resolution_ia":
+        evo = monthly_ia_resolution_evolution(df_conv_scan)
+        group_col = "type"
+        y_legend = "Conversations"
     else:
         evo = monthly_fonction_evolution(
             df_conv, df_auth_users, user_fonction_lookup, scan_start, graphe_end
@@ -1155,7 +1326,7 @@ def _render_graphe_view(
         group_col = "fonction"
         y_legend = "Contacts"
 
-    _multi_stat = stat_id in ("segments", "operateurs", "profil_contact")
+    _multi_stat = stat_id in ("segments", "operateurs", "profil_contact", "resolution_ia")
     avg_value = "—"
 
     if _multi_stat and evo is not None and group_col is not None:
@@ -1242,6 +1413,9 @@ def get_prepared_data():
     raw = load_data()
     return {
         "df_conv": _prepare_conversations(raw["crisp_conversation"]),
+        "df_conv_non_support": _prepare_non_support_conversations(
+            raw["crisp_conversation"]
+        ),
         "df_users": _prepare_user_actifs(raw["user_actifs_ct_mois"]),
         "user_fonction_lookup": _build_user_fonction_lookup(
             raw["auth_users"],
@@ -1249,6 +1423,8 @@ def get_prepared_data():
             raw["private_collectivite_membre"],
         ),
         "df_rating": _prepare_monthly_crisp(raw["crisp_rating"]),
+        "df_nb_conversation": _prepare_monthly_crisp(raw["crisp_nb_conversation"]),
+        "df_nb_message": _prepare_monthly_crisp(raw["crisp_nb_message"]),
         "df_temps_rep": _prepare_monthly_crisp(raw["crisp_temps_reponse"]),
         "df_temps_res": _prepare_monthly_crisp(raw["crisp_temps_resolution"]),
         "auth_users": raw["auth_users"],
@@ -1260,9 +1436,12 @@ def get_prepared_data():
 _prepared = get_prepared_data()
 
 df_conv = _prepared["df_conv"]
+df_conv_non_support = _prepared["df_conv_non_support"]
 df_users = _prepared["df_users"]
 _user_fonction_lookup = _prepared["user_fonction_lookup"]
 df_rating = _prepared["df_rating"]
+df_nb_conversation = _prepared["df_nb_conversation"]
+df_nb_message = _prepared["df_nb_message"]
 df_temps_rep = _prepared["df_temps_rep"]
 df_temps_res = _prepared["df_temps_res"]
 df_tickets = _prepared["df_tickets"]
@@ -1403,32 +1582,55 @@ with tab_support:
         # ----- Section 1 : Les chiffres du support -----
         st.subheader("Les chiffres du support")
 
-        nb_conv_cur = count_conversations(df_conv, cur_start, cur_end)
+        nb_conv_cur = _sum_monthly(df_nb_conversation, "nb_conversation", cur_months)
+        if nb_conv_cur is not None:
+            nb_conv_cur -= len(
+                conversations_in_period(df_conv_non_support, cur_start, cur_end)
+            )
+        nb_msg_op_cur = _sum_monthly(df_nb_message, "nb_messages_operator", cur_months)
         taux_cur = support_rate(df_conv, df_users, cur_start, cur_end)
+        taux_bug_cur = support_rate_bug(df_conv, df_users, cur_start, cur_end)
         rep_cur = _weighted_avg(df_temps_rep, "response_time_h", cur_months)
         res_cur = _weighted_avg(df_temps_res, "temps_resolution_h", cur_months)
         sat_cur = _weighted_avg(df_rating, "rating", cur_months)
 
-        nb_conv_prev = count_conversations(df_conv, prev_start, prev_end)
+        nb_conv_prev = _sum_monthly(df_nb_conversation, "nb_conversation", prev_months)
+        if nb_conv_prev is not None:
+            nb_conv_prev -= len(
+                conversations_in_period(df_conv_non_support, prev_start, prev_end)
+            )
+        nb_msg_op_prev = _sum_monthly(df_nb_message, "nb_messages_operator", prev_months)
         taux_prev = support_rate(df_conv, df_users, prev_start, prev_end)
+        taux_bug_prev = support_rate_bug(df_conv, df_users, prev_start, prev_end)
         rep_prev = _weighted_avg(df_temps_rep, "response_time_h", prev_months)
         res_prev = _weighted_avg(df_temps_res, "temps_resolution_h", prev_months)
         sat_prev = _weighted_avg(df_rating, "rating", prev_months)
         _d_conv = _metric_delta(nb_conv_cur, nb_conv_prev, fmt="int")
+        _d_msg_op = _metric_delta(nb_msg_op_cur, nb_msg_op_prev, fmt="int")
         _d_taux = _metric_delta(taux_cur, taux_prev, fmt="pct")
+        _d_taux_bug = _metric_delta(taux_bug_cur, taux_bug_prev, fmt="pct")
         _d_rep = _metric_delta(rep_cur, rep_prev, fmt="hours")
         _d_res = _metric_delta(res_cur, res_prev, fmt="hours")
         _d_sat = _metric_delta(sat_cur, sat_prev, fmt="rating")
 
-        c1, c2, c3, c4, c5 = st.columns(5)
+        c1, c2, c3, c4 = st.columns(4)
         with c1:
             st.metric(
                 label="Nombre de conversations",
-                value=nb_conv_cur,
+                value=nb_conv_cur if nb_conv_cur is not None else "—",
                 delta=_d_conv,
                 delta_color="inverse",
+                help="Nombre de conversations, tenant compte des réouvertures, sans les conversations taguées email non-support."
             )
         with c2:
+            st.metric(
+                label="Messages opérateurs",
+                value=nb_msg_op_cur if nb_msg_op_cur is not None else "—",
+                delta=_d_msg_op,
+                delta_color="inverse",
+                help="Nombre de messages envoyés par les opérateurs."
+            )
+        with c3:
             st.metric(
                 label="Taux de support",
                 value=f"{taux_cur:.1f} %" if taux_cur is not None else "—",
@@ -1436,21 +1638,31 @@ with tab_support:
                 delta_color="inverse",
                 help="Nombre d'utilisateurs qui ont contacté le support sur le nombre d'utilisateurs actifs à cette période.",
             )
-        with c3:
+        with c4:
+            st.metric(
+                label="Taux de support bug",
+                value=f"{taux_bug_cur:.1f} %" if taux_bug_cur is not None else "—",
+                delta=_d_taux_bug,
+                delta_color="inverse",
+                help="Taux de support en ne tenant compte que des conversations avec les segments bug, support obligatoire et besoin de guidage.",
+            )
+
+        c5, c6, c7, c8 = st.columns(4)
+        with c5:
             st.metric(
                 label="Temps de première réponse",
                 value=format_duration_h(rep_cur) if rep_cur is not None else "—",
                 delta=_d_rep,
                 delta_color="inverse",
             )
-        with c4:
+        with c6:
             st.metric(
                 label="Temps de résolution moyen",
                 value=format_duration_h(res_cur) if res_cur is not None else "—",
                 delta=_d_res,
                 delta_color="inverse",
             )
-        with c5:
+        with c7:
             st.metric(
                 label="Satisfaction moyenne",
                 value=f"{sat_cur:.2f}" if sat_cur is not None else "—",
@@ -1511,6 +1723,21 @@ with tab_support:
             icon=":material/groups:",
             color="green",
             chart_key="bug_bar_fonction",
+        )
+
+        st.markdown("---")
+
+        # ----- Section 4 : Résolution par IA -----
+        st.subheader("Résolution par IA")
+
+        _ia_counts = ia_resolution_counts(df_conv, cur_start, cur_end)
+        _nivo_vertical_bar(
+            counts=_ia_counts,
+            index_key="Résolution",
+            title="Assistant accepté vs support demandé",
+            icon=":material/smart_toy:",
+            color="violet",
+            chart_key="bug_bar_resolution_ia",
         )
 
 
