@@ -31,6 +31,30 @@ NOTE_COLORS = {
     3: "#389D49",
 }
 
+COLOR_PALETTES: dict[str, dict[int, str]] = {
+    "default": NOTE_COLORS,
+    "traffic": {
+        0: "#E8735A",
+        1: "#F0A04B",
+        2: "#5DCF69",
+        3: "#389D49",
+    },
+    "green_gradient": {
+        0: "#EBEDF0",
+        1: "#9BE9A8",
+        2: "#40C463",
+        3: "#216E39",
+    },
+}
+
+PALETTE_LABELS = {
+    "default": "Par défaut",
+    "traffic": "Vert foncé · vert clair · orange · rouge",
+    "green_gradient": "Dégradé de vert",
+}
+
+TREEMAP_LABEL_COLOR = "#000000"
+
 COLOR_ACTION_RETENUE = "#D84315"
 
 NOTES_ENJEU_BAS = {0, 1}
@@ -90,20 +114,27 @@ def levier_label_court(levier: str) -> str:
     return LEVIER_LABELS.get(levier, levier)
 
 
+def get_note_colors(palette_key: str) -> dict[int, str]:
+    return COLOR_PALETTES.get(palette_key, NOTE_COLORS)
+
+
 def case_color(
     levier: str,
     cat: int,
     note: int,
     cibles_actions: set[tuple[str, int]] | None,
+    *,
+    note_colors: dict[int, str] | None = None,
 ) -> str:
     """Orange si cible peu mobilisée avec action retenue (mode synthèse)."""
+    colors = note_colors or NOTE_COLORS
     if (
         cibles_actions is not None
         and note in NOTES_ENJEU_BAS
         and (levier, cat) in cibles_actions
     ):
         return COLOR_ACTION_RETENUE
-    return NOTE_COLORS.get(note, NOTE_COLORS[0])
+    return colors.get(note, colors[0])
 
 
 def build_treemap_data(
@@ -115,6 +146,7 @@ def build_treemap_data(
     *,
     cibles_actions: set[tuple[str, int]] | None = None,
     selected_cibles: set[tuple[str, int]] | None = None,
+    note_colors: dict[int, str] | None = None,
 ) -> tuple[list[dict], list[str]]:
     """Treemap : taille = enjeu relatif, couleur = mobilisation (± actions retenues)."""
     excluded_leviers: list[str] = []
@@ -152,10 +184,16 @@ def build_treemap_data(
             node: dict = {
                 "name": f"{levier_label_court(levier)}\n{categorie}",
                 "value": round(taille, 2),
-                "itemStyle": {"color": case_color(levier, cat, note, cibles_actions)},
+                "itemStyle": {
+                    "color": case_color(
+                        levier, cat, note, cibles_actions, note_colors=note_colors
+                    )
+                },
+                "label": _treemap_leaf_label(),
                 "levierName": levier,
                 "categorieName": categorie,
                 "categorieId": cat,
+                "note": note,
                 "noteLevel": NOTE_LABELS.get(note, NOTE_LABELS[0]),
             }
             if cibles_actions is not None:
@@ -177,6 +215,7 @@ def build_priorisation_cases(
     *,
     cibles_actions: set[tuple[str, int]] | None = None,
     selected_cibles: set[tuple[str, int]] | None = None,
+    note_colors: dict[int, str] | None = None,
 ) -> list[dict]:
     """Cases levier × catégorie avec note et enjeu (ktCO₂e)."""
     cases: list[dict] = []
@@ -209,7 +248,9 @@ def build_priorisation_cases(
                 action_retenue = (
                     (levier, cat) in cibles_actions and note in NOTES_ENJEU_BAS
                 )
-                case["color"] = case_color(levier, cat, note, cibles_actions)
+                case["color"] = case_color(
+                    levier, cat, note, cibles_actions, note_colors=note_colors
+                )
                 case["action_retenue"] = action_retenue
             cases.append(case)
     return cases
@@ -224,9 +265,7 @@ def case_sort_value(case: dict) -> float:
 
 
 def case_chart_value(case: dict) -> float:
-    """Valeur signée pour les barres (négatif = peu mobilisé sans action retenue)."""
-    if case["note"] in NOTES_ENJEU_BAS and not case.get("action_retenue"):
-        return -case["enjeu"]
+    """Hauteur des barres (toujours positive, vers le haut)."""
     return case["enjeu"]
 
 
@@ -247,9 +286,7 @@ def build_vue_ensemble_bar_options(cases: list[dict]) -> dict | None:
             "noteLevel": NOTE_LABELS.get(c["note"], NOTE_LABELS[0]),
             "itemStyle": {
                 "color": color,
-                "borderRadius": (
-                    [6, 6, 0, 0] if chart_val >= 0 else [0, 0, 6, 6]
-                ),
+                "borderRadius": [6, 6, 0, 0],
                 "shadowColor": "rgba(0,0,0,0.06)",
                 "shadowBlur": 6,
             },
@@ -324,6 +361,15 @@ def build_vue_ensemble_bar_options(cases: list[dict]) -> dict | None:
     }
 
 
+def _treemap_leaf_label() -> dict:
+    """Force le texte des cases en noir (ECharts adapte sinon selon le fond)."""
+    return {
+        "show": True,
+        "color": TREEMAP_LABEL_COLOR,
+        "textStyle": {"color": TREEMAP_LABEL_COLOR},
+    }
+
+
 def prepare_treemap_display_data(
     treemap_children: list[dict], *, show_labels: bool
 ) -> list[dict]:
@@ -367,9 +413,21 @@ def _treemap_series_config(display_data: list[dict]) -> list[dict]:
                     },
                     "label": {
                         "show": True,
-                        "fontSize": 10,
-                        "lineHeight": 14,
-                        "color": "#333",
+                        "formatter": JsCode(
+                            """
+                            function(params) {
+                                if (!params.name) return '';
+                                return '{leaf|' + params.name + '}';
+                            }
+                            """
+                        ),
+                        "rich": {
+                            "leaf": {
+                                "color": TREEMAP_LABEL_COLOR,
+                                "fontSize": 10,
+                                "lineHeight": 14,
+                            }
+                        },
                         "overflow": "break",
                         "width": 80,
                     },
@@ -426,9 +484,7 @@ def build_bar_export_options(cases: list[dict]) -> dict | None:
             "value": chart_val,
             "itemStyle": {
                 "color": color,
-                "borderRadius": (
-                    [6, 6, 0, 0] if chart_val >= 0 else [0, 0, 6, 6]
-                ),
+                "borderRadius": [6, 6, 0, 0],
                 "shadowColor": "rgba(0,0,0,0.06)",
                 "shadowBlur": 6,
             },
@@ -487,11 +543,44 @@ def build_treemap_export_options(
     }
 
 
-def render_note_color_legend(*, show_actions_retenues: bool = False) -> None:
+def apply_note_colors_to_treemap(
+    children: list[dict],
+    note_colors: dict[int, str],
+    *,
+    cibles_actions: set[tuple[str, int]] | None = None,
+) -> list[dict]:
+    """Recolore les feuilles de la treemap selon la palette choisie."""
+    recolored: list[dict] = []
+    for levier_node in children:
+        new_leaves = []
+        for leaf in levier_node["children"]:
+            note = int(leaf["note"])
+            color = case_color(
+                leaf["levierName"],
+                int(leaf["categorieId"]),
+                note,
+                cibles_actions,
+                note_colors=note_colors,
+            )
+            new_leaves.append({
+                **leaf,
+                "itemStyle": {"color": color},
+                "label": leaf.get("label", _treemap_leaf_label()),
+            })
+        recolored.append({**levier_node, "children": new_leaves})
+    return recolored
+
+
+def render_note_color_legend(
+    *,
+    show_actions_retenues: bool = False,
+    note_colors: dict[int, str] | None = None,
+) -> None:
+    colors = note_colors or NOTE_COLORS
     items = "".join(
         f'<span style="display:inline-flex;align-items:center;margin-right:1.5rem;">'
         f'<span style="display:inline-block;width:14px;height:14px;border-radius:3px;'
-        f"background:{NOTE_COLORS[note]};border:1px solid rgba(0,0,0,0.12);"
+        f"background:{colors[note]};border:1px solid rgba(0,0,0,0.12);"
         f'margin-right:0.45rem;flex-shrink:0;"></span>'
         f'<span style="font-size:0.875rem;color:#333;">{NOTE_LABELS[note]}</span>'
         f"</span>"
@@ -541,8 +630,26 @@ def render_impact_map(
     click_events: dict | None = None,
     height: int = TREEMAP_HEIGHT,
     before_chart: Callable[[], None] | None = None,
+    palette_selector_key: str | None = None,
+    cibles_actions: set[tuple[str, int]] | None = None,
 ) -> tuple[bool, object | None]:
     """Affiche l'onglet Impact Map. Retourne (show_labels, valeur st_echarts ou None)."""
+    note_colors = NOTE_COLORS
+    palette_key = "default"
+    if palette_selector_key is not None:
+        palette_key = st.selectbox(
+            "Palette de couleurs",
+            options=list(PALETTE_LABELS.keys()),
+            format_func=lambda key: PALETTE_LABELS[key],
+            key=palette_selector_key,
+        )
+        note_colors = get_note_colors(palette_key)
+        treemap_children = apply_note_colors_to_treemap(
+            treemap_children,
+            note_colors,
+            cibles_actions=cibles_actions,
+        )
+
     toggle_kwargs: dict = {"label": "Libellés", "value": labels_toggle_default}
     if labels_toggle_key is not None:
         toggle_kwargs["key"] = labels_toggle_key
@@ -561,9 +668,15 @@ def render_impact_map(
     if before_chart is not None:
         before_chart()
 
-    render_note_color_legend(show_actions_retenues=show_actions_retenues)
+    render_note_color_legend(
+        show_actions_retenues=show_actions_retenues,
+        note_colors=note_colors,
+    )
     options = build_echarts_options(treemap_children, show_labels=show_labels)
-    chart_key = f"{chart_key_prefix}_{threshold_pct}_labels_{int(show_labels)}"
+    chart_key = (
+        f"{chart_key_prefix}_{threshold_pct}_palette_{palette_key}"
+        f"_labels_{int(show_labels)}"
+    )
     echarts_kwargs: dict = {
         "options": options,
         "height": f"{height}px",

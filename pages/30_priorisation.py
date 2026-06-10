@@ -447,6 +447,7 @@ with tabs[0]:
         labels_toggle_default=True,
         click_events=TREEMAP_CLICK_EVENTS,
         before_chart=_before_treemap_chart if treemap_children else None,
+        palette_selector_key=f"diag_palette_{selected_id}",
     )
 
     if treemap_children:
