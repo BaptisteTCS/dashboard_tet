@@ -306,6 +306,33 @@ def monthly_bug_by_category(df: pd.DataFrame, col: str) -> pd.DataFrame:
     return work.groupby(["mois", col]).size().reset_index(name="value")
 
 
+def avg_bug_resolution(
+    df: pd.DataFrame, start: pd.Timestamp, end: pd.Timestamp
+) -> float | None:
+    """Temps de résolution moyen des tickets de la période (ignore les valeurs nulles)."""
+    sub = tickets_in_period(df, start, end)
+    if sub.empty or "temps_resolution" not in sub.columns:
+        return None
+    vals = pd.to_numeric(sub["temps_resolution"], errors="coerce").dropna()
+    if vals.empty:
+        return None
+    return float(vals.mean())
+
+
+def monthly_bug_resolution(df: pd.DataFrame) -> pd.DataFrame:
+    if df.empty or "temps_resolution" not in df.columns:
+        return pd.DataFrame(columns=["mois", "value"])
+    work = df.copy()
+    work["mois"] = work["created_at"].dt.to_period("M").dt.to_timestamp()
+    work["temps_resolution"] = pd.to_numeric(work["temps_resolution"], errors="coerce")
+    work = work.dropna(subset=["temps_resolution"])
+    if work.empty:
+        return pd.DataFrame(columns=["mois", "value"])
+    return (
+        work.groupby("mois")["temps_resolution"].mean().reset_index(name="value")
+    )
+
+
 def _weighted_avg(
     df: pd.DataFrame,
     value_col: str,
@@ -1395,6 +1422,8 @@ def _metric_delta(cur, prev, *, fmt: str):
         return format_duration_delta(delta)
     if fmt == "rating":
         return f"{delta:+.2f}"
+    if fmt == "days":
+        return f"{delta:+.1f} j"
     return f"{delta:+.0f}"
 
 
@@ -1807,6 +1836,22 @@ with tab_bug:
             color="red",
             chart_key="bug_tab_stacked_criticite",
         )
+
+        st.markdown("---")
+
+        _res_monthly = monthly_bug_resolution(df_tickets)
+        _res_monthly = _clip_from_start(_res_monthly, _GRAPHE_START)
+        st.badge(
+            "Temps de résolution moyen par mois",
+            icon=":material/show_chart:",
+            color="red",
+        )
+        _nivo_line_chart(
+            _scalar_series_to_nivo_line(_res_monthly),
+            "bug_tab_line_resolution",
+            y_legend="Jours",
+            show_legend=False,
+        )
     else:
         st.subheader("Les chiffres des bugs")
 
@@ -1814,10 +1859,13 @@ with tab_bug:
         nb_bug_prev = count_bugs(df_tickets, prev_start, prev_end)
         nb_bloq_cur = count_bugs_bloquant(df_tickets, cur_start, cur_end)
         nb_bloq_prev = count_bugs_bloquant(df_tickets, prev_start, prev_end)
+        res_bug_cur = avg_bug_resolution(df_tickets, cur_start, cur_end)
+        res_bug_prev = avg_bug_resolution(df_tickets, prev_start, prev_end)
         _d_bug = _metric_delta(nb_bug_cur, nb_bug_prev, fmt="int")
         _d_bloq = _metric_delta(nb_bloq_cur, nb_bloq_prev, fmt="int")
+        _d_res_bug = _metric_delta(res_bug_cur, res_bug_prev, fmt="days")
 
-        m1, m2 = st.columns(2)
+        m1, m2, m3 = st.columns(3)
         with m1:
             st.metric(
                 label="Nombre de tickets bugs",
@@ -1831,6 +1879,14 @@ with tab_bug:
                 value=nb_bloq_cur,
                 delta=_d_bloq,
                 delta_color="inverse",
+            )
+        with m3:
+            st.metric(
+                label="Temps de résolution moyen",
+                value=f"{res_bug_cur:.1f} j" if res_bug_cur is not None else "—",
+                delta=_d_res_bug,
+                delta_color="inverse",
+                help="Moyenne de la colonne temps_resolution (en jours) des tickets de la période, hors valeurs nulles.",
             )
 
         st.markdown("---")
