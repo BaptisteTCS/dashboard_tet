@@ -147,6 +147,10 @@ Règles générales
 7 Ordre de tri. Le tableau doit être trié selon la hiérarchie axe puis sous axe puis ordre des actions
 8 "titre" et "description" ne doivent jamais contenir les mêmes informations. La description apporte un complément au titre. Si le titre suffit à décrire l’action et qu’il n’y a rien de pertinent à ajouter, laisser "description" à ""
 9 Ne recopie pas les objectifs dans les descriptions. S'il n'y a pas de description et seulement des objectifs, les mettre dans le champ "objectifs"
+10 Ne jamais nommer un axe avec "plan d'action", si tu detected qu'un axe qui est a priori le titre du plan, alors tu passes les sous-axes comme axe.
+11 Ne pas remplir les sous-axes et les fiches actions avec le même titre. Et de meme ne pas remplir les axes et sous-axes avec le meme titre. Soit il y a un titre différent, soit il y a une hiérarchie à changer. Si vraiment on doit passer d'axe directement à action, il est préférable d'inventer des sous-axes cohérents, proche de la réalité, pour ne pas reprendre le titre de l'axe dans le sous-axe.
+12 Toujours numéroter dans l'ordre, même si le document original dévie.
+13 Les titres des sous-action (et actions) sont en général court, tous le reste va dans la description. Par exemple on ne liste pas les objectifs et la gouvernance dans le titre.
 
 Exemples de bonne structure de plan
 Exemple de titres hiérarchiques attendus quand le texte les fournit
