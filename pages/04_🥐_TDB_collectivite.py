@@ -3,8 +3,13 @@ import pandas as pd
 from streamlit_elements import elements, nivo, mui
 
 from utils.db import read_table
-from utils.data import tet_plan_url
-from utils.plots import new_note_spider_graph
+from utils.plan_note_dashboard import (
+    THEME_NIVO,
+    build_plan_scores_df,
+    render_notation_definition_expander,
+    render_plan_radar_gallery,
+    render_top_plans_evolution_chart,
+)
 
 
 st.set_page_config(layout="wide")
@@ -22,6 +27,8 @@ def load_data():
         where_sql="mois=(select max(mois) from note_fiche_historique)",
     )
     df_pap_date_passage = read_table('pap_date_passage')
+    df_pap_13 = read_table('pap_statut_5_fiches_modifiees_13_semaines')
+    df_pap_52 = read_table('pap_statut_5_fiches_modifiees_52_semaines')
     df_collectivite = read_table('collectivite')
     df_fiche_action_plan = read_table('fiche_action_plan')
     return (
@@ -30,6 +37,8 @@ def load_data():
         df_note_plan,
         df_note_fiche,
         df_pap_date_passage,
+        df_pap_13,
+        df_pap_52,
         df_collectivite,
         df_fiche_action_plan,
     )
@@ -41,52 +50,51 @@ def load_data():
     df_note_plan,
     df_note_fiche,
     df_pap_date_passage,
+    df_pap_13,
+    df_pap_52,
     df_collectivite,
     df_fiche_action_plan,
 ) = load_data()
 
 
-# === THÈMES NIVO ===
-theme_nivo = {
-    "text": {
-        "fontFamily": "Source Sans Pro, sans-serif",
-        "fontSize": 13,
-        "fill": "#31333F",
-    },
-    "labels": {
-        "text": {
-            "fontFamily": "Source Sans Pro, sans-serif",
-            "fontSize": 16,
-            "fill": "#31333F",
-        }
-    },
-    "grid": {
-        "line": {
-            "stroke": "#e0e0e0",
-            "strokeWidth": 1,
-            "strokeOpacity": 0.8,
-        }
-    },
-    "legends": {
-        "text": {
-            "fontFamily": "Source Sans Pro, sans-serif",
-            "fontSize": 12,
-            "fill": "#31333F",
-        }
-    },
-    "tooltip": {
-        "container": {
-            "background": "rgba(255, 255, 255, 0.95)",
-            "color": "#31333F",
-            "fontSize": "13px",
-            "fontFamily": "Source Sans Pro, sans-serif",
-            "borderRadius": "4px",
-            "boxShadow": "0 2px 8px rgba(0,0,0,0.15)",
-            "padding": "8px 12px",
-            "border": "1px solid rgba(0, 0, 0, 0.1)",
-        }
-    },
-}
+theme_nivo = THEME_NIVO
+
+
+def _noms_plans_pap_actifs(
+    df_pap: pd.DataFrame,
+    collectivite_id: int,
+    nom_plan_par_id: dict,
+) -> list[str]:
+    """Plans avec statut 'actif' au dernier mois disponible."""
+    df_ct = df_pap[df_pap['collectivite_id'] == collectivite_id].copy()
+    if df_ct.empty:
+        return []
+
+    df_ct['mois'] = pd.to_datetime(df_ct['mois'], errors='coerce')
+    dernier_mois = df_ct['mois'].max()
+    df_actif = df_ct[
+        (df_ct['mois'] == dernier_mois) & (df_ct['statut'] == 'actif')
+    ]
+    if df_actif.empty:
+        return []
+
+    if 'nom_plan' in df_actif.columns:
+        noms = df_actif['nom_plan'].dropna().unique().tolist()
+    else:
+        noms = [
+            nom_plan_par_id.get(plan_id, str(int(plan_id)))
+            for plan_id in df_actif['plan'].dropna().unique()
+        ]
+    return sorted(noms)
+
+
+def _render_liste_plans_pap(titre: str, noms: list[str]) -> None:
+    st.markdown(f"**{titre}**")
+    if noms:
+        for nom in noms:
+            st.markdown(f"- {nom}")
+    else:
+        st.caption("Aucun plan actif")
 
 
 # === SÉLECTION COLLECTIVITÉ ===
@@ -134,234 +142,60 @@ with tab_plan:
 
     plans_ct = df_plans_ct['plan'].dropna().unique().tolist()
 
-    with st.expander("Définition de la notation"):
-        st.markdown('### Définition de la note d\'une action')
-        st.markdown(
-        """
-        - **Titre** + 1pt
-        - **Description** + 1pt
-        - **Statut** + 1pt
-        - **Personne pilote** + 0.5pt
-        - **Au moins une des personnes pilotes est rattachée à un compte utilisateur** +0.5pt
-        - **Date de début** + 0.5pt
-        - **Date de fin (ou action continue est coché)** + 0.5pt
-        - **Indicateur lié** + 1pt
-        - **Objectif** + 1pt *(au moins un objectif chiffré dans TOUS les indicateurs liés pour une année supérieur ou égalé à l’année actuelle)*
-        - **Budget** + 1pt *(budget investissement ou fonctionnement ou financeurs ou champs financements ou moyens humains)*
-        - **Note de suivi de moins d’un an** + 1pt
-        - **Date de dernière MAJ de l’action <12 mois** + 0.5pt (si statut non terminé/Abandonné) *(la modification d'une relation n'est pas comptabilisée comme lier des indicateurs, mesures, budget, etc.)*
-        - **Date de dernière MAJ de l’action <6 mois** + 0.5pt (si statut non terminé/Abandonné) *(idem)*
-        """)
+    nom_plan_par_id = (
+        df_plans_ct.dropna(subset=['plan'])
+        .drop_duplicates(subset=['plan'])
+        .set_index('plan')['nom_plan_ct']
+        .to_dict()
+    )
 
-        st.markdown('### Définition de la note d\'un plan')
-        st.markdown('La note d\'un plan se calcule en prenant la moyenne des notes de toutes ses fiches actions.')
+    st.badge("Statut PAP", icon=":material/check_circle:", color="green")
+    col_pap_3m, col_pap_12m = st.columns(2)
+    with col_pap_3m:
+        _render_liste_plans_pap(
+            "PAP actif 3 mois",
+            _noms_plans_pap_actifs(df_pap_13, cid_selected, nom_plan_par_id),
+        )
+    with col_pap_12m:
+        _render_liste_plans_pap(
+            "PAP actif 12 mois",
+            _noms_plans_pap_actifs(df_pap_52, cid_selected, nom_plan_par_id),
+        )
+
+    st.markdown("---")
+    render_notation_definition_expander()
 
     if not plans_ct:
         st.warning("Aucun plan PAP trouvé pour cette collectivité.")
     else:
-        nom_plan_par_id = (
-            df_plans_ct.dropna(subset=['plan'])
-            .drop_duplicates(subset=['plan'])
-            .set_index('plan')['nom_plan_ct']
-            .to_dict()
+        df_plan_scores = build_plan_scores_df(
+            df_fiche_action_plan, df_note_fiche, plans_ct
         )
 
-        df_fiches_plans = df_fiche_action_plan[
-            df_fiche_action_plan['plan'].isin(plans_ct)
-        ]
-
-        df_join = df_fiches_plans.merge(
-            df_note_fiche,
-            on='fiche_id',
-            how='inner',
-            suffixes=('', '_note'),
-        )
-
-        df_join['axe_pilote'] = df_join['score_pilote'].fillna(0) + df_join['score_pilote_user'].fillna(0)
-        df_join['axe_dates'] = df_join['score_date_debut'].fillna(0) + df_join['score_date_fin'].fillna(0)
-        df_join['axe_activite'] = (
-            df_join['score_modif_6_mois'].fillna(0) + df_join['score_modif_12_mois'].fillna(0)
-        )
-
-        axes_cols = [
-            'score_titre',
-            'score_description',
-            'score_statut',
-            'score_indicateur',
-            'score_objectif',
-            'score_budget',
-            'score_suivi',
-            'axe_pilote',
-            'axe_dates',
-            'axe_activite',
-        ]
-
-        if df_join.empty:
+        if df_plan_scores.empty:
             st.warning("Aucune fiche notée pour les plans de cette collectivité ce mois-ci.")
         else:
             df_plan_scores = (
-                df_join.groupby('plan')[axes_cols + ['note_fa']]
-                .mean()
-                .reset_index()
-                .sort_values('note_fa', ascending=False)
+                df_plan_scores.sort_values('note_fa', ascending=False)
                 .reset_index(drop=True)
             )
 
-            # --- LINE CHART : ÉVOLUTION DES TOP 10 PLANS ---
             top_plans = df_plan_scores.head(10)['plan'].tolist()
-
-            df_evol_top = (
-                df_note_plan[df_note_plan['plan'].isin(top_plans)]
-                .copy()
-                .sort_values('mois')
+            render_top_plans_evolution_chart(
+                df_note_plan,
+                top_plans,
+                nom_plan_par_id,
+                element_id="line_top_plans",
+                theme=theme_nivo,
             )
-            if len(top_plans) >= 10:
-                st.badge(
-                    f"Évolution des 10 meilleurs plans",
-                    icon=":material/trending_up:",
-                    color="green",
-                )
 
-            else:
-                st.badge(
-                    f"Évolution des plans",
-                    icon=":material/trending_up:",
-                    color="green",
-                )
-
-            if df_evol_top.empty:
-                st.info("Pas d'historique de note pour ces plans.")
-            else:
-                line_data = []
-                for plan_id in top_plans:
-                    plan_nom = nom_plan_par_id.get(plan_id, str(int(plan_id)))
-                    df_p = df_evol_top[df_evol_top['plan'] == plan_id]
-                    serie = [
-                        {"x": str(row['mois']), "y": round(float(row['note_plan']), 1)}
-                        for _, row in df_p.iterrows()
-                        if pd.notna(row['note_plan'])
-                    ]
-                    if serie:
-                        line_data.append({"id": plan_nom, "data": serie})
-
-                with elements("line_top_plans"):
-                    with mui.Box(sx={"height": 350}):
-                        nivo.Line(
-                            data=line_data,
-                            margin={"top": 30, "right": 260, "bottom": 70, "left": 60},
-                            xScale={"type": "point"},
-                            yScale={
-                                "type": "linear",
-                                "min": 0,
-                                "max": 10,
-                                "stacked": False,
-                                "reverse": False,
-                            },
-                            curve="monotoneX",
-                            axisTop=None,
-                            axisRight=None,
-                            axisBottom={
-                                "tickSize": 5,
-                                "tickPadding": 5,
-                                "tickRotation": -45,
-                                "legend": "Mois",
-                                "legendOffset": 55,
-                                "legendPosition": "middle",
-                            },
-                            axisLeft={
-                                "tickSize": 5,
-                                "tickPadding": 5,
-                                "tickRotation": 0,
-                                "legend": "Note /10",
-                                "legendOffset": -45,
-                                "legendPosition": "middle",
-                            },
-                            enablePoints=False,
-                            useMesh=True,
-                            enableSlices="x",
-                            colors={"scheme": "category10"},
-                            legends=[
-                                {
-                                    "anchor": "right",
-                                    "direction": "column",
-                                    "justify": False,
-                                    "translateX": 250,
-                                    "translateY": 0,
-                                    "itemsSpacing": 4,
-                                    "itemDirection": "left-to-right",
-                                    "itemWidth": 240,
-                                    "itemHeight": 18,
-                                    "itemOpacity": 0.85,
-                                    "symbolSize": 12,
-                                    "symbolShape": "circle",
-                                }
-                            ],
-                            theme=theme_nivo,
-                        )
-
-            # --- GALERIE DE RADARS ---
             st.markdown("---")
-            nb_plans = len(df_plan_scores)
-            st.badge(
-                f"{nb_plans} plan{'s' if nb_plans != 1 else ''}",
-                icon=":material/radar:",
-                color="orange",
+            render_plan_radar_gallery(
+                df_plan_scores,
+                nom_plan_par_id,
+                collectivite_id=cid_selected,
+                theme=theme_nivo,
             )
-
-            for idx in range(0, len(df_plan_scores), 2):
-                cols = st.columns(2)
-
-                for col_idx, col in enumerate(cols):
-                    row_idx = idx + col_idx
-                    if row_idx >= len(df_plan_scores):
-                        continue
-
-                    row = df_plan_scores.iloc[row_idx]
-                    plan_id = row['plan']
-                    rank = row_idx + 1
-                    plan_nom = nom_plan_par_id.get(plan_id, str(int(plan_id)))
-                    note_fa = row['note_fa']
-
-                    with col:
-                        badge_color = "green" if rank == 1 else "orange" if rank <= 3 else "gray"
-                        plan_link = tet_plan_url(cid_selected, plan_id)
-                        st.markdown(
-                            f"#### :{badge_color}-badge[{rank}] [{plan_nom}]({plan_link})"
-                        )
-                        st.metric("Note du plan", f"{round(float(note_fa), 1)} / 10")
-
-                        radar_data = new_note_spider_graph(row)
-
-                        with elements(f"radar_plan_{int(plan_id)}_{rank}"):
-                            with mui.Box(sx={"height": 500}):
-                                nivo.Radar(
-                                    data=radar_data,
-                                    keys=["Note"],
-                                    indexBy="axe",
-                                    maxValue=10,
-                                    margin={"top": 70, "right": 80, "bottom": 40, "left": 80},
-                                    curve="linearClosed",
-                                    borderWidth=2,
-                                    borderColor={"from": "color"},
-                                    gridLevels=5,
-                                    gridShape="circular",
-                                    gridLabelOffset=20,
-                                    enableDots=True,
-                                    dotSize=6,
-                                    dotColor={"theme": "background"},
-                                    dotBorderWidth=2,
-                                    dotBorderColor={"from": "color"},
-                                    enableDotLabel=False,
-                                    colors=["#ffc121"],
-                                    fillOpacity=0.5,
-                                    blendMode="multiply",
-                                    animate=True,
-                                    motionConfig="wobbly",
-                                    isInteractive=True,
-                                    theme=theme_nivo,
-                                )
-
-                        st.markdown("---")
 
 
 # ============================================================================

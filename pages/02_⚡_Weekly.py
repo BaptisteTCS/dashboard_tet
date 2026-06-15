@@ -1,28 +1,21 @@
 import streamlit as st
 import pandas as pd
-import plotly.graph_objects as go
-import plotly.express as px
 from streamlit_elements import elements, nivo, mui
 
-from utils.data import load_df_pap_notes
-from utils.plots import prepare_radar_data_nivo
-
 from utils.data import (
-    load_df_pap, 
+    load_df_pap,
     load_df_collectivite,
-    load_df_pap_notes
+    load_df_note_plan_semaine,
 )
-
-from utils.db import (
-    read_table
+from utils.db import read_table
+from utils.plan_note_dashboard import (
+    build_plan_scores_df,
+    render_notation_definition_expander,
+    render_plan_radar_gallery,
+    top_plans_weekly_progression,
 )
 
 # Mise en cache des données avec TTL de 1 jour
-
-@st.cache_data(ttl="1d")
-def get_df_pap_notes():
-    """Charge les notes des PAP."""
-    return load_df_pap_notes()
 
 @st.cache_data(ttl="1d")
 def get_df_pap():
@@ -34,8 +27,17 @@ def get_df_collectivite():
     """Charge les données des collectivités."""
     return load_df_collectivite()
 
-# Solution compatible avec pandas.read_sql_query et SQL natif PostgreSQL (pas de :param dans la requête, on place directement la valeur formatée)
-df_notes = get_df_pap_notes()
+@st.cache_data(ttl="1d")
+def get_champions_data():
+    """Données champions : note_plan_semaine + radars fiches."""
+    df_note_semaine = load_df_note_plan_semaine()
+    df_note_fiche = read_table(
+        "note_fiche_historique",
+        where_sql="mois=(select max(mois) from note_fiche_historique)",
+    )
+    df_fiche_action_plan = read_table("fiche_action_plan")
+    df_pap_passage = read_table("pap_date_passage")
+    return df_note_semaine, df_note_fiche, df_fiche_action_plan, df_pap_passage
 
 st.set_page_config(layout="wide")
 
@@ -423,123 +425,79 @@ with tab2:
     )
 
 with tab3:
-    semaines = sorted(df_notes['semaine'].dropna().unique(), reverse=True)[:2]
-    df_2 = df_notes[df_notes['semaine'].isin(semaines)].copy()
+    (
+        df_note_semaine,
+        df_note_fiche,
+        df_fiche_action_plan,
+        df_pap_passage,
+    ) = get_champions_data()
 
-    # Calcul des différences de scores
-    df_pivot = df_2.pivot(index=['collectivite_id', 'plan_id'], columns='semaine', values='score')
+    render_notation_definition_expander()
 
-    if df_pivot.shape[1] >= 2:
-        df_pivot['difference_score'] = df_pivot.iloc[:, 1] - df_pivot.iloc[:, 0]
-        df_diff = df_pivot[['difference_score']].reset_index()
-        top_rows = df_diff.sort_values(by='difference_score', ascending=False).head(10)
-        
-        if top_rows.empty or top_rows['difference_score'].max() <= 0:
+    progression = top_plans_weekly_progression(df_note_semaine)
+
+    if progression is None:
+        st.warning("⚠️ Pas assez d'historique hebdomadaire pour comparer les progressions.")
+    else:
+        semaine_actuelle = progression["semaine_actuelle"]
+        semaine_precedente = progression["semaine_precedente"]
+        st.caption(
+            f"Progression entre le {semaine_precedente.strftime('%d/%m/%Y')} "
+            f"et le {semaine_actuelle.strftime('%d/%m/%Y')} "
+            f"(note /10 depuis `note_plan_semaine`)"
+        )
+
+        top_plans = progression["top_plans"]
+        if not top_plans:
             st.info("ℹ️ Aucune progression significative détectée cette semaine.")
-            st.stop()
-        
-        # Affichage en galerie (2 colonnes)
-        rank = 1
-        for idx in range(0, len(top_rows), 2):
-            cols = st.columns(2)
-            
-            for col_idx, col in enumerate(cols):
-                row_idx = idx + col_idx
-                if row_idx < len(top_rows):
-                    top_row = top_rows.iloc[row_idx]
-                    plan_id = top_row['plan_id']
-                    diff = top_row['difference_score']
-                    
-                    df_plan = df_2[df_2['plan_id'] == plan_id].sort_values(by='semaine', ascending=False)
-                    if len(df_plan) < 2:
-                        continue
-                        
-                    row = df_plan.iloc[0]
-                    row_precedente = df_plan.iloc[1]
-                    
-                    with col:
-                        
-                        # Header avec badge et infos (tronqué pour éviter le décalage)
-                        collectivite_nom = row['nom_ct']
-                        plan_nom = row['nom']
-                        
-                        # Tronquer si trop long pour éviter les décalages
-                        titre_complet = f"{collectivite_nom}"
-                        if len(titre_complet) > 50:
-                            titre_affiche = titre_complet[:40] + "..."
-                        else:
-                            titre_affiche = titre_complet
-                        
-                        st.markdown(f"#### :green-badge[{rank}] {titre_affiche}")
-                        
-                        # Metrics
-                        col_metric1, col_metric2 = st.columns(2)
-                        with col_metric1:
-                            st.metric(
-                                "Score actuel",
-                                f"{round(row['score'], 2)}",
-                                delta=f"+{round(diff, 2)}"
-                            )
-                        with col_metric2:
-                            st.metric(
-                                "Score précédent",
-                                f"{round(row_precedente['score'], 2)}"
-                            )
-                        
-                        # Infos collectivité
-                        with st.expander("ℹ️ Détails", expanded=False):
-                            st.write(f"**Collectivité :** {row['nom_ct']}")
-                            st.write(f"**Plan :** {row['nom']}")
-                            st.write(f"**Type :** {row.get('type_collectivite', 'N/A')}")
-                            st.write(f"**Région :** {row.get('region_name', 'N/A')}")
-                            st.write(f"**Population :** {int(row.get('population_totale', 0)):,} habitants".replace(',', ' '))
-                        
-                        # Graphe radar avec comparaison Nivo
-                        radar_data = prepare_radar_data_nivo(row, row_precedente)
-                        
-                        with elements(f"radar_champion_{plan_id}_{rank}"):
-                            with mui.Box(sx={"height": 500}):
-                                nivo.Radar(
-                                    data=radar_data,
-                                    keys=["Actuelle", "Précédente"],
-                                    indexBy="taste",
-                                    maxValue=5,
-                                    margin={"top": 70, "right": 80, "bottom": 40, "left": 80},
-                                    curve="linearClosed",
-                                    borderWidth=2,
-                                    borderColor={"from": "color"},
-                                    gridLevels=5,
-                                    gridShape="circular",
-                                    gridLabelOffset=20,
-                                    enableDots=True,
-                                    dotSize=6,
-                                    dotColor={"theme": "background"},
-                                    dotBorderWidth=2,
-                                    dotBorderColor={"from": "color"},
-                                    enableDotLabel=False,
-                                    colors=["#ffc121", "#999999"],
-                                    fillOpacity=0.5,
-                                    blendMode="multiply",
-                                    animate=True,
-                                    motionConfig="wobbly",
-                                    isInteractive=True,
-                                    theme=theme_radar_actif,
-                                    legends=[
-                                        {
-                                            "anchor": "top-left",
-                                            "direction": "column",
-                                            "translateX": -50,
-                                            "translateY": -40,
-                                            "itemWidth": 80,
-                                            "itemHeight": 20,
-                                            "itemTextColor": "#808495",
-                                            "symbolSize": 12,
-                                            "symbolShape": "circle",
-                                        }
-                                    ]
-                                )
-                        
-                        st.markdown("---")
-                        
-                    rank += 1
+        else:
+            delta_by_plan = progression["delta_by_plan"]
+            note_by_plan = progression["note_by_plan"]
+
+            meta_plans = (
+                df_pap_passage.dropna(subset=["plan"])
+                .drop_duplicates(subset=["plan"])
+                .set_index("plan")
+            )
+            nom_plan_par_id = meta_plans["nom_plan_ct"].to_dict()
+            collectivite_id_by_plan = meta_plans["collectivite_id"].to_dict()
+            nom_ct_par_plan = (
+                df_pap_passage.dropna(subset=["plan"])
+                .drop_duplicates(subset=["plan"])
+                .set_index("plan")["nom"]
+                .to_dict()
+            )
+            display_name_by_plan = {
+                plan_id: (
+                    f"{nom_ct_par_plan.get(plan_id, 'Collectivité')} — "
+                    f"{nom_plan_par_id.get(plan_id, str(int(plan_id)))}"
+                )
+                for plan_id in top_plans
+            }
+
+            df_plan_scores = build_plan_scores_df(
+                df_fiche_action_plan, df_note_fiche, top_plans
+            )
+            if df_plan_scores.empty:
+                st.warning("Aucune fiche notée pour les plans champions cette semaine.")
+            else:
+                plans_affichables = [
+                    p for p in top_plans if p in df_plan_scores["plan"].values
+                ]
+                df_plan_scores = (
+                    df_plan_scores.set_index("plan")
+                    .loc[plans_affichables]
+                    .reset_index()
+                )
+
+                render_plan_radar_gallery(
+                    df_plan_scores,
+                    nom_plan_par_id,
+                    collectivite_id_by_plan=collectivite_id_by_plan,
+                    display_name_by_plan=display_name_by_plan,
+                    delta_by_plan={p: delta_by_plan[p] for p in plans_affichables},
+                    note_by_plan={p: note_by_plan[p] for p in plans_affichables},
+                    theme=theme_radar_actif,
+                    element_key_prefix="weekly_radar_plan",
+                )
     

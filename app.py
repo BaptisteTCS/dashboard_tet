@@ -13,7 +13,7 @@ pages = {
         st.Page("pages/06_✨_AI_Stats_assistant.py", title="AI Assistant", icon="✨"),
         st.Page("pages/22_🪄_Import_Tool.py", title="Import Tool", icon="🪄"),
         st.Page("pages/26_Dashboard_okrs.py", title="OKRs", icon="🌠"),
-        st.Page("pages/02_⚡_Weekly.py", title="Weekly", icon="⚡", default=True),
+        st.Page("pages/02_⚡_Weekly.py", title="Weekly", icon="⚡"),
     ],
     "Dashboards": [
         st.Page("pages/08_👩‍🚀_Suivi_bizdevs.py", title="Bizdevs", icon="👩‍🚀"),
@@ -31,7 +31,7 @@ pages = {
     "Priorisation": [
         st.Page("pages/26_run_impact.py", title="Analyse des actions par CT", icon="🌀"),
         st.Page("pages/31_priorisation_perimetre.py", title="Optionnel - Périmètre d'action", icon="🔧"),
-        st.Page("pages/30_priorisation.py", title="1 - Diagnostic", icon="🧭"),
+        st.Page("pages/30_priorisation.py", title="1 - Diagnostic", icon="🧭", default=True),
         st.Page("pages/32_priorisation_faisabilite.py", title="2 - Faisabilité politique", icon="⚖️"),
         st.Page("pages/33_priorisation_action.py", title="3 - Exploration des actions de référence", icon="🏅"),
         st.Page("pages/34_priorisation_synthese.py", title="4 - Synthèse", icon="🏆"),

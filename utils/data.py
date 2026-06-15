@@ -14,6 +14,10 @@ def load_df_pap() -> pd.DataFrame:
     df = read_table("pap_date_passage")
     return df
 
+def load_df_note_plan_semaine() -> pd.DataFrame:
+    """Notes hebdomadaires des plans (/10) depuis note_plan_semaine."""
+    return read_table("note_plan_semaine", columns=["plan", "semaine", "note_plan"])
+
 def load_df_pap_statut_semaine() -> pd.DataFrame:
     df = read_table("pap_statut_semaine")
     return df
