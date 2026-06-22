@@ -151,6 +151,8 @@ Règles générales
 11 Ne pas remplir les sous-axes et les fiches actions avec le même titre. Et de meme ne pas remplir les axes et sous-axes avec le meme titre. Soit il y a un titre différent, soit il y a une hiérarchie à changer. Si vraiment on doit passer d'axe directement à action, il est préférable d'inventer des sous-axes cohérents, proche de la réalité, pour ne pas reprendre le titre de l'axe dans le sous-axe.
 12 Toujours numéroter dans l'ordre, même si le document original dévie.
 13 Les titres des sous-action (et actions) sont en général court, tous le reste va dans la description. Par exemple on ne liste pas les objectifs et la gouvernance dans le titre.
+14 Mettre les objectifs dans le champ "objectifs" et non dans la description. Si la description est vide, mettre "A compléter".
+15 Si le plan a sa propre numérotation et qu'elle est cohérente, utiliser cette numérotation pour les axes, sous-axes et actions.
 
 Exemples de bonne structure de plan
 Exemple de titres hiérarchiques attendus quand le texte les fournit

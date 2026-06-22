@@ -22,6 +22,7 @@ pages = {
         st.Page("pages/16_👥_Implication_Conseillers.py", title="Conseillers", icon="👥"),
         st.Page("pages/27_Dashboard_produit.py", title="Produit", icon="🚀"),
         st.Page("pages/36_📈_Retro_data.py", title="Retro Data", icon="🛰️"),
+        st.Page("pages/37_🌿_Dashboard_biodiv.py", title="Biodiv", icon="🌿"),
     ],
     "Indicateurs Open Data": [
         st.Page("pages/09_🌀_Import_indicateurs.py", title="Import Indicateurs", icon="🌀"),
