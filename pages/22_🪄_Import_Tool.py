@@ -711,6 +711,22 @@ def split_long_titles(df: pd.DataFrame, max_len: int = 300, description_enabled:
                 df.at[idx, "description"] = overflow
     return df
 
+def strip_action_numbering(value):
+    """Retire la numérotation d'une action (ex. 1.1.2) en tête de libellé."""
+    if not isinstance(value, str) or not value.strip():
+        return value
+    return re.sub(r"^\d+(\.\d+)+\.?\s+", "", value.strip()).strip()
+
+
+def strip_numbering_from_df(df: pd.DataFrame) -> pd.DataFrame:
+    """Retourne une copie du dataframe sans numérotation dans les titres d'actions."""
+    df_copy = df.copy()
+    for col in ("titre", "titre de la sous-action"):
+        if col in df_copy.columns:
+            df_copy[col] = df_copy[col].apply(strip_action_numbering)
+    return df_copy
+
+
 def remplir_fichier_import(df: pd.DataFrame) -> io.BytesIO:
     """Remplit le fichier import avec les données du dataframe et retourne un BytesIO"""
     
@@ -1456,13 +1472,26 @@ if uploaded_file is not None:
                                     )
 
                                 excel_data.seek(0)
-                                st.download_button(
-                                    label="📥 Télécharger le fichier d'import rempli au format Excel",
-                                    data=excel_data,
-                                    file_name=drive_filename,
-                                    mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-                                    type="primary"
-                                )
+                                excel_data_no_num = remplir_fichier_import(strip_numbering_from_df(df_actions))
+                                excel_data_no_num.seek(0)
+
+                                dl_col1, dl_col2 = st.columns(2)
+                                with dl_col1:
+                                    st.download_button(
+                                        label="📥 Télécharger le fichier d'import rempli au format Excel",
+                                        data=excel_data,
+                                        file_name=drive_filename,
+                                        mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                                        type="primary",
+                                    )
+                                with dl_col2:
+                                    st.download_button(
+                                        label="📥 Télécharger sans la numérotation des actions",
+                                        data=excel_data_no_num,
+                                        file_name=drive_filename,
+                                        mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                                        type="secondary",
+                                    )
                             except Exception as e:
                                 st.error(f"❌ Erreur lors du remplissage du fichier import : {str(e)}")
                             
