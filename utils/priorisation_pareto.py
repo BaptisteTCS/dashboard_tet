@@ -81,6 +81,8 @@ def select_cibles_pareto(
     return selected
 
 
+# test
+
 def render_seuil_impact_cibles_expander(
     leviers: list[str],
     reductions: dict[str, float],
