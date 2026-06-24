@@ -333,15 +333,22 @@ MOBILISATION_BAR_MIN_HEIGHT = 280
 # Interface
 # ==========================
 
-st.title("🧭 Diagnostic")
+st.title("💡 Visualisation de l'impact des actions de votre collectivité")
 
 st.markdown(
-    "Cette page permet, à partir de toutes les actions de vos plans, de **visualiser l'état "
-    "de mobilisation** des leviers de la transition écologique de votre collectivité. Toutes vos actions "
-    "ont été **classées par cible** (levier × type d'action). "
-    "La vue Map met en évidence les **priorités d'action** : une grande "
-    "case clair indique un **fort enjeu peu mobilisé**."
+    """Visualisez l'impact potentiel des actions de votre collectivité au regard des leviers de la transition écologique. Vos actions ont été regroupées par volet. Pour en savoir plus, cliquez sur l'introduction ci-dessous."""
 )
+
+with st.expander("Introduction à l'outil"):
+    st.info("""Cet outil a pour objectif de mettre en perspective les actions de votre PCAET au regard des leviers de la TE et de leur potentiel d'impact.
+
+Le SGPE structure la réduction des émissions de GES autour de grands leviers de la transition écologique (Vélo, Rénovation des bâtiments, Alimentation...). Chaque levier se décline en volets, qui correspondent aux types d'actions mobilisables (Sensibilisation, Investissement, Réglementation...).
+
+- Identifiez quels sont les volets que votre PCAET couvre et ceux qu'il ne couvre pas
+- Pour les volets couverts, visualisez le potentiel d'impact de vos actions sur les émissions de GES
+- Pour les volets non couverts, découvrez des actions éprouvées que vous pourriez décider de mettre en place
+
+Cet outil a pour but de proposer une réflexion et non une solution toute faite. Il peut servir de base d'échange tangible avec vos élus.""")
 
 df_collectivites = load_collectivites_priorisees()
 
@@ -420,7 +427,7 @@ treemap_children, _ = build_treemap_data(
 )
 excluded_leviers = [levier for levier in leviers if levier not in reductions]
 
-tabs = st.tabs(["Impact Map", "Impact Chart", "Détail mobilisation"])
+tabs = st.tabs(["Carte de l'impact", "Graphique de l'impact"])
 
 _detail_slot_holder: dict = {}
 
@@ -592,46 +599,46 @@ with tabs[0]:
                                 )
 
 
-with tabs[2]:
-    note_options = [NOTE_LABELS[i] for i in range(4)]
-    selected_note_label = st.segmented_control(
-        "État de mobilisation",
-        options=note_options,
-        default=note_options[0],
-        key=f"mobilisation_note_{selected_id}",
-    )
-    selected_note = next(
-        note for note, label in NOTE_LABELS.items() if label == selected_note_label
-    )
-    note_badge_color = NOTE_BADGE_COLORS.get(selected_note, "orange")
+# with tabs[2]:
+#     note_options = [NOTE_LABELS[i] for i in range(4)]
+#     selected_note_label = st.segmented_control(
+#         "État de mobilisation",
+#         options=note_options,
+#         default=note_options[0],
+#         key=f"mobilisation_note_{selected_id}",
+#     )
+#     selected_note = next(
+#         note for note, label in NOTE_LABELS.items() if label == selected_note_label
+#     )
+#     note_badge_color = NOTE_BADGE_COLORS.get(selected_note, "orange")
 
-    st.caption(
-        f"Leviers **{selected_note_label.lower()}**, "
-        "classés par potentiel de réduction décroissant."
-    )
+#     st.caption(
+#         f"Leviers **{selected_note_label.lower()}**, "
+#         "classés par potentiel de réduction décroissant."
+#     )
 
-    bar_options = build_mobilisation_bar_options(
-        priorisation_cases, selected_note
-    )
-    if bar_options is None:
-        st.info(
-            f"Aucun levier × catégorie en état « {selected_note_label} » "
-            "pour cette collectivité."
-        )
-    else:
-        n_bars = len([c for c in priorisation_cases if c["note"] == selected_note])
-        chart_height = max(
-            MOBILISATION_BAR_MIN_HEIGHT,
-            n_bars * MOBILISATION_BAR_ROW_PX + 80,
-        )
-        st.markdown(
-            f"### :{note_badge_color}-badge[{selected_note_label}]"
-        )
-        st_echarts(
-            options=bar_options,
-            height=f"{chart_height}px",
-            key=f"mobilisation_bar_{selected_id}_{selected_note}_{threshold_pct}",
-        )
+#     bar_options = build_mobilisation_bar_options(
+#         priorisation_cases, selected_note
+#     )
+#     if bar_options is None:
+#         st.info(
+#             f"Aucun levier × catégorie en état « {selected_note_label} » "
+#             "pour cette collectivité."
+#         )
+#     else:
+#         n_bars = len([c for c in priorisation_cases if c["note"] == selected_note])
+#         chart_height = max(
+#             MOBILISATION_BAR_MIN_HEIGHT,
+#             n_bars * MOBILISATION_BAR_ROW_PX + 80,
+#         )
+#         st.markdown(
+#             f"### :{note_badge_color}-badge[{selected_note_label}]"
+#         )
+#         st_echarts(
+#             options=bar_options,
+#             height=f"{chart_height}px",
+#             key=f"mobilisation_bar_{selected_id}_{selected_note}_{threshold_pct}",
+#         )
 
 with tabs[1]:
     render_impact_chart(

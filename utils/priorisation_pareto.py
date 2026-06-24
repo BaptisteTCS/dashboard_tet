@@ -1,4 +1,4 @@
-"""Seuil Pareto sur les cibles (levier × catégorie) — partagé entre pages priorisation."""
+"""Seuil Pareto sur les volets (levier × catégorie) — partagé entre pages priorisation."""
 
 from __future__ import annotations
 
@@ -10,12 +10,12 @@ CibleKey = tuple[str, int]
 VUE_ENSEMBLE_THRESHOLDS = [50, 60, 70, 80, 90, 100]
 
 SLIDER_LABEL = (
-    "Part du potentiel de réduction (ktCO₂e) couverte par les cibles affichées."
+    "Seuil d'impact des volets (%)"
 )
 SLIDER_HELP = (
-    "Conserve le minimum de cibles (levier × levier d'action) les plus contributrices "
+    "Conserve le minimum de volets (levier × levier d'action) les plus contributrices "
     "dont le potentiel cumulé atteint ce seuil. "
-    "Ex. : 80 % = les cibles les plus impactantes qui représentent au moins 80 % "
+    "Ex. : 80 % = les volets les plus impactantes qui représentent au moins 80 % "
     "du potentiel total affiché sur la cartographie."
 )
 
@@ -89,9 +89,9 @@ def render_seuil_impact_cibles_expander(
     *,
     key_prefix: str,
     default_threshold: int = 80,
-    expander_label: str = "Définir la part du potentiel de réduction GES couverte par les cibles à afficher",
+    expander_label: str = "Seuil d'impact",
 ) -> tuple[int, set[CibleKey]]:
-    """Affiche l'expander Pareto et retourne (seuil %, cibles retenues)."""
+    """Affiche l'expander Pareto et retourne (seuil %, volet retenues)."""
     with st.expander(expander_label):
         threshold_pct = st.select_slider(
             SLIDER_LABEL,
@@ -107,10 +107,10 @@ def render_seuil_impact_cibles_expander(
             list_cibles_enjeu(leviers, reductions, weights, exclusions)
         )
         st.caption(
-            f"**{len(selected_cibles)}** cibles retenues sur {n_cibles_total}"
+            f"**{len(selected_cibles)}** volets retenues sur {n_cibles_total}"
         )
         st.info("""Pour faciliter la lecture et porter l'effort sur les actions à plus fort impact, 
-        nous recommandons un seuil de **80 %** : vous voyez directement les cibles qui concentrent 
+        nous recommandons un seuil de **80 %** : vous voyez directement les volets qui concentrent 
         **80 % du potentiel total de réduction** des émissions de GES. Le reste est masqué, mais le 
         curseur reste **ajustable** selon vos besoins.""")
     return threshold_pct, selected_cibles

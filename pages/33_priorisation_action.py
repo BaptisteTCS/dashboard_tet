@@ -672,13 +672,7 @@ def render_fiche_action(
 st.title("🏅 Exploration des actions de référence")
 
 st.markdown("""
-Après l'arbitrage politique, cette étape sert à **réunir**, 
-parmi des **actions éprouvées** (actions de référence et
-d'autres collectivités), **des pistes concrètes** sur vos cibles prioritaires. 
-Rien ici n'est engageant : ces actions ne sont pas votre futur plan, 
-mais des **ressources que vous pouvez mettre de côté pour alimenter les échanges 
-sur ce qui est possible**, cible par cible. Retenez celles qui apportent 
-quelque chose à la discussion.""")
+Cette étape vous offre une sélection d’actions éprouvées (action de référence et action d’autres collectivités) pour agir sur les leviers précédemment sélectionnés. Créez vous une liste d’action pour / … qui vous serviront d’inspiration et de source de discussion.""")
 
 
 df_collectivites = load_collectivites_priorisees()

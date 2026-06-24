@@ -304,11 +304,9 @@ def build_detail_par_cible(
 
 st.title("🏆 Synthèse opérationnelle")
 
-st.markdown(
-    "Cette synthèse présente les **actions sauvegardées** et **où elles s'inscrivent** "
-    "sur la cartographie de mobilisation de votre collectivité. C'est un **support "
-    "pour la discussion avec les élus** : la taille des cases traduit l'enjeu relatif, "
-    "sans valeur chiffrée affichée."
+st.markdown("""
+Cette synthèse présente les actions sélectionnées et identifies dans quelle leviers elle se trouve. Il s’agit d’un support pour la discussion avec les élus. Pour rappel, la taille des cases traduit l'enjeu relatif, sans valeur chiffrée affichée.
+"""
 )
 
 df_collectivites = load_collectivites_avec_actions()

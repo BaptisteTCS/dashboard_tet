@@ -26,12 +26,12 @@ CATEGORIES = {
 }
 
 FAISABILITE_OPTIONS = (
-    "Hors de portée politique",
-    "À discuter",
-    "Prioritaire",
+    "Non pertinent",
+    "A discuter avec l'élu",
+    "Pertinent",
 )
 
-# 1 = Hors de portée, 2 = À discuter, 3 = Prioritaire
+# 1 = Non pertinent, 2 = A discuter avec l'élu, 3 = Pertinent
 FAISABILITE_TO_INT = {label: i for i, label in enumerate(FAISABILITE_OPTIONS, start=1)}
 INT_TO_FAISABILITE = {v: k for k, v in FAISABILITE_TO_INT.items()}
 
@@ -416,12 +416,9 @@ def _on_categorie_change(levier: str, cat: int) -> None:
 
 st.title("⚖️ Faisabilité politique")
 
-st.markdown(
-    "Après le diagnostic, cette étape sert à **arbitrer politiquement** les leviers "
-    "à fort **potentiel non mobilisé**, les **angles morts** où des actions restent "
-    "non ou partiellement mobilisées. Pour chaque levier, indiquez s'il est "
-    "**hors de portée politique**, **à discuter** ou **prioritaire**. "
-    "Rien n'est sélectionné par défaut : l'arbitrage reste volontaire."
+st.markdown("""
+    Cette étape vous permet, pour les leviers à fort potentiel non mobilisé, d’indiquer la pertinence d’agir dessus au regard de la priorité politique : Non pertinent - Pertinent - A discuter avec l’élu. Il s’agit d’identifier quels sont les leviers pertinents à mobiliser. 
+"""
 )
 
 df_collectivites = load_collectivites_priorisees()
