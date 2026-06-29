@@ -342,7 +342,7 @@ st.markdown(
 with st.expander("Introduction à l'outil"):
     st.info("""Cet outil a pour objectif de mettre en perspective les actions de votre PCAET au regard des leviers de la TE et de leur potentiel d'impact.
 
-Le SGPE structure la réduction des émissions de GES autour de grands leviers de la transition écologique (Vélo, Rénovation des bâtiments, Alimentation...). Chaque levier se décline en volets, qui correspondent aux types d'actions mobilisables (Sensibilisation, Investissement, Réglementation...).
+Le SGPE structure la réduction des émissions de GES autour de grands leviers de la transition écologique (Vélo, Rénovation des bâtiments, Alimentation...). Chaque levier se décline en volets, qui correspondent aux types d'actions mobilisables (Sensibilisation, Investissement, Planification...).
 
 - Identifiez quels sont les volets que votre PCAET couvre et ceux qu'il ne couvre pas
 - Pour les volets couverts, visualisez le potentiel d'impact de vos actions sur les émissions de GES

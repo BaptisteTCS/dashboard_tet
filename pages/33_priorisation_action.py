@@ -22,7 +22,7 @@ from utils.priorisation_navigation import render_etape_3_nav
 
 CATEGORIES = {
     1: "Aménagement",
-    2: "Réglementation",
+    2: "Planification",
     3: "Financement",
     4: "Gouvernance",
     5: "Exemplarité",

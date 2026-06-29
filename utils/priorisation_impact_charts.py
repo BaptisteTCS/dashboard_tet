@@ -10,7 +10,7 @@ from streamlit_echarts import JsCode, st_echarts
 
 CATEGORIES = {
     1: "Aménagement",
-    2: "Réglementation",
+    2: "Planification",
     3: "Financement",
     4: "Gouvernance",
     5: "Exemplarité",
