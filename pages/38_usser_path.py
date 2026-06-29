@@ -23,7 +23,7 @@ POSTHOG_COLUMNS = [
 ]
 
 
-@st.cache_data(ttl="1h", show_spinner="Chargement des parcours PostHog…")
+@st.cache_data(ttl="3d", show_spinner="Chargement des parcours PostHog…")
 def load_posthog_next_path() -> pd.DataFrame:
     engine = get_engine()
     cols = ", ".join(POSTHOG_COLUMNS)
@@ -35,7 +35,7 @@ def load_posthog_next_path() -> pd.DataFrame:
     return df
 
 
-@st.cache_data(ttl="1h", show_spinner="Chargement des utilisateurs internes…")
+@st.cache_data(ttl="3d", show_spinner="Chargement des utilisateurs internes…")
 def load_internal_user_emails() -> set[str]:
     engine = get_engine()
     query = text("SELECT DISTINCT email FROM internal_users")
@@ -44,7 +44,7 @@ def load_internal_user_emails() -> set[str]:
     return set(df["email"].dropna().astype(str))
 
 
-@st.cache_data(ttl="1h", show_spinner="Chargement des conseillers…")
+@st.cache_data(ttl="3d", show_spinner="Chargement des conseillers…")
 def load_conseiller_emails() -> set[str]:
     engine = get_engine_prod()
     query = text("""
