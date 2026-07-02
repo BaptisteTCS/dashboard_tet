@@ -388,7 +388,7 @@ pct_potentiel_supplementaire = (
 
 col_cibles, col_actions = st.columns(2)
 with col_cibles:
-    st.metric("Nombre de cibles priorisées", n_cibles_priorisees)
+    st.metric("Nombre de leviers priorisés", n_cibles_priorisees)
 with col_actions:
     st.metric("Nombre d'actions sauvergardées", n_actions_retenues)
 
@@ -407,11 +407,11 @@ elif etape_potentiel == 1:
         "action sauvegardée" if n_actions_retenues == 1 else "actions sauvegardées"
     )
     lib_cibles = (
-        "cible priorisée" if n_cibles_priorisees == 1 else "cibles priorisées"
+        "levier priorisé" if n_cibles_priorisees == 1 else "leviers priorisés"
     )
     st.info(
         f"Les **{n_actions_retenues}** {lib_actions} agissent sur "
-        f"**{n_cibles_priorisees}** {lib_cibles}. Pour chacune de ces cibles, "
+        f"**{n_cibles_priorisees}** {lib_cibles}. Pour chacun de ces leviers, "
         f"l'outil fournit une estimation du potentiel de réduction de GES "
         f"(ktCO₂e).\n\n"
         f"En les agrégeant, on obtient un **ordre de grandeur** du potentiel "
@@ -441,7 +441,7 @@ else:
         )
     else:
         st.caption(
-            "Potentiel du plan original indisponible (aucune cible avec enjeu calculable)."
+            "Potentiel du plan original indisponible (aucun levier avec enjeu calculable)."
         )
     st.link_button(
         "Aller plus loin dans le calcul de réduction des émissions de GES "
@@ -674,7 +674,7 @@ if st.session_state.get(_pdf_pending_key):
             del st.session_state[_pdf_pending_key]
 
 st.markdown("---")
-st.subheader("Actions sauvegardées par cible")
+st.subheader("Actions sauvegardées par levier")
 
 detail = build_detail_par_cible(
     cibles_actions, actions_map, df_fiches, notes, nom_par_id
@@ -682,7 +682,7 @@ detail = build_detail_par_cible(
 
 if not detail:
     st.info(
-        "Aucune action retenue sur une cible peu mobilisée. "
+        "Aucune action retenue sur un levier peu mobilisé. "
         "Complétez l'étape « Choix des actions » pour alimenter cette synthèse."
     )
 else:

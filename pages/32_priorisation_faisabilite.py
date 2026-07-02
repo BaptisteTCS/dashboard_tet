@@ -472,7 +472,7 @@ top = top_leviers_angles_morts(leviers, reductions, notes, exclusions, weights)
 if not top:
     st.info(
         "Aucun angle mort identifié pour cette collectivité "
-        "(toutes les cibles dans le périmètre sont bien mobilisées, "
+        "(tous les leviers dans le périmètre sont bien mobilisés, "
         "ou aucune réduction disponible)."
     )
     st.markdown("---")

@@ -144,14 +144,14 @@ def _draw_cibles_page(
     n_actions: int,
     cibles_par_levier: dict[str, list[str]],
 ) -> None:
-    _draw_page_title(c, f"Cibles priorisées — {collectivite_nom}")
+    _draw_page_title(c, f"Leviers priorisés — {collectivite_nom}")
     y = CONTENT_TOP
     page_w, _ = PAGE_SIZE
     max_width = page_w - 2 * MARGIN
 
     y = _draw_wrapped(
         c,
-        f"Nombre de cibles priorisées : {n_cibles}",
+        f"Nombre de leviers priorisés : {n_cibles}",
         MARGIN,
         y,
         max_width,
@@ -170,7 +170,7 @@ def _draw_cibles_page(
     y -= 8
     y = _draw_wrapped(
         c,
-        "Liste des cibles priorisées, classées par levier :",
+        "Liste des leviers priorisés, classés par levier de la transition :",
         MARGIN,
         y,
         max_width,
@@ -182,7 +182,7 @@ def _draw_cibles_page(
     if not cibles_par_levier:
         _draw_wrapped(
             c,
-            "Aucune cible priorisée enregistrée.",
+            "Aucun levier priorisé enregistré.",
             MARGIN,
             y,
             max_width,

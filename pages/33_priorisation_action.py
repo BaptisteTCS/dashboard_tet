@@ -726,9 +726,9 @@ cibles = build_cibles_prioritaires(
 
 if not cibles:
     st.info(
-        "Aucune cible prioritaire pour cette collectivité. Vérifiez le diagnostic, "
+        "Aucun levier prioritaire pour cette collectivité. Vérifiez le diagnostic, "
         "le périmètre et l'arbitrage politique (faisabilité « À discuter » ou "
-        "« Prioritaire » sur des cibles peu mobilisées)."
+        "« Prioritaire » sur des leviers peu mobilisés)."
     )
     st.markdown("---")
     render_etape_3_nav(
@@ -739,7 +739,7 @@ if not cibles:
     st.stop()
 
 st.caption(
-    f"**{len(cibles)}** cibles prioritaires classées par impact décroissant."
+    f"**{len(cibles)}** leviers prioritaires classés par impact décroissant."
 )
 
 n_visible_cibles = st.session_state.get(SESSION_VISIBLE_CIBLES_COUNT, CIBLES_PAGE_SIZE)
@@ -780,7 +780,7 @@ for cible in visible_cibles:
             visible_autres.append(fiche)
 
     if total_fiches == 0:
-        st.info("Aucune fiche action disponible pour cette cible.")
+        st.info("Aucune fiche action disponible pour ce levier.")
         st.markdown("")
         continue
 
@@ -803,7 +803,7 @@ for cible in visible_cibles:
         color="green",
     )
     if df_autres.empty:
-        st.caption("Aucune action d'autres collectivités pour cette cible.")
+        st.caption("Aucune action d'autres collectivités pour ce levier.")
     else:
         for fiche in visible_autres:
             render_fiche_action(
@@ -834,7 +834,7 @@ for cible in visible_cibles:
     st.markdown("")
 
 if len(cibles) > n_visible_cibles:
-    if st.button("Afficher plus de cibles", type="secondary", key="action_show_more_cibles"):
+    if st.button("Afficher plus de leviers", type="secondary", key="action_show_more_cibles"):
         st.session_state[SESSION_VISIBLE_CIBLES_COUNT] = min(
             n_visible_cibles + CIBLES_PAGE_SIZE,
             len(cibles),

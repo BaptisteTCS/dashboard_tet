@@ -15,7 +15,7 @@ def switch_priorisation_page(page_path: str, collectivite_id: int | None) -> Non
 
 
 def render_etape_1_suivant(collectivite_id: int, key: str = "nav_diag_suivant") -> None:
-    if st.button("Définir des cibles à prioriser", type="primary", key=key):
+    if st.button("Définir des leviers à prioriser", type="primary", key=key):
         switch_priorisation_page(PAGE_FAISABILITE, collectivite_id)
 
 

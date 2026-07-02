@@ -336,17 +336,17 @@ MOBILISATION_BAR_MIN_HEIGHT = 280
 st.title("💡 Visualisation de l'impact des actions de votre collectivité")
 
 st.markdown(
-    """Visualisez l'impact potentiel des actions de votre collectivité au regard des leviers de la transition écologique. Vos actions ont été regroupées par volet. Pour en savoir plus, cliquez sur l'introduction ci-dessous."""
+    """Visualisez l'impact potentiel des actions de votre collectivité au regard des leviers de la transition écologique. Vos actions ont été regroupées par levier. Pour en savoir plus, cliquez sur l'introduction ci-dessous."""
 )
 
 with st.expander("Introduction à l'outil"):
     st.info("""Cet outil a pour objectif de mettre en perspective les actions de votre PCAET au regard des leviers de la TE et de leur potentiel d'impact.
 
-Le SGPE structure la réduction des émissions de GES autour de grands leviers de la transition écologique (Vélo, Rénovation des bâtiments, Alimentation...). Chaque levier se décline en volets, qui correspondent aux types d'actions mobilisables (Sensibilisation, Investissement, Planification...).
+Le SGPE (Secrétariat Général à la Planification Écologique) structure la réduction des émissions de GES autour de grands leviers de la transition écologique (Vélo, Rénovation des bâtiments, Alimentation...). Chaque levier de la transition se décline en leviers d'action, qui correspondent aux types d'actions mobilisables (Sensibilisation, Investissement, Planification...).
 
-- Identifiez quels sont les volets que votre PCAET couvre et ceux qu'il ne couvre pas
-- Pour les volets couverts, visualisez le potentiel d'impact de vos actions sur les émissions de GES
-- Pour les volets non couverts, découvrez des actions éprouvées que vous pourriez décider de mettre en place
+- Identifiez quels sont les leviers que votre PCAET couvre et ceux qu'il ne couvre pas
+- Pour les leviers couverts, visualisez le potentiel d'impact de vos actions sur les émissions de GES
+- Pour les leviers non couverts, découvrez des actions éprouvées que vous pourriez décider de mettre en place
 
 Cet outil a pour but de proposer une réflexion et non une solution toute faite. Il peut servir de base d'échange tangible avec vos élus.""")
 
