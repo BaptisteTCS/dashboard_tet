@@ -20,6 +20,12 @@ from openai import OpenAI
 from sqlalchemy import text
 
 from utils.db import get_engine, get_engine_prod
+from utils.priorisation_competence import (
+    check_invariants,
+    compute_hors_competence_for_collectivite,
+    fetch_competences,
+    save_hors_competence,
+)
 
 # ==========================
 # Configuration OpenAI
@@ -982,6 +988,35 @@ if st.button("🚀 Lancer l'exécution", type="primary", disabled=not can_run):
             status.update(label="❌ Erreur", state="error")
             st.error(f"Erreur lors de la sauvegarde: {e}")
             st.stop()
+
+        st.write("🧭 Calcul du hors-compétence (compétences BANATIC)...")
+        try:
+            fetch_competences.clear()
+            comps = set(fetch_competences(selected_id))
+            hors_competence_set = compute_hors_competence_for_collectivite(selected_id)
+            anomalies = check_invariants(hors_competence_set)
+            if anomalies:
+                st.warning(
+                    "Anomalies détectées sur les invariants hors-compétence :\n- "
+                    + "\n- ".join(anomalies)
+                )
+            st.write(
+                f"✅ {len(comps)} compétences BANATIC → "
+                f"{len(hors_competence_set)} volets hors compétence calculés"
+            )
+            if debug_mode:
+                st.info(
+                    "Mode débogage — hors-compétence non sauvegardé."
+                )
+            else:
+                nb = save_hors_competence(selected_id, hors_competence_set)
+                st.write(
+                    f"✅ {nb} volets sauvegardés dans "
+                    "`priorisation_hors_competence` (OLAP)"
+                )
+        except Exception as e:
+            # Étape secondaire : ne bloque pas le diagnostic déjà enregistré.
+            st.warning(f"⚠️ Hors-compétence non calculé/sauvegardé : {e}")
 
         status.update(label="✅ Exécution terminée avec succès!", state="complete")
 

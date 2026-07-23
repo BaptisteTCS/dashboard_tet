@@ -10,6 +10,10 @@ import pandas as pd
 from sqlalchemy import text
 
 from utils.db import get_engine
+from utils.priorisation_competence import (
+    check_invariants,
+    compute_hors_competence_for_collectivite,
+)
 
 # ==========================
 # Constantes
@@ -24,7 +28,10 @@ CATEGORIES = {
     6: "Sensibilisation",
 }
 
-EXCLUDABLE_CATEGORIES = (1, 2, 3)
+# Catégories arbitrables dans l'interface (poids > 0). L'exemplarité (5) est
+# incluse ; gouvernance (4) et sensibilisation (6) restent transverses et ne
+# sont pilotées que par le calcul automatique (règle A).
+EXCLUDABLE_CATEGORIES = (1, 2, 3, 5)
 
 PERIMETRE_OPTIONS = ("Dans mon périmètre", "Hors compétence")
 
@@ -49,17 +56,17 @@ SESSION_COLLECTIVITE = "perimetre_collectivite_id"
 
 
 @st.cache_data(ttl="1h")
-def load_collectivites_priorisees() -> pd.DataFrame:
-    """Collectivités ayant au moins une ligne dans priorisation (OLAP)."""
+def load_collectivites() -> pd.DataFrame:
+    """Toutes les collectivités ayant un SIREN / code INSEE (OLAP)."""
     engine = get_engine()
     with engine.connect() as conn:
         return pd.read_sql_query(
             text("""
-                SELECT DISTINCT c.collectivite_id, c.nom
-                FROM collectivite c
-                INNER JOIN priorisation p ON p.collectivite_id = c.collectivite_id
-                WHERE c.nom IS NOT NULL
-                ORDER BY c.nom
+                SELECT collectivite_id, nom
+                FROM collectivite
+                WHERE nom IS NOT NULL
+                  AND code_siren_insee IS NOT NULL
+                ORDER BY nom
             """),
             conn,
         )
@@ -128,7 +135,7 @@ def build_category_weights(df_poids: pd.DataFrame) -> dict[str, dict[int, float]
 def excludable_categories(
     levier: str, weights: dict[str, dict[int, float]]
 ) -> list[int]:
-    """Catégories 1–3 à poids strictement positif pour ce levier."""
+    """Catégories arbitrables (1, 2, 3, 5) à poids strictement positif."""
     levier_weights = weights.get(levier, {})
     return [
         cat
@@ -152,7 +159,7 @@ def levier_perimetre_label(
 ) -> str:
     """
     Agrégat levier ← catégories : « Hors compétence » si toutes les catégories
-    excluables (1–3, poids > 0) sont exclues ; sinon « Dans mon périmètre ».
+    arbitrables (1, 2, 3, 5 à poids > 0) sont exclues ; sinon « Dans mon périmètre ».
     """
     cats = excludable_categories(levier, weights)
     if not cats:
@@ -198,41 +205,31 @@ def set_categorie_perimetre(
         exclusions.discard((levier, cat))
 
 
-def exclusions_from_db(
-    df: pd.DataFrame,
-    weights: dict[str, dict[int, float]],
-) -> set[tuple[str, int]]:
-    """Charge les exclusions persistées en ne gardant que les cases valides."""
+def exclusions_from_db(df: pd.DataFrame) -> set[tuple[str, int]]:
+    """Charge l'intégralité des exclusions persistées (toutes catégories 1–6).
+
+    On ne filtre plus par catégorie : l'ensemble complet calculé par la SPEC
+    (y compris les transverses 4/6 des leviers de la liste A) est conservé tel
+    quel afin qu'une sauvegarde ultérieure ne le tronque pas.
+    """
     result: set[tuple[str, int]] = set()
     for _, row in df.iterrows():
-        levier = row["levier"]
-        cat = int(row["categorie"])
-        if cat not in EXCLUDABLE_CATEGORIES:
-            continue
-        if cat not in excludable_categories(levier, weights):
-            continue
-        result.add((levier, cat))
+        result.add((row["levier"], int(row["categorie"])))
     return result
 
 
 def collect_exclusions_to_save(
     exclusions: set[tuple[str, int]],
-    weights: dict[str, dict[int, float]],
 ) -> list[tuple[str, int]]:
-    """Liste triée des exclusions valides à persister."""
-    valid = [
-        (levier, cat)
-        for levier, cat in exclusions
-        if cat in excludable_categories(levier, weights)
-    ]
-    return sorted(valid, key=lambda x: (x[0], x[1]))
+    """Liste triée de l'ensemble complet des exclusions à persister."""
+    return sorted(exclusions, key=lambda x: (x[0], x[1]))
 
 
-def init_session_exclusions(collectivite_id: int, weights: dict[str, dict[int, float]]) -> None:
+def init_session_exclusions(collectivite_id: int) -> None:
     if st.session_state.get(SESSION_COLLECTIVITE) == collectivite_id:
         return
     df = load_hors_competence(collectivite_id)
-    st.session_state[SESSION_EXCLUSIONS] = exclusions_from_db(df, weights)
+    st.session_state[SESSION_EXCLUSIONS] = exclusions_from_db(df)
     st.session_state[SESSION_COLLECTIVITE] = collectivite_id
 
 
@@ -294,17 +291,18 @@ def _on_categorie_change(levier: str, cat: int) -> None:
 st.title("🔧 Définition du périmètre d'action")
 
 st.markdown(
-    "Cette étape permet d'écarter les leviers sur lesquels votre collectivité "
-    "**n'a pas la compétence d'agir**. Tout est **dans le périmètre** par défaut : "
-    "seules les exclusions sont enregistrées. Les actions de **gouvernance**, "
-    "**exemplarité** et **sensibilisation** restent toujours mobilisables, "
-    "y compris sur un levier hors compétence, vous pourrez agir indirectement "
-    "(partenariats, sensibilisation, etc.)."
+    "Cette étape permet d'écarter les leviers et types d'action sur lesquels "
+    "votre collectivité **n'a pas la compétence d'agir**. Sélectionnez une "
+    "collectivité puis lancez le **calcul automatique** : le hors-compétence est "
+    "déduit de ses **compétences BANATIC**, et vous pouvez ensuite l'**affiner** "
+    "avant d'enregistrer. La **gouvernance** et la **sensibilisation** restent "
+    "transverses (mobilisables partout, sauf leviers réglementairement fermés) ; "
+    "l'**exemplarité** peut en revanche être hors compétence sur certains leviers."
 )
 
-df_collectivites = load_collectivites_priorisees()
+df_collectivites = load_collectivites()
 if df_collectivites.empty:
-    st.warning("Aucune collectivité avec des données de priorisation disponible.")
+    st.warning("Aucune collectivité disponible.")
     st.stop()
 
 nom_par_id = df_collectivites.set_index("collectivite_id")["nom"].to_dict()
@@ -329,16 +327,40 @@ collectivite_id = st.selectbox(
     key="perimetre_select_collectivite",
 )
 
+if SESSION_EXCLUSIONS not in st.session_state:
+    st.session_state[SESSION_EXCLUSIONS] = set()
+
+# Pré-traitement : calcul automatique du hors-compétence depuis BANATIC.
+# Doit s'exécuter avant init_session_exclusions pour ne pas être écrasé.
+if st.button(
+    "⚙️ Calculer automatiquement le hors-compétence",
+    help="Analyse les compétences BANATIC de la collectivité et pré-remplit les exclusions.",
+):
+    try:
+        with st.spinner("Analyse des compétences BANATIC…"):
+            hors = compute_hors_competence_for_collectivite(collectivite_id)
+        st.session_state[SESSION_EXCLUSIONS] = set(hors)
+        st.session_state[SESSION_COLLECTIVITE] = collectivite_id
+        anomalies = check_invariants(hors)
+        if anomalies:
+            st.warning(
+                "Calcul effectué avec des anomalies :\n- " + "\n- ".join(anomalies)
+            )
+        else:
+            st.success(
+                f"Hors-compétence calculé pour **{nom_par_id[collectivite_id]}** "
+                f"({len(hors)} volets exclus). Affinez si besoin puis enregistrez."
+            )
+    except Exception as e:
+        st.error(f"Erreur pendant le calcul automatique : {e}")
+
 st.markdown("---")
 
 df_poids = load_poids_categories()
 weights = build_category_weights(df_poids)
 leviers_par_secteur = load_leviers_par_secteur()
 
-if SESSION_EXCLUSIONS not in st.session_state:
-    st.session_state[SESSION_EXCLUSIONS] = set()
-
-init_session_exclusions(collectivite_id, weights)
+init_session_exclusions(collectivite_id)
 exclusions: set[tuple[str, int]] = st.session_state[SESSION_EXCLUSIONS]
 
 for secteur in SECTEUR_ORDER:
@@ -395,7 +417,7 @@ for secteur in SECTEUR_ORDER:
 st.markdown("---")
 
 if st.button("Sauvegarder", type="primary"):
-    to_save = collect_exclusions_to_save(exclusions, weights)
+    to_save = collect_exclusions_to_save(exclusions)
     try:
         save_hors_competence(collectivite_id, to_save)
         load_hors_competence.clear()

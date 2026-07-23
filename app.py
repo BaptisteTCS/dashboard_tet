@@ -10,7 +10,7 @@ st.set_page_config(
 # Configuration de la navigation avec des sections (groupes)
 pages = {
     "Favoris": [
-        st.Page("pages/06_✨_AI_Stats_assistant.py", title="AI Assistant", icon="✨"),
+        st.Page("pages/06_✨_AI_Stats_assistant.py", title="IA Transitos", icon="🧠"),
         st.Page("pages/22_🪄_Import_Tool.py", title="Import Tool", icon="🪄"),
         st.Page("pages/26_Dashboard_okrs.py", title="OKRs", icon="🌠"),
         st.Page("pages/02_⚡_Weekly.py", title="Weekly", icon="⚡"),

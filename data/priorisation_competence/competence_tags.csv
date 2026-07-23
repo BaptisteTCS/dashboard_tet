@@ -1,0 +1,73 @@
+competence_code,libelle_court,tag
+1004,Concession distribution élec/gaz,ope
+1004,Concession distribution élec/gaz,plan
+1010,Hydraulique,ope
+1010,Hydraulique,patri
+1020,Réseaux de chaleur/froid,ope
+1020,Réseaux de chaleur/froid,plan
+1020,Réseaux de chaleur/froid,patri
+1025,Soutien MDE,fin
+1025,Soutien MDE,plan
+1502,Eau,ope
+1502,Eau,patri
+1505,Assainissement collectif,ope
+1505,Assainissement collectif,patri
+1507,Assainissement non collectif,ope
+1510,Collecte et traitement déchets,ope
+1510,Collecte et traitement déchets,plan
+1510,Collecte et traitement déchets,patri
+1525,Lutte pollution de l'air,plan
+1528,GEMAPI bassin,ope
+1528,GEMAPI bassin,plan
+1529,GEMAPI cours d'eau,ope
+1531,GEMAPI inondations,ope
+1531,GEMAPI inondations,plan
+1532,GEMAPI écosystèmes aquatiques,ope
+1532,GEMAPI écosystèmes aquatiques,plan
+1533,Eaux pluviales urbaines,ope
+1534,Ruissellement et érosion,ope
+1534,Ruissellement et érosion,plan
+1540,Autres actions environnementales,ope
+1540,Autres actions environnementales,fin
+1545,Concession plages,ope
+1545,Concession plages,patri
+1550,Infrastructures de charge IRVE,ope
+1550,Infrastructures de charge IRVE,patri
+1555,PCAET,plan
+1560,Contribution transition énergétique,fin
+1560,Contribution transition énergétique,plan
+3005,Contrat de ville,plan
+3005,Contrat de ville,fin
+3505,Développement économique et ZAE,ope
+3505,Développement économique et ZAE,fin
+3505,Développement économique et ZAE,plan
+4016,Lycées et collèges,ope
+4016,Lycées et collèges,patri
+4016,Lycées et collèges,fin
+4505,SCOT,plan
+4515,PLU,plan
+4531,Transport scolaire,ope
+4532,Transports non urbains,ope
+4532,Transports non urbains,patri
+4550,PDU,plan
+4560,Autorisations d'occupation du sol,plan
+5005,Voirie,ope
+5005,Voirie,patri
+5015,Parcs de stationnement,ope
+5015,Parcs de stationnement,patri
+5210,Promotion du tourisme,plan
+5210,Promotion du tourisme,fin
+5505,PLH,plan
+5515,Politique du logement social,plan
+5515,Politique du logement social,fin
+5525,Aide financière logement social,fin
+5530,Logement des personnes défavorisées,fin
+5535,OPAH,fin
+5535,OPAH,plan
+5550,Habitat insalubre,ope
+5550,Habitat insalubre,fin
+7020,Éclairage public,ope
+7020,Éclairage public,patri
+7025,Pistes cyclables,ope
+7025,Pistes cyclables,patri
+9920,Acquisition matériel en commun,patri
