@@ -28,6 +28,11 @@ def get_df_collectivite():
     return load_df_collectivite()
 
 @st.cache_data(ttl="1d")
+def get_df_pap_statut_13():
+    """Charge la North Star interne (pap_statut_5_fiches_modifiees_13_semaines)."""
+    return read_table("pap_statut_5_fiches_modifiees_13_semaines")
+
+@st.cache_data(ttl="1d")
 def get_champions_data():
     """Données champions : note_plan_semaine + radars fiches."""
     df_note_semaine = load_df_note_plan_semaine()
@@ -46,7 +51,6 @@ col_title, col_toggle = st.columns([8, 1])
 
 with col_title:
     st.title("⚡ Weekly")
-    st.markdown("Les info clés de la semaine.")
 with col_toggle:
     st.space("medium")
     dark_mode = st.toggle("🌙", value=False)
@@ -295,6 +299,62 @@ for semaine in semaines_evolution:
         evolution_importes.append(0)
         evolution_autonomes.append(0)
 
+# === NORTH STAR ===
+st.badge("North Star (3 mois)", icon=":material/star:", color="orange")
+
+df_pap_statut_13 = get_df_pap_statut_13()
+
+if df_pap_statut_13.empty or "mois" not in df_pap_statut_13.columns:
+    st.info("Aucune donnée North Star disponible.")
+else:
+    df_ns = df_pap_statut_13.copy()
+    df_ns["mois"] = pd.to_datetime(df_ns["mois"], errors="coerce")
+    mois_dispo = sorted(df_ns["mois"].dropna().unique(), reverse=True)
+
+    if not mois_dispo:
+        st.info("Aucune donnée North Star disponible.")
+    else:
+        mois_actuel = mois_dispo[0]
+        mois_precedent = mois_dispo[1] if len(mois_dispo) > 1 else None
+
+        ct_actifs_actuel = set(
+            df_ns[(df_ns["mois"] == mois_actuel) & (df_ns["statut"] == "actif")][
+                "collectivite_id"
+            ].dropna().unique()
+        )
+
+        if mois_precedent is not None:
+            ct_actifs_precedent = set(
+                df_ns[(df_ns["mois"] == mois_precedent) & (df_ns["statut"] == "actif")][
+                    "collectivite_id"
+                ].dropna().unique()
+            )
+        else:
+            ct_actifs_precedent = set()
+
+        nb_ct_actifs = len(ct_actifs_actuel)
+        nb_ct_actifs_precedent = len(ct_actifs_precedent)
+        nb_nouvelles = len(ct_actifs_actuel - ct_actifs_precedent)
+        nb_perdues = len(ct_actifs_precedent - ct_actifs_actuel)
+        diff_ct_actifs = nb_ct_actifs - nb_ct_actifs_precedent
+
+        ns_col1, ns_col2, ns_col3 = st.columns(3)
+
+        with ns_col1:
+            st.metric(
+                "CT PAP actif",
+                nb_ct_actifs,
+                delta=f"{diff_ct_actifs:+d}",
+                delta_color="normal",
+                border=True,
+            )
+        with ns_col2:
+            st.metric("Nouvelles ce mois-ci", nb_nouvelles, border=True)
+        with ns_col3:
+            st.metric("Perdues ce mois-ci", nb_perdues, border=True)
+
+st.markdown("---")
+
 st.badge("Indicateurs clés", icon=":material/key:", color="green")
 
 # === INDICATEURS CLÉS ===
@@ -307,8 +367,6 @@ with col1:
         delta=f"{diff_pap:+d}",
         delta_color="normal",
         border = True,
-        chart_type="line",
-        chart_data=evolution_pap
     )
 
 with col2:
@@ -318,8 +376,6 @@ with col2:
         delta=f"{diff_ct:+d}",
         delta_color="normal",
         border = True,
-        chart_type="line",
-        chart_data=evolution_ct
     )
 
 with col3:
@@ -330,8 +386,6 @@ with col3:
             delta=f"{diff_importes:+d}",
             delta_color="normal",
             border = True,
-            chart_type="line",
-            chart_data=evolution_importes
         )
     else:
         st.metric("PAP Importés", "N/A")
@@ -344,14 +398,55 @@ with col4:
             delta=f"{diff_autonomes:+d}",
             delta_color="normal",
             border = True,
-            chart_type="line",
-            chart_data=evolution_autonomes
         )
     else:
         st.metric("PAP Autonomes", "N/A")
 
+st.markdown("---")
+
+# === NOUVELLES CT PAP ===
+st.badge("Nouvelles CT PAP", icon=":material/celebration:", color="violet")
+
+# Ne garder que les collectivités qui n'avaient jamais eu de PAP avant S-1
+df_s1_nouvelles = df_s1[df_s1['collectivite_id'].isin([ct for ct in ct_s1 if ct not in ct_avant_s1])].copy()
+
+if df_s1_nouvelles.empty:
+    st.info("Aucune nouvelle collectivité PAP cette semaine.")
+else:
+    # Collectivités uniques de S-1 (seulement les nouvelles)
+    collectivites_s1 = df_s1_nouvelles.groupby('collectivite_id').agg({
+        'nom': 'first',
+        'type_collectivite': 'first',
+        'population_totale': 'first',
+        'import': 'first' if 'import' in df_s1_nouvelles.columns else lambda x: 'N/A',
+        # nom_plan peut être numérique ou autre selon le back — tout passer en str pour join
+        'nom_plan': lambda x: ', '.join(str(v) for v in pd.unique(x.dropna())),
+    }).reset_index()
+
+    collectivites_s1.columns = [
+        'ID Collectivité', 'Nom', 'Type', 'Population', 'Statut Import', 'Plans'
+    ]
+
+    collectivites_s1 = collectivites_s1.sort_values(by='Population', ascending=False)
+    collectivites_s1['Population'] = collectivites_s1['Population'].fillna(0).astype(int)
+
+    # Affichage en cartes (3 par ligne)
+    nb_cols = 3
+    lignes = [collectivites_s1.iloc[i:i + nb_cols] for i in range(0, len(collectivites_s1), nb_cols)]
+    for ligne in lignes:
+        cols = st.columns(nb_cols)
+        for col, (_, ct) in zip(cols, ligne.iterrows()):
+            with col:
+                with st.container(border=True):
+                    import_val = ct['Statut Import']
+                    import_icon = "📥" if import_val == "Importé" else "✍️"
+                    st.markdown(f"#### {ct['Nom']}")
+                    st.caption(f"{ct['Type']} · 👥 {ct['Population']:,}".replace(",", " ") + " hab.")
+                    st.markdown(f"**Plan :** {ct['Plans']}")
+                    st.markdown(f"{import_icon} {import_val}")
+
 # === GRAPHIQUES DE RÉPARTITION ===
-tab1, tab2, tab3, tab4 = st.tabs(["🆕 Plans", "🎉 Nouvelles collectivités", "💪 Champions", "📢 Fiches actions"])
+tab1, tab3 = st.tabs(["🆕 Plans", "💪 Champions"])
 
 with tab1:
     if not df_s1.empty and 'nom_plan' in df_s1.columns:
@@ -396,34 +491,6 @@ with tab1:
 
     st.dataframe(df_s1[['nom', 'nom_plan', 'type_collectivite', 'population_totale', 'import']].sort_values(by='population_totale', ascending=False), hide_index=True)
         
-with tab2: 
-    # Ne garder que les collectivités qui n'avaient jamais eu de PAP avant S-1
-    df_s1_nouvelles = df_s1[df_s1['collectivite_id'].isin([ct for ct in ct_s1 if ct not in ct_avant_s1])].copy()
-
-    # Collectivités uniques de S-1 (seulement les nouvelles)
-    collectivites_s1 = df_s1_nouvelles.groupby('collectivite_id').agg({
-        'nom': 'first',
-        'type_collectivite': 'first',
-        'population_totale': 'first',
-        'import': 'first' if 'import' in df_s1_nouvelles.columns else lambda x: 'N/A',
-        # nom_plan peut être numérique ou autre selon le back — tout passer en str pour join
-        'nom_plan': lambda x: ', '.join(str(v) for v in pd.unique(x.dropna())),
-    }).reset_index()
-
-    collectivites_s1.columns = [
-        'ID Collectivité', 'Nom', 'Type', 'Population', 'Statut Import', 'Plans'
-    ]
-
-    # Tri par population décroissante
-    collectivites_s1 = collectivites_s1.sort_values(by='Population', ascending=False)
-    collectivites_s1['Population'] = collectivites_s1['Population'].fillna(0).astype(int)
-
-    # Affichage du tableau
-    st.dataframe(
-        collectivites_s1[['Nom', 'Plans', 'Statut Import', 'Type', 'Population']],
-        hide_index=True
-    )
-
 with tab3:
     (
         df_note_semaine,
