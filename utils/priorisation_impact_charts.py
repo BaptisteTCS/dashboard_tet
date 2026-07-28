@@ -607,6 +607,9 @@ def extract_chart_event(component_value) -> dict | None:
             return component_value
     return None
 
+# ==========================
+# Impact Map
+# ==========================
 
 def render_impact_map(
     treemap_children: list[dict],
