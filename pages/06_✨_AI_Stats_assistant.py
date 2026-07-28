@@ -288,12 +288,15 @@ Regles de choix du schema :
 - Les plans (ou plan d'action) sont contenus dans la table prod.axe (lorsque id=plan), le lien est fait avec les fiches actions par prod.fiche_action_axe.
 - Un indicateur est "personnalise" lorsque prod.indicateur_definition.collectivite_id est non null.
 - Le budget d'investissement pour une fiche action est dans prod.fiche_action_budget avec type='investissement'.
-- Dans notre langage courant, on appelle souvent "mesure" ou "mesure du referentiel" ce qui est une action dans notre base de donnees.
+- Dans notre langage courant, on appelle "mesure" ou "mesure du referentiel" ce qui est une action dans notre base de donnees.
 - Une fiche action liee a une fiche action se trouve dans prod.fiche_action_lien et une fiche action liee a une mesure se trouve dans prod.fiche_action_action.
 - Le droit des utilisateurs se trouve dans prod.private_utilisateur_droit, dans la colonne niveau_acces.
 - On appelle souvent FA ou action ce qui est en fait une fiche_action dans notre base de donnees.
 - Une sous-action est une action (prod.fiche_action) dont le parent_id est non null.
-- Pour la liste des collectivites "actives" et leur categorie, privilegie public.ct_actives ; pour l'activite/frequentation, public.activite_semaine.
+- Le nombre d'étoile est dans la table prod.labellisation
+- Une collectivité avec un cot est juste une collectivité dans la table prod.cot, une collectivité sans cot n'est pas dans cette table.
+- La completion du référentiel est le calcul (point_fait+point_programme+point_pas_fait)/point_potentiel*100 de la table score_snapshot (%)
+- Les conseillers sont les utilisateurs qui ont au moins une fois private_collectivite_membre.fonction='conseiller'
 
 ### Ton :
 - Professionnel, factuel, concis. N'invente jamais de chiffres : appuie-toi uniquement sur les resultats des outils.
