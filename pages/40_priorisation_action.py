@@ -802,7 +802,7 @@ st.warning(
     """
 **Les actions à explorer pour vos volets prioritaires.**
 
-Pour chaque volet que vous avez jugé pertinent, vous retrouverez :
+Pour chaque volet que vous avez jugé pertinent ou à discuter avec vos élus, vous retrouverez :
 - **Actions de référence** : actions recommandées par l'Ademe
 - **Actions des autres collectivités** : actions menées par d'autres collectivités
 

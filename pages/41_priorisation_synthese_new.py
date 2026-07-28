@@ -1,7 +1,7 @@
 import streamlit as st
 
 st.set_page_config(
-    page_title="Synthèse - Tableaux de bord",
+    page_title="Synthèse - Tableau de bord",
     page_icon="🏆",
     layout="wide",
 )
@@ -673,7 +673,7 @@ MOBILISATION_BAR_MIN_HEIGHT = 280
 # Interface
 # ==========================
 
-st.title("🏆 Priorisation - Tableaux de bord")
+st.title("🏆 Synthèse - Tableau de bord")
 
 st.warning(
     """
