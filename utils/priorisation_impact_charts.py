@@ -55,7 +55,7 @@ PALETTE_LABELS = {
 
 TREEMAP_LABEL_COLOR = "#000000"
 
-COLOR_ACTION_RETENUE = "#D84315"
+COLOR_ACTION_RETENUE = "#F4A261"
 
 NOTES_ENJEU_BAS = {0, 1}
 
@@ -256,31 +256,22 @@ def build_priorisation_cases(
     return cases
 
 
-def case_sort_value(case: dict) -> float:
-    """Tri décroissant : positif (vert / orange) à gauche, négatif (gris) à droite."""
-    enjeu = case["enjeu"]
-    if case["note"] in NOTES_ENJEU_BAS and not case.get("action_retenue"):
-        return -enjeu
-    return enjeu
-
-
-def case_chart_value(case: dict) -> float:
-    """Hauteur des barres (toujours positive, vers le haut)."""
-    return case["enjeu"]
+def sort_cases_by_enjeu(cases: list[dict]) -> list[dict]:
+    """Enjeu décroissant, de gauche à droite."""
+    return sorted(cases, key=lambda c: c["enjeu"], reverse=True)
 
 
 def build_vue_ensemble_bar_options(cases: list[dict]) -> dict | None:
-    """Barres verticales, couleur par note, tri par enjeu signé décroissant."""
+    """Barres verticales, couleur par note, tri par enjeu décroissant."""
     if not cases:
         return None
 
-    ordered = sorted(cases, key=case_sort_value, reverse=True)
+    ordered = sort_cases_by_enjeu(cases)
     series_data = []
     for c in ordered:
-        chart_val = case_chart_value(c)
         color = c.get("color", NOTE_COLORS.get(c["note"], NOTE_COLORS[0]))
         point: dict = {
-            "value": chart_val,
+            "value": c["enjeu"],
             "levierFull": c["levier"],
             "categorie": c["categorie"],
             "noteLevel": NOTE_LABELS.get(c["note"], NOTE_LABELS[0]),
@@ -315,7 +306,7 @@ def build_vue_ensemble_bar_options(cases: list[dict]) -> dict | None:
                     var p = params && params[0];
                     if (!p || !p.data) return '';
                     var d = p.data;
-                    var val = Math.abs(Number(p.value)).toFixed(1);
+                    var val = Number(p.value).toFixed(1);
                     var lines = (d.levierFull || '') + '<br/>'
                         + (d.categorie || '') + '<br/>'
                         + (d.noteLevel || '') + '<br/>'
@@ -475,13 +466,12 @@ def build_bar_export_options(cases: list[dict]) -> dict | None:
     if not cases:
         return None
 
-    ordered = sorted(cases, key=case_sort_value, reverse=True)
+    ordered = sort_cases_by_enjeu(cases)
     series_data = []
     for c in ordered:
-        chart_val = case_chart_value(c)
         color = c.get("color", NOTE_COLORS.get(c["note"], NOTE_COLORS[0]))
         point: dict = {
-            "value": chart_val,
+            "value": c["enjeu"],
             "itemStyle": {
                 "color": color,
                 "borderRadius": [6, 6, 0, 0],
@@ -626,6 +616,7 @@ def render_impact_map(
     threshold_pct: int,
     labels_toggle_key: str | None = None,
     labels_toggle_default: bool = False,
+    show_labels_toggle: bool = True,
     show_actions_retenues: bool = False,
     click_events: dict | None = None,
     height: int = TREEMAP_HEIGHT,
@@ -650,10 +641,13 @@ def render_impact_map(
             cibles_actions=cibles_actions,
         )
 
-    toggle_kwargs: dict = {"label": "Libellés", "value": labels_toggle_default}
-    if labels_toggle_key is not None:
-        toggle_kwargs["key"] = labels_toggle_key
-    show_labels = st.toggle(**toggle_kwargs)
+    if show_labels_toggle:
+        toggle_kwargs: dict = {"label": "Libellés", "value": labels_toggle_default}
+        if labels_toggle_key is not None:
+            toggle_kwargs["key"] = labels_toggle_key
+        show_labels = st.toggle(**toggle_kwargs)
+    else:
+        show_labels = labels_toggle_default
 
     for levier in excluded_leviers:
         st.warning(

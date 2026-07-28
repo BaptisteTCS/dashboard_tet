@@ -33,10 +33,9 @@ pages = {
     "Priorisation": [
         st.Page("pages/26_run_impact.py", title="Analyse des actions par CT", icon="🌀"),
         st.Page("pages/31_priorisation_perimetre.py", title="Optionnel - Périmètre d'action", icon="🔧"),
-        st.Page("pages/30_priorisation.py", title="1 - Diagnostic", icon="🧭", default=True),
-        st.Page("pages/32_priorisation_faisabilite.py", title="2 - Faisabilité politique", icon="⚖️"),
-        st.Page("pages/33_priorisation_action.py", title="3 - Exploration des actions de référence", icon="🏅"),
-        st.Page("pages/34_priorisation_synthese.py", title="4 - Synthèse", icon="🏆"),
+        st.Page("pages/39_priorisation_faisabilite_new.py", title="Priorisation des actions", icon="🥇"),
+        st.Page("pages/40_priorisation_action.py", title="Actions de référence", icon="🏅"),
+        st.Page("pages/41_priorisation_synthese_new.py", title="Synthèse - Tableaux de bord", icon="🏆"),
     ],
 }
 
