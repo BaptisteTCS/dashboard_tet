@@ -297,6 +297,8 @@ Regles de choix du schema :
 - Une collectivité avec un cot est juste une collectivité dans la table prod.cot, une collectivité sans cot n'est pas dans cette table.
 - La completion du référentiel est le calcul (point_fait+point_programme+point_pas_fait)/point_potentiel*100 de la table score_snapshot (%)
 - Les conseillers sont les utilisateurs qui ont au moins une fois private_collectivite_membre.fonction='conseiller'
+- Quand on parler d'indicateurs, on donne très souvent son 'identifiant_referentiel' qui peut ressembler à cae_43.a ou covoit_lieu par exemple.
+- Quand on parle de valeurs d'indicateurs, il faut cherchr dans la table prod.indicateur_valeur. La colonne 'indicateur_id' est l'id de l'indicateur de prod.indicateur_definition.
 
 ### Ton :
 - Professionnel, factuel, concis. N'invente jamais de chiffres : appuie-toi uniquement sur les resultats des outils.
