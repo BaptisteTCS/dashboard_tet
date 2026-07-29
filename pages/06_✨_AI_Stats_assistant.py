@@ -24,7 +24,7 @@ if not logger.handlers:
 MODEL = "gpt-5"
 REASONING_EFFORT = "medium"
 MAX_OUTPUT_TOKENS = 32000
-MAX_TOOL_ITERATIONS = 5
+MAX_TOOL_ITERATIONS = 10
 
 PREVIEW_ROWS = 20      # apercu renvoye au modele (protege le contexte)
 MAX_TABLE_ROWS = 1000  # plafond d'affichage d'un tableau
