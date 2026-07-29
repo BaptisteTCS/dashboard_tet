@@ -172,6 +172,23 @@ def load_plans(collectivite_id: int) -> list[str]:
     return df["nom"].tolist()
 
 
+@st.cache_data(ttl="1h")
+def load_nb_actions(collectivite_id: int) -> int:
+    """Nombre d'actions déposées par la collectivité."""
+    engine = get_engine()
+    with engine.connect() as conn:
+        df = pd.read_sql_query(
+            text("""
+                SELECT COUNT(DISTINCT id) AS nb
+                FROM prod.fiche_action
+                WHERE collectivite_id = :collectivite_id
+            """),
+            conn,
+            params={"collectivite_id": collectivite_id},
+        )
+    return int(df["nb"].iloc[0])
+
+
 def build_category_weights(df_poids: pd.DataFrame) -> dict[str, dict[int, float]]:
     """Retourne {levier: {categorie: poids}} depuis priorisation_categorie_levier."""
     levier_cols = [c for c in df_poids.columns if c != "categorie"]
@@ -453,15 +470,9 @@ st.title("🥇 Priorisation des actions")
 
 st.warning(
     """
-**Vos actions, regroupées par volet.**
+**Arbitrez la pertinence d'agir sur chaque volet.**
 
-Toutes les actions de vos plans d'actions déposés sur Territoires en Transitions ont été regroupées par volet, soit le croisement entre :
-- **un levier** : vélo, rénovation, véhicule électrique, etc.
-- **une catégorie** : aménagement, planification, financement, gouvernance, exemplarité, sensibilisation.
-
-Le potentiel de réduction des émissions de GES de chaque volet a été estimé à partir de la Stratégie nationale bas carbone (SNBC) et des Mondrians de la transition écologique.
-
-Les volets que votre collectivité mobilise déjà sont notés **"Mobilisé"**. Pour les autres, indiquez la pertinence d'agir au regard de vos contraintes et de vos priorités politiques :
+Indiquez la pertinence d'agir au regard de vos contraintes et de vos priorités politiques :
 - **Non pertinent** : ce volet n'entre pas dans vos priorités actuelles
 - **Pertinent** : ce volet correspond à une priorité pour votre collectivité
 - **À discuter avec l'élu** : la décision nécessite un arbitrage politique
@@ -470,6 +481,44 @@ Nous vous proposerons ensuite des **actions de référence**, et vous pourrez ex
 """,
     icon=":material/tips_and_updates:",
 )
+
+
+with st.expander("Définition des volets et des catégories"):
+    st.info("""
+**Vos actions, regroupées par volet.**
+
+Toutes les actions de vos plans d'actions déposés sur Territoires en Transitions ont été regroupées par volet, soit le croisement entre :
+- **un levier** : vélo, rénovation, véhicule électrique, etc.
+- **une catégorie** : aménagement, planification, financement, gouvernance, exemplarité, sensibilisation.
+
+Le potentiel de réduction des émissions de GES de chaque volet a été estimé à partir de la Stratégie nationale bas carbone (SNBC) et des Mondrians de la transition écologique.
+""")
+
+    st.info("""
+**1. Aménagement & infrastructures**
+
+Les actions physiques sur le territoire, au bénéfice des habitants et des acteurs économiques : urbanisme, mobilités douces, espaces verts, renaturation, réseaux (eau, chaleur, assainissement), équipements publics. C'est le levier le plus structurant, mais aussi le plus lourd en investissement.
+
+**2. Planification**
+
+Les documents cadres et actes juridiques qui orientent l'action du territoire : PLU/PLUi, PCAET, SCoT, règlements locaux, zones à faibles émissions, arrêtés municipaux. Un levier puissant, car il s'impose durablement à tous les acteurs.
+
+**3. Financement & fiscalité**
+
+L'orientation des flux économiques : subventions aux particuliers et aux entreprises, tarification incitative (déchets, eau), budgets participatifs écologiques, fiscalité locale verte. Agit sur les signaux prix et sur la capacité d'investissement des acteurs du territoire.
+
+**4. Gouvernance & partenariats**
+
+La manière dont la collectivité pilote sa politique de transition : élu référent, service dédié, feuille de route, coopération intercommunale, partenariats privés et associatifs, concertation citoyenne, suivi et évaluation. Répond à la question : comment décide-t-on, et avec qui ?
+
+**5. Exemplarité interne**
+
+La transition appliquée au fonctionnement propre de la collectivité : rénovation du patrimoine bâti, flotte de véhicules, restauration collective (écoles, crèches, EHPAD), commande publique responsable, numérique responsable, formation des agents. Le périmètre sur lequel la collectivité a le plus de prise directe.
+
+**6. Sensibilisation & accompagnement**
+
+L'information, l'éducation et le conseil aux habitants, aux entreprises et aux associations : guichet unique rénovation, animations scolaires, ateliers, communication, accompagnement de projets citoyens. Un impact plus diffus, mais indispensable à l'adhésion et au passage à l'action.
+""")
 
 df_collectivites = load_collectivites_priorisees()
 if df_collectivites.empty:
@@ -529,8 +578,6 @@ if not top:
     )
     st.stop()
 
-max_potentiel = top[0][1]
-
 show_more = st.session_state.get(SESSION_SHOW_MORE, False)
 n_visible = TOP_N_MAX if show_more else TOP_N_INITIAL
 visible_top = top[:n_visible]
@@ -539,53 +586,27 @@ st.subheader(f"Les {len(visible_top)} leviers au plus fort potentiel de réducti
 
 plans = load_plans(collectivite_id)
 if plans:
-    st.markdown(f"Les plans concernés sont : {', '.join(plans)}.")
+    nb_actions = load_nb_actions(collectivite_id)
+    libelle_actions = "l'action" if nb_actions == 1 else f"les {nb_actions} actions"
+    libelle_plans = "votre plan" if len(plans) == 1 else "vos plans"
+    st.info(
+        f"Nous avons analysé {libelle_actions} de {libelle_plans} : "
+        f"**{', '.join(plans)}**."
+    )
+
+
 
 for rank, (levier, potentiel) in enumerate(visible_top, start=1):
     with st.container(border=True):
-        col_titre, col_bar = st.columns([3, 2], vertical_alignment="center")
-        with col_titre:
-            st.markdown(f"**{rank}. {levier}**")
-        with col_bar:
-            st.caption(f"Potentiel non mobilisé : **{potentiel:.0f}** ktCO₂e")
-            st.progress(
-                min(potentiel / max_potentiel, 1.0) if max_potentiel > 0 else 0.0
-            )
-
-        for cat in volets_perimetre(levier, exclusions, weights):
-            c1, c2 = st.columns([1, 4], vertical_alignment="center")
-            with c1:
-                st.caption(CATEGORIES[cat])
-            with c2:
-                if volet_est_mobilise(levier, cat, notes):
-                    st.badge(
-                        "Mobilisé", icon=":material/check_circle:", color="green"
-                    )
-                    continue
-
-                cat_key = f"faisabilite_cat_{levier}_{cat}"
-                cat_val = faisabilites.get((levier, cat))
-                cat_label = INT_TO_FAISABILITE.get(cat_val) if cat_val else None
-                sync_segmented_key(cat_key, cat_label)
-
-                st.segmented_control(
-                    CATEGORIES[cat],
-                    options=list(FAISABILITE_OPTIONS),
-                    key=cat_key,
-                    default=None,
-                    label_visibility="collapsed",
-                    on_change=_on_categorie_change,
-                    args=(levier, cat),
-                )
-
         cats_arbitrables = tuple(
             volets_sous_mobilises(levier, notes, exclusions, weights)
         )
-        if len(cats_arbitrables) > 1:
-            c1, c2 = st.columns([1, 4], vertical_alignment="center")
-            with c1:
-                st.caption("**Tout**")
-            with c2:
+
+        col_titre, col_tout = st.columns([2, 3], vertical_alignment="center")
+        with col_titre:
+            st.markdown(f"**{rank}. {levier}**")
+        with col_tout:
+            if cats_arbitrables:
                 tout_key = f"faisabilite_tout_{levier}"
                 sync_segmented_key(
                     tout_key,
@@ -601,6 +622,38 @@ for rank, (levier, potentiel) in enumerate(visible_top, start=1):
                     on_change=_on_tout_change,
                     args=(levier, cats_arbitrables),
                 )
+
+        with st.expander("Détail par catégorie"):
+            for cat in volets_perimetre(levier, exclusions, weights):
+                c1, c2 = st.columns([1, 4], vertical_alignment="center")
+                with c1:
+                    st.caption(CATEGORIES[cat])
+                with c2:
+                    if volet_est_mobilise(levier, cat, notes):
+                        st.badge(
+                            "Mobilisé", icon=":material/check_circle:", color="green"
+                        )
+                        continue
+
+                    cat_key = f"faisabilite_cat_{levier}_{cat}"
+                    cat_val = faisabilites.get((levier, cat))
+                    cat_label = INT_TO_FAISABILITE.get(cat_val) if cat_val else None
+                    sync_segmented_key(cat_key, cat_label)
+
+                    st.segmented_control(
+                        CATEGORIES[cat],
+                        options=list(FAISABILITE_OPTIONS),
+                        key=cat_key,
+                        default=None,
+                        label_visibility="collapsed",
+                        on_change=_on_categorie_change,
+                        args=(levier, cat),
+                    )
+
+        st.caption(
+            "Potentiel de réduction du levier non mobilisé : "
+            f"**{potentiel:.0f}** ktCO₂e"
+        )
 
 if len(top) > TOP_N_INITIAL and not show_more:
     if st.button("Afficher plus", type="secondary"):
@@ -622,19 +675,19 @@ if st.button("Sauvegarder", type="primary"):
         if n == 0:
             st.success(
                 f"Arbitrage enregistré pour **{nom_par_id[collectivite_id]}** "
-                "(aucune catégorie renseignée).",
+                "(aucun volet renseigné).",
                 icon=":material/save:",
             )
         elif n == 1:
             st.success(
                 f"Arbitrage enregistré pour **{nom_par_id[collectivite_id]}** "
-                f"({n} catégorie).",
+                f"({n} volet).",
                 icon=":material/save:",
             )
         else:
             st.success(
                 f"Arbitrage enregistré pour **{nom_par_id[collectivite_id]}** "
-                f"({n} catégories).",
+                f"({n} volets).",
                 icon=":material/save:",
             )
     except Exception as e:

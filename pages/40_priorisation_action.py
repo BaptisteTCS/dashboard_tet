@@ -36,13 +36,17 @@ CATEGORIES = {
 # Faisabilité 2 = À discuter, 3 = Prioritaire
 FAISABILITE_ELIGIBLE = {2, 3}
 
-MAX_ACTIONS_PAR_COLONNE = 3
+ACTIONS_PAR_SECTION = 6
+ACTIONS_PAR_LIGNE = 2
 CIBLES_PAGE_SIZE = 3
 DESCRIPTION_MAX_LEN = 180
 
 LABEL_AJOUTER = "Ajouter à ma sélection"
 LABEL_SELECTIONNEE = "Sélectionnée"
 
+SECTION_ACTIONS = "actions"
+# Distingue les clés de widgets : un id de référence peut collisionner avec un
+# id de fiche action.
 SECTION_REFERENCE = "reference"
 SECTION_COLLECTIVITES = "collectivites"
 
@@ -433,7 +437,9 @@ def fiches_reference_pour_cible(
     df_actions_reference: pd.DataFrame,
 ) -> pd.DataFrame:
     """Actions de référence disponibles pour une cible (levier × catégorie)."""
-    empty = pd.DataFrame(columns=["id", "intitule", "description", "origine"])
+    empty = pd.DataFrame(
+        columns=["id", "intitule", "description", "origine", "reference"]
+    )
     if df_actions_reference.empty:
         return empty
 
@@ -450,6 +456,7 @@ def fiches_reference_pour_cible(
             "intitule": clean_rich_text(row["titre"]) or f"Action #{int(row['id'])}",
             "description": row["description"],
             "origine": ORIGINE_REFERENCE,
+            "reference": True,
         }
         for _, row in df.iterrows()
     ]
@@ -499,11 +506,14 @@ def fiches_autres_collectivites(
                     "intitule": fiche.get("titre") or f"Fiche #{aid}",
                     "description": fiche.get("description"),
                     "origine": ct_nom,
+                    "reference": False,
                 }
             )
 
     if not rows:
-        return pd.DataFrame(columns=["id", "intitule", "description", "origine"])
+        return pd.DataFrame(
+            columns=["id", "intitule", "description", "origine", "reference"]
+        )
 
     return pd.DataFrame(rows).sort_values(
         ["origine", "intitule"], ascending=[True, True]
@@ -518,7 +528,8 @@ def fiches_pour_cible(
     df_fiches_action: pd.DataFrame,
     df_actions_reference: pd.DataFrame,
     nom_par_id: dict[int, str],
-) -> tuple[pd.DataFrame, pd.DataFrame]:
+) -> pd.DataFrame:
+    """Actions de référence puis actions des autres collectivités."""
     df_ref = fiches_reference_pour_cible(levier, cat, df_actions_reference)
     df_autres = fiches_autres_collectivites(
         levier,
@@ -528,7 +539,7 @@ def fiches_pour_cible(
         df_fiches_action,
         nom_par_id,
     )
-    return df_ref, df_autres
+    return pd.concat([df_ref, df_autres], ignore_index=True)
 
 
 # ==========================
@@ -673,15 +684,10 @@ def save_priorisation_action(
 # ==========================
 
 
-def render_action_card(
-    fiche: pd.Series,
-    levier: str,
-    cat: int,
-    *,
-    reference: bool,
-) -> None:
+def render_action_card(fiche: pd.Series, levier: str, cat: int) -> None:
     """Card d'une action : origine, titre, description et bouton de sélection."""
     fid = int(fiche["id"])
+    reference = bool(fiche["reference"])
     section = SECTION_REFERENCE if reference else SECTION_COLLECTIVITES
     selected = is_fiche_selected(levier, cat, fid, reference)
 
@@ -711,17 +717,11 @@ def render_action_card(
 
         st.markdown(f"**{titre}**")
 
-        if description:
-            st.caption(short_description(description, DESCRIPTION_MAX_LEN))
-            if len(description) > DESCRIPTION_MAX_LEN:
-                with st.popover(
-                    "Lire la description complète",
-                    icon=":material/description:",
-                ):
-                    st.markdown(f"**{titre}**")
-                    st.write(description)
-        else:
-            st.caption("Aucune description disponible.")
+        st.caption(
+            short_description(description, DESCRIPTION_MAX_LEN)
+            if description
+            else "Aucune description disponible."
+        )
 
         st.button(
             LABEL_SELECTIONNEE if selected else LABEL_AJOUTER,
@@ -737,58 +737,39 @@ def render_action_card(
         )
 
 
-def render_colonne_actions(
-    df: pd.DataFrame,
-    levier: str,
-    cat: int,
-    *,
-    reference: bool,
-) -> None:
-    """Une colonne d'actions (référence ou autres collectivités), paginée."""
-    section = SECTION_REFERENCE if reference else SECTION_COLLECTIVITES
-    if reference:
-        st.badge(
-            f"Actions de référence ({len(df)})",
-            icon=":material/cards_star:",
-            color="orange",
-        )
-        message_vide = "Aucune action de référence pour ce volet."
-    else:
-        st.badge(
-            f"Actions d'autres collectivités ({len(df)})",
-            icon=":material/location_city:",
-            color="blue",
-        )
-        message_vide = "Aucune action d'autre collectivité pour ce volet."
-
+def render_grille_actions(df: pd.DataFrame, levier: str, cat: int) -> None:
+    """Grille d'actions sur deux colonnes, paginée."""
     if df.empty:
-        st.caption(message_vide)
         return
 
-    expanded = is_section_expanded(levier, cat, section)
-    visible = df if expanded else df.head(MAX_ACTIONS_PAR_COLONNE)
+    expanded = is_section_expanded(levier, cat, SECTION_ACTIONS)
+    visible = df if expanded else df.head(ACTIONS_PAR_SECTION)
 
-    for _, fiche in visible.iterrows():
-        render_action_card(fiche, levier, cat, reference=reference)
+    fiches = [fiche for _, fiche in visible.iterrows()]
+    for start in range(0, len(fiches), ACTIONS_PAR_LIGNE):
+        cols = st.columns(ACTIONS_PAR_LIGNE, gap="medium")
+        for col, fiche in zip(cols, fiches[start : start + ACTIONS_PAR_LIGNE]):
+            with col:
+                render_action_card(fiche, levier, cat)
 
     reste = len(df) - len(visible)
     if reste > 0:
         st.button(
             f"Afficher {reste} action{'s' if reste > 1 else ''} de plus",
-            key=f"more_{section}_{levier}_{cat}",
+            key=f"more_{SECTION_ACTIONS}_{levier}_{cat}",
             icon=":material/expand_more:",
             width="stretch",
             on_click=toggle_section_expanded,
-            args=(levier, cat, section),
+            args=(levier, cat, SECTION_ACTIONS),
         )
     elif expanded:
         st.button(
             "Afficher moins",
-            key=f"less_{section}_{levier}_{cat}",
+            key=f"less_{SECTION_ACTIONS}_{levier}_{cat}",
             icon=":material/expand_less:",
             width="stretch",
             on_click=toggle_section_expanded,
-            args=(levier, cat, section),
+            args=(levier, cat, SECTION_ACTIONS),
         )
 
 
@@ -875,7 +856,11 @@ if not cibles:
 n_visible_cibles = st.session_state.get(SESSION_VISIBLE_CIBLES_COUNT, CIBLES_PAGE_SIZE)
 visible_cibles = cibles[:n_visible_cibles]
 
-max_enjeu = max(cible["enjeu"] for cible in cibles)
+st.info(
+    "Les volets ont été classés par potentiel de réduction CO₂ "
+    "(d'après la SNBC).",
+    icon=":material/sort:",
+)
 
 for rank, cible in enumerate(visible_cibles, start=1):
     levier = cible["levier"]
@@ -884,20 +869,17 @@ for rank, cible in enumerate(visible_cibles, start=1):
     enjeu = cible["enjeu"]
 
     st.divider()
-    col_titre, col_bar = st.columns([3, 2], vertical_alignment="center")
-    with col_titre:
-        st.subheader(f"{rank}. {levier} — {cat_label}")
-        nb_cible = nb_selections_cible(levier, cat)
-        if nb_cible:
-            st.caption(
-                f"**{nb_cible}** action{'s' if nb_cible > 1 else ''} "
-                f"sélectionnée{'s' if nb_cible > 1 else ''}"
-            )
-    with col_bar:
-        st.caption(f"Potentiel du volet : **{enjeu:.0f}** ktCO₂e")
-        st.progress(min(enjeu / max_enjeu, 1.0) if max_enjeu > 0 else 0.0)
+    st.subheader(f"{rank}. {levier} — {cat_label}")
+    st.caption(f"Potentiel du volet : **{enjeu:.0f}** ktCO₂e")
 
-    df_ref, df_autres = fiches_pour_cible(
+    nb_cible = nb_selections_cible(levier, cat)
+    if nb_cible:
+        st.caption(
+            f"**{nb_cible}** action{'s' if nb_cible > 1 else ''} "
+            f"sélectionnée{'s' if nb_cible > 1 else ''}"
+        )
+
+    df_actions = fiches_pour_cible(
         levier,
         cat,
         collectivite_id,
@@ -907,18 +889,14 @@ for rank, cible in enumerate(visible_cibles, start=1):
         nom_par_id,
     )
 
-    if df_ref.empty and df_autres.empty:
+    if df_actions.empty:
         st.info(
             "Aucune action disponible pour ce volet.",
             icon=":material/search_off:",
         )
         continue
 
-    col_reference, col_collectivites = st.columns(2, gap="medium")
-    with col_reference:
-        render_colonne_actions(df_ref, levier, cat, reference=True)
-    with col_collectivites:
-        render_colonne_actions(df_autres, levier, cat, reference=False)
+    render_grille_actions(df_actions, levier, cat)
 
 if len(cibles) > n_visible_cibles:
     restants = len(cibles) - n_visible_cibles

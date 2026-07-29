@@ -35,9 +35,7 @@ pages = {
         st.Page("pages/31_priorisation_perimetre.py", title="Optionnel - Périmètre d'action", icon="🔧"),
     ],
     "Priorisation": [
-        st.Page("pages/39_priorisation_faisabilite_new.py", title="Priorisation des actions", icon="🥇", default=True),
-        st.Page("pages/40_priorisation_action.py", title="Actions de référence", icon="🏅"),
-        st.Page("pages/41_priorisation_synthese_new.py", title="Synthèse - Tableau de bord", icon="🏆"),
+        st.Page("pages/42_priorisation.py", title="Priorisation", icon="🥇", default=True),
     ],
 }
 
