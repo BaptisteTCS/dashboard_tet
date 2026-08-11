@@ -35,7 +35,7 @@ pages = {
         st.Page("pages/31_priorisation_perimetre.py", title="Optionnel - Périmètre d'action", icon="🔧"),
     ],
     "Priorisation": [
-        st.Page("pages/42_priorisation.py", title="Priorisation", icon="🥇"),
+        st.Page("pages/42_priorisation_new.py", title="Priorisation", icon="🥇"),
     ],
 }
 
