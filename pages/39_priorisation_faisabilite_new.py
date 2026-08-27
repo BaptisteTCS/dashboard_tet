@@ -160,8 +160,8 @@ def load_plans(collectivite_id: int) -> list[str]:
             text("""
                 SELECT DISTINCT nom
                 FROM prod.axe
-                WHERE collectivite_id = :collectivite_id
-                  AND plan = id
+                WHERE collectivite_id::numeric = :collectivite_id
+                  AND plan::numeric = id::numeric
                   AND nom IS NOT NULL
                   AND btrim(nom) <> ''
                 ORDER BY nom
@@ -181,7 +181,7 @@ def load_nb_actions(collectivite_id: int) -> int:
             text("""
                 SELECT COUNT(DISTINCT id) AS nb
                 FROM prod.fiche_action
-                WHERE collectivite_id = :collectivite_id
+                WHERE collectivite_id::numeric = :collectivite_id
             """),
             conn,
             params={"collectivite_id": collectivite_id},

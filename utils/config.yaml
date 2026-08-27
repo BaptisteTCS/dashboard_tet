@@ -904,3 +904,27 @@ indicateurs:
     libelle: SDES
     ordre_affichage: '1'
   ratio: 1.0
+- api_nom_cube: covoiturage_trajet_simple_com
+  ID: '1082'
+  api_nom_axe: ''
+  type_collectivite:
+  - commune
+  - epci
+  - departement
+  - region
+  - ept
+  correspondance_indicateurs: cae_66
+  metadata:
+    source_id: ecolab
+    nom_donnees: Nombre de trajets effectués en covoiturage intermédié
+    diffuseur: Ecolab
+    producteur: Registre de preuve de covoiturage
+    methodologie: Plus d'info 
+      [ici](https://ecologie.data.gouv.fr/indicators/nombre-de-trajets-effectues-en-covoiturage-intermedie)
+    limites: ''
+    date_version: '2026-03-25'
+  source:
+    id: ecolab
+    libelle: ecolab
+    ordre_affichage: '1'
+  ratio: 1
