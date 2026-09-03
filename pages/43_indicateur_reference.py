@@ -73,10 +73,10 @@ def _theme_to_nivo_bar(df: pd.DataFrame) -> list[dict]:
     if df.empty:
         return []
     agg = (
-        df.groupby("theme", dropna=False)["nb_ct"]
-        .sum()
-        .reset_index()
-        .sort_values("nb_ct", ascending=False)
+        df.groupby("theme", dropna=False)
+        .size()
+        .reset_index(name="nb_indicateurs")
+        .sort_values("nb_indicateurs", ascending=False)
     )
     agg["theme"] = agg["theme"].fillna("Non renseigné").astype(str)
     return agg.to_dict(orient="records")[::-1]
@@ -175,7 +175,9 @@ def suggerer_indices(texte: str, catalogue_txt: str) -> tuple[int | None, list[i
     reponse = client.messages.create(
         model=_MODELE_HAIKU,
         max_tokens=24,
-        temperature=0,
+        # Le SDK anthropic 1.0 a retiré temperature de la signature : extra_body
+        # est la voie documentée, et fonctionne aussi sur les versions 0.x.
+        extra_body={"temperature": 0},
         system=[
             {
                 "type": "text",
@@ -292,7 +294,7 @@ with tab_exploration:
     st.dataframe(df, width="stretch", hide_index=True)
 
     st.markdown("---")
-    st.subheader("Nombre de collectivités par thème")
+    st.subheader("Nombre d'indicateurs par thème")
 
     bar_data = _theme_to_nivo_bar(df)
     max_label_len = max(len(row["theme"]) for row in bar_data)
@@ -303,7 +305,7 @@ with tab_exploration:
         with mui.Box(sx={"height": chart_height}):
             nivo.Bar(
                 data=bar_data,
-                keys=["nb_ct"],
+                keys=["nb_indicateurs"],
                 indexBy="theme",
                 layout="horizontal",
                 margin={"top": 16, "right": 56, "bottom": 50, "left": left_margin},
@@ -319,7 +321,7 @@ with tab_exploration:
                     "tickSize": 5,
                     "tickPadding": 5,
                     "tickRotation": 0,
-                    "legend": "Nombre de collectivités",
+                    "legend": "Nombre d'indicateurs",
                     "legendPosition": "middle",
                     "legendOffset": 40,
                 },

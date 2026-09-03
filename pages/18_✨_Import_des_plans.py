@@ -262,7 +262,8 @@ async def query_claude(user_prompt):
         async with claude_client.messages.stream(
             model="claude-sonnet-4-5-20250929",
             max_tokens=64000,
-            temperature=0.2,
+            # Retiré de la signature par le SDK anthropic 1.0, à passer en extra_body.
+            extra_body={"temperature": 0.2},
             messages=[{"role": "user", "content": user_prompt}]
         ) as stream:
             parts = []
