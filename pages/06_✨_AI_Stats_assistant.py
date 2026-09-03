@@ -27,7 +27,7 @@ MAX_OUTPUT_TOKENS = 32000
 MAX_TOOL_ITERATIONS = 10
 
 PREVIEW_ROWS = 20      # apercu renvoye au modele (protege le contexte)
-MAX_TABLE_ROWS = 10000  # plafond d'affichage d'un tableau
+MAX_TABLE_ROWS = 50000  # plafond d'affichage d'un tableau
 MAX_CHART_ROWS = 1000  # plafond d'affichage d'un graphe
 
 # Garde-fous en dur : mots-cles interdits (detection par word-boundary pour ne

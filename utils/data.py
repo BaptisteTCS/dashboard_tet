@@ -79,10 +79,6 @@ def load_df_calendly_invitees() -> pd.DataFrame:
     df = read_table("calendly_invitees")
     return df
 
-def load_df_bizdev_contact_collectivite() -> pd.DataFrame:
-    df = read_table("bizdev_contact_collectivite")
-    return df
-
 def load_df_pap_statut_semaine_12_mois() -> pd.DataFrame:
     df = read_table("pap_statut_semaine_12_mois")
     return df
