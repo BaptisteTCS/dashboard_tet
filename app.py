@@ -37,6 +37,9 @@ pages = {
     "Priorisation": [
         st.Page("pages/42_priorisation_new.py", title="Priorisation", icon="🥇"),
     ],
+    "Bac à sable": [
+        st.Page("pages/43_indicateur_reference.py", title="Indicateurs de référence", icon="🌞"),
+    ],
 }
 
 pg = st.navigation(pages)
