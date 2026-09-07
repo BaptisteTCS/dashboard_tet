@@ -508,7 +508,7 @@ def appliquer_statut_perdus(df: pd.DataFrame, ids_perdus: set) -> pd.DataFrame:
     """Recatégorise en 'Perdus' les collectivités inactives identifiées comme perdues."""
     df = df.copy()
     mask = df['collectivite_id'].isin(ids_perdus) & (df['statut'] != 'actif')
-    df.loc[mask, 'statut'] = 'Perdus'
+    df.loc[mask, 'statut'] = 'Perdu'
     return df
 
 
