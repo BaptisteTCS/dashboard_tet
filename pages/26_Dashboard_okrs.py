@@ -640,7 +640,7 @@ with tabs[1]:
     - statut
     - personne pilote ou service/direction pilote
 
-    Les collectivités dont la dernière modification (`airtable_sync.derniere_modif`) date de plus de 2 ans, ou n'est pas renseignée, sont distinguées en bleu (**Perdus**).
+    Les collectivités dont la dernière modification de fiche action date de plus de 2 ans sont considérées comme perdues.
     """)
 
     # Préparation des données
