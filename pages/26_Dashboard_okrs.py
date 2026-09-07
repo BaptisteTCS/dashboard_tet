@@ -652,7 +652,7 @@ with tabs[1]:
     df_evolution_statut = df_evolution_statut.groupby(['mois', 'statut'])['collectivite_id'].nunique().reset_index(name='nb_collectivites')
     df_evolution_statut = df_evolution_statut.sort_values('mois')
     df_evolution_statut['mois_label'] = df_evolution_statut['mois'].dt.strftime('%Y-%m')
-    df_evolution_statut = completer_statuts_mensuels(df_evolution_statut, ["actif", "inactif", "Perdus"])
+    df_evolution_statut = completer_statuts_mensuels(df_evolution_statut, ["actif", "inactif", "Perdu"])
 
     # Métriques
     df_actif = df_evolution_statut[df_evolution_statut['statut'] == 'actif']
@@ -666,7 +666,7 @@ with tabs[1]:
         element_id="line_evolution_statuts_pap_52",
         graph_type="area_stacked",
         group_column='statut',
-        group_values=["actif", "inactif", "Perdus"],
+        group_values=["actif", "inactif", "Perdu"],
         group_colors=COULEURS_STATUT_PAP,
         legend_y="Nombre de collectivités",
         trend_group_value="actif",
@@ -698,7 +698,7 @@ with tabs[1]:
     df_evolution_statut = df_evolution_statut.groupby(['mois', 'statut'])['collectivite_id'].nunique().reset_index(name='nb_collectivites')
     df_evolution_statut = df_evolution_statut.sort_values('mois')
     df_evolution_statut['mois_label'] = df_evolution_statut['mois'].dt.strftime('%Y-%m')
-    df_evolution_statut = completer_statuts_mensuels(df_evolution_statut, ["actif", "inactif", "Perdus"])
+    df_evolution_statut = completer_statuts_mensuels(df_evolution_statut, ["actif", "inactif", "Perdu"])
 
     # Métriques
     df_actif = df_evolution_statut[df_evolution_statut['statut'] == 'actif']
@@ -712,7 +712,7 @@ with tabs[1]:
         element_id="line_evolution_statuts_pap_13",
         graph_type="area_stacked",
         group_column='statut',
-        group_values=["actif", "inactif", "Perdus"],
+            group_values=["actif", "inactif", "Perdu"],
         group_colors=COULEURS_STATUT_PAP,
         legend_y="Nombre de collectivités",
         trend_group_value="actif",
