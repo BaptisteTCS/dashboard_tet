@@ -32,10 +32,11 @@ def load_data():
     df_nb_labellisation = read_table('evolution_labellisation')
     df_note_fiche= read_table('note_fiche_historique', where_sql="note_fa>=5")
     df_user_actif_12_mois=read_table('user_actif_12_mois')
-    return df_nb_fap_13, df_nb_fap_52, df_nb_fap_pilote_13, df_nb_fap_pilote_52, df_pap_13, df_pap_52, df_pap_date_passage, df_note_plan, df_fa_sharing, df_user_actifs_ct_mois, df_ct_actives, df_activite_semaine, df_nb_labellisation, df_note_fiche, df_user_actif_12_mois
+    df_airtable_sync = read_table('airtable_sync', columns=['collectivite_id', 'derniere_modif'])
+    return df_nb_fap_13, df_nb_fap_52, df_nb_fap_pilote_13, df_nb_fap_pilote_52, df_pap_13, df_pap_52, df_pap_date_passage, df_note_plan, df_fa_sharing, df_user_actifs_ct_mois, df_ct_actives, df_activite_semaine, df_nb_labellisation, df_note_fiche, df_user_actif_12_mois, df_airtable_sync
 
 
-df_nb_fap_13, df_nb_fap_52, df_nb_fap_pilote_13, df_nb_fap_pilote_52, df_pap_13, df_pap_52, df_pap_date_passage, df_note_plan, df_fa_sharing, df_user_actifs_ct_mois, df_ct_actives, df_activite_semaine, df_nb_labellisation, df_note_fiche, df_user_actif_12_mois = load_data()
+df_nb_fap_13, df_nb_fap_52, df_nb_fap_pilote_13, df_nb_fap_pilote_52, df_pap_13, df_pap_52, df_pap_date_passage, df_note_plan, df_fa_sharing, df_user_actifs_ct_mois, df_ct_actives, df_activite_semaine, df_nb_labellisation, df_note_fiche, df_user_actif_12_mois, df_airtable_sync = load_data()
 
 df_user_actifs_ct_mois = df_user_actifs_ct_mois[df_user_actifs_ct_mois.email.isin(df_activite_semaine.email.to_list())].copy()
 # ==========================
@@ -166,6 +167,7 @@ def afficher_graphique_plotly(
     height=450,
     margin_right=110,
     color_scheme="pastel2",
+    group_colors=None,  # dict {valeur_groupe: "#RRGGBB"} pour forcer la couleur d'une série
     trend_group_value=None,  # Valeur du groupe pour lequel afficher la tendance (ex: "actif", "Autonome", etc.)
     trend_calculation="linear",  # "linear" (défaut) ou "budget_3m_pct"
     target_value=None  # Valeur cible à afficher comme ligne horizontale
@@ -186,6 +188,7 @@ def afficher_graphique_plotly(
     - height: hauteur du graphique
     - margin_right: marge à droite pour la légende
     - color_scheme: schéma de couleurs ("pastel2" ou "category10")
+    - group_colors: dictionnaire optionnel pour forcer la couleur d'une série (ex: {"Perdus": "#7EB8E8"})
     - trend_group_value: valeur du groupe pour afficher la tendance jusqu'à 2026-12 (optionnel)
     - target_value: valeur cible à afficher comme ligne horizontale rouge/orangée (optionnel)
     """
@@ -228,7 +231,10 @@ def afficher_graphique_plotly(
         for idx, value in enumerate(group_values):
             df_filtered = df[df[group_column] == value].copy()
             if not df_filtered.empty:
-                color = colors[idx % len(colors)]
+                if group_colors and value in group_colors:
+                    color = group_colors[value]
+                else:
+                    color = colors[idx % len(colors)]
                 
                 if graph_type == "area_stacked":
                     fig.add_trace(go.Scatter(
@@ -480,6 +486,51 @@ def afficher_graphique_plotly(
     st.plotly_chart(fig, use_container_width=True)
 
 
+# Couleur dédiée à la série « Perdus » (A-1 / A-2)
+COULEUR_PERDUS = '#BEDBF3'
+COULEURS_STATUT_PAP = {
+    'actif': PASTEL2_COLORS[0],
+    'inactif': PASTEL2_COLORS[1],
+    'Perdus': COULEUR_PERDUS,
+}
+
+
+def ids_collectivites_perdues(df_airtable: pd.DataFrame) -> set:
+    """Collectivités dont la dernière modification date de plus de 2 ans, ou n'est pas renseignée."""
+    df = df_airtable[['collectivite_id', 'derniere_modif']].copy()
+    dt = pd.to_datetime(df['derniere_modif'], errors='coerce', utc=True)
+    seuil = pd.Timestamp.now(tz='UTC') - pd.DateOffset(years=2)
+    mask = dt.isna() | (dt < seuil)
+    return set(df.loc[mask, 'collectivite_id'].tolist())
+
+
+def appliquer_statut_perdus(df: pd.DataFrame, ids_perdus: set) -> pd.DataFrame:
+    """Recatégorise en 'Perdus' les collectivités inactives identifiées comme perdues."""
+    df = df.copy()
+    mask = df['collectivite_id'].isin(ids_perdus) & (df['statut'] != 'actif')
+    df.loc[mask, 'statut'] = 'Perdus'
+    return df
+
+
+def completer_statuts_mensuels(df: pd.DataFrame, statuts: list, value_col: str = 'nb_collectivites') -> pd.DataFrame:
+    """Assure une valeur (0 si absente) pour chaque couple mois × statut."""
+    tous_les_mois = df.sort_values('mois_label')['mois_label'].unique().tolist()
+    rows = []
+    for statut in statuts:
+        df_statut = df[df['statut'] == statut]
+        valeurs = dict(zip(df_statut['mois_label'], df_statut[value_col]))
+        for mois in tous_les_mois:
+            rows.append({
+                'mois_label': mois,
+                'statut': statut,
+                value_col: valeurs.get(mois, 0),
+            })
+    return pd.DataFrame(rows)
+
+
+IDS_COLLECTIVITES_PERDUES = ids_collectivites_perdues(df_airtable_sync)
+
+
 # ==========================
 # Interface
 # ==========================
@@ -588,6 +639,8 @@ with tabs[1]:
     - description
     - statut
     - personne pilote ou service/direction pilote
+
+    Les collectivités dont la dernière modification (`airtable_sync.derniere_modif`) date de plus de 2 ans, ou n'est pas renseignée, sont distinguées en bleu (**Perdus**).
     """)
 
     # Préparation des données
@@ -595,9 +648,11 @@ with tabs[1]:
     df_evolution_statut['mois'] = df_evolution_statut['mois'].dt.to_period('M').dt.to_timestamp()
     df_evolution_statut = df_evolution_statut.sort_values('statut').drop_duplicates(subset=['collectivite_id', 'mois'], keep='first')
     df_evolution_statut = df_evolution_statut[df_evolution_statut['mois'] >= '2023-01-01']
+    df_evolution_statut = appliquer_statut_perdus(df_evolution_statut, IDS_COLLECTIVITES_PERDUES)
     df_evolution_statut = df_evolution_statut.groupby(['mois', 'statut'])['collectivite_id'].nunique().reset_index(name='nb_collectivites')
     df_evolution_statut = df_evolution_statut.sort_values('mois')
     df_evolution_statut['mois_label'] = df_evolution_statut['mois'].dt.strftime('%Y-%m')
+    df_evolution_statut = completer_statuts_mensuels(df_evolution_statut, ["actif", "inactif", "Perdus"])
 
     # Métriques
     df_actif = df_evolution_statut[df_evolution_statut['statut'] == 'actif']
@@ -611,10 +666,11 @@ with tabs[1]:
         element_id="line_evolution_statuts_pap_52",
         graph_type="area_stacked",
         group_column='statut',
-        group_values=["actif", "inactif"],
+        group_values=["actif", "inactif", "Perdus"],
+        group_colors=COULEURS_STATUT_PAP,
         legend_y="Nombre de collectivités",
         trend_group_value="actif",
-        target_value=600  # Cible à ajuster
+        target_value=450  # Cible à ajuster
     )
 
 
@@ -629,6 +685,8 @@ with tabs[1]:
     - description
     - statut
     - personne pilote ou service/direction pilote
+
+    Les collectivités dont la dernière modification (`airtable_sync.derniere_modif`) date de plus de 2 ans, ou n'est pas renseignée, sont distinguées en bleu (**Perdus**).
     """)
 
     # Préparation des données
@@ -636,9 +694,11 @@ with tabs[1]:
     df_evolution_statut['mois'] = df_evolution_statut['mois'].dt.to_period('M').dt.to_timestamp()
     df_evolution_statut = df_evolution_statut.sort_values('statut').drop_duplicates(subset=['collectivite_id', 'mois'], keep='first')
     df_evolution_statut = df_evolution_statut[df_evolution_statut['mois'] >= '2023-01-01']
+    df_evolution_statut = appliquer_statut_perdus(df_evolution_statut, IDS_COLLECTIVITES_PERDUES)
     df_evolution_statut = df_evolution_statut.groupby(['mois', 'statut'])['collectivite_id'].nunique().reset_index(name='nb_collectivites')
     df_evolution_statut = df_evolution_statut.sort_values('mois')
     df_evolution_statut['mois_label'] = df_evolution_statut['mois'].dt.strftime('%Y-%m')
+    df_evolution_statut = completer_statuts_mensuels(df_evolution_statut, ["actif", "inactif", "Perdus"])
 
     # Métriques
     df_actif = df_evolution_statut[df_evolution_statut['statut'] == 'actif']
@@ -652,7 +712,8 @@ with tabs[1]:
         element_id="line_evolution_statuts_pap_13",
         graph_type="area_stacked",
         group_column='statut',
-        group_values=["actif", "inactif"],
+        group_values=["actif", "inactif", "Perdus"],
+        group_colors=COULEURS_STATUT_PAP,
         legend_y="Nombre de collectivités",
         trend_group_value="actif",
         target_value=350  # Cible à ajuster
@@ -844,7 +905,7 @@ with tabs[2]:
         group_values=["actif", "inactif"],
         legend_y="Nombre de collectivités",
         trend_group_value="actif",
-        target_value=250  # Cible à ajuster
+        target_value=225  # Cible à ajuster
     )
 
 
