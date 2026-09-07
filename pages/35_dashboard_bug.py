@@ -29,7 +29,7 @@ _CATEGORY_PREFIXES: list[tuple[str, str]] = [
     ("amelioration", "Suggestions d'améliorations"),
     ("metier", "Questions métiers"),
     ("autre", "Autres"),
-    ("bug", "Bugs"),
+    ("bug", "Retours utilisateurs"),
 ]
 _BAR_ROW_PX = 40
 _BAR_MIN_HEIGHT = 280
@@ -284,7 +284,9 @@ def count_bugs_bloquant(df: pd.DataFrame, start: pd.Timestamp, end: pd.Timestamp
     sub = tickets_in_period(df, start, end)
     if sub.empty or "criticite" not in sub.columns:
         return 0
-    return int((sub["criticite"] == "Bloquant").sum())
+    return int(
+        sub["criticite"].str.contains("bloquant", case=False, na=False).sum()
+    )
 
 
 def monthly_bug_counts(df: pd.DataFrame) -> pd.DataFrame:
