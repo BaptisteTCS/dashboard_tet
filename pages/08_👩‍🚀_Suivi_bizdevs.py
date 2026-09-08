@@ -806,7 +806,7 @@ with row1_col1:
     total_pap = _snapshot_plans(df_pap_cumul, end_month)
     with m2:
         st.metric(label="NS1 — Total", value=total_pap)
-    _plot_plans_evolution(df_pap_cumul, end_date, target=600, start_date=_NS_GRAPH_START, cumulatif=True)
+    _plot_plans_evolution(df_pap_cumul, end_date, target=750, start_date=_NS_GRAPH_START, cumulatif=True)
     _render_pap_table(_nouvelles_ct_periode(ct_first_pap, 'date_premier_pap', cur_start, cur_end))
 
 # --- NS2 : CT multiplan (cumul) ---
