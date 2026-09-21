@@ -44,6 +44,136 @@ def get_champions_data():
     df_pap_passage = read_table("pap_date_passage")
     return df_note_semaine, df_note_fiche, df_fiche_action_plan, df_pap_passage
 
+
+_MOIS_FR = [
+    "",
+    "janvier",
+    "février",
+    "mars",
+    "avril",
+    "mai",
+    "juin",
+    "juillet",
+    "août",
+    "septembre",
+    "octobre",
+    "novembre",
+    "décembre",
+]
+
+
+def _label_mois(ts) -> str:
+    if ts is None or pd.isna(ts):
+        return ""
+    d = pd.to_datetime(ts)
+    return f"{_MOIS_FR[d.month]} {d.year}"
+
+
+def _plan_name_by_id(df_pap: pd.DataFrame) -> dict:
+    if df_pap.empty or "plan" not in df_pap.columns:
+        return {}
+    work = df_pap.dropna(subset=["plan"]).drop_duplicates(subset=["plan"])
+    names = {}
+    if "nom_plan_ct" in work.columns:
+        names.update(work.set_index("plan")["nom_plan_ct"].to_dict())
+    if "nom_plan" in work.columns:
+        for plan_id, nom in work.set_index("plan")["nom_plan"].items():
+            if pd.isna(names.get(plan_id)):
+                names[plan_id] = nom
+    return {k: v for k, v in names.items() if pd.notna(v)}
+
+
+def _df_collectivites_mouvement(
+    ids,
+    df_pap_enrichi: pd.DataFrame,
+    df_ns: pd.DataFrame,
+    mois,
+    plan_names: dict,
+) -> pd.DataFrame:
+    """Métadonnées des collectivités nouvelles ou perdues (North Star)."""
+    ids = [cid for cid in ids if pd.notna(cid)]
+    if not ids:
+        return pd.DataFrame()
+
+    out = pd.DataFrame({"collectivite_id": ids})
+    meta_cols = [
+        c
+        for c in ["collectivite_id", "nom", "type_collectivite", "population_totale", "region_name"]
+        if c in df_pap_enrichi.columns
+    ]
+    meta = (
+        df_pap_enrichi[df_pap_enrichi["collectivite_id"].isin(ids)][meta_cols]
+        .drop_duplicates(subset=["collectivite_id"])
+    )
+    out = out.merge(meta, on="collectivite_id", how="left")
+
+    ns_mois = df_ns[
+        (df_ns["mois"] == mois)
+        & (df_ns["statut"] == "actif")
+        & (df_ns["collectivite_id"].isin(ids))
+    ]
+
+    def _fmt_plans(plans):
+        labels = []
+        for p in pd.unique(plans.dropna()):
+            try:
+                fallback = str(int(p))
+            except (TypeError, ValueError):
+                fallback = str(p)
+            labels.append(str(plan_names.get(p, fallback)))
+        return ", ".join(labels) if labels else "—"
+
+    if not ns_mois.empty:
+        plans = ns_mois.groupby("collectivite_id")["plan"].apply(_fmt_plans).rename("plans")
+        out = out.merge(plans, on="collectivite_id", how="left")
+        if "nb_pilotes" in ns_mois.columns:
+            pilotes = (
+                ns_mois.groupby("collectivite_id")["nb_pilotes"].max().rename("nb_pilotes")
+            )
+            out = out.merge(pilotes, on="collectivite_id", how="left")
+    else:
+        out["plans"] = "—"
+
+    out["nom"] = out["nom"].fillna(
+        out["collectivite_id"].map(lambda i: f"Collectivité {int(i)}")
+    )
+    if "type_collectivite" in out.columns:
+        out["type_collectivite"] = out["type_collectivite"].fillna("—")
+    else:
+        out["type_collectivite"] = "—"
+    if "region_name" in out.columns:
+        out["region_name"] = out["region_name"].fillna("")
+    else:
+        out["region_name"] = ""
+    out["population_totale"] = out["population_totale"].fillna(0).astype(int)
+    out["plans"] = out["plans"].fillna("—")
+    return out.sort_values("population_totale", ascending=False)
+
+
+def _render_ct_cards(df_cts: pd.DataFrame, empty_message: str) -> None:
+    if df_cts.empty:
+        st.info(empty_message)
+        return
+
+    nb_cols = 3
+    lignes = [df_cts.iloc[i:i + nb_cols] for i in range(0, len(df_cts), nb_cols)]
+    for ligne in lignes:
+        cols = st.columns(nb_cols)
+        for col, (_, ct) in zip(cols, ligne.iterrows()):
+            with col:
+                with st.container(border=True):
+                    st.markdown(f"#### {ct['nom']}")
+                    pop = f"{ct['population_totale']:,}".replace(",", " ")
+                    extras = [ct["type_collectivite"]]
+                    if ct.get("region_name"):
+                        extras.append(ct["region_name"])
+                    extras.append(f"👥 {pop} hab.")
+                    st.caption(" · ".join(str(x) for x in extras if x and x != "—"))
+                    st.markdown(f"**Plan :** {ct['plans']}")
+                    if "nb_pilotes" in df_cts.columns and pd.notna(ct.get("nb_pilotes")):
+                        nb_pilotes = int(ct["nb_pilotes"])
+                        st.caption(f"🧑‍✈️ {nb_pilotes} pilote{'s' if nb_pilotes != 1 else ''}")
+
 st.set_page_config(layout="wide")
 
 # === TOGGLE THEME SOMBRE ===
@@ -303,6 +433,11 @@ for semaine in semaines_evolution:
 st.badge("North Star (3 mois)", icon=":material/star:", color="orange")
 
 df_pap_statut_13 = get_df_pap_statut_13()
+df_ns = pd.DataFrame()
+mois_ns_actuel = None
+mois_ns_precedent = None
+ids_ns_nouvelles = set()
+ids_ns_perdues = set()
 
 if df_pap_statut_13.empty or "mois" not in df_pap_statut_13.columns:
     st.info("Aucune donnée North Star disponible.")
@@ -314,28 +449,28 @@ else:
     if not mois_dispo:
         st.info("Aucune donnée North Star disponible.")
     else:
-        mois_actuel = mois_dispo[0]
-        mois_precedent = mois_dispo[1] if len(mois_dispo) > 1 else None
+        mois_ns_actuel = mois_dispo[0]
+        mois_ns_precedent = mois_dispo[1] if len(mois_dispo) > 1 else None
 
         ct_actifs_actuel = set(
-            df_ns[(df_ns["mois"] == mois_actuel) & (df_ns["statut"] == "actif")][
+            df_ns[(df_ns["mois"] == mois_ns_actuel) & (df_ns["statut"] == "actif")][
                 "collectivite_id"
             ].dropna().unique()
         )
 
-        if mois_precedent is not None:
+        if mois_ns_precedent is not None:
             ct_actifs_precedent = set(
-                df_ns[(df_ns["mois"] == mois_precedent) & (df_ns["statut"] == "actif")][
+                df_ns[(df_ns["mois"] == mois_ns_precedent) & (df_ns["statut"] == "actif")][
                     "collectivite_id"
                 ].dropna().unique()
             )
         else:
             ct_actifs_precedent = set()
 
+        ids_ns_nouvelles = ct_actifs_actuel - ct_actifs_precedent
+        ids_ns_perdues = ct_actifs_precedent - ct_actifs_actuel
         nb_ct_actifs = len(ct_actifs_actuel)
         nb_ct_actifs_precedent = len(ct_actifs_precedent)
-        nb_nouvelles = len(ct_actifs_actuel - ct_actifs_precedent)
-        nb_perdues = len(ct_actifs_precedent - ct_actifs_actuel)
         diff_ct_actifs = nb_ct_actifs - nb_ct_actifs_precedent
 
         ns_col1, ns_col2, ns_col3 = st.columns(3)
@@ -349,9 +484,9 @@ else:
                 border=True,
             )
         with ns_col2:
-            st.metric("Nouvelles ce mois-ci", nb_nouvelles, border=True)
+            st.metric("Nouvelles ce mois-ci", len(ids_ns_nouvelles), border=True)
         with ns_col3:
-            st.metric("Perdues ce mois-ci", nb_perdues, border=True)
+            st.metric("Perdues ce mois-ci", len(ids_ns_perdues), border=True)
 
 st.markdown("---")
 
@@ -446,7 +581,9 @@ else:
                     st.markdown(f"{import_icon} {import_val}")
 
 # === GRAPHIQUES DE RÉPARTITION ===
-tab1, tab3 = st.tabs(["🆕 Plans", "💪 Champions"])
+tab1, tab_mouvements, tab3 = st.tabs(
+    ["🆕 Plans", "🔄 CT PAP actifs : Nouvelles & perdues", "💪 Champions"]
+)
 
 with tab1:
     if not df_s1.empty and 'nom_plan' in df_s1.columns:
@@ -490,7 +627,55 @@ with tab1:
         st.info("Pas de données pour S-1")
 
     st.dataframe(df_s1[['nom', 'nom_plan', 'type_collectivite', 'population_totale', 'import']].sort_values(by='population_totale', ascending=False), hide_index=True)
-        
+
+with tab_mouvements:
+    if mois_ns_actuel is None or df_ns.empty:
+        st.info("Aucune donnée North Star disponible pour lister les mouvements.")
+    else:
+        label_actuel = _label_mois(mois_ns_actuel)
+        label_precedent = _label_mois(mois_ns_precedent) if mois_ns_precedent is not None else "—"
+        st.caption(
+            f"Collectivités PAP actif (North Star 3 mois) : comparaison "
+            f"{label_actuel} vs {label_precedent}."
+        )
+
+        plan_names = _plan_name_by_id(df_pap_enrichi)
+        df_nouvelles_mois = _df_collectivites_mouvement(
+            ids_ns_nouvelles,
+            df_pap_enrichi,
+            df_ns,
+            mois_ns_actuel,
+            plan_names,
+        )
+        df_perdues_mois = _df_collectivites_mouvement(
+            ids_ns_perdues,
+            df_pap_enrichi,
+            df_ns,
+            mois_ns_precedent,
+            plan_names,
+        )
+
+        st.badge(
+            f"Nouvelles ce mois-ci ({len(ids_ns_nouvelles)})",
+            icon=":material/celebration:",
+            color="green",
+        )
+        _render_ct_cards(
+            df_nouvelles_mois,
+            "Aucune nouvelle collectivité PAP actif ce mois-ci.",
+        )
+
+        st.markdown("---")
+        st.badge(
+            f"Perdues ce mois-ci ({len(ids_ns_perdues)})",
+            icon=":material/trending_down:",
+            color="red",
+        )
+        _render_ct_cards(
+            df_perdues_mois,
+            "Aucune collectivité PAP actif perdue ce mois-ci.",
+        )
+
 with tab3:
     (
         df_note_semaine,

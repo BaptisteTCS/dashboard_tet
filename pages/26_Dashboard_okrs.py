@@ -33,10 +33,12 @@ def load_data():
     df_note_fiche= read_table('note_fiche_historique', where_sql="note_fa>=5")
     df_user_actif_12_mois=read_table('user_actif_12_mois')
     df_airtable_sync = read_table('airtable_sync', columns=['collectivite_id', 'derniere_modif'])
-    return df_nb_fap_13, df_nb_fap_52, df_nb_fap_pilote_13, df_nb_fap_pilote_52, df_pap_13, df_pap_52, df_pap_date_passage, df_note_plan, df_fa_sharing, df_user_actifs_ct_mois, df_ct_actives, df_activite_semaine, df_nb_labellisation, df_note_fiche, df_user_actif_12_mois, df_airtable_sync
+    df_nps_mensuel = read_table('nps_mensuel')
+    df_nps_cumule = read_table('nps_cumule')
+    return df_nb_fap_13, df_nb_fap_52, df_nb_fap_pilote_13, df_nb_fap_pilote_52, df_pap_13, df_pap_52, df_pap_date_passage, df_note_plan, df_fa_sharing, df_user_actifs_ct_mois, df_ct_actives, df_activite_semaine, df_nb_labellisation, df_note_fiche, df_user_actif_12_mois, df_airtable_sync, df_nps_mensuel, df_nps_cumule
 
 
-df_nb_fap_13, df_nb_fap_52, df_nb_fap_pilote_13, df_nb_fap_pilote_52, df_pap_13, df_pap_52, df_pap_date_passage, df_note_plan, df_fa_sharing, df_user_actifs_ct_mois, df_ct_actives, df_activite_semaine, df_nb_labellisation, df_note_fiche, df_user_actif_12_mois, df_airtable_sync = load_data()
+df_nb_fap_13, df_nb_fap_52, df_nb_fap_pilote_13, df_nb_fap_pilote_52, df_pap_13, df_pap_52, df_pap_date_passage, df_note_plan, df_fa_sharing, df_user_actifs_ct_mois, df_ct_actives, df_activite_semaine, df_nb_labellisation, df_note_fiche, df_user_actif_12_mois, df_airtable_sync, df_nps_mensuel, df_nps_cumule = load_data()
 
 df_user_actifs_ct_mois = df_user_actifs_ct_mois[df_user_actifs_ct_mois.email.isin(df_activite_semaine.email.to_list())].copy()
 # ==========================
@@ -101,9 +103,17 @@ def get_plotly_layout():
 # Fonctions utilitaires
 # ==========================
 
-def afficher_metriques_temporelles(df, value_column, label_prefix="", date_column='mois_label', delta_color="normal"):
+def afficher_metriques_temporelles(
+    df,
+    value_column,
+    label_prefix="",
+    date_column='mois_label',
+    delta_color="normal",
+    decimals=0,
+    show_dec_years=(2023, 2024, 2025),
+):
     """
-    Affiche 4 métriques : Décembre 2023, 2024, 2025 et la valeur la plus récente.
+    Affiche des métriques pour les décembres sélectionnés et la valeur la plus récente.
     
     Paramètres:
     - df: DataFrame contenant les données
@@ -111,21 +121,33 @@ def afficher_metriques_temporelles(df, value_column, label_prefix="", date_colum
     - label_prefix: préfixe pour les labels des métriques (ex: "Actifs - ")
     - date_column: nom de la colonne contenant les dates (défaut: 'mois_label')
     - delta_color: couleur du delta ("normal" = vert si hausse, "inverse" = vert si baisse)
+    - show_dec_years: années de décembre à afficher (ex: (2025,) pour n'afficher que Dec 2025)
     """
     # Extraction des valeurs pour décembre de chaque année
     jan_2024 = df[df[date_column] == '2023-12'][value_column].values
     jan_2025 = df[df[date_column] == '2024-12'][value_column].values
     jan_2026 = df[df[date_column] == '2025-12'][value_column].values
     
-    val_2024 = int(jan_2024[0]) if len(jan_2024) > 0 else 0
-    val_2025 = int(jan_2025[0]) if len(jan_2025) > 0 else 0
-    val_2026 = int(jan_2026[0]) if len(jan_2026) > 0 else 0
+    def _parse_val(values):
+        if len(values) == 0:
+            return 0
+        val = float(values[0])
+        return round(val, decimals) if decimals > 0 else int(val)
+
+    def _format_val(val):
+        if decimals == 0:
+            return f"{int(val):,}".replace(",", " ")
+        return f"{val:.{decimals}f}"
+
+    val_2024 = _parse_val(jan_2024)
+    val_2025 = _parse_val(jan_2025)
+    val_2026 = _parse_val(jan_2026)
     
     # Trouver la valeur la plus récente
     if not df.empty and date_column in df.columns:
         df_sorted = df.sort_values(date_column, ascending=False)
         derniere_date = df_sorted.iloc[0][date_column]
-        derniere_valeur = int(df_sorted.iloc[0][value_column])
+        derniere_valeur = _parse_val([df_sorted.iloc[0][value_column]])
         
         # Formater la date pour l'affichage (YYYY-MM -> Mois YYYY)
         mois_labels = {
@@ -142,16 +164,34 @@ def afficher_metriques_temporelles(df, value_column, label_prefix="", date_colum
         derniere_valeur = 0
         derniere_date_label = "N/A"
     
-    # Affichage des 4 colonnes
-    col1, col2, col3, col4 = st.columns(4)
-    with col1:
-        st.metric(f"{label_prefix}Dec 2023", f"{val_2024:,}".replace(",", " "))
-    with col2:
-        st.metric(f"{label_prefix}Dec 2024", f"{val_2025:,}".replace(",", " "), delta=val_2025 - val_2024 if val_2024 > 0 else None, delta_color=delta_color)
-    with col3:
-        st.metric(f"{label_prefix}Dec 2025", f"{val_2026:,}".replace(",", " "), delta=val_2026 - val_2025 if val_2025 > 0 else None, delta_color=delta_color)
-    with col4:
-        st.metric(f"{label_prefix}{derniere_date_label}", f"{derniere_valeur:,}".replace(",", " "), delta=derniere_valeur - val_2026 if val_2026 > 0 else None, delta_color=delta_color)
+    def _delta(current, previous):
+        if previous == 0:
+            return None
+        delta = current - previous
+        return round(delta, decimals) if decimals > 0 else delta
+
+    dec_metrics = []
+    if 2023 in show_dec_years:
+        dec_metrics.append((f"{label_prefix}Dec 2023", val_2024, None))
+    if 2024 in show_dec_years:
+        prev = val_2024 if 2023 in show_dec_years else None
+        dec_metrics.append((f"{label_prefix}Dec 2024", val_2025, _delta(val_2025, prev) if prev is not None else None))
+    if 2025 in show_dec_years:
+        prev = val_2025 if 2024 in show_dec_years else (val_2024 if 2023 in show_dec_years else None)
+        dec_metrics.append((f"{label_prefix}Dec 2025", val_2026, _delta(val_2026, prev) if prev is not None else None))
+
+    derniere_delta_ref = val_2026 if 2025 in show_dec_years else (dec_metrics[-1][1] if dec_metrics else None)
+    cols = st.columns(len(dec_metrics) + 1)
+    for i, (label, val, delta) in enumerate(dec_metrics):
+        with cols[i]:
+            st.metric(label, _format_val(val), delta=delta, delta_color=delta_color)
+    with cols[-1]:
+        st.metric(
+            f"{label_prefix}{derniere_date_label}",
+            _format_val(derniere_valeur),
+            delta=_delta(derniere_valeur, derniere_delta_ref) if derniere_delta_ref is not None else None,
+            delta_color=delta_color,
+        )
 
 
 def afficher_graphique_plotly(
@@ -581,6 +621,7 @@ with tabs[0]:
             ("L-2", "Nombre de collectivités actives", "🌟 NS5 - interne"),
             ("L-2 bis", "Nombre d'utilisateurs actifs", "🌟 NS5 - interne"),
             ("L-3", "Nombre de labellisations réalisées sur la plateforme", "💫 Activité"),
+            ("L-4", "NPS", "🌟 NS5 - externe"),
         ],
         "6 - Budget": [
             ("B-1", "Coût annuel par action pilotable actives 12 mois (€/action)", "🌟 NS6 - externe"),
@@ -1521,6 +1562,49 @@ with tabs[5]:
         margin_right=180,
         trend_group_value="nb_labellisation_cumule",
         target_value=None
+    )
+
+
+    # ======================
+    st.markdown("---")
+    st.badge('NS5 - externe', icon="🌟", color="orange")
+    st.markdown('### L-4 | NPS')
+    st.markdown("""
+    Net Promoter Score (NPS) : mesure de la satisfaction des utilisateurs. Il évalue la probabilité
+    qu'un utilisateur recommande Territoires en Transitions à un collègue (échelle 1 à 10).
+    Le score est calculé sur une échelle de -100 à +100.
+    """)
+
+    nps_mode = st.segmented_control(
+        "Mode NPS",
+        options=["Mensuel", "Cumule"],
+        default="Mensuel",
+        label_visibility="collapsed"
+    )
+
+    df_evolution_statut = (df_nps_mensuel if nps_mode == "Mensuel" else df_nps_cumule).copy()
+    df_evolution_statut["mois"] = pd.to_datetime(df_evolution_statut["mois"], errors="coerce")
+    df_evolution_statut = df_evolution_statut.dropna(subset=["mois"]).sort_values("mois")
+    df_evolution_statut["mois_label"] = df_evolution_statut["mois"].dt.strftime("%Y-%m")
+
+    afficher_metriques_temporelles(
+        df_evolution_statut,
+        "nps",
+        label_prefix="NPS - ",
+        decimals=1,
+        show_dec_years=(2025,),
+    )
+
+    afficher_graphique_plotly(
+        df_evolution_statut,
+        x_column="mois_label",
+        y_column="nps",
+        element_id="line_evolution_nps",
+        graph_type="area_simple",
+        legend_y="NPS",
+        margin_right=180,
+        trend_group_value="nps",
+        target_value=60
     )
 
 with tabs[6]: 
