@@ -1240,9 +1240,13 @@ with tabs[5]:
             rolling_rows.append({"mois": month, "nb_users": int(nb_users)})
         df_evolution_statut = pd.DataFrame(rolling_rows)
     else:
-        df_evolution_statut = pd.DataFrame(columns=["mois", "nb_users"])
+        df_evolution_statut = pd.DataFrame({
+            "mois": pd.Series(dtype="datetime64[ns]"),
+            "nb_users": pd.Series(dtype="int"),
+        })
 
     df_evolution_statut = df_evolution_statut.sort_values("mois")
+    df_evolution_statut["mois"] = pd.to_datetime(df_evolution_statut["mois"], errors="coerce")
     df_evolution_statut["mois_label"] = df_evolution_statut["mois"].dt.strftime("%Y-%m")
 
     afficher_metriques_temporelles(df_evolution_statut, 'nb_users', label_prefix="Actifs - ")
@@ -1309,6 +1313,7 @@ with tabs[5]:
         df_evolution_statut["nb_collectivite"] = pd.Series(dtype="int")
 
     df_evolution_statut = df_evolution_statut.sort_values("mois")
+    df_evolution_statut["mois"] = pd.to_datetime(df_evolution_statut["mois"], errors="coerce")
     df_evolution_statut["mois_label"] = df_evolution_statut["mois"].dt.strftime("%Y-%m")
 
     # Métriques (3 colonnes pour cette section)
