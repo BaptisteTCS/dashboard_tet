@@ -21,7 +21,11 @@ from openai import OpenAI
 from sqlalchemy import text
 
 from utils.db import get_engine_prod
-from utils.priorisation_data import load_priorisation
+from utils.priorisation_data import (
+    build_category_weights,
+    load_poids_categories,
+    load_priorisation,
+)
 from utils.priorisation_text import parse_ids
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -100,21 +104,23 @@ Une catégorie seule ne peut pas activer tout le potentiel d'un levier — ce n'
 La question, pour chaque catégorie, est : sur ce type précis d'action, la collectivité fait-elle peu,
 ou fait-elle ce qu'on peut raisonnablement attendre de mieux ?
 {bloc_reference}
-# Échelle d'évaluation — 4 niveaux
-Pour chaque catégorie, un entier parmi [0, 1, 2, 3] :
 
-- 0 — non couvert : aucune action crédible sur cette case, ou actions hors sujet.
-- 1 — amorcé : actions ponctuelles, symboliques ou expérimentales ; intention visible mais portée très limitée.
-- 2 — partiel : actions réelles et concrètes mais incomplètes ; une part significative de l'attendu est faite, des pans importants manquent.
-- 3 — pleinement activé : mobilisation structurée, cohérente et à large portée ; l'essentiel de l'attendu est fait.
+# Échelle d'évaluation : 4 niveaux
+Pour chaque catégorie, un entier parmi [0, 1, 2, 3].
+Ne compte que les actions qui concernent réellement ce levier et ce type de moyen.
+
+0 : aucune action ou une action à portée très limitée.
+1 : une seule action, ou uniquement des actions ponctuelles (événement isolé, expérimentation, simple annonce).
+2 : plusieurs actions concrètes, OU une seule action mais structurante.
+3 : plusieurs actions concrètes dont au moins une structurante, qui ensemble couvrent l'essentiel de ce qu'on peut attendre sur ce levier pour ce type de moyen.
+
+Une action est structurante si elle a une large portée (tout le territoire ou l'essentiel du public concerné) et un caractère durable (dispositif permanent, pluriannuel ou réglementaire).
 
 # Principes d'évaluation
-- Raisonner relativement à la taille et à la population de la collectivité.
-- Juger la portée réelle (couverture, intensité, durée, public touché), pas le nombre d'actions ni leur formulation.
-- Une catégorie sans aucune action rattachée reçoit obligatoirement 0.
-- Ne pas surévaluer les actions purement incitatives, communicationnelles ou expérimentales — SAUF pour la catégorie 6 (Sensibilisation & accompagnement), où ces actions sont précisément le cœur du sujet.
-- Une action seulement annoncée, non financée ou non engagée, ne peut pas porter un niveau 3.
-- En cas de doute entre deux niveaux, retenir le plus bas.
+Raisonner relativement à la taille de la collectivité : une petite commune peut couvrir son territoire avec des moyens modestes.
+Une action seulement annoncée, non financée ou non engagée ne peut pas porter un niveau 3.
+Ne pas surévaluer les actions purement incitatives ou communicationnelles, SAUF pour la catégorie 6, où elles sont le cœur du sujet (un programme régulier d'animations n'y est pas ponctuel).
+En cas d'hésitation entre deux niveaux, retenir le plus bas.
 
 # Méthode attendue
 Pour chaque catégorie, raisonne en interne (portée réelle vs attendu) puis fixe la note.
@@ -979,6 +985,35 @@ def _mean_or_none(values: list[float]) -> float | None:
     return float(statistics.mean(values))
 
 
+def _active_volets(
+    classification: dict[str, dict[int, list[int]]],
+    levier: str,
+) -> list[int]:
+    """Catégories avec au moins une action rattachée au levier."""
+    cats = classification.get(levier, {})
+    return [cat for cat in range(1, 7) if cats.get(cat)]
+
+
+def weighted_mobilisation_pct(
+    levier: str,
+    scores: dict[int, int],
+    weights: dict[str, dict[int, float]],
+    classification: dict[str, dict[int, list[int]]],
+) -> float | None:
+    """Moyenne pondérée des scores volet (0–3) → pourcentage (3/3 = 100 %)."""
+    weighted_sum = 0.0
+    weight_sum = 0.0
+    for cat in _active_volets(classification, levier):
+        w = weights.get(levier, {}).get(cat, 0.0)
+        if w <= 0:
+            continue
+        weighted_sum += int(scores.get(cat, 0)) * w
+        weight_sum += w
+    if weight_sum <= 0:
+        return None
+    return (weighted_sum / weight_sum) / 3.0 * 100.0
+
+
 def compute_stats(
     payload: dict[str, Any],
     accord_cutoff: float = 100.0,
@@ -1063,8 +1098,8 @@ def compute_stats(
         )
 
     df_volets = pd.DataFrame(volet_rows)
+    empty = pd.DataFrame()
     if df_volets.empty:
-        empty = pd.DataFrame()
         return {
             "incomplete": incomplete,
             "n_runs_expected": n_runs_expected,
@@ -1085,6 +1120,13 @@ def compute_stats(
             "olap_match_rate": None,
             "olap_mean_abs_diff": None,
             "n_comparable": 0,
+            "mean_variance_mobilisation": None,
+            "mean_stdev_mobilisation": None,
+            "max_range_mobilisation": None,
+            "max_range_mobilisation_row": None,
+            "n_mobilisation_usable": 0,
+            "n_mobilisation_stable": 0,
+            "df_mobilisation": empty,
         }
 
     usable = df_volets[df_volets["nb_runs"] >= 2]
@@ -1167,6 +1209,99 @@ def compute_stats(
         float(comparable["ecart_olap"].mean()) if n_comparable else None
     )
 
+    weights = build_category_weights(load_poids_categories())
+    run_levier_scores: dict[tuple[int, str], dict[int, int]] = {}
+    for row in payload.get("results", []):
+        run = int(row["run"])
+        levier = str(row["levier"])
+        run_levier_scores[(run, levier)] = {
+            int(k): int(v) for k, v in row.get("scores", {}).items()
+        }
+
+    mobilisation_rows: list[dict[str, Any]] = []
+    for levier in classification:
+        pcts: list[float] = []
+        for run in range(1, n_runs_expected + 1):
+            scores = run_levier_scores.get((run, levier))
+            if scores is None:
+                continue
+            pct = weighted_mobilisation_pct(
+                levier, scores, weights, classification
+            )
+            if pct is not None:
+                pcts.append(pct)
+
+        if not pcts:
+            continue
+
+        n = len(pcts)
+        vmin = min(pcts)
+        vmax = max(pcts)
+        moyenne = float(statistics.mean(pcts))
+        variance = float(statistics.variance(pcts)) if n >= 2 else None
+        stdev = float(statistics.stdev(pcts)) if n >= 2 else None
+        olap_scores = {
+            cat: olap_notes.get((levier, cat), 0)
+            for cat in _active_volets(classification, levier)
+        }
+        pct_olap = weighted_mobilisation_pct(
+            levier, olap_scores, weights, classification
+        )
+        mobilisation_rows.append(
+            {
+                "levier": levier,
+                "nb_runs": n,
+                "pcts": pcts,
+                "pcts_str": ", ".join(f"{p:.1f}" for p in pcts),
+                "min": vmin,
+                "max": vmax,
+                "etendue": vmax - vmin,
+                "moyenne": moyenne,
+                "variance": variance,
+                "stdev": stdev,
+                "n_distinct": len({round(p, 1) for p in pcts}),
+                "stable": n >= 2 and len({round(p, 1) for p in pcts}) == 1,
+                "pct_olap": pct_olap,
+                "ecart_olap": (
+                    abs(moyenne - pct_olap)
+                    if pct_olap is not None
+                    else None
+                ),
+            }
+        )
+
+    df_mobilisation = pd.DataFrame(mobilisation_rows)
+    if not df_mobilisation.empty:
+        df_mobilisation = df_mobilisation.sort_values(
+            ["etendue", "variance", "stdev"],
+            ascending=False,
+            na_position="last",
+        ).reset_index(drop=True)
+
+    mob_usable = (
+        df_mobilisation[df_mobilisation["nb_runs"] >= 2]
+        if not df_mobilisation.empty
+        else pd.DataFrame()
+    )
+    n_mobilisation_usable = len(mob_usable)
+    n_mobilisation_stable = (
+        int(mob_usable["stable"].sum()) if not mob_usable.empty else 0
+    )
+    mob_variances = [
+        v for v in mob_usable["variance"].tolist() if v is not None
+    ]
+    mob_stdevs = [v for v in mob_usable["stdev"].tolist() if v is not None]
+
+    max_range_mobilisation_row = None
+    max_range_mobilisation = None
+    if not mob_usable.empty and mob_usable["etendue"].notna().any():
+        idx = mob_usable.sort_values(
+            ["etendue", "variance", "stdev"],
+            ascending=False,
+        ).index[0]
+        max_range_mobilisation_row = df_mobilisation.loc[idx].to_dict()
+        max_range_mobilisation = float(max_range_mobilisation_row["etendue"])
+
     return {
         "incomplete": incomplete,
         "n_runs_expected": n_runs_expected,
@@ -1198,6 +1333,13 @@ def compute_stats(
         "olap_match_rate": olap_match_rate,
         "olap_mean_abs_diff": olap_mean_abs_diff,
         "n_comparable": n_comparable,
+        "mean_variance_mobilisation": _mean_or_none(mob_variances),
+        "mean_stdev_mobilisation": _mean_or_none(mob_stdevs),
+        "max_range_mobilisation": max_range_mobilisation,
+        "max_range_mobilisation_row": max_range_mobilisation_row,
+        "n_mobilisation_usable": n_mobilisation_usable,
+        "n_mobilisation_stable": n_mobilisation_stable,
+        "df_mobilisation": df_mobilisation,
     }
 
 

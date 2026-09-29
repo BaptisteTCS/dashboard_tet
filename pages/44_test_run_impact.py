@@ -15,6 +15,7 @@ from utils.collectivite_selection import (
     set_selected_collectivite,
 )
 from utils.priorisation_data import load_collectivites_priorisees
+from utils.priorisation_text import clean_rich_text
 from utils.test_run_impact import (
     FLEX_TIMEOUT_S,
     append_result,
@@ -395,6 +396,88 @@ if stats.get("n_usable", 0) == 0 and stats["n_volets"] > 0:
     st.info("Au moins 2 notes par volet sont nécessaires pour calculer une variance.")
 
 st.markdown(
+    "##### Mobilisation pondérée par levier "
+    "(moyenne des volets × poids `priorisation_categorie_levier`, en %)"
+)
+st.caption(
+    "Pour chaque run et chaque levier : moyenne pondérée des scores volet (0–3) "
+    "sur les catégories avec actions et poids > 0, exprimée en % (3/3 = 100 %)."
+)
+
+m1, m2, m3, m4 = st.columns(4)
+m1.metric(
+    "Variance moyenne (mobilisation)",
+    f"{stats['mean_variance_mobilisation']:.2f}"
+    if stats["mean_variance_mobilisation"] is not None
+    else "—",
+)
+m2.metric(
+    "Écart-type moyen (mobilisation)",
+    f"{stats['mean_stdev_mobilisation']:.2f} %"
+    if stats["mean_stdev_mobilisation"] is not None
+    else "—",
+)
+m3.metric(
+    "Plus grande étendue",
+    f"{stats['max_range_mobilisation']:.1f} %"
+    if stats["max_range_mobilisation"] is not None
+    else "—",
+)
+m4.metric(
+    "Stables entre runs",
+    f"{stats.get('n_mobilisation_stable', 0)} / {stats.get('n_mobilisation_usable', 0)}",
+)
+
+if stats.get("max_range_mobilisation_row"):
+    mob_row = stats["max_range_mobilisation_row"]
+    st.markdown(
+        f"**Plus grande variation :** {mob_row['levier']} "
+        f"— min {mob_row['min']:.1f} % / max {mob_row['max']:.1f} % "
+        f"(étendue {mob_row['etendue']:.1f} %) "
+        f"— runs : `{mob_row['pcts_str']}`"
+    )
+
+df_mobilisation = stats.get("df_mobilisation")
+if df_mobilisation is None or df_mobilisation.empty:
+    st.info("Aucune mobilisation pondérée calculable pour ce JSON.")
+else:
+    st.dataframe(
+        df_mobilisation.rename(
+            columns={
+                "levier": "Levier",
+                "nb_runs": "Nb runs",
+                "pcts_str": "% par run",
+                "min": "Min (%)",
+                "max": "Max (%)",
+                "etendue": "Étendue (%)",
+                "moyenne": "Moyenne (%)",
+                "variance": "Variance",
+                "stdev": "Écart-type (%)",
+                "n_distinct": "Valeurs distinctes",
+                "pct_olap": "Mobilisation OLAP (%)",
+                "ecart_olap": "Écart |moy − OLAP| (%)",
+            }
+        )[
+            [
+                "Levier",
+                "Nb runs",
+                "% par run",
+                "Min (%)",
+                "Max (%)",
+                "Étendue (%)",
+                "Moyenne (%)",
+                "Variance",
+                "Écart-type (%)",
+                "Valeurs distinctes",
+                "Mobilisation OLAP (%)",
+                "Écart |moy − OLAP| (%)",
+            ]
+        ],
+        use_container_width=True,
+        hide_index=True,
+    )
+
+st.markdown(
     f"##### Volets instables (accord inférieur à {int(accord_cutoff)} %)"
 )
 df_unstable = stats["df_unstable"]
@@ -447,6 +530,86 @@ else:
         use_container_width=True,
         hide_index=True,
     )
+
+    st.markdown("###### Actions des volets instables")
+    classification = classification_from_json(payload.get("classification", {}))
+    volet_rows = df_unstable.to_dict("records")
+
+    def _unstable_volet_label(option: str | int) -> str:
+        if option == "__all__":
+            n_actions = sum(int(r["nb_actions"]) for r in volet_rows)
+            return f"Tous les volets instables ({n_actions} actions)"
+        row = volet_rows[int(option)]
+        accord = row["accord_pct"]
+        accord_txt = f"{accord:.0f} %" if accord is not None else "—"
+        return (
+            f"{row['levier']} · {row['categorie_libelle']} "
+            f"— scores {row['scores_str']} (accord {accord_txt})"
+        )
+
+    selected_volet = st.selectbox(
+        "Volet instable",
+        options=["__all__", *range(len(volet_rows))],
+        format_func=_unstable_volet_label,
+        key="test_run_impact_unstable_volet",
+    )
+
+    if selected_volet == "__all__":
+        volets_to_show = [
+            (
+                row["levier"],
+                int(row["categorie"]),
+                row["categorie_libelle"],
+                row["scores_str"],
+            )
+            for row in volet_rows
+        ]
+    else:
+        row = volet_rows[int(selected_volet)]
+        volets_to_show = [
+            (
+                row["levier"],
+                int(row["categorie"]),
+                row["categorie_libelle"],
+                row["scores_str"],
+            )
+        ]
+
+    action_ids: list[int] = []
+    for levier, cat, _, _ in volets_to_show:
+        action_ids.extend(classification.get(levier, {}).get(cat, []))
+    action_ids = list(dict.fromkeys(action_ids))
+    plan = load_fiches_by_ids(action_ids)
+    plan_by_id = (
+        {int(row.id): row for _, row in plan.iterrows()} if not plan.empty else {}
+    )
+
+    for idx, (levier, cat, cat_label, scores_str) in enumerate(volets_to_show):
+        if selected_volet == "__all__":
+            st.markdown(
+                f"**{levier} · {cat_label}** — scores `{scores_str}`"
+            )
+        volet_action_ids = classification.get(levier, {}).get(cat, [])
+        if not volet_action_ids:
+            st.caption("Aucune action rattachée.")
+            continue
+        for action_id in volet_action_ids:
+            with st.container(border=True):
+                fiche = plan_by_id.get(action_id)
+                if fiche is None:
+                    st.markdown(f"**Action #{action_id}**")
+                    st.caption("Fiche introuvable en base.")
+                    continue
+                titre = clean_rich_text(fiche.titre) or f"Action #{action_id}"
+                description = clean_rich_text(fiche.description)
+                st.markdown(f"**{titre}**")
+                st.caption(f"ID {action_id}")
+                if description:
+                    st.write(description)
+                else:
+                    st.caption("Pas de description.")
+        if selected_volet == "__all__" and idx < len(volets_to_show) - 1:
+            st.divider()
 
 st.markdown("##### Variance moyenne par levier")
 df_leviers = stats["df_leviers"]

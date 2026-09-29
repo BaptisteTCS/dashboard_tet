@@ -40,6 +40,8 @@ pages = {
     "Bac à sable": [
         st.Page("pages/43_indicateur_reference.py", title="Indicateurs de référence", icon="🌞"),
         st.Page("pages/44_test_run_impact.py", title="Test Run Impact", icon="🌀"),
+        st.Page("pages/45_matrice_impact_leviers.py", title="Matrice impact leviers", icon="🎯"),
+        st.Page("pages/46_retour_utilisateurs.py", title="Retours utilisateurs", icon="💬"),
     ],
 }
 

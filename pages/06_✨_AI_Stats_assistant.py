@@ -21,9 +21,9 @@ if not logger.handlers:
 
 
 # === CONFIGURATION ===
-MODEL = "gpt-5"
+MODEL = "gpt-6-sol"
 REASONING_EFFORT = "medium"
-MAX_OUTPUT_TOKENS = 32000
+MAX_OUTPUT_TOKENS = 50000
 MAX_TOOL_ITERATIONS = 10
 
 PREVIEW_ROWS = 20      # apercu renvoye au modele (protege le contexte)
