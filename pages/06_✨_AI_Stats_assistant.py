@@ -293,6 +293,7 @@ Regles de choix du schema :
 - Le droit des utilisateurs se trouve dans prod.private_utilisateur_droit, dans la colonne niveau_acces.
 - On appelle souvent FA ou action ce qui est en fait une fiche_action dans notre base de donnees.
 - Une sous-action est une action (prod.fiche_action) dont le parent_id est non null.
+- Quand on demande des stats sur les actions / fiches actions, il faut toujours exlure les sous-actions (parent_id non null dans la table prod.fiche_action) à moins que ce soit explicitement demandé
 - Le nombre d'étoile est dans la table prod.labellisation
 - Une collectivité avec un cot est juste une collectivité dans la table prod.cot, une collectivité sans cot n'est pas dans cette table.
 - La completion du référentiel est le calcul (point_fait+point_programme+point_pas_fait)/point_potentiel*100 de la table score_snapshot (%)
@@ -301,6 +302,7 @@ Regles de choix du schema :
 - Quand on parle de valeurs d'indicateurs, il faut cherchr dans la table prod.indicateur_valeur. La colonne 'indicateur_id' est l'id de l'indicateur de prod.indicateur_definition.
 - Avoir des valeurs renseignées pour un indicateur signifie qu'il y a au moins une valeur dans la colonne 'resultat' de la table prod.indicateur_valeur.
 - Quand on demande une stat sur une série d'indicateurs, il faut toujours grouper par 'metadonnee_id' de la table prod.indicateur_valeur. Quand metadonne_id est null, cela veut dire que ce sont les valeurs renseignées par les user (non open data).
+
 
 ### Ton :
 - Professionnel, factuel, concis. N'invente jamais de chiffres : appuie-toi uniquement sur les resultats des outils.
