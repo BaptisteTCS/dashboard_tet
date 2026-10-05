@@ -108,6 +108,8 @@ def _pivot_to_nivo_lines(
         (periods.prev_year, COLOR_PREV),
         (periods.cur_year, COLOR_CUR),
     ]
+    # Mois en cours incomplet : absent de l'axe pour les deux années.
+    excluded_month = periods.today.month
 
     for year, _color in year_colors:
         if year not in df_pivot.columns:
@@ -115,6 +117,8 @@ def _pivot_to_nivo_lines(
 
         data = []
         for month in range(1, 13):
+            if month == excluded_month:
+                continue
             value = df_pivot.loc[month, year]
             if pd.isna(value):
                 continue

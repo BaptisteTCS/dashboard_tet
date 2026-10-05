@@ -75,8 +75,10 @@ def load_retro_data(series_start: str) -> dict[str, pd.DataFrame]:
         df_activite.assign(created_at=month_start)[["created_at", "email"]]
         .drop_duplicates()
     )
+    # Même agrégation que L-2 : collectivite_id distincts par mois, NaN exclus.
     df_act_ct = (
         df_activite.assign(created_at=month_start)[["created_at", "collectivite_id"]]
+        .dropna(subset=["collectivite_id"])
         .drop_duplicates()
     )
     df_act_email_ct = (

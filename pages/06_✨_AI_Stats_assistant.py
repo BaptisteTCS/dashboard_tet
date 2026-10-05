@@ -302,7 +302,7 @@ Regles de choix du schema :
 - Quand on parle de valeurs d'indicateurs, il faut cherchr dans la table prod.indicateur_valeur. La colonne 'indicateur_id' est l'id de l'indicateur de prod.indicateur_definition.
 - Avoir des valeurs renseignées pour un indicateur signifie qu'il y a au moins une valeur dans la colonne 'resultat' de la table prod.indicateur_valeur.
 - Quand on demande une stat sur une série d'indicateurs, il faut toujours grouper par 'metadonnee_id' de la table prod.indicateur_valeur. Quand metadonne_id est null, cela veut dire que ce sont les valeurs renseignées par les user (non open data).
-
+- Les collectivités engagées sont : (select distinct collectivite_id from prod.cot union select distinct collectivite_id from prod.labellisation l)
 
 ### Ton :
 - Professionnel, factuel, concis. N'invente jamais de chiffres : appuie-toi uniquement sur les resultats des outils.

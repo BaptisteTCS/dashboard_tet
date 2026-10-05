@@ -8,8 +8,6 @@ st.set_page_config(
 
 from pathlib import Path
 
-from openai import OpenAI
-
 from utils.collectivite_selection import (
     default_collectivite_index,
     set_selected_collectivite,
@@ -17,13 +15,13 @@ from utils.collectivite_selection import (
 from utils.priorisation_data import load_collectivites_priorisees
 from utils.priorisation_text import clean_rich_text
 from utils.test_run_impact import (
-    FLEX_TIMEOUT_S,
     append_result,
     cache_hit_pct,
     classification_from_json,
     collect_action_ids,
     compute_stats,
     estimate_run_costs,
+    available_models,
     file_label,
     find_incomplete_runs,
     format_usd,
@@ -33,9 +31,11 @@ from utils.test_run_impact import (
     load_payload,
     load_run_inputs,
     list_run_files,
+    make_llm_client,
     new_run_path,
     payload_cost_usd,
     payload_is_flex,
+    payload_provider,
     payload_token_totals,
     pause_between_calls,
     pending_work,
@@ -48,8 +48,6 @@ from utils.test_run_impact import (
 )
 
 SESSION_LAST_FILE = "test_run_impact_last_file"
-
-client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"], timeout=FLEX_TIMEOUT_S)
 
 st.title("Test de variance — prompt d'implication")
 st.markdown(
@@ -75,6 +73,30 @@ collectivite_id = st.selectbox(
 )
 set_selected_collectivite(collectivite_id)
 
+model_options, model_warning = available_models()
+selected_model = st.selectbox(
+    "Modèle",
+    options=model_options,
+    format_func=lambda opt: opt.label,
+    key="test_run_impact_model",
+    help=(
+        "OpenAI utilise l'API Responses (cache + Flex). "
+        "Albert utilise chat/completions sur albert.api.etalab.gouv.fr, "
+        "modèles text-generation."
+    ),
+)
+is_albert = selected_model.provider == "albert"
+if is_albert and model_warning:
+    st.warning(model_warning)
+if is_albert:
+    st.caption(
+        "Albert API — `POST /v1/chat/completions`, sortie JSON. "
+        "Plafond 10 requêtes/minute : les appels sont espacés (9/min) "
+        "et un 429 attend la minute suivante. "
+        "Flex, cache prompt et reasoning OpenAI ne s'appliquent pas. "
+        "Le coût en dollars n'est pas estimé (grille OpenAI)."
+    )
+
 col_cfg1, col_cfg2, col_cfg3, col_cfg4 = st.columns(4)
 with col_cfg1:
     n_runs = st.number_input(
@@ -90,19 +112,41 @@ with col_cfg2:
         value=False,
     )
 with col_cfg3:
-    reasoning_low = st.toggle(
-        "Low reasoning (medium par défaut)",
-        value=False,
-    )
+    if is_albert:
+        st.toggle(
+            "Low reasoning (medium par défaut)",
+            value=False,
+            disabled=True,
+            key="test_run_impact_reasoning_albert",
+            help="Réservé à OpenAI.",
+        )
+        reasoning_low = False
+    else:
+        reasoning_low = st.toggle(
+            "Low reasoning (medium par défaut)",
+            value=False,
+            key="test_run_impact_reasoning",
+        )
 with col_cfg4:
-    use_flex = st.toggle(
-        "Flex (tarif batch, plus lent)",
-        value=True,
-        help=(
-            "Même tarif que le Batch (−50 %), mais synchrone. "
-            "Le cache réduit l'entrée ; Flex réduit aussi la sortie (raisonnement)."
-        ),
-    )
+    if is_albert:
+        st.toggle(
+            "Flex (tarif batch, plus lent)",
+            value=False,
+            disabled=True,
+            key="test_run_impact_flex_albert",
+            help="Réservé à OpenAI.",
+        )
+        use_flex = False
+    else:
+        use_flex = st.toggle(
+            "Flex (tarif batch, plus lent)",
+            value=True,
+            key="test_run_impact_flex",
+            help=(
+                "Même tarif que le Batch (−50 %), mais synchrone. "
+                "Le cache réduit l'entrée ; Flex réduit aussi la sortie (raisonnement)."
+            ),
+        )
 
 try:
     inputs = load_run_inputs(int(collectivite_id))
@@ -122,20 +166,26 @@ st.info(
 )
 
 avg_in, avg_out = typical_tokens_per_call(int(collectivite_id))
-estimates = estimate_run_costs(
-    inputs["n_leviers"],
-    int(n_runs),
-    avg_in,
-    avg_out,
-)
-chosen_estimate = estimates["flex_cache"] if use_flex else estimates["cache"]
-st.caption(
-    f"Coût estimé (moy. {avg_in:,} tokens entrée / {avg_out:,} sortie par appel) — "
-    f"standard sans cache **{format_usd(float(estimates['standard']))}** · "
-    f"cache **{format_usd(float(estimates['cache']))}** · "
-    f"Flex + cache **{format_usd(float(estimates['flex_cache']))}**. "
-    f"Lancement actuel : **{format_usd(float(chosen_estimate))}**."
-)
+if is_albert:
+    st.caption(
+        f"Volume indicatif : moy. {avg_in:,} tokens entrée / {avg_out:,} sortie par appel. "
+        "Pas d'estimation en dollars pour Albert."
+    )
+else:
+    estimates = estimate_run_costs(
+        inputs["n_leviers"],
+        int(n_runs),
+        avg_in,
+        avg_out,
+    )
+    chosen_estimate = estimates["flex_cache"] if use_flex else estimates["cache"]
+    st.caption(
+        f"Coût estimé (moy. {avg_in:,} tokens entrée / {avg_out:,} sortie par appel) — "
+        f"standard sans cache **{format_usd(float(estimates['standard']))}** · "
+        f"cache **{format_usd(float(estimates['cache']))}** · "
+        f"Flex + cache **{format_usd(float(estimates['flex_cache']))}**. "
+        f"Lancement actuel : **{format_usd(float(chosen_estimate))}**."
+    )
 
 if debug_mode:
     st.warning("Mode débogage activé — les notes seront tirées au hasard.")
@@ -152,9 +202,12 @@ if incomplete_paths:
     )
     resume_payload = load_payload(resume_path)
     n_pending = len(pending_work(resume_payload))
+    resume_meta = resume_payload.get("meta", {})
     st.caption(
         f"{n_pending} appels restants dans `{resume_path.name}` "
-        f"(statut : {resume_payload.get('meta', {}).get('status')})."
+        f"(statut : {resume_meta.get('status')}, "
+        f"modèle {resume_meta.get('model')}, "
+        f"{resume_meta.get('provider', 'openai')})."
     )
 
 col_run, col_resume = st.columns(2)
@@ -176,6 +229,8 @@ def _run_loop(path: Path, payload: dict) -> None:
     debug = bool(payload["meta"].get("debug"))
     low = payload["meta"].get("reasoning") == "low"
     flex = payload_is_flex(payload)
+    provider = payload_provider(payload)
+    model = str(payload["meta"].get("model") or "gpt-5.6-terra")
     cache_key = str(
         payload["meta"].get("prompt_cache_key")
         or f"test-run-impact:{payload['meta']['collectivite_id']}"
@@ -184,6 +239,7 @@ def _run_loop(path: Path, payload: dict) -> None:
     progress = st.progress(done_at_start / total if total else 1.0)
     with st.status("Exécution en cours…", expanded=True) as status:
         try:
+            client = None if debug else make_llm_client(provider)
             for idx, (run, levier) in enumerate(pending, start=1):
                 status.write(
                     f"Run {run}/{payload['meta']['n_runs']} — "
@@ -204,17 +260,22 @@ def _run_loop(path: Path, payload: dict) -> None:
                         reasoning_low=low,
                         prompt_cache_key=cache_key,
                         use_flex=flex,
+                        model=model,
+                        provider=provider,
                     )
                 append_result(payload, run, levier, scores, usage)
                 save_payload(path, payload)
-                call_cost = usage_cost_usd(usage, flex)
-                status.write(
-                    format_usage_cost_line(
-                        usage,
-                        call_cost=call_cost,
-                        total_cost=payload_cost_usd(payload),
+                if provider == "albert":
+                    status.write(format_usage_cost_line(usage) + " — Albert")
+                else:
+                    call_cost = usage_cost_usd(usage, flex, provider=provider)
+                    status.write(
+                        format_usage_cost_line(
+                            usage,
+                            call_cost=call_cost,
+                            total_cost=payload_cost_usd(payload),
+                        )
                     )
-                )
                 progress.progress((done_at_start + idx) / total if total else 1.0)
                 pause_between_calls(debug)
 
@@ -241,9 +302,11 @@ if launch:
     payload = init_payload(
         inputs,
         n_runs=int(n_runs),
-        reasoning_low=reasoning_low,
+        reasoning_low=reasoning_low and not is_albert,
         debug=debug_mode,
-        use_flex=use_flex,
+        use_flex=use_flex and not is_albert,
+        model=selected_model.model_id,
+        provider=selected_model.provider,
     )
     save_payload(path, payload)
     st.session_state[SESSION_LAST_FILE] = str(path)
@@ -305,6 +368,8 @@ meta = payload.get("meta", {})
 tokens = payload_token_totals(payload)
 cost_total = payload_cost_usd(payload)
 flex_run = payload_is_flex(payload)
+run_provider = payload_provider(payload)
+albert_run = run_provider == "albert"
 hit_pct = cache_hit_pct(tokens)
 uncached = uncached_input_tokens(tokens)
 
@@ -317,12 +382,17 @@ if stats["incomplete"]:
 if meta.get("last_error"):
     st.error(f"Dernière erreur enregistrée : {meta['last_error']}")
 
+cost_caption = (
+    format_usage_cost_line(tokens)
+    if albert_run
+    else format_usage_cost_line(tokens, total_cost=cost_total)
+)
 st.caption(
-    f"Modèle {meta.get('model')} — reasoning {meta.get('reasoning')} — "
+    f"Modèle {meta.get('model')} ({run_provider}) — reasoning {meta.get('reasoning')} — "
     f"{meta.get('service_tier', 'standard')} — "
     f"{'debug' if meta.get('debug') else 'API'} — "
     f"démarré {meta.get('started_at')} — mis à jour {meta.get('updated_at')} — "
-    f"{format_usage_cost_line(tokens, total_cost=cost_total)}"
+    f"{cost_caption}"
 )
 
 c1, c2, c3, c4, c5 = st.columns(5)
@@ -336,7 +406,7 @@ c4.metric(
     "Plus grande étendue",
     stats["max_range"] if stats["max_range"] is not None else "—",
 )
-c5.metric("Coût total", format_usd(cost_total))
+c5.metric("Coût total", "—" if albert_run else format_usd(cost_total))
 
 cost1, cost2, cost3, cost4 = st.columns(4)
 cost1.metric(
@@ -357,7 +427,7 @@ cost3.metric(
 )
 cost4.metric(
     "Tarif",
-    "Flex (−50 %)" if flex_run else "Standard",
+    "Albert" if albert_run else ("Flex (−50 %)" if flex_run else "Standard"),
 )
 
 v1, v2, v3, v4 = st.columns(4)

@@ -7,13 +7,14 @@ pour ne pas importer cette page (elle exécute l'UI au chargement).
 from __future__ import annotations
 
 import json
+import os
 import random
 import statistics
 import time
 from collections import Counter, defaultdict
 from datetime import datetime
 from pathlib import Path
-from typing import Any
+from typing import Any, NamedTuple
 
 import pandas as pd
 import streamlit as st
@@ -31,6 +32,22 @@ from utils.priorisation_text import parse_ids
 ROOT = Path(__file__).resolve().parent.parent
 DATA_DIR = ROOT / "data" / "test_run_impact"
 MODEL = "gpt-5.6-terra"
+ALBERT_BASE_URL = "https://albert.api.etalab.gouv.fr/v1"
+# Plafond renvoyé par l'API : "10 requests per minute exceeded".
+# On vise 9/min pour ne pas coller à la borne sur une fenêtre glissante.
+ALBERT_RPM_LIMIT = 10
+ALBERT_WINDOW_S = 60.0
+ALBERT_MAX_CALLS_PER_WINDOW = ALBERT_RPM_LIMIT - 1
+_albert_call_marks: list[float] = []
+# Catalogue public, modèles chat (text-generation), hors OCR.
+# https://guides.ia.numerique.gouv.fr/albert-api/modeles/available-models
+ALBERT_CHAT_FALLBACK = (
+    "gpt-oss-120b",
+    "gemma-4-31b-it",
+    "mistral-small-3-2-24b-instruct-2506",
+    "ministral-3-8b-instruct-2512",
+    "mistral-medium-2508",
+)
 VALID_CATEGORIES = {1, 2, 3, 4, 5, 6}
 FLEX_TIMEOUT_S = 900.0
 DEFAULT_INPUT_PER_CALL = 6300
@@ -57,6 +74,115 @@ CATEGORIES_SHORT = {
     5: "Exemplarité",
     6: "Sensibilisation",
 }
+
+
+class ModelOption(NamedTuple):
+    provider: str
+    model_id: str
+
+    @property
+    def label(self) -> str:
+        name = "OpenAI" if self.provider == "openai" else "Albert"
+        return f"{name} — {self.model_id}"
+
+
+def albert_api_key() -> str:
+    key = ""
+    try:
+        key = str(st.secrets.get("ALBERT_API_KEY", "") or "")
+    except Exception:
+        key = ""
+    if not key:
+        key = os.environ.get("ALBERT_API_KEY", "")
+    return key
+
+
+def _model_type(model: Any) -> str:
+    direct = getattr(model, "type", None)
+    if direct:
+        return str(direct)
+    extra = getattr(model, "model_extra", None) or {}
+    if isinstance(extra, dict) and extra.get("type"):
+        return str(extra["type"])
+    if hasattr(model, "model_dump"):
+        dumped = model.model_dump()
+        if isinstance(dumped, dict) and dumped.get("type"):
+            return str(dumped["type"])
+    return ""
+
+
+@st.cache_data(ttl="10m", show_spinner="Modèles Albert…")
+def list_albert_text_models(api_key: str) -> tuple[str, ...]:
+    """Modèles Albert de type text-generation, hors OCR."""
+    client = OpenAI(base_url=ALBERT_BASE_URL, api_key=api_key, timeout=30)
+    ids: list[str] = []
+    saw_type = False
+    for model in client.models.list().data:
+        model_id = str(getattr(model, "id", "") or "")
+        if not model_id or "ocr" in model_id.lower():
+            continue
+        model_type = _model_type(model)
+        if model_type:
+            saw_type = True
+            if model_type != "text-generation":
+                continue
+        ids.append(model_id)
+    if not saw_type:
+        blocked = ("embed", "whisper", "rerank", "audio")
+        ids = [mid for mid in ids if not any(token in mid.lower() for token in blocked)]
+    return tuple(sorted(set(ids)))
+
+
+def available_models() -> tuple[tuple[ModelOption, ...], str | None]:
+    """OpenAI (modèle actuel) + modèles chat Albert, liste live si la clé est là."""
+    options = [ModelOption("openai", MODEL)]
+    key = albert_api_key()
+    warning: str | None = None
+    if not key:
+        albert_ids: tuple[str, ...] = ALBERT_CHAT_FALLBACK
+        warning = (
+            "ALBERT_API_KEY absente des secrets : liste Albert figée "
+            "(catalogue public). Le lancement Albert échouera tant que la clé manque."
+        )
+    else:
+        try:
+            albert_ids = list_albert_text_models(key)
+            if not albert_ids:
+                albert_ids = ALBERT_CHAT_FALLBACK
+                warning = (
+                    "Albert n'a renvoyé aucun modèle text-generation. "
+                    "Liste de repli du catalogue public."
+                )
+        except Exception as e:
+            albert_ids = ALBERT_CHAT_FALLBACK
+            warning = (
+                f"Liste Albert indisponible ({type(e).__name__}). "
+                "Liste de repli du catalogue public."
+            )
+    options.extend(ModelOption("albert", model_id) for model_id in albert_ids)
+    return tuple(options), warning
+
+
+def make_llm_client(provider: str) -> OpenAI:
+    if provider == "albert":
+        key = albert_api_key()
+        if not key:
+            raise RuntimeError(
+                "ALBERT_API_KEY manquante. Ajoutez-la dans .streamlit/secrets.toml "
+                "ou dans la variable d'environnement ALBERT_API_KEY."
+            )
+        return OpenAI(
+            base_url=ALBERT_BASE_URL,
+            api_key=key,
+            timeout=FLEX_TIMEOUT_S,
+        )
+    return OpenAI(api_key=st.secrets["OPENAI_API_KEY"], timeout=FLEX_TIMEOUT_S)
+
+
+def payload_provider(payload: dict[str, Any] | None) -> str:
+    if not payload:
+        return "openai"
+    return str(payload.get("meta", {}).get("provider") or "openai")
 
 
 # ==========================
@@ -212,22 +338,32 @@ def _detail_int(details: Any, name: str) -> int:
 
 
 def extract_usage(response: Any) -> dict[str, int]:
-    """Lit tokens (dont cache) depuis une réponse OpenAI Responses API."""
+    """Lit les tokens d'une réponse Responses API ou Chat Completions."""
     usage = getattr(response, "usage", None)
     if usage is None:
         return empty_usage()
     if isinstance(usage, dict):
-        input_tokens = int(usage.get("input_tokens", 0) or 0)
-        output_tokens = int(usage.get("output_tokens", 0) or 0)
+        input_tokens = int(usage.get("input_tokens") or usage.get("prompt_tokens") or 0)
+        output_tokens = int(
+            usage.get("output_tokens") or usage.get("completion_tokens") or 0
+        )
         total_tokens = int(usage.get("total_tokens", 0) or (input_tokens + output_tokens))
-        details = usage.get("input_tokens_details")
+        details = usage.get("input_tokens_details") or usage.get("prompt_tokens_details")
     else:
-        input_tokens = int(getattr(usage, "input_tokens", 0) or 0)
-        output_tokens = int(getattr(usage, "output_tokens", 0) or 0)
+        input_tokens = int(
+            getattr(usage, "input_tokens", 0) or getattr(usage, "prompt_tokens", 0) or 0
+        )
+        output_tokens = int(
+            getattr(usage, "output_tokens", 0)
+            or getattr(usage, "completion_tokens", 0)
+            or 0
+        )
         total_tokens = int(
             getattr(usage, "total_tokens", 0) or (input_tokens + output_tokens)
         )
-        details = getattr(usage, "input_tokens_details", None)
+        details = getattr(usage, "input_tokens_details", None) or getattr(
+            usage, "prompt_tokens_details", None
+        )
     return {
         "input_tokens": input_tokens,
         "output_tokens": output_tokens,
@@ -273,7 +409,13 @@ def uncached_input_tokens(usage: dict[str, int] | None) -> int:
     return max(0, input_tokens - cached - writes)
 
 
-def usage_cost_usd(usage: dict[str, int] | None, flex: bool) -> float:
+def usage_cost_usd(
+    usage: dict[str, int] | None,
+    flex: bool,
+    provider: str = "openai",
+) -> float:
+    if provider == "albert":
+        return 0.0
     usage = usage or empty_usage()
     prices = token_prices_per_million(flex)
     return (
@@ -441,6 +583,96 @@ def _create_response(
     raise last_exc or RuntimeError(f"Échec LLM ({label})")
 
 
+def _albert_prune(now: float) -> None:
+    cutoff = now - ALBERT_WINDOW_S
+    while _albert_call_marks and _albert_call_marks[0] <= cutoff:
+        _albert_call_marks.pop(0)
+
+
+def _albert_acquire(status_container, label: str) -> None:
+    """Bloque tant que la fenêtre locale est pleine (9 appels / 60 s)."""
+    while True:
+        now = time.monotonic()
+        _albert_prune(now)
+        if len(_albert_call_marks) < ALBERT_MAX_CALLS_PER_WINDOW:
+            _albert_call_marks.append(time.monotonic())
+            return
+        wait = ALBERT_WINDOW_S - (now - _albert_call_marks[0]) + 0.5
+        wait = max(1.0, wait)
+        _status_write(
+            status_container,
+            f"Albert : plafond {ALBERT_RPM_LIMIT} req/min, "
+            f"pause {wait:.0f}s avant {label}…",
+        )
+        time.sleep(wait)
+
+
+def _is_albert_rpm(exc: Exception) -> bool:
+    text = str(exc).lower()
+    return "per minute" in text or "req/min" in text
+
+
+def _albert_message_text(response: Any) -> str:
+    choices = getattr(response, "choices", None) or []
+    if not choices:
+        return ""
+    message = getattr(choices[0], "message", None)
+    return str(getattr(message, "content", None) or "")
+
+
+def _create_albert_chat(
+    client: OpenAI,
+    model: str,
+    prefix: str,
+    suffix: str,
+    status_container,
+    label: str,
+    max_tokens: int,
+) -> Any:
+    """Chat Completions Albert, JSON forcé.
+
+    Reste sous 10 req/min. Un 429 « per minute » attend la fenêtre suivante
+    au lieu d'un court backoff, qui referait échouer tout de suite.
+    """
+    body: dict[str, Any] = {
+        "model": model,
+        "messages": [
+            {"role": "system", "content": prefix},
+            {"role": "user", "content": suffix},
+        ],
+        "response_format": {"type": "json_object"},
+        "max_tokens": max_tokens,
+    }
+    api = client.with_options(timeout=FLEX_TIMEOUT_S)
+    last_exc: Exception | None = None
+    for attempt in range(1, 5):
+        _albert_acquire(status_container, label)
+        try:
+            return api.chat.completions.create(**body)
+        except Exception as e:
+            last_exc = e
+            err = str(e).lower()
+            if "response_format" in body and "response_format" in err:
+                body.pop("response_format", None)
+                _status_write(
+                    status_container,
+                    f"{label} : response_format refusé, nouvel essai sans JSON forcé.",
+                )
+                continue
+            if not _is_unavailable(e) or attempt == 4:
+                raise
+            wait = ALBERT_WINDOW_S if _is_albert_rpm(e) else min(2**attempt, 16)
+            if _is_albert_rpm(e):
+                _albert_call_marks.clear()
+            _status_write(
+                status_container,
+                f"Albert 429 ({ALBERT_RPM_LIMIT} req/min) pour {label}, "
+                f"nouvel essai dans {wait:.0f}s…",
+            )
+            time.sleep(wait)
+    raise last_exc or RuntimeError(f"Échec Albert ({label})")
+
+
 def call_llm_json(
     client: OpenAI,
     prefix: str,
@@ -452,8 +684,14 @@ def call_llm_json(
     use_flex: bool = True,
     max_retries: int = 3,
     max_output_tokens: int | None = None,
+    model: str = MODEL,
+    provider: str = "openai",
 ) -> tuple[Any, dict[str, int]]:
-    """Appelle le LLM avec cache + Flex, sortie JSON forcée, retry en cas d'échec."""
+    """Appelle le LLM, sortie JSON, retry en cas d'échec.
+
+    OpenAI : Responses API, cache et Flex.
+    Albert : chat/completions (pas de Flex ni de cache prompt OpenAI).
+    """
     last_error = None
     usage_acc = empty_usage()
 
@@ -465,22 +703,34 @@ def call_llm_json(
                     f"Retry {attempt}/{max_retries} ({label})...",
                 )
 
-            kwargs: dict[str, Any] = {
-                "model": MODEL,
-                "input": _responses_input(prefix, suffix),
-                "reasoning": {"effort": "low" if reasoning_low else "medium"},
-                "text": {"format": {"type": "json_object"}},
-                "prompt_cache_key": prompt_cache_key,
-                "prompt_cache_options": {"mode": "implicit", "ttl": "30m"},
-            }
-            if max_output_tokens:
-                kwargs["max_output_tokens"] = max_output_tokens
+            if provider == "albert":
+                response = _create_albert_chat(
+                    client,
+                    model,
+                    prefix,
+                    suffix,
+                    status_container,
+                    label,
+                    max_tokens=max_output_tokens or 4096,
+                )
+                raw_text = strip_json_fences(_albert_message_text(response))
+            else:
+                kwargs: dict[str, Any] = {
+                    "model": model,
+                    "input": _responses_input(prefix, suffix),
+                    "reasoning": {"effort": "low" if reasoning_low else "medium"},
+                    "text": {"format": {"type": "json_object"}},
+                    "prompt_cache_key": prompt_cache_key,
+                    "prompt_cache_options": {"mode": "implicit", "ttl": "30m"},
+                }
+                if max_output_tokens:
+                    kwargs["max_output_tokens"] = max_output_tokens
 
-            response = _create_response(
-                client, kwargs, use_flex, status_container, label
-            )
+                response = _create_response(
+                    client, kwargs, use_flex, status_container, label
+                )
+                raw_text = strip_json_fences(response.output_text or "")
             usage_acc = add_usage(usage_acc, extract_usage(response))
-            raw_text = strip_json_fences(response.output_text or "")
             return json.loads(raw_text), usage_acc
         except json.JSONDecodeError as e:
             last_error = f"json_parse_error: {e}"
@@ -573,8 +823,10 @@ def score_one_lever(
     reasoning_low: bool,
     prompt_cache_key: str,
     use_flex: bool = True,
+    model: str = MODEL,
+    provider: str = "openai",
 ) -> tuple[dict[int, int], dict[str, int]]:
-    """Note un levier (6 catégories) avec cache prefix/suffix et Flex optionnel."""
+    """Note un levier (6 catégories). OpenAI : cache + Flex. Albert : chat JSON."""
     actions_par_categorie = format_actions_by_category(plan, actions_by_cat)
     prefix = build_prompt_implication_prefix()
     suffix = build_prompt_implication_suffix(
@@ -597,6 +849,8 @@ def score_one_lever(
                 prompt_cache_key=prompt_cache_key,
                 use_flex=use_flex,
                 max_retries=1,
+                model=model,
+                provider=provider,
             )
             usage_acc = add_usage(usage_acc, usage)
             scores = validate_activation_scores(data)
@@ -825,16 +1079,20 @@ def init_payload(
     reasoning_low: bool,
     debug: bool,
     use_flex: bool = True,
+    model: str = MODEL,
+    provider: str = "openai",
 ) -> dict[str, Any]:
     now = datetime.now().isoformat(timespec="seconds")
+    albert = provider == "albert"
     return {
         "meta": {
             "collectivite_id": inputs["collectivite_id"],
             "collectivite_nom": inputs["collectivite_nom"],
             "population": inputs["population"],
-            "model": MODEL,
-            "reasoning": "low" if reasoning_low else "medium",
-            "service_tier": "flex" if use_flex else "standard",
+            "provider": "albert" if albert else "openai",
+            "model": model,
+            "reasoning": "n/a" if albert else ("low" if reasoning_low else "medium"),
+            "service_tier": "albert" if albert else ("flex" if use_flex else "standard"),
             "prompt_cache_key": f"test-run-impact:{inputs['collectivite_id']}",
             "n_runs": n_runs,
             "debug": debug,
@@ -879,7 +1137,8 @@ def append_result(
 ) -> None:
     usage = add_usage(empty_usage(), usage)
     flex = payload_is_flex(payload)
-    cost = usage_cost_usd(usage, flex)
+    provider = payload_provider(payload)
+    cost = usage_cost_usd(usage, flex, provider=provider)
     payload["results"].append(
         {
             "run": run,
@@ -911,8 +1170,10 @@ def payload_cost_usd(payload: dict[str, Any]) -> float:
     if meta_cost is not None:
         return float(meta_cost)
     flex = payload_is_flex(payload)
+    provider = payload_provider(payload)
     return sum(
-        usage_cost_usd(row.get("usage"), flex) for row in payload.get("results", [])
+        usage_cost_usd(row.get("usage"), flex, provider=provider)
+        for row in payload.get("results", [])
     )
 
 
