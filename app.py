@@ -42,6 +42,7 @@ pages = {
         st.Page("pages/44_test_run_impact.py", title="Test Run Impact", icon="🌀"),
         st.Page("pages/45_matrice_impact_leviers.py", title="Matrice impact leviers", icon="🎯"),
         st.Page("pages/46_retour_utilisateurs.py", title="Retours utilisateurs", icon="💬"),
+        st.Page("pages/47_features.py", title="Features", icon="🕸️"),
     ],
 }
 

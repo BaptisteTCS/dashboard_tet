@@ -8,6 +8,12 @@ pyarrow>=14.0
 requests>=2.31
 streamlit-elements==0.1.*
 geopandas==1.1.2
+pyvis>=0.3.2
+seaborn>=0.13
+scipy>=1.11
+scikit-learn>=1.4
+pycirclize>=1.0
+umap-learn>=0.5
 
 # SQL
 SQLAlchemy>=2.0

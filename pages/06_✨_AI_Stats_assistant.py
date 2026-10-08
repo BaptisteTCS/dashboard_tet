@@ -1,6 +1,8 @@
 import json
 import logging
 import re
+from datetime import datetime
+from io import BytesIO
 from pathlib import Path
 from typing import Callable, Optional
 
@@ -360,16 +362,36 @@ def _extract_final_text(response_obj: object, fallback_text: str = "") -> str:
     return fallback_text.strip()
 
 
-def _render_table_artifact(container, df: pd.DataFrame, sql: str, key_suffix: str) -> None:
-    """Affiche un tableau (st.dataframe) + bouton de telechargement CSV."""
+def _dataframe_to_excel(df: pd.DataFrame) -> bytes:
+    """Serialise un DataFrame en classeur Excel (.xlsx)."""
+    export_df = df.copy()
+    # openpyxl refuse les datetimes avec timezone : on les rend naives.
+    for col in export_df.columns:
+        if isinstance(export_df[col].dtype, pd.DatetimeTZDtype):
+            export_df[col] = export_df[col].dt.tz_localize(None)
+
+    buffer = BytesIO()
+    with pd.ExcelWriter(buffer, engine="openpyxl") as writer:
+        export_df.to_excel(writer, index=False, sheet_name="Resultats")
+    return buffer.getvalue()
+
+
+def _render_table_artifact(
+    container,
+    df: pd.DataFrame,
+    sql: str,
+    key_suffix: str,
+    timestamp: Optional[str] = None,
+) -> None:
+    """Affiche un tableau (st.dataframe) + bouton de telechargement Excel."""
     container.caption(f"{len(df)} ligne(s) x {len(df.columns)} colonne(s)")
     container.dataframe(df, width="stretch")
-    csv = df.to_csv(index=False).encode("utf-8")
+    stamp = timestamp or datetime.now().strftime("%Y%m%d_%H%M%S")
     container.download_button(
-        label="💾 Telecharger (CSV)",
-        data=csv,
-        file_name="resultats_requete.csv",
-        mime="text/csv",
+        label="💾 Telecharger au format Excel",
+        data=_dataframe_to_excel(df),
+        file_name=f"resultats_requete_{stamp}.xlsx",
+        mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
         key=f"download_{key_suffix}",
     )
 
@@ -443,8 +465,13 @@ def _execute_tool_calls(
                 render_container.error(err)
             else:
                 key_suffix = f"{key_prefix}_{idx}"
-                _render_table_artifact(render_container, df, sql, key_suffix)
-                artifacts.append({"kind": "table", "df": df, "sql": sql})
+                timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+                _render_table_artifact(
+                    render_container, df, sql, key_suffix, timestamp=timestamp
+                )
+                artifacts.append(
+                    {"kind": "table", "df": df, "sql": sql, "timestamp": timestamp}
+                )
                 payload = {
                     "status": "tableau affiche a l'utilisateur",
                     "row_count": len(df),
@@ -600,6 +627,7 @@ def render_assistant_message(message: dict, *, key_prefix: str) -> None:
                 artifact["df"],
                 artifact.get("sql", ""),
                 key_suffix=f"{key_prefix}_{idx}",
+                timestamp=artifact.get("timestamp"),
             )
         elif artifact["kind"] == "chart":
             _render_chart_artifact(
