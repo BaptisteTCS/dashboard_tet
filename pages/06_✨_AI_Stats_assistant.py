@@ -1,6 +1,5 @@
 import json
 import logging
-import re
 from datetime import datetime
 from io import BytesIO
 from pathlib import Path
@@ -11,8 +10,10 @@ import streamlit as st
 from openai import OpenAI
 from sqlalchemy import text
 
+from utils import ai_workspace
 from utils.db import get_engine
 from utils.db_text import tables_text
+from utils.posthog_api import run_hogql
 
 st.set_page_config(layout="wide", page_title="IA Transitos", page_icon="🧠")
 
@@ -32,24 +33,6 @@ PREVIEW_ROWS = 20      # apercu renvoye au modele (protege le contexte)
 MAX_TABLE_ROWS = 50000  # plafond d'affichage d'un tableau
 MAX_CHART_ROWS = 1000  # plafond d'affichage d'un graphe
 
-# Garde-fous en dur : mots-cles interdits (detection par word-boundary pour ne
-# pas matcher des colonnes comme "created_at" qui contient "create").
-
-FORBIDDEN = (
-    "insert",
-    "update",
-    "delete",
-    "drop",
-    "alter",
-    "create",
-    "truncate",
-    "grant",
-    "revoke",
-)
-_FORBIDDEN_REGEX = re.compile(
-    r"\b(" + "|".join(FORBIDDEN) + r")\b", re.IGNORECASE
-)
-
 
 @st.cache_resource(show_spinner=False)
 def get_openai_client() -> OpenAI:
@@ -68,7 +51,19 @@ def load_olap_doc() -> str:
         return ""
 
 
+@st.cache_data(show_spinner=False)
+def load_posthog_doc() -> str:
+    """Charge le guide HogQL / PostHog (evenements, jointures avec la base)."""
+    try:
+        doc_path = Path(__file__).resolve().parent.parent / "data" / "posthog_hogql.md"
+        return doc_path.read_text(encoding="utf-8")
+    except Exception as exc:  # noqa: BLE001
+        logger.warning("Impossible de charger data/posthog_hogql.md : %s", exc)
+        return ""
+
+
 OLAP_DOC = load_olap_doc()
+POSTHOG_DOC = load_posthog_doc()
 
 
 # === GARDE-FOUS + EXECUTION SQL ===
@@ -77,7 +72,7 @@ def safe_run_sql(sql: str, limit: int) -> tuple[Optional[pd.DataFrame], Optional
     Valide puis execute une requete SELECT en lecture seule.
 
     Regles de securite (en dur) :
-    - Aucun mot-cle de modification (FORBIDDEN), detecte par word-boundary.
+    - Aucun mot-cle de modification (ai_workspace.FORBIDDEN), detecte par word-boundary.
     - La requete doit commencer par SELECT ou WITH.
     - Une seule instruction (pas de ';' en milieu de requete).
     - Emballage systematique dans un sous-select avec LIMIT pour garantir le
@@ -85,34 +80,9 @@ def safe_run_sql(sql: str, limit: int) -> tuple[Optional[pd.DataFrame], Optional
 
     Retourne (dataframe, None) en cas de succes, (None, message_erreur) sinon.
     """
-    if not sql or not sql.strip():
-        return None, "Requete SQL vide."
-
-    cleaned = sql.strip()
-
-    # Retirer un eventuel formatage markdown (```sql ... ```)
-    if cleaned.startswith("```"):
-        cleaned = re.sub(r"^```[a-zA-Z]*", "", cleaned).strip()
-        if cleaned.endswith("```"):
-            cleaned = cleaned[:-3].strip()
-
-    # Strip du ';' final eventuel
-    cleaned = cleaned.rstrip().rstrip(";").rstrip()
-
-    # Anti multi-statement : un ';' restant signifie plusieurs instructions
-    if ";" in cleaned:
-        return None, "Plusieurs instructions SQL detectees : une seule requete SELECT est autorisee."
-
-    # Doit commencer par SELECT ou WITH
-    if not re.match(r"^\s*(select|with)\b", cleaned, re.IGNORECASE):
-        return None, "Seules les requetes SELECT (ou WITH ... SELECT) sont autorisees."
-
-    # Mots-cles interdits
-    match = _FORBIDDEN_REGEX.search(cleaned)
-    if match:
-        return None, (
-            f"Requete refusee : commande de modification non autorisee ({match.group(1).upper()})."
-        )
+    cleaned, err = ai_workspace.validate_select_sql(sql)
+    if err:
+        return None, err
 
     # Emballage pour garantir le plafond de lignes
     wrapped = f"SELECT * FROM (\n{cleaned}\n) AS _sub LIMIT {int(limit)}"
@@ -140,6 +110,23 @@ def _count_rows(sql: str) -> Optional[int]:
 
 
 # === DEFINITION DES OUTILS (function calling) ===
+_SAVE_AS_PARAM = {
+    "type": ["string", "null"],
+    "description": (
+        "Optionnel (null sinon) : nom sous lequel enregistrer le resultat COMPLET dans le workspace "
+        "DuckDB de la conversation (minuscules, chiffres, '_'). A utiliser uniquement pour croiser "
+        "ces donnees avec d'autres via query_workspace."
+    ),
+}
+_SOURCE_PARAM = {
+    "type": "string",
+    "enum": ["postgres", "workspace"],
+    "description": (
+        "'postgres' (defaut) : SQL PostgreSQL sur la base. 'workspace' : SQL DuckDB sur les "
+        "tables enregistrees avec save_as."
+    ),
+}
+
 TOOLS = [
     {
         "type": "function",
@@ -149,7 +136,9 @@ TOOLS = [
             "et repondre a l'utilisateur en langage naturel. "
             f"ATTENTION : ne renvoie qu'un apercu limite a {PREVIEW_ROWS} lignes maximum "
             "(pour ne pas saturer le contexte), mais fournit le nombre total de lignes. "
-            "Si l'utilisateur veut voir plus de lignes ou la liste complete, utilise plutot display_table."
+            "Si l'utilisateur veut voir plus de lignes ou la liste complete, utilise plutot display_table. "
+            f"Avec save_as, le resultat complet (jusqu'a {MAX_TABLE_ROWS} lignes) est enregistre "
+            "dans le workspace pour etre croise avec des donnees PostHog."
         ),
         "parameters": {
             "type": "object",
@@ -157,9 +146,69 @@ TOOLS = [
                 "sql": {
                     "type": "string",
                     "description": "Requete SQL SELECT valide (PostgreSQL).",
-                }
+                },
+                "save_as": _SAVE_AS_PARAM,
             },
-            "required": ["sql"],
+            "required": ["sql", "save_as"],
+            "additionalProperties": False,
+        },
+    },
+    {
+        "type": "function",
+        "name": "run_hogql_query",
+        "description": (
+            "Execute une requete HogQL sur PostHog (evenements, pages vues, navigation, usage fin) "
+            f"et renvoie un apercu de {PREVIEW_ROWS} lignes + le nombre total de lignes. "
+            "Le resultat complet est enregistre dans le workspace sous save_as. "
+            "Si la requete contient les marqueurs {start} et {end}, elle est executee par fenetres "
+            "d'un mois entre date_from et date_to (marqueurs remplaces par 'YYYY-MM-DD HH:MM:SS'), "
+            "puis les resultats sont concatenes et dedoublonnes. Les utilisateurs internes sont "
+            "retires automatiquement si une colonne 'email' est presente."
+        ),
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "hogql": {
+                    "type": "string",
+                    "description": "Requete HogQL (SELECT ... FROM events ...), avec un LIMIT explicite.",
+                },
+                "date_from": {
+                    "type": ["string", "null"],
+                    "description": "Debut (ISO, ex: 2025-01-01) si la requete utilise {start}/{end}, sinon null.",
+                },
+                "date_to": {
+                    "type": ["string", "null"],
+                    "description": "Fin (ISO) si la requete utilise {start}/{end} ; null = maintenant.",
+                },
+                "save_as": {
+                    "type": "string",
+                    "description": "Nom de la table dans le workspace (minuscules, chiffres, '_'), ex: ph_pageviews.",
+                },
+            },
+            "required": ["hogql", "date_from", "date_to", "save_as"],
+            "additionalProperties": False,
+        },
+    },
+    {
+        "type": "function",
+        "name": "query_workspace",
+        "description": (
+            "Execute une requete SQL SELECT (dialecte DuckDB, proche de PostgreSQL) sur les tables "
+            "du workspace (enregistrees via save_as), typiquement pour croiser PostHog et la base. "
+            f"Renvoie un apercu de {PREVIEW_ROWS} lignes + le nombre total de lignes. "
+            "Les tables Postgres (prod.*, public.*) n'y sont PAS accessibles : enregistre-les avant "
+            "avec run_sql_query(save_as=...)."
+        ),
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "sql": {
+                    "type": "string",
+                    "description": "Requete SQL SELECT DuckDB sur les tables du workspace.",
+                },
+                "save_as": _SAVE_AS_PARAM,
+            },
+            "required": ["sql", "save_as"],
             "additionalProperties": False,
         },
     },
@@ -176,10 +225,11 @@ TOOLS = [
             "properties": {
                 "sql": {
                     "type": "string",
-                    "description": "Requete SQL SELECT valide (PostgreSQL).",
-                }
+                    "description": "Requete SQL SELECT valide (PostgreSQL, ou DuckDB si source='workspace').",
+                },
+                "source": _SOURCE_PARAM,
             },
-            "required": ["sql"],
+            "required": ["sql", "source"],
             "additionalProperties": False,
         },
     },
@@ -197,7 +247,10 @@ TOOLS = [
             "properties": {
                 "sql": {
                     "type": "string",
-                    "description": "Requete SQL SELECT valide (PostgreSQL) renvoyant les colonnes x et y.",
+                    "description": (
+                        "Requete SQL SELECT valide (PostgreSQL, ou DuckDB si source='workspace') "
+                        "renvoyant les colonnes x et y."
+                    ),
                 },
                 "x_column": {
                     "type": "string",
@@ -208,10 +261,15 @@ TOOLS = [
                     "items": {"type": "string"},
                     "description": "Nom(s) de la/des colonne(s) numerique(s) a tracer en ordonnee (axe y).",
                 },
+                "source": _SOURCE_PARAM,
             },
-            "required": ["sql", "x_column", "y_columns"],
+            "required": ["sql", "x_column", "y_columns", "source"],
             "additionalProperties": False,
         },
+    },
+    {
+        "type": "web_search",
+        "filters": {"allowed_domains": ["posthog.com"]},
     },
 ]
 
@@ -257,15 +315,23 @@ Regles de choix du schema :
 {OLAP_DOC}
 
 ### Outils a ta disposition :
-- run_sql_query(sql) : execute une requete SELECT et te renvoie un APERCU (au maximum {PREVIEW_ROWS} lignes)
+- run_sql_query(sql, save_as) : execute une requete SELECT et te renvoie un APERCU (au maximum {PREVIEW_ROWS} lignes)
   ainsi que le nombre total de lignes et de colonnes. Utilise-le pour recuperer des donnees et
   repondre directement en langage naturel. Comme l'apercu est limite a {PREVIEW_ROWS} lignes, si
   l'utilisateur veut consulter davantage de lignes (ex: "les 50 premiers", "la liste complete",
   "toutes les collectivites"), n'essaie pas de tout lister dans le texte : utilise display_table.
-- display_table(sql) : affiche un tableau complet a l'utilisateur (jusqu'a {MAX_TABLE_ROWS} lignes).
-- display_chart(sql, x_column, y_columns) : affiche un graphique en courbes. A utiliser UNIQUEMENT
+  save_as vaut null, sauf pour enregistrer le resultat dans le workspace afin de le croiser avec PostHog.
+- display_table(sql, source) : affiche un tableau complet a l'utilisateur (jusqu'a {MAX_TABLE_ROWS} lignes).
+- display_chart(sql, x_column, y_columns, source) : affiche un graphique en courbes. A utiliser UNIQUEMENT
   si l'utilisateur demande explicitement un graphe / une courbe / une visualisation graphique.
   Choisis une colonne x pertinente (souvent une annee ou une date, triee) et des colonnes y numeriques.
+  Pour display_table et display_chart, source='postgres' par defaut ; source='workspace' pour du SQL DuckDB
+  sur les tables du workspace.
+- run_hogql_query(hogql, date_from, date_to, save_as) : interroge PostHog (HogQL) et enregistre le resultat
+  dans le workspace. Voir la section PostHog ci-dessous.
+- query_workspace(sql, save_as) : SQL DuckDB sur les tables du workspace (croisements PostHog x base).
+- web_search (limite a posthog.com) : consulte la documentation PostHog / HogQL en cas de doute sur
+  une fonction, une syntaxe ou un evenement standard PostHog.
 
 ### Regles de decision :
 - Pour une question simple dont la reponse tient en quelques lignes -> run_sql_query puis reponse en texte.
@@ -273,6 +339,12 @@ Regles de choix du schema :
 - Pour un graphe / courbe / evolution demande explicitement -> display_chart.
 - Tu peux enchainer plusieurs outils si necessaire (ex: explorer avec run_sql_query puis display_table).
 - Apres avoir affiche un tableau ou un graphe, ajoute toujours un court commentaire en langage naturel.
+- N'utilise PostHog et le workspace QUE si la question porte sur des donnees que seul PostHog possede
+  (evenements, pages vues, navigation, clics, sessions, usage fin d'une fonctionnalite). Pour tout le
+  reste, reste sur Postgres (run_sql_query / display_table / display_chart avec source='postgres').
+
+### PostHog, HogQL et workspace DuckDB :
+{POSTHOG_DOC}
 
 ### Regles SQL :
 - Utilise UNIQUEMENT des requetes SELECT (jamais INSERT, UPDATE, DELETE, DROP, etc.).
@@ -317,6 +389,7 @@ def _stream_and_collect(
     *,
     on_text_chunk: Optional[Callable[[str], None]] = None,
     on_tool_call_started: Optional[Callable[[], None]] = None,
+    on_web_search_started: Optional[Callable[[], None]] = None,
     **create_kwargs,
 ) -> tuple[object, str]:
     """
@@ -338,10 +411,13 @@ def _stream_and_collect(
                     on_text_chunk(accumulated_text)
         elif event_type == "response.output_item.added":
             item = getattr(event, "item", None)
-            if item is not None and getattr(item, "type", "") == "function_call":
+            item_type = getattr(item, "type", "") if item is not None else ""
+            if item_type == "function_call":
                 if on_tool_call_started and not tool_call_signaled:
                     on_tool_call_started()
                     tool_call_signaled = True
+            elif item_type == "web_search_call" and on_web_search_started:
+                on_web_search_started()
         elif event_type == "response.completed":
             final_response = getattr(event, "response", None)
 
@@ -410,6 +486,40 @@ def _render_chart_artifact(
     container.line_chart(chart_df)
 
 
+def _run_query(source: str, sql: str, limit: int) -> tuple[Optional[pd.DataFrame], Optional[str]]:
+    """Execute sql sur Postgres (defaut) ou sur le workspace DuckDB."""
+    if source == "workspace":
+        return ai_workspace.run_workspace_sql(sql, limit)
+    return safe_run_sql(sql, limit)
+
+
+def _preview_payload(df: pd.DataFrame, total: Optional[int]) -> dict:
+    """Apercu limite a PREVIEW_ROWS lignes renvoye au modele."""
+    preview = df.head(PREVIEW_ROWS)
+    return {
+        "columns": list(df.columns),
+        "column_count": len(df.columns),
+        "total_row_count": total if total is not None else len(df),
+        "preview_row_count": len(preview),
+        "preview_rows": json.loads(preview.to_json(orient="records", date_format="iso")),
+        "note": (
+            f"Apercu limite a {PREVIEW_ROWS} lignes. Pour afficher plus de lignes "
+            "a l'utilisateur, utilise display_table."
+        ),
+    }
+
+
+def _save_to_workspace(payload: dict, save_as: str, df: pd.DataFrame) -> dict:
+    """Enregistre df dans le workspace et complete le payload (erreur ou description)."""
+    err = ai_workspace.save(save_as, df)
+    if err:
+        payload["save_error"] = err
+    else:
+        payload["saved_as"] = save_as
+        payload["workspace"] = ai_workspace.describe()
+    return payload
+
+
 def _execute_tool_calls(
     function_calls: list,
     *,
@@ -433,33 +543,63 @@ def _execute_tool_calls(
             args = {}
 
         sql = args.get("sql", "")
-        if sql:
+        save_as = args.get("save_as") or None
+        source = args.get("source") or "postgres"
+        if name == "run_hogql_query":
+            sql_queries.append(f"-- HogQL (PostHog)\n{args.get('hogql', '')}")
+        elif sql and (name == "query_workspace" or source == "workspace"):
+            sql_queries.append(f"-- DuckDB (workspace)\n{sql}")
+        elif sql:
             sql_queries.append(sql)
 
         if name == "run_sql_query":
             if on_status:
                 on_status("Querying the database...")
-            df, err = safe_run_sql(sql, limit=PREVIEW_ROWS)
+            df, err = safe_run_sql(sql, limit=MAX_TABLE_ROWS if save_as else PREVIEW_ROWS)
             if err:
                 payload = {"error": err}
             else:
-                total = _count_rows(sql)
-                payload = {
-                    "columns": list(df.columns),
-                    "column_count": len(df.columns),
-                    "total_row_count": total if total is not None else len(df),
-                    "preview_row_count": len(df),
-                    "preview_rows": json.loads(df.to_json(orient="records", date_format="iso")),
-                    "note": (
-                        f"Apercu limite a {PREVIEW_ROWS} lignes. Pour afficher plus de lignes "
-                        "a l'utilisateur, utilise display_table."
-                    ),
-                }
+                payload = _preview_payload(df, _count_rows(sql))
+                if save_as:
+                    payload = _save_to_workspace(payload, save_as, df)
+
+        elif name == "run_hogql_query":
+            if on_status:
+                on_status("Querying PostHog...")
+            df, meta, err = run_hogql(
+                args.get("hogql", ""),
+                date_from=args.get("date_from") or None,
+                date_to=args.get("date_to") or None,
+            )
+            if err:
+                payload = {"error": err, "meta": meta}
+            else:
+                payload = _preview_payload(df, len(df))
+                payload["meta"] = meta
+                if meta.get("truncated_windows"):
+                    payload["warning"] = (
+                        "Certaines fenetres ont atteint la limite de lignes : resultats incomplets. "
+                        "Ajoute des filtres, agrege davantage ou reduis la periode."
+                    )
+                payload = _save_to_workspace(payload, save_as or "posthog_result", df)
+
+        elif name == "query_workspace":
+            if on_status:
+                on_status("Crossing data...")
+            df, err = ai_workspace.run_workspace_sql(
+                sql, limit=MAX_TABLE_ROWS if save_as else PREVIEW_ROWS
+            )
+            if err:
+                payload = {"error": err, "workspace": ai_workspace.describe()}
+            else:
+                payload = _preview_payload(df, ai_workspace.count_workspace_rows(sql))
+                if save_as:
+                    payload = _save_to_workspace(payload, save_as, df)
 
         elif name == "display_table":
             if on_status:
                 on_status("Preparing the table...")
-            df, err = safe_run_sql(sql, limit=MAX_TABLE_ROWS)
+            df, err = _run_query(source, sql, limit=MAX_TABLE_ROWS)
             if err:
                 payload = {"error": err}
                 render_container.error(err)
@@ -483,7 +623,7 @@ def _execute_tool_calls(
                 on_status("Preparing the chart...")
             x_column = args.get("x_column", "")
             y_columns = args.get("y_columns", []) or []
-            df, err = safe_run_sql(sql, limit=MAX_CHART_ROWS)
+            df, err = _run_query(source, sql, limit=MAX_CHART_ROWS)
             if err:
                 payload = {"error": err}
                 render_container.error(err)
@@ -555,6 +695,10 @@ def run_stats_agent(
         if on_status:
             on_status("Preparing a query...")
 
+    def _on_web_search_started() -> None:
+        if on_status:
+            on_status("Consultation de la doc PostHog...")
+
     current_response, streamed_text = _stream_and_collect(
         client,
         model=MODEL,
@@ -564,6 +708,7 @@ def run_stats_agent(
         reasoning={"effort": REASONING_EFFORT},
         on_text_chunk=on_text_chunk,
         on_tool_call_started=_on_tool_call_started,
+        on_web_search_started=_on_web_search_started,
         **chain_kwargs,
     )
 
@@ -605,6 +750,7 @@ def run_stats_agent(
             max_output_tokens=MAX_OUTPUT_TOKENS,
             reasoning={"effort": REASONING_EFFORT},
             on_text_chunk=on_text_chunk,
+            on_web_search_started=_on_web_search_started,
         )
 
     final_text = _extract_final_text(current_response, streamed_text)
@@ -649,6 +795,7 @@ if "messages" not in st.session_state:
     st.session_state.messages = []
 if "previous_response_id" not in st.session_state:
     st.session_state.previous_response_id = None
+ai_workspace.get_workspace()
 
 # En-tete minimaliste
 st.markdown(
@@ -671,6 +818,7 @@ with col2:
     if st.button("🔄 Nouvelle conversation", use_container_width=True):
         st.session_state.messages = []
         st.session_state.previous_response_id = None
+        ai_workspace.reset_workspace()
         st.rerun()
 
 # Avertissement si le contexte devient trop long

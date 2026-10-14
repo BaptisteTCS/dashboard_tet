@@ -32,6 +32,7 @@ pages = {
     ],
     "Analyses": [
         st.Page("pages/26_run_impact.py", title="Analyse des actions par CT", icon="🌀"),
+        st.Page("pages/48_priorisation_levier_mesure.py", title="Classification levier × mesure", icon="📌"),
         st.Page("pages/31_priorisation_perimetre.py", title="Optionnel - Périmètre d'action", icon="🔧"),
     ],
     "Priorisation": [
