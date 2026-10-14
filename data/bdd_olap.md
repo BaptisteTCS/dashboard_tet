@@ -9,7 +9,7 @@
 ### Activité & Engagement
 
 #### `feature_all`
-**Description :** Donne l'utilisation d'une feature. Il y a autant de lignes par [mois,collectivite_id,email] que l'user a utlisé la feature ce mois-ci.
+**Description :** Donne l'utilisation de toutes les features de l'app (plan, action, export, indicateurs, etc). Il y a autant de lignes par [mois,collectivite_id,email] que l'user a utlisé la feature ce mois-ci.
 
 #### `activite_semaine`
 **Description :** Source de vérité pour mesurer l'utilisation de l'application. Trace l'activité hebdomadaire par collectivité et par utilisateur.
