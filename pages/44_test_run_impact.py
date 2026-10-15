@@ -20,6 +20,7 @@ from utils.test_run_impact import (
     classification_from_json,
     collect_action_ids,
     compute_stats,
+    estimate_mistral_run_cost,
     estimate_run_costs,
     available_models,
     file_label,
@@ -32,6 +33,7 @@ from utils.test_run_impact import (
     load_run_inputs,
     list_run_files,
     make_llm_client,
+    mistral_api_key,
     new_run_path,
     payload_cost_usd,
     payload_is_flex,
@@ -82,12 +84,21 @@ selected_model = st.selectbox(
     help=(
         "OpenAI utilise l'API Responses (cache + Flex). "
         "Albert utilise chat/completions sur albert.api.etalab.gouv.fr, "
-        "modèles text-generation."
+        "modèles text-generation. "
+        "Mistral utilise chat/completions sur api.mistral.ai "
+        "(mistral-large-4, mistral-small-2603)."
     ),
 )
 is_albert = selected_model.provider == "albert"
+is_mistral = selected_model.provider == "mistral"
+is_openai = selected_model.provider == "openai"
 if is_albert and model_warning:
     st.warning(model_warning)
+if is_mistral and not mistral_api_key():
+    st.warning(
+        "mistral_api_key absente de .streamlit/secrets.toml. "
+        "Le lancement Mistral échouera tant que la clé manque."
+    )
 if is_albert:
     st.caption(
         "Albert API — `POST /v1/chat/completions`, sortie JSON. "
@@ -95,6 +106,15 @@ if is_albert:
         "et un 429 attend la minute suivante. "
         "Flex, cache prompt et reasoning OpenAI ne s'appliquent pas. "
         "Le coût en dollars n'est pas estimé (grille OpenAI)."
+    )
+if is_mistral:
+    
+    st.caption(
+        "Mistral API — `POST /v1/chat/completions`, sortie JSON. "
+        "Flex et cache prompt OpenAI ne s'appliquent pas. "
+        "Tarif public courant : Large 4 à 0,68 $ / 2,09 $ par million "
+        "(entrée / sortie, promo ; plein tarif 1,36 $ / 4,18 $), "
+        "Small 2603 à 0,15 $ / 0,60 $."
     )
 
 col_cfg1, col_cfg2, col_cfg3, col_cfg4 = st.columns(4)
@@ -117,10 +137,20 @@ with col_cfg3:
             "Low reasoning (medium par défaut)",
             value=False,
             disabled=True,
-            key="test_run_impact_reasoning_albert",
-            help="Réservé à OpenAI.",
+            key="test_run_impact_reasoning_off",
+            help="Non disponible pour Albert.",
         )
         reasoning_low = False
+    elif is_mistral:
+        reasoning_low = st.toggle(
+            "Sans reasoning (high par défaut)",
+            value=False,
+            key="test_run_impact_reasoning_mistral",
+            help=(
+                "Envoie reasoning_effort=none : réponse directe, bien plus rapide "
+                "et moins de tokens de sortie. Mistral n'accepte que none ou high."
+            ),
+        )
     else:
         reasoning_low = st.toggle(
             "Low reasoning (medium par défaut)",
@@ -128,12 +158,12 @@ with col_cfg3:
             key="test_run_impact_reasoning",
         )
 with col_cfg4:
-    if is_albert:
+    if not is_openai:
         st.toggle(
             "Flex (tarif batch, plus lent)",
             value=False,
             disabled=True,
-            key="test_run_impact_flex_albert",
+            key="test_run_impact_flex_off",
             help="Réservé à OpenAI.",
         )
         use_flex = False
@@ -170,6 +200,18 @@ if is_albert:
     st.caption(
         f"Volume indicatif : moy. {avg_in:,} tokens entrée / {avg_out:,} sortie par appel. "
         "Pas d'estimation en dollars pour Albert."
+    )
+elif is_mistral:
+    mistral_estimate = estimate_mistral_run_cost(
+        selected_model.model_id,
+        inputs["n_leviers"],
+        int(n_runs),
+        avg_in,
+        avg_out,
+    )
+    st.caption(
+        f"Coût estimé Mistral (moy. {avg_in:,} tokens entrée / {avg_out:,} sortie "
+        f"par appel, sans cache) — **{format_usd(mistral_estimate)}**."
     )
 else:
     estimates = estimate_run_costs(
@@ -227,7 +269,7 @@ def _run_loop(path: Path, payload: dict) -> None:
     nom = payload["meta"]["collectivite_nom"]
     population = int(payload["meta"]["population"])
     debug = bool(payload["meta"].get("debug"))
-    low = payload["meta"].get("reasoning") == "low"
+    low = payload["meta"].get("reasoning") in {"low", "none"}
     flex = payload_is_flex(payload)
     provider = payload_provider(payload)
     model = str(payload["meta"].get("model") or "gpt-5.6-terra")
@@ -268,7 +310,9 @@ def _run_loop(path: Path, payload: dict) -> None:
                 if provider == "albert":
                     status.write(format_usage_cost_line(usage) + " — Albert")
                 else:
-                    call_cost = usage_cost_usd(usage, flex, provider=provider)
+                    call_cost = usage_cost_usd(
+                        usage, flex, provider=provider, model=model
+                    )
                     status.write(
                         format_usage_cost_line(
                             usage,
@@ -304,7 +348,7 @@ if launch:
         n_runs=int(n_runs),
         reasoning_low=reasoning_low and not is_albert,
         debug=debug_mode,
-        use_flex=use_flex and not is_albert,
+        use_flex=use_flex and is_openai,
         model=selected_model.model_id,
         provider=selected_model.provider,
     )
@@ -427,7 +471,15 @@ cost3.metric(
 )
 cost4.metric(
     "Tarif",
-    "Albert" if albert_run else ("Flex (−50 %)" if flex_run else "Standard"),
+    (
+        "Albert"
+        if albert_run
+        else (
+            "Mistral"
+            if run_provider == "mistral"
+            else ("Flex (−50 %)" if flex_run else "Standard")
+        )
+    ),
 )
 
 v1, v2, v3, v4 = st.columns(4)

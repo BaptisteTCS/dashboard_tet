@@ -9,6 +9,8 @@ action_audit_state — relations :
 audit — relations :
   labellisation.audit.collectivite_id → public.collectivite.id
   labellisation.audit.demande_id → labellisation.demande.id
+bibliotheque_fichier — relations :
+  labellisation.bibliotheque_fichier.collectivite_id → public.collectivite.id
 demande — relations :
   labellisation.demande.associated_collectivite_id → public.collectivite.id
   labellisation.demande.collectivite_id → public.collectivite.id
@@ -23,6 +25,11 @@ action_commentaire — relations :
   public.action_commentaire.action_id → public.action_relation.id
   public.action_commentaire.collectivite_id → public.collectivite.id
   public.action_commentaire.modified_by → auth.users.id
+action_computed_points — relations :
+  public.action_computed_points.action_id → public.action_relation.id
+action_de_reference_fiche — relations :
+  public.action_de_reference_fiche.action_de_reference_id → public.action_de_reference.id
+  public.action_de_reference_fiche.fiche_id → public.fiche_action.id
 action_definition — relations :
   public.action_definition.action_id → public.action_relation.id
   public.action_definition.referentiel_id → public.referentiel_definition.id
@@ -30,6 +37,55 @@ action_definition_tag — relations :
   public.action_definition_tag.action_id → public.action_relation.id
   public.action_definition_tag.referentiel_id → public.referentiel_definition.id
   public.action_definition_tag.tag_ref → public.referentiel_tag.ref
+action_impact — relations :
+  public.action_impact.fourchette_budgetaire → public.action_impact_fourchette_budgetaire.niveau
+  public.action_impact.impact_tier → public.action_impact_tier.niveau
+  public.action_impact.temps_de_mise_en_oeuvre → public.action_impact_temps_de_mise_en_oeuvre.niveau
+  public.action_impact.typologie_id → public.action_impact_typologie.id
+action_impact_action — relations :
+  public.action_impact_action.action_id → public.action_definition.action_id
+  public.action_impact_action.action_impact_id → public.action_impact.id
+action_impact_banatic_competence — relations :
+  public.action_impact_banatic_competence.action_impact_id → public.action_impact.id
+  public.action_impact_banatic_competence.competence_code → public.banatic_competence.code
+action_impact_categorie_fnv — relations :
+  public.action_impact_categorie_fnv.action_impact_id → public.action_impact.id
+  public.action_impact_categorie_fnv.categorie_fnv_id → public.categorie_fnv.id
+action_impact_effet_attendu — relations :
+  public.action_impact_effet_attendu.action_impact_id → public.action_impact.id
+  public.action_impact_effet_attendu.effet_attendu_id → public.effet_attendu.id
+action_impact_fiche_action — relations :
+  public.action_impact_fiche_action.action_impact_id → public.action_impact.id
+  public.action_impact_fiche_action.fiche_id → public.fiche_action.id
+action_impact_indicateur — relations :
+  public.action_impact_indicateur.action_impact_id → public.action_impact.id
+  public.action_impact_indicateur.indicateur_id → public.indicateur_definition.id
+action_impact_panier — relations :
+  public.action_impact_panier.action_id → public.action_impact.id
+  public.action_impact_panier.panier_id → public.panier.id
+action_impact_partenaire — relations :
+  public.action_impact_partenaire.action_impact_id → public.action_impact.id
+  public.action_impact_partenaire.partenaire_id → public.panier_partenaire.id
+action_impact_sous_thematique — relations :
+  public.action_impact_sous_thematique.action_impact_id → public.action_impact.id
+  public.action_impact_sous_thematique.sous_thematique_id → public.sous_thematique.id
+action_impact_statut — relations :
+  public.action_impact_statut.action_id → public.action_impact.id
+  public.action_impact_statut.categorie_id → public.action_impact_categorie.id
+  public.action_impact_statut.panier_id → public.panier.id
+action_impact_thematique — relations :
+  public.action_impact_thematique.action_impact_id → public.action_impact.id
+  public.action_impact_thematique.thematique_id → public.thematique.id
+action_origine — relations :
+  public.action_origine.action_id → public.action_relation.id
+  public.action_origine.origine_action_id → public.action_relation.id
+  public.action_origine.origine_referentiel_id → public.referentiel_definition.id
+  public.action_origine.referentiel_id → public.referentiel_definition.id
+action_origine_texte — relations :
+  public.action_origine_texte.action_id → public.action_relation.id
+  public.action_origine_texte.origine_action_id → public.action_relation.id
+  public.action_origine_texte.origine_referentiel_id → public.referentiel_definition.id
+  public.action_origine_texte.referentiel_id → public.referentiel_definition.id
 action_pilote — relations :
   public.action_pilote.action_id → public.action_relation.id
   public.action_pilote.collectivite_id → public.collectivite.id
@@ -50,6 +106,22 @@ action_statut — relations :
   public.action_statut.action_id → public.action_relation.id
   public.action_statut.collectivite_id → public.collectivite.id
   public.action_statut.modified_by → auth.users.id
+ai_plan_import_job — relations :
+  public.ai_plan_import_job.collectivite_id → public.collectivite.id
+  public.ai_plan_import_job.created_by → auth.users.id
+  public.ai_plan_import_job.created_plan_id → public.axe.id
+  public.ai_plan_import_job.fichier_id → labellisation.bibliotheque_fichier.id
+ai_plan_import_step_run — relations :
+  public.ai_plan_import_step_run.job_id → public.ai_plan_import_job.id
+annexe — relations :
+  public.annexe.fiche_id → public.fiche_action.id
+audit_auditeur — relations :
+  public.audit_auditeur.audit_id → labellisation.audit.id
+  public.audit_auditeur.auditeur → auth.users.id
+audit_preuves_archive — relations :
+  public.audit_preuves_archive.audit_id → labellisation.audit.id
+  public.audit_preuves_archive.collectivite_id → public.collectivite.id
+  public.audit_preuves_archive.requested_by → auth.users.id
 axe — relations :
   public.axe.collectivite_id → public.collectivite.id
   public.axe.modified_by → auth.users.id
@@ -57,26 +129,105 @@ axe — relations :
   public.axe.parent → public.axe.id
   public.axe.plan → public.axe.id
   public.axe.type → public.plan_action_type.id
+  public.axe.verified_by → auth.users.id
+axe_indicateur — relations :
+  public.axe_indicateur.axe_id → public.axe.id
+  public.axe_indicateur.created_by → auth.users.id
+  public.axe_indicateur.indicateur_id → public.indicateur_definition.id
+banatic_2021_2025_crosswalk — relations :
+  public.banatic_2021_2025_crosswalk.code_2021 → public.banatic_competence.code
+  public.banatic_2021_2025_crosswalk.code_2025 → public.banatic_2025_competence.competence_code
+banner_info — relations :
+  public.banner_info.modified_by → public.dcp.user_id
 categorie_tag — relations :
   public.categorie_tag.collectivite_id → public.collectivite.id
   public.categorie_tag.created_by → auth.users.id
   public.categorie_tag.groupement_id → public.groupement.id
+client_scores — relations :
+  public.client_scores.collectivite_id → public.collectivite.id
 collectivite — relations :
   public.collectivite.nature_insee → public.collectivite_banatic_type.id
+  public.collectivite.sinoe_id → public.typologie_sinoe.id
+collectivite_banatic_2025_competence — relations :
+  public.collectivite_banatic_2025_competence.collectivite_id → public.collectivite.id
+  public.collectivite_banatic_2025_competence.competence_code → public.banatic_2025_competence.competence_code
+collectivite_banatic_2025_perimetre — relations :
+  public.collectivite_banatic_2025_perimetre.collectivite_id → public.collectivite.id
+collectivite_banatic_2025_transfert — relations :
+  public.collectivite_banatic_2025_transfert.collectivite_id → public.collectivite.id
+  public.collectivite_banatic_2025_transfert.competence_code → public.banatic_2025_competence.competence_code
 collectivite_banatic_competence — relations :
   public.collectivite_banatic_competence.collectivite_id → public.collectivite.id
   public.collectivite_banatic_competence.competence_code → public.banatic_competence.code
 collectivite_bucket — relations :
-  public.collectivite_bucket.bucket_id → storage.buckets.id
   public.collectivite_bucket.collectivite_id → public.collectivite.id
+collectivite_levier_ges_pertinence — relations :
+  public.collectivite_levier_ges_pertinence.collectivite_id → public.collectivite.id
+  public.collectivite_levier_ges_pertinence.modified_by → auth.users.id
+collectivite_perimetre_secondaire — relations :
+  public.collectivite_perimetre_secondaire.collectivite_id → public.collectivite.id
 collectivite_relations — relations :
   public.collectivite_relations.id → public.collectivite.id
   public.collectivite_relations.parent_id → public.collectivite.id
+collectivite_test — relations :
+  public.collectivite_test.collectivite_id → public.collectivite.id
+collectivite_volet_ges — relations :
+  public.collectivite_volet_ges.collectivite_id → public.collectivite.id
 commune — relations :
   public.commune.collectivite_id → public.collectivite.id
 cot — relations :
   public.cot.collectivite_id → public.collectivite.id
   public.cot.signataire → public.collectivite.id
+dcp — relations :
+  public.dcp.user_id → auth.users.id
+demarche — relations :
+  public.demarche.collectivite_id → public.collectivite.id
+  public.demarche.created_by → auth.users.id
+demarche_document — relations :
+  public.demarche_document.collectivite_id → public.collectivite.id
+  public.demarche_document.demarche_id → public.demarche.id
+  public.demarche_document.document_id → public.demarche_document_definition.id
+demarche_document_additional — relations :
+  public.demarche_document_additional.collectivite_id → public.collectivite.id
+  public.demarche_document_additional.demarche_id → public.demarche.id
+demarche_document_substitution — relations :
+  public.demarche_document_substitution.document_id → public.demarche_document_definition.id
+  public.demarche_document_substitution.substitut_id → public.demarche_document_definition.id
+demarche_pcaet_avis — relations :
+  public.demarche_pcaet_avis.demande_avis_id → public.demarche_pcaet_demande_avis.id
+  public.demarche_pcaet_avis.depose_par → auth.users.id
+  public.demarche_pcaet_avis.emetteur_collectivite_id → public.collectivite.id
+demarche_pcaet_demande_avis — relations :
+  public.demarche_pcaet_demande_avis.demarche_id → public.demarche.id
+  public.demarche_pcaet_demande_avis.instructeur_collectivite_id → public.collectivite.id
+demarche_pcaet_source_metadonnee — relations :
+  public.demarche_pcaet_source_metadonnee.collectivite_id → public.collectivite.id
+  public.demarche_pcaet_source_metadonnee.demarche_id → public.demarche.id
+  public.demarche_pcaet_source_metadonnee.metadonnee_id → public.indicateur_source_metadonnee.id
+demarche_pcaet_vulnerabilite_thematique — relations :
+  public.demarche_pcaet_vulnerabilite_thematique.collectivite_id → public.collectivite.id
+  public.demarche_pcaet_vulnerabilite_thematique.parent_id → public.demarche_pcaet_vulnerabilite_thematique.id
+demarche_pcaet_vulnerabilite_valeur — relations :
+  public.demarche_pcaet_vulnerabilite_valeur.demarche_id → public.demarche.id
+  public.demarche_pcaet_vulnerabilite_valeur.thematique_id → public.demarche_pcaet_vulnerabilite_thematique.id
+demarche_pilote — relations :
+  public.demarche_pilote.demarche_id → public.demarche.id
+  public.demarche_pilote.tag_id → public.personne_tag.id
+  public.demarche_pilote.user_id → public.dcp.user_id
+demarche_plan_action — relations :
+  public.demarche_plan_action.demarche_id → public.demarche.id
+  public.demarche_plan_action.plan_action_id → public.axe.id
+demarche_status_history — relations :
+  public.demarche_status_history.demarche_id → public.demarche.id
+discussion — relations :
+  public.discussion.action_id → public.action_relation.id
+  public.discussion.collectivite_id → public.collectivite.id
+  public.discussion.created_by → auth.users.id
+discussion_message — relations :
+  public.discussion_message.created_by → auth.users.id
+  public.discussion_message.discussion_id → public.discussion.id
+epci — relations :
+  public.epci.collectivite_id → public.collectivite.id
 fiche_action — relations :
   public.fiche_action.collectivite_id → public.collectivite.id
   public.fiche_action.created_by → auth.users.id
@@ -86,8 +237,12 @@ fiche_action — relations :
 fiche_action_action — relations :
   public.fiche_action_action.action_id → public.action_relation.id
   public.fiche_action_action.fiche_id → public.fiche_action.id
+fiche_action_analysis — relations :
+  public.fiche_action_analysis.collectivite_id → public.collectivite.id
+  public.fiche_action_analysis.fiche_id → public.fiche_action.id
 fiche_action_axe — relations :
   public.fiche_action_axe.axe_id → public.axe.id
+  public.fiche_action_axe.created_by → auth.users.id
   public.fiche_action_axe.fiche_id → public.fiche_action.id
 fiche_action_budget — relations :
   public.fiche_action_budget.fiche_id → public.fiche_action.id
@@ -102,8 +257,13 @@ fiche_action_financeur_tag — relations :
   public.fiche_action_financeur_tag.fiche_id → public.fiche_action.id
   public.fiche_action_financeur_tag.financeur_tag_id → public.financeur_tag.id
 fiche_action_indicateur — relations :
+  public.fiche_action_indicateur.created_by → auth.users.id
   public.fiche_action_indicateur.fiche_id → public.fiche_action.id
   public.fiche_action_indicateur.indicateur_id → public.indicateur_definition.id
+fiche_action_instance_de_gouvernance_tag — relations :
+  public.fiche_action_instance_de_gouvernance_tag.created_by → auth.users.id
+  public.fiche_action_instance_de_gouvernance_tag.fiche_action_id → public.fiche_action.id
+  public.fiche_action_instance_de_gouvernance_tag.instance_de_gouvernance_tag_id → public.instance_de_gouvernance_tag.id
 fiche_action_libre_tag — relations :
   public.fiche_action_libre_tag.created_by → auth.users.id
   public.fiche_action_libre_tag.fiche_id → public.fiche_action.id
@@ -119,13 +279,18 @@ fiche_action_partenaire_tag — relations :
   public.fiche_action_partenaire_tag.fiche_id → public.fiche_action.id
   public.fiche_action_partenaire_tag.partenaire_tag_id → public.partenaire_tag.id
 fiche_action_pilote — relations :
+  public.fiche_action_pilote.created_by → auth.users.id
   public.fiche_action_pilote.fiche_id → public.fiche_action.id
   public.fiche_action_pilote.tag_id → public.personne_tag.id
   public.fiche_action_pilote.user_id → public.dcp.user_id
 fiche_action_referent — relations :
+  public.fiche_action_referent.created_by → auth.users.id
   public.fiche_action_referent.fiche_id → public.fiche_action.id
   public.fiche_action_referent.tag_id → public.personne_tag.id
   public.fiche_action_referent.user_id → public.dcp.user_id
+fiche_action_secteur_attribution — relations :
+  public.fiche_action_secteur_attribution.fiche_id → public.fiche_action.id
+  public.fiche_action_secteur_attribution.modified_by → auth.users.id
 fiche_action_service_tag — relations :
   public.fiche_action_service_tag.fiche_id → public.fiche_action.id
   public.fiche_action_service_tag.service_tag_id → public.service_tag.id
@@ -134,16 +299,21 @@ fiche_action_sharing — relations :
   public.fiche_action_sharing.created_by → auth.users.id
   public.fiche_action_sharing.fiche_id → public.fiche_action.id
 fiche_action_sous_thematique — relations :
+  public.fiche_action_sous_thematique.created_by → auth.users.id
   public.fiche_action_sous_thematique.fiche_id → public.fiche_action.id
   public.fiche_action_sous_thematique.thematique_id → public.sous_thematique.id
 fiche_action_structure_tag — relations :
   public.fiche_action_structure_tag.fiche_id → public.fiche_action.id
   public.fiche_action_structure_tag.structure_tag_id → public.structure_tag.id
 fiche_action_thematique — relations :
+  public.fiche_action_thematique.created_by → auth.users.id
   public.fiche_action_thematique.fiche_id → public.fiche_action.id
   public.fiche_action_thematique.thematique_id → public.thematique.id
+fiche_action_volet_ges — relations :
+  public.fiche_action_volet_ges.fiche_id → public.fiche_action.id
 financeur_tag — relations :
   public.financeur_tag.collectivite_id → public.collectivite.id
+  public.financeur_tag.created_by → public.dcp.user_id
 groupement_collectivite — relations :
   public.groupement_collectivite.collectivite_id → public.collectivite.id
   public.groupement_collectivite.groupement_id → public.groupement.id
@@ -195,16 +365,44 @@ indicateur_valeur — relations :
   public.indicateur_valeur.indicateur_id → public.indicateur_definition.id
   public.indicateur_valeur.metadonnee_id → public.indicateur_source_metadonnee.id
   public.indicateur_valeur.modified_by → auth.users.id
+indicateur_vue — relations :
+  public.indicateur_vue.collectivite_id → public.collectivite.id
+  public.indicateur_vue.created_by → auth.users.id
+  public.indicateur_vue.modified_by → auth.users.id
+instance_de_gouvernance_tag — relations :
+  public.instance_de_gouvernance_tag.collectivite_id → public.collectivite.id
+  public.instance_de_gouvernance_tag.created_by → public.dcp.user_id
+justification — relations :
+  public.justification.modified_by → auth.users.id
+  public.justification.question_id → public.question.id
+justification_ajustement — relations :
+  public.justification_ajustement.action_id → public.action_relation.id
+  public.justification_ajustement.collectivite_id → public.collectivite.id
+  public.justification_ajustement.modified_by → auth.users.id
 labellisation — relations :
   public.labellisation.audit_id → labellisation.audit.id
   public.labellisation.collectivite_id → public.collectivite.id
+labellisation_action_critere — relations :
+  public.labellisation_action_critere.action_id → public.action_relation.id
 libre_tag — relations :
   public.libre_tag.collectivite_id → public.collectivite.id
   public.libre_tag.created_by → auth.users.id
+panier — relations :
+  public.panier.collectivite_id → public.collectivite.id
+  public.panier.collectivite_preset → public.collectivite.id
+  public.panier.created_by → auth.users.id
 partenaire_tag — relations :
   public.partenaire_tag.collectivite_id → public.collectivite.id
+  public.partenaire_tag.created_by → public.dcp.user_id
+personnalisation_consequence — relations :
+  public.personnalisation_consequence.collectivite_id → public.collectivite.id
+personnalisation_regle — relations :
+  public.personnalisation_regle.action_id → public.action_definition.action_id
 personne_tag — relations :
   public.personne_tag.collectivite_id → public.collectivite.id
+  public.personne_tag.created_by → public.dcp.user_id
+plan_action_type — relations :
+  public.plan_action_type.categorie → public.plan_action_type_categorie.categorie
 plan_pilote — relations :
   public.plan_pilote.created_by → auth.users.id
   public.plan_pilote.plan_id → public.axe.id
@@ -215,21 +413,83 @@ plan_referent — relations :
   public.plan_referent.plan_id → public.axe.id
   public.plan_referent.tag_id → public.personne_tag.id
   public.plan_referent.user_id → public.dcp.user_id
+plan_report_generation — relations :
+  public.plan_report_generation.collectivite_id → public.collectivite.id
+  public.plan_report_generation.created_by → auth.users.id
+  public.plan_report_generation.file_id → labellisation.bibliotheque_fichier.id
+  public.plan_report_generation.plan_id → public.axe.id
+post_audit_scores — relations :
+  public.post_audit_scores.audit_id → labellisation.audit.id
+pre_audit_scores — relations :
+  public.pre_audit_scores.audit_id → labellisation.audit.id
+preuve_action — relations :
+  public.preuve_action.action_id → public.action_relation.id
+  public.preuve_action.preuve_id → public.preuve_reglementaire_definition.id
+preuve_audit — relations :
+  public.preuve_audit.audit_id → labellisation.audit.id
+  public.preuve_audit.collectivite_id → public.collectivite.id
+preuve_complementaire — relations :
+  public.preuve_complementaire.action_id → public.action_relation.id
+  public.preuve_complementaire.collectivite_id → public.collectivite.id
+preuve_labellisation — relations :
+  public.preuve_labellisation.collectivite_id → public.collectivite.id
+  public.preuve_labellisation.demande_id → labellisation.demande.id
+preuve_rapport — relations :
+  public.preuve_rapport.collectivite_id → public.collectivite.id
+preuve_reglementaire — relations :
+  public.preuve_reglementaire.collectivite_id → public.collectivite.id
+  public.preuve_reglementaire.preuve_id → public.preuve_reglementaire_definition.id
 private_collectivite_membre — relations :
   public.private_collectivite_membre.collectivite_id → public.collectivite.id
   public.private_collectivite_membre.user_id → auth.users.id
 private_utilisateur_droit — relations :
   public.private_utilisateur_droit.collectivite_id → public.collectivite.id
-  public.private_utilisateur_droit.invitation_id → utilisateur.invitation.id
   public.private_utilisateur_droit.user_id → auth.users.id
+question — relations :
+  public.question.competence_code → public.banatic_2025_competence.competence_code
+  public.question.thematique_id → public.question_thematique.id
+question_action — relations :
+  public.question_action.action_id → public.action_relation.id
+  public.question_action.question_id → public.question.id
+question_choix — relations :
+  public.question_choix.question_id → public.question.id
+reponse_binaire — relations :
+  public.reponse_binaire.collectivite_id → public.collectivite.id
+  public.reponse_binaire.question_id → public.question.id
+reponse_choix — relations :
+  public.reponse_choix.collectivite_id → public.collectivite.id
+  public.reponse_choix.question_id → public.question.id
+  public.reponse_choix.reponse → public.question_choix.id
+reponse_proportion — relations :
+  public.reponse_proportion.collectivite_id → public.collectivite.id
+  public.reponse_proportion.question_id → public.question.id
 score_snapshot — relations :
   public.score_snapshot.audit_id → labellisation.audit.id
   public.score_snapshot.collectivite_id → public.collectivite.id
   public.score_snapshot.referentiel_id → public.referentiel_definition.id
 service_tag — relations :
   public.service_tag.collectivite_id → public.collectivite.id
+  public.service_tag.created_by → public.dcp.user_id
+sous_thematique — relations :
+  public.sous_thematique.thematique_id → public.thematique.id
 structure_tag — relations :
   public.structure_tag.collectivite_id → public.collectivite.id
+  public.structure_tag.created_by → public.dcp.user_id
+tableau_de_bord_module — relations :
+  public.tableau_de_bord_module.collectivite_id → public.collectivite.id
+  public.tableau_de_bord_module.user_id → public.dcp.user_id
+user_api_key — relations :
+  public.user_api_key.user_id → auth.users.id
+utilisateur_identite_oidc — relations :
+  public.utilisateur_identite_oidc.user_id → auth.users.id
+utilisateur_identite_oidc_invitation — relations :
+  public.utilisateur_identite_oidc_invitation.user_id → auth.users.id
+utilisateur_invitation_envoi — relations :
+  public.utilisateur_invitation_envoi.collectivite_id → public.collectivite.id
+utilisateur_support — relations :
+  public.utilisateur_support.user_id → public.dcp.user_id
+utilisateur_verifie — relations :
+  public.utilisateur_verifie.user_id → public.dcp.user_id
 """
 
 tables_text_2 = """

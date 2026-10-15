@@ -48,6 +48,21 @@ ALBERT_CHAT_FALLBACK = (
     "ministral-3-8b-instruct-2512",
     "mistral-medium-2508",
 )
+MISTRAL_BASE_URL = "https://api.mistral.ai/v1"
+MISTRAL_MODELS = (
+    "mistral-large-4",
+    "mistral-small-2603",
+)
+# Large 4 raisonne par défaut (effort « high ») : le raisonnement compte dans max_tokens
+# et dépasse parfois 4 000 tokens avant la réponse JSON.
+MISTRAL_MAX_TOKENS = 16384
+# USD / million de tokens, grille publique Mistral (oct. 2026).
+# Large 4 est au tarif promo (plein tarif : entrée 1.36, cache 0.14, sortie 4.18).
+MISTRAL_PRICE_PER_M = {
+    "mistral-large-4": {"input": 0.68, "cached": 0.07, "output": 2.09},
+    "mistral-small-2603": {"input": 0.15, "cached": 0.15, "output": 0.60},
+}
+_PROVIDER_LABELS = {"openai": "OpenAI", "albert": "Albert", "mistral": "Mistral"}
 VALID_CATEGORIES = {1, 2, 3, 4, 5, 6}
 FLEX_TIMEOUT_S = 900.0
 DEFAULT_INPUT_PER_CALL = 6300
@@ -82,7 +97,7 @@ class ModelOption(NamedTuple):
 
     @property
     def label(self) -> str:
-        name = "OpenAI" if self.provider == "openai" else "Albert"
+        name = _PROVIDER_LABELS.get(self.provider, self.provider)
         return f"{name} — {self.model_id}"
 
 
@@ -94,6 +109,17 @@ def albert_api_key() -> str:
         key = ""
     if not key:
         key = os.environ.get("ALBERT_API_KEY", "")
+    return key
+
+
+def mistral_api_key() -> str:
+    key = ""
+    try:
+        key = str(st.secrets.get("mistral_api_key", "") or "")
+    except Exception:
+        key = ""
+    if not key:
+        key = os.environ.get("mistral_api_key", "") or os.environ.get("MISTRAL_API_KEY", "")
     return key
 
 
@@ -160,6 +186,7 @@ def available_models() -> tuple[tuple[ModelOption, ...], str | None]:
                 "Liste de repli du catalogue public."
             )
     options.extend(ModelOption("albert", model_id) for model_id in albert_ids)
+    options.extend(ModelOption("mistral", model_id) for model_id in MISTRAL_MODELS)
     return tuple(options), warning
 
 
@@ -173,6 +200,18 @@ def make_llm_client(provider: str) -> OpenAI:
             )
         return OpenAI(
             base_url=ALBERT_BASE_URL,
+            api_key=key,
+            timeout=FLEX_TIMEOUT_S,
+        )
+    if provider == "mistral":
+        key = mistral_api_key()
+        if not key:
+            raise RuntimeError(
+                "mistral_api_key manquante. Ajoutez-la dans .streamlit/secrets.toml "
+                "ou dans la variable d'environnement mistral_api_key."
+            )
+        return OpenAI(
+            base_url=MISTRAL_BASE_URL,
             api_key=key,
             timeout=FLEX_TIMEOUT_S,
         )
@@ -409,14 +448,26 @@ def uncached_input_tokens(usage: dict[str, int] | None) -> int:
     return max(0, input_tokens - cached - writes)
 
 
+def _mistral_prices(model: str | None) -> dict[str, float]:
+    return MISTRAL_PRICE_PER_M.get(model or "", MISTRAL_PRICE_PER_M["mistral-large-4"])
+
+
 def usage_cost_usd(
     usage: dict[str, int] | None,
     flex: bool,
     provider: str = "openai",
+    model: str | None = None,
 ) -> float:
     if provider == "albert":
         return 0.0
     usage = usage or empty_usage()
+    if provider == "mistral":
+        prices = _mistral_prices(model)
+        return (
+            uncached_input_tokens(usage) * prices["input"]
+            + int(usage.get("cached_tokens", 0) or 0) * prices["cached"]
+            + int(usage.get("output_tokens", 0) or 0) * prices["output"]
+        ) / 1_000_000
     prices = token_prices_per_million(flex)
     return (
         uncached_input_tokens(usage) * prices["input"]
@@ -497,6 +548,21 @@ def estimate_run_costs(
         "cache": _cost(False, True),
         "flex_cache": _cost(True, True),
     }
+
+
+def estimate_mistral_run_cost(
+    model: str,
+    n_leviers: int,
+    n_runs: int,
+    avg_input: int,
+    avg_output: int,
+) -> float:
+    """Estime un run Mistral sans cache (entrée au tarif plein)."""
+    prices = _mistral_prices(model)
+    n_calls = n_leviers * n_runs
+    return (
+        n_calls * avg_input * prices["input"] + n_calls * avg_output * prices["output"]
+    ) / 1_000_000
 
 
 def _is_unavailable(exc: Exception) -> bool:
@@ -617,7 +683,16 @@ def _albert_message_text(response: Any) -> str:
     if not choices:
         return ""
     message = getattr(choices[0], "message", None)
-    return str(getattr(message, "content", None) or "")
+    content = getattr(message, "content", None)
+    if isinstance(content, list):
+        # Modèles à raisonnement Mistral : [{"type": "thinking", ...}, {"type": "text", ...}]
+        parts: list[str] = []
+        for part in content:
+            get = part.get if isinstance(part, dict) else lambda k, p=part: getattr(p, k, None)
+            if get("type") == "text":
+                parts.append(str(get("text") or ""))
+        return "".join(parts)
+    return str(content or "")
 
 
 def _create_albert_chat(
@@ -673,6 +748,54 @@ def _create_albert_chat(
     raise last_exc or RuntimeError(f"Échec Albert ({label})")
 
 
+def _create_mistral_chat(
+    client: OpenAI,
+    model: str,
+    prefix: str,
+    suffix: str,
+    status_container,
+    label: str,
+    max_tokens: int,
+    reasoning_off: bool = False,
+) -> Any:
+    """Chat Completions Mistral, JSON forcé. Pas de plafond local type Albert."""
+    body: dict[str, Any] = {
+        "model": model,
+        "messages": [
+            {"role": "system", "content": prefix},
+            {"role": "user", "content": suffix},
+        ],
+        "response_format": {"type": "json_object"},
+        "max_tokens": max_tokens,
+    }
+    if reasoning_off:
+        body["extra_body"] = {"reasoning_effort": "none"}
+    api = client.with_options(timeout=FLEX_TIMEOUT_S)
+    last_exc: Exception | None = None
+    for attempt in range(1, 4):
+        try:
+            return api.chat.completions.create(**body)
+        except Exception as e:
+            last_exc = e
+            err = str(e).lower()
+            if "response_format" in body and "response_format" in err:
+                body.pop("response_format", None)
+                _status_write(
+                    status_container,
+                    f"{label} : response_format refusé, nouvel essai sans JSON forcé.",
+                )
+                continue
+            if not _is_unavailable(e) or attempt == 3:
+                raise
+            wait = min(2**attempt, 16)
+            _status_write(
+                status_container,
+                f"Mistral saturé (429) pour {label}, retry {attempt}/3 dans {wait}s…",
+            )
+            time.sleep(wait)
+    raise last_exc or RuntimeError(f"Échec Mistral ({label})")
+
+
 def call_llm_json(
     client: OpenAI,
     prefix: str,
@@ -690,7 +813,7 @@ def call_llm_json(
     """Appelle le LLM, sortie JSON, retry en cas d'échec.
 
     OpenAI : Responses API, cache et Flex.
-    Albert : chat/completions (pas de Flex ni de cache prompt OpenAI).
+    Albert et Mistral : chat/completions (pas de Flex ni de cache prompt OpenAI).
     """
     last_error = None
     usage_acc = empty_usage()
@@ -712,6 +835,18 @@ def call_llm_json(
                     status_container,
                     label,
                     max_tokens=max_output_tokens or 4096,
+                )
+                raw_text = strip_json_fences(_albert_message_text(response))
+            elif provider == "mistral":
+                response = _create_mistral_chat(
+                    client,
+                    model,
+                    prefix,
+                    suffix,
+                    status_container,
+                    label,
+                    max_tokens=max_output_tokens or MISTRAL_MAX_TOKENS,
+                    reasoning_off=reasoning_low,
                 )
                 raw_text = strip_json_fences(_albert_message_text(response))
             else:
@@ -1083,16 +1218,24 @@ def init_payload(
     provider: str = "openai",
 ) -> dict[str, Any]:
     now = datetime.now().isoformat(timespec="seconds")
-    albert = provider == "albert"
+    if provider not in {"openai", "albert", "mistral"}:
+        provider = "openai"
+    chat_api = provider != "openai"
+    if provider == "mistral":
+        reasoning = "none" if reasoning_low else "high"
+    elif provider == "albert":
+        reasoning = "n/a"
+    else:
+        reasoning = "low" if reasoning_low else "medium"
     return {
         "meta": {
             "collectivite_id": inputs["collectivite_id"],
             "collectivite_nom": inputs["collectivite_nom"],
             "population": inputs["population"],
-            "provider": "albert" if albert else "openai",
+            "provider": provider,
             "model": model,
-            "reasoning": "n/a" if albert else ("low" if reasoning_low else "medium"),
-            "service_tier": "albert" if albert else ("flex" if use_flex else "standard"),
+            "reasoning": reasoning,
+            "service_tier": provider if chat_api else ("flex" if use_flex else "standard"),
             "prompt_cache_key": f"test-run-impact:{inputs['collectivite_id']}",
             "n_runs": n_runs,
             "debug": debug,
@@ -1138,7 +1281,8 @@ def append_result(
     usage = add_usage(empty_usage(), usage)
     flex = payload_is_flex(payload)
     provider = payload_provider(payload)
-    cost = usage_cost_usd(usage, flex, provider=provider)
+    model = str(payload.get("meta", {}).get("model") or "")
+    cost = usage_cost_usd(usage, flex, provider=provider, model=model)
     payload["results"].append(
         {
             "run": run,
@@ -1171,8 +1315,9 @@ def payload_cost_usd(payload: dict[str, Any]) -> float:
         return float(meta_cost)
     flex = payload_is_flex(payload)
     provider = payload_provider(payload)
+    model = str(payload.get("meta", {}).get("model") or "")
     return sum(
-        usage_cost_usd(row.get("usage"), flex, provider=provider)
+        usage_cost_usd(row.get("usage"), flex, provider=provider, model=model)
         for row in payload.get("results", [])
     )
 
