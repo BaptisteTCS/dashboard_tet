@@ -918,10 +918,22 @@ def display_df_markdown(df: pd.DataFrame):
     st.dataframe(df_a_afficher, use_container_width=True, height=600)
 
 
+def max_output_tokens_for(model: str) -> int:
+    """Plafond de sortie par modèle.
+
+    gemini-2.5-pro, gemini-3-pro-preview et gemini-3.8-flash sont limités à
+    65 536 tokens par l'API. gemini-4-argon accepte des sorties bien plus longues.
+    """
+    if model == "gemini-4-argon":
+        return 262144
+    return 65536
+
+
 async def query_gemini(user_prompt, model='gemini-3.1-pro-preview'):
     """Interroge Gemini avec streaming asynchrone"""
     start_time = time.time()
-    print(f"[{datetime.now().strftime('%H:%M:%S.%f')[:-3]}] ✨ Gemini START ({model})")
+    output_token_limit = max_output_tokens_for(model)
+    print(f"[{datetime.now().strftime('%H:%M:%S.%f')[:-3]}] ✨ Gemini START ({model}, max {output_token_limit} tokens)")
     try:
         # Utiliser le streaming pour la réponse
         stream = await gemini_client.aio.models.generate_content_stream(
@@ -929,7 +941,7 @@ async def query_gemini(user_prompt, model='gemini-3.1-pro-preview'):
             contents=user_prompt,
             config=types.GenerateContentConfig(
                 temperature=0.2,
-                max_output_tokens=64000
+                max_output_tokens=output_token_limit
             )
         )
         
@@ -962,7 +974,7 @@ async def query_gemini(user_prompt, model='gemini-3.1-pro-preview'):
                 contents=user_prompt,
                 config=types.GenerateContentConfig(
                     temperature=0.2,
-                    max_output_tokens=64000
+                    max_output_tokens=output_token_limit
                 )
             )
             elapsed = time.time() - start_time
