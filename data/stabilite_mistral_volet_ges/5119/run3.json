@@ -1,0 +1,392 @@
+{
+  "26004": {
+    "Changement chaudières fioul + rénovation (résidentiel)": [
+      3,
+      4,
+      6
+    ],
+    "Changement chaudières gaz + rénovation (résidentiel)": [
+      3,
+      4,
+      6
+    ],
+    "Sobriété des bâtiments (résidentiel)": [
+      3,
+      4,
+      6
+    ]
+  },
+  "26007": {
+    "Changement chaudières fioul + rénovation (résidentiel)": [
+      3,
+      4
+    ],
+    "Changement chaudières gaz + rénovation (résidentiel)": [
+      3,
+      4
+    ],
+    "Sobriété des bâtiments (résidentiel)": [
+      3,
+      4
+    ]
+  },
+  "26008": {
+    "Changement de chaudière à fioul (tertiaire)": [
+      5
+    ],
+    "Changement de chaudière à gaz (tertiaire)": [
+      5
+    ],
+    "Sobriété et isolation des bâtiments (tertiaire)": [
+      5
+    ]
+  },
+  "26067": {
+    "Changement de chaudière à fioul (tertiaire)": [
+      6
+    ],
+    "Changement de chaudière à gaz (tertiaire)": [
+      6
+    ],
+    "Sobriété et isolation des bâtiments (tertiaire)": [
+      6
+    ]
+  },
+  "26070": {
+    "Sobriété et isolation des bâtiments (tertiaire)": [
+      5
+    ]
+  },
+  "26076": {
+    "Electricité renouvelable": [
+      5,
+      6
+    ]
+  },
+  "26082": {},
+  "26093": {
+    "Vélo et transport en commun": [
+      1
+    ]
+  },
+  "26106": {
+    "Vélo et transport en commun": [
+      1
+    ]
+  },
+  "26107": {
+    "Covoiturage": [
+      1,
+      4
+    ]
+  },
+  "26108": {
+    "Efficacité et carburants décarbonés des véhicules privés": [
+      2
+    ]
+  },
+  "26109": {
+    "Bus et cars décarbonés": [
+      5
+    ],
+    "Véhicules électriques": [
+      5
+    ]
+  },
+  "26115": {
+    "Véhicules électriques": [
+      1,
+      6
+    ]
+  },
+  "26121": {
+    "Fret décarboné et multimodalité": [
+      4,
+      6
+    ],
+    "Efficacité et sobriété logistique": [
+      4,
+      6
+    ]
+  },
+  "26125": {},
+  "26699": {
+    "Réseaux de chaleur décarbonés": [
+      1
+    ]
+  },
+  "26703": {
+    "Réseaux de chaleur décarbonés": [
+      4
+    ]
+  },
+  "26704": {
+    "Biogaz": [
+      3,
+      4,
+      6
+    ]
+  },
+  "26707": {},
+  "26723": {
+    "Electricité renouvelable": [
+      4
+    ]
+  },
+  "26725": {
+    "Gestion des forêts et produits bois": [
+      4,
+      6
+    ]
+  },
+  "26726": {
+    "Valorisation matière des déchets": [
+      4
+    ]
+  },
+  "26727": {
+    "Electricité renouvelable": [
+      3,
+      4,
+      6
+    ]
+  },
+  "26728": {
+    "Electricité renouvelable": [
+      4,
+      6
+    ]
+  },
+  "26729": {
+    "Electricité renouvelable": [
+      1,
+      4
+    ]
+  },
+  "26730": {},
+  "27273": {
+    "Elevage durable": [
+      3,
+      6
+    ],
+    "Gestion des prairies": [
+      3,
+      6
+    ],
+    "Changements de pratiques de fertilisation azotée": [
+      3,
+      6
+    ]
+  },
+  "27277": {},
+  "27278": {
+    "Gestion des prairies": [
+      3
+    ],
+    "Gestion des haies": [
+      3
+    ],
+    "Pratiques stockantes": [
+      3
+    ]
+  },
+  "27279": {},
+  "27280": {},
+  "27317": {},
+  "27318": {
+    "Gestion des haies": [
+      1,
+      3,
+      4
+    ],
+    "Pratiques stockantes": [
+      1,
+      3,
+      4
+    ]
+  },
+  "27319": {
+    "Gestion des forêts et produits bois": [
+      1,
+      3,
+      4
+    ],
+    "Pratiques stockantes": [
+      1,
+      3,
+      4
+    ]
+  },
+  "27353": {},
+  "27355": {},
+  "27356": {
+    "Production Industrielle": [
+      4,
+      6
+    ],
+    "Prévention des déchets": [
+      4,
+      5,
+      6
+    ],
+    "Valorisation matière des déchets": [
+      4,
+      5,
+      6
+    ],
+    "Biogaz": [
+      4,
+      6
+    ]
+  },
+  "27357": {
+    "Prévention des déchets": [
+      2,
+      6
+    ]
+  },
+  "27360": {
+    "Prévention des déchets": [
+      3,
+      6
+    ],
+    "Valorisation matière des déchets": [
+      3,
+      6
+    ]
+  },
+  "27362": {
+    "Prévention des déchets": [
+      1,
+      2,
+      6
+    ],
+    "Valorisation matière des déchets": [
+      1,
+      6
+    ],
+    "Biogaz": [
+      1
+    ]
+  },
+  "27414": {
+    "Sobriété foncière": [
+      2
+    ]
+  },
+  "29278": {},
+  "29279": {},
+  "29280": {},
+  "29281": {},
+  "29282": {},
+  "29283": {},
+  "29284": {},
+  "29286": {},
+  "29287": {},
+  "29288": {},
+  "29289": {},
+  "29290": {},
+  "29291": {},
+  "29292": {},
+  "29293": {},
+  "29294": {},
+  "29295": {},
+  "37484": {
+    "Sobriété et isolation des bâtiments (tertiaire)": [
+      5
+    ]
+  },
+  "37494": {
+    "Sobriété et isolation des bâtiments (tertiaire)": [
+      5
+    ]
+  },
+  "37499": {
+    "Sobriété et isolation des bâtiments (tertiaire)": [
+      5
+    ],
+    "Electricité renouvelable": [
+      5
+    ]
+  },
+  "37503": {
+    "Sobriété et isolation des bâtiments (tertiaire)": [
+      5
+    ]
+  },
+  "37514": {
+    "Sobriété et isolation des bâtiments (tertiaire)": [
+      5
+    ]
+  },
+  "37526": {
+    "Sobriété et isolation des bâtiments (tertiaire)": [
+      5
+    ]
+  },
+  "37530": {
+    "Sobriété et isolation des bâtiments (tertiaire)": [
+      5
+    ]
+  },
+  "37542": {
+    "Sobriété des bâtiments (résidentiel)": [
+      5
+    ]
+  },
+  "37544": {
+    "Réseaux de chaleur décarbonés": [
+      1
+    ]
+  },
+  "37562": {
+    "Réseaux de chaleur décarbonés": [
+      1
+    ]
+  },
+  "37613": {
+    "Réseaux de chaleur décarbonés": [
+      1
+    ]
+  },
+  "37622": {
+    "Réseaux de chaleur décarbonés": [
+      1
+    ]
+  },
+  "37623": {
+    "Réseaux de chaleur décarbonés": [
+      4,
+      6
+    ]
+  },
+  "37624": {
+    "Sobriété et isolation des bâtiments (tertiaire)": [
+      5
+    ]
+  },
+  "37626": {
+    "Sobriété et isolation des bâtiments (tertiaire)": [
+      5
+    ]
+  },
+  "37628": {},
+  "39055": {},
+  "39057": {},
+  "39062": {},
+  "39070": {},
+  "39072": {},
+  "39074": {},
+  "39075": {},
+  "39076": {},
+  "39078": {},
+  "39080": {},
+  "39081": {},
+  "39082": {},
+  "39083": {},
+  "39207": {
+    "Electricité renouvelable": [
+      1
+    ]
+  }
+}

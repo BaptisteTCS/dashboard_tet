@@ -232,7 +232,27 @@ def get_valid_collectivite_ids_preprod():
         return set()
 
 
-def livrer_en_preprod(comparison, df_staged, progress_container=None):
+def _resume_erreur_api(response, max_len=300):
+    """Extrait un message d'erreur court (sans dump console)."""
+    try:
+        error_json = response.json()
+        error_msg = (
+            error_json.get("message")
+            or error_json.get("error")
+            or error_json.get("detail")
+            or error_json.get("code")
+        )
+        if error_msg is None:
+            error_msg = "Erreur API"
+    except ValueError:
+        error_msg = response.text or "Erreur API"
+    error_msg = str(error_msg)
+    if len(error_msg) > max_len:
+        return error_msg[:max_len] + "…"
+    return error_msg
+
+
+def livrer_en_preprod(comparison, df_staged, progress_container=None, batch_size=500):
     """Fait l'upsert des données staging vers la pré-prod via API.
     
     N'envoie que les données qui ont vraiment changé :
@@ -247,6 +267,7 @@ def livrer_en_preprod(comparison, df_staged, progress_container=None):
         comparison: Résultats de la comparaison staging vs pré-prod
         df_staged: DataFrame contenant toutes les données staging
         progress_container: Container Streamlit pour afficher la progression
+        batch_size: Nombre de lignes par requête API (défaut 500)
     
     Returns:
         dict: Statistiques de la livraison
@@ -322,15 +343,12 @@ def livrer_en_preprod(comparison, df_staged, progress_container=None):
         valeurs_payload = df_to_insert.apply(lambda row: {
             "collectiviteId": int(row["collectivite_id"]),
             "indicateurId": int(row["indicateur_id"]),
-            "dateValeur": row["date_valeur"].isoformat(),
+            "dateValeur": pd.Timestamp(row["date_valeur"]).strftime("%Y-%m-%d"),
             "metadonneeId": int(row["metadonnee_id"]),
             "resultat": float(row["resultat"]) if pd.notnull(row["resultat"]) else None,
         }, axis=1).tolist()
-
-        print(f"{valeurs_payload}")
         
         # 2. Paramétrage du batch
-        batch_size = 500
         total_rows = len(valeurs_payload)
         total_inserted = 0
         failed_batches = 0
@@ -375,25 +393,24 @@ def livrer_en_preprod(comparison, df_staged, progress_container=None):
                     status_text.success(f"✅ Batch {batch_num}/{total_batches} OK ({inserted} lignes)")
             else:
                 failed_batches += 1
-                
-                # Logger l'erreur dans la console
-                print(f"\n{'='*80}")
-                print(f"❌ ERREUR - Batch {batch_num}/{total_batches} échoué (HTTP {response.status_code})")
-                print(f"{'='*80}")
-                
+                error_resume = _resume_erreur_api(response)
+                console_resume = _resume_erreur_api(response, max_len=120)
                 try:
-                    error_json = response.json()
-                    print("Réponse API (JSON):")
-                    import json
-                    print(json.dumps(error_json, indent=2, ensure_ascii=False))
-                except:
-                    print("Réponse serveur (texte):")
-                    print(response.text)
-                
-                print(f"{'='*80}\n")
+                    api_code = response.json().get("code")
+                except ValueError:
+                    api_code = None
+                console_line = (
+                    f"❌ Batch {batch_num}/{total_batches} échoué (HTTP {response.status_code})"
+                )
+                if api_code is not None:
+                    console_line += f" — code {api_code}"
+                console_line += f" — {console_resume}"
+                print(console_line)
                 
                 if progress_container:
-                    status_text.error(f"❌ Batch {batch_num}/{total_batches} échoué (HTTP {response.status_code}) - voir console pour détails")
+                    status_text.error(
+                        f"❌ Batch {batch_num}/{total_batches} échoué (HTTP {response.status_code}) — {error_resume}"
+                    )
                 
                 # On continue même en cas d'erreur sur un batch
             
@@ -802,13 +819,25 @@ if st.session_state.analysis_done and st.session_state.df_staged is not None:
                 mime="text/csv"
             )
 
+    petits_paquets = st.toggle(
+        "Paquets de 50 lignes (au lieu de 500)",
+        value=False,
+        help="Réduit la taille des requêtes API en cas d'erreurs serveur (ex. stack overflow).",
+    )
+    batch_size_livraison = 50 if petits_paquets else 500
+
     col_btn1, col_btn2, col_btn3 = st.columns([2, 3, 2])
     with col_btn2:
         if st.button("🚢 Livrer en pré-prod", type="primary", use_container_width=True, disabled=(nb_to_send == 0)):
             # Container pour la progression
             progress_container = st.container()
             
-            result = livrer_en_preprod(st.session_state.comparison, st.session_state.df_staged, progress_container)
+            result = livrer_en_preprod(
+                st.session_state.comparison,
+                st.session_state.df_staged,
+                progress_container,
+                batch_size=batch_size_livraison,
+            )
             
             st.markdown("---")
             

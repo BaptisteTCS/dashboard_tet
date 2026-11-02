@@ -1,0 +1,109 @@
+{
+  "collectivite_id": 4576,
+  "nom": "CC de la Forêt",
+  "modele": "mistral-large-4",
+  "reasoning_effort": "low",
+  "temperature": "défaut API",
+  "batch_size": 25,
+  "n_runs": 3,
+  "n_fiches": 94,
+  "lots": {
+    "run1_lot1": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 3688,
+        "output": 6866
+      }
+    },
+    "run1_lot2": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 3543,
+        "output": 8180
+      }
+    },
+    "run1_lot4": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 2759,
+        "output": 6257
+      }
+    },
+    "run1_lot3": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 2625,
+        "output": 7370
+      }
+    },
+    "run2_lot1": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 3688,
+        "output": 8915
+      }
+    },
+    "run2_lot3": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 2625,
+        "output": 6621
+      }
+    },
+    "run2_lot2": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 3543,
+        "output": 8699
+      }
+    },
+    "run3_lot1": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 3688,
+        "output": 4574
+      }
+    },
+    "run2_lot4": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 2759,
+        "output": 5196
+      }
+    },
+    "run3_lot4": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 2759,
+        "output": 2413
+      }
+    },
+    "run3_lot2": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 3543,
+        "output": 6990
+      }
+    },
+    "run3_lot3": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 2625,
+        "output": 5850
+      }
+    }
+  },
+  "date": "2026-10-30 15:07"
+}

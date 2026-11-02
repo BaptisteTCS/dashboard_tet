@@ -1,0 +1,85 @@
+{
+  "collectivite_id": 4026,
+  "nom": "CA Rochefort Océan",
+  "modele": "mistral-large-4",
+  "reasoning_effort": "low",
+  "temperature": "défaut API",
+  "batch_size": 25,
+  "n_runs": 3,
+  "n_fiches": 75,
+  "lots": {
+    "run1_lot1": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 3705,
+        "output": 5676
+      }
+    },
+    "run2_lot3": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 2605,
+        "output": 4413
+      }
+    },
+    "run2_lot1": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 3705,
+        "output": 5293
+      }
+    },
+    "run1_lot2": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 3517,
+        "output": 6006
+      }
+    },
+    "run1_lot3": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 2605,
+        "output": 6725
+      }
+    },
+    "run2_lot2": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 3517,
+        "output": 7669
+      }
+    },
+    "run3_lot1": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 3705,
+        "output": 7716
+      }
+    },
+    "run3_lot2": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 3517,
+        "output": 7016
+      }
+    },
+    "run3_lot3": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 2605,
+        "output": 7305
+      }
+    }
+  },
+  "date": "2026-10-30 15:07"
+}

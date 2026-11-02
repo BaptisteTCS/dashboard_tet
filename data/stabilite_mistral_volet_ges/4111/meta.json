@@ -1,0 +1,111 @@
+{
+  "collectivite_id": 4111,
+  "nom": "CC Creuse Sud Ouest",
+  "modele": "mistral-large-4",
+  "reasoning_effort": "low",
+  "temperature": "défaut API",
+  "batch_size": 25,
+  "n_runs": 3,
+  "n_fiches": 80,
+  "lots": {
+    "run1_lot1": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 5178,
+        "output": 7746
+      }
+    },
+    "run1_lot2": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 4817,
+        "output": 5871
+      }
+    },
+    "run1_lot3": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 5281,
+        "output": 2648
+      }
+    },
+    "run1_lot4": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 1920,
+        "output": 1931
+      }
+    },
+    "run2_lot4": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 1920,
+        "output": 631
+      }
+    },
+    "run2_lot3": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 5281,
+        "output": 2879
+      }
+    },
+    "run2_lot2": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 4817,
+        "output": 5072
+      }
+    },
+    "run3_lot3": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 5281,
+        "output": 3658
+      }
+    },
+    "run3_lot4": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 1920,
+        "output": 1948
+      }
+    },
+    "run2_lot1": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 5178,
+        "output": 6621
+      }
+    },
+    "run3_lot2": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 4817,
+        "output": 6562
+      }
+    },
+    "run3_lot1": {
+      "essais": 2,
+      "erreurs": [
+        "ValueError: Levier inconnu: Sobriété des bâtiments (tertiaire)"
+      ],
+      "tokens": {
+        "input": 10356,
+        "output": 16319
+      }
+    }
+  },
+  "date": "2026-10-30 12:12"
+}

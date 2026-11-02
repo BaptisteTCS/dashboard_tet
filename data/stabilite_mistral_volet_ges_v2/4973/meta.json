@@ -1,0 +1,1013 @@
+{
+  "collectivite_id": 4973,
+  "nom": "CC Sundgau",
+  "prompt": "v2",
+  "modele": "mistral-large-4",
+  "reasoning_effort": "low",
+  "temperature": "défaut API",
+  "batch_size": 1,
+  "n_runs": 3,
+  "n_fiches": 37,
+  "lots": {
+    "run1_fiche17145": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 5038,
+        "cached": 4864,
+        "output": 564
+      }
+    },
+    "run1_fiche31578": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 5022,
+        "cached": 4864,
+        "output": 1150
+      }
+    },
+    "run1_fiche42052": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 5225,
+        "cached": 5120,
+        "output": 1587
+      }
+    },
+    "run1_fiche42055": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 5035,
+        "cached": 4864,
+        "output": 1166
+      }
+    },
+    "run1_fiche42049": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 5232,
+        "cached": 4864,
+        "output": 2414
+      }
+    },
+    "run1_fiche42054": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 5093,
+        "cached": 4864,
+        "output": 1164
+      }
+    },
+    "run1_fiche42056": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 5043,
+        "cached": 4864,
+        "output": 782
+      }
+    },
+    "run1_fiche53164": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 5033,
+        "cached": 4864,
+        "output": 695
+      }
+    },
+    "run1_fiche53163": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 5034,
+        "cached": 4864,
+        "output": 911
+      }
+    },
+    "run1_fiche53171": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 5022,
+        "cached": 4864,
+        "output": 499
+      }
+    },
+    "run1_fiche53169": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 5033,
+        "cached": 4864,
+        "output": 2174
+      }
+    },
+    "run1_fiche53173": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 5025,
+        "cached": 4864,
+        "output": 568
+      }
+    },
+    "run1_fiche61654": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 5043,
+        "cached": 4864,
+        "output": 514
+      }
+    },
+    "run1_fiche53168": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 5030,
+        "cached": 4864,
+        "output": 2124
+      }
+    },
+    "run1_fiche42053": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 5277,
+        "cached": 4864,
+        "output": 3723
+      }
+    },
+    "run1_fiche61656": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 5044,
+        "cached": 4864,
+        "output": 830
+      }
+    },
+    "run1_fiche61657": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 5059,
+        "cached": 4864,
+        "output": 830
+      }
+    },
+    "run1_fiche42051": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 5196,
+        "cached": 4864,
+        "output": 4710
+      }
+    },
+    "run1_fiche61675": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 5046,
+        "cached": 4864,
+        "output": 1039
+      }
+    },
+    "run1_fiche17138": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 5118,
+        "cached": 4864,
+        "output": 2898
+      }
+    },
+    "run1_fiche53161": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 5087,
+        "cached": 4864,
+        "output": 1174
+      }
+    },
+    "run1_fiche53167": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 5040,
+        "cached": 4864,
+        "output": 1121
+      }
+    },
+    "run1_fiche61674": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 5043,
+        "cached": 4864,
+        "output": 1840
+      }
+    },
+    "run1_fiche61676": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 5048,
+        "cached": 4864,
+        "output": 1597
+      }
+    },
+    "run1_fiche61678": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 5054,
+        "cached": 4864,
+        "output": 1731
+      }
+    },
+    "run1_fiche61681": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 5037,
+        "cached": 4864,
+        "output": 781
+      }
+    },
+    "run1_fiche61682": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 5035,
+        "cached": 4864,
+        "output": 1037
+      }
+    },
+    "run1_fiche61683": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 5038,
+        "cached": 4864,
+        "output": 680
+      }
+    },
+    "run1_fiche61677": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 5044,
+        "cached": 4864,
+        "output": 2305
+      }
+    },
+    "run1_fiche61684": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 5039,
+        "cached": 4864,
+        "output": 726
+      }
+    },
+    "run1_fiche61686": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 5044,
+        "cached": 4864,
+        "output": 889
+      }
+    },
+    "run1_fiche53170": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 5033,
+        "cached": 4864,
+        "output": 4992
+      }
+    },
+    "run1_fiche61687": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 5034,
+        "cached": 4864,
+        "output": 772
+      }
+    },
+    "run1_fiche61685": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 5034,
+        "cached": 4864,
+        "output": 902
+      }
+    },
+    "run1_fiche61679": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 5039,
+        "cached": 4864,
+        "output": 1760
+      }
+    },
+    "run2_fiche17145": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 5038,
+        "cached": 4864,
+        "output": 568
+      }
+    },
+    "run1_fiche61680": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 5038,
+        "cached": 4864,
+        "output": 1919
+      }
+    },
+    "run2_fiche17138": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 5118,
+        "cached": 4864,
+        "output": 1714
+      }
+    },
+    "run2_fiche31578": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 5022,
+        "cached": 4864,
+        "output": 874
+      }
+    },
+    "run2_fiche42055": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 5035,
+        "cached": 4864,
+        "output": 645
+      }
+    },
+    "run2_fiche42054": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 5093,
+        "cached": 4864,
+        "output": 981
+      }
+    },
+    "run2_fiche42049": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 5232,
+        "cached": 4864,
+        "output": 2122
+      }
+    },
+    "run2_fiche42056": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 5043,
+        "cached": 4864,
+        "output": 816
+      }
+    },
+    "run2_fiche53161": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 5087,
+        "cached": 4864,
+        "output": 868
+      }
+    },
+    "run2_fiche53164": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 5033,
+        "cached": 4864,
+        "output": 802
+      }
+    },
+    "run2_fiche53167": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 5040,
+        "cached": 4864,
+        "output": 938
+      }
+    },
+    "run2_fiche53163": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 5034,
+        "cached": 4864,
+        "output": 1137
+      }
+    },
+    "run2_fiche53171": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 5022,
+        "cached": 4864,
+        "output": 559
+      }
+    },
+    "run1_fiche42050": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 5241,
+        "cached": 4864,
+        "output": 7021
+      }
+    },
+    "run2_fiche53173": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 5025,
+        "cached": 4864,
+        "output": 940
+      }
+    },
+    "run2_fiche53169": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 5033,
+        "cached": 4864,
+        "output": 2175
+      }
+    },
+    "run2_fiche61654": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 5043,
+        "cached": 4864,
+        "output": 802
+      }
+    },
+    "run2_fiche42053": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 5277,
+        "cached": 4864,
+        "output": 4057
+      }
+    },
+    "run2_fiche61656": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 5044,
+        "cached": 4864,
+        "output": 924
+      }
+    },
+    "run2_fiche42051": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 5196,
+        "cached": 4864,
+        "output": 4792
+      }
+    },
+    "run2_fiche53168": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 5030,
+        "cached": 4864,
+        "output": 2339
+      }
+    },
+    "run2_fiche61675": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 5046,
+        "cached": 4864,
+        "output": 732
+      }
+    },
+    "run2_fiche61674": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 5043,
+        "cached": 4864,
+        "output": 811
+      }
+    },
+    "run2_fiche42050": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 5241,
+        "cached": 4864,
+        "output": 4816
+      }
+    },
+    "run2_fiche61678": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 5054,
+        "cached": 4864,
+        "output": 1122
+      }
+    },
+    "run2_fiche61676": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 5048,
+        "cached": 4864,
+        "output": 999
+      }
+    },
+    "run2_fiche42052": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 5225,
+        "cached": 5120,
+        "output": 5989
+      }
+    },
+    "run2_fiche53170": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 5033,
+        "cached": 4864,
+        "output": 2873
+      }
+    },
+    "run2_fiche61657": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 5059,
+        "cached": 4864,
+        "output": 1608
+      }
+    },
+    "run2_fiche61681": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 5037,
+        "cached": 4864,
+        "output": 747
+      }
+    },
+    "run2_fiche61683": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 5038,
+        "cached": 4864,
+        "output": 661
+      }
+    },
+    "run2_fiche61684": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 5039,
+        "cached": 4864,
+        "output": 630
+      }
+    },
+    "run2_fiche61682": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 5035,
+        "cached": 4864,
+        "output": 1081
+      }
+    },
+    "run2_fiche61685": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 5034,
+        "cached": 4864,
+        "output": 774
+      }
+    },
+    "run2_fiche61679": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 5039,
+        "cached": 4864,
+        "output": 1632
+      }
+    },
+    "run3_fiche17145": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 5038,
+        "cached": 4864,
+        "output": 378
+      }
+    },
+    "run2_fiche61687": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 5034,
+        "cached": 4864,
+        "output": 851
+      }
+    },
+    "run2_fiche61686": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 5044,
+        "cached": 4864,
+        "output": 863
+      }
+    },
+    "run2_fiche61680": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 5038,
+        "cached": 4864,
+        "output": 1606
+      }
+    },
+    "run2_fiche61677": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 5044,
+        "cached": 4864,
+        "output": 2748
+      }
+    },
+    "run3_fiche42054": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 5093,
+        "cached": 4864,
+        "output": 845
+      }
+    },
+    "run3_fiche31578": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 5022,
+        "cached": 4864,
+        "output": 1336
+      }
+    },
+    "run3_fiche42055": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 5035,
+        "cached": 4864,
+        "output": 960
+      }
+    },
+    "run3_fiche42056": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 5043,
+        "cached": 4864,
+        "output": 899
+      }
+    },
+    "run3_fiche53163": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 5034,
+        "cached": 4864,
+        "output": 640
+      }
+    },
+    "run3_fiche17138": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 5118,
+        "cached": 4864,
+        "output": 2519
+      }
+    },
+    "run3_fiche53164": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 5033,
+        "cached": 4864,
+        "output": 731
+      }
+    },
+    "run3_fiche53167": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 5040,
+        "cached": 4864,
+        "output": 766
+      }
+    },
+    "run3_fiche53161": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 5087,
+        "cached": 4864,
+        "output": 1105
+      }
+    },
+    "run3_fiche53171": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 5022,
+        "cached": 4864,
+        "output": 295
+      }
+    },
+    "run3_fiche53173": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 5025,
+        "cached": 4864,
+        "output": 539
+      }
+    },
+    "run3_fiche42049": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 5232,
+        "cached": 5120,
+        "output": 3776
+      }
+    },
+    "run3_fiche42052": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 5225,
+        "cached": 4864,
+        "output": 3831
+      }
+    },
+    "run3_fiche61654": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 5043,
+        "cached": 4864,
+        "output": 995
+      }
+    },
+    "run3_fiche61656": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 5044,
+        "cached": 4864,
+        "output": 442
+      }
+    },
+    "run3_fiche42053": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 5277,
+        "cached": 5120,
+        "output": 3423
+      }
+    },
+    "run3_fiche53169": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 5033,
+        "cached": 4864,
+        "output": 2003
+      }
+    },
+    "run3_fiche61674": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 5043,
+        "cached": 4864,
+        "output": 711
+      }
+    },
+    "run3_fiche61657": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 5059,
+        "cached": 4864,
+        "output": 736
+      }
+    },
+    "run3_fiche42051": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 5196,
+        "cached": 5120,
+        "output": 5379
+      }
+    },
+    "run3_fiche61675": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 5046,
+        "cached": 4864,
+        "output": 1099
+      }
+    },
+    "run3_fiche61677": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 5044,
+        "cached": 4864,
+        "output": 1017
+      }
+    },
+    "run3_fiche53168": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 5030,
+        "cached": 4864,
+        "output": 3134
+      }
+    },
+    "run3_fiche42050": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 5241,
+        "cached": 5120,
+        "output": 7627
+      }
+    },
+    "run3_fiche61679": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 5039,
+        "cached": 4864,
+        "output": 2156
+      }
+    },
+    "run3_fiche61680": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 5038,
+        "cached": 4864,
+        "output": 1535
+      }
+    },
+    "run3_fiche61685": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 5034,
+        "cached": 4864,
+        "output": 622
+      }
+    },
+    "run3_fiche61686": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 5044,
+        "cached": 4864,
+        "output": 730
+      }
+    },
+    "run3_fiche61687": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 5034,
+        "cached": 4864,
+        "output": 800
+      }
+    },
+    "run3_fiche53170": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 5033,
+        "cached": 4864,
+        "output": 3549
+      }
+    },
+    "run3_fiche61683": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 5038,
+        "cached": 4864,
+        "output": 652
+      }
+    },
+    "run3_fiche61681": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 5037,
+        "cached": 4864,
+        "output": 881
+      }
+    },
+    "run3_fiche61676": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 5048,
+        "cached": 4864,
+        "output": 2277
+      }
+    },
+    "run3_fiche61684": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 5039,
+        "cached": 4864,
+        "output": 715
+      }
+    },
+    "run3_fiche61682": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 5035,
+        "cached": 4864,
+        "output": 1111
+      }
+    },
+    "run3_fiche61678": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 5054,
+        "cached": 4864,
+        "output": 3955
+      }
+    }
+  },
+  "date": "2026-10-30 17:08"
+}

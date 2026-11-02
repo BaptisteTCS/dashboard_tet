@@ -1,0 +1,390 @@
+{
+  "61649": {},
+  "61650": {},
+  "61651": {},
+  "61652": {},
+  "61655": {
+    "Sobriété et isolation des bâtiments (tertiaire)": [
+      5
+    ],
+    "Réduction des déplacements": [
+      5
+    ]
+  },
+  "61661": {
+    "Prévention des déchets": [
+      6
+    ],
+    "Réduction des déplacements": [
+      6
+    ]
+  },
+  "61663": {
+    "Valorisation matière des déchets": [
+      1
+    ]
+  },
+  "61664": {},
+  "61668": {
+    "Prévention des déchets": [
+      6
+    ]
+  },
+  "61669": {},
+  "62259": {},
+  "62260": {},
+  "62261": {},
+  "62262": {
+    "Vélo et transport en commun": [
+      5
+    ],
+    "Réduction des déplacements": [
+      5
+    ]
+  },
+  "62263": {},
+  "62264": {},
+  "62265": {},
+  "62267": {},
+  "62269": {},
+  "62270": {
+    "Covoiturage": [
+      1
+    ]
+  },
+  "62274": {
+    "Vélo et transport en commun": [
+      1,
+      2
+    ]
+  },
+  "62275": {
+    "Vélo et transport en commun": [
+      1
+    ]
+  },
+  "62276": {
+    "Vélo et transport en commun": [
+      1
+    ]
+  },
+  "62278": {
+    "Véhicules électriques": [
+      1
+    ]
+  },
+  "62279": {
+    "Vélo et transport en commun": [
+      1
+    ]
+  },
+  "62280": {
+    "Vélo et transport en commun": [
+      2
+    ]
+  },
+  "62281": {
+    "Réduction des déplacements": [
+      6
+    ]
+  },
+  "62282": {
+    "Vélo et transport en commun": [
+      6
+    ]
+  },
+  "62283": {
+    "Véhicules électriques": [
+      6
+    ]
+  },
+  "62284": {
+    "Bus et cars décarbonés": [
+      1
+    ]
+  },
+  "62285": {
+    "Bus et cars décarbonés": [
+      1
+    ]
+  },
+  "62286": {
+    "Bus et cars décarbonés": [
+      1
+    ]
+  },
+  "62287": {
+    "Vélo et transport en commun": [
+      1,
+      4
+    ]
+  },
+  "62288": {
+    "Vélo et transport en commun": [
+      1
+    ]
+  },
+  "62289": {
+    "Vélo et transport en commun": [
+      6
+    ]
+  },
+  "62290": {
+    "Vélo et transport en commun": [
+      6
+    ]
+  },
+  "62291": {
+    "Réduction des déplacements": [
+      5
+    ]
+  },
+  "62292": {
+    "Véhicules électriques": [
+      5
+    ]
+  },
+  "62294": {
+    "Sobriété des bâtiments (résidentiel)": [
+      3,
+      6
+    ]
+  },
+  "62295": {
+    "Sobriété des bâtiments (résidentiel)": [
+      3,
+      6
+    ]
+  },
+  "62296": {
+    "Sobriété des bâtiments (résidentiel)": [
+      6
+    ]
+  },
+  "62297": {},
+  "62298": {
+    "Sobriété et isolation des bâtiments (tertiaire)": [
+      6
+    ]
+  },
+  "62300": {
+    "Sobriété et isolation des bâtiments (tertiaire)": [
+      5
+    ]
+  },
+  "62303": {
+    "Sobriété et isolation des bâtiments (tertiaire)": [
+      6
+    ]
+  },
+  "62304": {
+    "Sobriété et isolation des bâtiments (tertiaire)": [
+      3
+    ]
+  },
+  "62305": {
+    "Sobriété des bâtiments (résidentiel)": [
+      3
+    ],
+    "Sobriété et isolation des bâtiments (tertiaire)": [
+      3
+    ]
+  },
+  "62307": {
+    "Electricité renouvelable": [
+      2,
+      6
+    ]
+  },
+  "62308": {
+    "Electricité renouvelable": [
+      5
+    ]
+  },
+  "62309": {
+    "Réseaux de chaleur décarbonés": [
+      2,
+      6
+    ]
+  },
+  "62310": {
+    "Gestion des forêts et produits bois": [
+      4,
+      6
+    ]
+  },
+  "62311": {
+    "Electricité renouvelable": [
+      6
+    ]
+  },
+  "62312": {
+    "Electricité renouvelable": [
+      4
+    ]
+  },
+  "62313": {
+    "Electricité renouvelable": [
+      5
+    ]
+  },
+  "62314": {
+    "Electricité renouvelable": [
+      5
+    ]
+  },
+  "62317": {
+    "Electricité renouvelable": [
+      3,
+      6
+    ]
+  },
+  "62318": {
+    "Biogaz": [
+      4,
+      6
+    ]
+  },
+  "62319": {
+    "Réseaux de chaleur décarbonés": [
+      1,
+      4
+    ]
+  },
+  "62320": {
+    "Réseaux de chaleur décarbonés": [
+      4
+    ]
+  },
+  "62321": {
+    "Prévention des déchets": [
+      6
+    ]
+  },
+  "62322": {
+    "Prévention des déchets": [
+      6
+    ],
+    "Valorisation matière des déchets": [
+      1,
+      6
+    ]
+  },
+  "62325": {
+    "Prévention des déchets": [
+      3,
+      6
+    ]
+  },
+  "62326": {
+    "Prévention des déchets": [
+      3,
+      4,
+      6
+    ],
+    "Valorisation matière des déchets": [
+      3,
+      4,
+      6
+    ]
+  },
+  "62327": {
+    "Valorisation matière des déchets": [
+      1,
+      4
+    ]
+  },
+  "62330": {},
+  "62331": {},
+  "62332": {
+    "Gestion des haies": [
+      3,
+      6
+    ]
+  },
+  "62333": {
+    "Valorisation matière des déchets": [
+      4
+    ]
+  },
+  "62334": {
+    "Gestion des forêts et produits bois": [
+      1,
+      4,
+      6
+    ]
+  },
+  "62335": {
+    "Prévention des déchets": [
+      6
+    ],
+    "Gestion des forêts et produits bois": [
+      6
+    ]
+  },
+  "62336": {
+    "Sobriété foncière": [
+      2
+    ]
+  },
+  "62337": {},
+  "62338": {},
+  "62339": {},
+  "62340": {},
+  "62341": {},
+  "62342": {},
+  "62343": {},
+  "62350": {},
+  "62351": {},
+  "62352": {},
+  "62353": {},
+  "62354": {},
+  "62355": {},
+  "62356": {
+    "Changement chaudières fioul + rénovation (résidentiel)": [
+      3
+    ],
+    "Changement chaudières gaz + rénovation (résidentiel)": [
+      3
+    ],
+    "Sobriété des bâtiments (résidentiel)": [
+      3
+    ]
+  },
+  "62357": {},
+  "62359": {},
+  "62360": {},
+  "62361": {},
+  "62362": {},
+  "88771": {},
+  "90303": {
+    "Réduction des déplacements": [
+      6
+    ],
+    "Vélo et transport en commun": [
+      6
+    ],
+    "Covoiturage": [
+      6
+    ]
+  },
+  "90936": {},
+  "91446": {
+    "Vélo et transport en commun": [
+      1
+    ],
+    "Prévention des déchets": [
+      1
+    ]
+  },
+  "91563": {
+    "Sobriété foncière": [
+      1
+    ]
+  },
+  "129722": {
+    "Efficacité et sobriété logistique": [
+      2
+    ]
+  }
+}

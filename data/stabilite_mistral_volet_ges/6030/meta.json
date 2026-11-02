@@ -1,0 +1,85 @@
+{
+  "collectivite_id": 6030,
+  "nom": "SM du SCoT Sambre Avesnois",
+  "modele": "mistral-large-4",
+  "reasoning_effort": "low",
+  "temperature": "défaut API",
+  "batch_size": 25,
+  "n_runs": 3,
+  "n_fiches": 73,
+  "lots": {
+    "run1_lot1": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 7514,
+        "output": 8758
+      }
+    },
+    "run1_lot2": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 5175,
+        "output": 6638
+      }
+    },
+    "run1_lot3": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 4109,
+        "output": 7027
+      }
+    },
+    "run2_lot1": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 7514,
+        "output": 7782
+      }
+    },
+    "run2_lot2": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 5175,
+        "output": 7112
+      }
+    },
+    "run2_lot3": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 4109,
+        "output": 6754
+      }
+    },
+    "run3_lot1": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 7514,
+        "output": 7795
+      }
+    },
+    "run3_lot3": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 4109,
+        "output": 6183
+      }
+    },
+    "run3_lot2": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 5175,
+        "output": 7372
+      }
+    }
+  },
+  "date": "2026-10-30 15:07"
+}

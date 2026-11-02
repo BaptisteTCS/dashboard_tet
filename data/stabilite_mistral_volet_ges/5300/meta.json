@@ -1,0 +1,133 @@
+{
+  "collectivite_id": 5300,
+  "nom": "CC du Pays des Achards",
+  "modele": "mistral-large-4",
+  "reasoning_effort": "low",
+  "temperature": "défaut API",
+  "batch_size": 25,
+  "n_runs": 3,
+  "n_fiches": 103,
+  "lots": {
+    "run1_lot3": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 3383,
+        "output": 961
+      }
+    },
+    "run1_lot4": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 3908,
+        "output": 3298
+      }
+    },
+    "run2_lot3": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 3383,
+        "output": 920
+      }
+    },
+    "run1_lot2": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 4613,
+        "output": 6856
+      }
+    },
+    "run1_lot5": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 1420,
+        "output": 2548
+      }
+    },
+    "run2_lot4": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 3908,
+        "output": 3247
+      }
+    },
+    "run1_lot1": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 10120,
+        "output": 8161
+      }
+    },
+    "run3_lot3": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 3383,
+        "output": 998
+      }
+    },
+    "run2_lot1": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 10120,
+        "output": 6909
+      }
+    },
+    "run2_lot5": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 1420,
+        "output": 2664
+      }
+    },
+    "run2_lot2": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 4613,
+        "output": 6321
+      }
+    },
+    "run3_lot4": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 3908,
+        "output": 4010
+      }
+    },
+    "run3_lot5": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 1420,
+        "output": 2668
+      }
+    },
+    "run3_lot2": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 4613,
+        "output": 6105
+      }
+    },
+    "run3_lot1": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 10120,
+        "output": 8477
+      }
+    }
+  },
+  "date": "2026-10-30 15:07"
+}

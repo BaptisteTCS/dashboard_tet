@@ -2,9 +2,9 @@ import streamlit as st
 import pandas as pd
 import requests
 import time
-import yaml
 from sqlalchemy import text
 from utils.db import get_engine, get_engine_prod, get_engine_prod_writing
+from utils.config_indicateurs import charger_indicateurs, index_par_identifiant, valider_indicateurs
 
 # Configuration de la page
 st.set_page_config(layout="wide")
@@ -195,17 +195,17 @@ def transform_staged_for_prod(df_staged):
     st.info("🔄 Chargement du fichier de configuration YAML...")
     
     try:
-        # Charger le fichier YAML
-        with open('utils/config.yaml', 'r', encoding='utf-8') as f:
-            config = yaml.safe_load(f)
-        
-        indicateurs_yaml = config['indicateurs']
+        indicateurs_yaml = charger_indicateurs()
         st.success(f"✅ {len(indicateurs_yaml)} indicateurs chargés depuis le YAML")
         
-        # Créer un dictionnaire pour accès rapide par api_nom_cube
-        yaml_by_cube = {indic['api_nom_cube']: indic for indic in indicateurs_yaml}
+        erreurs_config = valider_indicateurs(indicateurs_yaml)
+        if erreurs_config:
+            st.error("❌ config.yaml incohérent :\n" + "\n".join(f"- {e}" for e in erreurs_config))
+            return pd.DataFrame()
         
-        st.info(f"📋 {len(yaml_by_cube)} cubes trouvés dans le YAML")
+        # Un même cube peut porter plusieurs entrées (mesures ou axes différents) : on retrouve
+        # l'entrée de chaque ligne par son identifiant_referentiel, unique dans le YAML
+        yaml_par_identifiant = index_par_identifiant(indicateurs_yaml)
         
     except Exception as e:
         st.error(f"❌ Erreur lors du chargement du YAML : {str(e)}")
@@ -220,10 +220,9 @@ def transform_staged_for_prod(df_staged):
     st.info("🔄 Insertion/vérification des sources et métadonnées en prod...")
     
     try:
-        # Récupérer les api_nom_cube uniques de nos données
-        cubes = df_result['api_nom_cube'].unique().tolist()
+        identifiants = df_result['identifiant_referentiel'].unique().tolist()
         
-        # Dictionnaire pour stocker le mapping api_nom_cube -> metadonnee_id_prod
+        # Mapping identifiant_referentiel -> metadonnee_id_prod
         dict_mapping_meta = {}
         nb_sources_inserees = 0
         nb_sources_existantes = 0
@@ -231,16 +230,22 @@ def transform_staged_for_prod(df_staged):
         nb_meta_updates = 0
         
         sources_traitees = set()  # Pour éviter de traiter la même source plusieurs fois
+        meta_id_par_cle = {}  # (source_id, nom_donnees) -> metadonnee_id_prod, partagé entre identifiants
         
-        for cube in cubes:
+        for identifiant in identifiants:
             # Récupérer les infos depuis le YAML
-            if cube not in yaml_by_cube:
-                st.warning(f"⚠️ Cube '{cube}' non trouvé dans le YAML, ignoré")
+            if identifiant not in yaml_par_identifiant:
+                st.warning(f"⚠️ identifiant_referentiel '{identifiant}' non trouvé dans le YAML, ignoré")
                 continue
             
-            indic_yaml = yaml_by_cube[cube]
+            indic_yaml = yaml_par_identifiant[identifiant]
             source_info = indic_yaml['source']
             metadata_info = indic_yaml['metadata']
+            
+            cle_meta = (metadata_info["source_id"], metadata_info["nom_donnees"])
+            if cle_meta in meta_id_par_cle:
+                dict_mapping_meta[identifiant] = meta_id_par_cle[cle_meta]
+                continue
             
             # ====================================
             # A. INSERTION/VERIFICATION DE LA SOURCE
@@ -331,7 +336,6 @@ def transform_staged_for_prod(df_staged):
                     """), meta_dict).first()
                     
                     id_prod = result[0]
-                    dict_mapping_meta[cube] = id_prod
                     nb_meta_insertions += 1
                     
                 else:
@@ -349,11 +353,13 @@ def transform_staged_for_prod(df_staged):
                         WHERE id = :id;
                     """), update_fields)
                     
-                    dict_mapping_meta[cube] = id_prod
                     nb_meta_updates += 1
+            
+            meta_id_par_cle[cle_meta] = id_prod
+            dict_mapping_meta[identifiant] = id_prod
         
         # Appliquer le mapping
-        df_result['metadonnee_id'] = df_result['api_nom_cube'].map(dict_mapping_meta)
+        df_result['metadonnee_id'] = df_result['identifiant_referentiel'].map(dict_mapping_meta)
         
         st.success(f"✅ Sources : {nb_sources_inserees} insertion(s), {nb_sources_existantes} existante(s)")
         st.success(f"✅ Métadonnées : {nb_meta_insertions} insertion(s), {nb_meta_updates} mise(s) à jour")
@@ -487,7 +493,27 @@ def get_valid_collectivite_ids_prod():
         return set()
 
 
-def livrer_en_prod(comparison, df_staged, progress_container=None):
+def _resume_erreur_api(response, max_len=300):
+    """Extrait un message d'erreur court (sans dump console)."""
+    try:
+        error_json = response.json()
+        error_msg = (
+            error_json.get("message")
+            or error_json.get("error")
+            or error_json.get("detail")
+            or error_json.get("code")
+        )
+        if error_msg is None:
+            error_msg = "Erreur API"
+    except ValueError:
+        error_msg = response.text or "Erreur API"
+    error_msg = str(error_msg)
+    if len(error_msg) > max_len:
+        return error_msg[:max_len] + "…"
+    return error_msg
+
+
+def livrer_en_prod(comparison, df_staged, progress_container=None, batch_size=500):
     """Fait l'upsert des données staging vers la production via API.
     
     N'envoie que les données qui ont vraiment changé :
@@ -502,6 +528,7 @@ def livrer_en_prod(comparison, df_staged, progress_container=None):
         comparison: Résultats de la comparaison staging vs production
         df_staged: DataFrame contenant toutes les données staging
         progress_container: Container Streamlit pour afficher la progression
+        batch_size: Nombre de lignes par requête API (défaut 500)
     
     Returns:
         dict: Statistiques de la livraison
@@ -577,15 +604,12 @@ def livrer_en_prod(comparison, df_staged, progress_container=None):
         valeurs_payload = df_to_insert.apply(lambda row: {
             "collectiviteId": int(row["collectivite_id"]),
             "indicateurId": int(row["indicateur_id"]),
-            "dateValeur": row["date_valeur"].isoformat(),
+            "dateValeur": pd.Timestamp(row["date_valeur"]).strftime("%Y-%m-%d"),
             "metadonneeId": int(row["metadonnee_id"]),
             "resultat": float(row["resultat"]) if pd.notnull(row["resultat"]) else None,
         }, axis=1).tolist()
-
-        print(f"{valeurs_payload}")
         
         # 2. Paramétrage du batch
-        batch_size = 500
         total_rows = len(valeurs_payload)
         total_inserted = 0
         failed_batches = 0
@@ -630,25 +654,24 @@ def livrer_en_prod(comparison, df_staged, progress_container=None):
                     status_text.success(f"✅ Batch {batch_num}/{total_batches} OK ({inserted} lignes)")
             else:
                 failed_batches += 1
-                
-                # Logger l'erreur dans la console
-                print(f"\n{'='*80}")
-                print(f"❌ ERREUR - Batch {batch_num}/{total_batches} échoué (HTTP {response.status_code})")
-                print(f"{'='*80}")
-                
+                error_resume = _resume_erreur_api(response)
+                console_resume = _resume_erreur_api(response, max_len=120)
                 try:
-                    error_json = response.json()
-                    # Extraire uniquement le message d'erreur
-                    error_msg = error_json.get('message') or error_json.get('error') or error_json.get('detail') or str(error_json)
-                    print(f"Message d'erreur: {error_msg}")
-                except:
-                    # Si ce n'est pas du JSON, afficher les 200 premiers caractères du texte
-                    print(f"Message d'erreur: {response.text[:200]}")
-                
-                print(f"{'='*80}\n")
+                    api_code = response.json().get("code")
+                except ValueError:
+                    api_code = None
+                console_line = (
+                    f"❌ Batch {batch_num}/{total_batches} échoué (HTTP {response.status_code})"
+                )
+                if api_code is not None:
+                    console_line += f" — code {api_code}"
+                console_line += f" — {console_resume}"
+                print(console_line)
                 
                 if progress_container:
-                    status_text.error(f"❌ Batch {batch_num}/{total_batches} échoué (HTTP {response.status_code}) - voir console pour détails")
+                    status_text.error(
+                        f"❌ Batch {batch_num}/{total_batches} échoué (HTTP {response.status_code}) — {error_resume}"
+                    )
                 
                 # On continue même en cas d'erreur sur un batch
             
@@ -1068,6 +1091,13 @@ if st.session_state.analysis_done and st.session_state.df_staged is not None:
                 mime="text/csv"
             )
 
+    petits_paquets = st.toggle(
+        "Paquets de 50 lignes (au lieu de 500)",
+        value=False,
+        help="Réduit la taille des requêtes API en cas d'erreurs serveur (ex. stack overflow).",
+    )
+    batch_size_livraison = 50 if petits_paquets else 500
+
     col_btn1, col_btn2, col_btn3 = st.columns([2, 3, 2])
     with col_btn2:
         if st.button("🚢🚨 Livrer en PRODUCTION", type="primary", use_container_width=True, disabled=(nb_to_send == 0)):
@@ -1099,7 +1129,12 @@ if st.session_state.analysis_done and st.session_state.df_staged is not None:
                 # Container pour la progression
                 progress_container = st.container()
                 
-                result = livrer_en_prod(st.session_state.comparison, st.session_state.df_staged, progress_container)
+                result = livrer_en_prod(
+                    st.session_state.comparison,
+                    st.session_state.df_staged,
+                    progress_container,
+                    batch_size=batch_size_livraison,
+                )
                 
                 st.markdown("---")
                 

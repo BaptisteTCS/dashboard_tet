@@ -415,7 +415,7 @@ precisions = st.text_area(
 # Choix du modèle Gemini
 gemini_model = st.segmented_control(
     "Modèle Gemini",
-    options=["gemini-3-pro-preview", "gemini-2.5-pro"],
+    options=["gemini-4-argon", "gemini-3.8-flash", "gemini-3-pro-preview", "gemini-2.5-pro"],
     default="gemini-2.5-pro"
 )
 

@@ -1,0 +1,61 @@
+{
+  "collectivite_id": 13693,
+  "nom": "Hélette",
+  "modele": "mistral-large-4",
+  "reasoning_effort": "low",
+  "temperature": "défaut API",
+  "batch_size": 25,
+  "n_runs": 3,
+  "n_fiches": 41,
+  "lots": {
+    "run1_lot2": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 2280,
+        "output": 4821
+      }
+    },
+    "run1_lot1": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 8291,
+        "output": 6849
+      }
+    },
+    "run2_lot1": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 8291,
+        "output": 6241
+      }
+    },
+    "run3_lot1": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 8291,
+        "output": 5178
+      }
+    },
+    "run2_lot2": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 2280,
+        "output": 6374
+      }
+    },
+    "run3_lot2": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 2280,
+        "output": 6548
+      }
+    }
+  },
+  "date": "2026-10-30 14:38"
+}

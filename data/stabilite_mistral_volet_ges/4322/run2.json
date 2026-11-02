@@ -1,0 +1,444 @@
+{
+  "34927": {},
+  "34928": {},
+  "34929": {},
+  "34930": {},
+  "34931": {},
+  "34932": {},
+  "34933": {},
+  "34934": {},
+  "34935": {
+    "Pratiques stockantes": [
+      3,
+      4
+    ],
+    "Gestion des forêts et produits bois": [
+      3,
+      4
+    ],
+    "Captage de méthane dans les ISDND": [
+      3,
+      4
+    ]
+  },
+  "34936": {},
+  "34937": {},
+  "34938": {},
+  "34939": {},
+  "34940": {},
+  "34941": {},
+  "34942": {},
+  "34943": {
+    "Réseaux de chaleur décarbonés": [
+      1,
+      3
+    ],
+    "Changement chaudières fioul + rénovation (résidentiel)": [
+      3,
+      6
+    ],
+    "Changement chaudières gaz + rénovation (résidentiel)": [
+      3,
+      6
+    ],
+    "Changement de chaudière à fioul (tertiaire)": [
+      3,
+      5
+    ],
+    "Changement de chaudière à gaz (tertiaire)": [
+      3,
+      5
+    ]
+  },
+  "34944": {
+    "Electricité renouvelable": [
+      1,
+      2,
+      5,
+      6
+    ]
+  },
+  "34945": {
+    "Réseaux de chaleur décarbonés": [
+      1,
+      4
+    ]
+  },
+  "34946": {
+    "Biogaz": [
+      1,
+      2,
+      4
+    ]
+  },
+  "34947": {
+    "Electricité renouvelable": [
+      3,
+      4
+    ],
+    "Biogaz": [
+      3,
+      4
+    ]
+  },
+  "34948": {
+    "Sobriété foncière": [
+      2,
+      3
+    ],
+    "Pratiques stockantes": [
+      6
+    ],
+    "Changements de pratiques de fertilisation azotée": [
+      6
+    ],
+    "Bâtiments & Machines agricoles": [
+      1,
+      3
+    ],
+    "Gestion des haies": [
+      6
+    ]
+  },
+  "34949": {
+    "Pratiques stockantes": [
+      1,
+      2,
+      3,
+      6
+    ]
+  },
+  "34950": {
+    "Gestion des forêts et produits bois": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "Gestion des haies": [
+      1,
+      2
+    ],
+    "Pratiques stockantes": [
+      1,
+      2
+    ]
+  },
+  "34951": {
+    "Gestion des forêts et produits bois": [
+      1,
+      2
+    ],
+    "Pratiques stockantes": [
+      1,
+      2
+    ],
+    "Sobriété foncière": [
+      1,
+      2
+    ]
+  },
+  "34952": {},
+  "34953": {
+    "Production Industrielle": [
+      4,
+      6
+    ],
+    "Prévention des déchets": [
+      4,
+      6
+    ],
+    "Valorisation matière des déchets": [
+      4,
+      6
+    ]
+  },
+  "34954": {
+    "Sobriété et isolation des bâtiments (tertiaire)": [
+      6
+    ],
+    "Prévention des déchets": [
+      6
+    ],
+    "Vélo et transport en commun": [
+      6
+    ]
+  },
+  "34955": {
+    "Production Industrielle": [
+      3,
+      4,
+      6
+    ]
+  },
+  "34956": {
+    "Prévention des déchets": [
+      2,
+      6
+    ],
+    "Valorisation matière des déchets": [
+      3,
+      5,
+      6
+    ],
+    "Gestion des forêts et produits bois": [
+      5,
+      6
+    ],
+    "Production Industrielle": [
+      5,
+      6
+    ]
+  },
+  "34957": {
+    "Prévention des déchets": [
+      3,
+      4,
+      6
+    ],
+    "Valorisation matière des déchets": [
+      6
+    ]
+  },
+  "34958": {
+    "Gestion des forêts et produits bois": [
+      1,
+      2,
+      5,
+      6
+    ],
+    "Prévention des déchets": [
+      2,
+      6
+    ],
+    "Valorisation matière des déchets": [
+      1,
+      2,
+      5
+    ],
+    "Production Industrielle": [
+      3,
+      4
+    ]
+  },
+  "34959": {
+    "Sobriété et isolation des bâtiments (tertiaire)": [
+      5
+    ],
+    "Prévention des déchets": [
+      5
+    ],
+    "Valorisation matière des déchets": [
+      5
+    ],
+    "Gestion des forêts et produits bois": [
+      5
+    ],
+    "Electricité renouvelable": [
+      5
+    ]
+  },
+  "34960": {
+    "Vélo et transport en commun": [
+      1,
+      3
+    ]
+  },
+  "34961": {
+    "Vélo et transport en commun": [
+      1,
+      3,
+      4,
+      6
+    ]
+  },
+  "34962": {
+    "Vélo et transport en commun": [
+      1,
+      2,
+      6
+    ]
+  },
+  "34963": {
+    "Covoiturage": [
+      1,
+      4,
+      6
+    ]
+  },
+  "34964": {
+    "Véhicules électriques": [
+      1,
+      5
+    ],
+    "Efficacité et carburants décarbonés des véhicules privés": [
+      1,
+      2,
+      3
+    ],
+    "Bus et cars décarbonés": [
+      5
+    ],
+    "Fret décarboné et multimodalité": [
+      1
+    ]
+  },
+  "34965": {
+    "Fret décarboné et multimodalité": [
+      1,
+      3,
+      4
+    ],
+    "Efficacité et sobriété logistique": [
+      1,
+      6
+    ]
+  },
+  "34966": {
+    "Efficacité et carburants décarbonés des véhicules privés": [
+      2,
+      4,
+      6
+    ]
+  },
+  "34967": {
+    "Réduction des déplacements": [
+      3,
+      4,
+      6
+    ]
+  },
+  "34968": {
+    "Changement chaudières fioul + rénovation (résidentiel)": [
+      3,
+      6
+    ],
+    "Changement chaudières gaz + rénovation (résidentiel)": [
+      3,
+      6
+    ],
+    "Sobriété des bâtiments (résidentiel)": [
+      3,
+      6
+    ]
+  },
+  "34969": {
+    "Changement de chaudière à fioul (tertiaire)": [
+      3,
+      5,
+      6
+    ],
+    "Changement de chaudière à gaz (tertiaire)": [
+      6
+    ],
+    "Sobriété et isolation des bâtiments (tertiaire)": [
+      5,
+      6
+    ]
+  },
+  "34970": {
+    "Sobriété des bâtiments (résidentiel)": [
+      4,
+      6
+    ],
+    "Sobriété et isolation des bâtiments (tertiaire)": [
+      4,
+      6
+    ]
+  },
+  "34971": {
+    "Sobriété foncière": [
+      2,
+      4,
+      5,
+      6
+    ]
+  },
+  "34972": {
+    "Elevage durable": [
+      6
+    ],
+    "Changements de pratiques de fertilisation azotée": [
+      6
+    ],
+    "Efficacité et sobriété logistique": [
+      4,
+      6
+    ]
+  },
+  "34973": {
+    "Prévention des déchets": [
+      4,
+      6
+    ]
+  },
+  "34974": {
+    "Prévention des déchets": [
+      2,
+      5,
+      6
+    ]
+  },
+  "34975": {
+    "Prévention des déchets": [
+      5,
+      6
+    ]
+  },
+  "34976": {
+    "Valorisation matière des déchets": [
+      1,
+      3,
+      4,
+      5
+    ]
+  },
+  "34977": {
+    "Réduction des déplacements": [
+      2
+    ],
+    "Sobriété foncière": [
+      2
+    ],
+    "Pratiques stockantes": [
+      2
+    ],
+    "Electricité renouvelable": [
+      2
+    ]
+  },
+  "34978": {
+    "Sobriété des bâtiments (résidentiel)": [
+      6
+    ],
+    "Sobriété et isolation des bâtiments (tertiaire)": [
+      6
+    ],
+    "Pratiques stockantes": [
+      1
+    ]
+  },
+  "34979": {
+    "Pratiques stockantes": [
+      1,
+      2
+    ],
+    "Sobriété foncière": [
+      2
+    ],
+    "Gestion des haies": [
+      1,
+      2
+    ]
+  },
+  "34980": {
+    "Pratiques stockantes": [
+      1
+    ]
+  },
+  "34981": {
+    "Réseaux de chaleur décarbonés": [
+      1
+    ]
+  }
+}

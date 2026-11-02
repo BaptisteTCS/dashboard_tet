@@ -1,0 +1,109 @@
+{
+  "collectivite_id": 4707,
+  "nom": "CC du Pays de Colombey et du Sud Toulois",
+  "modele": "mistral-large-4",
+  "reasoning_effort": "low",
+  "temperature": "défaut API",
+  "batch_size": 25,
+  "n_runs": 3,
+  "n_fiches": 83,
+  "lots": {
+    "run1_lot1": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 2257,
+        "output": 5909
+      }
+    },
+    "run1_lot3": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 2083,
+        "output": 5158
+      }
+    },
+    "run1_lot2": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 2742,
+        "output": 6500
+      }
+    },
+    "run2_lot1": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 2257,
+        "output": 7095
+      }
+    },
+    "run1_lot4": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 1666,
+        "output": 4977
+      }
+    },
+    "run2_lot2": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 2742,
+        "output": 8372
+      }
+    },
+    "run2_lot4": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 1666,
+        "output": 4830
+      }
+    },
+    "run2_lot3": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 2083,
+        "output": 5509
+      }
+    },
+    "run3_lot1": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 2257,
+        "output": 5807
+      }
+    },
+    "run3_lot3": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 2083,
+        "output": 4705
+      }
+    },
+    "run3_lot2": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 2742,
+        "output": 8677
+      }
+    },
+    "run3_lot4": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 1666,
+        "output": 5330
+      }
+    }
+  },
+  "date": "2026-10-30 15:07"
+}

@@ -1,0 +1,109 @@
+{
+  "collectivite_id": 4999,
+  "nom": "Métropole de Lyon",
+  "modele": "mistral-large-4",
+  "reasoning_effort": "low",
+  "temperature": "défaut API",
+  "batch_size": 25,
+  "n_runs": 3,
+  "n_fiches": 81,
+  "lots": {
+    "run1_lot1": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 17727,
+        "output": 7577
+      }
+    },
+    "run1_lot4": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 1495,
+        "output": 4208
+      }
+    },
+    "run1_lot3": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 2228,
+        "output": 5345
+      }
+    },
+    "run1_lot2": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 12800,
+        "output": 8798
+      }
+    },
+    "run2_lot1": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 17727,
+        "output": 8433
+      }
+    },
+    "run2_lot4": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 1495,
+        "output": 5241
+      }
+    },
+    "run2_lot3": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 2228,
+        "output": 5285
+      }
+    },
+    "run3_lot1": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 17727,
+        "output": 6329
+      }
+    },
+    "run2_lot2": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 12800,
+        "output": 9937
+      }
+    },
+    "run3_lot3": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 2228,
+        "output": 6280
+      }
+    },
+    "run3_lot2": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 12800,
+        "output": 8630
+      }
+    },
+    "run3_lot4": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 1495,
+        "output": 5562
+      }
+    }
+  },
+  "date": "2026-10-30 12:12"
+}

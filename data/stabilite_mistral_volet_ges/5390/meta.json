@@ -1,0 +1,157 @@
+{
+  "collectivite_id": 5390,
+  "nom": "Paris Est Marne & Bois",
+  "modele": "mistral-large-4",
+  "reasoning_effort": "low",
+  "temperature": "défaut API",
+  "batch_size": 25,
+  "n_runs": 3,
+  "n_fiches": 141,
+  "lots": {
+    "run1_lot1": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 2124,
+        "output": 4273
+      }
+    },
+    "run1_lot2": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 1778,
+        "output": 6100
+      }
+    },
+    "run1_lot3": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 1830,
+        "output": 6863
+      }
+    },
+    "run1_lot5": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 2108,
+        "output": 4622
+      }
+    },
+    "run1_lot6": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 1687,
+        "output": 3533
+      }
+    },
+    "run1_lot4": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 1738,
+        "output": 6904
+      }
+    },
+    "run2_lot1": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 2124,
+        "output": 5282
+      }
+    },
+    "run2_lot6": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 1687,
+        "output": 5011
+      }
+    },
+    "run2_lot5": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 2108,
+        "output": 6554
+      }
+    },
+    "run2_lot2": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 1778,
+        "output": 7675
+      }
+    },
+    "run2_lot4": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 1738,
+        "output": 6990
+      }
+    },
+    "run2_lot3": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 1830,
+        "output": 7753
+      }
+    },
+    "run3_lot1": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 2124,
+        "output": 4735
+      }
+    },
+    "run3_lot3": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 1830,
+        "output": 5745
+      }
+    },
+    "run3_lot2": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 1778,
+        "output": 7216
+      }
+    },
+    "run3_lot5": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 2108,
+        "output": 6969
+      }
+    },
+    "run3_lot4": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 1738,
+        "output": 7855
+      }
+    },
+    "run3_lot6": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 1687,
+        "output": 5027
+      }
+    }
+  },
+  "date": "2026-10-30 15:07"
+}

@@ -1,0 +1,404 @@
+{
+  "40451": {
+    "Changement chaudières fioul + rénovation (résidentiel)": [
+      6
+    ],
+    "Changement chaudières gaz + rénovation (résidentiel)": [
+      6
+    ],
+    "Sobriété des bâtiments (résidentiel)": [
+      6
+    ]
+  },
+  "40452": {
+    "Changement chaudières fioul + rénovation (résidentiel)": [
+      3,
+      6
+    ],
+    "Changement chaudières gaz + rénovation (résidentiel)": [
+      3,
+      6
+    ],
+    "Sobriété des bâtiments (résidentiel)": [
+      3,
+      6
+    ]
+  },
+  "40453": {},
+  "40454": {},
+  "40455": {},
+  "40456": {
+    "Réduction des déplacements": [
+      1,
+      6
+    ]
+  },
+  "40457": {
+    "Vélo et transport en commun": [
+      4,
+      6
+    ]
+  },
+  "40458": {
+    "Vélo et transport en commun": [
+      4
+    ]
+  },
+  "40459": {
+    "Véhicules électriques": [
+      1,
+      6
+    ]
+  },
+  "40460": {
+    "Efficacité et carburants décarbonés des véhicules privés": [
+      6
+    ]
+  },
+  "40461": {
+    "Covoiturage": [
+      6
+    ],
+    "Réduction des déplacements": [
+      6
+    ]
+  },
+  "40462": {
+    "Vélo et transport en commun": [
+      1,
+      2,
+      6
+    ]
+  },
+  "40463": {
+    "Covoiturage": [
+      4,
+      6
+    ]
+  },
+  "40464": {},
+  "40465": {
+    "Elevage durable": [
+      3,
+      6
+    ],
+    "Changements de pratiques de fertilisation azotée": [
+      3,
+      6
+    ],
+    "Pratiques stockantes": [
+      3,
+      6
+    ],
+    "Gestion des haies": [
+      3,
+      6
+    ]
+  },
+  "40466": {
+    "Elevage durable": [
+      3,
+      6
+    ],
+    "Bâtiments & Machines agricoles": [
+      3,
+      6
+    ],
+    "Pratiques stockantes": [
+      3,
+      6
+    ]
+  },
+  "40467": {},
+  "40468": {
+    "Gestion des haies": [
+      2,
+      6
+    ],
+    "Sobriété foncière": [
+      2,
+      6
+    ]
+  },
+  "40469": {
+    "Gestion des forêts et produits bois": [
+      4,
+      6
+    ]
+  },
+  "40470": {},
+  "40471": {},
+  "40472": {
+    "Production Industrielle": [
+      6
+    ]
+  },
+  "40473": {
+    "Prévention des déchets": [
+      6
+    ],
+    "Valorisation matière des déchets": [
+      6
+    ]
+  },
+  "40474": {
+    "Réduction des déplacements": [
+      6
+    ],
+    "Vélo et transport en commun": [
+      6
+    ]
+  },
+  "40475": {
+    "Prévention des déchets": [
+      6
+    ],
+    "Valorisation matière des déchets": [
+      6
+    ]
+  },
+  "40476": {
+    "Valorisation matière des déchets": [
+      4
+    ]
+  },
+  "40477": {
+    "Valorisation matière des déchets": [
+      6
+    ]
+  },
+  "40478": {},
+  "40479": {
+    "Réseaux de chaleur décarbonés": [
+      4,
+      6
+    ]
+  },
+  "40480": {
+    "Electricité renouvelable": [
+      5,
+      6
+    ]
+  },
+  "40481": {
+    "Electricité renouvelable": [
+      4
+    ]
+  },
+  "40482": {
+    "Electricité renouvelable": [
+      6
+    ]
+  },
+  "40483": {
+    "Biogaz": [
+      4,
+      6
+    ]
+  },
+  "40484": {},
+  "40485": {},
+  "40486": {},
+  "40487": {
+    "Sobriété et isolation des bâtiments (tertiaire)": [
+      5
+    ]
+  },
+  "40488": {
+    "Véhicules électriques": [
+      5
+    ],
+    "Covoiturage": [
+      5
+    ],
+    "Réduction des déplacements": [
+      5
+    ]
+  },
+  "40489": {
+    "Pratiques stockantes": [
+      1
+    ],
+    "Gestion des prairies": [
+      1
+    ]
+  },
+  "40490": {},
+  "40551": {},
+  "40552": {},
+  "40553": {},
+  "40554": {},
+  "40555": {},
+  "40556": {},
+  "40557": {},
+  "40558": {},
+  "40559": {},
+  "40560": {},
+  "40561": {},
+  "40562": {
+    "Sobriété et isolation des bâtiments (tertiaire)": [
+      4
+    ]
+  },
+  "40563": {
+    "Sobriété et isolation des bâtiments (tertiaire)": [
+      5
+    ],
+    "Electricité renouvelable": [
+      5
+    ],
+    "Réseaux de chaleur décarbonés": [
+      5
+    ]
+  },
+  "40564": {},
+  "40565": {},
+  "40566": {},
+  "40567": {},
+  "40568": {},
+  "40569": {},
+  "40570": {},
+  "40571": {},
+  "40572": {
+    "Vélo et transport en commun": [
+      1
+    ]
+  },
+  "40573": {},
+  "40574": {
+    "Véhicules électriques": [
+      5
+    ]
+  },
+  "40575": {
+    "Covoiturage": [
+      6
+    ]
+  },
+  "40576": {
+    "Vélo et transport en commun": [
+      1
+    ]
+  },
+  "40577": {
+    "Vélo et transport en commun": [
+      5
+    ]
+  },
+  "40578": {
+    "Véhicules électriques": [
+      4
+    ]
+  },
+  "40579": {
+    "Sobriété des bâtiments (résidentiel)": [
+      6
+    ]
+  },
+  "40580": {},
+  "40581": {},
+  "40582": {},
+  "40583": {},
+  "40584": {
+    "Pratiques stockantes": [
+      6
+    ]
+  },
+  "40585": {
+    "Pratiques stockantes": [
+      5
+    ]
+  },
+  "40586": {
+    "Sobriété foncière": [
+      2
+    ]
+  },
+  "40587": {
+    "Sobriété foncière": [
+      4
+    ]
+  },
+  "40588": {
+    "Valorisation matière des déchets": [
+      4,
+      6
+    ]
+  },
+  "40589": {
+    "Valorisation matière des déchets": [
+      3
+    ]
+  },
+  "40590": {
+    "Production Industrielle": [
+      4
+    ]
+  },
+  "40591": {
+    "Production Industrielle": [
+      4
+    ]
+  },
+  "40592": {
+    "Prévention des déchets": [
+      6
+    ]
+  },
+  "40593": {
+    "Prévention des déchets": [
+      6
+    ]
+  },
+  "40594": {
+    "Prévention des déchets": [
+      6
+    ]
+  },
+  "40595": {
+    "Efficacité et sobriété logistique": [
+      3,
+      4
+    ]
+  },
+  "40596": {
+    "Prévention des déchets": [
+      6
+    ]
+  },
+  "40597": {
+    "Prévention des déchets": [
+      6
+    ],
+    "Valorisation matière des déchets": [
+      1,
+      6
+    ]
+  },
+  "40598": {
+    "Prévention des déchets": [
+      3,
+      4
+    ]
+  },
+  "40599": {
+    "Valorisation matière des déchets": [
+      3,
+      4
+    ]
+  },
+  "40600": {
+    "Valorisation matière des déchets": [
+      3,
+      4
+    ]
+  },
+  "40601": {},
+  "40602": {},
+  "40603": {},
+  "40604": {
+    "Sobriété foncière": [
+      6
+    ]
+  }
+}

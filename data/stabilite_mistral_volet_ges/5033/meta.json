@@ -1,0 +1,133 @@
+{
+  "collectivite_id": 5033,
+  "nom": "CC Brionnais Sud Bourgogne",
+  "modele": "mistral-large-4",
+  "reasoning_effort": "low",
+  "temperature": "défaut API",
+  "batch_size": 25,
+  "n_runs": 3,
+  "n_fiches": 111,
+  "lots": {
+    "run1_lot1": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 1885,
+        "output": 6205
+      }
+    },
+    "run1_lot3": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 1934,
+        "output": 7616
+      }
+    },
+    "run1_lot5": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 1543,
+        "output": 4772
+      }
+    },
+    "run1_lot4": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 1995,
+        "output": 7972
+      }
+    },
+    "run2_lot1": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 1885,
+        "output": 5275
+      }
+    },
+    "run1_lot2": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 2016,
+        "output": 9988
+      }
+    },
+    "run2_lot3": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 1934,
+        "output": 5031
+      }
+    },
+    "run2_lot2": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 2016,
+        "output": 5876
+      }
+    },
+    "run2_lot5": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 1543,
+        "output": 5567
+      }
+    },
+    "run2_lot4": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 1995,
+        "output": 5680
+      }
+    },
+    "run3_lot1": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 1885,
+        "output": 4326
+      }
+    },
+    "run3_lot4": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 1995,
+        "output": 6535
+      }
+    },
+    "run3_lot2": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 2016,
+        "output": 7967
+      }
+    },
+    "run3_lot3": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 1934,
+        "output": 8007
+      }
+    },
+    "run3_lot5": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 1543,
+        "output": 7176
+      }
+    }
+  },
+  "date": "2026-10-30 15:07"
+}

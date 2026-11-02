@@ -1,0 +1,133 @@
+{
+  "collectivite_id": 3914,
+  "nom": "CC Ardennes Thiérache",
+  "modele": "mistral-large-4",
+  "reasoning_effort": "low",
+  "temperature": "défaut API",
+  "batch_size": 25,
+  "n_runs": 3,
+  "n_fiches": 104,
+  "lots": {
+    "run1_lot3": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 1686,
+        "output": 3073
+      }
+    },
+    "run1_lot5": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 1333,
+        "output": 1716
+      }
+    },
+    "run1_lot2": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 4600,
+        "output": 8272
+      }
+    },
+    "run1_lot4": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 1690,
+        "output": 6582
+      }
+    },
+    "run1_lot1": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 7838,
+        "output": 7238
+      }
+    },
+    "run2_lot5": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 1333,
+        "output": 2169
+      }
+    },
+    "run2_lot1": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 7838,
+        "output": 7734
+      }
+    },
+    "run2_lot2": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 4600,
+        "output": 6714
+      }
+    },
+    "run2_lot4": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 1690,
+        "output": 5616
+      }
+    },
+    "run2_lot3": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 1686,
+        "output": 7035
+      }
+    },
+    "run3_lot5": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 1333,
+        "output": 1978
+      }
+    },
+    "run3_lot2": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 4600,
+        "output": 5555
+      }
+    },
+    "run3_lot3": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 1686,
+        "output": 4884
+      }
+    },
+    "run3_lot1": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 7838,
+        "output": 9438
+      }
+    },
+    "run3_lot4": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 1690,
+        "output": 6329
+      }
+    }
+  },
+  "date": "2026-10-30 15:07"
+}

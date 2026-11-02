@@ -2,7 +2,6 @@ import streamlit as st
 import pandas as pd
 import requests
 import json
-import yaml
 from sqlalchemy import text
 from datetime import datetime
 
@@ -16,6 +15,15 @@ from utils.db import (
     get_engine,
     get_engine_prod,
     get_engine_pre_prod
+)
+from utils.config_indicateurs import (
+    AGREGATIONS,
+    a_un_axe,
+    agregation,
+    agreger_autres_axes,
+    charger_indicateurs,
+    libelle_indicateur,
+    valider_indicateurs,
 )
 
 # Configuration de la page
@@ -36,13 +44,6 @@ st.markdown("---")
 # FONCTIONS
 # ==========================
 
-def charger_config(path_yaml: str) -> list:
-    """Charge la configuration YAML des indicateurs."""
-    with open(path_yaml, "r", encoding="utf-8") as f:
-        config = yaml.safe_load(f)
-    return config["indicateurs"]
-
-
 def extract_type_collectivite(dimensions):
     """Retourne la liste des types de collectivités présents dans les dimensions."""
     types_valides = ["commune", "epci", "ept", "departement", "region"]
@@ -58,7 +59,7 @@ def extract_type_collectivite(dimensions):
     return result
 
 
-def extract_api_nom_axe(dimensions):
+def extract_api_axes(dimensions):
     """Retourne la liste des 'axes' non temporels ou géographiques."""
     exclude_keywords = ["annee", "date", "libelle", "geocode"]
     result = []
@@ -70,7 +71,7 @@ def extract_api_nom_axe(dimensions):
             if suffix not in result:
                 result.append(suffix)
 
-    return result[0] if result else ""  # Retourne le premier axe ou chaîne vide
+    return result
 
 
 def recuperer_metadonnees_api():
@@ -106,7 +107,7 @@ def recuperer_metadonnees_api():
 
         dimensions = cube.get("dimensions", [])
         type_collectivite = extract_type_collectivite(dimensions)
-        api_nom_axe = extract_api_nom_axe(dimensions)
+        api_axes = extract_api_axes(dimensions)
 
         # Boucle sur toutes les mesures du cube
         for measure in measures:
@@ -122,7 +123,9 @@ def recuperer_metadonnees_api():
                 "ID": ID,
                 "api_nom_cube": cube_name,
                 "type_collectivite": type_collectivite,
-                "api_nom_axe": api_nom_axe,
+                "api_axes": api_axes,
+                "api_nom_axe": api_axes[0] if api_axes else "",
+                "agg_type": measure.get("aggType"),
             }
 
     return d
@@ -131,12 +134,16 @@ def recuperer_metadonnees_api():
 def comparer_avec_yaml(metadonnees_api: dict, indicateurs_yaml: list) -> dict:
     """Compare les métadonnées de l'API avec le fichier YAML.
     
+    Plusieurs entrées YAML peuvent viser la même mesure (ID, api_nom_cube) avec des axes
+    différents : chaque entrée est donc comparée individuellement.
+    
     Args:
         metadonnees_api: dict avec clés (ID, api_nom_cube)
         indicateurs_yaml: list des indicateurs du YAML
     
     Returns:
-        dict avec les différences trouvées
+        dict avec les différences trouvées. Pour chaque champ en écart, 'api' contient la
+        correction automatique, ou None si elle doit être faite à la main (cf. 'choix').
     """
     differences = {
         "a_jour": [],
@@ -145,72 +152,59 @@ def comparer_avec_yaml(metadonnees_api: dict, indicateurs_yaml: list) -> dict:
         "manquants_api": []
     }
     
-    # Créer un dictionnaire des indicateurs YAML par (ID, api_nom_cube)
-    yaml_dict = {}
-    for idx, ind in enumerate(indicateurs_yaml):
-        key = (ind['ID'], ind.get('api_nom_cube'))
-        yaml_dict[key] = {**ind, '_yaml_index': idx}  # Garder l'index pour la mise à jour
-    
-    # Vérifier les indicateurs dans le YAML
-    for key, indic_yaml in yaml_dict.items():
-        ID, cube_name = key
+    cles_yaml = set()
+    for idx, indic_yaml in enumerate(indicateurs_yaml):
+        ID, cube_name = indic_yaml['ID'], indic_yaml.get('api_nom_cube')
+        key = (ID, cube_name)
+        cles_yaml.add(key)
+        resume = {'ID': ID, 'api_nom_cube': cube_name, 'nom': libelle_indicateur(indic_yaml)}
         
-        if key in metadonnees_api:
-            meta_api = metadonnees_api[key]
-            
-            # Comparer les champs
-            differences_indic = {}
-            
-            # api_nom_cube devrait déjà matcher (c'est dans la clé)
-            # mais on vérifie quand même
-            if indic_yaml.get('api_nom_cube') != meta_api['api_nom_cube']:
-                differences_indic['api_nom_cube'] = {
-                    'yaml': indic_yaml.get('api_nom_cube'),
-                    'api': meta_api['api_nom_cube']
-                }
-            
-            # Comparer les types de collectivités (en tant que listes triées)
-            yaml_types = sorted(indic_yaml.get('type_collectivite', []))
-            api_types = sorted(meta_api['type_collectivite'])
-            if yaml_types != api_types:
-                differences_indic['type_collectivite'] = {
-                    'yaml': yaml_types,
-                    'api': api_types
-                }
-            
-            # Comparer api_nom_axe
-            yaml_axe = indic_yaml.get('api_nom_axe', '')
-            api_axe = meta_api['api_nom_axe']
-            if yaml_axe != api_axe:
-                differences_indic['api_nom_axe'] = {
-                    'yaml': yaml_axe,
-                    'api': api_axe
-                }
-            
-            if differences_indic:
-                differences['a_mettre_a_jour'].append({
-                    'ID': ID,
-                    'api_nom_cube': cube_name,
-                    'nom': indic_yaml.get('metadata', {}).get('nom_donnees', 'N/A'),
-                    'differences': differences_indic,
-                    '_yaml_index': indic_yaml['_yaml_index']
-                })
-            else:
-                differences['a_jour'].append({
-                    'ID': ID,
-                    'api_nom_cube': cube_name,
-                    'nom': indic_yaml.get('metadata', {}).get('nom_donnees', 'N/A')
-                })
-        else:
-            differences['manquants_api'].append({
-                'ID': ID,
-                'api_nom_cube': cube_name,
-                'nom': indic_yaml.get('metadata', {}).get('nom_donnees', 'N/A')
+        if key not in metadonnees_api:
+            differences['manquants_api'].append(resume)
+            continue
+        
+        meta_api = metadonnees_api[key]
+        differences_indic = {}
+        
+        # Comparer les types de collectivités (en tant que listes triées)
+        yaml_types = sorted(indic_yaml.get('type_collectivite', []))
+        api_types = sorted(meta_api['type_collectivite'])
+        if yaml_types != api_types:
+            differences_indic['type_collectivite'] = {
+                'yaml': yaml_types,
+                'api': api_types
+            }
+        
+        # L'axe de ventilation doit exister dans le cube (inutile sans dictionnaire de correspondance)
+        yaml_axe = indic_yaml.get('api_nom_axe', '')
+        api_axes = meta_api['api_axes']
+        if a_un_axe(indic_yaml) and yaml_axe not in api_axes:
+            differences_indic['api_nom_axe'] = {
+                'yaml': yaml_axe,
+                'api': api_axes[0] if len(api_axes) == 1 else None,
+                'choix': api_axes
+            }
+        
+        # Sommer des lignes n'a de sens que pour une mesure additive
+        if agregation(indic_yaml) in ('somme', 'part') and meta_api['agg_type'] != 'sum':
+            differences_indic['agregation'] = {
+                'yaml': agregation(indic_yaml),
+                'api': None,
+                'choix': [f"mesure non additive (aggType={meta_api['agg_type']}) : utiliser 'unique' ou une autre mesure"]
+            }
+        
+        if differences_indic:
+            differences['a_mettre_a_jour'].append({
+                **resume,
+                'differences': differences_indic,
+                '_yaml_index': idx
             })
+        else:
+            differences['a_jour'].append(resume)
     
     # Vérifier les indicateurs de l'API manquants dans le YAML
     for key in metadonnees_api.keys():
-        if key not in yaml_dict:
+        if key not in cles_yaml:
             ID, cube_name = key
             differences['manquants_yaml'].append({
                 'ID': ID,
@@ -221,16 +215,16 @@ def comparer_avec_yaml(metadonnees_api: dict, indicateurs_yaml: list) -> dict:
     return differences
 
 
-def mettre_a_jour_yaml(indicateurs_yaml: list, metadonnees_api: dict, keys_a_modifier: list, path_yaml: str, debug_container=None):
+def mettre_a_jour_yaml(modifications: list, path_yaml: str, debug_container=None):
     """Met à jour le fichier YAML avec les nouvelles métadonnées.
     
     Args:
-        indicateurs_yaml: liste des indicateurs du YAML
-        metadonnees_api: dict avec clés (ID, api_nom_cube)
-        keys_a_modifier: liste de tuples (ID, api_nom_cube) à modifier
+        modifications: liste de {'_yaml_index': position de l'entrée dans le YAML,
+            'champs': {nom_du_champ: nouvelle_valeur}}
         path_yaml: chemin du fichier YAML
         debug_container: conteneur Streamlit pour afficher les logs
     """
+    champs_par_index = {m['_yaml_index']: m['champs'] for m in modifications}
     
     debug_messages = []
     
@@ -258,15 +252,11 @@ def mettre_a_jour_yaml(indicateurs_yaml: list, metadonnees_api: dict, keys_a_mod
         debug_print("✅ Fichier lu avec succès")
         
         # Mettre à jour les indicateurs
-        debug_print(f"🔄 Mise à jour de {len(keys_a_modifier)} indicateur(s)...")
-        for indic in config.get('indicateurs', []):
-            key = (indic.get('ID'), indic.get('api_nom_cube'))
-            if key in keys_a_modifier and key in metadonnees_api:
-                meta_api = metadonnees_api[key]
-                indic['api_nom_cube'] = meta_api['api_nom_cube']
-                indic['type_collectivite'] = meta_api['type_collectivite']
-                indic['api_nom_axe'] = meta_api['api_nom_axe']
-                debug_print(f"  ✓ ID {indic['ID']} / cube {indic['api_nom_cube']} mis à jour")
+        debug_print(f"🔄 Mise à jour de {len(champs_par_index)} indicateur(s)...")
+        for idx, indic in enumerate(config.get('indicateurs', [])):
+            for champ, valeur in champs_par_index.get(idx, {}).items():
+                indic[champ] = valeur
+                debug_print(f"  ✓ ID {indic['ID']} / cube {indic['api_nom_cube']} : {champ} mis à jour")
         
         debug_print(f"💾 Écriture du fichier {path_yaml}...")
         with open(path_yaml, 'w', encoding='utf-8') as f:
@@ -279,104 +269,40 @@ def mettre_a_jour_yaml(indicateurs_yaml: list, metadonnees_api: dict, keys_a_mod
         with open(path_yaml, 'r', encoding='utf-8') as f:
             lines = f.readlines()
         debug_print(f"✅ {len(lines)} lignes lues")
+        debug_print(f"🔄 Préparation des modifications pour {len(champs_par_index)} indicateur(s)")
         
-        modifications = {}
-        for key in keys_a_modifier:
-            if key in metadonnees_api:
-                modifications[key] = metadonnees_api[key]
-        debug_print(f"🔄 Préparation des modifications pour {len(modifications)} indicateur(s)")
-        
+        # Chaque entrée commence par "- api_nom_cube:" en colonne 0, ses champs sont indentés de 2
         new_lines = []
-        current_key = None
-        current_id = None
-        current_cube = None
-        in_indicateur = False
-        in_type_collectivite = False
-        skip_next_type_collectivite_lines = False
+        index_courant = -1
+        saute_ancienne_liste = False
         
-        i = 0
-        while i < len(lines):
-            line = lines[i]
+        for line in lines:
+            if line.startswith('- api_nom_cube:'):
+                index_courant += 1
+            champs = champs_par_index.get(index_courant, {})
             
-            # Détecter le début d'un nouvel indicateur
-            if line.strip().startswith('- api_nom_cube:'):
-                # Reset
-                in_indicateur = False
-                current_id = None
-                current_cube = None
-                current_key = None
-                
-                # Extraire le cube
-                cube_match = line.split('api_nom_cube:')[-1].strip()
-                current_cube = cube_match
-                new_lines.append(line)
+            # Ignorer les anciens éléments d'une liste remplacée
+            if saute_ancienne_liste:
+                if line.startswith('  - '):
+                    continue
+                saute_ancienne_liste = False
             
-            # Détecter l'ID de l'indicateur actuel
-            elif "ID:" in line or "ID :" in line:
-                id_match = line.split("ID:")[-1].strip() if "ID:" in line else line.split("ID :")[-1].strip()
-                id_value = id_match.strip("'\"")
-                current_id = id_value
-                
-                # Créer la clé composite
-                if current_id and current_cube:
-                    current_key = (current_id, current_cube)
-                    if current_key in modifications:
-                        in_indicateur = True
-                        debug_print(f"  📝 Détecté ID {current_id} / cube {current_cube} à modifier")
-                    else:
-                        in_indicateur = False
-                new_lines.append(line)
-            
-            # Si on est dans un indicateur à modifier
-            elif in_indicateur and current_key:
-                # Mettre à jour api_nom_cube
-                if line.strip().startswith('api_nom_cube:'):
-                    indent = len(line) - len(line.lstrip())
-                    new_lines.append(' ' * indent + f"api_nom_cube: {modifications[current_key]['api_nom_cube']}\n")
-                    debug_print(f"    ✓ api_nom_cube modifié")
-                
-                # Mettre à jour api_nom_axe
-                elif line.strip().startswith('api_nom_axe:'):
-                    indent = len(line) - len(line.lstrip())
-                    new_axe = modifications[current_key]['api_nom_axe']
-                    new_lines.append(' ' * indent + f"api_nom_axe: {new_axe}\n")
-                    debug_print(f"    ✓ api_nom_axe modifié")
-                
-                # Détecter le début de type_collectivite
-                elif line.strip().startswith('type_collectivite:'):
-                    indent = len(line) - len(line.lstrip())
-                    new_lines.append(line)
-                    in_type_collectivite = True
-                    skip_next_type_collectivite_lines = True
-                    # Ajouter les nouvelles valeurs
-                    for tc in modifications[current_key]['type_collectivite']:
-                        new_lines.append(' ' * (indent + 2) + f"- {tc}\n")
-                    debug_print(f"    ✓ type_collectivite modifié")
-                
-                # Ignorer les anciennes valeurs de type_collectivite
-                elif skip_next_type_collectivite_lines and line.strip().startswith('-'):
-                    # Ne rien faire, on ignore cette ligne
-                    pass
-                
-                # Fin de la section type_collectivite
-                elif skip_next_type_collectivite_lines and not line.strip().startswith('-'):
-                    skip_next_type_collectivite_lines = False
-                    in_type_collectivite = False
-                    new_lines.append(line)
-                
-                # Fin de l'indicateur (nouvelle section ou nouveau tiret principal)
-                elif line.strip().startswith('- api_nom_cube:'):
-                    in_indicateur = False
-                    current_key = None
-                    # On traite cette ligne dans la prochaine itération
-                    i -= 1
-                
+            nom_champ = line.strip().split(':', 1)[0]
+            if line.startswith('  ') and not line.startswith('   ') and nom_champ in champs:
+                valeur = champs[nom_champ]
+                if isinstance(valeur, list):
+                    # Conserver une éventuelle ancre (&id001) référencée par d'autres entrées
+                    ancre = line.split(':', 1)[1].strip()
+                    suffixe = f" {ancre}" if ancre.startswith('&') else ""
+                    new_lines.append(f"  {nom_champ}:{suffixe}\n")
+                    new_lines.extend(f"  - {v}\n" for v in valeur)
+                    saute_ancienne_liste = True
                 else:
-                    new_lines.append(line)
-            else:
-                new_lines.append(line)
+                    new_lines.append(f"  {nom_champ}: {valeur}\n")
+                debug_print(f"  ✓ entrée n°{index_courant} : {nom_champ} mis à jour")
+                continue
             
-            i += 1
+            new_lines.append(line)
         
         # Écrire le fichier
         debug_print(f"💾 Écriture du fichier {path_yaml}...")
@@ -831,7 +757,19 @@ with st.expander("Ajouter un nouvel indicateur", expanded=False):
         
         api_nom_axe = st.text_input(
             "api_nom_axe (vide pour auto ou si non applicable)", 
-            help="Ex: mode_transport, type_amenagement. Laissez vide pour remplissage automatique depuis l'API"
+            help="Ex: mode_transport, type_amenagement. Laissez vide pour remplissage automatique depuis l'API. "
+                 "Obligatoire si le cube a plusieurs axes : créez une entrée par axe à ventiler."
+        )
+
+        agregation_choix = st.selectbox(
+            "agregation des autres axes du cube",
+            options=["auto"] + list(AGREGATIONS),
+            help=(
+                "L'API renvoie toujours tous les axes du cube. Comment fusionner les lignes qui ne diffèrent "
+                "que par les axes non utilisés ? unique : une seule ligne attendue ; somme : addition "
+                "(mesures additives) ; part : % du total de l'axe. auto : somme si le cube a plusieurs axes "
+                "et que la mesure est additive, sinon unique."
+            ),
         )
 
         st.markdown("---")
@@ -962,15 +900,27 @@ with st.expander("Ajouter un nouvel indicateur", expanded=False):
             errors.append("type_collectivite requis (au moins un type) - Aucune valeur saisie et aucune valeur disponible dans l'API")
 
         # Utiliser l'axe de l'API si le champ api_nom_axe est vide
+        api_axes = meta_preview.get("api_axes", []) if meta_preview else []
         api_nom_axe_final = api_nom_axe.strip()
         if api_nom_axe_final:
             st.info(f"✅ Axe API saisi manuellement : `{api_nom_axe_final}`")
+            if api_axes and api_nom_axe_final not in api_axes:
+                errors.append(f"api_nom_axe `{api_nom_axe_final}` absent du cube (axes disponibles : {', '.join(api_axes)})")
+        elif isinstance(correspondance_value, dict) and len(api_axes) > 1:
+            errors.append(f"Le cube a plusieurs axes ({', '.join(api_axes)}) : précisez api_nom_axe")
         elif meta_preview:
             api_nom_axe_final = meta_preview.get("api_nom_axe", "")
             if api_nom_axe_final:
                 st.success(f"✅ Axe trouvé : `{api_nom_axe_final}`")
             else:
                 st.info("ℹ️ Aucun axe API (normal pour un indicateur sans axes)")
+
+        if agregation_choix == "auto":
+            mesure_additive = bool(meta_preview) and meta_preview.get("agg_type") == "sum"
+            agregation_finale = "somme" if len(api_axes) > 1 and mesure_additive else "unique"
+            st.info(f"ℹ️ Agrégation des autres axes : `{agregation_finale}`")
+        else:
+            agregation_finale = agregation_choix
 
         # Valider metadata (limites est maintenant optionnel)
         metadata_obj = {
@@ -1004,14 +954,22 @@ with st.expander("Ajouter un nouvel indicateur", expanded=False):
                 "api_nom_cube": api_nom_cube_input,
                 "ID": str(id_input),
                 "api_nom_axe": api_nom_axe_final,
+            }
+            if agregation_finale != "unique":
+                nouvel_indic["agregation"] = agregation_finale
+            nouvel_indic.update({
                 "type_collectivite": type_collectivite_list,
                 "correspondance_indicateurs": correspondance_value,
                 "metadata": metadata_obj,
                 "source": source_obj,
                 "ratio": float(ratio_val),
-            }
+            })
 
             try:
+                erreurs_config = valider_indicateurs(charger_indicateurs("utils/config.yaml") + [nouvel_indic])
+                if erreurs_config:
+                    raise ValueError("incohérence avec les entrées existantes :\n" + "\n".join(f"- {e}" for e in erreurs_config))
+
                 if RUAMEL_AVAILABLE:
                     yaml_handler = YAML()
                     yaml_handler.preserve_quotes = True
@@ -1026,7 +984,7 @@ with st.expander("Ajouter un nouvel indicateur", expanded=False):
                 else:
                     # Fallback simple: recharger via chargeur existant et réécrire en YAML std
                     import yaml as _pyyaml
-                    indicateurs_existants = charger_config("utils/config.yaml")
+                    indicateurs_existants = charger_indicateurs("utils/config.yaml")
                     indicateurs_existants.append(nouvel_indic)
                     with open("utils/config.yaml", "w", encoding="utf-8") as f:
                         _pyyaml.safe_dump({"indicateurs": indicateurs_existants}, f, allow_unicode=True, sort_keys=False)
@@ -1060,7 +1018,7 @@ with center_meta:
                 print(f"  → {len(metadonnees_api)} indicateurs trouvés dans l'API")
                 
                 print("Chargement du fichier YAML...")
-                indicateurs_yaml = charger_config("utils/config.yaml")
+                indicateurs_yaml = charger_indicateurs("utils/config.yaml")
                 print(f"  → {len(indicateurs_yaml)} indicateurs trouvés dans le YAML")
                 
                 print("Comparaison...")
@@ -1110,7 +1068,7 @@ if st.session_state.metadata_check:
         st.markdown("### ⚠️ Indicateurs à mettre à jour")
         
         for indic_diff in differences['a_mettre_a_jour']:
-            with st.expander(f"📝 ID {indic_diff['ID']} (cube: `{indic_diff['api_nom_cube']}`) - {indic_diff['nom']}"):
+            with st.expander(f"📝 {indic_diff['nom']} (cube: `{indic_diff['api_nom_cube']}`)"):
                 
                 for champ, valeurs in indic_diff['differences'].items():
                     st.markdown(f"**{champ}**:")
@@ -1119,16 +1077,25 @@ if st.session_state.metadata_check:
                         st.markdown(f"🟡 **YAML actuel:**")
                         st.code(str(valeurs['yaml']))
                     with col_api:
-                        st.markdown(f"🟢 **API (nouveau):**")
-                        st.code(str(valeurs['api']))
+                        if valeurs['api'] is None:
+                            st.markdown("🔴 **À corriger à la main dans le YAML :**")
+                            st.code(", ".join(map(str, valeurs['choix'])) or "aucun axe dans le cube")
+                        else:
+                            st.markdown(f"🟢 **API (nouveau):**")
+                            st.code(str(valeurs['api']))
         
-        # Bouton pour mettre à jour
+        # Bouton pour mettre à jour (uniquement les corrections déterminables automatiquement)
         st.markdown("---")
-        # Utiliser les clés composites (ID, api_nom_cube) au lieu de juste l'ID
-        keys_a_modifier = [(indic['ID'], indic['api_nom_cube']) for indic in differences['a_mettre_a_jour']]
+        modifications = []
+        for indic in differences['a_mettre_a_jour']:
+            champs = {champ: v['api'] for champ, v in indic['differences'].items() if v['api'] is not None}
+            if champs:
+                modifications.append({'_yaml_index': indic['_yaml_index'], 'nom': indic['nom'], 'champs': champs})
         
-        if st.button(
-            f"✏️ Mettre à jour les {len(keys_a_modifier)} indicateur(s)",
+        if not modifications:
+            st.info("ℹ️ Aucune correction automatique possible : les écarts restants sont à corriger à la main.")
+        elif st.button(
+            f"✏️ Mettre à jour les {len(modifications)} indicateur(s)",
             type="primary",
             width='stretch',
             key="btn_update_yaml"
@@ -1136,7 +1103,7 @@ if st.session_state.metadata_check:
             print("\n" + "#"*60)
             print("# BOUTON DE MISE À JOUR CLIQUÉ")
             print("#"*60)
-            print(f"Clés à modifier: {keys_a_modifier}")
+            print(f"Modifications: {modifications}")
             
             methode = "ruamel.yaml (formatage préservé)" if RUAMEL_AVAILABLE else "manipulation de texte (formatage préservé)"
             print(f"Méthode: {methode}")
@@ -1150,9 +1117,7 @@ if st.session_state.metadata_check:
                 with st.spinner(f"🔄 Mise à jour du fichier YAML via {methode}..."):
                     print("Appel de mettre_a_jour_yaml()...")
                     mettre_a_jour_yaml(
-                        indicateurs_yaml, 
-                        metadonnees_api, 
-                        keys_a_modifier, 
+                        modifications,
                         "utils/config.yaml",
                         debug_container
                     )
@@ -1160,34 +1125,31 @@ if st.session_state.metadata_check:
                 
                 # Vérifier que la mise à jour a fonctionné
                 print("Vérification de la mise à jour...")
-                indicateurs_updated = charger_config("utils/config.yaml")
-                yaml_dict_updated = {(ind['ID'], ind.get('api_nom_cube')): ind for ind in indicateurs_updated}
-                print(f"Fichier rechargé, {len(yaml_dict_updated)} indicateurs trouvés")
+                indicateurs_updated = charger_indicateurs("utils/config.yaml")
+                print(f"Fichier rechargé, {len(indicateurs_updated)} indicateurs trouvés")
+                
+                def _normaliser(valeur):
+                    return sorted(valeur) if isinstance(valeur, list) else valeur
                 
                 # Compter les succès
                 nb_succes = 0
-                for key in keys_a_modifier:
-                    if key in yaml_dict_updated and key in metadonnees_api:
-                        indic = yaml_dict_updated[key]
-                        meta = metadonnees_api[key]
-                        if (indic.get('api_nom_cube') == meta['api_nom_cube'] and
-                            sorted(indic.get('type_collectivite', [])) == sorted(meta['type_collectivite']) and
-                            indic.get('api_nom_axe') == meta['api_nom_axe']):
-                            nb_succes += 1
-                            print(f"  ✓ ID {key[0]} / cube {key[1]} vérifié et correct")
-                        else:
-                            print(f"  ✗ ID {key[0]} / cube {key[1]} modifié mais pas correct")
+                for modif in modifications:
+                    indic = indicateurs_updated[modif['_yaml_index']]
+                    if all(_normaliser(indic.get(champ)) == _normaliser(valeur) for champ, valeur in modif['champs'].items()):
+                        nb_succes += 1
+                        print(f"  ✓ {modif['nom']} vérifié et correct")
+                    else:
+                        print(f"  ✗ {modif['nom']} modifié mais pas correct")
                 
-                print(f"Résultat: {nb_succes}/{len(keys_a_modifier)} succès")
+                print(f"Résultat: {nb_succes}/{len(modifications)} succès")
                 
                 # Stocker le résultat dans session_state
                 st.session_state.update_result = {
-                    'success': nb_succes == len(keys_a_modifier),
+                    'success': nb_succes == len(modifications),
                     'nb_succes': nb_succes,
-                    'nb_total': len(keys_a_modifier),
+                    'nb_total': len(modifications),
                     'methode': methode,
-                    'keys': keys_a_modifier,
-                    'differences': differences
+                    'noms': [modif['nom'] for modif in modifications],
                 }
                 
                 print("Stockage dans session_state terminé")
@@ -1230,12 +1192,8 @@ if st.session_state.metadata_check:
                 
                 st.markdown("---")
                 st.markdown("### ✅ Indicateurs mis à jour:")
-                for key in result['keys']:
-                    id_val, cube_val = key
-                    indic_info = next((ind for ind in result['differences']['a_mettre_a_jour'] 
-                                      if ind['ID'] == id_val and ind['api_nom_cube'] == cube_val), None)
-                    if indic_info:
-                        st.markdown(f"- **ID {id_val}** (cube: `{cube_val}`) : {indic_info['nom']}")
+                for nom in result['noms']:
+                    st.markdown(f"- {nom}")
             
             # Bouton pour réinitialiser
             if st.button("🔄 Fermer ce message", key="close_update_result"):
@@ -1259,7 +1217,7 @@ if st.session_state.metadata_check:
                 meta = indic_new['meta']
                 st.markdown(f"**Cube:** `{meta['api_nom_cube']}`")
                 st.markdown(f"**Types de collectivité:** {', '.join(meta['type_collectivite'])}")
-                st.markdown(f"**Axe API:** `{meta['api_nom_axe']}`" if meta['api_nom_axe'] else "**Axe API:** _(aucun)_")
+                st.markdown(f"**Axes API:** `{', '.join(meta['api_axes'])}`" if meta['api_axes'] else "**Axes API:** _(aucun)_")
     
     # Indicateurs manquants dans l'API
     if differences['manquants_api']:
@@ -1275,13 +1233,15 @@ st.markdown("## 📋 Sélection des indicateurs")
 
 # Chargement de la configuration
 try:
-    indicateurs = charger_config("utils/config.yaml")
+    indicateurs = charger_indicateurs("utils/config.yaml")
     
-    # Création d'un dictionnaire pour l'affichage
-    options_indicateurs = {
-        f"{ind['metadata']['nom_donnees']} (ID: {ind['ID']})": ind 
-        for ind in indicateurs
-    }
+    erreurs_config = valider_indicateurs(indicateurs)
+    if erreurs_config:
+        st.error("❌ **config.yaml incohérent, corrigez-le avant d'importer :**\n" + "\n".join(f"- {e}" for e in erreurs_config))
+        st.stop()
+    
+    # Création d'un dictionnaire pour l'affichage (libellés uniques garantis par valider_indicateurs)
+    options_indicateurs = {libelle_indicateur(ind): ind for ind in indicateurs}
     
     # Sélection des indicateurs
     left_pad, center_col, right_pad = st.columns([1, 2, 1])
@@ -1367,12 +1327,14 @@ try:
             
             # Création d'un expander pour chaque indicateur
             with st.expander(
-                f"🔄 **{indic['metadata']['nom_donnees']}** (ID: {indic['ID']}) - {i+1}/{len(indicateurs_selectionnes)}", 
+                f"🔄 **{nom_indicateur}** - {i+1}/{len(indicateurs_selectionnes)}", 
                 expanded=True
             ):
                 st.markdown(f"**📌 Indicateur :** {indic['metadata']['nom_donnees']}")
                 st.markdown(f"**🆔 ID :** {indic['ID']}")
                 st.markdown(f"**📦 Cube API :** {indic['api_nom_cube']}")
+                if a_un_axe(indic):
+                    st.markdown(f"**🧭 Axe de ventilation :** {indic['api_nom_axe']} (autres axes : {agregation(indic)})")
                 st.markdown(f"**🏛️ Types de collectivités :** {', '.join(indic['type_collectivite'])}")
                 
                 st.markdown("---")
@@ -1437,6 +1399,24 @@ try:
                             df_non_correspondantes[cols_disponibles].drop_duplicates(),
                             width='stretch'
                         )
+                
+                # L'API renvoie tous les axes du cube : fusion des lignes qui ne diffèrent que par les axes non utilisés
+                nb_lignes_avant_agregation = len(df_final)
+                df_final, df_conflits = agreger_autres_axes(df_final, indic)
+                if not df_conflits.empty:
+                    cle_conflit = "collectivité, date et valeur d'axe" if a_un_axe(indic) else "collectivité et date"
+                    st.error(
+                        f"❌ {len(df_conflits):,} lignes non nulles partagent la même {cle_conflit} : elles ne "
+                        f"diffèrent que par d'autres axes du cube. Ajoutez `agregation: somme` (mesure additive) "
+                        f"ou `part` dans le YAML, ou choisissez un autre `api_nom_axe`. Indicateur ignoré."
+                    )
+                    st.dataframe(df_conflits.head(100), width='stretch')
+                    continue
+                if len(df_final) != nb_lignes_avant_agregation:
+                    st.markdown(
+                        f"**🧮 Agrégation des autres axes ({agregation(indic)}) :** "
+                        f"{nb_lignes_avant_agregation:,} → {len(df_final):,} lignes"
+                    )
                 
                 # Ajout de l'ID de l'indicateur
                 df_final['nom_indicateur'] = indic['metadata']['nom_donnees']

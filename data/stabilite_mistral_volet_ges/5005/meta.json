@@ -1,0 +1,63 @@
+{
+  "collectivite_id": 5005,
+  "nom": "CC Val de Gray",
+  "modele": "mistral-large-4",
+  "reasoning_effort": "low",
+  "temperature": "défaut API",
+  "batch_size": 25,
+  "n_runs": 3,
+  "n_fiches": 42,
+  "lots": {
+    "run2_lot2": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 2953,
+        "output": 5414
+      }
+    },
+    "run3_lot2": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 2953,
+        "output": 4140
+      }
+    },
+    "run1_lot1": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 3695,
+        "output": 7325
+      }
+    },
+    "run2_lot1": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 3695,
+        "output": 6953
+      }
+    },
+    "run1_lot2": {
+      "essais": 2,
+      "erreurs": [
+        "ValueError: Levier inconnu: Sobriété des bâtiments (tertiaire)"
+      ],
+      "tokens": {
+        "input": 5906,
+        "output": 8643
+      }
+    },
+    "run3_lot1": {
+      "essais": 1,
+      "erreurs": [],
+      "tokens": {
+        "input": 3695,
+        "output": 9161
+      }
+    }
+  },
+  "date": "2026-10-30 14:38"
+}

@@ -25,3 +25,6 @@ Thumbs.db
 data/test_run_impact/*.json
 data/test_run_impact/*.json.tmp
 
+# Rapports locaux de vérification de classification (GPT vs prod)
+data/verify_classification_volet_ges/
+

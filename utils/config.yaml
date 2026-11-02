@@ -168,6 +168,7 @@ indicateurs:
 - api_nom_cube: prelevement_eau_usage_com
   ID: '638'
   api_nom_axe: usage
+  agregation: somme
 
   type_collectivite:
   - commune
@@ -268,6 +269,7 @@ indicateurs:
 - api_nom_cube: puissance_elec_installee_com
   ID: '636'
   api_nom_axe: vecteur
+  agregation: somme
 
   type_collectivite: &id001
   - commune
@@ -307,7 +309,8 @@ indicateurs:
 
 - api_nom_cube: puissance_elec_installee_com
   ID: '899'
-  api_nom_axe: vecteur
+  api_nom_axe: type_installation
+  agregation: somme
 
   type_collectivite: *id001
   correspondance_indicateurs:
@@ -335,7 +338,8 @@ indicateurs:
 
 - api_nom_cube: puissance_elec_installee_com
   ID: '898'
-  api_nom_axe: vecteur
+  api_nom_axe: type_installation
+  agregation: somme
 
   type_collectivite: *id001
   correspondance_indicateurs:
@@ -652,12 +656,13 @@ indicateurs:
 - api_nom_cube: chaleur_livree_com
   ID: '509'
   api_nom_axe: 'filiere'
-  type_collectivite: &id002
+  type_collectivite:
   - commune
   - epci
   - departement
   - region
-  correspondance_indicateurs: chaleur
+  correspondance_indicateurs: 
+   chaleur: C
   metadata:
     source_id: sdes
     nom_donnees: Volume de chaleur livrée par les réseaux de chaleur
@@ -676,8 +681,13 @@ indicateurs:
 - api_nom_cube: chaleur_livree_com
   ID: '1091'
   api_nom_axe: 'filiere'
-  type_collectivite: *id002
-  correspondance_indicateurs: froid
+  type_collectivite:
+  - commune
+  - epci
+  - departement
+  - region
+  correspondance_indicateurs: 
+    froid: F
   metadata:
     source_id: sdes
     nom_donnees: Volume de froid livré par les réseaux de froid
@@ -758,7 +768,7 @@ indicateurs:
 
 - api_nom_cube: parc_vp_e_com
   ID: '826'
-  api_nom_axe: ''
+  api_nom_axe: 'critair'
   type_collectivite:
   - commune
   - epci
@@ -781,8 +791,9 @@ indicateurs:
     ordre_affichage: '1'
   ratio: 1
 - api_nom_cube: immatriculations_veh_com
-  ID: '1055'
+  ID: '914'
   api_nom_axe: carburant
+  agregation: part
   type_collectivite:
   - commune
   - epci
@@ -812,8 +823,9 @@ indicateurs:
     ordre_affichage: '1'
   ratio: 1.0
 - api_nom_cube: immatriculations_veh_com
-  ID: '1055'
+  ID: '914'
   api_nom_axe: type_vehicule
+  agregation: part
   type_collectivite:
   - commune
   - epci
@@ -928,3 +940,217 @@ indicateurs:
     libelle: ecolab
     ordre_affichage: '1'
   ratio: 1
+- api_nom_cube: enquete_logement_com
+  ID: '1284'
+  api_nom_axe: ''
+  type_collectivite:
+  - commune
+  - epci
+  - departement
+  - region
+  correspondance_indicateurs: res_principal
+  metadata:
+    source_id: insee
+    nom_donnees: Nombre de résidences principales
+    diffuseur: Ecolab
+    producteur: INSEE
+    methodologie: Plus d'infos 
+      [ici](https://ecologie.data.gouv.fr/indicators/nombre-de-residences-principales-1)
+    limites: ''
+    date_version: '2026-10-07'
+  source:
+    id: insee
+    libelle: INSEE
+    ordre_affichage: '1'
+  ratio: 1.0
+- api_nom_cube: population_com
+  ID: '579'
+  api_nom_axe: ''
+  type_collectivite:
+  - commune
+  - epci
+  - departement
+  - region
+  - ept
+  correspondance_indicateurs: terr_1
+  metadata:
+    source_id: insee
+    nom_donnees: Population
+    diffuseur: Ecolab
+    producteur: INSEE
+    methodologie: Plus d'infos 
+      [ici](https://ecologie.data.gouv.fr/indicators/nombre-dhabitants)
+    limites: ''
+    date_version: '2026-03-25'
+  source:
+    id: insee
+    libelle: INSEE
+    ordre_affichage: '1'
+  ratio: 1.0
+- api_nom_cube: parc_autobus_e_com
+  ID: '453'
+  api_nom_axe: critair
+  type_collectivite:
+  - commune
+  - epci
+  - departement
+  - region
+  correspondance_indicateurs: autobus_elec
+  metadata:
+    source_id: sdes
+    nom_donnees: Part des autobus électriques dans le parc roulant
+    diffuseur: Ecolab
+    producteur: SDES
+    methodologie: Plus d'infos 
+      [ici](https://ecologie.data.gouv.fr/indicators/part-des-autobus-electriques-dans-le-parc-roulant)
+    limites: ''
+    date_version: '2026-03-25'
+  source:
+    id: sdes
+    libelle: SDES
+    ordre_affichage: '1'
+  ratio: 1.0
+- api_nom_cube: parc_autocar_e_com
+  ID: '911'
+  api_nom_axe: critair
+  type_collectivite:
+  - commune
+  - epci
+  - departement
+  - region
+  correspondance_indicateurs: autocar_elec
+  metadata:
+    source_id: sdes
+    nom_donnees: Part des autocars électriques dans le parc roulant
+    diffuseur: Ecolab
+    producteur: SDES
+    methodologie: Plus d'infos 
+      [ici](https://ecologie.data.gouv.fr/indicators/part-des-autocars-electriques-dans-le-parc-roulant)
+    limites: ''
+    date_version: '2026-03-25'
+  source:
+    id: sdes
+    libelle: SDES
+    ordre_affichage: '1'
+  ratio: 1.0
+- api_nom_cube: immatriculations_veh_e_com
+  ID: '815'
+  api_nom_axe: type_vehicule
+  type_collectivite:
+  - commune
+  - epci
+  - departement
+  - region
+  - ept
+  correspondance_indicateurs:
+    part_v_h_im.c: VP
+    part_v_h_im.d: VUL
+    part_v_h_im.a: PL
+    part_v_h_im.b: TCP_BUS
+    part_v_h_im.e: TCP_CAR
+    part_v_h_im.f: DEUX-ROUES MOTORISES
+    part_v_h_im.g: AUTRES
+  metadata:
+    source_id: sdes
+    nom_donnees: Part de marché des véhicules électriques dans les 
+      immatriculations annuelles
+    diffuseur: Ecolab
+    producteur: SDES
+    methodologie: Plus d'infos 
+      [ici](https://ecologie.data.gouv.fr/indicators/part-de-marche-des-vehicules-electriques-dans-les-immatriculations-annuelles-1)
+    limites: ''
+    date_version: '2026-03-25'
+  source:
+    id: sdes
+    libelle: SDES
+    ordre_affichage: '1'
+  ratio: 1.0
+- api_nom_cube: residences_principales_energie_region
+  ID: '949'
+  api_nom_axe: energie
+  type_collectivite:
+  - region
+  correspondance_indicateurs:
+    part_res_chauf.a: Enr
+    part_res_chauf.b: Electricite
+    part_res_chauf.c: Fioul
+    part_res_chauf.d: Gaz
+  metadata:
+    source_id: sdes
+    nom_donnees: Part des résidences principales chauffées par énergie de 
+      chauffage
+    diffuseur: Ecolab
+    producteur: SDES
+    methodologie: Plus d'infos 
+      [ici](https://ecologie.data.gouv.fr/indicators/part-de-residences-principales)
+    limites: ''
+    date_version: '2026-03-25'
+  source:
+    id: sdes
+    libelle: SDES
+    ordre_affichage: '1'
+  ratio: 1.0
+- api_nom_cube: immatriculations_veh_com
+  ID: '914'
+  api_nom_axe: carburant
+  agregation: somme
+  type_collectivite:
+  - commune
+  - epci
+  - departement
+  - region
+  - ept
+  correspondance_indicateurs:
+    nb_im.a: Diesel - thermique
+    nb_im.b: Hybride rechargeable
+    nb_im.c: Diesel - hybride NR
+    nb_im.d: Essence - hybride NR
+    nb_im.e: Gaz et ND
+    nb_im.f: Essence - thermique
+    nb_im.g: Electrique et hydrogène
+  metadata:
+    source_id: sdes
+    nom_donnees: Nombre de véhicules dans les nouvelles immatriculations
+    diffuseur: Ecolab
+    producteur: SDES
+    methodologie: Plus d'infos 
+      [ici](https://ecologie.data.gouv.fr/indicators/nombre-de-vehicules-dans-les-nouvelles-immatriculations-par-carburant-et-par-type-de-vehicule)
+    limites: ''
+    date_version: '2026-03-25'
+  source:
+    id: sdes
+    libelle: SDES
+    ordre_affichage: '1'
+  ratio: 1.0
+- api_nom_cube: immatriculations_veh_com
+  ID: '914'
+  api_nom_axe: type_vehicule
+  agregation: somme
+  type_collectivite:
+  - commune
+  - epci
+  - departement
+  - region
+  - ept
+  correspondance_indicateurs:
+    nb_im.h: VP
+    nb_im.i: TCP_CAR
+    nb_im.j: DEUX-ROUES MOTORISES
+    nb_im.k: VUL
+    nb_im.l: PL
+    nb_im.m: AUTRES
+    nb_im.n: TCP_BUS
+  metadata:
+    source_id: sdes
+    nom_donnees: Nombre de véhicules dans les nouvelles immatriculations
+    diffuseur: Ecolab
+    producteur: SDES
+    methodologie: Plus d'infos 
+      [ici](https://ecologie.data.gouv.fr/indicators/nombre-de-vehicules-dans-les-nouvelles-immatriculations-par-carburant-et-par-type-de-vehicule)
+    limites: ''
+    date_version: '2026-03-25'
+  source:
+    id: sdes
+    libelle: SDES
+    ordre_affichage: '1'
+  ratio: 1.0
