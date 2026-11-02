@@ -15,6 +15,7 @@ Tu indiques :
 3. Au maximum 3 leviers par fiche. Si plus de 3 leviers semblent concernés, l'action est transversale : garde les 3 sur lesquels elle agit le plus directement.
 4. Chaque levier retenu a au moins une catégorie. Donne d'abord la catégorie principale, c'est-à-dire le moyen par lequel l'action agit le plus directement. N'ajoute une autre catégorie que si la fiche prévoit explicitement un autre moyen d'action distinct (par exemple : construire une piste cyclable ET verser une aide à l'achat de vélos). Les catégories peuvent être différentes d'un levier à l'autre.
 5. Si aucun levier ne convient, renvoie une liste vide.
+6. Ne déduis jamais ce que la fiche ne dit pas : pas de motorisation (électrique, bioGNV, hydrogène) si elle n'est pas citée, pas d'aide financière si aucun versement n'est cité.
 
 # Les 6 catégories de type d'action
 
@@ -24,7 +25,7 @@ La catégorie ne décrit pas l'impact carbone, mais le MOYEN par lequel la colle
 
 **2 — Réglementation & planification.** Tout document ou acte qui fixe ce qui sera fait sur le territoire : PLU/PLUi, SCoT, PCAET, PLH, plan de mobilité, schémas directeurs, stratégies et feuilles de route qui fixent des actions, programmes pluriannuels, règlements, arrêtés, ZFE, cahiers des charges imposés. Les études, diagnostics, recensements et observatoires sont aussi en 2. Un programme ou un plan qui prévoit des aménagements est en 2 ; seule leur réalisation est en 1.
 
-**3 — Financement & fiscalité.** La collectivité verse de l'argent ou un avantage financier à un tiers : subvention, prime, aide, appel à projets doté, tarification incitative, exonération. Dès qu'une aide est versée, la catégorie 3 est obligatoire. Informer sur des aides que la collectivité ne verse pas n'est pas du 3 (c'est du 6).
+**3 — Financement & fiscalité.** La collectivité verse de l'argent ou un avantage financier à un tiers : subvention, prime, aide, appel à projets doté, tarification incitative, exonération. Dès qu'une aide est versée, la catégorie 3 est obligatoire. Informer sur des aides que la collectivité ne verse pas n'est pas du 3 (c'est du 6). « Soutenir », « aider », « encourager », « favoriser » ou « inciter » sans mention d'un versement d'argent ne sont pas du 3 (c'est du 6).
 
 **4 — Gouvernance & partenariats.** Seulement si l'action crée ou fait fonctionner un dispositif de pilotage : une instance (comité, COP, club ou réseau d'acteurs), un partenariat formalisé (convention, SEM, SCIC, adhésion à une structure), un poste ou un service dédié, ou un dispositif de suivi-évaluation. Citer des partenaires, travailler « en lien avec », « mobiliser » ou « accompagner » des acteurs ne suffit pas.
 
@@ -53,12 +54,17 @@ Si le public n'est pas précisé (isolation, ventilation, matériaux biosourcés
 ## Bâtiments tertiaires (publics et privés)
 
 - `chaudiere_fioul_tertiaire` — Changement de chaudière à fioul (tertiaire)
-  Inclut : remplacement du chauffage des bâtiments tertiaires ; rénovation énergétique globale (isolation + chauffage) des bâtiments tertiaires, plans pluriannuels de rénovation du patrimoine.
+  Inclut : remplacement du système de chauffage des bâtiments tertiaires.
   Toujours avec `chaudiere_gaz_tertiaire`, sauf si la fiche ne cite qu'une seule énergie.
 - `chaudiere_gaz_tertiaire` — Changement de chaudière à gaz (tertiaire)
   Même définition que le levier fioul ; les deux vont ensemble.
 - `sobriete_isolation_batiments_tertiaire` — Sobriété et isolation des bâtiments (tertiaire)
-  Inclut : usages, réglages, gestion technique, suivi des consommations, et travaux d'isolation seuls. Une rénovation globale (isolation + chauffage) reçoit les trois leviers tertiaires.
+  Inclut : usages, réglages, gestion technique, suivi des consommations, et travaux d'isolation seuls.
+
+Règle unique pour les bâtiments tertiaires :
+- réhabilitation, rénovation énergétique globale ou plan pluriannuel de rénovation d'un patrimoine tertiaire = les trois leviers tertiaires ;
+- remplacement du chauffage seul = les deux leviers chaudières tertiaires ;
+- isolation seule, usages, réglages, diagnostics énergétiques = `sobriete_isolation_batiments_tertiaire` seul.
 
 ## Mobilité des personnes
 
@@ -138,7 +144,7 @@ Ne retiens que les énergies citées par la fiche.
 # Fiches sans levier
 
 Une fiche sur l'un de ces sujets ne reçoit aucun levier, sauf si elle cite aussi une action qui relève clairement d'un levier :
-- espaces verts, biodiversité, végétalisation, gestion différenciée, renaturation et désimperméabilisation ;
+- espaces verts, biodiversité, trame verte et bleue, végétalisation, gestion différenciée, renaturation et désimperméabilisation ;
 - eau, milieux aquatiques, eaux pluviales, protection des captages d'eau potable ;
 - adaptation au changement climatique : îlots de fraîcheur, confort d'été, risques naturels ;
 - éclairage public ;
@@ -217,6 +223,18 @@ Usages sans travaux : sobriété résidentielle seule.
 Titre : Réaliser une étude de faisabilité d'un réseau de chaleur
 → `{"leviers": [{"levier": "reseaux_chaleur_decarbones", "categories": [2]}]}`
 Une étude reçoit le levier de son sujet, en catégorie 2.
+
+Titre : Créer une ligne de transport à la demande vers la gare
+→ `{"leviers": [{"levier": "velo_transport_commun", "categories": [1]}]}`
+Création d'une offre de transport collectif. Pas de `bus_cars_decarbones` : ce levier ne concerne que la motorisation des véhicules, qui n'est pas citée.
+
+Titre : Soutenir les exploitants qui plantent des haies
+→ `{"leviers": [{"levier": "gestion_haies", "categories": [6]}]}`
+« Soutenir » sans versement d'argent cité : catégorie 6, pas 3.
+
+Titre : Réhabiliter le groupe scolaire
+→ `{"leviers": [{"levier": "chaudiere_fioul_tertiaire", "categories": [5]}, {"levier": "chaudiere_gaz_tertiaire", "categories": [5]}, {"levier": "sobriete_isolation_batiments_tertiaire", "categories": [5]}]}`
+Réhabilitation d'un bâtiment tertiaire : les trois leviers tertiaires. Bâtiment dont la commune paie l'énergie : catégorie 5.
 
 Titre : Créer un comité de pilotage du plan vélo avec les communes et les associations
 → `{"leviers": [{"levier": "velo_transport_commun", "categories": [4]}]}`

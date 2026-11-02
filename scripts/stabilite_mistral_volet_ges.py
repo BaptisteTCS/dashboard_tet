@@ -10,11 +10,13 @@ Exemples :
     python scripts/stabilite_mistral_volet_ges.py 5119 4999 4322 4111
     python scripts/stabilite_mistral_volet_ges.py 4111 --runs 3
     python scripts/stabilite_mistral_volet_ges.py --report-only
-    python scripts/stabilite_mistral_volet_ges.py 3914 5033 --prompt v2
+    python scripts/stabilite_mistral_volet_ges.py 3914 5033 --prompt v2 --model claude-haiku-5-5
 
 --prompt v2 : prompt de prompts/classification_volet_ges_v2.md, une fiche par appel,
 codes de leviers et JSON contraint (utils/classification_volet_ges_v2.py). Sorties dans
-data/stabilite_mistral_volet_ges_v2/.
+data/stabilite_volet_ges_v2_1/<modèle>/ (le dossier data/stabilite_mistral_volet_ges_v2/
+garde le premier test v2, fait avec la version précédente du prompt).
+--model : mistral-large-4 (défaut), mistral-small-2603 ou claude-haiku-5-5 (v2 seulement).
 
 Sorties (cumulatives) dans data/stabilite_mistral_volet_ges/ :
     <id>/fiches.csv, <id>/prod.csv, <id>/run1.json…, <id>/meta.json
@@ -69,6 +71,7 @@ OUT_BY_PROMPT = {
 }
 PROMPT_VERSION = "v1"
 OUT = OUT_BY_PROMPT[PROMPT_VERSION]
+V2_MODEL = v2.DEFAULT_MODEL
 MISTRAL_BASE_URL = "https://api.mistral.ai/v1"
 MODEL = "mistral-large-4"
 MAX_TOKENS = 40000
@@ -198,7 +201,10 @@ def save_run(path: Path, classif: Classif) -> None:
 def process_collectivites(ids: list[int], n_runs: int, batch_size: int, workers: int) -> None:
     secrets = load_secrets()
     engine = engine_prod_readonly(secrets)
-    client = mistral_client(secrets)
+    client = v2.make_client(V2_MODEL, secrets) if PROMPT_VERSION == "v2" else mistral_client(secrets)
+    if PROMPT_VERSION == "v2":
+        # Trace du prompt exact utilisé pour ce run.
+        (OUT / "prompt_utilise.md").write_text(v2.load_system_prompt(), encoding="utf-8")
 
     jobs = []
     state: dict[tuple[int, int], Classif] = {}
@@ -219,8 +225,10 @@ def process_collectivites(ids: list[int], n_runs: int, batch_size: int, workers:
                 "collectivite_id": cid,
                 "nom": coll["nom"],
                 "prompt": PROMPT_VERSION,
-                "modele": MODEL,
-                "reasoning_effort": REASONING_EFFORT,
+                "modele": V2_MODEL if PROMPT_VERSION == "v2" else MODEL,
+                "reasoning_effort": (
+                    v2.MODELS[V2_MODEL]["reasoning_effort"] if PROMPT_VERSION == "v2" else REASONING_EFFORT
+                ),
                 "temperature": "défaut API",
                 "batch_size": 1 if PROMPT_VERSION == "v2" else batch_size,
                 "n_runs": n_runs,
@@ -256,7 +264,9 @@ def process_collectivites(ids: list[int], n_runs: int, batch_size: int, workers:
     def run_job(cid: int, r: int, key: str, payload: Any) -> tuple[Classif, dict[str, Any]]:
         label = f"{cid} run{r} {key}"
         if PROMPT_VERSION == "v2":
-            classif, infos = v2.classify_fiche(client, system_prompt, payload, log=log, label=label)
+            classif, infos = v2.classify_fiche(
+                client, system_prompt, payload, log=log, label=label, model=V2_MODEL
+            )
             return {int(key.removeprefix("fiche")): classif}, infos
         return run_batch(client, payload, label)
 
@@ -531,7 +541,11 @@ def build_reports() -> None:
         tok_in = sum(v.get("tokens", {}).get("input", 0) for v in lots.values())
         tok_out = sum(v.get("tokens", {}).get("output", 0) for v in lots.values())
         tok_cached = sum(v.get("tokens", {}).get("cached", 0) for v in lots.values())
-        cout = v2.cost_usd({"input": tok_in, "cached": tok_cached, "output": tok_out})
+        tok_write = sum(v.get("tokens", {}).get("cache_write", 0) for v in lots.values())
+        cout = v2.cost_usd(
+            {"input": tok_in, "cached": tok_cached, "cache_write": tok_write, "output": tok_out},
+            meta.get("modele", v2.DEFAULT_MODEL),
+        )
         per_coll_summary.append(
             {
                 "cid": cid,
@@ -577,7 +591,8 @@ def build_reports() -> None:
     head = [
         "# Stabilité Mistral Large 4 — classification volet GES",
         "",
-        f"Modèle `{MODEL}`, `reasoning_effort={REASONING_EFFORT}`, température par défaut de l'API. "
+        f"Modèle `{colls[0]['meta'].get('modele', MODEL)}`, "
+        f"raisonnement `{colls[0]['meta'].get('reasoning_effort') or 'aucun'}`, température par défaut de l'API. "
         + (
             "Prompt v2 (`prompts/classification_volet_ges_v2.md`), une fiche par appel, "
             "codes de leviers et JSON contraint, "
@@ -696,11 +711,17 @@ def main() -> int:
     parser.add_argument("--workers", type=int, default=4, help="Appels Mistral en parallèle")
     parser.add_argument("--report-only", action="store_true", help="Régénère rapport et stats")
     parser.add_argument("--prompt", choices=sorted(OUT_BY_PROMPT), default="v1")
+    parser.add_argument("--model", choices=sorted(v2.MODELS), default=v2.DEFAULT_MODEL)
     args = parser.parse_args()
 
-    global OUT, PROMPT_VERSION
+    global OUT, PROMPT_VERSION, V2_MODEL
     PROMPT_VERSION = args.prompt
-    OUT = OUT_BY_PROMPT[PROMPT_VERSION]
+    V2_MODEL = args.model
+    OUT = (
+        ROOT / "data" / "stabilite_volet_ges_v2_1" / V2_MODEL
+        if PROMPT_VERSION == "v2"
+        else OUT_BY_PROMPT[PROMPT_VERSION]
+    )
     OUT.mkdir(parents=True, exist_ok=True)
     if not args.report_only:
         if not args.collectivite_ids:

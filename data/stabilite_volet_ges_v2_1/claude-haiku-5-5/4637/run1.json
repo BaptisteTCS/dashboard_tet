@@ -1,0 +1,455 @@
+{
+  "12989": {},
+  "31806": {},
+  "31808": {},
+  "32286": {},
+  "32287": {},
+  "32288": {},
+  "32289": {
+    "Sobriété et isolation des bâtiments (tertiaire)": [
+      2,
+      4,
+      5
+    ],
+    "Efficacité et carburants décarbonés des véhicules privés": [
+      2
+    ]
+  },
+  "32290": {
+    "Sobriété foncière": [
+      6
+    ]
+  },
+  "32291": {
+    "Changement chaudières fioul + rénovation (résidentiel)": [
+      6
+    ],
+    "Changement chaudières gaz + rénovation (résidentiel)": [
+      6
+    ]
+  },
+  "32292": {},
+  "32293": {
+    "Prévention des déchets": [
+      6
+    ]
+  },
+  "32294": {},
+  "32295": {
+    "Vélo et transport en commun": [
+      4
+    ]
+  },
+  "32296": {
+    "Réduction des déplacements": [
+      5
+    ],
+    "Vélo et transport en commun": [
+      5
+    ],
+    "Covoiturage": [
+      5
+    ]
+  },
+  "32297": {
+    "Prévention des déchets": [
+      6
+    ],
+    "Valorisation matière des déchets": [
+      6
+    ]
+  },
+  "32298": {
+    "Production Industrielle": [
+      3,
+      6
+    ]
+  },
+  "32299": {},
+  "32300": {
+    "Vélo et transport en commun": [
+      1
+    ],
+    "Sobriété foncière": [
+      1
+    ]
+  },
+  "32301": {},
+  "32302": {
+    "Vélo et transport en commun": [
+      6
+    ]
+  },
+  "32303": {
+    "Electricité renouvelable": [
+      2
+    ]
+  },
+  "32304": {
+    "Electricité renouvelable": [
+      4
+    ]
+  },
+  "32306": {
+    "Prévention des déchets": [
+      2
+    ]
+  },
+  "32307": {
+    "Prévention des déchets": [
+      3,
+      4,
+      6
+    ]
+  },
+  "32308": {},
+  "32309": {},
+  "32310": {
+    "Gestion des forêts et produits bois": [
+      2
+    ]
+  },
+  "32311": {
+    "Changements de pratiques de fertilisation azotée": [
+      6
+    ],
+    "Pratiques stockantes": [
+      6
+    ],
+    "Gestion des haies": [
+      2
+    ]
+  },
+  "32312": {},
+  "32313": {
+    "Vélo et transport en commun": [
+      2,
+      4
+    ]
+  },
+  "72024": {},
+  "72241": {
+    "Sobriété des bâtiments (résidentiel)": [
+      6
+    ]
+  },
+  "72474": {},
+  "72475": {
+    "Sobriété foncière": [
+      2
+    ]
+  },
+  "72477": {
+    "Sobriété foncière": [
+      2
+    ]
+  },
+  "72479": {
+    "Sobriété et isolation des bâtiments (tertiaire)": [
+      5
+    ],
+    "Electricité renouvelable": [
+      6
+    ]
+  },
+  "72483": {},
+  "72490": {
+    "Sobriété foncière": [
+      6
+    ]
+  },
+  "72491": {
+    "Changement chaudières fioul + rénovation (résidentiel)": [
+      6
+    ],
+    "Changement chaudières gaz + rénovation (résidentiel)": [
+      6
+    ]
+  },
+  "72492": {
+    "Sobriété des bâtiments (résidentiel)": [
+      6
+    ]
+  },
+  "72493": {
+    "Prévention des déchets": [
+      6
+    ]
+  },
+  "72494": {
+    "Prévention des déchets": [
+      1,
+      6
+    ]
+  },
+  "72495": {
+    "Vélo et transport en commun": [
+      1,
+      6
+    ],
+    "Réduction des déplacements": [
+      1,
+      6
+    ]
+  },
+  "72496": {
+    "Covoiturage": [
+      6
+    ]
+  },
+  "72497": {
+    "Vélo et transport en commun": [
+      3,
+      4,
+      6
+    ]
+  },
+  "72498": {
+    "Covoiturage": [
+      4
+    ],
+    "Vélo et transport en commun": [
+      6
+    ],
+    "Efficacité et carburants décarbonés des véhicules privés": [
+      6
+    ]
+  },
+  "72499": {
+    "Réseaux de chaleur décarbonés": [
+      1,
+      2
+    ]
+  },
+  "72500": {
+    "Gestion des forêts et produits bois": [
+      1,
+      6
+    ],
+    "Changement chaudières fioul + rénovation (résidentiel)": [
+      3
+    ],
+    "Changement chaudières gaz + rénovation (résidentiel)": [
+      3
+    ]
+  },
+  "72501": {
+    "Biogaz": [
+      2,
+      6
+    ]
+  },
+  "72502": {
+    "Electricité renouvelable": [
+      1,
+      2
+    ]
+  },
+  "72503": {
+    "Electricité renouvelable": [
+      1,
+      6
+    ]
+  },
+  "72504": {
+    "Electricité renouvelable": [
+      1,
+      2,
+      6
+    ]
+  },
+  "72506": {
+    "Electricité renouvelable": [
+      6
+    ]
+  },
+  "72507": {
+    "Gestion des haies": [
+      3,
+      6
+    ],
+    "Gestion des forêts et produits bois": [
+      6
+    ]
+  },
+  "72508": {},
+  "72509": {
+    "Changements de pratiques de fertilisation azotée": [
+      6
+    ],
+    "Pratiques stockantes": [
+      6
+    ],
+    "Gestion des haies": [
+      6
+    ]
+  },
+  "72510": {},
+  "72511": {},
+  "72512": {
+    "Bâtiments & Machines agricoles": [
+      6
+    ],
+    "Gestion des haies": [
+      6
+    ]
+  },
+  "144000": {
+    "Sobriété des bâtiments (résidentiel)": [
+      4
+    ]
+  },
+  "144001": {},
+  "144002": {
+    "Valorisation matière des déchets": [
+      1
+    ]
+  },
+  "144003": {
+    "Prévention des déchets": [
+      5
+    ]
+  },
+  "144004": {
+    "Prévention des déchets": [
+      6
+    ],
+    "Valorisation matière des déchets": [
+      6
+    ]
+  },
+  "144005": {},
+  "144006": {
+    "Prévention des déchets": [
+      6
+    ]
+  },
+  "144007": {
+    "Prévention des déchets": [
+      6
+    ]
+  },
+  "144008": {
+    "Prévention des déchets": [
+      6
+    ]
+  },
+  "144009": {
+    "Prévention des déchets": [
+      3
+    ]
+  },
+  "144010": {
+    "Prévention des déchets": [
+      3
+    ]
+  },
+  "144011": {
+    "Prévention des déchets": [
+      6
+    ]
+  },
+  "144012": {
+    "Prévention des déchets": [
+      4,
+      6
+    ],
+    "Valorisation matière des déchets": [
+      1
+    ]
+  },
+  "144013": {
+    "Prévention des déchets": [
+      6
+    ]
+  },
+  "144014": {
+    "Prévention des déchets": [
+      6
+    ]
+  },
+  "144015": {
+    "Prévention des déchets": [
+      3
+    ]
+  },
+  "144016": {
+    "Prévention des déchets": [
+      1
+    ]
+  },
+  "144017": {
+    "Prévention des déchets": [
+      5,
+      6
+    ]
+  },
+  "144018": {
+    "Prévention des déchets": [
+      6
+    ]
+  },
+  "144019": {
+    "Prévention des déchets": [
+      1
+    ]
+  },
+  "144020": {
+    "Prévention des déchets": [
+      6
+    ]
+  },
+  "144021": {
+    "Prévention des déchets": [
+      6
+    ]
+  },
+  "144022": {
+    "Prévention des déchets": [
+      6
+    ]
+  },
+  "144023": {
+    "Prévention des déchets": [
+      6
+    ],
+    "Valorisation matière des déchets": [
+      6
+    ]
+  },
+  "144024": {},
+  "144025": {
+    "Prévention des déchets": [
+      1,
+      3
+    ]
+  },
+  "144026": {
+    "Prévention des déchets": [
+      6
+    ]
+  },
+  "144027": {
+    "Prévention des déchets": [
+      1,
+      6
+    ]
+  },
+  "144028": {},
+  "144029": {
+    "Prévention des déchets": [
+      6
+    ]
+  },
+  "144030": {
+    "Prévention des déchets": [
+      1,
+      6
+    ]
+  },
+  "144031": {
+    "Prévention des déchets": [
+      2
+    ]
+  }
+}

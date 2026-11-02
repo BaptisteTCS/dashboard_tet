@@ -1,0 +1,368 @@
+{
+  "23024": {
+    "Sobriété des bâtiments (résidentiel)": [
+      6
+    ],
+    "Valorisation matière des déchets": [
+      1
+    ]
+  },
+  "23025": {
+    "Changement chaudières fioul + rénovation (résidentiel)": [
+      2,
+      3,
+      6
+    ],
+    "Changement chaudières gaz + rénovation (résidentiel)": [
+      2,
+      3,
+      6
+    ]
+  },
+  "23026": {
+    "Sobriété des bâtiments (résidentiel)": [
+      6
+    ],
+    "Changement de chaudière à fioul (tertiaire)": [
+      6
+    ],
+    "Réseaux de chaleur décarbonés": [
+      6
+    ]
+  },
+  "23027": {
+    "Electricité renouvelable": [
+      2
+    ],
+    "Gestion des forêts et produits bois": [
+      4
+    ]
+  },
+  "23028": {
+    "Biogaz": [
+      6
+    ],
+    "Electricité renouvelable": [
+      6
+    ]
+  },
+  "23029": {
+    "Sobriété et isolation des bâtiments (tertiaire)": [
+      5
+    ],
+    "Changement de chaudière à fioul (tertiaire)": [
+      5
+    ],
+    "Changement de chaudière à gaz (tertiaire)": [
+      5
+    ]
+  },
+  "23030": {},
+  "23031": {
+    "Sobriété des bâtiments (résidentiel)": [
+      6
+    ]
+  },
+  "23032": {
+    "Prévention des déchets": [
+      1,
+      3,
+      6
+    ]
+  },
+  "23033": {
+    "Vélo et transport en commun": [
+      1
+    ],
+    "Covoiturage": [
+      1
+    ]
+  },
+  "23034": {
+    "Vélo et transport en commun": [
+      1,
+      2
+    ],
+    "Véhicules électriques": [
+      1
+    ],
+    "Fret décarboné et multimodalité": [
+      2
+    ]
+  },
+  "23035": {
+    "Réduction des déplacements": [
+      6
+    ]
+  },
+  "23036": {
+    "Sobriété foncière": [
+      2
+    ]
+  },
+  "23037": {
+    "Gestion des haies": [
+      6
+    ],
+    "Gestion des forêts et produits bois": [
+      4
+    ]
+  },
+  "23038": {},
+  "23039": {},
+  "23040": {
+    "Pratiques stockantes": [
+      6
+    ],
+    "Changements de pratiques de fertilisation azotée": [
+      6
+    ],
+    "Elevage durable": [
+      6
+    ]
+  },
+  "23041": {
+    "Réduction des déplacements": [
+      1
+    ]
+  },
+  "23042": {
+    "Prévention des déchets": [
+      1,
+      6
+    ]
+  },
+  "23043": {
+    "Production Industrielle": [
+      6
+    ],
+    "Sobriété et isolation des bâtiments (tertiaire)": [
+      6
+    ]
+  },
+  "80542": {
+    "Prévention des déchets": [
+      6
+    ],
+    "Gestion des haies": [
+      6
+    ]
+  },
+  "80553": {
+    "Prévention des déchets": [
+      3,
+      6
+    ]
+  },
+  "80554": {
+    "Valorisation matière des déchets": [
+      2
+    ]
+  },
+  "80555": {
+    "Valorisation matière des déchets": [
+      4
+    ]
+  },
+  "80556": {
+    "Prévention des déchets": [
+      1
+    ]
+  },
+  "80557": {
+    "Prévention des déchets": [
+      6
+    ]
+  },
+  "80559": {
+    "Prévention des déchets": [
+      5,
+      6
+    ]
+  },
+  "80560": {
+    "Prévention des déchets": [
+      6
+    ]
+  },
+  "80561": {
+    "Prévention des déchets": [
+      6
+    ]
+  },
+  "80562": {
+    "Prévention des déchets": [
+      6
+    ]
+  },
+  "80574": {
+    "Gestion des haies": [
+      3,
+      6
+    ]
+  },
+  "80577": {
+    "Prévention des déchets": [
+      3
+    ]
+  },
+  "80578": {
+    "Prévention des déchets": [
+      1
+    ]
+  },
+  "80579": {
+    "Prévention des déchets": [
+      1
+    ]
+  },
+  "85684": {
+    "Covoiturage": [
+      2
+    ],
+    "Vélo et transport en commun": [
+      2
+    ]
+  },
+  "85731": {
+    "Covoiturage": [
+      1,
+      6
+    ]
+  },
+  "85984": {
+    "Covoiturage": [
+      1
+    ],
+    "Vélo et transport en commun": [
+      1
+    ]
+  },
+  "85985": {
+    "Vélo et transport en commun": [
+      1
+    ]
+  },
+  "85987": {
+    "Vélo et transport en commun": [
+      1,
+      6
+    ]
+  },
+  "85988": {
+    "Vélo et transport en commun": [
+      2
+    ]
+  },
+  "85989": {},
+  "85990": {
+    "Vélo et transport en commun": [
+      4
+    ]
+  },
+  "85991": {
+    "Réduction des déplacements": [
+      1
+    ]
+  },
+  "85992": {
+    "Réduction des déplacements": [
+      6
+    ]
+  },
+  "85993": {},
+  "85994": {},
+  "85995": {
+    "Vélo et transport en commun": [
+      1
+    ]
+  },
+  "85996": {
+    "Vélo et transport en commun": [
+      2
+    ]
+  },
+  "85997": {
+    "Vélo et transport en commun": [
+      6
+    ]
+  },
+  "85999": {
+    "Vélo et transport en commun": [
+      6
+    ]
+  },
+  "87289": {},
+  "87806": {},
+  "87809": {},
+  "87810": {},
+  "87813": {},
+  "87814": {},
+  "87819": {},
+  "87820": {},
+  "87824": {},
+  "87825": {},
+  "87849": {},
+  "87851": {},
+  "87866": {},
+  "87867": {},
+  "87868": {},
+  "87869": {},
+  "87871": {},
+  "87872": {},
+  "87873": {},
+  "87874": {},
+  "87877": {},
+  "87879": {},
+  "87883": {},
+  "87887": {},
+  "87889": {},
+  "87947": {},
+  "87949": {},
+  "87951": {},
+  "87952": {},
+  "87953": {},
+  "87956": {},
+  "87959": {},
+  "87960": {},
+  "87962": {
+    "Vélo et transport en commun": [
+      2
+    ]
+  },
+  "87963": {
+    "Vélo et transport en commun": [
+      1
+    ]
+  },
+  "87965": {
+    "Vélo et transport en commun": [
+      2
+    ]
+  },
+  "87967": {},
+  "87968": {},
+  "87969": {},
+  "87975": {},
+  "87977": {},
+  "88043": {},
+  "88045": {},
+  "88060": {},
+  "88062": {},
+  "88066": {},
+  "88075": {},
+  "88076": {},
+  "88082": {},
+  "88608": {},
+  "88609": {
+    "Prévention des déchets": [
+      5
+    ]
+  },
+  "88827": {},
+  "88897": {
+    "Prévention des déchets": [
+      5
+    ]
+  }
+}

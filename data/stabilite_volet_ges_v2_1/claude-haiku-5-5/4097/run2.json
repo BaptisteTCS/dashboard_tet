@@ -1,0 +1,486 @@
+{
+  "2214": {},
+  "2215": {},
+  "2216": {
+    "Sobriété des bâtiments (résidentiel)": [
+      6
+    ],
+    "Réduction des déplacements": [
+      6
+    ]
+  },
+  "2217": {
+    "Prévention des déchets": [
+      2
+    ]
+  },
+  "2218": {
+    "Sobriété des bâtiments (résidentiel)": [
+      6
+    ],
+    "Sobriété et isolation des bâtiments (tertiaire)": [
+      6
+    ]
+  },
+  "2219": {
+    "Sobriété et isolation des bâtiments (tertiaire)": [
+      5
+    ],
+    "Changement de chaudière à fioul (tertiaire)": [
+      3
+    ],
+    "Changement de chaudière à gaz (tertiaire)": [
+      3
+    ]
+  },
+  "2220": {
+    "Réduction des déplacements": [
+      5
+    ],
+    "Véhicules électriques": [
+      3,
+      5
+    ],
+    "Efficacité et carburants décarbonés des véhicules privés": [
+      5
+    ]
+  },
+  "2239": {
+    "Sobriété foncière": [
+      2
+    ],
+    "Réduction des déplacements": [
+      2
+    ],
+    "Electricité renouvelable": [
+      2
+    ]
+  },
+  "2240": {
+    "Gestion des haies": [
+      6
+    ],
+    "Gestion des forêts et produits bois": [
+      6
+    ]
+  },
+  "2241": {},
+  "2242": {},
+  "2243": {
+    "Prévention des déchets": [
+      6
+    ]
+  },
+  "2247": {},
+  "2248": {
+    "Sobriété foncière": [
+      2
+    ],
+    "Réduction des déplacements": [
+      2
+    ],
+    "Sobriété des bâtiments (résidentiel)": [
+      2
+    ]
+  },
+  "2334": {
+    "Vélo et transport en commun": [
+      1,
+      3
+    ],
+    "Covoiturage": [
+      1
+    ],
+    "Réduction des déplacements": [
+      1,
+      6
+    ]
+  },
+  "2335": {
+    "Fret décarboné et multimodalité": [
+      1,
+      2
+    ],
+    "Vélo et transport en commun": [
+      1
+    ]
+  },
+  "2336": {
+    "Changement chaudières fioul + rénovation (résidentiel)": [
+      2,
+      3
+    ],
+    "Changement chaudières gaz + rénovation (résidentiel)": [
+      2,
+      3
+    ],
+    "Sobriété des bâtiments (résidentiel)": [
+      6
+    ]
+  },
+  "2338": {
+    "Changement chaudières fioul + rénovation (résidentiel)": [
+      4,
+      6
+    ],
+    "Changement chaudières gaz + rénovation (résidentiel)": [
+      4,
+      6
+    ]
+  },
+  "2339": {
+    "Changement chaudières fioul + rénovation (résidentiel)": [
+      1
+    ],
+    "Changement chaudières gaz + rénovation (résidentiel)": [
+      1
+    ],
+    "Sobriété foncière": [
+      2
+    ]
+  },
+  "2340": {
+    "Production Industrielle": [
+      6
+    ],
+    "Prévention des déchets": [
+      6
+    ]
+  },
+  "2341": {
+    "Prévention des déchets": [
+      6
+    ]
+  },
+  "2343": {
+    "Efficacité et carburants décarbonés des véhicules privés": [
+      1,
+      6
+    ]
+  },
+  "2344": {
+    "Réduction des déplacements": [
+      1
+    ],
+    "Vélo et transport en commun": [
+      1
+    ]
+  },
+  "2345": {
+    "Pratiques stockantes": [
+      6
+    ],
+    "Bâtiments & Machines agricoles": [
+      6
+    ],
+    "Changements de pratiques de fertilisation azotée": [
+      6
+    ]
+  },
+  "2346": {
+    "Electricité renouvelable": [
+      1,
+      2
+    ],
+    "Réseaux de chaleur décarbonés": [
+      1,
+      2
+    ],
+    "Biogaz": [
+      2
+    ]
+  },
+  "4071": {
+    "Réseaux de chaleur décarbonés": [
+      1
+    ],
+    "Valorisation matière des déchets": [
+      1
+    ]
+  },
+  "4073": {
+    "Electricité renouvelable": [
+      1
+    ]
+  },
+  "4078": {
+    "Electricité renouvelable": [
+      1,
+      4
+    ]
+  },
+  "4079": {
+    "Gestion des haies": [
+      1,
+      4
+    ],
+    "Réseaux de chaleur décarbonés": [
+      1,
+      4
+    ]
+  },
+  "4080": {
+    "Electricité renouvelable": [
+      3,
+      6
+    ],
+    "Réseaux de chaleur décarbonés": [
+      3,
+      6
+    ],
+    "Biogaz": [
+      3,
+      6
+    ]
+  },
+  "4083": {
+    "Véhicules électriques": [
+      1
+    ],
+    "Covoiturage": [
+      1
+    ],
+    "Efficacité et carburants décarbonés des véhicules privés": [
+      1
+    ]
+  },
+  "21887": {},
+  "21888": {
+    "Production Industrielle": [
+      3
+    ]
+  },
+  "21889": {
+    "Pratiques stockantes": [
+      6
+    ],
+    "Changements de pratiques de fertilisation azotée": [
+      6
+    ]
+  },
+  "21890": {
+    "Efficacité et sobriété logistique": [
+      2
+    ]
+  },
+  "21891": {},
+  "21892": {
+    "Gestion des haies": [
+      1,
+      4
+    ],
+    "Gestion des forêts et produits bois": [
+      1
+    ]
+  },
+  "21893": {},
+  "21894": {
+    "Réseaux de chaleur décarbonés": [
+      3,
+      6
+    ]
+  },
+  "21895": {
+    "Sobriété et isolation des bâtiments (tertiaire)": [
+      6
+    ]
+  },
+  "21897": {
+    "Prévention des déchets": [
+      1
+    ],
+    "Réduction des déplacements": [
+      1
+    ]
+  },
+  "21898": {},
+  "21899": {
+    "Sobriété foncière": [
+      2
+    ],
+    "Sobriété et isolation des bâtiments (tertiaire)": [
+      1
+    ]
+  },
+  "21900": {},
+  "21901": {},
+  "21902": {},
+  "21903": {},
+  "21904": {},
+  "21905": {},
+  "21906": {},
+  "21907": {},
+  "21908": {},
+  "21909": {},
+  "21910": {
+    "Vélo et transport en commun": [
+      1
+    ]
+  },
+  "21911": {},
+  "21912": {},
+  "21913": {},
+  "21914": {},
+  "21915": {
+    "Sobriété et isolation des bâtiments (tertiaire)": [
+      2
+    ]
+  },
+  "21916": {},
+  "21917": {},
+  "21918": {
+    "Sobriété foncière": [
+      6
+    ]
+  },
+  "21919": {
+    "Sobriété foncière": [
+      3
+    ]
+  },
+  "21920": {
+    "Changement chaudières fioul + rénovation (résidentiel)": [
+      3
+    ],
+    "Changement chaudières gaz + rénovation (résidentiel)": [
+      3
+    ],
+    "Sobriété foncière": [
+      6
+    ]
+  },
+  "21921": {
+    "Changement chaudières fioul + rénovation (résidentiel)": [
+      6
+    ],
+    "Changement chaudières gaz + rénovation (résidentiel)": [
+      6
+    ]
+  },
+  "21922": {
+    "Vélo et transport en commun": [
+      1
+    ]
+  },
+  "21923": {
+    "Vélo et transport en commun": [
+      1
+    ]
+  },
+  "21924": {
+    "Vélo et transport en commun": [
+      1,
+      6
+    ]
+  },
+  "21925": {},
+  "21926": {},
+  "21927": {},
+  "21928": {},
+  "21929": {},
+  "21930": {},
+  "21931": {},
+  "21932": {
+    "Covoiturage": [
+      6
+    ],
+    "Efficacité et sobriété logistique": [
+      6
+    ],
+    "Valorisation matière des déchets": [
+      6
+    ]
+  },
+  "21933": {},
+  "21934": {},
+  "21935": {},
+  "21936": {},
+  "31798": {},
+  "31805": {},
+  "31807": {
+    "Réseaux de chaleur décarbonés": [
+      2
+    ],
+    "Electricité renouvelable": [
+      2
+    ]
+  },
+  "31809": {
+    "Sobriété foncière": [
+      2
+    ],
+    "Réseaux de chaleur décarbonés": [
+      2
+    ]
+  },
+  "31810": {
+    "Sobriété et isolation des bâtiments (tertiaire)": [
+      5
+    ]
+  },
+  "31811": {
+    "Electricité renouvelable": [
+      5
+    ],
+    "Sobriété et isolation des bâtiments (tertiaire)": [
+      5
+    ]
+  },
+  "31812": {
+    "Electricité renouvelable": [
+      6
+    ]
+  },
+  "31813": {
+    "Réseaux de chaleur décarbonés": [
+      1
+    ],
+    "Biogaz": [
+      1
+    ]
+  },
+  "31814": {
+    "Vélo et transport en commun": [
+      1
+    ]
+  },
+  "31815": {},
+  "31816": {
+    "Changement chaudières fioul + rénovation (résidentiel)": [
+      3,
+      6
+    ],
+    "Changement chaudières gaz + rénovation (résidentiel)": [
+      3,
+      6
+    ],
+    "Sobriété et isolation des bâtiments (tertiaire)": [
+      6
+    ]
+  },
+  "31817": {},
+  "31882": {},
+  "31883": {},
+  "31884": {
+    "Changements de pratiques de fertilisation azotée": [
+      6
+    ],
+    "Pratiques stockantes": [
+      6
+    ],
+    "Sobriété foncière": [
+      2
+    ]
+  },
+  "31885": {},
+  "31886": {},
+  "31887": {
+    "Valorisation matière des déchets": [
+      1
+    ]
+  },
+  "31888": {},
+  "31889": {},
+  "31890": {},
+  "31891": {}
+}

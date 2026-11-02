@@ -23,6 +23,7 @@ pages = {
         st.Page("pages/27_Dashboard_produit.py", title="Produit", icon="🚀"),
         st.Page("pages/36_📈_Retro_data.py", title="Retro Data", icon="🛰️"),
         st.Page("pages/37_🌿_Dashboard_biodiv.py", title="Biodiv", icon="🌿"),
+        st.Page("pages/49_♻️_Dashboard_plpdma.py", title="PLPDMA", icon="♻️", url_path="plpdma"),
         st.Page("pages/38_usser_path.py", title="User Path", icon="🛤️"),
     ],
     "Indicateurs Open Data": [
