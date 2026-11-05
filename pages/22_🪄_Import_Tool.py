@@ -2431,7 +2431,7 @@ if gemini_model == ALBERT_MODEL:
     )
 
 avec_sous_actions = st.toggle("Avec sous-actions", value=True, help="Si désactivé, les sous-actions ne seront pas extraites ni enrichies.")
-avec_verifications = st.toggle("Vérifications", value=(file_type == "PDF"), help="Désactiver pour les fichiers simples (CSV, petits PDF). Ignore la vérification et la consolidation des fiches actions.")
+avec_verifications = st.toggle("Vérifications", value=False, help="Active la vérification des fiches puis leur consolidation. Désactivé par défaut.")
 
 with st.expander("⚙️ Colonnes à remplir", expanded=False):
     st.caption(
