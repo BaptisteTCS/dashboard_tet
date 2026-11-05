@@ -1,0 +1,655 @@
+{
+ "collectivite": {
+  "id": 4576,
+  "nom": "CC de la Forêt",
+  "type_code": "CC",
+  "type_label": "communauté de communes",
+  "population": 17716
+ },
+ "fiches": [
+  {
+   "id": 40451,
+   "titre": "1.1. Mieux accompagner les habitants dans leurs démarches de rénovation",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 17 716 habitants\nContexte : PCAET > 1. Bâtiment et habitat\nTitre : 1.1. Mieux accompagner les habitants dans leurs démarches de rénovation\nDescription : Renforcer la comunication sur les acteurs pouvant accompgner la rénovtion énergétique en créant une plaquette d'accompagnement à la rénovation. Etudier la possibilité de la mise en place d'une PTRE si nécessaire"
+  },
+  {
+   "id": 40452,
+   "titre": "1.2 Développer les OPAH et accompagner les ménages les plus précaires",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 17 716 habitants\nContexte : PCAET > 1. Bâtiment et habitat\nTitre : 1.2 Développer les OPAH et accompagner les ménages les plus précaires\nDescription : Mener une étude pré-opérationnelle puis mettre en place d'une OPAH avec des permanences sur le territoire."
+  },
+  {
+   "id": 40453,
+   "titre": "1.3 Adapter le bâti en améliorant la qualité de l'air intérieur et en anticipant les conséquences du changement climatique",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 17 716 habitants\nContexte : PCAET > 1. Bâtiment et habitat\nTitre : 1.3 Adapter le bâti en améliorant la qualité de l'air intérieur et en anticipant les conséquences du changement climatique\nDescription : <p>Mener des actions de sensibilisation sur la qualité de l’air intérieur dans le cadre du Contrat local de Santé du PETR</p><p>Identifier les îlots de chaleur et agir pour rendre les quartiers plus habitables</p><p>Renforcer la place de la nature en ville, générer de la biodiversité et sensibiliser les décideurs à ces questions</p><p>Limiter les retraits et gonflement argiles</p>"
+  },
+  {
+   "id": 40455,
+   "titre": "2.5 Etudier la possibilité d'organiser des services itinérants",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 17 716 habitants\nContexte : PCAET > 2. Mobilité\nTitre : 2.5 Etudier la possibilité d'organiser des services itinérants\nDescription : <p>Recenser les commerces ambulants existants ainsi que les services itinérants déjà présents sur le territoire</p><p>Renforcer l’offre de santé sur le territoire, notamment dans le cadre du Contrat local de santé du PETR FOLS et travailler sur l’e-santé</p><p>Rendre accessibles les maisons France Services à travers du transport à la demande ou des solutions de mobilité</p><p>Promouvoir le passage du bus France Services sur le territoire et informer les habitants des permanences proposées</p>"
+  },
+  {
+   "id": 40456,
+   "titre": "2.6 Développer un réseau de coworking sur le territoire",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 17 716 habitants\nContexte : PCAET > 2. Mobilité\nTitre : 2.6 Développer un réseau de coworking sur le territoire\nDescription : <p>Recenser les lieux déjà existants et les faire connaître</p><p>Travailler avec les acteurs du territoire pour qu’ils s’impliquent dans la création de lieux de coworking</p><p>Accompagner et soutenir les projets de tiers lieux en émergence sur le territoire</p><p>Réaliser un diagnostic de la couverture téléphonique et internet du territoire pour construire les infrastructures nécessaires</p>"
+  },
+  {
+   "id": 40457,
+   "titre": "2.7 Rendre plus efficients les transports en commun",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 17 716 habitants\nContexte : PCAET > 2. Mobilité\nTitre : 2.7 Rendre plus efficients les transports en commun\nDescription : <p>Etre force de proposition vis-à-vis des services de la Région Centre-Val de Loire pour soumettre des pistes d’amélioration des transports en commun</p><p>Promouvoir la plateforme JVMalin qui centralise toutes les informations de mobilité au niveau régional</p><p>Etudier la possibilité de mettre en place des parkings à vélo sécurisés aux principaux arrêts de bus et dans les aires de covoiturage</p><p>Soutenir et valoriser les projets mobilité portés par les communes (navettes dans le cadre de la compétence action sociale par exemple)</p>"
+  },
+  {
+   "id": 40458,
+   "titre": "2.8 Soutenir la création d'une ligne de transports en commun Orléans-Châteauneuf",
+   "statut": "A discuter",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 17 716 habitants\nContexte : PCAET > 2. Mobilité\nTitre : 2.8 Soutenir la création d'une ligne de transports en commun Orléans-Châteauneuf\nDescription : Soutenir les projets favorisant la réouverture de la ligne Orléans-Châteauneuf"
+  },
+  {
+   "id": 40459,
+   "titre": "2.9 Promouvoir et accompagner le développement des véhicules basses émissions pour les véhicules légers et la logistique",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 17 716 habitants\nContexte : PCAET > 2. Mobilité\nTitre : 2.9 Promouvoir et accompagner le développement des véhicules basses émissions pour les véhicules légers et la logistique\nDescription : Etudier les besoins du territoire et créer davantage de bornes de recharge sur le territoire"
+  },
+  {
+   "id": 40460,
+   "titre": "2.10 Développer l'éco-conduite sur le territoire",
+   "statut": "A discuter",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 17 716 habitants\nContexte : PCAET > 2. Mobilité\nTitre : 2.10 Développer l'éco-conduite sur le territoire\nDescription : Promouvoir l'éco-conduite sur le territoire"
+  },
+  {
+   "id": 40461,
+   "titre": "2.11 Inciter les entreprises et commerçants à coordonner les déplacements",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 17 716 habitants\nContexte : PCAET > 2. Mobilité\nTitre : 2.11 Inciter les entreprises et commerçants à coordonner les déplacements\nDescription : <p>Travailler avec les entreprises à l’échelle des zones d’activités (plans de mobilité employeur, promotion du covoiturage, regroupement des déplacements professionnels…)</p>"
+  },
+  {
+   "id": 40462,
+   "titre": "2.12 Développer le réseau cyclable sur le territoire à travers la mise en place d'un schéma directeur cyclable",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 17 716 habitants\nContexte : PCAET > 2. Mobilité\nTitre : 2.12 Développer le réseau cyclable sur le territoire à travers la mise en place d'un schéma directeur cyclable\nDescription : <p>Elaborer un schéma directeur cyclable et/ou une étude mobilité avec un volet cyclable</p><p>Développer de nouveaux aménagements cyclables reliant les points d’intérêt du territoire</p><p>Développer l’écosystème vélo&nbsp;(réparation, location, services, box sécurisés…)</p><p>Travailler avec les écoles et les parents d’élèves sur des ramassages scolaires alternatifs (pédibus, vélobus…)</p>"
+  },
+  {
+   "id": 40463,
+   "titre": "2.13 Développer Rezo Pouce : le faire connaître largement et le prolonger au-delà du territoire",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 17 716 habitants\nContexte : PCAET > 2. Mobilité\nTitre : 2.13 Développer Rezo Pouce : le faire connaître largement et le prolonger au-delà du territoire\nDescription : <p>Dynamiser la communication sur le dispositif</p><p>Prévoir des animations de présentation de Rezo Pouce auprès des publics spécifiques&nbsp;: jeunes, entreprises…</p><p>Organiser un maillage hors territoire avec les territoires voisins</p><p>Engager des réflexions avec les entreprises pour promouvoir Rezo Pouce auprès de leurs salariés</p>"
+  },
+  {
+   "id": 40464,
+   "titre": "2.14 Etudier la possibilité de mettre en place dans certaines communes une borne de recharge centrale et véhicule électrique partagé",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 17 716 habitants\nContexte : PCAET > 2. Mobilité\nTitre : 2.14 Etudier la possibilité de mettre en place dans certaines communes une borne de recharge centrale et véhicule électrique partagé\nDescription : <p>Etudier la possibilité de dupliquer le prêt d’un véhicule électrique aux personnes sans solution de mobilité (cf CCVS)</p><p>Etudier la possibilité de proposer quelques véhicules électriques en autopartage dans les centralités du territoire</p>"
+  },
+  {
+   "id": 40465,
+   "titre": "3.15 Encourager les exploitants à avoir des pratiques agro-écologiques",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 17 716 habitants\nContexte : PCAET > 3. Agriculture, biodiversité et consommation\nTitre : 3.15 Encourager les exploitants à avoir des pratiques agro-écologiques\nDescription : <p>Faciliter l’accès des exploitants à des formations et proposer des accompagnements pour faciliter la transition vers des pratiques agro-écologiques</p><p>Accentuer l’information aux agriculteurs sur l’ensemble des aides auxquelles ils peuvent avoir droit pour faire évoluer leurs pratiques</p><p>Soutenir les investissements en matière d’adaptation des pratiques à travers le CRST notamment</p><p>Agir pour soutenir les efforts faits en matière d’agroforesterie et accentuer l’information sur les subventions existantes</p><p>Recenser les exploitations exemplaires et les valoriser, mieux faire connaître leurs pratiques auprès des autres agriculteurs et du grand public</p>"
+  },
+  {
+   "id": 40466,
+   "titre": "3.16 Faciliter l'adaptation au changement climatique en soutenant les expérimentations et les nouvelles initiatives",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 17 716 habitants\nContexte : PCAET > 3. Agriculture, biodiversité et consommation\nTitre : 3.16 Faciliter l'adaptation au changement climatique en soutenant les expérimentations et les nouvelles initiatives\nDescription : <p>Accompagner les agriculteurs désireux de réaliser un diagnostic permettant d’identifier les vulnérabilités et atouts de leur exploitation</p><p>Dégager des pistes pour modifier les pratiques, réduire les consommations, notamment à travers l’outil CAP’2ER pour les éleveurs</p><p>Informer les agriculteurs sur les études réalisées sur les conduites de culture et sur le changement d’espèces permettant une meilleure adaptation au changement climatique</p><p>Soutenir les expérimentations agricoles, notamment dans le cadre du PAT et des contrats du PETR</p><p>Favoriser des expérimentations sur les friches agricoles communales en anticipant le changement climatique</p>"
+  },
+  {
+   "id": 40467,
+   "titre": "3.17 Renforcer l'autonomie alimentaire du territoire, les circuits courts, le soutien à une agriculture vivrière de qualité et la sensibilisation à une alimentation responsable et durable",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 17 716 habitants\nContexte : PCAET > 3. Agriculture, biodiversité et consommation\nTitre : 3.17 Renforcer l'autonomie alimentaire du territoire, les circuits courts, le soutien à une agriculture vivrière de qualité et la sensibilisation à une alimentation responsable et durable\nDescription : <p>Coordonner étroitement le Projet alimentaire territorial (PAT) et le PCAET</p><p>Renforcer l’approvisionnement local et de qualité de la restauration collective</p><p>Soutenir les démarches alimentaires de proximité (AMAP, points de vente collectifs…)</p><p>Sensibiliser le grand public et les différents acteurs du territoire à ces sujets (défis alimentation, formations chefs de cuisine, guides de recettes…)</p>"
+  },
+  {
+   "id": 40468,
+   "titre": "3.18 Agir pour préserver et accroître la biodiversité du territoire",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 17 716 habitants\nContexte : PCAET > 3. Agriculture, biodiversité et consommation\nTitre : 3.18 Agir pour préserver et accroître la biodiversité du territoire\nDescription : <p>Inciter les communes à mettre en place un inventaire ou un atlas de la biodiversité communale</p><p>Diffuser les appels à projets recensés par l’Agence régionale de biodiversité</p><p>Communiquer sur les actions biodiversité menées par le PETR (rando-bio, biodiv’pratique…)</p><p>Mettre en place un Plan Haies</p><p>Sensibiliser le grand public en organisant des événements ponctuels autour de l’environnement en lien avec les associations ou organismes locaux (Maison de Loire, Graine Centre, Fredon, ARB, LNE…)</p><p>Intégrer dans les PLU(i) les critères air-énergie-climat du PCAET et limiter l’artificialisation des sols</p>"
+  },
+  {
+   "id": 40469,
+   "titre": "3.19 Prévenir et anticiper les conséquences déjà visibles du changement climatique sur les forêts",
+   "statut": "A discuter",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 17 716 habitants\nContexte : PCAET > 3. Agriculture, biodiversité et consommation\nTitre : 3.19 Prévenir et anticiper les conséquences déjà visibles du changement climatique sur les forêts\nDescription : <p>Travailler avec l’ONF et le CRPF sur la gestion des forêts et leur adaptation au changement climatique</p><p>Réaliser une veille active sur l’adaptation des forêts au changement climatique</p><p>Travailler sur la prévention des feux de forêts (sensibilisation, formation des pompiers, aménagements spécifiques…)</p><p>Sensibiliser le grand public aux conséquences du changement climatique sur les forêts et soutenir ce type d’actions</p>"
+  },
+  {
+   "id": 40470,
+   "titre": "3.20 Assurer une bonne gestion de l'eau",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 17 716 habitants\nContexte : PCAET > 3. Agriculture, biodiversité et consommation\nTitre : 3.20 Assurer une bonne gestion de l'eau\nDescription : Soutenir les expérimentations en matière de gestion de l'eau, assurer une bonne gestion des cours d'eau (GEMAPI) et prévenir le risque inondation"
+  },
+  {
+   "id": 40471,
+   "titre": "3.21 Faciliter la reprise des exploitations en développant les programmes d'Accompagnement à l'Installation-Transmission en Agriculture (AITA)",
+   "statut": "A discuter",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 17 716 habitants\nContexte : PCAET > 3. Agriculture, biodiversité et consommation\nTitre : 3.21 Faciliter la reprise des exploitations en développant les programmes d'Accompagnement à l'Installation-Transmission en Agriculture (AITA)\nDescription : Identifier avec la Chambre d'agriculture les agriculteurs souhaitant céder leur exploitation et communiquer sur le dispositif AITA"
+  },
+  {
+   "id": 40472,
+   "titre": "4.22 Accompagner les entreprises du territoire dans la transition écologique",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 17 716 habitants\nContexte : PCAET > 4. Economie locale, tourisme et déchets\nTitre : 4.22 Accompagner les entreprises du territoire dans la transition écologique\nDescription : Sensibiliser les entreprises locales aux enjeux climatiques et aux aides auxquelles elles peuvent prétendre pour leurs investissements en faveur de l'environnement"
+  },
+  {
+   "id": 40473,
+   "titre": "4.23 Développer l'économie circulaire",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 17 716 habitants\nContexte : PCAET > 4. Economie locale, tourisme et déchets\nTitre : 4.23 Développer l'économie circulaire\nDescription : Accompagner le territoire dans la démarche COT Transition de l'ADEME pour soutenir la politique d'économie circulaire de la collectivité et lancer une opération Eco-défis auprès des artisans et des commerçants"
+  },
+  {
+   "id": 40474,
+   "titre": "4.24 Sensibiliser les acteurs du tourisme et agir pour le tourisme local",
+   "statut": "A discuter",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 17 716 habitants\nContexte : PCAET > 4. Economie locale, tourisme et déchets\nTitre : 4.24 Sensibiliser les acteurs du tourisme et agir pour le tourisme local\nDescription : <p>Développer avec les acteurs économiques un tourisme d’entreprise en valorisant les entreprises les plus engagées en matière climatique</p><p>Organiser avec les agriculteurs et les producteurs bio des circuits de découverte écologique du territoire</p><p>Développer l’offre de tourisme à vélo et communiquer</p><p>Informer et mobiliser les acteurs du tourisme en faveur des labels verts auxquels ils peuvent prétendre en adaptant leurs pratiques&nbsp;; valoriser les acteurs respectueux de l’environnement</p>"
+  },
+  {
+   "id": 40475,
+   "titre": "4.25 Développer de nouvelles filières de recyclage",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 17 716 habitants\nContexte : PCAET > 4. Economie locale, tourisme et déchets\nTitre : 4.25 Développer de nouvelles filières de recyclage\nDescription : <p>Accompagner le développement des ressourceries sur le territoire</p><p>Lancer des réflexions sur la collecte des biodéchets</p>"
+  },
+  {
+   "id": 40476,
+   "titre": "4.26 Etudier la possibilité d'assurer un broyage des déchets verts grâce à un broyeur itinérant",
+   "statut": "A discuter",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 17 716 habitants\nContexte : PCAET > 4. Economie locale, tourisme et déchets\nTitre : 4.26 Etudier la possibilité d'assurer un broyage des déchets verts grâce à un broyeur itinérant\nDescription : Etudier la possibilité d'assurer un broyage des déchets verts grâce à un broyeur itinérant (sur le modèle proposé par le SICTOM de Châteauneuf)"
+  },
+  {
+   "id": 40477,
+   "titre": "4.27 Maintenir la sensibilisation au recyclage à destination des habitants",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 17 716 habitants\nContexte : PCAET > 4. Economie locale, tourisme et déchets\nTitre : 4.27 Maintenir la sensibilisation au recyclage à destination des habitants\nDescription : <p>Organiser des campagnes Zéro déchets</p><p>Sensibiliser aux consignes de tri (habitants, scolaires…)</p><p>Faire connaître les outils numériques au service du recyclage et du réemploi</p>"
+  },
+  {
+   "id": 40479,
+   "titre": "5.29 Soutenir les projets de géothermie couplés à des réseaux de chaleur (COT EnR)",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 17 716 habitants\nContexte : PCAET > 5. Energies renouvelables et décarbonées\nTitre : 5.29 Soutenir les projets de géothermie couplés à des réseaux de chaleur (COT EnR)\nDescription : <p>Identifier les projets de collectivités ou d’entreprises pouvant faire appel à la géothermie</p><p>Identifier les centralités qui pourraient accueillir un réseau de chaleur urbain</p><p>Informer les porteurs de projets potentiels sur les avantages de la géothermie et sur les subventions proposées dans le cadre du COT EnR</p><p>Valoriser les installations géothermiques du territoire en diffusant des fiches projets et en organisant des visites sur site à destination des acteurs du territoire</p>"
+  },
+  {
+   "id": 40480,
+   "titre": "5.30 Développer le solaire photovoltaïque et le solaire thermique sur les bâtiments",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 17 716 habitants\nContexte : PCAET > 5. Energies renouvelables et décarbonées\nTitre : 5.30 Développer le solaire photovoltaïque et le solaire thermique sur les bâtiments\nDescription : <p>Faire réaliser un cadastre solaire pour identifier les zones les plus propices au développement du solaire PV et thermique</p><p>Contacter les entreprises dont les bâtiments peuvent héberger des équipements PV et solaires et leur proposer des solutions adaptées</p><p>Travailler avec les agriculteurs pour développer le solaire sur les bâtiments agricoles</p><p>Promouvoir le solaire thermique dans le cadre du COT EnR</p><p>Porter des projets d’énergies renouvelables sur les bâtiments (CCL, CCF)</p>"
+  },
+  {
+   "id": 40481,
+   "titre": "5.31 Développer des projets de parc solaire au sol sur friche industrielle inutilisable",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 17 716 habitants\nContexte : PCAET > 5. Energies renouvelables et décarbonées\nTitre : 5.31 Développer des projets de parc solaire au sol sur friche industrielle inutilisable\nDescription : Identifier et recenser les friches industrielles du territoire pouvant accuellir ce type d'installation"
+  },
+  {
+   "id": 40482,
+   "titre": "5.32 Initier et soutenir des projets \"nouvelles énergies\" appuyés sur une participation citoyenne",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 17 716 habitants\nContexte : PCAET > 5. Energies renouvelables et décarbonées\nTitre : 5.32 Initier et soutenir des projets \"nouvelles énergies\" appuyés sur une participation citoyenne\nDescription : <p>Accompagner l’émergence et le déploiement de collectifs citoyens porteurs de projets d’énergies renouvelables en travaillant sur le sujet avec Energie partagée</p><p>Communiquer sur la possibilité pour les citoyens de porter des projets de production d’énergie renouvelable</p><p>Informer les citoyens sur les possibilités de financement de ces projets et soutenir ces projets via les contrats du PETR</p><p>Impulser des dynamiques entre élus et citoyens pour développer des projets d’énergie citoyenne</p>"
+  },
+  {
+   "id": 40483,
+   "titre": "5.33 Développer des projets de méthanisation sans concurrencer la production alimentaire",
+   "statut": "A discuter",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 17 716 habitants\nContexte : PCAET > 5. Energies renouvelables et décarbonées\nTitre : 5.33 Développer des projets de méthanisation sans concurrencer la production alimentaire\nDescription : <p>Etudier les réseaux à mettre en place autour de la méthanisation</p><p>Sensibiliser les agriculteurs et le grand public aux avantages de la méthanisation</p><p>Accompagner l’insertion paysagère des projets de méthanisation lorsque les sites ont été identifiés</p>"
+  },
+  {
+   "id": 40484,
+   "titre": "6.34 Multiplier les formations et sensibilisations des élus et des personnels des collectivités aux problématiques climatiques",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 17 716 habitants\nContexte : PCAET > 6. Culture commune et mobilisation des acteurs\nTitre : 6.34 Multiplier les formations et sensibilisations des élus et des personnels des collectivités aux problématiques climatiques\nDescription : <p>Diffuser largement aux élus et aux agents des collectivités le catalogue de formation de l’ADEME</p><p>Continuer à s’appuyer sur les événements organisés sur le territoire pour sensibiliser les élus et les agents&nbsp;: rando bio, visites de terrain COT EnR, événements Santé environnement…</p><p>Proposer des demi-journées thématiques sur les problématiques climatiques à destination des élus et agents des collectivités, dans le cadre du PCAET et du COT Transition</p><p>Sensibiliser et prévenir les risques environnementaux dont le risque inondation</p>"
+  },
+  {
+   "id": 40485,
+   "titre": "6.35 Rassembler les citoyens autour de la transition écologique",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 17 716 habitants\nContexte : PCAET > 6. Culture commune et mobilisation des acteurs\nTitre : 6.35 Rassembler les citoyens autour de la transition écologique\nDescription : <p>Editer et diffuser un guide de la consommation responsable ou promouvoir les guides de l’ADEME sur le sujet</p><p>Diffuser un outil ludique permettant de calculer son empreinte carbone</p><p>Mener des campagnes de sensibilisation auprès du grand public (journée de l’environnement, défis familles…)</p><p>Travailler avec les associations et les écoles pour conduire un travail de sensibilisation (Ecopousse, clubs environnement des collèges…)</p><p>Soutenir les projets via des dispositifs comme A VOS ID et valoriser les actions déjà en cours</p>"
+  },
+  {
+   "id": 40486,
+   "titre": "6.36 Animer un réseau intercommunal de référents PCAET",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 17 716 habitants\nContexte : PCAET > 6. Culture commune et mobilisation des acteurs\nTitre : 6.36 Animer un réseau intercommunal de référents PCAET\nDescription : <p>Désigner, dans les communes qui le souhaitent, un référent PCAET (élu, agent ou citoyen)</p><p>Organiser régulièrement des visites de sites ou installations exemplaires</p><p>Organiser des groupes de travail thématiques, des visites ou des réunions en salle</p><p>Organiser une réunion annuelle de suivi des actions du PCAET (hors COPIL)</p>"
+  },
+  {
+   "id": 40487,
+   "titre": "7.37 Rendre exemplaires les bâtiments et l'éclairage public",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 17 716 habitants\nContexte : PCAET > 7. Collectivités exemplaires\nTitre : 7.37 Rendre exemplaires les bâtiments et l'éclairage public\nDescription : <p>Informer les communes sur les subventions possibles pour leurs projets de rénovation de bâtiments et de modernisation de l’éclairage public et communiquer sur les guides réalisés par l’ADEME sur ces sujets</p><p>Réaliser un diagnostic de l’ensemble des bâtiments publics du territoire et proposer à chaque commune d’engager un plan de rénovation énergétique</p><p>Favoriser les matériaux locaux et biosourcés dans les futures constructions publiques</p><p>Travailler sur la diminution de l’intensité lumineuse nocturne en lien avec la trame noire</p>"
+  },
+  {
+   "id": 40488,
+   "titre": "7.38 Rendre exemplaires les déplacements des administrations",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 17 716 habitants\nContexte : PCAET > 7. Collectivités exemplaires\nTitre : 7.38 Rendre exemplaires les déplacements des administrations\nDescription : <p>Rendre les flottes autombiles communales et intercommunales moins émettrices lors du renouvellement du parc</p><p>Poursuivre et étendre la politique d’achats de véhicules groupés, entre les structures</p><p>Rendre possibles les échanges de bonnes pratiques entre collectivités en matière de déplacements professionnels</p><p>Limiter, quand cela est possible, les besoins de se déplacer, favoriser le covoiturage</p><p>Communiquer sur Rezo Pouce auprès des agents des collectivités</p>"
+  },
+  {
+   "id": 40489,
+   "titre": "7.39 Faire des collectivités des acteurs agissant en faveur de la biodiversité",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 17 716 habitants\nContexte : PCAET > 7. Collectivités exemplaires\nTitre : 7.39 Faire des collectivités des acteurs agissant en faveur de la biodiversité\nDescription : <p>Diffuser les bonnes pratiques pour favoriser la biodiversité dans les communes</p><p>Initier des plantations de vergers communaux, de jardins partagés et privilégier l’éco-pâturage</p><p>Déployer l’action Rando bio qui permet aux élus et agents des collectivités de participer à des visites de terrain thématiques sur la biodiversité</p><p>Communiquer sur les Solutions fondées sur la nature (SFN)</p><p>Inciter les communes à réaliser un inventaire de biodiversité communale (IBC)</p><p>Elaborer un document pédagogique à destination des élus facilitant l’intégration de la TVB dans les documents d’urbanisme (projet Biodiv Pratique)</p><p>Participer à la mise au point des politiques de l’eau avec les syndicats de rivières pour préserver les zones humides</p><p>Valoriser les mesures de compensation dans le cadre de l’expansion économique du territoire</p>"
+  },
+  {
+   "id": 40490,
+   "titre": "7.40 Engager un plan global afin de rendre les consommations et les achats des collectivités exemplaires",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 17 716 habitants\nContexte : PCAET > 7. Collectivités exemplaires\nTitre : 7.40 Engager un plan global afin de rendre les consommations et les achats des collectivités exemplaires\nDescription : Inciter les collectivités à intégrer des critères environnementaux dans la commande publique et favoriser les bonnes pratiques entre collectivités sur ce sujet"
+  },
+  {
+   "id": 40551,
+   "titre": "1.1.1 Construire une boîte à outils concrète pour les communes",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 17 716 habitants\nContexte : Plan CAE > 1 Programme d'actions CAE et suivi territorial > 1.1 S'approprier le PCAET et le mettre en œuvre\nTitre : 1.1.1 Construire une boîte à outils concrète pour les communes\nDescription : Mise à disposition des communes d'un kit d'appropriation des actions du PCAET et du COT (ex : tableau de bord de la consommation énergétique du patrimoine)."
+  },
+  {
+   "id": 40552,
+   "titre": "1.1.2 Renforcer les actions d'éducation à l'environnement",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 17 716 habitants\nContexte : Plan CAE > 1 Programme d'actions CAE et suivi territorial > 1.1 S'approprier le PCAET et le mettre en œuvre\nTitre : 1.1.2 Renforcer les actions d'éducation à l'environnement\nDescription : Mener des actions d'éducation à l'environnement dans le cadre de la compétence Petite enfance de la CCF."
+  },
+  {
+   "id": 40553,
+   "titre": "1.1.3 Diffuser la vision et les objectifs du territoire",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 17 716 habitants\nContexte : Plan CAE > 1 Programme d'actions CAE et suivi territorial > 1.1 S'approprier le PCAET et le mettre en œuvre\nTitre : 1.1.3 Diffuser la vision et les objectifs du territoire\nDescription : Actions de communication concernant la mise en œuvre du PCAET et du COT. Diffusion des objectifs et de la trajectoire PCAET."
+  },
+  {
+   "id": 40554,
+   "titre": "1.2.1 Etudier le potentiel de développement des réseaux de chaleur et schéma directeur énergie renouvelable via une note d'opportunité (Fibois) dans toute les communes",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 17 716 habitants\nContexte : Plan CAE > 1 Programme d'actions CAE et suivi territorial > 1.2 Développer les énergies renouvelables\nTitre : 1.2.1 Etudier le potentiel de développement des réseaux de chaleur et schéma directeur énergie renouvelable via une note d'opportunité (Fibois) dans toute les communes\nDescription : Communiquer et encourager l'action de Fibois et les notes d'opportunité dans les communes de la CCF"
+  },
+  {
+   "id": 40555,
+   "titre": "1.2.2 Etudier l'opportunité de mettre en place un cadastre solaire",
+   "statut": "A discuter",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 17 716 habitants\nContexte : Plan CAE > 1 Programme d'actions CAE et suivi territorial > 1.2 Développer les énergies renouvelables\nTitre : 1.2.2 Etudier l'opportunité de mettre en place un cadastre solaire\nDescription : Etudier la pertinence de la réalisation d'un cadastre solaire mutualisé à l'échelle des 4 CC du territoire"
+  },
+  {
+   "id": 40556,
+   "titre": "1.2.3 Produire de l'électricité et de la chaleur renouvelable sur le territoire : identifier les projets prévus sur le territoire",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 17 716 habitants\nContexte : Plan CAE > 1 Programme d'actions CAE et suivi territorial > 1.2 Développer les énergies renouvelables\nTitre : 1.2.3 Produire de l'électricité et de la chaleur renouvelable sur le territoire : identifier les projets prévus sur le territoire\nDescription : Etude sobriété énergétique en groupement de commande"
+  },
+  {
+   "id": 40557,
+   "titre": "1.3.1 Etude de la collecte biodéchets et potentiel de méthanisation",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 17 716 habitants\nContexte : Plan CAE > 1 Programme d'actions CAE et suivi territorial > 1.3 Elaborer des documents cadres\nTitre : 1.3.1 Etude de la collecte biodéchets et potentiel de méthanisation\nDescription : Les syndicats de déchets du territoire réalisent des études pour la mise en place de la collecte des biodéchets et réfléchissent au potentiel de la méthanisation."
+  },
+  {
+   "id": 40558,
+   "titre": "1.3.2 Elaborer un schéma directeur des mobilités",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 17 716 habitants\nContexte : Plan CAE > 1 Programme d'actions CAE et suivi territorial > 1.3 Elaborer des documents cadres\nTitre : 1.3.2 Elaborer un schéma directeur des mobilités\nDescription : La CCF réalise une étude mobilité sur son territoire pour mettre en place une offre de services en lien avec la Région Centre-Val de Loire."
+  },
+  {
+   "id": 40559,
+   "titre": "2.1.1 Construire un tableau de bord des consommations de fluide (eau et énergie) des bâtiments",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 17 716 habitants\nContexte : Plan CAE > 2 Energie, patrimoine et bâtiments > 2.1 Construire une stratégie patrimoniale énergétique\nTitre : 2.1.1 Construire un tableau de bord des consommations de fluide (eau et énergie) des bâtiments\nDescription : La CCF participe au groupe de travail Patrimoine du COT Transition avec les autres communautés de communes, participe aux réflexions communes et à la formalisation d'outils de suivi des consommations"
+  },
+  {
+   "id": 40560,
+   "titre": "2.1.2 Diffuser le tableau de bord aux communes pour qu'elles se l'approprient",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 17 716 habitants\nContexte : Plan CAE > 2 Energie, patrimoine et bâtiments > 2.1 Construire une stratégie patrimoniale énergétique\nTitre : 2.1.2 Diffuser le tableau de bord aux communes pour qu'elles se l'approprient\nDescription : Proposer aux communes le tableau vierge et les aides à la prise en main"
+  },
+  {
+   "id": 40561,
+   "titre": "2.1.3 Formaliser des objectifs en matière d'entretien/maintenance de l'éclairage public dans un contrat de maintenance. Construire un tableau de bord des actions des communes",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 17 716 habitants\nContexte : Plan CAE > 2 Energie, patrimoine et bâtiments > 2.1 Construire une stratégie patrimoniale énergétique\nTitre : 2.1.3 Formaliser des objectifs en matière d'entretien/maintenance de l'éclairage public dans un contrat de maintenance. Construire un tableau de bord des actions des communes\nDescription : Intégrer le contrat de maintenance des communes ? Penser à valoriser les actions du communes."
+  },
+  {
+   "id": 40562,
+   "titre": "2.1.4 Construire une trajectoire de rénovation et d'amélioration cohérente avec le PCAET et la trajectoire du décret Tertiaire",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 17 716 habitants\nContexte : Plan CAE > 2 Energie, patrimoine et bâtiments > 2.1 Construire une stratégie patrimoniale énergétique\nTitre : 2.1.4 Construire une trajectoire de rénovation et d'amélioration cohérente avec le PCAET et la trajectoire du décret Tertiaire\nDescription : Possible de créer un groupement de commande pour embarquer les commandes. Rôle de la coordination de la CCF."
+  },
+  {
+   "id": 40563,
+   "titre": "2.1.5 Envisager les constructions neuves de manière exemplaire",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 17 716 habitants\nContexte : Plan CAE > 2 Energie, patrimoine et bâtiments > 2.1 Construire une stratégie patrimoniale énergétique\nTitre : 2.1.5 Envisager les constructions neuves de manière exemplaire\nDescription : La CCF envisage les constructions neuves de manière exemplaire. Construction du siège : panneaux PV, géothermie, récupération des eaux de pluies. Parking non imperméabilisée."
+  },
+  {
+   "id": 40564,
+   "titre": "3.1.1 Participer activement aux visites annuelles du COT et mettre à jour les indicateurs territoriaux",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 17 716 habitants\nContexte : Plan CAE > 3 Organisation interne > 3.1 Suivre le plan d'action et la démarche\nTitre : 3.1.1 Participer activement aux visites annuelles du COT et mettre à jour les indicateurs territoriaux\nDescription : Participation active des EPCI aux visites annuelles du COT. Accompagnement du conseiller pour le remplissage de la plateforme numérique ADEME et le suivi des actions. Remplissage des indicateurs territoriaux."
+  },
+  {
+   "id": 40565,
+   "titre": "3.1.2 Réunion le comité de pilotage au moins 2 fois par an pour le suivi de la démarche",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 17 716 habitants\nContexte : Plan CAE > 3 Organisation interne > 3.1 Suivre le plan d'action et la démarche\nTitre : 3.1.2 Réunion le comité de pilotage au moins 2 fois par an pour le suivi de la démarche\nDescription : 2 comités de suivi par an avec les autres CC du territoire, le PETR et les partenaires (ADEME, Région, Département…)"
+  },
+  {
+   "id": 40566,
+   "titre": "3.1.3 Construire un tableau de bord opérationnel pour la suivi des actions",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 17 716 habitants\nContexte : Plan CAE > 3 Organisation interne > 3.1 Suivre le plan d'action et la démarche\nTitre : 3.1.3 Construire un tableau de bord opérationnel pour la suivi des actions\nDescription : Formaliser un tableau de suivi d'avancement des actions CAE, ECi et PCAET"
+  },
+  {
+   "id": 40567,
+   "titre": "3.2.1 Mettre en place un programme de formation/sensibilisation autour des enjeux CAE et ECi pour les agents et les élus",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 17 716 habitants\nContexte : Plan CAE > 3 Organisation interne > 3.2 Renforcer les moyens humains dédiés à la transition écologique\nTitre : 3.2.1 Mettre en place un programme de formation/sensibilisation autour des enjeux CAE et ECi pour les agents et les élus\nDescription : Objectif régional Formation du COT Transition : sensibiliser 50 % des élus communautaires + 60 % des responsables de services des CC"
+  },
+  {
+   "id": 40568,
+   "titre": "3.2.2 Intégrer les enjeux climat-air-énergie dans les projets de services",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 17 716 habitants\nContexte : Plan CAE > 3 Organisation interne > 3.2 Renforcer les moyens humains dédiés à la transition écologique\nTitre : 3.2.2 Intégrer les enjeux climat-air-énergie dans les projets de services\nDescription : Inscrire les enjeux CAE dans les fiches de poste et dans le projet d'administration / de services"
+  },
+  {
+   "id": 40569,
+   "titre": "3.2.3 Renforcer les moyens humains dédiés à la transition écologique",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 17 716 habitants\nContexte : Plan CAE > 3 Organisation interne > 3.2 Renforcer les moyens humains dédiés à la transition écologique\nTitre : 3.2.3 Renforcer les moyens humains dédiés à la transition écologique\nDescription : Renforcer le nombre d'ETP dédié aux questions environnementales et de transition écologique"
+  },
+  {
+   "id": 40570,
+   "titre": "3.3.1 Sensibilisation/formation des services",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 17 716 habitants\nContexte : Plan CAE > 3 Organisation interne > 3.3 Construire une politique d'achats publics responsables\nTitre : 3.3.1 Sensibilisation/formation des services\nDescription : Proposer les formations du CNFPT sur le sujet + programme de sensibilisation des agents proposé par le PETR FOLS avec un atelier sur les achats publics responsables"
+  },
+  {
+   "id": 40571,
+   "titre": "4.1.1 Mise en place d'une offre de véhicules en auto-partage en lien avec la Région CVL",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 17 716 habitants\nContexte : Plan CAE > 4 Mobilités > 4.1 Favoriser les alternatives à la voiture individuelle\nTitre : 4.1.1 Mise en place d'une offre de véhicules en auto-partage en lien avec la Région CVL\nDescription : Dispositif en test sur plusieurs territoires de la région. A terme, le service devrait être déployé sur les CC non AOM"
+  },
+  {
+   "id": 40572,
+   "titre": "4.1.2 Construction de pôles d'échanges intermodaux en lien avec le Département du Loiret",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 17 716 habitants\nContexte : Plan CAE > 4 Mobilités > 4.1 Favoriser les alternatives à la voiture individuelle\nTitre : 4.1.2 Construction de pôles d'échanges intermodaux en lien avec le Département du Loiret\nDescription : Participer aux réflexions et études engagées par le CD 45"
+  },
+  {
+   "id": 40573,
+   "titre": "4.1.3 Mise en place des actions découlant du schéma directeur des mobilités",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 17 716 habitants\nContexte : Plan CAE > 4 Mobilités > 4.1 Favoriser les alternatives à la voiture individuelle\nTitre : 4.1.3 Mise en place des actions découlant du schéma directeur des mobilités\nDescription : Décliner des actions mobilité découlant du schéma directeur"
+  },
+  {
+   "id": 40574,
+   "titre": "4.1.4 Diagnostic et verdissement de la flotte interne de la collectivité",
+   "statut": "A discuter",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 17 716 habitants\nContexte : Plan CAE > 4 Mobilités > 4.1 Favoriser les alternatives à la voiture individuelle\nTitre : 4.1.4 Diagnostic et verdissement de la flotte interne de la collectivité\nDescription : Elaborer un diagnostic de renouvellement et de la flotte de véhicules de la collectivités et y intégrer les communes éventuellement"
+  },
+  {
+   "id": 40575,
+   "titre": "4.1.5 Mener des réflexions sur le covoiturage (Mobicoop, incitation financière, bassin de mobilité en lien avec OM)",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 17 716 habitants\nContexte : Plan CAE > 4 Mobilités > 4.1 Favoriser les alternatives à la voiture individuelle\nTitre : 4.1.5 Mener des réflexions sur le covoiturage (Mobicoop, incitation financière, bassin de mobilité en lien avec OM)\nDescription : Accueillir des animations sur le territoire de la CCF Relai de communication des actions menées par le PETR Réflexions communes sur la pratique du covoiturage"
+  },
+  {
+   "id": 40576,
+   "titre": "4.1.6 Mise en place de boucles cyclables",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 17 716 habitants\nContexte : Plan CAE > 4 Mobilités > 4.1 Favoriser les alternatives à la voiture individuelle\nTitre : 4.1.6 Mise en place de boucles cyclables\nDescription : Mise en place de boucles cyclables à portée touristique et de loisir"
+  },
+  {
+   "id": 40577,
+   "titre": "4.1.7 Acheter et mettre à dispositions des agents des vélos de service ou de fonction",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 17 716 habitants\nContexte : Plan CAE > 4 Mobilités > 4.1 Favoriser les alternatives à la voiture individuelle\nTitre : 4.1.7 Acheter et mettre à dispositions des agents des vélos de service ou de fonction\nDescription : Réflexions à intégrer dans le diagnostic de verdissement de la flotte interne"
+  },
+  {
+   "id": 40578,
+   "titre": "4.1.8 Suivre le schéma directeur départemental des développements des bornes électriques",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 17 716 habitants\nContexte : Plan CAE > 4 Mobilités > 4.1 Favoriser les alternatives à la voiture individuelle\nTitre : 4.1.8 Suivre le schéma directeur départemental des développements des bornes électriques\nDescription : Suivre les travaux autour du SDIRVE"
+  },
+  {
+   "id": 40579,
+   "titre": "5.1.1 Mettre en place une convention avec l'ADIL dans le cadre de France Rénov",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 17 716 habitants\nContexte : Plan CAE > 5 Habitat > 5.1 Améliorer la performance énergétique de l'habitat\nTitre : 5.1.1 Mettre en place une convention avec l'ADIL dans le cadre de France Rénov\nDescription : Signature d'un Pacte Territorial"
+  },
+  {
+   "id": 40580,
+   "titre": "6.1.1 Elaborer un schéma directeur eau potable et assainissement",
+   "statut": "Réalisé",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 17 716 habitants\nContexte : Plan CAE > 6 Eau > 6.1 Préparer la prise de compétence eau potable et assainissement\nTitre : 6.1.1 Elaborer un schéma directeur eau potable et assainissement\nDescription : Recensement des besoins d'investissement pour garantir une performance de gestion du patrimoine et de son efficacité. Programme d'investissement sur 15 ans."
+  },
+  {
+   "id": 40581,
+   "titre": "6.1.2 Mettre en place un PPI",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 17 716 habitants\nContexte : Plan CAE > 6 Eau > 6.1 Préparer la prise de compétence eau potable et assainissement\nTitre : 6.1.2 Mettre en place un PPI\nDescription : Mettre en place un PPI pour mettre en œuvre des mesures concrètes visant l'amélioration et l'optimisation de l'efficacité énergétique des installations d'eau potable"
+  },
+  {
+   "id": 40582,
+   "titre": "1. Définir une politique d'achats responsables",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 17 716 habitants\nContexte : Plan ECI > 1. Commande publique\nTitre : 1. Définir une politique d'achats responsables\nDescription : La CCF élabore et met en place une politique et un clausier d'achats responsables et les partage avec les communes. La politique achats définit les objectifs à atteindre, en lien avec la réglementation, ainsi que le processus achats mis en place pour atteindre ces objectifs"
+  },
+  {
+   "id": 40583,
+   "titre": "2.Déployer les achats responsables",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 17 716 habitants\nContexte : Plan ECI > 1. Commande publique\nTitre : 2.Déployer les achats responsables\nDescription : La CCF forme la personne en charge de la commande publique aux achats responsables et elle diffuse auprès du reste de l'équipe les bonnes pratiques à adopter. Un tableau de bord permet de suivre la part de marchs intégrant des dispositions responsables. Les outils sont partagés aux communes."
+  },
+  {
+   "id": 40584,
+   "titre": "3. Mettre en place une culture territoriale de l'usage des matériaux écologiques",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 17 716 habitants\nContexte : Plan ECI > 2. Urbanisme circulaire\nTitre : 3. Mettre en place une culture territoriale de l'usage des matériaux écologiques\nDescription : La CCF partage les ressources existantes sur les matériaux biosourcés et géosourcés. Elle relaie les informations des fédérations et réseaux de la construction et des éco-matériaux auprès des entreprises."
+  },
+  {
+   "id": 40585,
+   "titre": "4. Soutenir le développement des filières d'éco-matériaux (paille, bois, chanvre…)",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 17 716 habitants\nContexte : Plan ECI > 2. Urbanisme circulaire\nTitre : 4. Soutenir le développement des filières d'éco-matériaux (paille, bois, chanvre…)\nDescription : Les filières d'éco-matériaux (paille, bois, chanvre…) sont developées via la commande publique de la CCF. Des clauses sont intégrées dans les marchés pour intégrer des éco-matéiraux dans les constructions des collectivités."
+  },
+  {
+   "id": 40586,
+   "titre": "5. Intégrer la sobriété foncière dans les projets d'aménagement",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 17 716 habitants\nContexte : Plan ECI > 2. Urbanisme circulaire\nTitre : 5. Intégrer la sobriété foncière dans les projets d'aménagement\nDescription : La CCF décline les objectifs de limitation de l'artificialisation des sols dans ses projets d'aménagement (ZAE). Elle appuie les communes sur le sujet."
+  },
+  {
+   "id": 40587,
+   "titre": "6. Recenser et caractériser les friches industrielles et tertiaires",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 17 716 habitants\nContexte : Plan ECI > 2. Urbanisme circulaire\nTitre : 6. Recenser et caractériser les friches industrielles et tertiaires\nDescription : La CCF recense les friches industrielles et tertiaires du territoire avec l'intention de créer de nouveaux espaces de construction sans augmenter le taux d'artificialisation des sols. Le PETR FOLS aide au recensement et agrège ces informations;"
+  },
+  {
+   "id": 40588,
+   "titre": "7. Soutenir le réemploi des matériaux du BTP",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 17 716 habitants\nContexte : Plan ECI > 2. Urbanisme circulaire\nTitre : 7. Soutenir le réemploi des matériaux du BTP\nDescription : La CCF informe les MOA privés au sujet du diagnostic PEMD de manière à généraliser la démarche sur le territoire, par exemple au moment de la délivrance du permis de démolir. Le PETR FOLS se charge de créer ou récupérer une fiche commune sur le diagnostic POMD et la gestion des 7 flux de matières pour la transmettre aux services urbanisme de la CCF."
+  },
+  {
+   "id": 40589,
+   "titre": "8. Soutenir la mise en place de matériauthèques",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 17 716 habitants\nContexte : Plan ECI > 2. Urbanisme circulaire\nTitre : 8. Soutenir la mise en place de matériauthèques\nDescription : Le PETR FOLS soutient financièrement la mise en place de nouvelles matériauthèques sur le territoire via les financements du CRST. Une étude des gisements et de la faisabilité pourra être réalisée en amont afin de définir au mieux le statut juridique, l'emplacement et les horaires d'ouverture des matériauthèques."
+  },
+  {
+   "id": 40590,
+   "titre": "9. Réaliser un état des lieux des opportunités sur l'écologie industrielle et territoriale (EIT) et la déployer sur les zones d'activités opportunes",
+   "statut": "A discuter",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 17 716 habitants\nContexte : Plan ECI > 3. Accompagnement des entreprises\nTitre : 9. Réaliser un état des lieux des opportunités sur l'écologie industrielle et territoriale (EIT) et la déployer sur les zones d'activités opportunes\nDescription : Une étude est réalisée pour identifier les zones d'activités et flux du territoire les plus appropriés pour la création de synergies de ressources. Elle pourra comprendre une enquête auprès des entreprises mais également des réunions collectives."
+  },
+  {
+   "id": 40591,
+   "titre": "10. Animer une démarche d'écologie industrielle et territoriale (EIT) sur les territoires",
+   "statut": "A discuter",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 17 716 habitants\nContexte : Plan ECI > 3. Accompagnement des entreprises\nTitre : 10. Animer une démarche d'écologie industrielle et territoriale (EIT) sur les territoires\nDescription : La CCF met en relation les entreprises pour identifier les synergies de ressources. Pour cela des réunions sont réalisées durant lesquelles les approvisionnements et déchets ou co-produits par entreprise sont listés afin d'identifier les synergies possibles entre les besoins des uns et co-produits des autres."
+  },
+  {
+   "id": 40592,
+   "titre": "11. Informer et sensibiliser les entreprises au sujet de l'économie circulaire",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 17 716 habitants\nContexte : Plan ECI > 3. Accompagnement des entreprises\nTitre : 11. Informer et sensibiliser les entreprises au sujet de l'économie circulaire\nDescription : La CCF sensibilise et forme les entreprises en enjeux de l'économie circulaire par l'intermédiaire des clubs et des réseaux. Elle assure également un rôle d'accompagnement technique des entreprises du territoire sur l'ECi (décryptage des réglementations, veille des dispositifs de subvention, mise en réseau, information sur les obligations de gestion de leurs déchets...)"
+  },
+  {
+   "id": 40593,
+   "titre": "12. Mettre en valeur les entreprises engagées dans l'éco-conception",
+   "statut": "A discuter",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 17 716 habitants\nContexte : Plan ECI > 3. Accompagnement des entreprises\nTitre : 12. Mettre en valeur les entreprises engagées dans l'éco-conception\nDescription : La CCF valorise les entreprises engagées dans l'éco-conception. Cela peut passer par les différents canaux de communication et les clubs existants. La CCF organise ou co-organise une rencontre annuelle avec des interventions d'entreprises engagées dans cette démarche afin d'inspirer les structures moins matures."
+  },
+  {
+   "id": 40594,
+   "titre": "13. Favoriser le développement des pratiques éco-responsables des commerçants et artisans",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 17 716 habitants\nContexte : Plan ECI > 3. Accompagnement des entreprises\nTitre : 13. Favoriser le développement des pratiques éco-responsables des commerçants et artisans\nDescription : Le PETR FOLS déploie l'opération Eco Défis des artisans et des commerçants sur le territoire en partenariat avec la CMA. La label Eco Défis sensibilise, mobilise et valorise les entreprises qui mettent en place des actions concrètes en faveur de la planète, notamment en matière de réduction de consommation de ressources."
+  },
+  {
+   "id": 40595,
+   "titre": "14. Soutenir la production agricole de proximité et les circuits courts",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 17 716 habitants\nContexte : Plan ECI > 3. Accompagnement des entreprises\nTitre : 14. Soutenir la production agricole de proximité et les circuits courts\nDescription : Le PETR FOLS soutient les AMAP ainsi que les commerces de vente directe des producteurs, au travers d'un appui financier, de mise en valeur ou de mise à disposition de foncier, en lien avec le PAT du territoire."
+  },
+  {
+   "id": 40596,
+   "titre": "15. Célébrer un événement annuel de l'économie circulaire",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 17 716 habitants\nContexte : Plan ECI > 4. Consommation sobre\nTitre : 15. Célébrer un événement annuel de l'économie circulaire\nDescription : Le PETR FOLS sensibilise le grand public lors d'un événement annuel festif rassemblant les acteurs de l'économie circulaire. L'événement permettra de mettre en valeur les acteurs associatifs de l'ECi et de partager des bonnes pratiques au travers d'ateliers."
+  },
+  {
+   "id": 40597,
+   "titre": "16. Sensibiliser les habitants à la sobriété",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 17 716 habitants\nContexte : Plan ECI > 4. Consommation sobre\nTitre : 16. Sensibiliser les habitants à la sobriété\nDescription : Les syndicats de collecte des déchets mettent en place des actions de sensibilisation du grand public (à la sobriété, au recyclage et aux enjeux de l'économie circulaire) pour accompagner l'évolution des pratiques. Des boîtes à livre et espaces de dons sont mis en place au sein des communes."
+  },
+  {
+   "id": 40598,
+   "titre": "17. Développer les ateliers de réparation et d'auto-réparation",
+   "statut": "A discuter",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 17 716 habitants\nContexte : Plan ECI > 4. Consommation sobre\nTitre : 17. Développer les ateliers de réparation et d'auto-réparation\nDescription : En lien avec les associations, la CCF soutient des ateliers d'autoréparation des vélos. La CCF soutient les Repair Café sur le territoire (en coportage avec les communes et les associations locales)."
+  },
+  {
+   "id": 40599,
+   "titre": "18.Mener un appel à projets pour développer les ressourceries du territoire",
+   "statut": "A discuter",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 17 716 habitants\nContexte : Plan ECI > 4. Consommation sobre\nTitre : 18.Mener un appel à projets pour développer les ressourceries du territoire\nDescription : Un appel à projet ou AMI est lancé sur le territoire du PETR FOLS pour faire émerger des porteurs de projet, notamment en matière de création de ressourcerie. Le PETR aura un rôle de facilitateur en porposant un mode d'emploi pour financer les projets et les faire émerger."
+  },
+  {
+   "id": 40600,
+   "titre": "19. Soutenir le tri à la source des biodéchets et appuyer le développement de nouvelles filières de recyclage",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 17 716 habitants\nContexte : Plan ECI > 4. Consommation sobre\nTitre : 19. Soutenir le tri à la source des biodéchets et appuyer le développement de nouvelles filières de recyclage\nDescription : Les syndicats de déchets mettent en place des moyens de tri à la source des biodéchets en 2024. Le PETR FOLS soutient les syndicats pour le développement de nouvelles filières de recyclage par la rechrche de financement d'études pré-opérationnelles."
+  },
+  {
+   "id": 40601,
+   "titre": "20. Améliorer le système de collecte et traitement des eaux usées urbaines et étudier les opportunités de réutilisation",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 17 716 habitants\nContexte : Plan ECI > 5. Réduction des consommations d'eau\nTitre : 20. Améliorer le système de collecte et traitement des eaux usées urbaines et étudier les opportunités de réutilisation\nDescription : La CCF veille pour la mise en conformité réglementaire de dispositifs de collecte et traitement des eaux usées (Directive UE 91/271/CEE) lorsqu'elles ont la compétence. Elle étudie la REUT, notamment l'eau de vidange des piscines collectives."
+  },
+  {
+   "id": 40602,
+   "titre": "21. Etudier les opportunités de valorisation des eaux pluviales dans un projet d'aménagement",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 17 716 habitants\nContexte : Plan ECI > 5. Réduction des consommations d'eau\nTitre : 21. Etudier les opportunités de valorisation des eaux pluviales dans un projet d'aménagement\nDescription : Dans le cadre de projets d'aménagement, la mise en place de techniques alternatives de gestion des eaux pluviales (noues paysagères, fossés drainants, chaussée réservoir…) est étudiée par le gestionnaire des documents d'urbanisme."
+  },
+  {
+   "id": 40603,
+   "titre": "22. Promouvoir des usages sobres de l'eau auprès des habitants",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 17 716 habitants\nContexte : Plan ECI > 5. Réduction des consommations d'eau\nTitre : 22. Promouvoir des usages sobres de l'eau auprès des habitants\nDescription : La CCF conseille les habitants dans l'utilisation des équipements de réduction de la consommation d'eau (récupérateurs, mousseur hydroéconome…) et les distribue le cas échéant."
+  },
+  {
+   "id": 40604,
+   "titre": "23. Surveiller la prise en compte de la limitation de l'imperméabilisation dans les projets d'aménagement",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 17 716 habitants\nContexte : Plan ECI > 5. Réduction des consommations d'eau\nTitre : 23. Surveiller la prise en compte de la limitation de l'imperméabilisation dans les projets d'aménagement\nDescription : La CCF informe les communes sur les leviers de limitation de l'imperméabilisation des sols au travers d'une note, de réunions ou de partage d'information sur le sujet. L'intervention d'un expert peut être envisagée."
+  }
+ ]
+}

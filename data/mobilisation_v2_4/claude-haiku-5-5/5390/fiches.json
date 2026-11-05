@@ -1,0 +1,977 @@
+{
+ "collectivite": {
+  "id": 5390,
+  "nom": "Paris Est Marne & Bois",
+  "type_code": "EPT",
+  "type_label": "EPT",
+  "population": 514520
+ },
+ "fiches": [
+  {
+   "id": 84843,
+   "titre": "S'appuyer sur l'expertise des observatoires (AirParif et BruitParif) pour suivre et évaluer la qualité des environnements sonore et aérien sur le Territoire",
+   "statut": "Réalisé",
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Plan Climat Air Énergie territorial 2022-2028 > AXE 1 - Construire un Territoire résilient pour répondre aux effets du changement climatique et offrir aux habitants un cadre de vie attractif > 1.1 - S'engager en faveur de la qualité de l'air et de la réduction des nuisances sonores > 1.1.1 - Limiter l'exposition des habitants aux polluants atmosphériques et aux nuisances sonores\nTitre : S'appuyer sur l'expertise des observatoires (AirParif et BruitParif) pour suivre et évaluer la qualité des environnements sonore et aérien sur le Territoire\nDescription : <ol><li><p>Adhésion à Airparif, Bruitparif et au Centre d’information du Bruit (CidB)</p></li><li><p>Réalisation de campagnes de mesures localisées </p></li><li><p>Adhésion au Club Décibel Villes</p></li></ol>"
+  },
+  {
+   "id": 84848,
+   "titre": "Réaliser une cartographie croisée air/bruit",
+   "statut": "Réalisé",
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Plan Climat Air Énergie territorial 2022-2028 > AXE 1 - Construire un Territoire résilient pour répondre aux effets du changement climatique et offrir aux habitants un cadre de vie attractif > 1.1 - S'engager en faveur de la qualité de l'air et de la réduction des nuisances sonores > 1.1.1 - Limiter l'exposition des habitants aux polluants atmosphériques et aux nuisances sonores\nTitre : Réaliser une cartographie croisée air/bruit\nDescription : <p class=\"!text-base !text-grey-8 font-[Marianne]\">Convention tripartite entre PEMB / Airparif / Bruitparif pour réaliser un croisement des cartes Air/Bruit sur le Territoire</p><p class=\"!text-base !text-grey-8 font-[Marianne]\">Réalisation d'une carte croisée air/bruit</p>"
+  },
+  {
+   "id": 84849,
+   "titre": "Créer un maillage de zones de ressourcement",
+   "statut": "Réalisé",
+   "n_sous_actions": 3,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Plan Climat Air Énergie territorial 2022-2028 > AXE 1 - Construire un Territoire résilient pour répondre aux effets du changement climatique et offrir aux habitants un cadre de vie attractif > 1.1 - S'engager en faveur de la qualité de l'air et de la réduction des nuisances sonores > 1.1.1 - Limiter l'exposition des habitants aux polluants atmosphériques et aux nuisances sonores\nTitre : Créer un maillage de zones de ressourcement\nDescription : <ol><li><p>Études sur le gisement disponible de zones de ressourcement. </p></li><li><p>Aménagement de zones de ressourcement. </p></li><li><p>Information et communication sur ces zones.</p></li></ol>\nSous-actions : Études sur le gisement disponible de zones de ressourcement. ; Aménagement de zones de ressourcement. ; Information et communication sur ces zones."
+  },
+  {
+   "id": 84858,
+   "titre": "Participer aux instances compétentes en matière de bruit dans l'environnement et de suivi de la qualité de l'air en Île-de-France",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Plan Climat Air Énergie territorial 2022-2028 > AXE 1 - Construire un Territoire résilient pour répondre aux effets du changement climatique et offrir aux habitants un cadre de vie attractif > 1.1 - S'engager en faveur de la qualité de l'air et de la réduction des nuisances sonores > 1.1.1 - Limiter l'exposition des habitants aux polluants atmosphériques et aux nuisances sonores\nTitre : Participer aux instances compétentes en matière de bruit dans l'environnement et de suivi de la qualité de l'air en Île-de-France\nDescription : <p>Membre des différents réseaux et représentation des élus de PEMB</p>"
+  },
+  {
+   "id": 84864,
+   "titre": "Etudier la réouverture et la renaturation des cours d'eau canalisés",
+   "statut": "Réalisé",
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Plan Climat Air Énergie territorial 2022-2028 > AXE 1 - Construire un Territoire résilient pour répondre aux effets du changement climatique et offrir aux habitants un cadre de vie attractif > 1.2 - Mettre l'eau au cœur du développement territorial > 1.2.1 - Se réapproprier la Marne, les cours d'eau et les sources\nTitre : Etudier la réouverture et la renaturation des cours d'eau canalisés\nDescription : aucune"
+  },
+  {
+   "id": 84865,
+   "titre": "Valoriser les sources ou résurgences",
+   "statut": null,
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Plan Climat Air Énergie territorial 2022-2028 > AXE 1 - Construire un Territoire résilient pour répondre aux effets du changement climatique et offrir aux habitants un cadre de vie attractif > 1.2 - Mettre l'eau au cœur du développement territorial > 1.2.1 - Se réapproprier la Marne, les cours d'eau et les sources\nTitre : Valoriser les sources ou résurgences\nDescription : aucune"
+  },
+  {
+   "id": 84866,
+   "titre": "Répertorier et étudier le potentiel de valorisation des zones et de ses affluents",
+   "statut": "Réalisé",
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Plan Climat Air Énergie territorial 2022-2028 > AXE 1 - Construire un Territoire résilient pour répondre aux effets du changement climatique et offrir aux habitants un cadre de vie attractif > 1.2 - Mettre l'eau au cœur du développement territorial > 1.2.1 - Se réapproprier la Marne, les cours d'eau et les sources\nTitre : Répertorier et étudier le potentiel de valorisation des zones et de ses affluents\nDescription : aucune"
+  },
+  {
+   "id": 84867,
+   "titre": "Contribuer à l'amélioration de la qualité écologique de la Marne et de ses affluents",
+   "statut": "Réalisé",
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Plan Climat Air Énergie territorial 2022-2028 > AXE 1 - Construire un Territoire résilient pour répondre aux effets du changement climatique et offrir aux habitants un cadre de vie attractif > 1.2 - Mettre l'eau au cœur du développement territorial > 1.2.1 - Se réapproprier la Marne, les cours d'eau et les sources\nTitre : Contribuer à l'amélioration de la qualité écologique de la Marne et de ses affluents\nDescription : <ol><li><p>S’engager sur l’objectif baignade en 2022</p></li><li><p>Réaménagement des berges de la Marne en faveur de la biodiversité et du bien-être des populations</p></li></ol>"
+  },
+  {
+   "id": 84953,
+   "titre": "Dynamiser le développement territorial en s'appuyant sur les potentialités des cours d'eau, sur la mise en œuvre de la charte départementale du plan bleu et sur les actions du schéma d'aménagement et de gestion des eaux (SAGE) Marne Confluence",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Plan Climat Air Énergie territorial 2022-2028 > AXE 1 - Construire un Territoire résilient pour répondre aux effets du changement climatique et offrir aux habitants un cadre de vie attractif > 1.2 - Mettre l'eau au cœur du développement territorial > 1.2.1 - Se réapproprier la Marne, les cours d'eau et les sources\nTitre : Dynamiser le développement territorial en s'appuyant sur les potentialités des cours d'eau, sur la mise en œuvre de la charte départementale du plan bleu et sur les actions du schéma d'aménagement et de gestion des eaux (SAGE) Marne Confluence\nDescription : aucune"
+  },
+  {
+   "id": 84954,
+   "titre": "Favoriser l'infiltration des eaux et ainsi réduire les risques d'inondation",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Plan Climat Air Énergie territorial 2022-2028 > AXE 1 - Construire un Territoire résilient pour répondre aux effets du changement climatique et offrir aux habitants un cadre de vie attractif > 1.2 - Mettre l'eau au cœur du développement territorial > 1.2.2 - Gérer les eaux pluviales de façon durable\nTitre : Favoriser l'infiltration des eaux et ainsi réduire les risques d'inondation\nDescription : aucune"
+  },
+  {
+   "id": 84955,
+   "titre": "Réaliser un schéma directeur d'assainissement territorial",
+   "statut": "Réalisé",
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Plan Climat Air Énergie territorial 2022-2028 > AXE 1 - Construire un Territoire résilient pour répondre aux effets du changement climatique et offrir aux habitants un cadre de vie attractif > 1.2 - Mettre l'eau au cœur du développement territorial > 1.2.2 - Gérer les eaux pluviales de façon durable\nTitre : Réaliser un schéma directeur d'assainissement territorial\nDescription : aucune"
+  },
+  {
+   "id": 84956,
+   "titre": "Favoriser l'installation de récupérateurs d'eau de pluie",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Plan Climat Air Énergie territorial 2022-2028 > AXE 1 - Construire un Territoire résilient pour répondre aux effets du changement climatique et offrir aux habitants un cadre de vie attractif > 1.2 - Mettre l'eau au cœur du développement territorial > 1.2.2 - Gérer les eaux pluviales de façon durable\nTitre : Favoriser l'installation de récupérateurs d'eau de pluie\nDescription : aucune"
+  },
+  {
+   "id": 84957,
+   "titre": "Mieux définir les caractéristiques du territoire",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Plan Climat Air Énergie territorial 2022-2028 > AXE 1 - Construire un Territoire résilient pour répondre aux effets du changement climatique et offrir aux habitants un cadre de vie attractif > 1.3 - Renforcer les continuités écologiques et préserver la qualité des sols > 1.3.1 - Préserver et \"reconquérir\" les espaces naturels\nTitre : Mieux définir les caractéristiques du territoire\nDescription : aucune"
+  },
+  {
+   "id": 84958,
+   "titre": "Mise à disposition d'un guide biodiversité pour la population",
+   "statut": "Réalisé",
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Plan Climat Air Énergie territorial 2022-2028 > AXE 1 - Construire un Territoire résilient pour répondre aux effets du changement climatique et offrir aux habitants un cadre de vie attractif > 1.3 - Renforcer les continuités écologiques et préserver la qualité des sols > 1.3.1 - Préserver et \"reconquérir\" les espaces naturels\nTitre : Mise à disposition d'un guide biodiversité pour la population\nDescription : aucune"
+  },
+  {
+   "id": 84959,
+   "titre": "Revégétaliser les berges de Marne",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Plan Climat Air Énergie territorial 2022-2028 > AXE 1 - Construire un Territoire résilient pour répondre aux effets du changement climatique et offrir aux habitants un cadre de vie attractif > 1.3 - Renforcer les continuités écologiques et préserver la qualité des sols > 1.3.1 - Préserver et \"reconquérir\" les espaces naturels\nTitre : Revégétaliser les berges de Marne\nDescription : aucune"
+  },
+  {
+   "id": 84960,
+   "titre": "Sauvegarder la Pleine Terre et restaurer les services écosystémiques des sols",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Plan Climat Air Énergie territorial 2022-2028 > AXE 1 - Construire un Territoire résilient pour répondre aux effets du changement climatique et offrir aux habitants un cadre de vie attractif > 1.3 - Renforcer les continuités écologiques et préserver la qualité des sols > 1.3.1 - Préserver et \"reconquérir\" les espaces naturels\nTitre : Sauvegarder la Pleine Terre et restaurer les services écosystémiques des sols\nDescription : aucune"
+  },
+  {
+   "id": 84961,
+   "titre": "Création de groupes de travail thématiques constitués des communes et des professionnels du secteur responsables du pilotage de la mise en œuvre",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Plan Climat Air Énergie territorial 2022-2028 > AXE 1 - Construire un Territoire résilient pour répondre aux effets du changement climatique et offrir aux habitants un cadre de vie attractif > 1.3 - Renforcer les continuités écologiques et préserver la qualité des sols > 1.3.2 - Créer des zones propices au développement de la biodiversité en ville\nTitre : Création de groupes de travail thématiques constitués des communes et des professionnels du secteur responsables du pilotage de la mise en œuvre\nDescription : aucune"
+  },
+  {
+   "id": 84962,
+   "titre": "Créer un maillage de zones de biodiversité qui s'appuiera sur plusieurs mesures",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Plan Climat Air Énergie territorial 2022-2028 > AXE 1 - Construire un Territoire résilient pour répondre aux effets du changement climatique et offrir aux habitants un cadre de vie attractif > 1.3 - Renforcer les continuités écologiques et préserver la qualité des sols > 1.3.2 - Créer des zones propices au développement de la biodiversité en ville\nTitre : Créer un maillage de zones de biodiversité qui s'appuiera sur plusieurs mesures\nDescription : aucune"
+  },
+  {
+   "id": 84963,
+   "titre": "Végétaliser les cours d'établissements scolaires, les parvis et autres espaces publics",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Plan Climat Air Énergie territorial 2022-2028 > AXE 1 - Construire un Territoire résilient pour répondre aux effets du changement climatique et offrir aux habitants un cadre de vie attractif > 1.3 - Renforcer les continuités écologiques et préserver la qualité des sols > 1.3.2 - Créer des zones propices au développement de la biodiversité en ville\nTitre : Végétaliser les cours d'établissements scolaires, les parvis et autres espaces publics\nDescription : aucune"
+  },
+  {
+   "id": 84964,
+   "titre": "Limiter la pollution lumineuse",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Plan Climat Air Énergie territorial 2022-2028 > AXE 1 - Construire un Territoire résilient pour répondre aux effets du changement climatique et offrir aux habitants un cadre de vie attractif > 1.3 - Renforcer les continuités écologiques et préserver la qualité des sols > 1.3.2 - Créer des zones propices au développement de la biodiversité en ville\nTitre : Limiter la pollution lumineuse\nDescription : aucune"
+  },
+  {
+   "id": 84965,
+   "titre": "S'engager dans la démarche \"Territoire engagé pour la Nature\"",
+   "statut": "Réalisé",
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Plan Climat Air Énergie territorial 2022-2028 > AXE 1 - Construire un Territoire résilient pour répondre aux effets du changement climatique et offrir aux habitants un cadre de vie attractif > 1.3 - Renforcer les continuités écologiques et préserver la qualité des sols > 1.3.2 - Créer des zones propices au développement de la biodiversité en ville\nTitre : S'engager dans la démarche \"Territoire engagé pour la Nature\"\nDescription : aucune"
+  },
+  {
+   "id": 84966,
+   "titre": "Faire un diagnostic des zones à enjeu d'îlot de chaleur urbain",
+   "statut": "Réalisé",
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Plan Climat Air Énergie territorial 2022-2028 > AXE 1 - Construire un Territoire résilient pour répondre aux effets du changement climatique et offrir aux habitants un cadre de vie attractif > 1.4 - Intégrer les objectifs de Transition écologique dans les politiques publiques > 1.4.1 - Lutter contre les îlots de chaleur\nTitre : Faire un diagnostic des zones à enjeu d'îlot de chaleur urbain\nDescription : aucune"
+  },
+  {
+   "id": 84967,
+   "titre": "Rédiger une charte pour lutter contre le phénomène de surchauffe urbaine",
+   "statut": "Réalisé",
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Plan Climat Air Énergie territorial 2022-2028 > AXE 1 - Construire un Territoire résilient pour répondre aux effets du changement climatique et offrir aux habitants un cadre de vie attractif > 1.4 - Intégrer les objectifs de Transition écologique dans les politiques publiques > 1.4.1 - Lutter contre les îlots de chaleur\nTitre : Rédiger une charte pour lutter contre le phénomène de surchauffe urbaine\nDescription : aucune"
+  },
+  {
+   "id": 84968,
+   "titre": "Organiser des réunions publiques",
+   "statut": "Réalisé",
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Plan Climat Air Énergie territorial 2022-2028 > AXE 1 - Construire un Territoire résilient pour répondre aux effets du changement climatique et offrir aux habitants un cadre de vie attractif > 1.4 - Intégrer les objectifs de Transition écologique dans les politiques publiques > 1.4.1 - Lutter contre les îlots de chaleur\nTitre : Organiser des réunions publiques\nDescription : aucune"
+  },
+  {
+   "id": 84970,
+   "titre": "Fixer des objectifs Energie - Climat dans le PLUi",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Plan Climat Air Énergie territorial 2022-2028 > AXE 1 - Construire un Territoire résilient pour répondre aux effets du changement climatique et offrir aux habitants un cadre de vie attractif > 1.4 - Intégrer les objectifs de Transition écologique dans les politiques publiques > 1.4.2 - Intégrer les enjeux environnementaux dans les politiques d'urbanisme et d'aménagement\nTitre : Fixer des objectifs Energie - Climat dans le PLUi\nDescription : aucune"
+  },
+  {
+   "id": 84972,
+   "titre": "Encourager l'expérimentation dans les projets d'aménagement et de rénovation urbains",
+   "statut": null,
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Plan Climat Air Énergie territorial 2022-2028 > AXE 1 - Construire un Territoire résilient pour répondre aux effets du changement climatique et offrir aux habitants un cadre de vie attractif > 1.4 - Intégrer les objectifs de Transition écologique dans les politiques publiques > 1.4.2 - Intégrer les enjeux environnementaux dans les politiques d'urbanisme et d'aménagement\nTitre : Encourager l'expérimentation dans les projets d'aménagement et de rénovation urbains\nDescription : aucune"
+  },
+  {
+   "id": 84974,
+   "titre": "Fixer des objectifs de réduction de consommation d'énergie et limiter la pollution lumineuse dans le règlement local de publicité intercommunal",
+   "statut": "Réalisé",
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Plan Climat Air Énergie territorial 2022-2028 > AXE 1 - Construire un Territoire résilient pour répondre aux effets du changement climatique et offrir aux habitants un cadre de vie attractif > 1.4 - Intégrer les objectifs de Transition écologique dans les politiques publiques > 1.4.2 - Intégrer les enjeux environnementaux dans les politiques d'urbanisme et d'aménagement\nTitre : Fixer des objectifs de réduction de consommation d'énergie et limiter la pollution lumineuse dans le règlement local de publicité intercommunal\nDescription : aucune"
+  },
+  {
+   "id": 84975,
+   "titre": "Favorisant l'agriculture urbaine durable",
+   "statut": null,
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Plan Climat Air Énergie territorial 2022-2028 > AXE 1 - Construire un Territoire résilient pour répondre aux effets du changement climatique et offrir aux habitants un cadre de vie attractif > 1.5 - Reconnecter l'Homme et la nature > 1.5.1 - Développer la solidarité face aux enjeux du dérèglement climatique\nTitre : Favorisant l'agriculture urbaine durable\nDescription : aucune"
+  },
+  {
+   "id": 84976,
+   "titre": "Mettre en place un partenariat avec les agriculteurs de l'est Francilien",
+   "statut": null,
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Plan Climat Air Énergie territorial 2022-2028 > AXE 1 - Construire un Territoire résilient pour répondre aux effets du changement climatique et offrir aux habitants un cadre de vie attractif > 1.5 - Reconnecter l'Homme et la nature > 1.5.1 - Développer la solidarité face aux enjeux du dérèglement climatique\nTitre : Mettre en place un partenariat avec les agriculteurs de l'est Francilien\nDescription : aucune"
+  },
+  {
+   "id": 84981,
+   "titre": "Lancer et soutenir les pratiques en faveur de la ville-nature",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Plan Climat Air Énergie territorial 2022-2028 > AXE 1 - Construire un Territoire résilient pour répondre aux effets du changement climatique et offrir aux habitants un cadre de vie attractif > 1.5 - Reconnecter l'Homme et la nature > 1.5.1 - Développer la solidarité face aux enjeux du dérèglement climatique\nTitre : Lancer et soutenir les pratiques en faveur de la ville-nature\nDescription : aucune"
+  },
+  {
+   "id": 84982,
+   "titre": "Promouvoir des programmes en sciences participatives",
+   "statut": "Réalisé",
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Plan Climat Air Énergie territorial 2022-2028 > AXE 1 - Construire un Territoire résilient pour répondre aux effets du changement climatique et offrir aux habitants un cadre de vie attractif > 1.5 - Reconnecter l'Homme et la nature > 1.5.1 - Développer la solidarité face aux enjeux du dérèglement climatique\nTitre : Promouvoir des programmes en sciences participatives\nDescription : aucune"
+  },
+  {
+   "id": 85344,
+   "titre": "Créer une plateforme Territoriale de mobilités partagées",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Plan Climat Air Énergie territorial 2022-2028 > AXE 2 - Réussir la transition écologique et améliorer la qualité de l'air en favorisant les mobilités durables > 2.1 - Encourager l'utilisation de véhicules propres et de nouveaux services de mobilités > 2.1.1 - Développer des services innovants pour favoriser la mutualisation des déplacements et des véhicules\nTitre : Créer une plateforme Territoriale de mobilités partagées\nDescription : aucune"
+  },
+  {
+   "id": 85345,
+   "titre": "Proposer des solutions de stationnement favorisant les mobilités partagées",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Plan Climat Air Énergie territorial 2022-2028 > AXE 2 - Réussir la transition écologique et améliorer la qualité de l'air en favorisant les mobilités durables > 2.1 - Encourager l'utilisation de véhicules propres et de nouveaux services de mobilités > 2.1.1 - Développer des services innovants pour favoriser la mutualisation des déplacements et des véhicules\nTitre : Proposer des solutions de stationnement favorisant les mobilités partagées\nDescription : aucune"
+  },
+  {
+   "id": 85346,
+   "titre": "Informer et communiquer sur les subventions existantes pour l'achat de véhicules propres",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Plan Climat Air Énergie territorial 2022-2028 > AXE 2 - Réussir la transition écologique et améliorer la qualité de l'air en favorisant les mobilités durables > 2.1 - Encourager l'utilisation de véhicules propres et de nouveaux services de mobilités > 2.1.2 - Faciliter l'accès aux véhicules propres et développer leur utilisation\nTitre : Informer et communiquer sur les subventions existantes pour l'achat de véhicules propres\nDescription : aucune"
+  },
+  {
+   "id": 85347,
+   "titre": "Augmenter le nombre de points de ravitaillement pour les véhicules propres",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Plan Climat Air Énergie territorial 2022-2028 > AXE 2 - Réussir la transition écologique et améliorer la qualité de l'air en favorisant les mobilités durables > 2.1 - Encourager l'utilisation de véhicules propres et de nouveaux services de mobilités > 2.1.2 - Faciliter l'accès aux véhicules propres et développer leur utilisation\nTitre : Augmenter le nombre de points de ravitaillement pour les véhicules propres\nDescription : aucune"
+  },
+  {
+   "id": 85349,
+   "titre": "Subventionner les particuliers et professionnels pour l'achat et la location de vélos",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Plan Climat Air Énergie territorial 2022-2028 > AXE 2 - Réussir la transition écologique et améliorer la qualité de l'air en favorisant les mobilités durables > 2.2 - Promouvoir les modes actifs > 2.2.1 - Favoriser les déplacements à pied et à vélo\nTitre : Subventionner les particuliers et professionnels pour l'achat et la location de vélos\nDescription : aucune"
+  },
+  {
+   "id": 85351,
+   "titre": "Soutenir les initiatives territoriales en faveur des modes actifs",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Plan Climat Air Énergie territorial 2022-2028 > AXE 2 - Réussir la transition écologique et améliorer la qualité de l'air en favorisant les mobilités durables > 2.2 - Promouvoir les modes actifs > 2.2.1 - Favoriser les déplacements à pied et à vélo\nTitre : Soutenir les initiatives territoriales en faveur des modes actifs\nDescription : aucune"
+  },
+  {
+   "id": 85352,
+   "titre": "Offrir aux cyclistes, piétons et personnes à mobilité réduite des conditions de circulation optimales et sécurisées grâce à des aménagements spécifiques",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Plan Climat Air Énergie territorial 2022-2028 > AXE 2 - Réussir la transition écologique et améliorer la qualité de l'air en favorisant les mobilités durables > 2.2 - Promouvoir les modes actifs > 2.2.1 - Favoriser les déplacements à pied et à vélo\nTitre : Offrir aux cyclistes, piétons et personnes à mobilité réduite des conditions de circulation optimales et sécurisées grâce à des aménagements spécifiques\nDescription : aucune"
+  },
+  {
+   "id": 85353,
+   "titre": "Etendre l'offre de vélos en libre service",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Plan Climat Air Énergie territorial 2022-2028 > AXE 2 - Réussir la transition écologique et améliorer la qualité de l'air en favorisant les mobilités durables > 2.2 - Promouvoir les modes actifs > 2.2.1 - Favoriser les déplacements à pied et à vélo\nTitre : Etendre l'offre de vélos en libre service\nDescription : aucune"
+  },
+  {
+   "id": 85354,
+   "titre": "Coopérer avec les autorités organisatrices de transport",
+   "statut": "Réalisé",
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Plan Climat Air Énergie territorial 2022-2028 > AXE 2 - Réussir la transition écologique et améliorer la qualité de l'air en favorisant les mobilités durables > 2.3 - Faciliter l'intermodalité et lutter contre les coupures urbaines > 2.3.1 - Améliorer l'articulation entre les différents modes de transport\nTitre : Coopérer avec les autorités organisatrices de transport\nDescription : aucune"
+  },
+  {
+   "id": 85355,
+   "titre": "Etudier des solutions de stationnement qui faciliteraient l'intermodalité",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Plan Climat Air Énergie territorial 2022-2028 > AXE 2 - Réussir la transition écologique et améliorer la qualité de l'air en favorisant les mobilités durables > 2.3 - Faciliter l'intermodalité et lutter contre les coupures urbaines > 2.3.1 - Améliorer l'articulation entre les différents modes de transport\nTitre : Etudier des solutions de stationnement qui faciliteraient l'intermodalité\nDescription : aucune"
+  },
+  {
+   "id": 85356,
+   "titre": "Recensement et traitement des coupures urbaines",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Plan Climat Air Énergie territorial 2022-2028 > AXE 2 - Réussir la transition écologique et améliorer la qualité de l'air en favorisant les mobilités durables > 2.3 - Faciliter l'intermodalité et lutter contre les coupures urbaines > 2.3.1 - Améliorer l'articulation entre les différents modes de transport\nTitre : Recensement et traitement des coupures urbaines\nDescription : aucune"
+  },
+  {
+   "id": 85357,
+   "titre": "Développer et étendre les transports existants sur la Marne",
+   "statut": "Réalisé",
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Plan Climat Air Énergie territorial 2022-2028 > AXE 2 - Réussir la transition écologique et améliorer la qualité de l'air en favorisant les mobilités durables > 2.3 - Faciliter l'intermodalité et lutter contre les coupures urbaines > 2.3.2 - Intégrer la Marne à l'intermodalité sur le territoire\nTitre : Développer et étendre les transports existants sur la Marne\nDescription : aucune"
+  },
+  {
+   "id": 85358,
+   "titre": "Etudier la faisabilité d'un transport public fluvial",
+   "statut": "Réalisé",
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Plan Climat Air Énergie territorial 2022-2028 > AXE 2 - Réussir la transition écologique et améliorer la qualité de l'air en favorisant les mobilités durables > 2.3 - Faciliter l'intermodalité et lutter contre les coupures urbaines > 2.3.2 - Intégrer la Marne à l'intermodalité sur le territoire\nTitre : Etudier la faisabilité d'un transport public fluvial\nDescription : aucune"
+  },
+  {
+   "id": 85359,
+   "titre": "Sensibiliser les professionnels du Territoire aux enjeu de la gestion du dernier kilomètre",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Plan Climat Air Énergie territorial 2022-2028 > AXE 2 - Réussir la transition écologique et améliorer la qualité de l'air en favorisant les mobilités durables > 2.4 - Organiser les mobilités sur le territoire > 2.4.1 - Accompagner les acteurs économiques vers une logistique urbaine plus durable\nTitre : Sensibiliser les professionnels du Territoire aux enjeu de la gestion du dernier kilomètre\nDescription : aucune"
+  },
+  {
+   "id": 85360,
+   "titre": "Proposer une charte de livraison privilégiant une logistique sobre et décarbonée",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Plan Climat Air Énergie territorial 2022-2028 > AXE 2 - Réussir la transition écologique et améliorer la qualité de l'air en favorisant les mobilités durables > 2.4 - Organiser les mobilités sur le territoire > 2.4.1 - Accompagner les acteurs économiques vers une logistique urbaine plus durable\nTitre : Proposer une charte de livraison privilégiant une logistique sobre et décarbonée\nDescription : aucune"
+  },
+  {
+   "id": 85361,
+   "titre": "Création d'un comité citoyen de la mobilité",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Plan Climat Air Énergie territorial 2022-2028 > AXE 2 - Réussir la transition écologique et améliorer la qualité de l'air en favorisant les mobilités durables > 2.4 - Organiser les mobilités sur le territoire > 2.4.2 - Mettre en place une cellule mobilité sur le territoire\nTitre : Création d'un comité citoyen de la mobilité\nDescription : aucune"
+  },
+  {
+   "id": 85362,
+   "titre": "Réflexion sur la création d'un guichet unique d'information pour les particuliers et professionnels",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Plan Climat Air Énergie territorial 2022-2028 > AXE 2 - Réussir la transition écologique et améliorer la qualité de l'air en favorisant les mobilités durables > 2.4 - Organiser les mobilités sur le territoire > 2.4.2 - Mettre en place une cellule mobilité sur le territoire\nTitre : Réflexion sur la création d'un guichet unique d'information pour les particuliers et professionnels\nDescription : aucune"
+  },
+  {
+   "id": 85363,
+   "titre": "Mettre en place des actions de communication",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Plan Climat Air Énergie territorial 2022-2028 > AXE 2 - Réussir la transition écologique et améliorer la qualité de l'air en favorisant les mobilités durables > 2.4 - Organiser les mobilités sur le territoire > 2.4.2 - Mettre en place une cellule mobilité sur le territoire\nTitre : Mettre en place des actions de communication\nDescription : aucune"
+  },
+  {
+   "id": 85364,
+   "titre": "Etudier la mise en place d'un service public de la mobilité",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Plan Climat Air Énergie territorial 2022-2028 > AXE 2 - Réussir la transition écologique et améliorer la qualité de l'air en favorisant les mobilités durables > 2.4 - Organiser les mobilités sur le territoire > 2.4.2 - Mettre en place une cellule mobilité sur le territoire\nTitre : Etudier la mise en place d'un service public de la mobilité\nDescription : aucune"
+  },
+  {
+   "id": 85367,
+   "titre": "Lancer officiellement la démarche d'élaboration du PLD",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Plan Climat Air Énergie territorial 2022-2028 > AXE 2 - Réussir la transition écologique et améliorer la qualité de l'air en favorisant les mobilités durables > 2.4 - Organiser les mobilités sur le territoire > 2.4.3 - Réaliser un Plan local de déplacements\nTitre : Lancer officiellement la démarche d'élaboration du PLD\nDescription : aucune"
+  },
+  {
+   "id": 85368,
+   "titre": "Réaliser les études nécessaires et rédiger le plan : Financement des études à 25% par IDFM et à 50% par la région IDF",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Plan Climat Air Énergie territorial 2022-2028 > AXE 2 - Réussir la transition écologique et améliorer la qualité de l'air en favorisant les mobilités durables > 2.4 - Organiser les mobilités sur le territoire > 2.4.3 - Réaliser un Plan local de déplacements\nTitre : Réaliser les études nécessaires et rédiger le plan : Financement des études à 25% par IDFM et à 50% par la région IDF\nDescription : aucune"
+  },
+  {
+   "id": 85369,
+   "titre": "Adopter le PLD en conseil de Territoire",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Plan Climat Air Énergie territorial 2022-2028 > AXE 2 - Réussir la transition écologique et améliorer la qualité de l'air en favorisant les mobilités durables > 2.4 - Organiser les mobilités sur le territoire > 2.4.3 - Réaliser un Plan local de déplacements\nTitre : Adopter le PLD en conseil de Territoire\nDescription : aucune"
+  },
+  {
+   "id": 85370,
+   "titre": "Mettre en œuvre le plan sur 5 années",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Plan Climat Air Énergie territorial 2022-2028 > AXE 2 - Réussir la transition écologique et améliorer la qualité de l'air en favorisant les mobilités durables > 2.4 - Organiser les mobilités sur le territoire > 2.4.3 - Réaliser un Plan local de déplacements\nTitre : Mettre en œuvre le plan sur 5 années\nDescription : aucune"
+  },
+  {
+   "id": 85371,
+   "titre": "Participer à la consultation internationale sur le devenir des autoroutes du Grand Paris",
+   "statut": "Réalisé",
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Plan Climat Air Énergie territorial 2022-2028 > AXE 2 - Réussir la transition écologique et améliorer la qualité de l'air en favorisant les mobilités durables > 2.4 - Organiser les mobilités sur le territoire > 2.4.4 - Favoriser activement la requalification de l'A4\nTitre : Participer à la consultation internationale sur le devenir des autoroutes du Grand Paris\nDescription : aucune"
+  },
+  {
+   "id": 85372,
+   "titre": "Mobiliser et sensibiliser les acteurs du Territoire",
+   "statut": "Réalisé",
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Plan Climat Air Énergie territorial 2022-2028 > AXE 2 - Réussir la transition écologique et améliorer la qualité de l'air en favorisant les mobilités durables > 2.4 - Organiser les mobilités sur le territoire > 2.4.4 - Favoriser activement la requalification de l'A4\nTitre : Mobiliser et sensibiliser les acteurs du Territoire\nDescription : aucune"
+  },
+  {
+   "id": 85373,
+   "titre": "Réaliser une étude de faisabilité technique et financière des solutions proposées par les équipes internationales",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Plan Climat Air Énergie territorial 2022-2028 > AXE 2 - Réussir la transition écologique et améliorer la qualité de l'air en favorisant les mobilités durables > 2.4 - Organiser les mobilités sur le territoire > 2.4.4 - Favoriser activement la requalification de l'A4\nTitre : Réaliser une étude de faisabilité technique et financière des solutions proposées par les équipes internationales\nDescription : aucune"
+  },
+  {
+   "id": 85374,
+   "titre": "Adhérer à l'Agence Locale de l'Energie et du Climat - MVE pour permettre aux habitants d'accéder au service public de la performance énergétique de l'habitat",
+   "statut": "Réalisé",
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Plan Climat Air Énergie territorial 2022-2028 > AXE 3 - Réussir la transition écologique en réduisant la dépendance énergétique et en favorisant l'économie circulaire > 3.1 - Encourager la performance et la rénovation énergétique du bâti > 3.1.1 - Favoriser l'optimisation et la création de réseaux de chaleur\nTitre : Adhérer à l'Agence Locale de l'Energie et du Climat - MVE pour permettre aux habitants d'accéder au service public de la performance énergétique de l'habitat\nDescription : aucune"
+  },
+  {
+   "id": 85375,
+   "titre": "Réaliser et diffuser un guide des aides financières sur la rénovation énergétique et la transition écologique",
+   "statut": "Réalisé",
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Plan Climat Air Énergie territorial 2022-2028 > AXE 3 - Réussir la transition écologique en réduisant la dépendance énergétique et en favorisant l'économie circulaire > 3.1 - Encourager la performance et la rénovation énergétique du bâti > 3.1.1 - Favoriser l'optimisation et la création de réseaux de chaleur\nTitre : Réaliser et diffuser un guide des aides financières sur la rénovation énergétique et la transition écologique\nDescription : aucune"
+  },
+  {
+   "id": 85376,
+   "titre": "Participer au financement du reste à charge pour les travaux de rénovation énergétique des ménages",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Plan Climat Air Énergie territorial 2022-2028 > AXE 3 - Réussir la transition écologique en réduisant la dépendance énergétique et en favorisant l'économie circulaire > 3.1 - Encourager la performance et la rénovation énergétique du bâti > 3.1.1 - Favoriser l'optimisation et la création de réseaux de chaleur\nTitre : Participer au financement du reste à charge pour les travaux de rénovation énergétique des ménages\nDescription : aucune"
+  },
+  {
+   "id": 85377,
+   "titre": "Impliquer davantage les professionnels du cadre bâti dans la rénovation énergétique",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Plan Climat Air Énergie territorial 2022-2028 > AXE 3 - Réussir la transition écologique en réduisant la dépendance énergétique et en favorisant l'économie circulaire > 3.1 - Encourager la performance et la rénovation énergétique du bâti > 3.1.1 - Favoriser l'optimisation et la création de réseaux de chaleur\nTitre : Impliquer davantage les professionnels du cadre bâti dans la rénovation énergétique\nDescription : aucune"
+  },
+  {
+   "id": 85378,
+   "titre": "Mettre en place un observatoire de l'habitat et de la rénovation énergétique à l'échelle territoriale",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Plan Climat Air Énergie territorial 2022-2028 > AXE 3 - Réussir la transition écologique en réduisant la dépendance énergétique et en favorisant l'économie circulaire > 3.1 - Encourager la performance et la rénovation énergétique du bâti > 3.1.1 - Favoriser l'optimisation et la création de réseaux de chaleur\nTitre : Mettre en place un observatoire de l'habitat et de la rénovation énergétique à l'échelle territoriale\nDescription : aucune"
+  },
+  {
+   "id": 85379,
+   "titre": "Renforcer l'efficacité énergétique des bâtiments dans le parc social",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Plan Climat Air Énergie territorial 2022-2028 > AXE 3 - Réussir la transition écologique en réduisant la dépendance énergétique et en favorisant l'économie circulaire > 3.1 - Encourager la performance et la rénovation énergétique du bâti > 3.1.1 - Favoriser l'optimisation et la création de réseaux de chaleur\nTitre : Renforcer l'efficacité énergétique des bâtiments dans le parc social\nDescription : aucune"
+  },
+  {
+   "id": 85670,
+   "titre": "Réfléchir à la mutualisation des moyens de lutte contre la précarité énergétique avec l'ensemble des acteurs du Territoire",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Plan Climat Air Énergie territorial 2022-2028 > AXE 3 - Réussir la transition écologique en réduisant la dépendance énergétique et en favorisant l'économie circulaire > 3.2 - Agir contre la précarité énergétique > 3.2.1 - Renforcer le repérage et l'accompagnement des ménages en situation de précarité énergétique\nTitre : Réfléchir à la mutualisation des moyens de lutte contre la précarité énergétique avec l'ensemble des acteurs du Territoire\nDescription : aucune"
+  },
+  {
+   "id": 85671,
+   "titre": "Concevoir une plate-forme territoriale pour repérer et accompagner les ménages en situation de précarité énergétique",
+   "statut": "A discuter",
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Plan Climat Air Énergie territorial 2022-2028 > AXE 3 - Réussir la transition écologique en réduisant la dépendance énergétique et en favorisant l'économie circulaire > 3.2 - Agir contre la précarité énergétique > 3.2.1 - Renforcer le repérage et l'accompagnement des ménages en situation de précarité énergétique\nTitre : Concevoir une plate-forme territoriale pour repérer et accompagner les ménages en situation de précarité énergétique\nDescription : aucune"
+  },
+  {
+   "id": 85672,
+   "titre": "Structurer un réseau d'acteurs et co-porter la plateforme de lutte contre la précarité énergétique à l'échelle Territoriale",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Plan Climat Air Énergie territorial 2022-2028 > AXE 3 - Réussir la transition écologique en réduisant la dépendance énergétique et en favorisant l'économie circulaire > 3.2 - Agir contre la précarité énergétique > 3.2.1 - Renforcer le repérage et l'accompagnement des ménages en situation de précarité énergétique\nTitre : Structurer un réseau d'acteurs et co-porter la plateforme de lutte contre la précarité énergétique à l'échelle Territoriale\nDescription : aucune"
+  },
+  {
+   "id": 85673,
+   "titre": "Etudier le potentiel de développement de la géothermie",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Plan Climat Air Énergie territorial 2022-2028 > AXE 3 - Réussir la transition écologique en réduisant la dépendance énergétique et en favorisant l'économie circulaire > 3.3 - Favoriser l'optimisation et la création de réseaux de chaleur > 3.3.1 - Réaliser les études nécessaires au développement de réseaux de chaleur\nTitre : Etudier le potentiel de développement de la géothermie\nDescription : aucune"
+  },
+  {
+   "id": 85674,
+   "titre": "Identifier les aides mobilisables pour le développement des réseaux de chaleur",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Plan Climat Air Énergie territorial 2022-2028 > AXE 3 - Réussir la transition écologique en réduisant la dépendance énergétique et en favorisant l'économie circulaire > 3.3 - Favoriser l'optimisation et la création de réseaux de chaleur > 3.3.1 - Réaliser les études nécessaires au développement de réseaux de chaleur\nTitre : Identifier les aides mobilisables pour le développement des réseaux de chaleur\nDescription : aucune"
+  },
+  {
+   "id": 85675,
+   "titre": "Encourager le raccordement aux réseaux de chaleur existants",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Plan Climat Air Énergie territorial 2022-2028 > AXE 3 - Réussir la transition écologique en réduisant la dépendance énergétique et en favorisant l'économie circulaire > 3.3 - Favoriser l'optimisation et la création de réseaux de chaleur > 3.3.1 - Réaliser les études nécessaires au développement de réseaux de chaleur\nTitre : Encourager le raccordement aux réseaux de chaleur existants\nDescription : aucune"
+  },
+  {
+   "id": 85676,
+   "titre": "Etude méthanisation",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Plan Climat Air Énergie territorial 2022-2028 > AXE 3 - Réussir la transition écologique en réduisant la dépendance énergétique et en favorisant l'économie circulaire > 3.4 - Promouvoir le développement des ENR&R > 3.4.1 - Etudier la faisabilité de la méthanisation sur le Territoire\nTitre : Etude méthanisation\nDescription : aucune"
+  },
+  {
+   "id": 85677,
+   "titre": "Accompagnement et sensibilisation à la méthanisation",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Plan Climat Air Énergie territorial 2022-2028 > AXE 3 - Réussir la transition écologique en réduisant la dépendance énergétique et en favorisant l'économie circulaire > 3.4 - Promouvoir le développement des ENR&R > 3.4.1 - Etudier la faisabilité de la méthanisation sur le Territoire\nTitre : Accompagnement et sensibilisation à la méthanisation\nDescription : aucune"
+  },
+  {
+   "id": 85678,
+   "titre": "Construire des stratégies partenariales pour les ENR&R",
+   "statut": "Réalisé",
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Plan Climat Air Énergie territorial 2022-2028 > AXE 3 - Réussir la transition écologique en réduisant la dépendance énergétique et en favorisant l'économie circulaire > 3.4 - Promouvoir le développement des ENR&R > 3.4.2 - Inciter les acteurs du territoire à développer la production locale d'énergie\nTitre : Construire des stratégies partenariales pour les ENR&R\nDescription : aucune"
+  },
+  {
+   "id": 85679,
+   "titre": "Etudier le potentiel de développement des ENR&R sur le Territoire",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Plan Climat Air Énergie territorial 2022-2028 > AXE 3 - Réussir la transition écologique en réduisant la dépendance énergétique et en favorisant l'économie circulaire > 3.4 - Promouvoir le développement des ENR&R > 3.4.2 - Inciter les acteurs du territoire à développer la production locale d'énergie\nTitre : Etudier le potentiel de développement des ENR&R sur le Territoire\nDescription : aucune"
+  },
+  {
+   "id": 85680,
+   "titre": "Informer quant aux subventions disponibles pour l'installation d'ENR&R",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Plan Climat Air Énergie territorial 2022-2028 > AXE 3 - Réussir la transition écologique en réduisant la dépendance énergétique et en favorisant l'économie circulaire > 3.4 - Promouvoir le développement des ENR&R > 3.4.2 - Inciter les acteurs du territoire à développer la production locale d'énergie\nTitre : Informer quant aux subventions disponibles pour l'installation d'ENR&R\nDescription : aucune"
+  },
+  {
+   "id": 85681,
+   "titre": "Proposer des quotas ENR&R dans les opérations d'aménagement",
+   "statut": "Réalisé",
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Plan Climat Air Énergie territorial 2022-2028 > AXE 3 - Réussir la transition écologique en réduisant la dépendance énergétique et en favorisant l'économie circulaire > 3.4 - Promouvoir le développement des ENR&R > 3.4.2 - Inciter les acteurs du territoire à développer la production locale d'énergie\nTitre : Proposer des quotas ENR&R dans les opérations d'aménagement\nDescription : aucune"
+  },
+  {
+   "id": 85682,
+   "titre": "Développer le compost individuel sur le Territoire",
+   "statut": "Réalisé",
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Plan Climat Air Énergie territorial 2022-2028 > AXE 3 - Réussir la transition écologique en réduisant la dépendance énergétique et en favorisant l'économie circulaire > 3.5 - Agir en faveur de la réduction et de la valorisation des déchets > 3.5.1 - Inciter les habitants et les acteurs du territoire à réduire les déchets\nTitre : Développer le compost individuel sur le Territoire\nDescription : aucune"
+  },
+  {
+   "id": 85683,
+   "titre": "Mettre en place des actions de sensibilisation à la réduction des déchets",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Plan Climat Air Énergie territorial 2022-2028 > AXE 3 - Réussir la transition écologique en réduisant la dépendance énergétique et en favorisant l'économie circulaire > 3.5 - Agir en faveur de la réduction et de la valorisation des déchets > 3.5.1 - Inciter les habitants et les acteurs du territoire à réduire les déchets\nTitre : Mettre en place des actions de sensibilisation à la réduction des déchets\nDescription : aucune"
+  },
+  {
+   "id": 85685,
+   "titre": "Réaliser un plan local de prévention des déchets ambitieux",
+   "statut": "Réalisé",
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Plan Climat Air Énergie territorial 2022-2028 > AXE 3 - Réussir la transition écologique en réduisant la dépendance énergétique et en favorisant l'économie circulaire > 3.5 - Agir en faveur de la réduction et de la valorisation des déchets > 3.5.1 - Inciter les habitants et les acteurs du territoire à réduire les déchets\nTitre : Réaliser un plan local de prévention des déchets ambitieux\nDescription : aucune"
+  },
+  {
+   "id": 85686,
+   "titre": "Optimiser et valoriser la collecte des biodéchets",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Plan Climat Air Énergie territorial 2022-2028 > AXE 3 - Réussir la transition écologique en réduisant la dépendance énergétique et en favorisant l'économie circulaire > 3.5 - Agir en faveur de la réduction et de la valorisation des déchets > 3.5.2 - Faciliter le tri sélectif et valoriser les biodéchets\nTitre : Optimiser et valoriser la collecte des biodéchets\nDescription : aucune"
+  },
+  {
+   "id": 85687,
+   "titre": "Tarification incitative",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Plan Climat Air Énergie territorial 2022-2028 > AXE 3 - Réussir la transition écologique en réduisant la dépendance énergétique et en favorisant l'économie circulaire > 3.5 - Agir en faveur de la réduction et de la valorisation des déchets > 3.5.2 - Faciliter le tri sélectif et valoriser les biodéchets\nTitre : Tarification incitative\nDescription : aucune"
+  },
+  {
+   "id": 85688,
+   "titre": "Optimiser les points d'apport volontaire",
+   "statut": "Réalisé",
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Plan Climat Air Énergie territorial 2022-2028 > AXE 3 - Réussir la transition écologique en réduisant la dépendance énergétique et en favorisant l'économie circulaire > 3.5 - Agir en faveur de la réduction et de la valorisation des déchets > 3.5.2 - Faciliter le tri sélectif et valoriser les biodéchets\nTitre : Optimiser les points d'apport volontaire\nDescription : aucune"
+  },
+  {
+   "id": 85689,
+   "titre": "Structurer un réseau vertueux d'économie circulaire animé par PEMB",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Plan Climat Air Énergie territorial 2022-2028 > AXE 3 - Réussir la transition écologique en réduisant la dépendance énergétique et en favorisant l'économie circulaire > 3.5 - Agir en faveur de la réduction et de la valorisation des déchets > 3.5.3 - Soutenir les initiatives d'économie circulaire sur le Territoire\nTitre : Structurer un réseau vertueux d'économie circulaire animé par PEMB\nDescription : aucune"
+  },
+  {
+   "id": 85690,
+   "titre": "Valoriser les terres issues des travaux du Grand Paris Express",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Plan Climat Air Énergie territorial 2022-2028 > AXE 3 - Réussir la transition écologique en réduisant la dépendance énergétique et en favorisant l'économie circulaire > 3.5 - Agir en faveur de la réduction et de la valorisation des déchets > 3.5.3 - Soutenir les initiatives d'économie circulaire sur le Territoire\nTitre : Valoriser les terres issues des travaux du Grand Paris Express\nDescription : aucune"
+  },
+  {
+   "id": 85691,
+   "titre": "Acquérir des véhicules de collecte propres",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Plan Climat Air Énergie territorial 2022-2028 > AXE 3 - Réussir la transition écologique en réduisant la dépendance énergétique et en favorisant l'économie circulaire > 3.6 - Optimiser la collecte des déchets > 3.6.1 - Réduire l'impact carbone de la collecte des déchéts\nTitre : Acquérir des véhicules de collecte propres\nDescription : aucune"
+  },
+  {
+   "id": 85692,
+   "titre": "Optimiser les parcours de collecte",
+   "statut": "Réalisé",
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Plan Climat Air Énergie territorial 2022-2028 > AXE 3 - Réussir la transition écologique en réduisant la dépendance énergétique et en favorisant l'économie circulaire > 3.6 - Optimiser la collecte des déchets > 3.6.1 - Réduire l'impact carbone de la collecte des déchéts\nTitre : Optimiser les parcours de collecte\nDescription : aucune"
+  },
+  {
+   "id": 85693,
+   "titre": "Mettre en place des sondes dans les points d'apport volontaire",
+   "statut": "Réalisé",
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Plan Climat Air Énergie territorial 2022-2028 > AXE 3 - Réussir la transition écologique en réduisant la dépendance énergétique et en favorisant l'économie circulaire > 3.6 - Optimiser la collecte des déchets > 3.6.1 - Réduire l'impact carbone de la collecte des déchéts\nTitre : Mettre en place des sondes dans les points d'apport volontaire\nDescription : aucune"
+  },
+  {
+   "id": 85694,
+   "titre": "Créer un pôle Territorial d'accompagnement des porteurs de projets ESS et DD",
+   "statut": "A discuter",
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Plan Climat Air Énergie territorial 2022-2028 > AXE 4 - Réussir la transition écologique en favorisant l'innovation et en fédérant les acteurs du Territoire > 4.1 - Développer des stratégies partenariales et renforcer les coopérations > 4.1.1 - Mobiliser et animer un réseau des acteurs de la transition écologique\nTitre : Créer un pôle Territorial d'accompagnement des porteurs de projets ESS et DD\nDescription : aucune"
+  },
+  {
+   "id": 85695,
+   "titre": "Créer un réseau interne de la transition écologique sur le territoire PEMB",
+   "statut": "Réalisé",
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Plan Climat Air Énergie territorial 2022-2028 > AXE 4 - Réussir la transition écologique en favorisant l'innovation et en fédérant les acteurs du Territoire > 4.1 - Développer des stratégies partenariales et renforcer les coopérations > 4.1.1 - Mobiliser et animer un réseau des acteurs de la transition écologique\nTitre : Créer un réseau interne de la transition écologique sur le territoire PEMB\nDescription : aucune"
+  },
+  {
+   "id": 85696,
+   "titre": "Inciter à la réalisation d'actions de responsabilité sociétale des entreprises et de développement durable (PDE...)",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Plan Climat Air Énergie territorial 2022-2028 > AXE 4 - Réussir la transition écologique en favorisant l'innovation et en fédérant les acteurs du Territoire > 4.1 - Développer des stratégies partenariales et renforcer les coopérations > 4.1.2 -  Accompagner les entreprises dans la mise en œuvre de démarches écoresponsables\nTitre : Inciter à la réalisation d'actions de responsabilité sociétale des entreprises et de développement durable (PDE...)\nDescription : aucune"
+  },
+  {
+   "id": 85697,
+   "titre": "Valoriser les entreprises responsables du Territoire via la communication, l'organisation de concours ...",
+   "statut": "Réalisé",
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Plan Climat Air Énergie territorial 2022-2028 > AXE 4 - Réussir la transition écologique en favorisant l'innovation et en fédérant les acteurs du Territoire > 4.1 - Développer des stratégies partenariales et renforcer les coopérations > 4.1.2 -  Accompagner les entreprises dans la mise en œuvre de démarches écoresponsables\nTitre : Valoriser les entreprises responsables du Territoire via la communication, l'organisation de concours ...\nDescription : aucune"
+  },
+  {
+   "id": 85698,
+   "titre": "Création d'un label entreprises innovantes et durables",
+   "statut": "A discuter",
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Plan Climat Air Énergie territorial 2022-2028 > AXE 4 - Réussir la transition écologique en favorisant l'innovation et en fédérant les acteurs du Territoire > 4.2 - Promouvoir et soutenir les initiatives en faveur de l'innovation et de la transition > 4.2.1 - Développer l'innovation et l'expérimentation au service de la transition écologique sur le Territoire\nTitre : Création d'un label entreprises innovantes et durables\nDescription : aucune"
+  },
+  {
+   "id": 85699,
+   "titre": "Création d'un réseau de tiers-lieux coopératifs pour favoriser la création d'activités locales et de start-up",
+   "statut": "Réalisé",
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Plan Climat Air Énergie territorial 2022-2028 > AXE 4 - Réussir la transition écologique en favorisant l'innovation et en fédérant les acteurs du Territoire > 4.2 - Promouvoir et soutenir les initiatives en faveur de l'innovation et de la transition > 4.2.1 - Développer l'innovation et l'expérimentation au service de la transition écologique sur le Territoire\nTitre : Création d'un réseau de tiers-lieux coopératifs pour favoriser la création d'activités locales et de start-up\nDescription : aucune"
+  },
+  {
+   "id": 85700,
+   "titre": "Expérimenter et soutenir les initiatives innovantes sur le Territoire",
+   "statut": "Réalisé",
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Plan Climat Air Énergie territorial 2022-2028 > AXE 4 - Réussir la transition écologique en favorisant l'innovation et en fédérant les acteurs du Territoire > 4.2 - Promouvoir et soutenir les initiatives en faveur de l'innovation et de la transition > 4.2.1 - Développer l'innovation et l'expérimentation au service de la transition écologique sur le Territoire\nTitre : Expérimenter et soutenir les initiatives innovantes sur le Territoire\nDescription : aucune"
+  },
+  {
+   "id": 85701,
+   "titre": "Associer la population à la végétalisation de l'espace urbain",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Plan Climat Air Énergie territorial 2022-2028 > AXE 5 - Accompagner la transition écologique par l'information, la communication et la sensibilisation > 5.1 - Initier aux changements des comportements > 5.1.1 - Accompagner les populations dans la transition écologique\nTitre : Associer la population à la végétalisation de l'espace urbain\nDescription : aucune"
+  },
+  {
+   "id": 85702,
+   "titre": "Organiser des concours citoyens sur les thématiques du développement durable",
+   "statut": "Réalisé",
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Plan Climat Air Énergie territorial 2022-2028 > AXE 5 - Accompagner la transition écologique par l'information, la communication et la sensibilisation > 5.1 - Initier aux changements des comportements > 5.1.1 - Accompagner les populations dans la transition écologique\nTitre : Organiser des concours citoyens sur les thématiques du développement durable\nDescription : aucune"
+  },
+  {
+   "id": 85704,
+   "titre": "Etendre les initiatives d'opération de nettoyage par les citoyens",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Plan Climat Air Énergie territorial 2022-2028 > AXE 5 - Accompagner la transition écologique par l'information, la communication et la sensibilisation > 5.1 - Initier aux changements des comportements > 5.1.1 - Accompagner les populations dans la transition écologique\nTitre : Etendre les initiatives d'opération de nettoyage par les citoyens\nDescription : aucune"
+  },
+  {
+   "id": 85705,
+   "titre": "Mettre en place des écoles du vélo",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Plan Climat Air Énergie territorial 2022-2028 > AXE 5 - Accompagner la transition écologique par l'information, la communication et la sensibilisation > 5.2 - Promouvoir l'éducation au développement durable > 5.2.1 - Sensibiliser les populations aux enjeux socio-économiques et environnementaux liés au changement climatique\nTitre : Mettre en place des écoles du vélo\nDescription : aucune"
+  },
+  {
+   "id": 85706,
+   "titre": "PEMB Territoire en faveur des pollinisateurs",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Plan Climat Air Énergie territorial 2022-2028 > AXE 5 - Accompagner la transition écologique par l'information, la communication et la sensibilisation > 5.2 - Promouvoir l'éducation au développement durable > 5.2.1 - Sensibiliser les populations aux enjeux socio-économiques et environnementaux liés au changement climatique\nTitre : PEMB Territoire en faveur des pollinisateurs\nDescription : aucune"
+  },
+  {
+   "id": 85707,
+   "titre": "Mise en place de panneaux de sensibilisation à la biodiversité",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Plan Climat Air Énergie territorial 2022-2028 > AXE 5 - Accompagner la transition écologique par l'information, la communication et la sensibilisation > 5.2 - Promouvoir l'éducation au développement durable > 5.2.1 - Sensibiliser les populations aux enjeux socio-économiques et environnementaux liés au changement climatique\nTitre : Mise en place de panneaux de sensibilisation à la biodiversité\nDescription : aucune"
+  },
+  {
+   "id": 85708,
+   "titre": "Evènements récréatifs et artistiques autour de la biodiversité",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Plan Climat Air Énergie territorial 2022-2028 > AXE 5 - Accompagner la transition écologique par l'information, la communication et la sensibilisation > 5.2 - Promouvoir l'éducation au développement durable > 5.2.1 - Sensibiliser les populations aux enjeux socio-économiques et environnementaux liés au changement climatique\nTitre : Evènements récréatifs et artistiques autour de la biodiversité\nDescription : aucune"
+  },
+  {
+   "id": 85709,
+   "titre": "Organisation de balades urbaines et des parcours éducatifs sur la Marne",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Plan Climat Air Énergie territorial 2022-2028 > AXE 5 - Accompagner la transition écologique par l'information, la communication et la sensibilisation > 5.2 - Promouvoir l'éducation au développement durable > 5.2.1 - Sensibiliser les populations aux enjeux socio-économiques et environnementaux liés au changement climatique\nTitre : Organisation de balades urbaines et des parcours éducatifs sur la Marne\nDescription : aucune"
+  },
+  {
+   "id": 85710,
+   "titre": "Sensibilisation au gaspillage alimentaire dans les établissements scolaires",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Plan Climat Air Énergie territorial 2022-2028 > AXE 5 - Accompagner la transition écologique par l'information, la communication et la sensibilisation > 5.2 - Promouvoir l'éducation au développement durable > 5.2.2 - Développer des projets pédagogiques avec les milieux scolaire et périscolaire\nTitre : Sensibilisation au gaspillage alimentaire dans les établissements scolaires\nDescription : aucune"
+  },
+  {
+   "id": 85711,
+   "titre": "Construire des partenariats pour la mise en place de projets éducatifs",
+   "statut": "Réalisé",
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Plan Climat Air Énergie territorial 2022-2028 > AXE 5 - Accompagner la transition écologique par l'information, la communication et la sensibilisation > 5.2 - Promouvoir l'éducation au développement durable > 5.2.2 - Développer des projets pédagogiques avec les milieux scolaire et périscolaire\nTitre : Construire des partenariats pour la mise en place de projets éducatifs\nDescription : aucune"
+  },
+  {
+   "id": 85712,
+   "titre": "S'engager dans la démarche cit'ergie",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Plan Climat Air Énergie territorial 2022-2028 > AXE 6 - Mobiliser le Territoire Paris Est Marne & Bois et les communes qui le composent dans une démarche d'administration exemplaire > 6.1 - Promouvoir une culture commune de la transition écologique > 6.1.1 - Sensibiliser les agents et les élus aux problématiques environnementales et leur donner les moyens d'agir\nTitre : S'engager dans la démarche cit'ergie\nDescription : aucune"
+  },
+  {
+   "id": 85713,
+   "titre": "Création d'un jardin partagé pour les agents du Territoire",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Plan Climat Air Énergie territorial 2022-2028 > AXE 6 - Mobiliser le Territoire Paris Est Marne & Bois et les communes qui le composent dans une démarche d'administration exemplaire > 6.1 - Promouvoir une culture commune de la transition écologique > 6.1.1 - Sensibiliser les agents et les élus aux problématiques environnementales et leur donner les moyens d'agir\nTitre : Création d'un jardin partagé pour les agents du Territoire\nDescription : aucune"
+  },
+  {
+   "id": 85714,
+   "titre": "Permettre aux élus de mieux appréhender les problématiques environnementales et les solutions associées",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Plan Climat Air Énergie territorial 2022-2028 > AXE 6 - Mobiliser le Territoire Paris Est Marne & Bois et les communes qui le composent dans une démarche d'administration exemplaire > 6.1 - Promouvoir une culture commune de la transition écologique > 6.1.1 - Sensibiliser les agents et les élus aux problématiques environnementales et leur donner les moyens d'agir\nTitre : Permettre aux élus de mieux appréhender les problématiques environnementales et les solutions associées\nDescription : aucune"
+  },
+  {
+   "id": 85717,
+   "titre": "Formaliser une politique d'achats durables pour le Territoire",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Plan Climat Air Énergie territorial 2022-2028 > AXE 6 - Mobiliser le Territoire Paris Est Marne & Bois et les communes qui le composent dans une démarche d'administration exemplaire > 6.1 - Promouvoir une culture commune de la transition écologique > 6.1.2 - S'engager dans une démarche d'établissement écoresponsable\nTitre : Formaliser une politique d'achats durables pour le Territoire\nDescription : aucune"
+  },
+  {
+   "id": 85719,
+   "titre": "Mettre en place une politique interne de gestion éco-responsable des déchets (réduction et valorisation)",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Plan Climat Air Énergie territorial 2022-2028 > AXE 6 - Mobiliser le Territoire Paris Est Marne & Bois et les communes qui le composent dans une démarche d'administration exemplaire > 6.1 - Promouvoir une culture commune de la transition écologique > 6.1.2 - S'engager dans une démarche d'établissement écoresponsable\nTitre : Mettre en place une politique interne de gestion éco-responsable des déchets (réduction et valorisation)\nDescription : aucune"
+  },
+  {
+   "id": 85720,
+   "titre": "Mettre en place une gestion écoresponsable des mails",
+   "statut": "Réalisé",
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Plan Climat Air Énergie territorial 2022-2028 > AXE 6 - Mobiliser le Territoire Paris Est Marne & Bois et les communes qui le composent dans une démarche d'administration exemplaire > 6.1 - Promouvoir une culture commune de la transition écologique > 6.1.2 - S'engager dans une démarche d'établissement écoresponsable\nTitre : Mettre en place une gestion écoresponsable des mails\nDescription : aucune"
+  },
+  {
+   "id": 85721,
+   "titre": "Formation des agents à l'éco-conduite",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Plan Climat Air Énergie territorial 2022-2028 > AXE 6 - Mobiliser le Territoire Paris Est Marne & Bois et les communes qui le composent dans une démarche d'administration exemplaire > 6.2 - Optimiser les déplacements des agents > 6.2.1- Adopter une politique de déplacements plus sobre\nTitre : Formation des agents à l'éco-conduite\nDescription : aucune"
+  },
+  {
+   "id": 85722,
+   "titre": "Dispositif territoire roule propre",
+   "statut": "Réalisé",
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Plan Climat Air Énergie territorial 2022-2028 > AXE 6 - Mobiliser le Territoire Paris Est Marne & Bois et les communes qui le composent dans une démarche d'administration exemplaire > 6.2 - Optimiser les déplacements des agents > 6.2.1- Adopter une politique de déplacements plus sobre\nTitre : Dispositif territoire roule propre\nDescription : aucune"
+  },
+  {
+   "id": 85723,
+   "titre": "Réduire les déplacements des agents du territoire",
+   "statut": "Réalisé",
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Plan Climat Air Énergie territorial 2022-2028 > AXE 6 - Mobiliser le Territoire Paris Est Marne & Bois et les communes qui le composent dans une démarche d'administration exemplaire > 6.2 - Optimiser les déplacements des agents > 6.2.1- Adopter une politique de déplacements plus sobre\nTitre : Réduire les déplacements des agents du territoire\nDescription : aucune"
+  },
+  {
+   "id": 85724,
+   "titre": "Réaliser un plan de mobilité pour l'administration PEMB",
+   "statut": "Réalisé",
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Plan Climat Air Énergie territorial 2022-2028 > AXE 6 - Mobiliser le Territoire Paris Est Marne & Bois et les communes qui le composent dans une démarche d'administration exemplaire > 6.2 - Optimiser les déplacements des agents > 6.2.1- Adopter une politique de déplacements plus sobre\nTitre : Réaliser un plan de mobilité pour l'administration PEMB\nDescription : aucune"
+  },
+  {
+   "id": 85725,
+   "titre": "Réaliser le bilan énergétique et le suivi des consommations du patrimoine public",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Plan Climat Air Énergie territorial 2022-2028 > AXE 6 - Mobiliser le Territoire Paris Est Marne & Bois et les communes qui le composent dans une démarche d'administration exemplaire > 6.3 - Améliorer la performance énergétique des bâtiments publics > 6.3.1 - Réduire les consommations énergétiques fossiles des bâtiments publics\nTitre : Réaliser le bilan énergétique et le suivi des consommations du patrimoine public\nDescription : aucune"
+  },
+  {
+   "id": 85726,
+   "titre": "Faciliter la programmation de réhabilitation des bâtiments publics",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Plan Climat Air Énergie territorial 2022-2028 > AXE 6 - Mobiliser le Territoire Paris Est Marne & Bois et les communes qui le composent dans une démarche d'administration exemplaire > 6.3 - Améliorer la performance énergétique des bâtiments publics > 6.3.1 - Réduire les consommations énergétiques fossiles des bâtiments publics\nTitre : Faciliter la programmation de réhabilitation des bâtiments publics\nDescription : aucune"
+  },
+  {
+   "id": 85727,
+   "titre": "Inciter au recours aux ENR dans les équipements publics",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Plan Climat Air Énergie territorial 2022-2028 > AXE 6 - Mobiliser le Territoire Paris Est Marne & Bois et les communes qui le composent dans une démarche d'administration exemplaire > 6.3 - Améliorer la performance énergétique des bâtiments publics > 6.3.1 - Réduire les consommations énergétiques fossiles des bâtiments publics\nTitre : Inciter au recours aux ENR dans les équipements publics\nDescription : aucune"
+  },
+  {
+   "id": 85728,
+   "titre": "Inciter à la sensibilisation et la formation des agents communaux à la maîtrise de l'énergie",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Plan Climat Air Énergie territorial 2022-2028 > AXE 6 - Mobiliser le Territoire Paris Est Marne & Bois et les communes qui le composent dans une démarche d'administration exemplaire > 6.3 - Améliorer la performance énergétique des bâtiments publics > 6.3.1 - Réduire les consommations énergétiques fossiles des bâtiments publics\nTitre : Inciter à la sensibilisation et la formation des agents communaux à la maîtrise de l'énergie\nDescription : aucune"
+  },
+  {
+   "id": 85729,
+   "titre": "Proposer des groupements de commandes",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Plan Climat Air Énergie territorial 2022-2028 > AXE 6 - Mobiliser le Territoire Paris Est Marne & Bois et les communes qui le composent dans une démarche d'administration exemplaire > 6.3 - Améliorer la performance énergétique des bâtiments publics > 6.3.1 - Réduire les consommations énergétiques fossiles des bâtiments publics\nTitre : Proposer des groupements de commandes\nDescription : aucune"
+  },
+  {
+   "id": 120915,
+   "titre": "1-1 Créer un comité de partenaires / renforcer les relations avec les partenaires ",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Réduction des nuisances d'origine anthropiques le long de la Marne > 1- A l'échelle du territoire, se donner les moyens de mettre en oeuvre le programme d'actions\nTitre : 1-1 Créer un comité de partenaires / renforcer les relations avec les partenaires\nDescription : <div class=\"bn-block-group\" data-node-type=\"blockGroup\"><div class=\"bn-block-outer\" data-node-type=\"blockOuter\" data-id=\"72bd4581-2871-432c-a950-1ad5a21b71a6\"><div class=\"bn-block\" data-node-type=\"blockContainer\" data-id=\"72bd4581-2871-432c-a950-1ad5a21b71a6\"><div class=\"bn-block-content !p-0\" data-content-type=\"paragraph\"><p class=\"bn-inline-content !text-sm !text-primary-9 font-[Marianne]\">Réunir les acteurs du territoire pour échanger sur les pratiques, le projets en cours et les réflexions futures en matière d'aménagement du territoire.</p></div></div></div><div class=\"bn-block-outer\" data-node-type=\"blockOuter\" data-id=\"3e7e8571-d27d-4f7a-994d-cd459a1c42ba\"><div class=\"bn-block\" data-node-type=\"blockContainer\" data-id=\"3e7e8571-d27d-4f7a-994d-cd459a1c42ba\"><div class=\"bn-block-content !p-0\" data-content-type=\"paragraph\"><p class=\"bn-inline-content !text-sm !text-primary-9 font-[Marianne]\">Il s'agit de mettre à l'honneur un sujet d'actualité ou un sujet qui nécessité d'être débattu afin d'apporter des éléments de langage et de méthode pour une meilleure intégration à la stratégie territoriale d'adaptation et de résilience.</p></div></div></div></div>"
+  },
+  {
+   "id": 120916,
+   "titre": "1-2 Mettre en place une structure projet ",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Réduction des nuisances d'origine anthropiques le long de la Marne > 1- A l'échelle du territoire, se donner les moyens de mettre en oeuvre le programme d'actions\nTitre : 1-2 Mettre en place une structure projet\nDescription : aucune"
+  },
+  {
+   "id": 120917,
+   "titre": "1-3 Au niveau intercommunal, et pour chaque thématique, définir les objectifs à minima à atteindre pour la réussite du plan d'action dans le temps",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Réduction des nuisances d'origine anthropiques le long de la Marne > 1- A l'échelle du territoire, se donner les moyens de mettre en oeuvre le programme d'actions\nTitre : 1-3 Au niveau intercommunal, et pour chaque thématique, définir les objectifs à minima à atteindre pour la réussite du plan d'action dans le temps\nDescription : aucune"
+  },
+  {
+   "id": 120918,
+   "titre": "2-1 Construire un référentiel méthodologique commun sur la gestion écologique",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Réduction des nuisances d'origine anthropiques le long de la Marne > 2- Elaborer et mettre en oeuvre un plan intercommunal de gestion différenciée des espaces verts\nTitre : 2-1 Construire un référentiel méthodologique commun sur la gestion écologique\nDescription : aucune"
+  },
+  {
+   "id": 120920,
+   "titre": "2-2 Gérer les espèces exotiques envahissantes",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Réduction des nuisances d'origine anthropiques le long de la Marne > 2- Elaborer et mettre en oeuvre un plan intercommunal de gestion différenciée des espaces verts\nTitre : 2-2 Gérer les espèces exotiques envahissantes\nDescription : aucune"
+  },
+  {
+   "id": 120921,
+   "titre": "2-3 Former les agents et développer la mutualisation des connaissances",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Réduction des nuisances d'origine anthropiques le long de la Marne > 2- Elaborer et mettre en oeuvre un plan intercommunal de gestion différenciée des espaces verts\nTitre : 2-3 Former les agents et développer la mutualisation des connaissances\nDescription : aucune"
+  },
+  {
+   "id": 120922,
+   "titre": "2-4 Sensibiliser les habitants et les usagers à la gestion écologique",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Réduction des nuisances d'origine anthropiques le long de la Marne > 2- Elaborer et mettre en oeuvre un plan intercommunal de gestion différenciée des espaces verts\nTitre : 2-4 Sensibiliser les habitants et les usagers à la gestion écologique\nDescription : aucune"
+  },
+  {
+   "id": 120925,
+   "titre": "3-1 Mise en conformité avec l'arrêté municipal de 2018",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Réduction des nuisances d'origine anthropiques le long de la Marne > 3- Réduire la pollution lumineuse et tendre vers l'homogénéité des pratiques\nTitre : 3-1 Mise en conformité avec l'arrêté municipal de 2018\nDescription : aucune"
+  },
+  {
+   "id": 120926,
+   "titre": "3-2 Adapter l'éclairage de l'espace public aux enjeux et usages",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Réduction des nuisances d'origine anthropiques le long de la Marne > 3- Réduire la pollution lumineuse et tendre vers l'homogénéité des pratiques\nTitre : 3-2 Adapter l'éclairage de l'espace public aux enjeux et usages\nDescription : aucune"
+  },
+  {
+   "id": 120927,
+   "titre": "3-3 Rédiger un guide de bonnes pratiques sur la gestion de l'éclairage et du bruit provenant des activités récréatives dans les espaces privés",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Réduction des nuisances d'origine anthropiques le long de la Marne > 3- Réduire la pollution lumineuse et tendre vers l'homogénéité des pratiques\nTitre : 3-3 Rédiger un guide de bonnes pratiques sur la gestion de l'éclairage et du bruit provenant des activités récréatives dans les espaces privés\nDescription : aucune"
+  },
+  {
+   "id": 120929,
+   "titre": "4-1 Encadrer les activités humaines au sein des zones d'importance pour la biodiversité",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Réduction des nuisances d'origine anthropiques le long de la Marne > 4- Expérimenter des zones calmes et de moindres bruits\nTitre : 4-1 Encadrer les activités humaines au sein des zones d'importance pour la biodiversité\nDescription : aucune"
+  },
+  {
+   "id": 120930,
+   "titre": "4-2 Fermer les bords de Marne à la circulation routière (cohérence intercommunale et augmentation des périodes de fermeture)",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Réduction des nuisances d'origine anthropiques le long de la Marne > 4- Expérimenter des zones calmes et de moindres bruits\nTitre : 4-2 Fermer les bords de Marne à la circulation routière (cohérence intercommunale et augmentation des périodes de fermeture)\nDescription : aucune"
+  },
+  {
+   "id": 120931,
+   "titre": "4-3 Déployer des dispositifs pour réduire la pollution sonore",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Réduction des nuisances d'origine anthropiques le long de la Marne > 4- Expérimenter des zones calmes et de moindres bruits\nTitre : 4-3 Déployer des dispositifs pour réduire la pollution sonore\nDescription : aucune"
+  },
+  {
+   "id": 120936,
+   "titre": "5-1 Végétaliser l'espace public et renforcer la trame verte urbaine",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Réduction des nuisances d'origine anthropiques le long de la Marne > 5- Préserver et développer la végétation en ville\nTitre : 5-1 Végétaliser l'espace public et renforcer la trame verte urbaine\nDescription : aucune"
+  },
+  {
+   "id": 120937,
+   "titre": "5-2 Rédiger une charte de l'arbre",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Réduction des nuisances d'origine anthropiques le long de la Marne > 5- Préserver et développer la végétation en ville\nTitre : 5-2 Rédiger une charte de l'arbre\nDescription : aucune"
+  },
+  {
+   "id": 120938,
+   "titre": "5-3 Résorber la carence en espaces verts",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Réduction des nuisances d'origine anthropiques le long de la Marne > 5- Préserver et développer la végétation en ville\nTitre : 5-3 Résorber la carence en espaces verts\nDescription : aucune"
+  },
+  {
+   "id": 120940,
+   "titre": "6-1 Réaliser des opérations de désimperméabilisation de l'espace public (exemple : parkings, trottoirs)",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Réduction des nuisances d'origine anthropiques le long de la Marne > 6- Déployer des solutions fondées sur la nature\nTitre : 6-1 Réaliser des opérations de désimperméabilisation de l'espace public (exemple : parkings, trottoirs)\nDescription : aucune"
+  },
+  {
+   "id": 120941,
+   "titre": "6-2 En bords de Marne, fermer une voie de shunt (sous un pont) et réaliser des opérations de désimperméabilisation (exemple Pont du Petit Parc)",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Réduction des nuisances d'origine anthropiques le long de la Marne > 6- Déployer des solutions fondées sur la nature\nTitre : 6-2 En bords de Marne, fermer une voie de shunt (sous un pont) et réaliser des opérations de désimperméabilisation (exemple Pont du Petit Parc)\nDescription : aucune"
+  },
+  {
+   "id": 120942,
+   "titre": "6-3 Elaborer un référentiel commun sur le choix de matériaux durables",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Réduction des nuisances d'origine anthropiques le long de la Marne > 6- Déployer des solutions fondées sur la nature\nTitre : 6-3 Elaborer un référentiel commun sur le choix de matériaux durables\nDescription : aucune"
+  },
+  {
+   "id": 120943,
+   "titre": "6-4 Consolider les berges par techniques végétales",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : EPT, 514 520 habitants\nContexte : Réduction des nuisances d'origine anthropiques le long de la Marne > 6- Déployer des solutions fondées sur la nature\nTitre : 6-4 Consolider les berges par techniques végétales\nDescription : aucune"
+  }
+ ]
+}

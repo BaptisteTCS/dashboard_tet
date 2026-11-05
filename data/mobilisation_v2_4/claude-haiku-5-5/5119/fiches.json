@@ -1,0 +1,613 @@
+{
+ "collectivite": {
+  "id": 5119,
+  "nom": "Le Havre Seine Métropole",
+  "type_code": "CU",
+  "type_label": "communauté urbaine",
+  "population": 268985
+ },
+ "fiches": [
+  {
+   "id": 26004,
+   "titre": "1.1.1 Accélérer la rénovation énergétique des logements privés",
+   "statut": "En cours",
+   "n_sous_actions": 5,
+   "message": "Collectivité : communauté urbaine, 268 985 habitants\nContexte : Plan Climat Air Energie Territorial 2024-2029 > 1 - Rendre le bâti performant sur le plan énergie-carbone > 1.1 Agir dans le secteur résidentiel | Schéma Directeur des Energies > 1.1.1 Accélérer la rénovation énergétique des logements privés\nTitre : 1.1.1 Accélérer la rénovation énergétique des logements privés\nDescription : La CU participe à la rénovation du parc privé, en lien avec l’Agence Nationale de l’Habitat (l’ANAH) dans le cadre de la délégation des aides à la pierre de l’État en matière d’habitat privé. Cet accompagnement se fait notamment via l'Espace conseil rénovation, créée en 2016, guichet unique pour les demandes relatives à la rénovation de l'habitat privé et labellisé Espace France Rénov. La CU est également opérateur du Pacte Territorial, ainsi que des OPAH-RU du territoire pour les publics modestes et très modestes et est labellisée Mon accompagnateur Rénov depuis 2024. Instance de gouvernance : CLAH 3 fois par an 2 Comités de pilotage annuels (OPAH + Pacte territorial) Conseil Communautaire pour l'attribution des aides propres\nSous-actions : PLH 2022/2027 ; PACTE TERRITORIAL 2025/2029 ; OPAH-RU III sur le centre ancien du Havre 2022-2027 ; OPAH-RU Petites Villes de Demain (Etretat, Criquetot-l’Esneval et Saint-Romain-de- Colbosc) 2023-2028 ; OPAH-RU Vallée de la Lézarde (Harfleur, Montivilliers, Rolleville et Angerville l’Orcher) 2023-2028"
+  },
+  {
+   "id": 26007,
+   "titre": "1.1.2 Accélérer la rénovation énergétique du parc de logements sociaux",
+   "statut": "En cours",
+   "n_sous_actions": 1,
+   "message": "Collectivité : communauté urbaine, 268 985 habitants\nContexte : Plan Climat Air Energie Territorial 2024-2029 > 1 - Rendre le bâti performant sur le plan énergie-carbone > 1.1 Agir dans le secteur résidentiel | Schéma Directeur des Energies > 1.1.2 Accélérer la rénovation énergétique du parc de logements sociaux\nTitre : 1.1.2 Accélérer la rénovation énergétique du parc de logements sociaux\nDescription : Dans le cadre du programme d’action du Programme Local de l’Habitat (PLH) 2022-2027, et dans la perspective d’améliorer la qualité du parc social, la CU soutient les opérations menées par les bailleurs sociaux visant l’amélioration de la performance énergétique des logements et des bâtiments. Le parc locatif social compte un logement sur deux de plus de 40 ans, avec des performances énergétiques nécessitant des travaux de rénovation thermique (environ 15% du parc en étiquettes énergie E, F ou G).\nSous-actions : 2026"
+  },
+  {
+   "id": 26008,
+   "titre": "1.2.1 Améliorer la performance énergétique des bâtiments tertiaires publics communautaires et communaux",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté urbaine, 268 985 habitants\nContexte : Plan Climat Air Energie Territorial 2024-2029 > 1 - Rendre le bâti performant sur le plan énergie-carbone > 1.2 Agir dans le secteur tertiaire | Schéma Directeur des Energies > 1.2.1 Améliorer la performance énergétique des bâtiments tertiaires publics communautaires et communaux\nTitre : 1.2.1 Améliorer la performance énergétique des bâtiments tertiaires publics communautaires et communaux\nDescription : La Communauté urbaine souhaite faire preuve d'exemplarité dans ses actions de transition écologique et de maîtrise de ses consommations énergétiques. Cette action vise à favoriser la rénovation des bâtiments tertiaires du patrimoine CU de manière à remplir les obligations réglementaires (décret tertiaire) et, plus largement, à maîtriser les consommations d'énergie grâce à des solutions de management de l'énergie"
+  },
+  {
+   "id": 26067,
+   "titre": "1.2.2 Accompagner la rénovation énergétique des locaux tertiaires privés",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté urbaine, 268 985 habitants\nContexte : Plan Climat Air Energie Territorial 2024-2029 > 1 - Rendre le bâti performant sur le plan énergie-carbone > 1.2 Agir dans le secteur tertiaire | Schéma Directeur des Energies > 1.2.2 Accompagner la rénovation énergétique des locaux tertiaires privés\nTitre : 1.2.2 Accompagner la rénovation énergétique des locaux tertiaires privés\nDescription : <div class=\"bn-block-group\" data-node-type=\"blockGroup\"><div class=\"bn-block-outer\" data-node-type=\"blockOuter\" data-id=\"4b669fc0-19da-4da0-9c4c-2a5abcd0e244\"><div class=\"bn-block\" data-node-type=\"blockContainer\" data-id=\"4b669fc0-19da-4da0-9c4c-2a5abcd0e244\"><div class=\"bn-block-content !p-0\" data-content-type=\"paragraph\"><p class=\"bn-inline-content !text-sm !text-primary-9 font-[Marianne]\">L'action vise à accélérer la rénovation énergétique des locaux tertiaires privés par un accompagnement de la plateforme de la rénovation. Cela passe par :</p></div></div></div><div class=\"bn-block-outer\" data-node-type=\"blockOuter\" data-id=\"bdda6acd-8a58-4e25-9ad5-02916d83ec37\"><div class=\"bn-block\" data-node-type=\"blockContainer\" data-id=\"bdda6acd-8a58-4e25-9ad5-02916d83ec37\"><div class=\"bn-block-content !p-0\" data-content-type=\"paragraph\"><p class=\"bn-inline-content !text-sm !text-primary-9 font-[Marianne]\">- la réalisation d'un diagnostic sur la typologie du parc tertiaire privé du territoire, d'une analyse de l'impact et des gains potentiels sur les segments prioritaires de l'isolation et du chauffage ;</p></div></div></div><div class=\"bn-block-outer\" data-node-type=\"blockOuter\" data-id=\"54507910-6fc2-427d-b28f-4fc3e60e2d68\"><div class=\"bn-block\" data-node-type=\"blockContainer\" data-id=\"54507910-6fc2-427d-b28f-4fc3e60e2d68\"><div class=\"bn-block-content !p-0\" data-content-type=\"paragraph\"><p class=\"bn-inline-content !text-sm !text-primary-9 font-[Marianne]\">- l'évaluation des ressources mobilisables par type d'opération ou de bâti ;</p></div></div></div><div class=\"bn-block-outer\" data-node-type=\"blockOuter\" data-id=\"cf669762-e183-412c-bb3a-8af783ed1b04\"><div class=\"bn-block\" data-node-type=\"blockContainer\" data-id=\"cf669762-e183-412c-bb3a-8af783ed1b04\"><div class=\"bn-block-content !p-0\" data-content-type=\"paragraph\"><p class=\"bn-inline-content !text-sm !text-primary-9 font-[Marianne]\">- l'incitation des acteurs économiques à réaliser les investissements en insistant sur la sécurisation face aux coûts futurs de l'énergie;</p></div></div></div><div class=\"bn-block-outer\" data-node-type=\"blockOuter\" data-id=\"4bd17a61-b690-41b8-8cd3-2cd7204149d4\"><div class=\"bn-block\" data-node-type=\"blockContainer\" data-id=\"4bd17a61-b690-41b8-8cd3-2cd7204149d4\"><div class=\"bn-block-content !p-0\" data-content-type=\"paragraph\"><p class=\"bn-inline-content !text-sm !text-primary-9 font-[Marianne]\">- la fourniture, pour le petit tertiaire (&lt;1000m²) d'un conseil technique et financier simplifié.</p></div></div></div></div>"
+  },
+  {
+   "id": 26070,
+   "titre": "1.2.3 Gérer les bâtiments plus durablement grâce au projet GEMINI",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté urbaine, 268 985 habitants\nContexte : Plan Climat Air Energie Territorial 2024-2029 > 1 - Rendre le bâti performant sur le plan énergie-carbone > 1.2 Agir dans le secteur tertiaire\nTitre : 1.2.3 Gérer les bâtiments plus durablement grâce au projet GEMINI\nDescription : Les récents Décrets Tertiaire et BACS (Building Automation & Control Systems) visant à réduire les consommations d’énergie des bâtiments, ont conforté la Communauté urbaine dans sa stratégie d’amélioration de la connaissance du patrimoine par le numérique. L'action vise à : - disposer d'une base unique de connaissances permettant la maîtrise technique et financière du patrimoine, - optimiser les opérations de maintenance, l'exploitation et l'usage des bâtiments ; - réduire les coûts liés à la maintenance et à l'énergie ; - utiliser le numérique our réduire les impacts environnementaux des bâtiments."
+  },
+  {
+   "id": 26076,
+   "titre": "1.2.4 Maîtriser les coûts de l'énergie, améliorer la gestion des achats du groupement à l'échelle du territoire",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté urbaine, 268 985 habitants\nContexte : Plan Climat Air Energie Territorial 2024-2029 > 1 - Rendre le bâti performant sur le plan énergie-carbone > 1.2 Agir dans le secteur tertiaire\nTitre : 1.2.4 Maîtriser les coûts de l'énergie, améliorer la gestion des achats du groupement à l'échelle du territoire\nDescription : L'action vise à modifier le mode d'achat du groupement pour intégrer plus de flexibilité, maîtriser les coûts et augmenter la part d'énergie verte dans l'approvisionnement gaz et électricité. L'action comporte également un volet d'accompagnement des tiers (TPE/PME et particuliers) pour leurs achats d'énergie."
+  },
+  {
+   "id": 26082,
+   "titre": "1.3.1 Maîtriser la performance énergétique de l'éclairage public",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté urbaine, 268 985 habitants\nContexte : Plan Climat Air Energie Territorial 2024-2029 > 1 - Rendre le bâti performant sur le plan énergie-carbone > 1.3 Maîtriser la performance énergétique de l'éclairage public | Schéma Directeur des Energies > 1.2.5 Maîtriser la performance énergétique de l'éclairage public\nTitre : 1.3.1 Maîtriser la performance énergétique de l'éclairage public\nDescription : L'action vise à : - remplacer les dispositifs d'éclairage anciens par des luminaires à LED ; - mettre en oeuvre une maintenance systématique ; - mettre en place un plan de sobriété concernant le fonctionnement des luminaires (programmation de variation sur les luminaires en fonctionnement permanent, programmation d'extinction suivant les arrêtés pris par les maires, mise en place de détecteurs de présence pour les éclairages dédiés aux piétons) - disposer d'alertes de sous- ou sur-consommation via les données Linky"
+  },
+  {
+   "id": 26093,
+   "titre": "2.1.1 Favoriser le recours aux transports en commun grâce à l'extension du réseau de tramway",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté urbaine, 268 985 habitants\nContexte : Plan Climat Air Energie Territorial 2024-2029 > 2 - Décarboner nos mobilités > 2.1 Réduire l'usage de la voiture\nTitre : 2.1.1 Favoriser le recours aux transports en commun grâce à l'extension du réseau de tramway\nDescription : Le projet d’extension du réseau de tramway s’inscrit dans le Plan des Mobilités de la Communauté urbaine. Avec 14 km de voies supplémentaires, la nouvelle ligne de tramway permettra d’améliorer la desserte des quartiers prioritaires de la Ville ainsi que des pôles urbains de Harfleur et de Montivilliers bénéficiant actuellement d’une offre de desserte moins large. Le projet d’extension du réseau de tramway propose une ligne de transport 100% électrique, reprenant notamment une partie du tracé de la ligne ferroviaire Lézarde Express Régionale (LER) exploitée actuellement en autorail diesel, ainsi qu’une alternative en transports en commun et en mobilités douces aux actifs se déplaçant actuellement en voiture individuelle vers leurs lieux d’activité."
+  },
+  {
+   "id": 26106,
+   "titre": "2.1.2 Promouvoir et faciliter l'usage du vélo et des modes actifs",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté urbaine, 268 985 habitants\nContexte : Plan Climat Air Energie Territorial 2024-2029 > 2 - Décarboner nos mobilités > 2.1 Réduire l'usage de la voiture\nTitre : 2.1.2 Promouvoir et faciliter l'usage du vélo et des modes actifs\nDescription : L'action vise à développer la part des transports doux, part relativement faible dans l'enquête ménages déplacements menée en 2018 (2%). L'action se décompose en plusieurs sous-actions : - développer les aménagements cyclables du territoire - développer l'offre de trottinettes et de vélos à assistance en électrique en libre service - développer la location longue durée de vélos et vélos à assistance électrique"
+  },
+  {
+   "id": 26107,
+   "titre": "2.1.3 Contribuer à l'évolution des usages en développant le covoiturage et l'autopartage",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté urbaine, 268 985 habitants\nContexte : Plan Climat Air Energie Territorial 2024-2029 > 2 - Décarboner nos mobilités > 2.1 Réduire l'usage de la voiture\nTitre : 2.1.3 Contribuer à l'évolution des usages en développant le covoiturage et l'autopartage\nDescription : Cette action vise à développer les pratiques de covoiturage et d’autopartage auprès de l’ensemble des citoyens du territoire. Le covoiturage doit être considéré comme un autre mode de transport collectif, pour répondre notamment aux déplacements domicile-travail. En cela, la Communauté urbaine ambitionne de mutualiser les déplacements automobiles individuels, permettant de réduire les émissions de GES, ou en tout cas de les contenir à mobilité croissante. Cela passe par : - le développement d'outils numériques facilitant le covoiturage ; - l'intégration du covoiturage dans les axes structurants de l'agglomération (étude de l'opportunité de voies réservées ou facilitées sur les axes pénétrants de l'agglomération, aménagement de parkings relais)."
+  },
+  {
+   "id": 26108,
+   "titre": "2.1.4 Mettre en place une Zone à faibles émissions mobilité (ZFE-m)",
+   "statut": "Réalisé",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté urbaine, 268 985 habitants\nContexte : Plan Climat Air Energie Territorial 2024-2029 > 2 - Décarboner nos mobilités > 2.1 Réduire l'usage de la voiture\nTitre : 2.1.4 Mettre en place une Zone à faibles émissions mobilité (ZFE-m)\nDescription : La ZFE-m est un secteur défini dans lequel la circulation et le stationnement de véhicules sont réglementés en fonction de leurs émissions de polluants atmosphériques (certificat de qualité de l’air appelé aussi vignette CRIT’AIR). Ainsi, la ZFE-m a pour objectif de réduire les concentrations de particules fines et de NOx dans les zones urbaines les plus impactées, en limitant la circulation des véhicules les plus polluants. La loi Climat et Résilience impose aux collectivités de plus de 150 000 habitants la mise en place d’une ZFE-m avant le 31 décembre 2024."
+  },
+  {
+   "id": 26109,
+   "titre": "2.2.1 Améliorer la performance énergétique de la flotte de véhicules de la Communauté urbaine (bus, parc automobile) et sensibiliser les agents à l'écoconduite",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté urbaine, 268 985 habitants\nContexte : Plan Climat Air Energie Territorial 2024-2029 > 2 - Décarboner nos mobilités > 2.2 Décarboner la voiture et les autres moyens de transport\nTitre : 2.2.1 Améliorer la performance énergétique de la flotte de véhicules de la Communauté urbaine (bus, parc automobile) et sensibiliser les agents à l'écoconduite\nDescription : Conformément à la directive (UE) 2019/1161 qui impose d'atteindre la part de 37,4% de véhicules à très faibles émissions au 1er janvier 2026, et à la loi d'orientation des mobilités qui fixe des objectifs en matière de renouvellement des parcs de véhicules lourds et légers par des véhicules propres et économes en énergie, la Communauté urbaine s'engage dans une amélioration continue de sa flotte de véhicules. L'action comporte également un volet interne de sensibilisation à la réduction des déplacements (grâce au recours accru à la visioconférence) et de formation à l'éco-conduite."
+  },
+  {
+   "id": 26115,
+   "titre": "2.2.2 Accélérer le déploiement des infrastructures de recharge pour véhicules électriques",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté urbaine, 268 985 habitants\nContexte : Plan Climat Air Energie Territorial 2024-2029 > 2 - Décarboner nos mobilités > 2.2 Décarboner la voiture et les autres moyens de transport | Schéma Directeur des Energies > 2.3.1 Accélérer le déploiement des carburants alternatifs\nTitre : 2.2.2 Accélérer le déploiement des infrastructures de recharge pour véhicules électriques\nDescription : L'action vise à mettre en œuvre le schéma directeur des infrastructures de recharge pour véhicules électriques sur le territoire de la Communauté urbaine : - déploiement de bornes de recharge sur la voie publique - incitation des copropriétés à s'équiper d'infrastructures de recharge."
+  },
+  {
+   "id": 26121,
+   "titre": "2.2.3 Encourager une logistique urbaine durable",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté urbaine, 268 985 habitants\nContexte : Plan Climat Air Energie Territorial 2024-2029 > 2 - Décarboner nos mobilités > 2.2 Décarboner la voiture et les autres moyens de transport\nTitre : 2.2.3 Encourager une logistique urbaine durable\nDescription : La Communauté urbaine a lancé en 2023 l’étude Interlud (Innovations Territoriales et Logistique Urbaine Durable) dont les objectifs sont les suivants : • informer, sensibiliser et accompagner les collectivités et les opérateurs économiques à l’échelle territoriale sur les enjeux de la logistique urbaine ; • structurer les filières économiques et leurs représentations ; • favoriser la participation des acteurs privés dans le cadre des chartes logistiques urbaines et les faire dialoguer avec les acteurs publics. Pour cela, le Cerema et Logistic Low Carbon accompagnent les EPCI et les opérateurs économiques (transporteurs, grossistes, chargeurs, artisans, commerçants…) des territoires qui s’engagent dans le programme InTerLUD. L'action se décompose ainsi : - Réussir la livraison dès le 1er passage par la complémentarité de la livraison à domicile et des solutions hors domicile ; - Produire un schéma foncier territorial des sites de logistique urbaine - Accélérer la décarbonation des flottes de véhicules professionnels sur le territoire ; - Activer le levier de la commande publique au service d'une logistique urbaine durable ; - Développer l'expertise et l'innovation en logistique urbaine - Inciter au recours au fret cyclable - Développer la concertation entre acteurs pour mutualiser le fret"
+  },
+  {
+   "id": 26125,
+   "titre": "2.2.4 Accompagner l'électrification des quais pour contribuer à la réduction de l'impact carbone du transport maritime",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté urbaine, 268 985 habitants\nContexte : Plan Climat Air Energie Territorial 2024-2029 > 2 - Décarboner nos mobilités > 2.2 Décarboner la voiture et les autres moyens de transport\nTitre : 2.2.4 Accompagner l'électrification des quais pour contribuer à la réduction de l'impact carbone du transport maritime\nDescription : L’électrification des quais croisière, qui permet aux navires de se raccorder à l’électricité lors de leurs escales, est un enjeu majeur de réduction des émissions de gaz à effet de serre et plus largement de polluants atmosphériques. Préalablement au lancement des travaux, le raccordement au réseau de distribution public d’électricité réalisé par Enedis a nécessité la création de 3 km de réseau souterrain composé de 3 câbles 20 000 volts et l’ajout d’un transformateur HTB/HTA 40MVA au poste source pour augmenter la capacité."
+  },
+  {
+   "id": 26699,
+   "titre": "3.1.1 Consolider et développer les réseaux de chaleur existants",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté urbaine, 268 985 habitants\nContexte : Plan Climat Air Energie Territorial 2024-2029 > 3 - Accroître la production d'énergie renouvelable et de récupération > 3.1 Renforcer et étendre les réseaux de chaleur urbains | Schéma Directeur des Energies > 3.1.1 Consolider et développer les réseaux de chaleur existants\nTitre : 3.1.1 Consolider et développer les réseaux de chaleur existants\nDescription : La Communauté urbaine compte 3 réseaux de chaleur urbains sur son territoire : deux sur la ville du Havre (Le Havre Sud et le réseau du Mont-Gaillard) et un sur la commune de Gonfreville-L'Orcher. Cette action vise à décarboner les sources de chaleur de ces trois réseaux et à les étendre (pour deux d'entre eux)."
+  },
+  {
+   "id": 26703,
+   "titre": "3.1.2 Créer de nouveaux réseaux de chaleur urbains vertueux",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté urbaine, 268 985 habitants\nContexte : Plan Climat Air Energie Territorial 2024-2029 > 3 - Accroître la production d'énergie renouvelable et de récupération > 3.1 Renforcer et étendre les réseaux de chaleur urbains | Schéma Directeur des Energies > 3.1.2 Créer de nouveaux réseaux de chaleur urbains vertueux\nTitre : 3.1.2 Créer de nouveaux réseaux de chaleur urbains vertueux\nDescription : La Communauté urbaine a pour objectif de développer les réseaux de chaleur sur son territoire. Ainsi un marché de prestations intellectuelles est en cours de rédaction afin de lancer des études de faisabilité de création de réseaux de chaleur sur quatre communes clairement identifiées : Saint-Romain de Colbosc, Criquetot l’Esneval, Montivilliers et Octeville-sur-Mer."
+  },
+  {
+   "id": 26704,
+   "titre": "3.2.1 Développer la production de biogaz à partir des sources industrielles et agricoles",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté urbaine, 268 985 habitants\nContexte : Plan Climat Air Energie Territorial 2024-2029 > 3 - Accroître la production d'énergie renouvelable et de récupération > 3.2 Explorer et développer les potentiels d'ENR&R du territoire | Schéma Directeur des Energies > 3.2.1 Développer la production de biogaz à partir des sources industrielles & agricoles\nTitre : 3.2.1 Développer la production de biogaz à partir des sources industrielles et agricoles\nDescription : La loi de Transition Énergétique pour la Croissance Verte (LTECV) fixe un objectif de 10 % de gaz renouvelable dans les réseaux d’ici 2030, 30% d’ici 2050. La Communauté urbaine s'est fixé l'objectif de production de 204 GWh/an de biogaz sur son territoire d'ici 2040. L'action vise à développer la production de biogaz sur le territoire et à développer les circuits courts entre industriels. Pour cela, elle mène une action de sensibilisation sur le thème de la méthanisation, identifie les ressources disponibles et les éventuels sites d'implantation possibles. Dans le cadre du projet Zone industrielle bas carbone (ZIBAC), la CU participe au financement d'une étude sur le potentiel de production de biogaz sur la zone industrialo-portuaire. Dans le cadre de la concertation autour des projets de biométhane, la Communauté urbaine s’appuiera sur la charte d’acceptabilité du Plan Méthanormandie. La Communauté urbaine s'assure également de la non-concurrence des projets sur la ressource."
+  },
+  {
+   "id": 26723,
+   "titre": "3.2.3 Etudier l'opportunité des énergies alternatives",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté urbaine, 268 985 habitants\nContexte : Plan Climat Air Energie Territorial 2024-2029 > 3 - Accroître la production d'énergie renouvelable et de récupération > 3.2 Explorer et développer les potentiels d'ENR&R du territoire | Schéma Directeur des Energies > 3.2.3 Etudier les énergies alternatives\nTitre : 3.2.3 Etudier l'opportunité des énergies alternatives\nDescription : Cette action vise à étudier les potentiels de production des types d'énergie renouvelable suivants, dans le but d'atteindre les objectifs de réduction des émissions de GES à l’horizon 2050 et accroître l’autonomie énergétique du territoire : - énergies marines (hydrolienne, marémotrice, osmotique, thermique) - hydroélectricité - pile à combustible - gazéification hydrothermale - pyrogazéification - géothermie."
+  },
+  {
+   "id": 26725,
+   "titre": "3.2.4 Réaliser une étude du gisement bois-énergie et gérer durablement la ressource biomasse",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté urbaine, 268 985 habitants\nContexte : Plan Climat Air Energie Territorial 2024-2029 > 3 - Accroître la production d'énergie renouvelable et de récupération > 3.2 Explorer et développer les potentiels d'ENR&R du territoire | Schéma Directeur des Energies > 3.2.4 Réaliser une étude de gisement bois-énergie en vue de développer la filière et gérer durablement la ressource biomasse\nTitre : 3.2.4 Réaliser une étude du gisement bois-énergie et gérer durablement la ressource biomasse\nDescription : Cette action vise à étudier le gisement bois-énergie du territoire, actuellement fortement sollicité, dans le but de développer un approvisionnement local géré durablement. L’enjeu est de recréer une filière bois locale à la fois pour inciter les acteurs à gérer durablement la ressource existante mais aussi pour inciter à planter, pour un territoire plus résilient. Cette action se décompose en sous-actions : - Recenser les besoins en bois (créer un observatoire des projets, énergétiques ou non, sollicitant la ressource bois - Recenser la ressource existant sur le territoire - Sensibiliser les utilisateurs et inciter à recourir à une ressource locale gérée durablement, labellisée."
+  },
+  {
+   "id": 26726,
+   "titre": "3.3.1 Développer la valorisation des boues de STEP sur le territoire",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté urbaine, 268 985 habitants\nContexte : Plan Climat Air Energie Territorial 2024-2029 > 3 - Accroître la production d'énergie renouvelable et de récupération > 3.3 Consolider le mix ENR&R existant et optimiser l'intégration territoriale de la production d'énergie | Schéma Directeur des Energies > 3.3.1 Développer la valorisation des boues des STEP sur le territoire\nTitre : 3.3.1 Développer la valorisation des boues de STEP sur le territoire\nDescription : La quasi-totalité des boues des stations d’épuration de la CU sont dirigées vers la station EDELWEISS et sont incinérées, (6000t de MS/an). Les évolutions réglementaires de la filière boue et les infrastructures existantes ne permettent pas une valorisation des boues à travers la filière épandage. Cette action vise à étudier les différentes options existantes permettant de valoriser des boues de STEP sur son territoire (énergétique, production de granulés). Déjà réalisé : Réalisation en 2023 d’une pré-étude sur la valorisation énergétique des boues."
+  },
+  {
+   "id": 26727,
+   "titre": "3.3.2 Accélérer le développement de l'énergie photovoltaïque",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté urbaine, 268 985 habitants\nContexte : Plan Climat Air Energie Territorial 2024-2029 > 3 - Accroître la production d'énergie renouvelable et de récupération > 3.3 Consolider le mix ENR&R existant et optimiser l'intégration territoriale de la production d'énergie | Schéma Directeur des Energies > 3.3.2 Accélérer le développement de l'énergie PV\nTitre : 3.3.2 Accélérer le développement de l'énergie photovoltaïque\nDescription : Cette action vise à traduire de manière concrète l'objectif fixé dans le PCAET de production de 808 GWh via le photovoltaïque en 2040. Cela passe par : - la mise en oeuvre d'EUCF - le développement de projets avec la SEM ASER - l'accompagnement des communes dans leurs projets photovoltaïques - l'accompagnement des acteurs privés et publics - le développement d'un cadastre solaire - la numérisation des données et la mise en place d'un outil de comptabilisation des projets développés et de la puissance installée sur le territoire - le développement des installations photovoltaïques sur les installations liées au cycle de l'eau. Le développement du photovoltaïque se fait, sur le territoire de la Communauté urbaine, dans le respect de la règle n°39 du SRADDET normand, qui encourage l’installation de panneaux photovoltaïques sur les bâtiments et en « ombrière » de parking et limite leur installation au sol : • aux seuls terrains artificialisés des sites dégradés (friches industrielles, sites et sols pollués, anciens centres de stockage de déchets ultimes fermés depuis moins de 10 ans, carrières en fin d’exploitation) sous réserve : - qu’ils ne fassent pas ou n’aient pas fait l’objet d’une prescription de remise en état à vocation agricole, paysagère ou écologique ; - et qu’ils ne puissent pas être réhabilités pour y implanter de l’habitat et/ou des activités économiques ; - et qu’ils ne soient pas inscrits au sein des trames vertes et bleues ; • et aux délaissés portuaires et aéroportuaires."
+  },
+  {
+   "id": 26728,
+   "titre": "3.3.3 Structurer la filière énergie et améliorer l'intégration des ENR&R au territoire",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté urbaine, 268 985 habitants\nContexte : Plan Climat Air Energie Territorial 2024-2029 > 3 - Accroître la production d'énergie renouvelable et de récupération > 3.3 Consolider le mix ENR&R existant et optimiser l'intégration territoriale de la production d'énergie\nTitre : 3.3.3 Structurer la filière énergie et améliorer l'intégration des ENR&R au territoire\nDescription : Cette action vise à : - Faire connaître les énergies renouvelables au grand public afin d’améliorer l’acceptabilité indispensable à la mise en œuvre des projets - Former les jeunes du territoire aux énergies de demain afin d’en garantir la continuité et l’acceptabilité"
+  },
+  {
+   "id": 26729,
+   "titre": "3.3.4 Structurer les réseaux de transport et de distribution d'énergie pour participer à la résilience du territoire",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté urbaine, 268 985 habitants\nContexte : Plan Climat Air Energie Territorial 2024-2029 > 3 - Accroître la production d'énergie renouvelable et de récupération > 3.3 Consolider le mix ENR&R existant et optimiser l'intégration territoriale de la production d'énergie\nTitre : 3.3.4 Structurer les réseaux de transport et de distribution d'énergie pour participer à la résilience du territoire\nDescription : L'ambition de la Communauté urbaine de quadrupler la production locale d'ENR&R sur le territoire entre 2019 et 2040 suppose une hausse de la quantité d’énergie injectée dans les réseaux de transport et de distribution de gaz et d’électricité du territoire. L’électrification des usages est également à prendre en compte pour le déploiement futur des réseaux. Cette action vise à anticiper les besoins en matière de transport et de distribution de l'énergie, en tenant compte des évolutions des usages et de l'aggravation des risques naturels, dans le but de garantir la continuité d'alimentation en énergie."
+  },
+  {
+   "id": 26730,
+   "titre": "3.4.1 Mettre en place le système numérique climat-air-énergie",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté urbaine, 268 985 habitants\nContexte : Plan Climat Air Energie Territorial 2024-2029 > 3 - Accroître la production d'énergie renouvelable et de récupération > 3.4 Déployer le schéma directeur des énergies | Schéma Directeur des Energies > 3.4.1 Mettre en place le système numérique climat air énergie\nTitre : 3.4.1 Mettre en place le système numérique climat-air-énergie\nDescription : Afin de suivre les actions du Schéma Directeur des Énergies (SDE), une solution numérique dédiée a été déployée. C’est un outil qui compile les données énergétiques du territoire issues du diagnostic climat-air-énergie ainsi que les données issues du PCAET. Grâce à cet outil, l’évaluation réglementaire du PCAET sera facilitée. Cet outil dynamique permet : – d’étudier les évolutions du territoire sur la base des données du diagnostic climat-air-énergie ; – d’aider à la décision pour la construction de la stratégie énergétique locale car il permet le suivi et de pilotage de la mise en place de cette stratégie ainsi que l’appui à la concertation avec les parties prenantes du système énergétique local ; – d’analyser des données (de consommations, de productions, sur les réseaux)."
+  },
+  {
+   "id": 27273,
+   "titre": "4.1.1 Agir en faveur des filières agricoles durables",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté urbaine, 268 985 habitants\nContexte : Plan Climat Air Energie Territorial 2024-2029 > 4 - Anticiper et adapter le territoire au climat futur > 4.1 Encourager la transition du secteur agricole\nTitre : 4.1.1 Agir en faveur des filières agricoles durables\nDescription : En 2020, la CU LHSM a engagé un travail prospectif visant à fixer les tendances à suivre à moyen et long terme en matière de transition agricole locale. Cette démarche conclut sur la nécessité de : - Diversifier massivement les productions (fruits, légumes, volailles, légumineuses…) ; - Pérenniser les systèmes d’élevage valorisant les ressources en herbe orientés vers les filières de qualité, plus résilients et autonomes ; - Développer les surfaces cultivées en agriculture biologique. Cette action vise à accompagner la transition écologique du territoire et particulièrement celle des agriculteurs. L’évolution de l’agriculture et son adaptation aux enjeux environnementaux sont des facteurs déterminants pour la préservation de la qualité de l’eau potable, la lutte contre les phénomènes de ruissellement ou d’inondation, la préservation de la biodiversité mais aussi l’amélioration de la capacité du territoire à produire une alimentation de qualité et de proximité. Elle se décompose en sous-actions : 1. Plan de soutien à l'agriculture durable 2. Accompagnement du développement du maraîchage ; 3. Accompagnement financier des pratiques agricoles durables (via le Fonds d'initiative locale agricole - FILA)"
+  },
+  {
+   "id": 27277,
+   "titre": "4.1.2 Consolider la commercialisation des produits agricoles en circuits courts",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté urbaine, 268 985 habitants\nContexte : Plan Climat Air Energie Territorial 2024-2029 > 4 - Anticiper et adapter le territoire au climat futur > 4.1 Encourager la transition du secteur agricole\nTitre : 4.1.2 Consolider la commercialisation des produits agricoles en circuits courts\nDescription : L’objectif est de renforcer la capacité d’auto-approvisionnement du territoire et donc sa résilience alimentaire, ainsi que d’assurer l’accessibilité de produits agricoles durables et de qualité auprès du plus grand nombre. L'action se décompose en sous-actions : 1. Valoriser les circuits courts pour accompagner la distribution de produits locaux 2. Soutenir l'opportunité d'implantation d'outils filière (stockage, transformation, logistique) 3. Proposer un accompagnement à la restauration collective pour améliorer les approvisionnements durables et locaux"
+  },
+  {
+   "id": 27278,
+   "titre": "4.1.3 Valoriser les services écosystémiques rendus par l'agriculture",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté urbaine, 268 985 habitants\nContexte : Plan Climat Air Energie Territorial 2024-2029 > 4 - Anticiper et adapter le territoire au climat futur > 4.1 Encourager la transition du secteur agricole\nTitre : 4.1.3 Valoriser les services écosystémiques rendus par l'agriculture\nDescription : L’objectif est de valoriser, d’un point de vue économique, les externalités positives de certaines mesures agricoles afin d’impulser le changement de pratiques sur le territoire. L'action se décompose en sous-actions : 1. Développer un système de Paiements pour services environnementaux (PSE) Développer des dispositifs de type paiements pour services environnementaux en faveur des systèmes herbagers, pour soutenir le maintien voire la remise en herbe sur le territoire comme mesure agricole permettant d’assurer la ressource en eau potable du territoire en amont des captages. Actuellement, grâce à un dispositif financier de l’Agence de l’Eau Seine Normandie, le déploiement de cette solution est effectif sur les territoires BAC mais pour une période donnée. Il conviendrait de travailler sur la pérennisation du dispositif en trouvant des sources de financement des agriculteurs, ainsi que de l’étendre à l’échelle de l’ensemble du territoire de la CU. Mise en place d’un PSE pour pérenniser le dispositif actuel déployé grâce à un financement Agence de l’Eau, sur le maintien des surfaces en herbe. 2. Diversifier les possibilités d'intervention de l'outil Carbolocal Diversifier les possibilités d’intervention de l’outil Carbolocal (plateforme de marché carbone local pour la transition agroécologique) en vue de soutenir d’autres mesures agroécologiques que la haie (valorisation des prairies) ayant une action intéressante sur la séquestration de carbone, mais aussi réfléchir au moyen de valoriser d’autres externalités positives environnementales de l’agriculture que la seule capacité de séquestration carbone (maintien et développement de la biodiversité par exemple). Recenser la diversification vers d’autres mesures agroécologiques que la haie."
+  },
+  {
+   "id": 27279,
+   "titre": "4.2.1 Améliorer la gestion globale de la protection de la ressource en eau",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté urbaine, 268 985 habitants\nContexte : Plan Climat Air Energie Territorial 2024-2029 > 4 - Anticiper et adapter le territoire au climat futur > 4.2 Protéger la ressource en eau\nTitre : 4.2.1 Améliorer la gestion globale de la protection de la ressource en eau\nDescription : L'action vise à assurer le bon état qualitatif et quantitatif des ressources en eau pour l’approvisionnement en eau potable (et en eau industrielle), en améliorant la connaissance et le suivi. Elle se compose de 5 sous-actions, dont 3 fondamentales déjà en cours, qui seront complétées par les actions 4 et 5. Elles se dérouleront en parallèle. 1. Mise en œuvre et révision des Déclarations d’Utilité Publique liées aux captages d’eau a. Mise en œuvre des DUP b. Protection des périmètres de captages, et révision de DUP pour intégrer des périmètres de protection satellites sur les bétoires Nature des prescriptions - Maintien / remise en herbe de parcelles dans les PPR/PPRS - Mise en place d’aménagements d’hydraulique douce - Réglementations sur les épandages (lisier…) - Réglementation sur les intrants (azote…) 2. Mise en œuvre des programmes d’actions sur les bassins d’Alimentations de Captage a. Mise en œuvre des programmes BAC en fonction des enjeux prioritaires identifiés sur chaque BAC (lutte contre la turbidité, les phytosanitaires et les nitrates) b. Conseils agricoles et aides financières pour la mise en place / maintien d’Aménagement d’Hydraulique Douce et travaux structurants pour protéger la ressource - Portage des Paiements de Services Environnementaux (maintien et remise en herbe) ; - Réalisation amiable et Financement à 100% des travaux d’aménagement d’hydraulique douce par conventions ; - Conventions financières d’herbe autour des bétoires ; - Aides financières au matériel en faveur de bonnes pratiques. 3. Amélioration de la qualité des rejets des stations d’épuration sur les bassins d’alimentation de captage Amélioration de la qualité des rejets des Stations d’épurations sur les Bassins d’alimentation de Captage en lien avec la protection de la ressource en eau, et travaux d’investissement associés. 4. Amélioration des connaissances et suivi quantitatif des ressources en eau Amélioration des connaissances et suivi quantitatif avec installation et suivi de piézomètres, débitmètres, en lien avec le suivi qualitatif. 5. Suivi spécifique des ressources en zone littorale et Estuaire de Seine en lien avec la salinité a. Suivi des captages en zone littorale et Estuaire de Seine en lien avec la remontée des niveaux marins liée au changement climatique, problématique de salinisation des nappes, remontée de coin salé b. Pose de piézomètres et débitmètres c. Essai de pompage Radicatel d. Mesures de chlorures"
+  },
+  {
+   "id": 27280,
+   "titre": "4.2.2 Améliorer la performance des réseaux de distribution d’eau et réduire les prélèvements",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté urbaine, 268 985 habitants\nContexte : Plan Climat Air Energie Territorial 2024-2029 > 4 - Anticiper et adapter le territoire au climat futur > 4.2 Protéger la ressource en eau\nTitre : 4.2.2 Améliorer la performance des réseaux de distribution d’eau et réduire les prélèvements\nDescription : La stratégie d’adaptation au changement climatique du bassin Seine Normandie préconise une diminution des prélèvements d’eau pour l’alimentation en eau potable de 14 %. L’amélioration de la performance des réseaux de distribution d’eau et le travail de sensibilisation à la réduction des consommations visent à diminuer les prélèvements et adopter une consommation plus sobre de la ressource en eau. Action 1. Réduction des fuites sur le réseau d’eau potable - Amélioration de la connaissance du réseau et des pertes : Amélioration de la connaissance du patrimoine, Amélioration de la connaissance des volumes vendus avec le maintien d’un âge moyen des compteurs de 6 à 7 ans et généralisation du dispositif de télérelève) ; - Recherche active de fuites et réparation : Mise en place de 400 pré localisateurs de fuite couplés aux quelques 300 compteurs de sectorisation déjà en place ; - Remplacement et rénovation des réseaux : Le schéma directeur d’alimentation en eau en cours comporte un volet sur la construction de stratégies de renouvellement des réseaux d’eau pour trouver la performance optimale tant d’un point de vue technique que financier. Action 2 : Sensibilisation des usagers aux économies d’eau par la mise en place de kits d’économiseur d’eau Action 3 : Réflexion sur une tarification progressive de l’eau"
+  },
+  {
+   "id": 27317,
+   "titre": "4.2.3 Réaliser une étude quantitative de la masse d'eau de la Lézarde et de l'Oudalle",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté urbaine, 268 985 habitants\nContexte : Plan Climat Air Energie Territorial 2024-2029 > 4 - Anticiper et adapter le territoire au climat futur > 4.2 Protéger la ressource en eau\nTitre : 4.2.3 Réaliser une étude quantitative de la masse d'eau de la Lézarde et de l'Oudalle\nDescription : Obligation du schéma directeur d'aménagement et de gestion des eaux (SDAGE) 2022-2027, cette étude permettra d’évaluer les pressions quantitatives exercées sur cette ressource, sachant qu’il n’y a, à ce jour, pas de conflit d’usage entre : - prélèvements pour l’Alimentation en eau (nappe de la craie) ; - absence de prélèvements agricoles (ni drainage ni irrigation) ; - prélèvements industriels d’eaux de surface sur la Lézarde et l’Oudalle et en nappe alluviale de la Seine. Cette action est inscrite dans le Contrat territorial Eau et Climat 2021-2024 signé avec l’Agence de l’Eau Seine Normande. 1. Étude de définition d’un programme d’acquisition de données 2. Installation de piézomètres (et débitmètres) sur la vallée de la Lézarde et de l’Oudalle (dômes et sources) 3. Etude quantitative des masses d'eaux de la Lézarde et de l'Oudalle - Avoir un état des lieux du fonctionnement actuel ; - Acquérir et suivre l’évolution ; - Partager la connaissance avec les différents partenaires (collectivités, industriels…) ; - Connaître l’impact éventuel sur la concentration des polluants de la réduction potentielle de l’amplitude de différents réservoirs des masses d’eaux exploitées"
+  },
+  {
+   "id": 27318,
+   "titre": "4.3.1 Gérer durablement les réservoirs de biodiversité",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté urbaine, 268 985 habitants\nContexte : Plan Climat Air Energie Territorial 2024-2029 > 4 - Anticiper et adapter le territoire au climat futur > 4.3 Préserver et renforcer la biodiversité grâce aux solutions fondées sur la nature\nTitre : 4.3.1 Gérer durablement les réservoirs de biodiversité\nDescription : Cette action vise à renforcer la préservation et la séquestration du carbone par les puits naturels sur le territoire. Cela passe par les mesures suivantes : 1. Développer la plantation de haies sur le territoire a. Programme d’action « Opération Normandie Haie » b. Agir avec les partenaires sur la filière aval notamment en créant/accompagnant la filière de valorisation de l’entretien de la haie via le bois énergie. 2. Déployer Carbolocal, startup de territoire pour accélérer la transition écologique 3. Définir une stratégie foncière du foncier naturel, agricole et forestier et constituer une cellule d’animation dédiée"
+  },
+  {
+   "id": 27319,
+   "titre": "4.3.2 Préserver les forêts et renforcer la séquestration carbone",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté urbaine, 268 985 habitants\nContexte : Plan Climat Air Energie Territorial 2024-2029 > 4 - Anticiper et adapter le territoire au climat futur > 4.3 Préserver et renforcer la biodiversité grâce aux solutions fondées sur la nature\nTitre : 4.3.2 Préserver les forêts et renforcer la séquestration carbone\nDescription : Les forêts, marais, zones humides, estuaires, prairies, haies, mares, … constituent des espaces tampons et des obstacles face aux aléas climatiques. Ils sont des remparts naturels contre la montée des eaux, l’érosion des sols et du littoral ou encore la dégradation de la qualité de l’eau. Les actions de préservation et la restauration de ces écosystèmes sont donc cruciales pour augmenter la résilience des territoires face aux effets des changements climatiques. Ce sont en outre des alternatives pérennes et moins coûteuses que les infrastructures grises. L'action vise à : – Stocker et capter du carbone, maintenir les puits de carbone, – Atténuer les effets du changement climatique de manière économique, viable et durable, tout en préservant le bien être des habitants et la biodiversité ; – Préserver des forêts résilientes face au changement climatique ; – Relocaliser la filière bois : bénéfices économiques, sociaux et environnementaux. 1. Lancement d’un diagnostic forestier et élaboration d’une charte forestière de territoire Impliquer tous les acteurs dans la gestion des forêts : - Diagnostic approfondi des boisements du territoire ; - Identification et rencontre des acteurs de la filière ; - Concertation des acteurs et des propriétaires forestiers ; - Définition d’une stratégie de préservation ; - Élaboration d’un plan d’action ; - Création de conseils territoriaux de massif 2. Réaliser une étude de la filière bois - Inciter à la plantation de l’arbre sous toutes ses formes - Valoriser le bois le mieux possible et développer une utilisation locale – développer les labels (FSC, Haie, PEFC…) - Intégrer le bois des territoires dans les marchés publics et labels : construction, mobilier urbain, rénovation énergétique, valorisation énergétique de proximité… 3. Développer une cellule foncière dédiée aux espaces naturels, agricoles et forestiers pour sauvegarder les réservoirs de biodiversité boisée, et restaurer des espaces boisés. 4. Développer des études et des services : - Paiements pour services écosystémiques et finance verte pour la préservation des boisement anciens ; - Développer la méthodologie Forêt pour capter des financements privés via la contribution carbone volontaire des entreprises, (cf. CARBOLOCAL) ; - Développer les actions de mécénat finançant des actions en faveur des forêts, catalogue de projets à financer, communication, etc. ; - Lancer une étude de mesure et d’évaluation des services écosystémique rendus par les forêts : biodiversité, séquestration carbone, etc. définir des méthodologies et des cahiers des charges ; - Développer la participation citoyenne de financement de création ou de préservation de boisement."
+  },
+  {
+   "id": 27353,
+   "titre": "4.4.1 Prévenir les risques et développer la culture du risque",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté urbaine, 268 985 habitants\nContexte : Plan Climat Air Energie Territorial 2024-2029 > 4 - Anticiper et adapter le territoire au climat futur > 4.4 Développer la culture du risque et de l'adaptation au changement climatique\nTitre : 4.4.1 Prévenir les risques et développer la culture du risque\nDescription : La Communauté urbaine déploie depuis de nombreuses années une politique sur un territoire « multirisques ». Elle s’appuie pour cela sur différents dispositifs, notamment la stratégie locale de gestion du risque inondation - SLGRI), 4 plans de prévention des risques naturels (inondation-érosion, submersion marine et falaises), 2 plans de prévention des risques technologiques (pour 17 SEVESO seuils hauts) et 2 plans particuliers d’intervention (PPI). Aujourd’hui, un constat récurrent montre le déficit de culture du risque et de la sécurité des élus et des populations. C’est pourquoi, dans le cadre du Programme d’actions de prévention du risque inondation (PAPI) en cours de lancement, nous préparons la définition d’une stratégie d'acculturation au risque inondation ancrée sur la perception du risque par le territoire et préparer sa déclinaison dans le plan de communication. Les actions de la Communauté urbaine devront s’inscrire dans la stratégie Notre Littoral pour Demain portée par le SML 76. Mesure 1 : Elaboration d'une stratégie d'acculturation au risque - réalisation d'une étude préalable sur la perception qu'ont les populations du risque inondation et du suivi de cette perception durant la mise en oeuvre du PAPI. - sur la base de cette étude, définition d'une stratégie d'acculturation des publics visés - proposition de pistes d'actions spécifiques pour la réalisation de diagnostics et la concrétisation des travaux de réduction de la vulnérabilité - dans le cadre de l'AMI Territoire et climat, formation à destination des élus et acteurs du territoire sur l'adaptation et la résilience. Mesure 2 : Mettre en oeuvre le plan de communication PAPI Les différentes actions engagées durant le PAPI viseront trois cibles prioritaires : 1- les élus ; 2- le grand public (dont les scolaires), \"citoyen pluriel\" ; 3- les porteurs de projets (aménageurs, collectivités, industriels, agriculteurs). Il s'agira d'élaborer le plan de communication et les outils de communication en découlant, au regard notamment des résultats de l'étude relative à la perception des risques par la population. Mesure 3 Mettre en œuvre les prescriptions des dispositifs de prévention des risques applicables sur le territoire (PPRI, PPRL, PPRT, …) - PPRI Lézarde : maîtrise de l'urbanisation et arrêt complet dans les zones les plus dangereuses, préservation des zones d'intérêt stratégique pour la non-aggravation des crues dans les zones actuellement soumises aux inondations - PPR Falaises : mesures d'interdiction ou de prescription, mesures de prévention, de protection et de sauvegarde, mesures relatives à l'aménagement, l'utilisation ou l'exploitation des constructions, des ouvrages et des activités. - PPRL PANES : Stratégie d'adaptation (maîtrise du nombre de personnes et de biens dans les secteurs les plus exposés, conception de nouveaux aménagements résilients intégrant l'aléa submersion marine dans leur fonctionnement, maintien du développement des activités économiques dans la ZIP tout en garantissant la sécurité du personnel et en réduisant la vulnérabilité, limitation des conséquences d'une submersion marine, sanctuarisation de certaines zones naturelles ou agricoles. - PPR de la ZIP : réduction des risques à la source, limitation de l'urbanisation à proximité des établissements industriels, mesures de protection de la population, etc."
+  },
+  {
+   "id": 27355,
+   "titre": "5.1.1 Inventorier, suivre et partager les initiatives communales",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté urbaine, 268 985 habitants\nContexte : Plan Climat Air Energie Territorial 2024-2029 > 5 - Accompagner la transition vers l'économie circulaire et bas carbone\nTitre : 5.1.1 Inventorier, suivre et partager les initiatives communales\nDescription : <p class=\"!text-sm !text-primary-9 font-[Marianne]\">Le PCAET vient nourrir la réflexion et encourager l’action des acteurs du territoire, au 1er rang desquels les communes. Celles-ci sont des actrices au quotidien de la mise en œuvre du plan climat, via leurs compétences sur le patrimoine, la proximité, la citoyenneté, l’éducation, l’enfance. A ce titre, le PCAET met en place des outils pour faciliter leur action et favoriser les partages d’expérience.<br><br>L’action vise à faciliter le partage de pratiques afin d’apporter une aide technique dans le montage de projets en lien avec la stratégie de transition écologique exprimée dans le PCAET. Encourager les communes à une meilleure prise en compte des objectifs du PCAET dans leurs actions, les accompagner dans leurs démarches (par exemple maîtrise de l’énergie) et la mise en place d’actions, généraliser et aller vers une démarche d’amélioration continue afin d’engager chaque commune dans la transition du territoire.<br><br>Mesure 1 : Dresser avec les communes un état des lieux des actions réalisées ou à réaliser, en matière d’énergie, de climat et d’air. <br>a. Alimentation<br>b. Végétalisation<br>c. Mobilités<br>d. Sensibilisation <br>e. Biodiversité<br>f. Energies renouvelables<br><br>Mesure 2 : Accompagner les communes pour identifier les enjeux prioritaires sur leur territoire et les moyens à mobiliser.<br>a. Partager les réalisations d’autres collectivités<br>b. Apporter un appui technique en termes de mise en œuvre <br>c. Former les élus (AMI Territoire et climat)<br><br>Mesure 3 : Encourager la communication des communes auprès des habitants sur les enjeux de transition et les actions à mettre en œuvre en lien avec la feuille de route du PCAET.<br>a. Informer et sensibiliser pour agir concrètement au quotidien dans la lutte contre le changement climatique<br>b. Relayer le message PCAET auprès d’autres acteurs de la commune (artisans, commerces, entreprises …)</p>"
+  },
+  {
+   "id": 27356,
+   "titre": "5.2.1 Accompagner l’essor d’une démarche d’écologie industrielle et territoriale  (EIT) vers la transformation bas-carbone de l'industrie",
+   "statut": "En cours",
+   "n_sous_actions": 9,
+   "message": "Collectivité : communauté urbaine, 268 985 habitants\nContexte : Plan Climat Air Energie Territorial 2024-2029 > 5 - Accompagner la transition vers l'économie circulaire et bas carbone\nTitre : 5.2.1 Accompagner l’essor d’une démarche d’écologie industrielle et territoriale (EIT) vers la transformation bas-carbone de l'industrie\nDescription : <div class=\"bn-block-group\" data-node-type=\"blockGroup\"><div class=\"bn-block-outer\" data-node-type=\"blockOuter\" data-id=\"39deab80-929b-4e62-b362-e22588c0268b\"><div class=\"bn-block\" data-node-type=\"blockContainer\" data-id=\"39deab80-929b-4e62-b362-e22588c0268b\"><div class=\"bn-block-content !p-0\" data-content-type=\"paragraph\"><p class=\"bn-inline-content !text-sm !text-primary-9 font-[Marianne]\">L’économie circulaire nous invite à interroger la notion de besoin, à transformer nos déchets en ressources et donc à développer une économie plus respectueuse des limites planétaires (ressources en eau, métaux, sols, énergie, matériaux…). Pour cela il s’agira de :</p></div></div></div><div class=\"bn-block-outer\" data-node-type=\"blockOuter\" data-id=\"97041341-d4bb-460f-8698-99c1a44edcee\"><div class=\"bn-block\" data-node-type=\"blockContainer\" data-id=\"97041341-d4bb-460f-8698-99c1a44edcee\"><div class=\"bn-block-content !p-0\" data-content-type=\"paragraph\"><p class=\"bn-inline-content !text-sm !text-primary-9 font-[Marianne]\">• Diminuer les quantités de déchets produites grâce à l’optimisation des besoins ;</p></div></div></div><div class=\"bn-block-outer\" data-node-type=\"blockOuter\" data-id=\"1359d635-091f-458b-b2f0-df503dd7644f\"><div class=\"bn-block\" data-node-type=\"blockContainer\" data-id=\"1359d635-091f-458b-b2f0-df503dd7644f\"><div class=\"bn-block-content !p-0\" data-content-type=\"paragraph\"><p class=\"bn-inline-content !text-sm !text-primary-9 font-[Marianne]\">• Relocaliser les activités économiques en particulier celles liées à la valorisation matière ou énergie des ressources ;</p></div></div></div><div class=\"bn-block-outer\" data-node-type=\"blockOuter\" data-id=\"8268a930-998e-4482-b0f7-3198da4852f9\"><div class=\"bn-block\" data-node-type=\"blockContainer\" data-id=\"8268a930-998e-4482-b0f7-3198da4852f9\"><div class=\"bn-block-content !p-0\" data-content-type=\"paragraph\"><p class=\"bn-inline-content !text-sm !text-primary-9 font-[Marianne]\">• Optimiser les flux de matières ;</p></div></div></div><div class=\"bn-block-outer\" data-node-type=\"blockOuter\" data-id=\"f1928913-e268-4abb-adf8-05abb91c613f\"><div class=\"bn-block\" data-node-type=\"blockContainer\" data-id=\"f1928913-e268-4abb-adf8-05abb91c613f\"><div class=\"bn-block-content !p-0\" data-content-type=\"paragraph\"><p class=\"bn-inline-content !text-sm !text-primary-9 font-[Marianne]\">• Favoriser la mutualisation des ressources et des services entre entreprises, la location ou la rémunération de l’usage plutôt que celle de la propriété, l’éco-conception de produits, ouvrages ou services au sein des entreprises ;</p></div></div></div><div class=\"bn-block-outer\" data-node-type=\"blockOuter\" data-id=\"5716afa7-c0a7-4fd0-a677-872f8a69e425\"><div class=\"bn-block\" data-node-type=\"blockContainer\" data-id=\"5716afa7-c0a7-4fd0-a677-872f8a69e425\"><div class=\"bn-block-content !p-0\" data-content-type=\"paragraph\"><p class=\"bn-inline-content !text-sm !text-primary-9 font-[Marianne]\">• Étendre l’écologie industrielle et territoriale le plus largement possible sur le territoire havrais et créer des coopérations avec les autres territoires en fonction des besoins ou opportunités.</p></div></div></div><div class=\"bn-block-outer\" data-node-type=\"blockOuter\" data-id=\"ca137547-d919-44ab-bc5f-b3758c2f755b\"><div class=\"bn-block\" data-node-type=\"blockContainer\" data-id=\"ca137547-d919-44ab-bc5f-b3758c2f755b\"><div class=\"bn-block-content !p-0\" data-content-type=\"paragraph\"><p class=\"bn-inline-content !text-sm !text-primary-9 font-[Marianne]\">• Autant que faire se peut, développer un service permettant de pérenniser le développement de l’écologie industrielle et territoriale, en lien avec la collectivité.</p></div></div></div><div class=\"bn-block-outer\" data-node-type=\"blockOuter\" data-id=\"6a210d68-b9fb-417d-9364-74048e951988\"><div class=\"bn-block\" data-node-type=\"blockContainer\" data-id=\"6a210d68-b9fb-417d-9364-74048e951988\"><div class=\"bn-block-content !p-0\" data-content-type=\"paragraph\"><p class=\"bn-inline-content !text-sm !text-primary-9 font-[Marianne]\"></p></div></div></div><div class=\"bn-block-outer\" data-node-type=\"blockOuter\" data-id=\"706eaefb-d80b-4951-867b-81ebb07270b6\"><div class=\"bn-block\" data-node-type=\"blockContainer\" data-id=\"706eaefb-d80b-4951-867b-81ebb07270b6\"><div class=\"bn-block-content !p-0\" data-content-type=\"paragraph\"><p class=\"bn-inline-content !text-sm !text-primary-9 font-[Marianne]\">Mesure 1 : Expérimenter et accompagner de nouvelles pratiques de coopération/mutualisation pour de nouveaux modèles d’entreprises</p></div></div></div><div class=\"bn-block-outer\" data-node-type=\"blockOuter\" data-id=\"26f8b319-db38-4059-ae19-54dc5b77e0f2\"><div class=\"bn-block\" data-node-type=\"blockContainer\" data-id=\"26f8b319-db38-4059-ae19-54dc5b77e0f2\"><div class=\"bn-block-content !p-0\" data-content-type=\"paragraph\"><p class=\"bn-inline-content !text-sm !text-primary-9 font-[Marianne]\">a. Favoriser une démarche de symbiose des flux de matières et de produits entre entreprises et établissements publics voisins :</p></div></div></div><div class=\"bn-block-outer\" data-node-type=\"blockOuter\" data-id=\"6c3cc061-4aa9-44ca-93a1-10dda57b0106\"><div class=\"bn-block\" data-node-type=\"blockContainer\" data-id=\"6c3cc061-4aa9-44ca-93a1-10dda57b0106\"><div class=\"bn-block-content !p-0\" data-content-type=\"paragraph\"><p class=\"bn-inline-content !text-sm !text-primary-9 font-[Marianne]\">exemple de l’opération expérimentale SAPIENS sur les zones d’activités économiques de Saint-Romain-de-Colbosc ;</p></div></div></div><div class=\"bn-block-outer\" data-node-type=\"blockOuter\" data-id=\"b1e05112-471a-4a1f-9623-50c5e6c0667f\"><div class=\"bn-block\" data-node-type=\"blockContainer\" data-id=\"b1e05112-471a-4a1f-9623-50c5e6c0667f\"><div class=\"bn-block-content !p-0\" data-content-type=\"paragraph\"><p class=\"bn-inline-content !text-sm !text-primary-9 font-[Marianne]\">b. Sensibiliser et accompagner les entreprises dans l’écoconception de leurs produits ou services, dans une démarche d’économie de la fonctionnalité qui privilégie l’usage à la possession du produit.</p></div></div></div><div class=\"bn-block-outer\" data-node-type=\"blockOuter\" data-id=\"532323eb-33ad-4ea0-9b8f-e6813e10ac87\"><div class=\"bn-block\" data-node-type=\"blockContainer\" data-id=\"532323eb-33ad-4ea0-9b8f-e6813e10ac87\"><div class=\"bn-block-content !p-0\" data-content-type=\"paragraph\"><p class=\"bn-inline-content !text-sm !text-primary-9 font-[Marianne]\"></p></div></div></div><div class=\"bn-block-outer\" data-node-type=\"blockOuter\" data-id=\"5d56d67b-e71c-4749-a19f-8c8e927d0229\"><div class=\"bn-block\" data-node-type=\"blockContainer\" data-id=\"5d56d67b-e71c-4749-a19f-8c8e927d0229\"><div class=\"bn-block-content !p-0\" data-content-type=\"paragraph\"><p class=\"bn-inline-content !text-sm !text-primary-9 font-[Marianne]\">Mesure 2 : Impliquer la CU dans le projet SOCRATE, à travers son adhésion à l’association éponyme</p></div></div></div><div class=\"bn-block-outer\" data-node-type=\"blockOuter\" data-id=\"0483be2c-34f4-4457-813f-dba4bcd5a384\"><div class=\"bn-block\" data-node-type=\"blockContainer\" data-id=\"0483be2c-34f4-4457-813f-dba4bcd5a384\"><div class=\"bn-block-content !p-0\" data-content-type=\"paragraph\"><p class=\"bn-inline-content !text-sm !text-primary-9 font-[Marianne]\">a. Accompagner la prospective et la planification des infrastructures (réseaux et équipements) pour optimiser les usages des 20 années à venir (schéma directeur des énergies) ;</p></div></div></div><div class=\"bn-block-outer\" data-node-type=\"blockOuter\" data-id=\"7b852add-9159-422b-97ec-e571463fb4c5\"><div class=\"bn-block\" data-node-type=\"blockContainer\" data-id=\"7b852add-9159-422b-97ec-e571463fb4c5\"><div class=\"bn-block-content !p-0\" data-content-type=\"paragraph\"><p class=\"bn-inline-content !text-sm !text-primary-9 font-[Marianne]\">b. Accompagner le développement de la dynamique d’innovation industrielle en particulier pour la production de gaz « verts » (méthane, méthanol, e-kérosène…) ;</p></div></div></div><div class=\"bn-block-outer\" data-node-type=\"blockOuter\" data-id=\"54405a41-687f-473e-bcf2-261a4a080d8f\"><div class=\"bn-block\" data-node-type=\"blockContainer\" data-id=\"54405a41-687f-473e-bcf2-261a4a080d8f\"><div class=\"bn-block-content !p-0\" data-content-type=\"paragraph\"><p class=\"bn-inline-content !text-sm !text-primary-9 font-[Marianne]\">c. Articuler la dynamique de décarbonation industrialo-portuaire avec celle du reste du territoire (entreprises hors ZIP, citoyens et élus…) et les collectivités de l’axe Seine.</p></div></div></div><div class=\"bn-block-outer\" data-node-type=\"blockOuter\" data-id=\"903b1776-a872-41dc-8390-cb146691a451\"><div class=\"bn-block\" data-node-type=\"blockContainer\" data-id=\"903b1776-a872-41dc-8390-cb146691a451\"><div class=\"bn-block-content !p-0\" data-content-type=\"paragraph\"><p class=\"bn-inline-content !text-sm !text-primary-9 font-[Marianne]\"></p></div></div></div><div class=\"bn-block-outer\" data-node-type=\"blockOuter\" data-id=\"ec17a7e2-8ce8-4019-a3fe-37190032433e\"><div class=\"bn-block\" data-node-type=\"blockContainer\" data-id=\"ec17a7e2-8ce8-4019-a3fe-37190032433e\"><div class=\"bn-block-content !p-0\" data-content-type=\"paragraph\"><p class=\"bn-inline-content !text-sm !text-primary-9 font-[Marianne]\">Mesure 3 : Filières territoriales de réemploi/recyclage</p></div></div></div><div class=\"bn-block-outer\" data-node-type=\"blockOuter\" data-id=\"3ef0ac7f-794e-4f7c-a4b7-18e5c0e45498\"><div class=\"bn-block\" data-node-type=\"blockContainer\" data-id=\"3ef0ac7f-794e-4f7c-a4b7-18e5c0e45498\"><div class=\"bn-block-content !p-0\" data-content-type=\"paragraph\"><p class=\"bn-inline-content !text-sm !text-primary-9 font-[Marianne]\">a. Accompagner la structuration de filières basées sur la réduction des besoins en ressources, le réemploi ou le recyclage</p></div></div></div><div class=\"bn-block-outer\" data-node-type=\"blockOuter\" data-id=\"98a3e27d-a75c-402c-b475-531caabe8733\"><div class=\"bn-block\" data-node-type=\"blockContainer\" data-id=\"98a3e27d-a75c-402c-b475-531caabe8733\"><div class=\"bn-block-content !p-0\" data-content-type=\"paragraph\"><p class=\"bn-inline-content !text-sm !text-primary-9 font-[Marianne]\">➔ Initier/porter en lien avec les éco-organismes, des études (gisements, besoins, filières…) : bois, terre/brique, béton, matériaux de second œuvre du bâtiment, biodéchets, déchets électroniques, plastiques, composites, etc.</p></div></div></div><div class=\"bn-block-outer\" data-node-type=\"blockOuter\" data-id=\"330f54f6-877e-4e54-bfa0-39a7e72d1e91\"><div class=\"bn-block\" data-node-type=\"blockContainer\" data-id=\"330f54f6-877e-4e54-bfa0-39a7e72d1e91\"><div class=\"bn-block-content !p-0\" data-content-type=\"paragraph\"><p class=\"bn-inline-content !text-sm !text-primary-9 font-[Marianne]\">b. Accompagner les entreprises qui souhaitent inscrire dans leur modèle économique le réemploi ou la non la consommation de produits.</p></div></div></div><div class=\"bn-block-outer\" data-node-type=\"blockOuter\" data-id=\"f267ade1-fd7b-43e2-be02-8c573f2fc08c\"><div class=\"bn-block\" data-node-type=\"blockContainer\" data-id=\"f267ade1-fd7b-43e2-be02-8c573f2fc08c\"><div class=\"bn-block-content !p-0\" data-content-type=\"paragraph\"><p class=\"bn-inline-content !text-sm !text-primary-9 font-[Marianne]\"></p></div></div></div><div class=\"bn-block-outer\" data-node-type=\"blockOuter\" data-id=\"311df124-b08c-40b8-8b02-cdc29c21bdef\"><div class=\"bn-block\" data-node-type=\"blockContainer\" data-id=\"311df124-b08c-40b8-8b02-cdc29c21bdef\"><div class=\"bn-block-content !p-0\" data-content-type=\"paragraph\"><p class=\"bn-inline-content !text-sm !text-primary-9 font-[Marianne]\">Mesure 4 : Instaurer un temps d’échange avec les acteurs de la zone industrielle (industries, HAROPA…), la CCI, les entreprises hors ZIP, les communes</p></div></div></div><div class=\"bn-block-outer\" data-node-type=\"blockOuter\" data-id=\"1317d5da-8e84-4297-8ec0-b36ccf65f118\"><div class=\"bn-block\" data-node-type=\"blockContainer\" data-id=\"1317d5da-8e84-4297-8ec0-b36ccf65f118\"><div class=\"bn-block-content !p-0\" data-content-type=\"paragraph\"><p class=\"bn-inline-content !text-sm !text-primary-9 font-[Marianne]\">Valoriser les initiatives et faire connaître les bonnes pratiques pour favoriser l’émulation sur les différents projets de transition afin d’affiner le besoin d’appui et le rôle éventuel de la CU.</p></div></div></div><div class=\"bn-block-outer\" data-node-type=\"blockOuter\" data-id=\"38b8b24c-86ab-492e-9121-50245c7ce608\"><div class=\"bn-block\" data-node-type=\"blockContainer\" data-id=\"38b8b24c-86ab-492e-9121-50245c7ce608\"><div class=\"bn-block-content !p-0\" data-content-type=\"paragraph\"><p class=\"bn-inline-content !text-sm !text-primary-9 font-[Marianne]\"></p></div></div></div><div class=\"bn-block-outer\" data-node-type=\"blockOuter\" data-id=\"54776a40-ec01-4b9b-ae4c-44aa0fce2de5\"><div class=\"bn-block\" data-node-type=\"blockContainer\" data-id=\"54776a40-ec01-4b9b-ae4c-44aa0fce2de5\"><div class=\"bn-block-content !p-0\" data-content-type=\"paragraph\"><p class=\"bn-inline-content !text-sm !text-primary-9 font-[Marianne]\">Mesure 5 : Bâtir une feuille de route et un plan d’actions partenarial en matière d’économie circulaire</p></div></div></div><div class=\"bn-block-outer\" data-node-type=\"blockOuter\" data-id=\"36d0f45c-35ec-4fc2-80b4-dc3709482598\"><div class=\"bn-block\" data-node-type=\"blockContainer\" data-id=\"36d0f45c-35ec-4fc2-80b4-dc3709482598\"><div class=\"bn-block-content !p-0\" data-content-type=\"paragraph\"><p class=\"bn-inline-content !text-sm !text-primary-9 font-[Marianne]\">a. Schéma de promotion des achats publics socialement et écologiquement responsables (SPASER)</p></div></div></div><div class=\"bn-block-outer\" data-node-type=\"blockOuter\" data-id=\"734003da-0e07-4ba9-bc90-25253a55da2a\"><div class=\"bn-block\" data-node-type=\"blockContainer\" data-id=\"734003da-0e07-4ba9-bc90-25253a55da2a\"><div class=\"bn-block-content !p-0\" data-content-type=\"paragraph\"><p class=\"bn-inline-content !text-sm !text-primary-9 font-[Marianne]\">B. Stratégie économie circulaire</p></div></div></div><div class=\"bn-block-outer\" data-node-type=\"blockOuter\" data-id=\"d1329f48-9f70-4ea2-a0ca-0be9a87cb8fb\"><div class=\"bn-block\" data-node-type=\"blockContainer\" data-id=\"d1329f48-9f70-4ea2-a0ca-0be9a87cb8fb\"><div class=\"bn-block-content !p-0\" data-content-type=\"paragraph\"><p class=\"bn-inline-content !text-sm !text-primary-9 font-[Marianne]\"></p></div></div></div><div class=\"bn-block-outer\" data-node-type=\"blockOuter\" data-id=\"28b56d02-ea30-445e-af9d-fd95d8ce3525\"><div class=\"bn-block\" data-node-type=\"blockContainer\" data-id=\"28b56d02-ea30-445e-af9d-fd95d8ce3525\"><div class=\"bn-block-content !p-0\" data-content-type=\"paragraph\"><p class=\"bn-inline-content !text-sm !text-primary-9 font-[Marianne]\">Instance de gouvernance : Pour la mesure 1a : COPIL et COTEC Projet SAPIENS</p></div></div></div></div>\nSous-actions : Mesure 1a - Expérimenter et accompagner de nouvelles pratiques de coopération/mutualisation pour de nouveaux modèles d’entreprises ; Mesure 1b - Expérimenter et accompagner de nouvelles pratiques de coopération/mutualisation pour de nouveaux modèles d’entreprises ; Mesure 2 a et b : Impliquer la CU dans le projet SOCRATE, à travers son adhésion à l’association éponyme ; Mesure 2c : Impliquer la CU dans le projet SOCRATE, à travers son adhésion à l’association éponyme ; Mesure 3a : Filières territoriales de réemploi/recyclage ; Mesure 3b : Filières territoriales de réemploi/recyclage ; Mesure 4 : Instaurer un temps d’échange avec les acteurs de la zone industrielle (industries, HAROPA…), la CCI, les entreprises hors ZIP, les communes ; Mesure 5 a : Bâtir une feuille de route et un plan d’actions partenarial en matière d’économie circulaire ; Mesure 5 b : Bâtir une feuille de route et un plan d’actions partenarial en matière d’économie circulaire"
+  },
+  {
+   "id": 27357,
+   "titre": "5.3.1 Sensibiliser les acteurs à la réduction du volume de déchets à travers le déploiement du PLPDMA",
+   "statut": "En cours",
+   "n_sous_actions": 5,
+   "message": "Collectivité : communauté urbaine, 268 985 habitants\nContexte : Plan Climat Air Energie Territorial 2024-2029 > 5 - Accompagner la transition vers l'économie circulaire et bas carbone\nTitre : 5.3.1 Sensibiliser les acteurs à la réduction du volume de déchets à travers le déploiement du PLPDMA\nDescription : La réduction du volume de déchets produits permet de réduire la quantité d’ordures à traiter ainsi que d’optimiser la collecte. L’efficacité gagnée par ces deux leviers permet la réduction des émissions de GES du secteur. Si le problème se trouve principalement à la source, sur la production d’emballages en trop grande quantité et souvent non-recyclables, les évolutions comportementales des consommateurs permettent d’agir sur le volume produit. L'action vise à réduire le volume de déchets produit sur le territoire de la Communauté urbaine, valoriser les déchets compostables et réduire les émissions de GES associées au traitement des déchets. Mesure 1 : Sensibiliser les ménages et la restauration collective a. Partager un guide des bonnes pratiques de consommation et de gestion des déchets du ménage ; b. Accompagner la restauration collective dans la réduction du gaspillage alimentaire. Mesure 2 : Poursuivre le développement du compostage individuel et collectif a. Accroître le nombre de composteurs collectifs à destination des ménages ; b. Renforcer l’accompagnement aux pratiques de tri des déchets et de compostage. Éléments de calendrier : PLPDMA - 2024/2029\nSous-actions : Mesure 1 a. - Distribuer un kit zéro déchet au nouveaux arrivants sur le territoire avec le guide zéro déchet (Fiche Action PLPDMA 2024/2026 Axe 4 - Action 5). ; Mesure 1 a. - Développer les visites de l'Ecopôle Cycle du Déchet pour les familles. (Fiche Action PLPDMA 2024/2026 Axe 4 - Action 5). ; Mesure 1 a. - Confectionner un guide sur le zéro déchet recenser toutes les astuces pour les appliquer aux quotidien et avoir un répertoire des acteurs locaux qui peuvent accompagner les ménages dans la démarche (Fiche Action PLPDMA 2024/2026 Axe 4 - Action 5 Sensibiliser et promouvoir la consommati ; Mesure 1 b. Identifier les établissements volontaires et réaliser un accompagnement sur la réduction du gaspillage alimentaire => lancement du marché Cuisine en transition en septembre 2025 pour accompagner 15 communes territoire sur le gaspillage alimentaire en restauration collective sur l'année s ; Mesure 2 : renforcement de la distribution actuelle des composteurs individuelles et intensification des ateliers jardinage + état des lieux des sites de compostage collectifs et mise en place de nouveaux sites via un prestataire pour réaliser la mise en place et le suivi. Objectifs PLPDMA 2024/2029"
+  },
+  {
+   "id": 27360,
+   "titre": "5.3.2 Renforcer la collecte des objets et favoriser les pratiques de réparation, de réemploi et de lutte contre le gaspillage alimentaire",
+   "statut": "En cours",
+   "n_sous_actions": 12,
+   "message": "Collectivité : communauté urbaine, 268 985 habitants\nContexte : Plan Climat Air Energie Territorial 2024-2029 > 5 - Accompagner la transition vers l'économie circulaire et bas carbone\nTitre : 5.3.2 Renforcer la collecte des objets et favoriser les pratiques de réparation, de réemploi et de lutte contre le gaspillage alimentaire\nDescription : Chaque habitant du territoire produit en moyenne près de 600 kilos de déchets par an. Malgré le nombre croissant de filières de recyclage, ne pas produire de déchets reste de loin la meilleure des solutions pour éviter tout gaspillage. La loi anti-gaspillage pour une économie circulaire (Agec) dont l’orientation vise à favoriser le réemploi de matériaux et objets. Elle prévoit notamment de « sortir du plastique jetable, mieux informer les consommateurs, lutter contre le gaspillage et pour le réemploi solidaire, agir contre l’obsolescence programmée et mieux produire. » L'action vise à permettre le réemploi des matériaux du BTP et développer des ateliers de réparation et réemploi d’objets électriques et électroniques. Mesure 1 : Étudier les opportunités de valorisation des rebuts et déchets réutilisables des chantiers sur la Communauté urbaine par exemple dans les projets de renouvellement urbain Mesure 2 : Soutenir le développement de cantines solidaires sur le territoire de la Communauté urbaine pour valoriser les invendus alimentaires a. Faire le lien entre milieu associatif et grande distribution b. Soutenir l’essor de projets de cantines solidaires Mesure 3 : Renforcer le soutien des initiatives de l’Economie Sociale et Solidaire développant le réemploi, la réparation et l’allongement de la durée de vie des objets a. Attribution de financements aux projets à fort impact sur l’électronique, la réparation de cycles ; b. Accompagnement à l’élaboration des projets. Éléments de calendrier : Mesure 1 - 2027/2029 Mesure 2 a - 2024/2029 Mesure 2 b - Non défini Mesure 3 - 2025/2029\nSous-actions : Mesure 1 - Mettre en place un comité de pilotage et mobiliser les professionnels (promotion de l'action par emailing), avec une réunion annuelle de bilan ; Mesure 1 - Déterminer avec les professionnels participants au COPIL, le plan d’actions de sensibilisation et les modalités d'intervention (mise en place de conventions ou partenariats) ; Mesure 1 - Organiser 2 fois par an des rencontres dédiées aux professionnels du BTP sur la réduction des déchets, le réemploi et l'économie circulaire ; Mesure 2 a - Etablir un état des lieux des solutions possibles et des pratiques de dons alimentaires et d'élaboration d'un plan d'action ou convention de partenariat ; Mesure 2 a - Créer un réseau de professionnels avec des actualités et retours d’expérience diffusés une fois par trimestre ; Mesure 3 - Mettre en place un comité de pilotage au sein de la Communauté urbaine pour recenser régulièrement les besoins et les actions réalisées des acteurs du réemploi ; Mesure 3 Identifier un interlocuteur de la Communauté urbaine pour centraliser les informations sur les évènements et les actualités des acteurs ; Mesure 3 - Définir les partenariats à mettre en place avec les acteurs du réemploi et les relais en fonction des besoins ; Mesure 3 - Participer financièrement à certains projets qui rentrent dans le cadre du PLPDMA via des appels à projets. 2025 : 7 lauréats accompagnées sur des actions de consommation responsable et de réemploi. ; Mesure 2 a - Faire la promotion des dons alimentaires en accompagnant l’organisation de la distribution des plats non consommés et promouvoir les solutions de vente permettant de réduire la production de déchets comme les emballages (support de communication sur les réseaux sociaux/site internet et ; Mesure 2 a - Réaliser un accompagnement de chaque structure mobilisée : 1- Réaliser un diagnostic sur site (1 visite) sur le gaspillage alimentaire et autre sujet dans chaque établissement 2- Etablir un plan d'action (1 visite) adapté au profil au sein de chaque établissement en fonction des besoin ; Mesure 3 - Mettre en valeur les objets et matériaux issus du réemploi proposé par les structures de réemploi en accompagnant les actions de sensibilisation comme : concours photos, défilé vêtements de seconde main, ventes exceptionnelles thématiques (outils de bricolage, jouets…), exposition itinéra"
+  },
+  {
+   "id": 27362,
+   "titre": "5.3.3 Mettre en place une politique globale de gestion des biodéchets sur le territoire",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté urbaine, 268 985 habitants\nContexte : Plan Climat Air Energie Territorial 2024-2029 > 5 - Accompagner la transition vers l'économie circulaire et bas carbone\nTitre : 5.3.3 Mettre en place une politique globale de gestion des biodéchets sur le territoire\nDescription : L'action vise à : - Généraliser le tri à la source des biodéchets ; - Réduire les déchets et améliorer la valorisation organique ; - Extraire de la matière fermentescible contenue dans les bacs OMR (ordures ménagères résiduelles) ; - Réduire les déchets incinérés et limiter les impacts de la TGAP (Taxe générale sur les activités polluantes) sur la valorisation énergétique. Enjeu d’économie circulaire fort, par retour à la terre de la matière fermentescible ; - Possibilité de créer des énergies vertes par couplage d’une station bioGNV si installation d’un méthaniseur. Mesure 1 - Renforcer la pratique du compostage individuel dans les maisons individuelles - distribution de coposeteurs - communication et formation des usagers - suivi de la pratique Mesure 2 - Renforcer la pratique du compostage partagé dans les logements collectifs - équiper les foyers en habitat collectif volontaires ou qui ne sont pas desservis par la collecte en porte-à-porte des biodéchets Mesure 3 - Déployer la pratique du compostage dans les restaurants collectifs - doter les restaurants collectifs (scolaires et médico-sociaux) des communes rurales non couvertes par une collecte séparée - installation et distribution de matériel - communication et formation des usagers - suivi des pratiques - recrutement de maîtres composteurs - identification des sites volontaires Mesure 4 - Déployer massivement la collecte en point d'apport volontaire • Déploiement d’une collecte en points d’apport volontaire sur toutes les communes du territoire à destination des ménages, ainsi que de quelques professionnels assimilés dans les communes rurales et touristiques (hors Etretat car ciblée par une collecte en porte-à-porte) • Etude implantation PAV • Expérimentation de la collecte communes + quartier VDH • Déploiement de la collecte sur le territoire LHSM • Campagne de communication sur l’élargissement des consignes Mesure 5 - Déployer la collecte en Porte-à-Porte des professionnels assimilés a. Déployer une collecte en porte-à-porte pour les professionnels assimilés qui ne sont pas visés par le compostage en établissement b. Concertation avec les professionnels Mesure 6 - Faire évoluer les consignes de tri de la collecte en porte-à-porte des ménages Elargir les consignes de tri à tous les déchets alimentaires et limiter la présence de déchets verts sur le secteur existant de collecte en porte-à-porte des ménages"
+  },
+  {
+   "id": 27414,
+   "titre": "5.4.1 Intégrer les enjeux climat air énergie dans le PLUi",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté urbaine, 268 985 habitants\nContexte : Plan Climat Air Energie Territorial 2024-2029 > 5 - Accompagner la transition vers l'économie circulaire et bas carbone\nTitre : 5.4.1 Intégrer les enjeux climat air énergie dans le PLUi\nDescription : La Communauté urbaine du Havre est engagée depuis juillet 2021 dans l’élaboration de son premier Plan Local d’Urbanisme intercommunal (PLUi). Le PLUI en cours d’élaboration est un outil majeur de la mise en œuvre du PCAET, et particulièrement du volet adaptation. Il fixera des principes permettant au territoire d’être plus résilient dans les années à venir. Le PLUi, par son horizon temporel (2021-2035) constitue un levier stratégique pour mettre en œuvre des modes de développement plus sobres en foncier. Préserver les sols et la biodiversité, limiter les atteintes aux espaces agricoles, repenser les modes de production de la ville… Il contribuera à l’arrêt de l’étalement urbain et veillera à mener une politique d’aménagement du territoire et de planification économe du foncier, en réduisant la consommation d’espaces agricoles et naturels. Son élaboration initiée en juillet 2021 s’inscrit dans une logique de limitation d’artificialisation réglementaire, et une orientation forte d’incitation à la désimperméabilisation des sols. Mesure 1 : Améliorer la connaissance et l'intégration des enjeux énergétiques et climatiques dans le PLUi a. Associer l’Agence d’urbanisme pour accroître la connaissance des acteurs associés à la démarche b. Intégrer les sujets climat – environnement dans la démarche d’élaboration du PLUi Mesure 1 : Rédiger des orientations d'aménagement et des règles d'urbanisme intégrant la prise en compte des enjeux énergétiques et climatiques, d’atténuation et d’adaptation En assurer leurs applications par les services instructeurs des autorisations de droit des sol"
+  },
+  {
+   "id": 29278,
+   "titre": "1.1 Structurer une gouvernance commune PCAET / TETE / SDE",
+   "statut": "Réalisé",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté urbaine, 268 985 habitants\nContexte : Plan d'action Exemplarité interne (TETE) 2024 - 2027 > 1 - Compléter l'organisation interne de la collectivité pour faciliter le pilotage des actions Climat Air Energie\nTitre : 1.1 Structurer une gouvernance commune PCAET / TETE / SDE\nDescription : Structurer et installer une gouvernance commune autour des plans d'action et politiques publiques de transition de la collectivité. Instance de gouvernance : Commission climat composée de 8 VP, de la Direction générale et de l'équipe projet Climat Equipe projet Climat composée de la Directrice Coopération et territoire, de la cheffe de service TE, de la cheffe de secteur Energie du territoire, et de la cheffe de projet Climat et adaptation."
+  },
+  {
+   "id": 29279,
+   "titre": "Identifier des référents climat dans les directions et services",
+   "statut": "Réalisé",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté urbaine, 268 985 habitants\nContexte : Plan d'action Exemplarité interne (TETE) 2024 - 2027 > 1 - Compléter l'organisation interne de la collectivité pour faciliter le pilotage des actions Climat Air Energie\nTitre : Identifier des référents climat dans les directions et services\nDescription : identification dans chaque direction d'un référent Territoire Engagé, en capacité de faire remonter les informations et de compléter l'avancement des actions et indicateurs sur la plateforme. Permettre aux référents de bénéficier de formations / sensibilisations sur les transitions, afin d'accompagner la montée en compétence et l'intégration des enjeux Climat Air Energie dans l'activité quotidienne des directions Créer une dynamique transversale sur les transitions"
+  },
+  {
+   "id": 29280,
+   "titre": "2.1 Réaliser le SPASER de manière transversale et partagée",
+   "statut": "Réalisé",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté urbaine, 268 985 habitants\nContexte : Plan d'action Exemplarité interne (TETE) 2024 - 2027 > 2 - Poursuivre et renforcer la politique d'achat responsable\nTitre : 2.1 Réaliser le SPASER de manière transversale et partagée\nDescription : Début 2024, la Communauté urbaine a lancé l’élaboration de son SPASER, alternant les phases de travail technique et d’échanges stratégiques avec les diverses parties prenantes, en veillant à associer les partenaires extérieurs. La Communauté urbaine a déjà développé un certain nombre de pratiques vertueuses concernant ses marchés. Ainsi sur les 140 marchés >90 000€ publiés en 2023 par la Communauté urbaine : - 60% comportent au moins une clause environnementale. Toutefois, ce chiffre est à prendre avec précaution en raison de l’absence de données exhaustives et fiables à ce jour. Le suivi des indicateurs est un axe de progrès à inscrire dans le futur SPASER. - 10% comportent au moins une considération sociale (taux national : 12,4% d’après le Recensement Economique de l’Achat Public 2022 - collectivités territoriales). Le nombre d’heures d’insertion générées par les marchés publics de la Communauté urbaine de 2019 à 2023 dépasse les 98 000 heures. L'objectif est de présenter un SPASER s’inscrivant pleinement dans la continuité des actions déjà réalisées. Toutefois il suppose de redoubler d’efforts et de systématiser les démarches, en développant les outils facilitant les achats durables, une meilleure connaissance des secteurs concernés par ces types d’achats, en tenant informés les acteurs et en les mobilisant pour l’insertion de considérations environnementales et sociales dans leurs contrats. Instance de gouvernance : CAO Délégué communautaire aux achats 5 VP Le calendrier d’élaboration du SPASER est décliné comme suit, alternant les phases de travail technique et d’échanges stratégiques avec les diverses parties prenantes : - Janvier à mai : diagnostic et analyse juridique - Avril à septembre : échanges sur les objectifs avec les membres de la CAO et les opérateurs économiques - Mai à juillet : travail sur les aspects techniques et opérationnels - Septembre : conférence des maires : arbitrages sur les objectifs - Septembre à octobre : formalisation du document - Décembre : adoption en Conseil communautaire Le SPASER est entré en vigueur dès 2025, jusqu’en 2027. Sera alors établi un 1er bilan, de manière à ajuster les objectifs du SPASER suivant."
+  },
+  {
+   "id": 29282,
+   "titre": "3.2 Expérimenter une méthode d'analyse des comptes administratifs sur l'investissement",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté urbaine, 268 985 habitants\nContexte : Plan d'action Exemplarité interne (TETE) 2024 - 2027 > 3 - Mettre en place le budget vert\nTitre : 3.2 Expérimenter une méthode d'analyse des comptes administratifs sur l'investissement\nDescription : Expérimentation de la mise en œuvre du budget vert sur le CA de la collectivité, suivant les obligations règlementaires détaillée dans le décret d'application de la loi de finance de 2024 Uniquement sur Axe 1 ; 17 natures comptables"
+  },
+  {
+   "id": 29283,
+   "titre": "3.3 Déployer l'analyse verte du budget sur le BP",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté urbaine, 268 985 habitants\nContexte : Plan d'action Exemplarité interne (TETE) 2024 - 2027 > 3 - Mettre en place le budget vert\nTitre : 3.3 Déployer l'analyse verte du budget sur le BP\nDescription : aucune"
+  },
+  {
+   "id": 29284,
+   "titre": "4.1 Identifier un pilier spécifique aux transitions écologiques dans le plan de formation et proposer un programme de sensibilisation aux agents",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté urbaine, 268 985 habitants\nContexte : Plan d'action Exemplarité interne (TETE) 2024 - 2027 > 4 - Sensibiliser et former les élus et agents aux enjeux Climat Air Energie\nTitre : 4.1 Identifier un pilier spécifique aux transitions écologiques dans le plan de formation et proposer un programme de sensibilisation aux agents\nDescription : Identifier un pilier spécifique aux transitions écologiques dans le plan de formation et proposer un programme de sensibilisation aux agents pour favoriser l'acculturation (fresques, 2 tonnes, nos vies bas carbone)"
+  },
+  {
+   "id": 29286,
+   "titre": "4.2 - Organiser un séminaire pour les directeurs et chefs de service sur les enjeux climat air énergie du territoire",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté urbaine, 268 985 habitants\nContexte : Plan d'action Exemplarité interne (TETE) 2024 - 2027 > 4 - Sensibiliser et former les élus et agents aux enjeux Climat Air Energie\nTitre : 4.2 - Organiser un séminaire pour les directeurs et chefs de service sur les enjeux climat air énergie du territoire\nDescription : aucune"
+  },
+  {
+   "id": 29287,
+   "titre": "4.3 - Organiser un cycle de formation/sensibilisation annuel pour les élus et maires du territoire",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté urbaine, 268 985 habitants\nContexte : Plan d'action Exemplarité interne (TETE) 2024 - 2027 > 4 - Sensibiliser et former les élus et agents aux enjeux Climat Air Energie\nTitre : 4.3 - Organiser un cycle de formation/sensibilisation annuel pour les élus et maires du territoire\nDescription : Organiser un cycle de formation/sensibilisation annuel pour les élus et maires du territoire (thématique annuelle - ex 2024 : adaptation)"
+  },
+  {
+   "id": 29288,
+   "titre": "5.1 - Communiquer en interne sur le PCAET et le label, et sur son avancement",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté urbaine, 268 985 habitants\nContexte : Plan d'action Exemplarité interne (TETE) 2024 - 2027 > 5 - Elaborer une stratégie de communication visant à valoriser la démarche\nTitre : 5.1 - Communiquer en interne sur le PCAET et le label, et sur son avancement\nDescription : Utiliser les outils de communication interne de la collectivité pour intégrer les transitions dans le quotidien des agents de la collectivité et accompagner le changement - Intracom - Magasine Acteurs - Evènements à destination des agents ? Chantier de plantation, RDV Climat ?"
+  },
+  {
+   "id": 29289,
+   "titre": "5.2 - Utiliser les outils de communication de la collectivité pour donner de l'information de qualité sur l'engagement de la CU et les enjeux au public et aux parties-prenantes du territoire",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté urbaine, 268 985 habitants\nContexte : Plan d'action Exemplarité interne (TETE) 2024 - 2027 > 5 - Elaborer une stratégie de communication visant à valoriser la démarche\nTitre : 5.2 - Utiliser les outils de communication de la collectivité pour donner de l'information de qualité sur l'engagement de la CU et les enjeux au public et aux parties-prenantes du territoire\nDescription : Communication à l'attention du grand public sur les réseaux sociaux (insta, linked in, facebook) et sur le magazine Territoire sur les thématiques suivantes - Elaboration et adoption du PCAET et label TETE - Mobilité durable (plan vélo, tram, transports en commun, etc.) - Energie renouvelables et de récupération (ex réseau de chaleur, photovoltaique) - Biodiversité (plan nature, charte forestière,…) - Déchets et économie circulaire (réinventif, tri, biodéchets) - Urbanisme / scot"
+  },
+  {
+   "id": 29290,
+   "titre": "6.1 - Structurer l'accompagnement des communes sur les sujets climat air énergie",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté urbaine, 268 985 habitants\nContexte : Plan d'action Exemplarité interne (TETE) 2024 - 2027 > 6 - Impulser une dynamique territoriale autour des sujets Climat Air Energie\nTitre : 6.1 - Structurer l'accompagnement des communes sur les sujets climat air énergie\nDescription : Structurer l'accompagnement des communes sur les sujets climat (cohérence, éléments de langage, aide aux projets, boite à outils, capitalisation)"
+  },
+  {
+   "id": 29291,
+   "titre": "6.2 - Inciter les communes à se lancer dans la démarche TETE",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté urbaine, 268 985 habitants\nContexte : Plan d'action Exemplarité interne (TETE) 2024 - 2027 > 6 - Impulser une dynamique territoriale autour des sujets Climat Air Energie\nTitre : 6.2 - Inciter les communes à se lancer dans la démarche TETE\nDescription : aucune"
+  },
+  {
+   "id": 29292,
+   "titre": "7.1 - Mettre en place des ateliers de travail avec l’ensemble des directions opérationnelles autour des sujets Climat Air Energie",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté urbaine, 268 985 habitants\nContexte : Plan d'action Exemplarité interne (TETE) 2024 - 2027 > 7 - Renforcer la transversalité et l'évaluation des projets Climat Air Energie\nTitre : 7.1 - Mettre en place des ateliers de travail avec l’ensemble des directions opérationnelles autour des sujets Climat Air Energie\nDescription : Mettre en place des ateliers de travail avec l’ensemble des directions opérationnelles autour des sujets Climat Air Energie, en s'appuyant sur la CDGT"
+  },
+  {
+   "id": 29293,
+   "titre": "7.2 -  Mettre en place les outils de suivi et d'évaluation des actions et des critères DD dans les marchés publics",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté urbaine, 268 985 habitants\nContexte : Plan d'action Exemplarité interne (TETE) 2024 - 2027 > 7 - Renforcer la transversalité et l'évaluation des projets Climat Air Energie\nTitre : 7.2 - Mettre en place les outils de suivi et d'évaluation des actions et des critères DD dans les marchés publics\nDescription : Mettre en place les outils de suivi et d'évaluation des actions et des critères DD dans les marchés publics"
+  },
+  {
+   "id": 29294,
+   "titre": "7.3 - Développer la culture d’évaluation des politiques publiques à travers des indicateurs chiffrés",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté urbaine, 268 985 habitants\nContexte : Plan d'action Exemplarité interne (TETE) 2024 - 2027 > 7 - Renforcer la transversalité et l'évaluation des projets Climat Air Energie\nTitre : 7.3 - Développer la culture d’évaluation des politiques publiques à travers des indicateurs chiffrés\nDescription : Développer la culture d’évaluation des politiques publiques à travers des indicateurs chiffrés"
+  },
+  {
+   "id": 29295,
+   "titre": "2.2 Former les agents et sensibiliser les élus aux marchés publics responsables",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté urbaine, 268 985 habitants\nContexte : Plan d'action Exemplarité interne (TETE) 2024 - 2027 > 2 - Poursuivre et renforcer la politique d'achat responsable\nTitre : 2.2 Former les agents et sensibiliser les élus aux marchés publics responsables\nDescription : Former les agents et sensibiliser les élus aux marchés publics responsables"
+  },
+  {
+   "id": 37484,
+   "titre": "Mise en place du SI Energie",
+   "statut": "En retard",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté urbaine, 268 985 habitants\nContexte : Schéma Directeur des Energies > 1.2.1 Améliorer la performance énergétique des bâtiments tertiaires publics communautaires et communaux\nTitre : Mise en place du SI Energie\nDescription : Mise en place un Système d'Information afin de centraliser les données de consommations des bâtiments communautaires. Instance de gouvernance : COTECH et COPIL organisés par le Service Energie avec la DSIIN Éléments de calendrier : Difficulté de mise en place de l'outil avec le prestataire"
+  },
+  {
+   "id": 37494,
+   "titre": "Définition du plan d'actions de rénovation du patrimoine (selon DEET)",
+   "statut": "À venir",
+   "n_sous_actions": 1,
+   "message": "Collectivité : communauté urbaine, 268 985 habitants\nContexte : Schéma Directeur des Energies > 1.2.1 Améliorer la performance énergétique des bâtiments tertiaires publics communautaires et communaux\nTitre : Définition du plan d'actions de rénovation du patrimoine (selon DEET)\nDescription : Les bâtiments les plus énergivores seront identifiés en priorité et bénéficieront d'opérations ultérieures de rénovations énergétiques.\nSous-actions : 2024 : déclaration des consommations 2023"
+  },
+  {
+   "id": 37499,
+   "titre": "Rénovation énergétique du bâtiment Curie et intégration d'ENR en toiture",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté urbaine, 268 985 habitants\nContexte : Schéma Directeur des Energies > 1.2.1 Améliorer la performance énergétique des bâtiments tertiaires publics communautaires et communaux\nTitre : Rénovation énergétique du bâtiment Curie et intégration d'ENR en toiture\nDescription : Ce bâtiment à usage de bureaux pour la Direction du Cycle de l'Eau et le Service Marché a été construit en 2012. Il est énergétiquement performant mais les usagers ressente un inconfort thermique contant (trop froid en hiver, trop chaud en été). Un dispositif hybride de production d'électricité renouvelable en autoconsommation ou ACC (couplé panneaux photovoltaïques et petites éoliennes à axe horizontal) est envisagé en toiture. Instance de gouvernance : Présentation au Directeur DEMB."
+  },
+  {
+   "id": 37503,
+   "titre": "Rénovation énergétique du gymnase de Saint-Romain de Colbosc",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté urbaine, 268 985 habitants\nContexte : Schéma Directeur des Energies > 1.2.1 Améliorer la performance énergétique des bâtiments tertiaires publics communautaires et communaux\nTitre : Rénovation énergétique du gymnase de Saint-Romain de Colbosc\nDescription : Rénovation de l'ancien gymnase (un nouvel équipement a été construit à proximité) Instance de gouvernance : présentation au Directeur DEMB"
+  },
+  {
+   "id": 37514,
+   "titre": "Rénovation énergétique de la maison du territoire de Criquetot l'Esneval",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté urbaine, 268 985 habitants\nContexte : non renseigné\nTitre : Rénovation énergétique de la maison du territoire de Criquetot l'Esneval\nDescription : isolation thermique, équipement de CVC, remplacement des menuiseries, etc. Instance de gouvernance : Présentation au Directeur DEMB"
+  },
+  {
+   "id": 37526,
+   "titre": "Rénovation énergétique du 108 Boulevard de Strasbourg",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté urbaine, 268 985 habitants\nContexte : Schéma Directeur des Energies > 1.2.1 Améliorer la performance énergétique des bâtiments tertiaires publics communautaires et communaux\nTitre : Rénovation énergétique du 108 Boulevard de Strasbourg\nDescription : <div class=\"bn-block-group\" data-node-type=\"blockGroup\"><div class=\"bn-block-outer\" data-node-type=\"blockOuter\" data-id=\"157e61ee-38e6-4384-9624-2c639559ee49\"><div class=\"bn-block\" data-node-type=\"blockContainer\" data-id=\"157e61ee-38e6-4384-9624-2c639559ee49\"><div class=\"bn-block-content !p-0\" data-content-type=\"paragraph\"><p class=\"bn-inline-content !text-sm !text-primary-9 font-[Marianne]\">Réaménagement du R+1 d'un immeuble à usage de bureaux afin d'y installer les services de la DSIIN.</p></div></div></div><div class=\"bn-block-outer\" data-node-type=\"blockOuter\" data-id=\"abb8d23a-bcf6-4254-9024-060231384bb9\"><div class=\"bn-block\" data-node-type=\"blockContainer\" data-id=\"abb8d23a-bcf6-4254-9024-060231384bb9\"><div class=\"bn-block-content !p-0\" data-content-type=\"paragraph\"><p class=\"bn-inline-content !text-sm !text-primary-9 font-[Marianne]\">Des travaux d'améliorations énergétiques sont liés (CVC, isolation, changement des menuiseries).</p></div></div></div></div>"
+  },
+  {
+   "id": 37530,
+   "titre": "Rénovation énergétique du bâtiment du Parc Hauser",
+   "statut": "Réalisé",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté urbaine, 268 985 habitants\nContexte : Schéma Directeur des Energies > 1.2.1 Améliorer la performance énergétique des bâtiments tertiaires publics communautaires et communaux\nTitre : Rénovation énergétique du bâtiment du Parc Hauser\nDescription : Réaménagement d'un immeuble à usage de bureaux afin d'améliorer le confort des services de la DVM. Des travaux d'méliorations énergétiques sont liés (CVC, isolation, changement des menuiseries)."
+  },
+  {
+   "id": 37542,
+   "titre": "Rénovation énergétique de logements communautaires",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté urbaine, 268 985 habitants\nContexte : non renseigné\nTitre : Rénovation énergétique de logements communautaires\nDescription : Rénovation énergétique de 3 logements rattachés à la DCE (Direction Cycle de l'Eau) : Radicatel, Saint-Laurent de Brèvedent et Conti"
+  },
+  {
+   "id": 37544,
+   "titre": "Extension RCU SDCMG",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté urbaine, 268 985 habitants\nContexte : Schéma Directeur des Energies > 3.1.1 Consolider et développer les réseaux de chaleur existants\nTitre : Extension RCU SDCMG\nDescription : Extension du réseau de chaleur du Mont-Gaillard - Le Havre Instance de gouvernance : COPIL et COTECH avec élus et services communautaires Éléments de calendrier : Etudes en cours. Avenant à la DSP nécessaire avant le lancement des travaux."
+  },
+  {
+   "id": 37562,
+   "titre": "Extension RCU RESOCEANE",
+   "statut": "En cours",
+   "n_sous_actions": 2,
+   "message": "Collectivité : communauté urbaine, 268 985 habitants\nContexte : Schéma Directeur des Energies > 3.1.1 Consolider et développer les réseaux de chaleur existants\nTitre : Extension RCU RESOCEANE\nDescription : Extension du réseau de chaleur Le Havre Sud dit RESOCEANE et interconnexion avec le RCU SDCMG. Suite au raccordement à TERF (Total Energies Raffinerie France), l'alimentation en chaleur fatale est envisagée via SAVERGLASS et les CAFES LEGAL. En 2024, la centrale BIOSYNERGY alimente le réseau en chaleur décarbonée. Instance de gouvernance : COPIL et COTECH réguliers avec les élus et le délégataire DALKIA-CRAM.\nSous-actions : 2024: TERF et BIOSYNERGIE alimentent les réseaux ; 2023 - 2025 : travaux d'extension"
+  },
+  {
+   "id": 37613,
+   "titre": "Extension du RCU SECGO",
+   "statut": "En cours",
+   "n_sous_actions": 3,
+   "message": "Collectivité : communauté urbaine, 268 985 habitants\nContexte : Schéma Directeur des Energies > 3.1.1 Consolider et développer les réseaux de chaleur existants\nTitre : Extension du RCU SECGO\nDescription : Extension du réseau de chaleur de Gonfreville l'Orcher Instance de gouvernance : COPIL et COTECH avec les élus et services communautaires, la Ville de Gonfreville l'Orcher et le délégataire CRAM.\nSous-actions : 2024 : études de faisabilité ; 2025 : études ; 2026: travaux"
+  },
+  {
+   "id": 37622,
+   "titre": "Création de nouveaux réseaux de chaleur",
+   "statut": "À venir",
+   "n_sous_actions": 2,
+   "message": "Collectivité : communauté urbaine, 268 985 habitants\nContexte : Schéma Directeur des Energies > 3.1.1 Consolider et développer les réseaux de chaleur existants\nTitre : Création de nouveaux réseaux de chaleur\nDescription : 2024 : études de faisabilité pour la création de RCU (Montivilliers, St Romain de Colbosc, Criquetot l’Esneval, Octeville) 2025 : études de faisabilités complémentaires (Harfleur, Gainneville, Angerville l’Orcher, Rolleville) Ressources étudiées : bois-énergie, solaire thermique, chaleur fatale. Instance de gouvernance : rencontres avec les élus des communes du territoire\nSous-actions : 2024 : études de faisabilité pour la création de RCU (Montivilliers, St Romain de Colbosc, Criquetot l’Esneval, Octeville) ; 2025 : études de faisabilités complémentaires (Harfleur, Gainneville, Angerville l’Orcher, Rolleville)"
+  },
+  {
+   "id": 37623,
+   "titre": "Développer des réseaux de chaleur communaux",
+   "statut": "A discuter",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté urbaine, 268 985 habitants\nContexte : Schéma Directeur des Energies > 3.2.4 Réaliser une étude de gisement bois-énergie en vue de développer la filière et gérer durablement la ressource biomasse\nTitre : Développer des réseaux de chaleur communaux\nDescription : Sensibilisation des communes du territoire. Animation de la filière bois-énergie. Accompagnement des communes désireuses de créer un réseau de chaleur communal."
+  },
+  {
+   "id": 37624,
+   "titre": "Déploiement GTB - Gestion Technique du Patrimoine",
+   "statut": "Réalisé",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté urbaine, 268 985 habitants\nContexte : non renseigné\nTitre : Déploiement GTB - Gestion Technique du Patrimoine\nDescription : Logiciel de Gestion Technique du Patrimoine déployé et utilisé par l’ensemble des agents intervenants sur le patrimoine bâti (contrôle et gestion administrative, technique et financière) : GTB."
+  },
+  {
+   "id": 37626,
+   "titre": "Acquisition d’un logiciel d’Hypervision",
+   "statut": "En cours",
+   "n_sous_actions": 3,
+   "message": "Collectivité : communauté urbaine, 268 985 habitants\nContexte : Schéma Directeur des Energies > 1.2.3 Gérer les bâtiments durablement (grâce au projet GEMINI)\nTitre : Acquisition d’un logiciel d’Hypervision\nDescription : 2024 : Acquisition d’un logiciel d’Hypervision permettant une vision en temps réel des données du patrimoine (énergie, maintenance) + récupération des données venant des bornes IRVE pour répondre au Décret Tertiaire. 2024: Mise en place d’un hyperviseur au Stade Océane. 2025 - 2026 : Intégration des bâtiments les plus énergivores dans le logiciel d’Hypervision pour analyser leurs utilisations et fonctionnements. Ceci permettra d’optimiser le pilotage de nos bâtiments et ainsi de réduire les consommations d’énergie et l’impact carbone.\nSous-actions : 2024 : Acquisition d’un logiciel d’Hypervision permettant une vision en temps réel des données du patrimoine (énergie, maintenance) + récupération des données venant des bornes IRVE pour répondre au Décret Tertiaire. ; 2024: Mise en place d’un hyperviseur au Stade Océane. ; 2025 - 2026 : Intégration des bâtiments les plus énergivores dans le logiciel d’Hypervision pour analyser leurs utilisations et fonctionnements."
+  },
+  {
+   "id": 37628,
+   "titre": "Mise en œuvre de GEMINI",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté urbaine, 268 985 habitants\nContexte : Schéma Directeur des Energies > 1.2.3 Gérer les bâtiments durablement (grâce au projet GEMINI)\nTitre : Mise en œuvre de GEMINI\nDescription : Mise en place du projet permettant de suivre en temps réel (jumeau numérique) la production PV, les IRVE, la qualité de l'air, la qualité de l'eau, le MPGP grâce à la GED et l'IA, protocole BUS."
+  },
+  {
+   "id": 39055,
+   "titre": "Diffuser un clausier et des fiches \"bonnes pratiques\", les faire évoluer, recueillir les RETEX",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté urbaine, 268 985 habitants\nContexte : Schéma de promotion des Achats Responsables 2025-2027 > Axe 1 : EN INTERNE, METTRE A DISPOSITION DES OUTILS\nTitre : Diffuser un clausier et des fiches \"bonnes pratiques\", les faire évoluer, recueillir les RETEX\nDescription : aucune"
+  },
+  {
+   "id": 39057,
+   "titre": "Formaliser un cycle de formation à l’attention des acheteurs,  des gestionnaires de marchés et des techniciens ",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté urbaine, 268 985 habitants\nContexte : Schéma de promotion des Achats Responsables 2025-2027 > Axe 1 : EN INTERNE, METTRE A DISPOSITION DES OUTILS\nTitre : Formaliser un cycle de formation à l’attention des acheteurs, des gestionnaires de marchés et des techniciens\nDescription : aucune"
+  },
+  {
+   "id": 39062,
+   "titre": " Organiser une édition des Rencontres de la commande  publique en 2025",
+   "statut": "Réalisé",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté urbaine, 268 985 habitants\nContexte : Schéma de promotion des Achats Responsables 2025-2027 > Axe 2 : DONNER DE LA VISIBILITE, PARTAGER LA FEUILLE DE ROUTE\nTitre : Organiser une édition des Rencontres de la commande publique en 2025\nDescription : aucune"
+  },
+  {
+   "id": 39070,
+   "titre": "Sensibiliser les élus aux marchés publics responsables",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté urbaine, 268 985 habitants\nContexte : Schéma de promotion des Achats Responsables 2025-2027 > Axe 1 : EN INTERNE, METTRE A DISPOSITION DES OUTILS\nTitre : Sensibiliser les élus aux marchés publics responsables\nDescription : aucune"
+  },
+  {
+   "id": 39072,
+   "titre": "Renouveler l’adhésion à RANCOPER, réseau des acteurs  normands pour la commande publique éco-responsable",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté urbaine, 268 985 habitants\nContexte : Schéma de promotion des Achats Responsables 2025-2027 > Axe 1 : EN INTERNE, METTRE A DISPOSITION DES OUTILS\nTitre : Renouveler l’adhésion à RANCOPER, réseau des acteurs normands pour la commande publique éco-responsable\nDescription : aucune"
+  },
+  {
+   "id": 39074,
+   "titre": "Développer en interne le recours au Guichet Vert proposé  par RANCOPER",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté urbaine, 268 985 habitants\nContexte : Schéma de promotion des Achats Responsables 2025-2027 > Axe 1 : EN INTERNE, METTRE A DISPOSITION DES OUTILS\nTitre : Développer en interne le recours au Guichet Vert proposé par RANCOPER\nDescription : aucune"
+  },
+  {
+   "id": 39075,
+   "titre": "Réaliser un bilan annuel du schéma de promotion des achats  écologiquement et socialement responsables",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté urbaine, 268 985 habitants\nContexte : Schéma de promotion des Achats Responsables 2025-2027 > Axe 1 : EN INTERNE, METTRE A DISPOSITION DES OUTILS\nTitre : Réaliser un bilan annuel du schéma de promotion des achats écologiquement et socialement responsables\nDescription : aucune"
+  },
+  {
+   "id": 39076,
+   "titre": "Faire connaitre le SPASER en interne et valoriser les  réalisations en faveur de l’achat public durable",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté urbaine, 268 985 habitants\nContexte : Schéma de promotion des Achats Responsables 2025-2027 > Axe 1 : EN INTERNE, METTRE A DISPOSITION DES OUTILS\nTitre : Faire connaitre le SPASER en interne et valoriser les réalisations en faveur de l’achat public durable\nDescription : aucune"
+  },
+  {
+   "id": 39078,
+   "titre": "Constituer et missionner une équipe SPASER",
+   "statut": "A discuter",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté urbaine, 268 985 habitants\nContexte : Schéma de promotion des Achats Responsables 2025-2027 > Axe 1 : EN INTERNE, METTRE A DISPOSITION DES OUTILS\nTitre : Constituer et missionner une équipe SPASER\nDescription : aucune"
+  },
+  {
+   "id": 39080,
+   "titre": " Mener une campagne annuelle de recensement des besoins  couvrant l’ensemble des achats de la CU ",
+   "statut": "Réalisé",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté urbaine, 268 985 habitants\nContexte : Schéma de promotion des Achats Responsables 2025-2027 > Axe 2 : DONNER DE LA VISIBILITE, PARTAGER LA FEUILLE DE ROUTE\nTitre : Mener une campagne annuelle de recensement des besoins couvrant l’ensemble des achats de la CU\nDescription : aucune"
+  },
+  {
+   "id": 39081,
+   "titre": "Valoriser les actions, vis-à-vis des partenaires extérieurs",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté urbaine, 268 985 habitants\nContexte : Schéma de promotion des Achats Responsables 2025-2027 > Axe 2 : DONNER DE LA VISIBILITE, PARTAGER LA FEUILLE DE ROUTE\nTitre : Valoriser les actions, vis-à-vis des partenaires extérieurs\nDescription : aucune"
+  },
+  {
+   "id": 39082,
+   "titre": "Etablir la part de marchés comportant des critères et/ou  clauses environnementales ou sociales",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté urbaine, 268 985 habitants\nContexte : Schéma de promotion des Achats Responsables 2025-2027 > Axe 3 : SUIVRE ET PILOTER LE SPASER\nTitre : Etablir la part de marchés comportant des critères et/ou clauses environnementales ou sociales\nDescription : aucune"
+  },
+  {
+   "id": 39083,
+   "titre": "Mettre à jour le tableau de bord SPASER Le Havre Seine  Métropole 2025-2027",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté urbaine, 268 985 habitants\nContexte : Schéma de promotion des Achats Responsables 2025-2027 > Axe 3 : SUIVRE ET PILOTER LE SPASER\nTitre : Mettre à jour le tableau de bord SPASER Le Havre Seine Métropole 2025-2027\nDescription : aucune"
+  },
+  {
+   "id": 39207,
+   "titre": "Mise en œuvre de l'AMI 1 _ ombrières photovoltaïques",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté urbaine, 268 985 habitants\nContexte : Schéma Directeur des Energies > 3.3.2 Accélérer le développement de l'énergie PV\nTitre : Mise en œuvre de l'AMI 1 _ ombrières photovoltaïques\nDescription : 3 parkings à équiper sur la commune d'Octeville sur Mer = 800 kWc 1 parking à équiper sur la commune du Havre (aéroport) = 500 kWc"
+  }
+ ]
+}

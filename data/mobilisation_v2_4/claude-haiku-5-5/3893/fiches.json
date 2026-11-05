@@ -1,0 +1,711 @@
+{
+ "collectivite": {
+  "id": 3893,
+  "nom": "CA Privas Centre Ardèche",
+  "type_code": "CA",
+  "type_label": "communauté d'agglomération",
+  "population": 45008
+ },
+ "fiches": [
+  {
+   "id": 78901,
+   "titre": "Fiche action 0.1 - Assurer la gouvernance, le pilotage, le suivi et l’évaluation du PCAET",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté d'agglomération, 45 008 habitants\nContexte : PCAET > Axe 0 - Actions transversales\nTitre : Fiche action 0.1 - Assurer la gouvernance, le pilotage, le suivi et l’évaluation du PCAET\nDescription : Action transervale. • S’assurer de la bonne réalisation/appropriation du PCAET • Suivre et évaluer les actions afin de pouvoir les ajuster si besoin (difficultés de mise en oeuvre, etc) • Présenter aux pilotes et partenaires les niveaux de réalisation et les impacts sur le territoire (GES évités, kWh produits ou évités) • Mobiliser et renforcer autour de la dynamique du PCAET • Informer les parties prenantes sur la mise en oeuvre, les réussites et les difficultés Éléments de calendrier : Année 1 : constitution de la gouvernance Années suivantes : suivi, évaluation, ajustements et pilotage du PCAET"
+  },
+  {
+   "id": 78902,
+   "titre": "Fiche action 0.2 - Sensibiliser et mobiliser autour de l’engagement de la CAPCA pour le climat, l’air et la qualité de vie locale",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté d'agglomération, 45 008 habitants\nContexte : PCAET > Axe 0 - Actions transversales\nTitre : Fiche action 0.2 - Sensibiliser et mobiliser autour de l’engagement de la CAPCA pour le climat, l’air et la qualité de vie locale\nDescription : Action transversale. • Communiquer et informer le grand public sur la démarche du PCAET • Assurer la mobilisation de l’ensemble des acteurs du territoire • Sensibiliser et accompagner aux changements de pratiques • Valoriser les actions réalisées, inciter les acteurs à la reproduction de réussites Éléments de calendrier : Année 1-2 : mobilisation des acteurs intéressés, définition des événements (journée mondiale du climat le 8/12), Année 2-3 : test d’une semaine d’animation dans le cadre de la journée mondiale du Climat Année 3-6 : Déploiement des outils de communication et évènements annuels"
+  },
+  {
+   "id": 78903,
+   "titre": "Fiche action 1.1 - Massifier la rénovation thermique exemplaire du bâti public (notamment en promouvant le bois local et le solaire\nphotovoltaïque dans les projets)",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté d'agglomération, 45 008 habitants\nContexte : PCAET > Axe 1 - Se loger et travailler dans des bâtiments sains et économes\nTitre : Fiche action 1.1 - Massifier la rénovation thermique exemplaire du bâti public (notamment en promouvant le bois local et le solaire photovoltaïque dans les projets)\nDescription : Nouvelle sur la CAPCA mais intégrée aux missions globales des communes forestières et de Fibois Ardèche-Drôme Valoriser le matériau bois pour ses avantages dans les projets de rénovation / réhabilitation et son intérêt dans le développement de circuits courts / Production d’EnR et maîtrise de l’énergie. • Faire connaître les avantages du bois dans les rénovations : légèreté, performance thermique, facilité d’utilisation… • Utiliser du bois local pour favoriser les circuits courts (certification BTMC par exemple) et faire travailler les entreprises du territoire • Avoir des bâtiments exemplaires en termes environnementaux (exemplarité de la collectivité, innovation, démonstration de la faisabilité) • Faire des économies d’énergie, réduire les charges • Améliorer les conditions de travail des agents et d’accueil du public Éléments de calendrier : Action en cours : Théâtre de Privas, Piscine de Vernoux, Crèche BEPOS, Siège de la CAPCA Organisation de formations / visites dès l’année 1 et chaque année Suivi des projets exemplaires sur les 6 ans du PCAET"
+  },
+  {
+   "id": 78904,
+   "titre": "Fiche action 1.2 - Développer les réseaux de chaleur issue de sources renouvelables",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté d'agglomération, 45 008 habitants\nContexte : PCAET > Axe 1 - Se loger et travailler dans des bâtiments sains et économes\nTitre : Fiche action 1.2 - Développer les réseaux de chaleur issue de sources renouvelables\nDescription : Action existante à développer • Diminuer les coûts • Développer la filière bois locale • Améliorer la qualité de l’air • Lutter contre la précarité énergétique • Assurer une production d’eau chaude par des énergies renouvelables (solaire thermique) tout au long de l’année en évitant de faire fonctionner les chaufferies bois surdimensionnées pour la consommation estivale - Prolongation de la durée de vie des chaufferies - Production d’eau chaude entièrement issue de ressources renouvelables sans recours aux énergies fossiles en complément. • Encourager la réalisation de nouveaux réseaux de chaleur via les documents de planification Éléments de calendrier : Année 1 : diagnostics et étude faisabilité Année 2 à 6 : un projet par an à lancer"
+  },
+  {
+   "id": 78905,
+   "titre": "Fiche action 1.3 - Concevoir et déployer sur la CAPCA le Service Public de la Performance Energétique de l’Habitat (SPPEH)",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté d'agglomération, 45 008 habitants\nContexte : PCAET > Axe 1 - Se loger et travailler dans des bâtiments sains et économes\nTitre : Fiche action 1.3 - Concevoir et déployer sur la CAPCA le Service Public de la Performance Energétique de l’Habitat (SPPEH)\nDescription : Nouvelle action à déployer • Faciliter le parcours des propriétaires et l’aboutissement de projets de rénovation • Rapprocher les acteurs de l’énergie et de l’habitat • Sensibiliser les habitants à la maitrise de l’énergie • Prévenir et lutter contre la précarité énergétique • Accompagner les particuliers de manière indépendante • Faciliter la formation des professionnels du bâtiment et du secteur bancaire • Valoriser les actions et rénovations exemplaires • Faciliter l’accès aux aides et aux acteurs • Intégrer des actions sur la mobilité Éléments de calendrier : Année 1 : Etat des lieux de l’existant Année 2 : Travail de mutualisation des acteurs et actions Année 3 à 6 : Déploiement du service public jusqu’à la fin du PCAET (et au-delà), suivi continu de l’efficience des actions et travaux engagés"
+  },
+  {
+   "id": 78906,
+   "titre": "Fiche action 1.4 - Remplacer les points de lumière et favoriser les extinctions sectorisées de l’éclairage public",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté d'agglomération, 45 008 habitants\nContexte : PCAET > Axe 1 - Se loger et travailler dans des bâtiments sains et économes\nTitre : Fiche action 1.4 - Remplacer les points de lumière et favoriser les extinctions sectorisées de l’éclairage public\nDescription : Déjà engagée. Ce paramétrage est déjà existant au niveau de certaines communes mais reste encore marginal à l’échelle de la CAPCA • Economiser l’énergie • Montrer une action vertueuse des communes • Protéger la santé des habitants • Protéger la biodiversité • Faire accepter cette évolution culturelle Éléments de calendrier : 1 an de sensibilisation (coûts directs et indirects de l’éclairage public) Puis 3 ans pour enclencher les extinctions"
+  },
+  {
+   "id": 78907,
+   "titre": "Fiche action 1.5 - Réaliser une campagne d’isolation par l’extérieur des bâtiments privés",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté d'agglomération, 45 008 habitants\nContexte : PCAET > Axe 1 - Se loger et travailler dans des bâtiments sains et économes\nTitre : Fiche action 1.5 - Réaliser une campagne d’isolation par l’extérieur des bâtiments privés\nDescription : Nouvelle, en lien avec existant (Plateforme Rénofuté, ALEC 07) - Réduire les consommations d’énergie (hiver comme été) - Améliorer le confort - Anticiper le changement climatique et adapter le bâti à l’avenir - Faciliter la compréhension autour de cette technique - Faire aboutir des projets ambitieux - Encourager et aider les particuliers qui sont démunis techniquement - Faire monter en compétence les professionnels du territoire Éléments de calendrier : En année 1 A renouveler en année 3 et 5 (simple mise à jour des supports)"
+  },
+  {
+   "id": 78908,
+   "titre": "Fiche action 1.6 - Développer une offre de tiers-financement",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté d'agglomération, 45 008 habitants\nContexte : PCAET > Axe 1 - Se loger et travailler dans des bâtiments sains et économes\nTitre : Fiche action 1.6 - Développer une offre de tiers-financement\nDescription : Nouvelle action - Permettre la réalisation de rénovations énergétiques complètes, plus efficaces en raison de l’optimisation des investissements et des économies générées, pour des ménages connaissant des problématiques d’avance de trésorerie et d’accès à l’emprunt. - Permettre une avance des fonds nécessaires à la rénovation de l’habitat - Faciliter le montage financier des opérations de rénovation ambitieuses en permettant le regroupement des différentes aides apportées - Limiter le renoncement des maîtres d’ouvrage à leurs travaux pour des problématiques de financement et permettre le passage à l’acte des populations vulnérables - Diminuer les problèmes de trésorerie des entreprises du bâtiment en évitant les retards de paiement - Améliorer la qualité de vie - Réduire les factures d’énergie Éléments de calendrier : Année 1 : Définition du cahier des charges et sélection du bureau d’étude Année 2 : mise en route technique et juridique Année 3 et suivante : opérationnalité"
+  },
+  {
+   "id": 78909,
+   "titre": "Fiche action 1.7 - Former des relais pour la lutte contre la précarité énergétique",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté d'agglomération, 45 008 habitants\nContexte : PCAET > Axe 1 - Se loger et travailler dans des bâtiments sains et économes\nTitre : Fiche action 1.7 - Former des relais pour la lutte contre la précarité énergétique\nDescription : Nouvelle action (en lien avec le travail des OPAH, Rénofuté et ALEC 07) • Offrir un accompagnement adapté aux ménages en précarité énergétique • Repérer les situations de précarité énergétique, notamment les personnes isolées, en restriction, et non suivies par les services sociaux • Repérer les logements insalubres, avec des pertes énergétiques etc. • Sensibiliser / faire connaitre les actions éco-citoyennes, les aides, les acteurs opérationnels, les offres de service possible et l’accès aux droits Éléments de calendrier : Année 1 : mobilisation des partenaires, identification des compétences, création du contenu de la formation Année 2 : première formation (3 par an) Année 3 : premier bilan et reconduction annuelle avec amélioration"
+  },
+  {
+   "id": 78910,
+   "titre": "Fiche action 1.8 - Soutenir l’amélioration de l’habitat privé via une OPAH et Rénofuté",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté d'agglomération, 45 008 habitants\nContexte : PCAET > Axe 1 - Se loger et travailler dans des bâtiments sains et économes\nTitre : Fiche action 1.8 - Soutenir l’amélioration de l’habitat privé via une OPAH et Rénofuté\nDescription : Lancée depuis 2016 avec Rénofuté, de nouvelles actions venant s’ajouter • Réalisation d’une OPAH : - Lutte contre l’insalubrité, le logement indigne et la précarité énergétique, - Adaptation des logements au maintien à domicile des personnes âgées et handicapées, - Accompagnement des copropriétés fragiles, - Développement du parc à vocation sociale, - Mobilisation du parc vacant pour les primo accédants • Soutien à la plateforme Rénofuté pour réaliser des rénovations énergétiques performantes - Accompagner les particuliers de manière indépendante - Permettre une bonne isolation pour améliorer le confort et réaliser des économies d’énergies, réaliser un diagnostic des moyens de ventilation et de la qualité d’air intérieur - Prioriser les bâtiments les plus énergivores et / ou occupés - Valoriser le fonds CEE porté par Rénofuté pour les habitants du territoire et communiquer sur le dispositif - Communiquer sur l’offre de formation des artisans - Améliorer la qualité des installations / rénovations et le recours aux EnR - S’assurer de la pérennité des économies d’énergie générées grâce aux travaux - Améliorer la qualité de l’air intérieur, proposer un accompagnement par un CMEI si des éléments sont observés (moisissure, humidité) - Privilégier l’utilisation de matériaux biosourcés et locaux pour les travaux de rénovation Éléments de calendrier : Année 1 : poursuite du programme Rénofuté, mobilisation des acteurs de la formation et communication auprès des artisans, lancement du fonds CEE, étude pré opérationnelle de l’OPAH Année 4 à 6 : fusion du dispositif Rénofuté dans le SPPEH et l’OPAH, poursuite de ces actions"
+  },
+  {
+   "id": 78911,
+   "titre": "Fiche action 1.9 - Renforcer et déployer les permanences info-énergie et habitat des partenaires",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté d'agglomération, 45 008 habitants\nContexte : PCAET > Axe 1 - Se loger et travailler dans des bâtiments sains et économes\nTitre : Fiche action 1.9 - Renforcer et déployer les permanences info-énergie et habitat des partenaires\nDescription : En cours : • La Voulte sur Rhône, permanences hebdomadaires, • Les Ollières sur Eyrieux, Vernoux en Vivarais et Privas, mensuelles, • Favoriser l’accès aux services pour les bénéficiaires • Faciliter les actions des partenaires • Accompagner les particuliers de manière indépendante • Fluidifier le parcours pour les ménages Éléments de calendrier : Année 1 : signature des conventions de partenariat et lancement des permanences au bout de 3 mois"
+  },
+  {
+   "id": 78912,
+   "titre": "Fiche action 1.10 - Valoriser les rénovations énergétiques de logements privés exemplaires",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté d'agglomération, 45 008 habitants\nContexte : PCAET > Axe 1 - Se loger et travailler dans des bâtiments sains et économes\nTitre : Fiche action 1.10 - Valoriser les rénovations énergétiques de logements privés exemplaires\nDescription : Action engagée pour une première réalisation en 2020 - Valoriser les bons exemples de rénovation - Réaliser des économies d’énergie et financières tout en préservant la qualité de l‘air et les patrimoines architecturaux et naturels - Privilégier des systèmes passifs pour la construction neuve - Faire connaître les aides, les acteurs, les leviers - Cibler tous les types de statut d’occupation : PO, PB, Locataires, hébergés à titre gratuit Éléments de calendrier : Organisation de la démarche sur un an, reproductible les années suivantes"
+  },
+  {
+   "id": 78913,
+   "titre": "Fiche action 1.11- Adapter les villes et les bâtiments publics et privés aux chaleurs estivales",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté d'agglomération, 45 008 habitants\nContexte : PCAET > Axe 1 - Se loger et travailler dans des bâtiments sains et économes\nTitre : Fiche action 1.11- Adapter les villes et les bâtiments publics et privés aux chaleurs estivales\nDescription : Nouvelle action. - Diminution des îlots de chaleur urbains - Amélioration de la qualité de l’air - Stockage carbone - Restauration des continuités écologiques - Réduction des températures des bâtiments en été - Lutter contre la prolifération des climatiseurs - Eviter la mortalité due aux périodes de canicule Éléments de calendrier : Année 1 : étude, montage du fond d’aide et du fond de concours Année 2-6 : réalisation, accompagnement"
+  },
+  {
+   "id": 78914,
+   "titre": "Fiche action 2.1 - Création d’une unité de méthanisation industrielle et d’une station bio-GNV",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté d'agglomération, 45 008 habitants\nContexte : PCAET > Axe 2 - Utiliser nos ressources renouvelables pour produire notre énergie\nTitre : Fiche action 2.1 - Création d’une unité de méthanisation industrielle et d’une station bio-GNV\nDescription : En cours. - Réalisation d’une unité de méthanisation - Création d’une filière de biogaz sur le territoire - Création de points d’avitaillement en biogaz sur le territoire Éléments de calendrier : Année 1 : diagnostic du potentiel, plan de communication (support et contenu), vote de l’aide (et rédaction du cahier des charges pour établir des critères d’éligibilité) Années suivantes : gestion des dossiers et des attributions"
+  },
+  {
+   "id": 78915,
+   "titre": "Fiche action 2.2 - Développer les énergies renouvelables pour le chauffage et l’eau-chaude des bâtiments publics et privés",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté d'agglomération, 45 008 habitants\nContexte : PCAET > Axe 2 - Utiliser nos ressources renouvelables pour produire notre énergie\nTitre : Fiche action 2.2 - Développer les énergies renouvelables pour le chauffage et l’eau-chaude des bâtiments publics et privés\nDescription : Action nouvelle • Réduire la facture énergétique • Tendre vers plus d’autonomie énergétique • Développer la géothermie - Production de chaud et de froid (climatisation) - Amélioration des connaissances et sensibilisation sur cette technologie - Promouvoir les artisans locaux • Améliorer l’utilisation du chauffage au bois - Réduire la contribution du bois-énergie à la pollution de l’air - Réduire la consommation de combustible - Regrouper la filière autour d’une plateforme intercommunale pour stocker et sécher le bois énergie • Améliorer le fonctionnement des installation d’ECS solaires déjà installées dans le cadre du plan solaire Éléments de calendrier : Année 1 : diagnostics, études et mise en place des dispositifs Années suivantes : gestion des dossiers et des attributions"
+  },
+  {
+   "id": 78916,
+   "titre": "Fiche action 2.3 - Accompagner les entreprises dans la valorisation de la chaleur fatale",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté d'agglomération, 45 008 habitants\nContexte : PCAET > Axe 2 - Utiliser nos ressources renouvelables pour produire notre énergie\nTitre : Fiche action 2.3 - Accompagner les entreprises dans la valorisation de la chaleur fatale\nDescription : Nouvelle action • Sensibiliser les entreprises aux aides potentielles • Mettre en relation les entreprises avec les services de l’ADEME • Assurer un accompagnement et un suivi des projets pour faciliter leur réalisation • Réduction des consommations de matières premières et de la production de déchets • Réduction des consommations d’eau Éléments de calendrier : A lancer dès l’année 1 du PCAET"
+  },
+  {
+   "id": 78917,
+   "titre": "Fiche action 2.4 - Promouvoir l’autoconsommation PVT via les sociétés citoyennes",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté d'agglomération, 45 008 habitants\nContexte : PCAET > Axe 2 - Utiliser nos ressources renouvelables pour produire notre énergie\nTitre : Fiche action 2.4 - Promouvoir l’autoconsommation PVT via les sociétés citoyennes\nDescription : Action nouvelle • Développer de petites installations de production dans les maisons individuelles • Accompagner les structures citoyennes locales pour permettre leur professionnalisation et garantir des projets exemplaires à coûts maitrisés • Favoriser l’autoconsommation • Etre complémentaire avec la subvention publique et l’expertise des sociétés locales • Permettre la réduction des factures et la lutte contre la précarité énergétique Éléments de calendrier : Année 1 et 2 : définition contrat objectif, vote subvention, cadrage accompagnement Année 2 et suivantes : accompagnement et suivi des projets"
+  },
+  {
+   "id": 78918,
+   "titre": "Fiche action 2.5 - Développer un cadastre éolien foncier public (+AMI) et un cadastre solaire au sol pour anciens sites industriels & carrières",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté d'agglomération, 45 008 habitants\nContexte : PCAET > Axe 2 - Utiliser nos ressources renouvelables pour produire notre énergie\nTitre : Fiche action 2.5 - Développer un cadastre éolien foncier public (+AMI) et un cadastre solaire au sol pour anciens sites industriels & carrières\nDescription : Action nouvelle • Identifier les potentiels éolien et solaire du territoire • Gérer le développement des EnR de façon coordonnée sur la CAPCA • Apporter un cadre et un accompagnement aux communes démunies et démarchées par les développeurs • Accompagner le co-développement citoyens/collectivités d’un parc éolien Éléments de calendrier : Année 1 et 2 : identification des sites et des porteurs de projet, lancement AMI et communiquer Années suivantes : lancement opérationnel des projets, suivi et maintenance"
+  },
+  {
+   "id": 78919,
+   "titre": "Fiche action 2.6 - Créer une structure juridique locale pour porter des investissements EnR",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté d'agglomération, 45 008 habitants\nContexte : PCAET > Axe 2 - Utiliser nos ressources renouvelables pour produire notre énergie\nTitre : Fiche action 2.6 - Créer une structure juridique locale pour porter des investissements EnR\nDescription : Action nouvelle • Avoir un levier d’investissement public, intégrant des partenaires privés citoyens • Maîtriser la gouvernance de projets EnR (via les sociétés de projet) • Permettre au territoire de bénéficier des retombées du projet • Produire de l’énergie localement et réduire notre facture énergétique (autonomie énergétique) Éléments de calendrier : Année 1 : mobiliser les partenaires, connaitre les REX, définir le montage juridique Année 2 : lancer l’AMI et identifier les projets porteurs Année 3 et suivantes : lancer les premiers projets et les accompagner et suivre"
+  },
+  {
+   "id": 78920,
+   "titre": "Fiche action 3.1 - Redonner de l’attractivité aux centres-bourgs et villages",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté d'agglomération, 45 008 habitants\nContexte : PCAET > Axe 3 – Se déplacer autrement sur le territoire\nTitre : Fiche action 3.1 - Redonner de l’attractivité aux centres-bourgs et villages\nDescription : Problématique relativement nouvelle, déjà engagée via des actions comme « Privas Coeur de Ville » mais à étendre aux pôles de centralité (La Voulte sur Rhône, Le Pouzin, Les Ollières sur Eyrieux, St Sauveur de Montagut et Vernoux-en-Vivarais), aux pôles intermédiaires et aux villages. • Limiter l’étalement urbain et les besoins en déplacements • Eviter les concurrences résidentielles entre centre et périphérie • S’engager vers une co-définition de l’espace urbain (via des concertations publiques) favorisant notamment les mobilités douces Éléments de calendrier : Fin 2020 : Rédaction du guide des bonnes pratiques PLU"
+  },
+  {
+   "id": 78921,
+   "titre": "Fiche action 3.2 - Rationnaliser les déplacements professionnels en mettant en place des plateformes de logistique",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté d'agglomération, 45 008 habitants\nContexte : PCAET > Axe 3 – Se déplacer autrement sur le territoire\nTitre : Fiche action 3.2 - Rationnaliser les déplacements professionnels en mettant en place des plateformes de logistique\nDescription : En cours. Une micro-plateforme est en cours de montage à Saint-Sauveur de Montagut. Il s’agit maintenant d’en développer de nouvelles sur le reste du territoire. • Diminuer les consommations et émissions du transport de marchandises, • Diminuer les coûts de transports pour les entreprises • Réduire le trafic routier et l’insécurité routière • Améliorer les conditions de travail • Augmentation de l’utilisation des modes doux • Rationnaliser les livraisons de la vallée du Rhône à Privas (optimisation du remplissage des camions, réflexion sur la livraison dans le dernier km) Éléments de calendrier : • Année 1 : Définition des besoins et sensibilisation des entreprises (CCI) • Année 2 : Réalisation d’une étude benchmark • Année 3 : Développement de la première plateforme • Année 4, 5, 6 : Création d’un site par an sur : Le Pouzin, La Voulte, St Péray"
+  },
+  {
+   "id": 78922,
+   "titre": "Fiche action 3.3 - Développer des espaces de travail mutualisés",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté d'agglomération, 45 008 habitants\nContexte : PCAET > Axe 3 – Se déplacer autrement sur le territoire\nTitre : Fiche action 3.3 - Développer des espaces de travail mutualisés\nDescription : Des espaces de travail de ce type existent déjà sur le territoire à Vernoux-en-Vivarais, et à Privas. Recherches d’espaces de coworking en cours à Saint-Sauveur, et Les Ollières • Diminution du besoin de déplacements • Développement de l’attractivité des centre-bourg • Rationalisation des espaces et mutualisation des flottes de véhicules Éléments de calendrier : • Année 1 : étude (identification des besoins, des acteurs et des partenaires) • Année 2 à 6 : mise en œuvre"
+  },
+  {
+   "id": 78923,
+   "titre": "Fiche action 3.4 - Mettre en place l’autostop organisé en milieu rural",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté d'agglomération, 45 008 habitants\nContexte : PCAET > Axe 3 – Se déplacer autrement sur le territoire\nTitre : Fiche action 3.4 - Mettre en place l’autostop organisé en milieu rural\nDescription : Nouvelle. • Sécuriser la pratique de stop en créant un réseau d'usagers • Matérialiser des arrêts pour sécuriser la prise ou de la dépose de l'autostoppeur. • Recréer du lien social en se rendant service • Apporter une réponse aux besoins de mobilité des habitants. • Appuyer sur un logiciel facilitant la mise en relation, créé en interne ou de faire appel à un opérateur privé Éléments de calendrier : Décembre 2019 : rencontre des communes et travail sur le choix des points d’arrêt 2020 : installation des points d’arrêts, définition de la communauté, communication"
+  },
+  {
+   "id": 78924,
+   "titre": "Fiche action 3.5 - Mettre en place l’autopartage de véhicules électriques et de proximité",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté d'agglomération, 45 008 habitants\nContexte : PCAET > Axe 3 – Se déplacer autrement sur le territoire\nTitre : Fiche action 3.5 - Mettre en place l’autopartage de véhicules électriques et de proximité\nDescription : Actions stratégie mobilités alternatives de l’Agglomération. Démarrage fin 2020 par l’audition de prestataires pour le partage de véhicules électriques • Proposer des véhicules en autopartage • Réduire l’utilisation du pétrole • Rationaliser les déplacements • Réduire la pollution (CO2) • Diminuer le nombre de véhicules en circulation • Recréer du lien social • Lutter contre l’isolement social et la précarité • Faciliter l’accès à une voiture à un coût raisonnable Éléments de calendrier : Choix du prestataire : 2020 Formation des secrétaires de mairie : fin 2020 Communication : fin 2020 – début 2021"
+  },
+  {
+   "id": 78925,
+   "titre": "Fiche action 3.6 - Sensibiliser les publics précaires aux enjeux mobilité",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté d'agglomération, 45 008 habitants\nContexte : PCAET > Axe 3 – Se déplacer autrement sur le territoire\nTitre : Fiche action 3.6 - Sensibiliser les publics précaires aux enjeux mobilité\nDescription : Action nouvelle – démarrage mi 2019 • Cohésion sociale au niveau du territoire • Mobilité alternative • Lutte contre les précarités Éléments de calendrier : Fin 2019 lancement de l’opération 2020 : mise en place des ateliers et acquisition des VAE 2021 : suivi du projet et réalisation des outils de communication 2022 : poursuite du projet et recherche de financement"
+  },
+  {
+   "id": 78926,
+   "titre": "Fiche action 3.7 - Mettre en place en place un service de location de Vélos à Assistance Electrique",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté d'agglomération, 45 008 habitants\nContexte : PCAET > Axe 3 – Se déplacer autrement sur le territoire\nTitre : Fiche action 3.7 - Mettre en place en place un service de location de Vélos à Assistance Electrique\nDescription : Déjà engagée, renforcée par de nouvelles actions • Promouvoir les mobilités actives • Faciliter les déplacements pour les publics fragiles • Proposer une offre de mobilité complémentaire aux autres solutions : transports en commun, covoiturage Éléments de calendrier : 2017 : acquisition des premiers VAE sur Privas Depuis 2018 : renforcement progressif de la flotte de VAE et extension des possibilités de location sur l’ensemble du territoire 2021 : lancement des aides à l’acquisition de VAE"
+  },
+  {
+   "id": 78927,
+   "titre": "Fiche action 3.8 - Inciter à se déplacer sur les voies douces",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté d'agglomération, 45 008 habitants\nContexte : PCAET > Axe 3 – Se déplacer autrement sur le territoire\nTitre : Fiche action 3.8 - Inciter à se déplacer sur les voies douces\nDescription : Nouvelle • Inciter à la mobilité active • Densifier le trafic alternatif à la route, inciter à la pratique de mobilités actives • Réduire l’usage de la voiture sur les courtes distances • Améliorer la santé des usagers • Créer du lien social entre usagers • Découvrir des sites non visibles depuis la route Éléments de calendrier : Fin 2021 : lancement d’une campagne d’information et de communication 2021 - 2022 : Rencontres des partenaires sociaux et des établissements scolaires pour mise en place d’actions de sensibilisation 2022 – 2023 : création des outils d’informations réguliers : bulletins, enquêtes, sollicitation de partenaires privés"
+  },
+  {
+   "id": 78928,
+   "titre": "Fiche action 3.9 - Développer un \"itinéraire cyclable continu\" le long de la vallée Ouvèze",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté d'agglomération, 45 008 habitants\nContexte : PCAET > Axe 3 – Se déplacer autrement sur le territoire\nTitre : Fiche action 3.9 - Développer un \"itinéraire cyclable continu\" le long de la vallée Ouvèze\nDescription : Nouvelle. • Faciliter les trajets domicile – travail et les déplacements touristiques et de loisirs • Constituer une alternative à la voiture individuelle • Organiser un réseau maillé de déplacements doux et sécurisés sur la CAPCA • Favoriser le développement touristique et économique de cette Vallée • Améliorer le cadre de vie Éléments de calendrier : 2019 : lancement de l’’étude d’assistance à Maitrise d’Ouvrage 2021 : recrutement de la maitrise d’oeuvre 2022 : ouverture des 1ers tronçons de l’itinéraire cyclable"
+  },
+  {
+   "id": 78929,
+   "titre": "Fiche action 3.10 - Mettre en oeuvre un plan de covoiturage en direction des administrations et des entreprises",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté d'agglomération, 45 008 habitants\nContexte : PCAET > Axe 3 – Se déplacer autrement sur le territoire\nTitre : Fiche action 3.10 - Mettre en oeuvre un plan de covoiturage en direction des administrations et des entreprises\nDescription : Action nouvelle – Lancement prévu en septembre 2019 • Réduire l’autosolisme • Favoriser la pratique du covoiturage courte distance • Créer du lien social entre les salariés • Promouvoir les nouvelles mobilités • Apporter des solutions al ternatives au réseau urbain Éléments de calendrier : - Fin 2019 : Sensibilisation des administrations privadoises au covoiturage - 2020 : Expérimentation – 1er bilan - Fin 2021 : Extension de l’expérimentation aux ZAE du Pouzin et de La Voulte sur Rhône"
+  },
+  {
+   "id": 78930,
+   "titre": "Fiche action 3.11 - Développer l’accès des services intercommunaux au plus près des habitants – Point info Jeunes et MSAP itinérante",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté d'agglomération, 45 008 habitants\nContexte : PCAET > Axe 3 – Se déplacer autrement sur le territoire\nTitre : Fiche action 3.11 - Développer l’accès des services intercommunaux au plus près des habitants – Point info Jeunes et MSAP itinérante\nDescription : Itinérance du point info jeunes de manière opérationnelle en février 2019 Mise en place d’une maison de services au public itinérante en mars 2019 • Aller à la rencontre des jeunes sur leurs lieux de vie • Réduire les freins à l’accès aux droits des jeunes : soucis de mobilité, fiabilité et actualisation des informations (formation, emploi, logement, santé, loisirs, culture, mobilité internationale, engagement…) • Rendre les jeunes acteurs de leur quotidien et de leur avenir (autonomie, engagement…), développer les partenariats et les projets des jeunes et leur permettre une ouverture sur le territoire et sur le monde, • Venir en appui des structures et développer en proximité des partenariats et des projets • Proposer aux habitants, au plus près de chez eux, un accompagnement dans leurs démarches administratives Éléments de calendrier : MSAP : démarrage en mars 2019. Une évaluation annuelle en collaboration avec les services de la Préfecture de l’Ardèche sera réalisée."
+  },
+  {
+   "id": 78931,
+   "titre": "Fiche action 3.12 - Mettre en place des actions en faveur de la mobilité et pour réduire la consommation d‘énergie pour les agents de la CAPCA dans le cadre de leurs déplacements professionnels",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté d'agglomération, 45 008 habitants\nContexte : PCAET > Axe 3 – Se déplacer autrement sur le territoire\nTitre : Fiche action 3.12 - Mettre en place des actions en faveur de la mobilité et pour réduire la consommation d‘énergie pour les agents de la CAPCA dans le cadre de leurs déplacements professionnels\nDescription : En partie déjà engagée. Renforcée par de nouvelles actions - Limiter les besoins en déplacement (favoriser la visioconférence, et le télétravail) - Modifier les pratiques de déplacements professionnels pour tendre vers des déplacements plus éco-responsables - Réduire l’autosolisme - Améliorer les conditions de travail Éléments de calendrier : 2019-2020 : acquisition de 4 VAE mis à disposition des agents, acquisition de 2 Zoé et 1 Kangoo de service, achat de tickets de bus pour les agents 2019-2023 : remplacement progressif des véhicules de services 2020-2022 : mise en place de formations d’éco conduite Participation annuelle au challenge Mobilités"
+  },
+  {
+   "id": 78932,
+   "titre": "Fiche action 3.13 - Mettre en place le réseau de transport en commun T'CAP",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté d'agglomération, 45 008 habitants\nContexte : PCAET > Axe 3 – Se déplacer autrement sur le territoire\nTitre : Fiche action 3.13 - Mettre en place le réseau de transport en commun T'CAP\nDescription : Engagée en 2018 • Mise en place de transports collectifs sur l’ensemble du territoire • Adaptation de l’offre aux caractéristiques du territoire : réseau urbain en zone urbaine, lignes régulières en péri urbain et TAD en zones rurales • Réduction de l’autosolisme • Faire évoluer les comportements en faveur des transports collectifs • Réduire l’isolement de certaines catégories d’usagers : personnes âgées, personnes en inserti Éléments de calendrier : Septembre 2018 : Mise en place du réseau T’CAP sur l’ensemble du territoire Années suivantes :travail sur l’optimisation du service"
+  },
+  {
+   "id": 78933,
+   "titre": "Fiche action 3.14 - Développer les aires de covoiturage",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté d'agglomération, 45 008 habitants\nContexte : PCAET > Axe 3 – Se déplacer autrement sur le territoire\nTitre : Fiche action 3.14 - Développer les aires de covoiturage\nDescription : Nouvelle • Améliorer la pratique du covoiturage • Créer un schéma intercommunal des aires de covoiturage • Harmoniser la présence des aires de covoiturage sur le territoire Éléments de calendrier : Fin 2020 : envoi d’un courrier aux maires concernés 2020-2022 : amélioration et création d’aires de covoiturage par les communes en lien avec la CAPCA et le CD07"
+  },
+  {
+   "id": 78934,
+   "titre": "Fiche action 4.1 - Réduire et valoriser les déchets et relocaliser leur transformation",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté d'agglomération, 45 008 habitants\nContexte : PCAET > Axe 4 - Vivre, cultiver et entreprendre durablement sur le territoire\nTitre : Fiche action 4.1 - Réduire et valoriser les déchets et relocaliser leur transformation\nDescription : Action nouvelle • Réduire le volume énergétique consommé par le territoire • Identifier l'ensemble (la chaîne) des consommations énergétiques du territoire, Identifier les gisements de déchets. • Donner corps aux politiques publiques, permettre au territoire Centre Ardèche d'atteindre voire de dépasser les objectifs internationaux, européens et nationaux et de développer des actions modélisables reproductives sur d'autres territoires. • Accompagner les acteurs au changement • Donner de la visibilité et de la lisibilité aux actions portées par le territoire en matière de réduction énergétique • Eviter le transport d’une partie des déchets, valoriser localement les ressources liées aux matériaux récupérés et créer de l’emploi local Éléments de calendrier : Année 1 et 2 : 3 mois pour le diagnostic + 3 mois pour l’élaboration et la validation du programme d'actions Année 2 : démarrage des interventions auprès des acteurs et institutionnels volontaires : qui peuvent se décliner sous différents formats à co-construire avec les structures : de la formation en module de 3h, jusqu'à un accompagnement pendant 6 mois dans la même entité."
+  },
+  {
+   "id": 78935,
+   "titre": "Fiche action 4.2 - Créer une plateforme en ligne « Bourse aux déchets » et réaliser une action « commerçants zéro déchets\"",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté d'agglomération, 45 008 habitants\nContexte : PCAET > Axe 4 - Vivre, cultiver et entreprendre durablement sur le territoire\nTitre : Fiche action 4.2 - Créer une plateforme en ligne « Bourse aux déchets » et réaliser une action « commerçants zéro déchets\"\nDescription : Nouvelle • Sensibiliser et éduquer les acteurs économiques, les fédérer (via les unions commerciales) à questionner leurs pratiques • Réduction des transports de marchandise • Valorisation et réduction des déchets • Création de synergies entre acteurs économiques (y compris artisans et commerces) Éléments de calendrier : • 2021 : Repérage des acteurs volontaires et recrutement d’un animateur, lancement de la démarche dans le cadre de la SERD • 2022 : Restitution, synthèse et développement de la plateforme (CDC), analyse des résultats et lancement de la plateforme • 2023 : Lancement de la seconde édition du concours • Année 1 à 6 : Développement continu de la plateforme"
+  },
+  {
+   "id": 78936,
+   "titre": "Fiche action 4.3 - Développer la méthanisation agricole par injection dans le réseau",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté d'agglomération, 45 008 habitants\nContexte : PCAET > Axe 4 - Vivre, cultiver et entreprendre durablement sur le territoire\nTitre : Fiche action 4.3 - Développer la méthanisation agricole par injection dans le réseau\nDescription : Nouvelle action • Production d’énergie renouvelable et locale à partir des produits fermentescibles agricoles • Amélioration de l’autonomie financière des exploitations agricoles Éléments de calendrier : • 2021 : démarrage des études • 2022 : visite de site • Fin 2022 : montage du projet • 2023 : réunions de concertation et démarrage des travaux"
+  },
+  {
+   "id": 78937,
+   "titre": "Fiche action 4.4 - Préserver les terres agricoles et définir lesquelles sanctuariser",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté d'agglomération, 45 008 habitants\nContexte : PCAET > Axe 4 - Vivre, cultiver et entreprendre durablement sur le territoire\nTitre : Fiche action 4.4 - Préserver les terres agricoles et définir lesquelles sanctuariser\nDescription : Amorcée dans les communes - Limiter l’étalement urbain et des aménagements consommateurs de foncier dans le but de conserver les surfaces agricoles, notamment dans les zones péri-urbaines adaptées (fertiles, irrigables, plates…) qui, de par leur proximité à la ville sont aussi à conserver pour limiter le transport (proximité consommation/production) - Avoir un urbanisme plus résilient, assurer la sécurité alimentaire du territoire, faire face aux crises à venir - Séquestration Carbone - Réduire les risques naturels Éléments de calendrier : Fin 2020 : mise en place de PANDA et ZAP (études préalables et choix des secteurs) 2021 : Projet de maraichage sur une friche industrielle"
+  },
+  {
+   "id": 78938,
+   "titre": "Fiche action 4.5 - Accompagner la restauration collective vers un approvisionnement local de qualité",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté d'agglomération, 45 008 habitants\nContexte : PCAET > Axe 4 - Vivre, cultiver et entreprendre durablement sur le territoire\nTitre : Fiche action 4.5 - Accompagner la restauration collective vers un approvisionnement local de qualité\nDescription : Action partiellement engagée, à renforcer par une incitation locale • Réduire les consommations énergétiques liées aux transports et à l’approvisionnement • Limiter les intrants dans le sol • Sensibiliser à la consommation de produits locaux et de saison et une alimentation saine • Sensibiliser à la conversion des agriculteurs en bio (étapes, coûts, bénéfices…) • Création d’emploi sur le territoire • Réduire l’impact écologique du secteur tertiaire (kWh consommés et CO2 évités) Éléments de calendrier : 2021 : Contact avec les communes, le CD07 2022 : Lancement d’une étude de faisabilité pour la création d’une cuisine centrale 2022 : Accompagnement à la rédaction de cahier des charges 2023-2026 : Création d’UCPR sur le territoire"
+  },
+  {
+   "id": 78939,
+   "titre": "Fiche action 4.6 - Inciter les entreprises et artisans à réduire leurs consommations de flux (énergie, eau, matières premières, déchets)",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté d'agglomération, 45 008 habitants\nContexte : PCAET > Axe 4 - Vivre, cultiver et entreprendre durablement sur le territoire\nTitre : Fiche action 4.6 - Inciter les entreprises et artisans à réduire leurs consommations de flux (énergie, eau, matières premières, déchets)\nDescription : En cours Disposer d’un état des lieux du territoire et identifier les leviers d’action auprès des acteurs économiques Mobiliser les acteurs de l’économie, écologie industrielle et territoriale, réduction des consommations énergétiques. Éléments de calendrier : 2021 : kit de communication 2021-2022 : recruter une AMO pour la réalisation des diagnostics 2022 : Accompagnement au changement de pratiques 2023 : Evaluation et valorisation du dispositif"
+  },
+  {
+   "id": 78940,
+   "titre": "Fiche action 4.7 -Réaliser un guide d’achat durable pour la collectivité",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté d'agglomération, 45 008 habitants\nContexte : PCAET > Axe 4 - Vivre, cultiver et entreprendre durablement sur le territoire\nTitre : Fiche action 4.7 -Réaliser un guide d’achat durable pour la collectivité\nDescription : Nouvelle Réduction de l’impact environnemental des achats du territoire MDE Éléments de calendrier : 2020"
+  },
+  {
+   "id": 78941,
+   "titre": "Fiche action 4.8 - Valoriser et récupérer les déchets verts compostables",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté d'agglomération, 45 008 habitants\nContexte : PCAET > Axe 4 - Vivre, cultiver et entreprendre durablement sur le territoire\nTitre : Fiche action 4.8 - Valoriser et récupérer les déchets verts compostables\nDescription : Nouvelle action Réduire les transports de déchets verts (broyat moins volumineux) Diminuer les tonnages en déchetterie Favoriser la valorisation locale des déchets verts : usagers, communes et agriculteurs Moyen de soutenir l’activité agricole indirectement (enjeu économique) Limiter l’achat de produits phytosanitaires et en réduire l’usage grâce à l’utilisation du broyat produit (et faire attention aux risques sanitaires lié à la diffusion de broyat non compostés) Réduire l’arrosage des espaces verts Protéger la santé des agents communaux, agriculteurs et habitants Éléments de calendrier : - Septembre 2019 : lancement de l’étude d’opportunité (clarifier aspects réglementaires, évaluer les volumes disponibles, clé de répartition entre usagers, établir un volume minimum possible.) - Marchés de prestations d’évacuation et de traitement des déchets verts jusque fin 2020. - Début de l’action janvier 2021"
+  },
+  {
+   "id": 78942,
+   "titre": "Fiche action 4.9 - Sensibiliser les agents de la CAPCA sur le geste du tri sélectif et la réduction des déchets",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté d'agglomération, 45 008 habitants\nContexte : PCAET > Axe 4 - Vivre, cultiver et entreprendre durablement sur le territoire\nTitre : Fiche action 4.9 - Sensibiliser les agents de la CAPCA sur le geste du tri sélectif et la réduction des déchets\nDescription : Les outils de tri existent et des démarches ont déjà été réalisées au siège : - Bacs à tri installés à chaque étage - Utilisation de gobelets réutilisables et lavables lors des réunions Sensibiliser et éduquer tous les agents, les fédérer dans un esprit convivial à se questionner sur leurs pratiques du quotidien au bureau et dans leurs foyers Augmenter la part de déchets valorisables collectés à la CAPCA Réduire le volume global des déchets produits au sein au siège ( transposable dans les foyers des agents) Éléments de calendrier : Septembre 2021 : recrutement d’un animateur Octobre 2021 : sensibilisation des agents Novembre 2021 : installation du composteur au siège de la CAPCA Bilan juin 2022 sur les volumes estimés ou pesés."
+  },
+  {
+   "id": 78943,
+   "titre": "Fiche action 4.10 - Installer des composteurs partagés au pied des HLM",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté d'agglomération, 45 008 habitants\nContexte : PCAET > Axe 4 - Vivre, cultiver et entreprendre durablement sur le territoire\nTitre : Fiche action 4.10 - Installer des composteurs partagés au pied des HLM\nDescription : Nouvelle action • Permettre aux habitants n’ayant pas de jardin de valoriser leurs déchets organiques • Former les acteurs sociaux du territoire de la CAPCA au tri sélectif • Appréhender avec les habitants les enjeux du tri sélectif dans son ensemble • Développer le sentiment d’utilité sociale concrète et d’implication des habitants dans la vie du quartier • Sensibiliser le grand public via des actions de sensibilisation et une campagne de communication • Réduire le transport et le traitement des déchets • Diffusion de la phase expérimentale à toutes les communes de la CAPCA Éléments de calendrier : Préparation : 1 mois Sensibilisation : 1 à 2 mois Mise en place opérationnelle : 8 mois Bilan : 1 mois"
+  },
+  {
+   "id": 78944,
+   "titre": "Fiche action 4.11 - Adapter l’agriculture locale aux enjeux du changement climatique",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté d'agglomération, 45 008 habitants\nContexte : PCAET > Axe 4 - Vivre, cultiver et entreprendre durablement sur le territoire\nTitre : Fiche action 4.11 - Adapter l’agriculture locale aux enjeux du changement climatique\nDescription : En cours • Adapter les exploitations aux aléas climatiques (sécheresse, canicules, inondations) • Préserver les ressources en eau en qualité et en quantité • Favoriser les cultures plus résistantes et moins consommatrices en eau • Diversifier les pratiques agricoles • Améliorer la séquestration carbone du territoire • Améliorer la qualité de l’air"
+  },
+  {
+   "id": 78945,
+   "titre": "Fiche action 4.12 - Diminuer la consommation d’intrants (produits phytosanitaires, eau, engrais minéraux, aliments concentrés, énergie directe) dans les exploitations agricoles",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté d'agglomération, 45 008 habitants\nContexte : PCAET > Axe 4 - Vivre, cultiver et entreprendre durablement sur le territoire\nTitre : Fiche action 4.12 - Diminuer la consommation d’intrants (produits phytosanitaires, eau, engrais minéraux, aliments concentrés, énergie directe) dans les exploitations agricoles\nDescription : Action en cours • Diminution de la pollution des nappes phréatiques et de l’usure des sols • Amélioration de la qualité nutritive des produits consommés • Incitation à l’exemplarité • Economie de la ressource en eau • Adaptation aux futures contraintes de ressources et d’utilisation d’engrais • Amélioration de la qualité de l’air • Améliorer l’efficacité des systèmes de production sans réduire le niveau de production agricole • Renforcer l’autonomie des exploitations"
+  },
+  {
+   "id": 78946,
+   "titre": "Fiche action 4.13 - Récupérer et stocker les eaux pluviales",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté d'agglomération, 45 008 habitants\nContexte : PCAET > Axe 4 - Vivre, cultiver et entreprendre durablement sur le territoire\nTitre : Fiche action 4.13 - Récupérer et stocker les eaux pluviales\nDescription : Action existante • Diminution de la consommation en eau potable • Baisse du coût de traitement pour la potabilisation • Exemplarité de la collectivité et du parc privé Éléments de calendrier : Année 1-2 : lancement de l’appel à projet récupérateur d’eau de pluie Année 2 à 4 : communication Année 3 à 6 : évaluation"
+  },
+  {
+   "id": 78947,
+   "titre": "Fiche action 4.14 - Mettre en place des mesures d’économies d’eau",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté d'agglomération, 45 008 habitants\nContexte : PCAET > Axe 4 - Vivre, cultiver et entreprendre durablement sur le territoire\nTitre : Fiche action 4.14 - Mettre en place des mesures d’économies d’eau\nDescription : Action en cours • Diminution de la consommation • Baisse du coût de facturation pour les habitants • Incitation à l’exemplarité • Responsabilisation des consommateurs • Adaptation aux futures contraintes de ressources • Incitation à la programmation des consommations d’eau Éléments de calendrier : Année 1, 2 : lancement d’une étude relative à la mise en place d'une tarification incitative et d’une convergence tarifaire à l’échelle de la CAPCA, lancement de l’étude de recherche de fuites, réalisation de l’état des lieux des bâtiments publics Année 2 : critère, tarification, achat groupé Années suivantes : évaluation"
+  },
+  {
+   "id": 78948,
+   "titre": "Fiche action 4.15 - Mettre en place des actions de sensibilisation aux économies d’eau",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté d'agglomération, 45 008 habitants\nContexte : PCAET > Axe 4 - Vivre, cultiver et entreprendre durablement sur le territoire\nTitre : Fiche action 4.15 - Mettre en place des actions de sensibilisation aux économies d’eau\nDescription : Action existante • Diminution de la consommation • Baisse du coût de facturation pour la collectivité (et potentielle réaffectation des économies) • Incitation à l’exemplarité • Responsabilisation des agents et des services • Adaptation aux futures contraintes de ressources • Incitation à la programmation des consommations d’eau Éléments de calendrier : Année 1 : élaboration des supports de communication et animation, partenariat avec les établissements scolaires Tous les ans : sensibilisation et mobilisation des agents, scolaires et grand public"
+  },
+  {
+   "id": 78949,
+   "titre": "Fiche action 4.16 - Limiter l’artificialisation des sols",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté d'agglomération, 45 008 habitants\nContexte : PCAET > Axe 4 - Vivre, cultiver et entreprendre durablement sur le territoire\nTitre : Fiche action 4.16 - Limiter l’artificialisation des sols\nDescription : Nouvelle Eviter, réduire et compenser l’artificialisation des sols Désimperméabiliser les sols Augmenter le stockage carbone Réduire le risque d’inondation en favorisant l’infiltration Réduire l’effet îlot de chaleur (grâce à l’évapotranspiration du végétal, phénomène qui permet, par la perte d’eau, et par l’échange de chaleur entre l’eau et l’air, de rafraîchir l’air). Développement et intégration de la biodiversité en milieu urbain Éléments de calendrier : Etat des lieux (année 1) Ciblage des territoires (année 2) Inscription dans les PLU de la CAPCA (SCoT horizon 2024) Suivi de l’évolution des surfaces artificialisées (Année 5)"
+  },
+  {
+   "id": 78950,
+   "titre": "Fiche action 4.17 - Mobiliser les collectivités, les acteurs et la population pour lutter contre la propagation des espèces nuisibles à la santé",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté d'agglomération, 45 008 habitants\nContexte : PCAET > Axe 4 - Vivre, cultiver et entreprendre durablement sur le territoire\nTitre : Fiche action 4.17 - Mobiliser les collectivités, les acteurs et la population pour lutter contre la propagation des espèces nuisibles à la santé\nDescription : Nouvelle sur le bassin de Privas, hormis le dispositif expérimenté au 1er semestre 2019 sur le bassin de Privas, porté par l'ARS-DD07 et Unis-Cité 07-26. La collectivité doit être exemplaire en matière de lutte contre la propagation des espèces nuisibles, accentuée par le réchauffement climatique, et mettre en place les outils permettant d'anticiper et de gérer la problématique sur le long terme. Elle doit également accompagner la population vers une montée en compétence de ses actions de protection individuelle et de lutte collective."
+  },
+  {
+   "id": 82515,
+   "titre": "TR1 - Adopter une délibération cadre sur le développement des ENR",
+   "statut": "Réalisé",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté d'agglomération, 45 008 habitants\nContexte : Schéma Directeur des Energies Renouvelables > Axe 1 - Actions transversales\nTitre : TR1 - Adopter une délibération cadre sur le développement des ENR\nDescription : aucune"
+  },
+  {
+   "id": 82516,
+   "titre": "TR2 - Coordonner les interventions des différents acteurs sur les projets ENR",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté d'agglomération, 45 008 habitants\nContexte : Schéma Directeur des Energies Renouvelables > Axe 1 - Actions transversales\nTitre : TR2 - Coordonner les interventions des différents acteurs sur les projets ENR\nDescription : aucune"
+  },
+  {
+   "id": 82517,
+   "titre": "TR3 - Encourager l'ouverture de l'actionnariat et de la gouvernance des projets ENR aux collectivités, citoyens et entreprises",
+   "statut": "Réalisé",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté d'agglomération, 45 008 habitants\nContexte : Schéma Directeur des Energies Renouvelables > Axe 1 - Actions transversales\nTitre : TR3 - Encourager l'ouverture de l'actionnariat et de la gouvernance des projets ENR aux collectivités, citoyens et entreprises\nDescription : aucune"
+  },
+  {
+   "id": 82518,
+   "titre": "TR4 - Assurer une meilleure intégration paysagère des projets",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté d'agglomération, 45 008 habitants\nContexte : Schéma Directeur des Energies Renouvelables > Axe 1 - Actions transversales\nTitre : TR4 - Assurer une meilleure intégration paysagère des projets\nDescription : aucune"
+  },
+  {
+   "id": 82520,
+   "titre": "B1 - Etudier l'opportunité de créer une aide publique pour permettre de sortir du bois en petite quantité",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté d'agglomération, 45 008 habitants\nContexte : Schéma Directeur des Energies Renouvelables > Axe 2 - Bois-Energie\nTitre : B1 - Etudier l'opportunité de créer une aide publique pour permettre de sortir du bois en petite quantité\nDescription : aucune"
+  },
+  {
+   "id": 82521,
+   "titre": "B2 - Sensibiliser et conseiller les particuliers au chauffage bois",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté d'agglomération, 45 008 habitants\nContexte : Schéma Directeur des Energies Renouvelables > Axe 2 - Bois-Energie\nTitre : B2 - Sensibiliser et conseiller les particuliers au chauffage bois\nDescription : aucune"
+  },
+  {
+   "id": 82522,
+   "titre": "B3 - Sensibiliser les collectivités et entreprises au chauffage bois",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté d'agglomération, 45 008 habitants\nContexte : Schéma Directeur des Energies Renouvelables > Axe 2 - Bois-Energie\nTitre : B3 - Sensibiliser les collectivités et entreprises au chauffage bois\nDescription : aucune"
+  },
+  {
+   "id": 82523,
+   "titre": "B4 - Accompagner les propriétaires forestiers à la sortie du bois en bord de route",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté d'agglomération, 45 008 habitants\nContexte : Schéma Directeur des Energies Renouvelables > Axe 2 - Bois-Energie\nTitre : B4 - Accompagner les propriétaires forestiers à la sortie du bois en bord de route\nDescription : aucune"
+  },
+  {
+   "id": 82524,
+   "titre": "B5 - Faciliter la structuration de la filière bois pour développer la production et la consommation locale de bois-énergie",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté d'agglomération, 45 008 habitants\nContexte : Schéma Directeur des Energies Renouvelables > Axe 2 - Bois-Energie\nTitre : B5 - Faciliter la structuration de la filière bois pour développer la production et la consommation locale de bois-énergie\nDescription : aucune"
+  },
+  {
+   "id": 82525,
+   "titre": "E1 - Encourager le renouvellement des parcs existants",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté d'agglomération, 45 008 habitants\nContexte : Schéma Directeur des Energies Renouvelables > Axe 3 - Eolien\nTitre : E1 - Encourager le renouvellement des parcs existants\nDescription : aucune"
+  },
+  {
+   "id": 82526,
+   "titre": "",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté d'agglomération, 45 008 habitants\nContexte : Schéma Directeur des Energies Renouvelables\nTitre : (sans titre)\nDescription : aucune"
+  },
+  {
+   "id": 117830,
+   "titre": "A.1 Suivi et évolution des débits sur le Bassin versant",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté d'agglomération, 45 008 habitants\nContexte : Projet Territorial de Gestion de l'Eau du bassin versant de l'Ouvèze > Axe 1 : Améliorer les connaissances > 1.1 Connaissance des milieux\nTitre : A.1 Suivi et évolution des débits sur le Bassin versant\nDescription : <p class=\"!text-sm !text-primary-9 font-[Marianne]\">Code action PTGE: A1. </p>"
+  },
+  {
+   "id": 117831,
+   "titre": "A.2 Suivi de la température des cours d'eau",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté d'agglomération, 45 008 habitants\nContexte : Projet Territorial de Gestion de l'Eau du bassin versant de l'Ouvèze > Axe 1 : Améliorer les connaissances > 1.1 Connaissance des milieux\nTitre : A.2 Suivi de la température des cours d'eau\nDescription : <p class=\"!text-sm !text-primary-9 font-[Marianne]\">Suivi de la thermie des cours d'e</p>"
+  },
+  {
+   "id": 117832,
+   "titre": "A.3 Etude de faisabilité gestion active des mines",
+   "statut": "A discuter",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté d'agglomération, 45 008 habitants\nContexte : Projet Territorial de Gestion de l'Eau du bassin versant de l'Ouvèze > Axe 1 : Améliorer les connaissances > 1.1 Connaissance des milieux\nTitre : A.3 Etude de faisabilité gestion active des mines\nDescription : <p class=\"!text-sm !text-primary-9 font-[Marianne]\">Les anciennes galeries de mines de St Priest - privas draine une partie de l'Ouvèze</p>"
+  },
+  {
+   "id": 117833,
+   "titre": "A.4 Etude résurgence Onclaire (Coux) + infiltrations mines",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté d'agglomération, 45 008 habitants\nContexte : Projet Territorial de Gestion de l'Eau du bassin versant de l'Ouvèze > Axe 1 : Améliorer les connaissances > 1.1 Connaissance des milieux\nTitre : A.4 Etude résurgence Onclaire (Coux) + infiltrations mines\nDescription : <p class=\"!text-sm !text-primary-9 font-[Marianne]\">Étude d'amélioration de la connaissance de la résurgence d'Onclaire à Coux et expertise des volumes infiltrés dans les mines</p>"
+  },
+  {
+   "id": 117834,
+   "titre": "A.5 Inventaire des prélèvements domestiques & solutions alternatives",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté d'agglomération, 45 008 habitants\nContexte : Projet Territorial de Gestion de l'Eau du bassin versant de l'Ouvèze > Axe 1 : Améliorer les connaissances > 1.2 Connaissance des usages\nTitre : A.5 Inventaire des prélèvements domestiques & solutions alternatives\nDescription : <p class=\"!text-sm !text-primary-9 font-[Marianne]\">Nombreux prélèvements directs dans les rivières/ruisseaux/sources, non déclarés, non connus (</p>"
+  },
+  {
+   "id": 117835,
+   "titre": "A.6 Recenser les prélèvements agricoles",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté d'agglomération, 45 008 habitants\nContexte : Projet Territorial de Gestion de l'Eau du bassin versant de l'Ouvèze > Axe 1 : Améliorer les connaissances > 1.2 Connaissance des usages\nTitre : A.6 Recenser les prélèvements agricoles\nDescription : <p class=\"!text-sm !text-primary-9 font-[Marianne]\">Nombreux prélèvements agricoles non connus, non déclarés à la DDT07 : volumes (bes non connus</p>"
+  },
+  {
+   "id": 117836,
+   "titre": "A.7 Actualisation du Schéma Directeur d'Adduction en Eau Potable",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté d'agglomération, 45 008 habitants\nContexte : Projet Territorial de Gestion de l'Eau du bassin versant de l'Ouvèze > Axe 1 : Améliorer les connaissances > 1.2 Connaissance des usages\nTitre : A.7 Actualisation du Schéma Directeur d'Adduction en Eau Potable\nDescription : <p class=\"!text-sm !text-primary-9 font-[Marianne]\">Plusieurs schémas liés aux différentes structurations succe</p>"
+  },
+  {
+   "id": 117837,
+   "titre": "2.1.1 Restauration de milieux à Saint-Julien-en-Saint-Alban [travaux]",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté d'agglomération, 45 008 habitants\nContexte : Projet Territorial de Gestion de l'Eau du bassin versant de l'Ouvèze > Axe 2 : Réduire la vulnérabilité du territoire > 2.1 Fonctionnalité des milieux\nTitre : 2.1.1 Restauration de milieux à Saint-Julien-en-Saint-Alban [travaux]\nDescription : Code action PTGE: B8. Références: Feuille de route des Assises de l'Eau 07 (2023) - 15; Défi 11."
+  },
+  {
+   "id": 117838,
+   "titre": "2.1.2 Restauration de la continuité écologique Seuil du Gaucher [travaux]",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté d'agglomération, 45 008 habitants\nContexte : Projet Territorial de Gestion de l'Eau du bassin versant de l'Ouvèze > Axe 2 : Réduire la vulnérabilité du territoire > 2.1 Fonctionnalité des milieux\nTitre : 2.1.2 Restauration de la continuité écologique Seuil du Gaucher [travaux]\nDescription : Code action PTGE: B9. Références: Feuille de route des Assises de l'Eau 07 (2023) - 15; Défi 11; SCOT - R 54."
+  },
+  {
+   "id": 117839,
+   "titre": "2.1.3 Restauration de milieu Mézayon [travaux]",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté d'agglomération, 45 008 habitants\nContexte : Projet Territorial de Gestion de l'Eau du bassin versant de l'Ouvèze > Axe 2 : Réduire la vulnérabilité du territoire > 2.1 Fonctionnalité des milieux\nTitre : 2.1.3 Restauration de milieu Mézayon [travaux]\nDescription : Code action PTGE: B10. Références: Feuille de route des Assises de l'Eau 07 (2023) - 15; Défi 11."
+  },
+  {
+   "id": 117840,
+   "titre": "2.1.4 Restauration aval résurgence Coux [Etude]",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté d'agglomération, 45 008 habitants\nContexte : Projet Territorial de Gestion de l'Eau du bassin versant de l'Ouvèze > Axe 2 : Réduire la vulnérabilité du territoire > 2.1 Fonctionnalité des milieux\nTitre : 2.1.4 Restauration aval résurgence Coux [Etude]\nDescription : Code action PTGE: B11. Références: Feuille de route des Assises de l'Eau 07 (2023) - 15; Défi 11."
+  },
+  {
+   "id": 117841,
+   "titre": "2.1.5 Restauration espace de mobilité Bayonne [Etude]",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté d'agglomération, 45 008 habitants\nContexte : Projet Territorial de Gestion de l'Eau du bassin versant de l'Ouvèze > Axe 2 : Réduire la vulnérabilité du territoire > 2.1 Fonctionnalité des milieux\nTitre : 2.1.5 Restauration espace de mobilité Bayonne [Etude]\nDescription : Code action PTGE: B12. Coût: Temps agent. Références: Feuille de route des Assises de l'Eau 07 (2023) - 15; Défi 21."
+  },
+  {
+   "id": 117842,
+   "titre": "2.1.6 Restauration des fonctionnalités du Charalon",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté d'agglomération, 45 008 habitants\nContexte : Projet Territorial de Gestion de l'Eau du bassin versant de l'Ouvèze > Axe 2 : Réduire la vulnérabilité du territoire > 2.1 Fonctionnalité des milieux\nTitre : 2.1.6 Restauration des fonctionnalités du Charalon\nDescription : Code action PTGE: B13. Références: Feuille de route des Assises de l'Eau 07 (2023) - 15; Défi 11; SCOT - R 55."
+  },
+  {
+   "id": 117843,
+   "titre": "2.1.7 Plan de Gestion Stratégique Zones Humides",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté d'agglomération, 45 008 habitants\nContexte : Projet Territorial de Gestion de l'Eau du bassin versant de l'Ouvèze > Axe 2 : Réduire la vulnérabilité du territoire > 2.1 Fonctionnalité des milieux\nTitre : 2.1.7 Plan de Gestion Stratégique Zones Humides\nDescription : Code action PTGE: B14. Coût: Temps agent. Références: Feuille de route des Assises de l'Eau 07 (2023) - 15; Défi 15; SCOT - P 103, R 55."
+  },
+  {
+   "id": 117844,
+   "titre": "2.1.8 Actualisation Espace de Bon Fonctionnement",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté d'agglomération, 45 008 habitants\nContexte : Projet Territorial de Gestion de l'Eau du bassin versant de l'Ouvèze > Axe 2 : Réduire la vulnérabilité du territoire > 2.1 Fonctionnalité des milieux\nTitre : 2.1.8 Actualisation Espace de Bon Fonctionnement\nDescription : Code action PTGE: B15. Références: Défi 12; SCOT - R 53, P 115."
+  },
+  {
+   "id": 117845,
+   "titre": "2.1.9 Améliorer la qualité des rejets de STEP",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté d'agglomération, 45 008 habitants\nContexte : Projet Territorial de Gestion de l'Eau du bassin versant de l'Ouvèze > Axe 2 : Réduire la vulnérabilité du territoire > 2.1 Fonctionnalité des milieux\nTitre : 2.1.9 Améliorer la qualité des rejets de STEP\nDescription : Code action PTGE: B16. Volumes économisés (m3): 1305000."
+  },
+  {
+   "id": 117846,
+   "titre": "2.2.1 Optimiser le fonctionnement des retenues de stockage",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté d'agglomération, 45 008 habitants\nContexte : Projet Territorial de Gestion de l'Eau du bassin versant de l'Ouvèze > Axe 2 : Réduire la vulnérabilité du territoire > 2.2 Gestion des ressources\nTitre : 2.2.1 Optimiser le fonctionnement des retenues de stockage\nDescription : Code action PTGE: B17. Coût: Temps agent. Références: Feuille de route des Assises de l'Eau 07 (2023) - 2 et 8 et 21; Défi 4."
+  },
+  {
+   "id": 117847,
+   "titre": "2.2.2 Optimiser les usages de l’eau en agriculture",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté d'agglomération, 45 008 habitants\nContexte : Projet Territorial de Gestion de l'Eau du bassin versant de l'Ouvèze > Axe 2 : Réduire la vulnérabilité du territoire > 2.2 Gestion des ressources\nTitre : 2.2.2 Optimiser les usages de l’eau en agriculture\nDescription : Code action PTGE: B18. Coût: Temps agent. Références: Feuille de route des Assises de l'Eau 07 (2023) - 9."
+  },
+  {
+   "id": 117848,
+   "titre": "2.2.3 Agir sur les infrastructures d'adduction et de distribution d'eau potable",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté d'agglomération, 45 008 habitants\nContexte : Projet Territorial de Gestion de l'Eau du bassin versant de l'Ouvèze > Axe 2 : Réduire la vulnérabilité du territoire > 2.2 Gestion des ressources\nTitre : 2.2.3 Agir sur les infrastructures d'adduction et de distribution d'eau potable\nDescription : Code action PTGE: B19. Références: Feuille de route des Assises de l'Eau 07 (2023) - 4; SCOT - P 111."
+  },
+  {
+   "id": 117849,
+   "titre": "2.2.4 Déployer la Télé-relève",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté d'agglomération, 45 008 habitants\nContexte : Projet Territorial de Gestion de l'Eau du bassin versant de l'Ouvèze > Axe 2 : Réduire la vulnérabilité du territoire > 2.2 Gestion des ressources\nTitre : 2.2.4 Déployer la Télé-relève\nDescription : Code action PTGE: B20. Volumes économisés (m3): 69000. Références: Feuille de route des Assises de l'Eau 07 (2023) - 23; SCOT - P 111."
+  },
+  {
+   "id": 117850,
+   "titre": "2.2.5 Améliorer le pilotage des infrastructures AEP",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté d'agglomération, 45 008 habitants\nContexte : Projet Territorial de Gestion de l'Eau du bassin versant de l'Ouvèze > Axe 2 : Réduire la vulnérabilité du territoire > 2.2 Gestion des ressources\nTitre : 2.2.5 Améliorer le pilotage des infrastructures AEP\nDescription : Code action PTGE: B21. Références: Feuille de route des Assises de l'Eau 07 (2023) - 4, 23; SCOT - P 111."
+  },
+  {
+   "id": 117851,
+   "titre": "2.2.6 Schéma Directeur Eaux Pluviales",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté d'agglomération, 45 008 habitants\nContexte : Projet Territorial de Gestion de l'Eau du bassin versant de l'Ouvèze > Axe 2 : Réduire la vulnérabilité du territoire > 2.2 Gestion des ressources\nTitre : 2.2.6 Schéma Directeur Eaux Pluviales\nDescription : Code action PTGE: B22."
+  },
+  {
+   "id": 117852,
+   "titre": "2.2.7 Déconnexion et infiltration des eaux pluviales en zone urbanisée",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté d'agglomération, 45 008 habitants\nContexte : Projet Territorial de Gestion de l'Eau du bassin versant de l'Ouvèze > Axe 2 : Réduire la vulnérabilité du territoire > 2.2 Gestion des ressources\nTitre : 2.2.7 Déconnexion et infiltration des eaux pluviales en zone urbanisée\nDescription : Code action PTGE: B23. Coût: Temps agent. Références: Feuille de route des Assises de l'Eau 07 (2023) - 11; Défi 20 et 22; SCOT - P 104, 105, 114, 115, R 58."
+  },
+  {
+   "id": 117853,
+   "titre": "2.2.8 Aménagements paysagers d'infiltration de l'eau dans les sols en milieu rural",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté d'agglomération, 45 008 habitants\nContexte : Projet Territorial de Gestion de l'Eau du bassin versant de l'Ouvèze > Axe 2 : Réduire la vulnérabilité du territoire > 2.2 Gestion des ressources\nTitre : 2.2.8 Aménagements paysagers d'infiltration de l'eau dans les sols en milieu rural\nDescription : Code action PTGE: B24. Références: Feuille de route des Assises de l'Eau 07 (2023) - 2, 9; Défis 10, 16 et 19; SCOT - P 105, 114, 115, R 58."
+  },
+  {
+   "id": 117854,
+   "titre": "2.2.9 Aménagements paysagers d'infiltration de l'eau dans les sols en milieu agricole",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté d'agglomération, 45 008 habitants\nContexte : Projet Territorial de Gestion de l'Eau du bassin versant de l'Ouvèze > Axe 2 : Réduire la vulnérabilité du territoire > 2.2 Gestion des ressources\nTitre : 2.2.9 Aménagements paysagers d'infiltration de l'eau dans les sols en milieu agricole\nDescription : Code action PTGE: B25. Références: Feuille de route des Assises de l'Eau 07 (2023) - 2, 9; Défis 10, 16 et 19; SCOT - P 114, 115, R 58."
+  },
+  {
+   "id": 117855,
+   "titre": "2.2.10 Récupération des Eaux Pluviales",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté d'agglomération, 45 008 habitants\nContexte : Projet Territorial de Gestion de l'Eau du bassin versant de l'Ouvèze > Axe 2 : Réduire la vulnérabilité du territoire > 2.2 Gestion des ressources\nTitre : 2.2.10 Récupération des Eaux Pluviales\nDescription : Code action PTGE: B26. Références: Défi 8; SCOT - P 114, R 58."
+  },
+  {
+   "id": 117856,
+   "titre": "2.3.1 Optimisation de l'interconnexion Ouvèze-Payre",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté d'agglomération, 45 008 habitants\nContexte : Projet Territorial de Gestion de l'Eau du bassin versant de l'Ouvèze > Axe 2 : Réduire la vulnérabilité du territoire > 2.3 Substitution\nTitre : 2.3.1 Optimisation de l'interconnexion Ouvèze-Payre\nDescription : Code action PTGE: B27. Volumes substitués (m3): 160000. Références: Feuille de route des Assises de l'Eau 07 (2023) - 19; SCOT - P 111."
+  },
+  {
+   "id": 117857,
+   "titre": "2.3.2 Substitution sur la ressource Barbeyrol",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté d'agglomération, 45 008 habitants\nContexte : Projet Territorial de Gestion de l'Eau du bassin versant de l'Ouvèze > Axe 2 : Réduire la vulnérabilité du territoire > 2.3 Substitution\nTitre : 2.3.2 Substitution sur la ressource Barbeyrol\nDescription : Code action PTGE: B28. Volumes substitués (m3): 40000. Références: Feuille de route des Assises de l'Eau 07 (2023) - 19; SCOT - P 111."
+  },
+  {
+   "id": 117858,
+   "titre": "2.3.3 Sécurisation et Substitution des ressources de Lyas Coux et Pranles",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté d'agglomération, 45 008 habitants\nContexte : Projet Territorial de Gestion de l'Eau du bassin versant de l'Ouvèze > Axe 2 : Réduire la vulnérabilité du territoire > 2.3 Substitution\nTitre : 2.3.3 Sécurisation et Substitution des ressources de Lyas Coux et Pranles\nDescription : Code action PTGE: B29. Volumes substitués (m3): 15700. Références: Feuille de route des Assises de l'Eau 07 (2023) - 19; SCOT - P 111."
+  },
+  {
+   "id": 117859,
+   "titre": "2.3.4 Substitution AEP par extension du réseau d'irrigation SDEA",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté d'agglomération, 45 008 habitants\nContexte : Projet Territorial de Gestion de l'Eau du bassin versant de l'Ouvèze > Axe 2 : Réduire la vulnérabilité du territoire > 2.3 Substitution\nTitre : 2.3.4 Substitution AEP par extension du réseau d'irrigation SDEA\nDescription : Code action PTGE: B30. Volumes substitués (m3): 30000. Références: Feuille de route des Assises de l'Eau 07 (2023) - 24."
+  },
+  {
+   "id": 117860,
+   "titre": "3.1.1 Sobriété hydrique des entreprises",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté d'agglomération, 45 008 habitants\nContexte : Projet Territorial de Gestion de l'Eau du bassin versant de l'Ouvèze > Axe 3 : Adapter les usages à la ressource > 3.1 Economies d'eau\nTitre : 3.1.1 Sobriété hydrique des entreprises\nDescription : Code action PTGE: C31. Coût: Temps agent. Volumes économisés (m3): 5000. Références: Feuille de route des Assises de l'Eau 07 (2023) - 2 et 6; Défi 7; SCOT - P 110."
+  },
+  {
+   "id": 117861,
+   "titre": "3.1.2 Sobriété hydrique des hébergeurs touristiques",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté d'agglomération, 45 008 habitants\nContexte : Projet Territorial de Gestion de l'Eau du bassin versant de l'Ouvèze > Axe 3 : Adapter les usages à la ressource > 3.1 Economies d'eau\nTitre : 3.1.2 Sobriété hydrique des hébergeurs touristiques\nDescription : Code action PTGE: C32. Coût: Temps agent. Références: Feuille de route des Assises de l'Eau 07 (2023) - 2 et 10; SCOT - P 110."
+  },
+  {
+   "id": 117862,
+   "titre": "3.1.3 Soutenir le déploiement de Matériel hydroeconome",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté d'agglomération, 45 008 habitants\nContexte : Projet Territorial de Gestion de l'Eau du bassin versant de l'Ouvèze > Axe 3 : Adapter les usages à la ressource > 3.1 Economies d'eau\nTitre : 3.1.3 Soutenir le déploiement de Matériel hydroeconome\nDescription : Code action PTGE: C33. Références: Feuille de route des Assises de l'Eau 07 (2023) - 5; 11; 14; Défi 6."
+  },
+  {
+   "id": 117863,
+   "titre": "3.1.4 Favoriser les espaces verts économes en eau",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté d'agglomération, 45 008 habitants\nContexte : Projet Territorial de Gestion de l'Eau du bassin versant de l'Ouvèze > Axe 3 : Adapter les usages à la ressource > 3.1 Economies d'eau\nTitre : 3.1.4 Favoriser les espaces verts économes en eau\nDescription : Code action PTGE: C34. Références: Feuille de route des Assises de l'Eau 07 (2023) - 11; SCOT - R 56, 58."
+  },
+  {
+   "id": 117864,
+   "titre": "3.2.1 Mettre à jour les autorisations de prélèvements",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté d'agglomération, 45 008 habitants\nContexte : Projet Territorial de Gestion de l'Eau du bassin versant de l'Ouvèze > Axe 3 : Adapter les usages à la ressource > 3.2 Planification\nTitre : 3.2.1 Mettre à jour les autorisations de prélèvements\nDescription : Code action PTGE: C35. Coût: Temps agent. Références: Feuille de route des Assises de l'Eau 07 (2023) - 17, 23; Défi 2; SCOT - P 106."
+  },
+  {
+   "id": 117865,
+   "titre": "3.2.2 Intégrer l'eau dans les documents d'urbanisme",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté d'agglomération, 45 008 habitants\nContexte : Projet Territorial de Gestion de l'Eau du bassin versant de l'Ouvèze > Axe 3 : Adapter les usages à la ressource > 3.2 Planification\nTitre : 3.2.2 Intégrer l'eau dans les documents d'urbanisme\nDescription : Code action PTGE: C36. Coût: Temps agent. Références: Feuille de route des Assises de l'Eau 07 (2023) - 12; SCOT - P 101, 104, 106, 108, 110, 113, 115, R 57."
+  },
+  {
+   "id": 117866,
+   "titre": "3.2.3 Gouvernance",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté d'agglomération, 45 008 habitants\nContexte : Projet Territorial de Gestion de l'Eau du bassin versant de l'Ouvèze > Axe 3 : Adapter les usages à la ressource > 3.2 Planification\nTitre : 3.2.3 Gouvernance\nDescription : Code action PTGE: C37. Coût: Temps agent. Références: Défi 27; Action 18."
+  },
+  {
+   "id": 117867,
+   "titre": "3.3.1 Animer et coordonner le Projet de Territoire",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté d'agglomération, 45 008 habitants\nContexte : Projet Territorial de Gestion de l'Eau du bassin versant de l'Ouvèze > Axe 3 : Adapter les usages à la ressource > 3.3 Accompagnement sensibilisation\nTitre : 3.3.1 Animer et coordonner le Projet de Territoire\nDescription : Code action PTGE: C38. Références: Feuille de route des Assises de l'Eau 07 (2023) - 1 et 18; Défis 1; 9 et 27; SCOT - P 130, 132; Action n°18."
+  },
+  {
+   "id": 117868,
+   "titre": "3.3.2 Communication Sensibilisation",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté d'agglomération, 45 008 habitants\nContexte : Projet Territorial de Gestion de l'Eau du bassin versant de l'Ouvèze > Axe 3 : Adapter les usages à la ressource > 3.3 Accompagnement sensibilisation\nTitre : 3.3.2 Communication Sensibilisation\nDescription : Code action PTGE: C39. Références: Feuille de route des Assises de l'Eau 07 (2023) - 14, 27, 29; Défi 26."
+  }
+ ]
+}

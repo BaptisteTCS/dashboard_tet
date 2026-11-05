@@ -1,0 +1,305 @@
+{
+ "collectivite": {
+  "id": 5005,
+  "nom": "CC Val de Gray",
+  "type_code": "CC",
+  "type_label": "communauté de communes",
+  "population": 21148
+ },
+ "fiches": [
+  {
+   "id": 12589,
+   "titre": "Limiter l'emprise de la publicité",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 21 148 habitants\nContexte : Plan impact > Actions à venir\nTitre : Limiter l'emprise de la publicité\nDescription : - Sensibiliser les habitants à travers des actions rapides et efficaces tel que la promotion et généralisation du Stop Pub pour réduire les imprimés - Faire respecter les obligations concernant les enseignes lumineuses des commerces et l'affichage sur la voie publique - Mettre en place une taxe locale sur les enseignes et publicités extérieures (TPLE) - Devenir une ville sans publicité en instaurant une Zone de Publicité Restreinte et en supprimant la publicité commerciale au profit d'une publicité légale d'intérêt général - Mettre en place un règlement local de publicité (RLP)"
+  },
+  {
+   "id": 12590,
+   "titre": "Former tous les enfants et éleves aux enjeux climat-air-énergie et à l’éco-citoyenneté",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 21 148 habitants\nContexte : Plan impact > Actions à venir\nTitre : Former tous les enfants et éleves aux enjeux climat-air-énergie et à l’éco-citoyenneté\nDescription : Sensibiliser les enfants aux enjeux climat-air-énergie et à l’éco-citoyenneté"
+  },
+  {
+   "id": 12591,
+   "titre": "Élaborer une politique de stationnement volontariste",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 21 148 habitants\nContexte : Plan impact > Actions à venir\nTitre : Élaborer une politique de stationnement volontariste\nDescription : Mettre en place une politique de stationnement dans le centre-ville et/ ou les zones de forte pression (commerces de quartier, etc.) Mettre en place une tarification différenciée si besoin Pour les communes en zones rurale, mettre l'accent sur la sensibilisation et l’information auprès des habitants sur le besoin de gérer l’usage de la voiture et de marquer les places réservées au stationnement et le développement de zones bleues le cas échéant autour des zones de trafic. Faire respecter la réglementation via de la prévention et de la verbalisation"
+  },
+  {
+   "id": 12592,
+   "titre": "Etre exemplaire en matière d'écoresponsabilité au sein de la collectivité",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 21 148 habitants\nContexte : Plan impact > Actions à venir\nTitre : Etre exemplaire en matière d'écoresponsabilité au sein de la collectivité\nDescription : Les bonnes pratiques en matière d'écoresponsabilité font partie des règles de fonctionnement de la collectivité et sont appliquées au quotidien, notamment pour : - La réduction de la consommation énergétique du bâtiment liée aux usagers - La mobilité des agents en missions - La prévention et réduction des déchets générés par les activités de la collectivité"
+  },
+  {
+   "id": 12593,
+   "titre": "Optimiser la gestion des eaux pluviales",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 21 148 habitants\nContexte : Plan impact > Actions à venir\nTitre : Optimiser la gestion des eaux pluviales\nDescription : Privilégier l'infiltration à la parcelle et réduire les surfaces imperméabilisées afin de réduire les risques et la fréquence des pollution des milieux aquatiques lors des épisodes de forte pluie"
+  },
+  {
+   "id": 12594,
+   "titre": "Soutenir une agriculture et une alimentation plus durable",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 21 148 habitants\nContexte : Plan impact > Actions à venir\nTitre : Soutenir une agriculture et une alimentation plus durable\nDescription : Soutenir, promouvoir et encourager des pratiques agricoles et alimentaires durables sur son territoire et sur ses territoires d’approvisionnement : - en menant des actions visant à réduire les émissions de gaz à effet de serre, de particules et plus globalement les impacts environnementaux du secteur agricole (formation aux pratiques agro-écologiques, certification environnementale des exploitations...) - en préservant le foncier agricole au travers des documents d’urbanisme et en accompagnant la mise en place d’espace agricoles ou jardiniers urbains ou péri-urbains (mesure 1.3.1) - en mobilisant les acteurs du territoire, par exemple par le biais d’un PAT – projet alimentaire territorial – sur l’ensemble de la chaîne alimentaire (du producteur au consommateur, en passant par la transformation, la distribution et la restauration) - en orientant ses actions et ses soutiens (techniques et financiers) pour accompagner des projets exemplaires en terme d’alimentation durable et les filières agricoles locales et durables - en agissant sur sa restauration collective et ses achats alimentaires (prestations évènementielles), par le biais de la commande publique (approvisionnements durables et des proximité, sensibilisation des convives) en sensibilisant les habitants aux enjeux et aux actions à mettre en place (plus végétale et diversifiée, qualité des produits, respect de la saisonnalité, gestion durable des sols, lutte contre le gaspillage alimentaire...)"
+  },
+  {
+   "id": 12595,
+   "titre": "Mettre en place une comptabilité énergétique et des émissions de GES des bâtiments publics",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 21 148 habitants\nContexte : Plan impact > Actions à venir\nTitre : Mettre en place une comptabilité énergétique et des émissions de GES des bâtiments publics\nDescription : Disposer d’un bilan énergétique et technique de tous les bâtiments et équipements publics significatifs, incluant des éléments sur les consommations d’énergie, les gaz à effet de serre, les énergies renouvelables, la qualité de l’air intérieur. Limiter les besoins en chauffage / rafraichissement dans les bâtiments municipaux."
+  },
+  {
+   "id": 12596,
+   "titre": "Augmenter l'utilisation des énergies renouvelables pour la chaleur et le rafraîchissement",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 21 148 habitants\nContexte : Plan impact > Actions à venir\nTitre : Augmenter l'utilisation des énergies renouvelables pour la chaleur et le rafraîchissement\nDescription : Epuiser le potentiel d'utilisation des énergies renouvelables pour le chauffage des bâtiments, l'eau chaude sanitaire et le rafraîchissement, avec une attention sur la qualité de l'air. Mettre en place, lorsque cela est possible, des réseaux de chaleur renouvelable alimentés par de énergies renouvelables."
+  },
+  {
+   "id": 12597,
+   "titre": "Récupérer la chaleur industrielle, pratiquer la cogénération, utiliser les réseaux de chaleur/froid comme vecteur",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 21 148 habitants\nContexte : Plan impact > Actions à venir\nTitre : Récupérer la chaleur industrielle, pratiquer la cogénération, utiliser les réseaux de chaleur/froid comme vecteur\nDescription : Les possibilités de récupération de chaleur des grandes entreprises industrielles et des centrales électriques, y compris à partir et pour la production de froid, sont exploitées. Le potentiel de cogénération voire de tri-génération (à partir d’énergies renouvelables prioritairement, puis de gaz naturel) par exemple pour le secteur du chauffage ou du rafraîchissement, est connu et exploité. Les technologies et les sources d’énergie utilisées sont choisies dans une approche multicritère climat-air-énergie."
+  },
+  {
+   "id": 12598,
+   "titre": "Protéger toutes les aires d'alimentation de captage en eau potable, y compris celles étant non prioritaires",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 21 148 habitants\nContexte : Plan impact > Actions en cours\nTitre : Protéger toutes les aires d'alimentation de captage en eau potable, y compris celles étant non prioritaires\nDescription : Protéger toutes les aires d'alimentation de captage en eau potable \"y compris celles étant non prioritaires\" avec des politiques précises de restriction des usages sur la zone (Agriculture : Conversion et installation en agriculture biologique, Élevage extensif ; Activités économiques & industrie : 0 rejets)"
+  },
+  {
+   "id": 12599,
+   "titre": "Développer le réseau piétonnier",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 21 148 habitants\nContexte : Plan impact > Actions en cours\nTitre : Développer le réseau piétonnier\nDescription : Le réseau piétonnier et la marchabilité est priorisée dans tous les aménagements du territoire"
+  },
+  {
+   "id": 12600,
+   "titre": "Élaborer une vision et une stratégie globales pour la transition écologique en formalisant les engagements et objectifs de la collectivité",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 21 148 habitants\nContexte : Plan impact > Actions en cours\nTitre : Élaborer une vision et une stratégie globales pour la transition écologique en formalisant les engagements et objectifs de la collectivité\nDescription : - Affirmer son engagement en matière de transition écologique en s'impliquant dans des réseaux et des démarches ambitieuses et reconnues et en définissant des objectifs étant alignés avec les objectifs nationaux et internationaux et autant que possible plus ambitieux. - Définir une vision de la planification écologique et y associer des objectifs qualitatifs et quantitatifs déclinés dans ses politiques sectorielles. - Définir une stratégie d'action sur la planification écologique détaillant la vision fixée et structurée autour d'objectifs à moyen et long termes et de cibles intermédiaires de réduction des flux, des consommations et des émissions"
+  },
+  {
+   "id": 12601,
+   "titre": "Identifier les personnes référentes sur les principaux sujets de la planification écologique",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 21 148 habitants\nContexte : Plan impact > Actions en cours\nTitre : Identifier les personnes référentes sur les principaux sujets de la planification écologique\nDescription : Les personnes référentes sur les sujets prioritaires (sur lesquels la collectivité dispose des compétences) sont identifiés et constituent une équipe projet qui échange facilement et régulièrement de façon transversale pour mener à bien les actions programmées. Ces sujets comprennent notamment : - Urbanisme et Aménagement - Rénovation de l'habitat - Développement des énergies renouvelables - Gestion de la politique d'économie circulaire et des déchets - Gestion de l'eau - Préservation de la biodiversité, gestion des espaces verts et renaturation - Mobilité des agents et usagers du service public - Bâtiments et patrimoine public - Achats publics - Ressources humaines - Budget de la collectivité Les postes vacants ou pour lesquels il n'existe pas de référent sont clairement identifiés."
+  },
+  {
+   "id": 12602,
+   "titre": "Economiser l'eau dans les bâtiments publics et les activités de la collectivité",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 21 148 habitants\nContexte : Plan impact > Actions en cours\nTitre : Economiser l'eau dans les bâtiments publics et les activités de la collectivité\nDescription : La consommation d'eau potable ainsi que les prélèvements dans les milieux sont suivis au moyen de compteurs et des actions sont mises en place qui permettent de réduire la consommation d'eau. Les principaux postes de consommation sont identifiés et munis de compteurs en télérelève relevés à intervalle réguliers permettant la détection rapide d'anomalies. La collectivité respecte les arrêtés sécheresse et ne sollicite pas de dérogations pour des usages non prioritaires."
+  },
+  {
+   "id": 12603,
+   "titre": "Proposer une offre de transports publics attractive et de qualité",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 21 148 habitants\nContexte : Plan impact > Actions en cours\nTitre : Proposer une offre de transports publics attractive et de qualité\nDescription : La collectivité propose une offre de transports publics attractive et de qualité adaptée au maillage des zones d'habitations et d'activités du territoire"
+  },
+  {
+   "id": 12604,
+   "titre": "Mettre en place une politique d'achat exemplaires pour avoir un impact positif sur le territoire",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 21 148 habitants\nContexte : Plan impact > Actions en cours\nTitre : Mettre en place une politique d'achat exemplaires pour avoir un impact positif sur le territoire\nDescription : Définir des objectifs cibles à atteindre à moyen et long terme pour l’augmentation de la part des marches publics socialement et écologiquement responsables. Intégrer systématiquement dans les marchés publics d'achat de biens matériels ou de services, des critères d'efficacité énergétique, de réduction de l'impact environnemental (y compris qualité de l'air), de coût du cycle de vie s'ils existent"
+  },
+  {
+   "id": 12605,
+   "titre": "Diagnostic des flux matières/ressources/Economie circulaire sur le territoire",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 21 148 habitants\nContexte : Plan impact > Actions en cours\nTitre : Diagnostic des flux matières/ressources/Economie circulaire sur le territoire\nDescription : Effectuer une analyse de l'Economie circulaire pour le territoire, de manière quantitative et qualitative (renouveler cette analyse au maximum tous les 6 ans) Suivre annuellement l'évolution de la production de déchets du territoire"
+  },
+  {
+   "id": 12606,
+   "titre": "Mettre en place un Programme Local de l'Habitat actualisé intégrant les objectifs de transition écologiques",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 21 148 habitants\nContexte : Plan impact > Actions en cours\nTitre : Mettre en place un Programme Local de l'Habitat actualisé intégrant les objectifs de transition écologiques\nDescription : Possèder au moins 1 dispositif structurant la politique de construction et de rénovation des bâtiments résidentiels sur son territoire, visant à promouvoir la performance climat-air-énergie. Cette politique hiérarchise les priorités d’actions, et fixe des objectifs chiffrés opérationnels et territorialisés (nombre, type de bâtiments et niveau de performances…), en phase avec les objectifs nationaux (déclinaison du plan de rénovation énergétique de l’habitat notamment)."
+  },
+  {
+   "id": 12607,
+   "titre": "Stopper l'artificialisation",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 21 148 habitants\nContexte : Plan impact > Actions en cours\nTitre : Stopper l'artificialisation\nDescription : Utiliser les documents d'urbanisme pour lutter contre l'artificialisation des sols, assurer le maintien des espaces naturels, agricoles et forestiers et favoriser la restauration de ces espaces quand cela est possible."
+  },
+  {
+   "id": 12608,
+   "titre": "Mettre en place une tarification incitative de l'eau",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 21 148 habitants\nContexte : Plan impact > Actions en cours\nTitre : Mettre en place une tarification incitative de l'eau\nDescription : Influencer et modifier le comportement des usagers via la mise en place d'un prix de l’eau écologique et solidaire qui est un outil incitatif particulièrement performant pour limiter la consommation d’eau et permettre de mieux préserver la ressource en eau. Financer les compensations nécessaires aux usages excessifs."
+  },
+  {
+   "id": 12609,
+   "titre": "Préserver la biodiversité du territoire et développer des espaces verts",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 21 148 habitants\nContexte : Plan impact > Actions en cours\nTitre : Préserver la biodiversité du territoire et développer des espaces verts\nDescription : Protéger les espaces naturels existants et développer les trames vertes et bleues. Végétaliser en plantant des arbres et en développant les espaces verts avec une approche prenant en considération les risques d'évolution climatique sur le territoire et en choisissant des espèces permettant de supprimer (ou a minima de limiter) les besoins d'arrosage."
+  },
+  {
+   "id": 12610,
+   "titre": "Prévenir et lutter contre la précarité énergétique",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 21 148 habitants\nContexte : Plan impact > Actions en cours\nTitre : Prévenir et lutter contre la précarité énergétique\nDescription : Engager une politique de prévention et de lutte contre la précarité énergétique (liée au logement et à la mobilité) et l'inscrire dans ses documents stratégiques. Réaliser un travail d’inventaire des acteurs de la précarité énergétique et des actions existantes, sur lesquelles construire le dispositif. Utiliser au mieux les moyens humains à disposition pour identifier des situations de précarité énergétique du logement et orienter les familles directement vers les dispositifs existants ou indirectement vers des associations spécialisées."
+  },
+  {
+   "id": 12611,
+   "titre": "Diagnostic complet recueillant et analysant les données énergétiques, les émissions de GES, les polluants atmosphériques",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 21 148 habitants\nContexte : Plan impact > Actions en cours\nTitre : Diagnostic complet recueillant et analysant les données énergétiques, les émissions de GES, les polluants atmosphériques\nDescription : Effectuer régulièrement (et idéalement chaque année) une analyse de l'évolution de la situation pour le territoire, de manière quantitative et qualitative en s'appuyant sur les données disponibles auprès de l'observatoires régional de l'énergie, les agences de surveillance de la qualité de l'air"
+  },
+  {
+   "id": 12612,
+   "titre": "Optimiser l'éclairage public",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 21 148 habitants\nContexte : Plan impact > Actions en cours\nTitre : Optimiser l'éclairage public\nDescription : Limiter les points lumineux autant que nécessaire. Réduire les plages horaires de fonctionnement en adaptant l'éclairage aux usages Remplacer les équipements par des systèmes LED performants"
+  },
+  {
+   "id": 12613,
+   "titre": "Connaitre le potentiel de développement des ENR du territoire et programmer leur développement",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 21 148 habitants\nContexte : Plan impact > Actions en cours\nTitre : Connaitre le potentiel de développement des ENR du territoire et programmer leur développement\nDescription : - Prendre en compte et quantifier tous les potentiels de développement - Programmer la mise en oeuvre de l'ensemble du potentiel de production d'énergie renouvelable locale"
+  },
+  {
+   "id": 12614,
+   "titre": "Mobiliser les citoyens dans le processus de décision sur les sujets de planification écologique",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 21 148 habitants\nContexte : Plan impact > Actions en cours\nTitre : Mobiliser les citoyens dans le processus de décision sur les sujets de planification écologique\nDescription : Organiser de façon régulière des groupes de travail et des dispositifs participatifs variés."
+  },
+  {
+   "id": 12615,
+   "titre": "Disposer d'un schéma directeur des énergies et des réseaux de chaleur intégrant la décarbonation et le développement des énergies renouvelables",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 21 148 habitants\nContexte : Plan impact > Actions en cours\nTitre : Disposer d'un schéma directeur des énergies et des réseaux de chaleur intégrant la décarbonation et le développement des énergies renouvelables\nDescription : Disposer d’une programmation énergétique (schéma directeur des énergies), à l’échelle territoriale, avec des indications et stratégies concrètes pour : - favoriser la sobriété, dimensionner au plus juste les infrastructures et systèmes fournissant des services énergétiques pour éviter les gaspillages - réduire la consommation et améliorer l'efficacité énergétique ; - mettre en oeuvre l'ensemble du potentiel de production d'énergie renouvelable locale nécessaire pour remplir les objectifs du territoire ; - augmenter l'utilisation des énergies renouvelables (plan de développement des énergies renouvelables, schéma de développement éolien …) ; - développer les réseaux de chaleur/froid renouvelable et de récupération (schéma directeur de réseau de chaleur) ; - réduire les émissions de gaz à effet de serre associées aux consommations et productions énergétiques ; - coordonner les différentes démarches sectorielles et notamment la planification urbaine ; - limiter, voire éviter dans les zones sensibles, les antagonismes avec les objectifs de préservation de la qualité de l'air."
+  },
+  {
+   "id": 12616,
+   "titre": "Développer le réseau et les infrastructures cyclables",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 21 148 habitants\nContexte : Plan impact > Actions en cours\nTitre : Développer le réseau et les infrastructures cyclables\nDescription : Le réseau cyclable et la cyclabilité sont priorisés dans tous les aménagements de voirie sur le territoire. Le stationnement à vélo est facile et privilégié pour les cyclistes par rapport aux automobilistes aux abords des lieux publics et des lieux à forte fréquentation du public."
+  },
+  {
+   "id": 12617,
+   "titre": "Evaluer la vulnérabilité du territoire face au changement climatique",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 21 148 habitants\nContexte : Plan impact > Actions en cours\nTitre : Evaluer la vulnérabilité du territoire face au changement climatique\nDescription : Analyser les impacts potentiels du changement climatique et la vulnérabilité du territoire Par exemple : gestion des risques (inondation, érosion, etc.), en lien avec les Plans de Prévention des Risques / adaptation des normes constructives (confort d'été) et lutte contre les îlots de chaleur / sécurité de la population et des touristes / sécheresse, feux de forêt / impact sur l’approvisionnement en eau et plus généralement sur les réseaux d’eau / impact sur les activités agricoles, industrielles et touristiques / impact sur les moyens de production d’énergie conventionnels et renouvelables"
+  },
+  {
+   "id": 12618,
+   "titre": "Favoriser un tourisme durable",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 21 148 habitants\nContexte : Plan impact > Actions en cours\nTitre : Favoriser un tourisme durable\nDescription : Elaborer une stratégie touristique durable pour réduire les impacts du tourisme sur les ressources naturelles et les écosystèmes (la pression sur la ressource locale en eau, …), en matière d'émissions GES (notamment liées au transport) et l'accès aux activités touristiques pour tous"
+  },
+  {
+   "id": 12619,
+   "titre": "Soutenir l'utilisation durable des forêts et des espaces boisés",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 21 148 habitants\nContexte : Plan impact > Actions en cours\nTitre : Soutenir l'utilisation durable des forêts et des espaces boisés\nDescription : - Prendre en compte la forêt et les espaces boisés dans ses documents d’urbanisme, dans un objectif d’identification, de préservation, d’utilisation rationnelle ou de développement. - Inciter aux pratiques sylvicoles durables et au développement des pratiques de gestion raisonnée des forêts et espaces boisés, en interne et auprès des particuliers et des professionnels. - Contribuer à structurer et développer des filières bois-énergie et bois-construction."
+  },
+  {
+   "id": 12620,
+   "titre": "Mettre en place un comité de pilotage transversal",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 21 148 habitants\nContexte : Plan impact > Actions en cours\nTitre : Mettre en place un comité de pilotage transversal\nDescription : Un comité de pilotage réunissant les décideurs et référents thématiques se réunit régulièrement (au moins 2 fois par an) pour s'assurer du bon avancement et de la priorisation de la programmation des actions de planification écologique. Ce comité de pilotage s'assure que les actions sont identifiées et priorisées y compris dans l'exercice de programmation budgétaire et la programmation pluriannuelle d'investissement"
+  },
+  {
+   "id": 12621,
+   "titre": "Identifier les zones favorables aux réseaux de chaleur et augmenter l'utilisation des énergies renouvelables pour la chaleur et le rafraîchissement",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 21 148 habitants\nContexte : Plan impact > Actions en cours\nTitre : Identifier les zones favorables aux réseaux de chaleur et augmenter l'utilisation des énergies renouvelables pour la chaleur et le rafraîchissement\nDescription : Epuiser le potentiel d'utilisation des énergies renouvelables pour le chauffage des bâtiments, l'eau chaude sanitaire et le rafraîchissement, avec une attention sur la qualité de l'air. Mettre en place, lorsque cela est possible, des réseaux de chaleur renouvelable alimentés par de énergies renouvelables."
+  },
+  {
+   "id": 12622,
+   "titre": "Elaborer une stratégie patrimoniale incluant un programme de rénovation",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 21 148 habitants\nContexte : Plan impact > Actions en cours\nTitre : Elaborer une stratégie patrimoniale incluant un programme de rénovation\nDescription : Formuler une stratégie patrimoniale permettant de planifier et de phaser son évolution à 5 ou 10 ans (extension, réhabilitation, démolition, réaffectation, vente...), en cohérence avec des objectifs de réduction des émissions GES et de consommation énergétique de ses bâtiments"
+  },
+  {
+   "id": 12623,
+   "titre": "Accompagner les particuliers pour la rénovation et la construction durable de leur logement",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 21 148 habitants\nContexte : Plan impact > Actions en cours\nTitre : Accompagner les particuliers pour la rénovation et la construction durable de leur logement\nDescription : Gérer ou soutenir un ou des centre(s) de conseil (local ou régional) sur le climat, l'air et l'énergie à l'intention des particuliers. Soutenir également financièrement les travaux de rénovation du secteur résidentiel. Fixer des objectifs de rénovation et suivre des indicateurs sur la rénovation/construction durable des bâtiments résidentiels et tertiaires sur le territoire."
+  },
+  {
+   "id": 12624,
+   "titre": "Attribuer un budget suffisant pour la politique de transition écologique",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 21 148 habitants\nContexte : Plan impact > Actions en cours\nTitre : Attribuer un budget suffisant pour la politique de transition écologique\nDescription : Les actions nécessitant un budget sont identifiées et la part du budget global contribuant à la planification écologique est connu et identifié dans la programmation pluriannuelle. Appuyer l'engagement en faveur de la transition écologique en allouant un budget de 5€ /10€ / 20€ / 50€ / \"montant libre\" / par habitant par an pour mettre en œuvre des actions de transition écologique"
+  },
+  {
+   "id": 12625,
+   "titre": "Réparer les fuites du réseau de distribution d'eau potable",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 21 148 habitants\nContexte : Plan impact > Actions en cours\nTitre : Réparer les fuites du réseau de distribution d'eau potable\nDescription : Identifier les fuites du réseau de distribution d'eau potable et disposer d'un taux de rendement performant"
+  },
+  {
+   "id": 12626,
+   "titre": "Disposer d'un plan de mobilité visant la décarbonation des transports sur le territoire",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 21 148 habitants\nContexte : Plan impact > Actions en cours\nTitre : Disposer d'un plan de mobilité visant la décarbonation des transports sur le territoire\nDescription : Disposer d’une planification spatialisée des déplacements sur son territoire avec des indications concrètes, des orientations stratégiques et un un dispositif de suivi et de contrôle pour : - réduire le trafic motorisé individuel – l’autosolisme - promouvoir les modes actifs (marche, vélo), l'intermodalité et les mobilités partagées - Promouvoir une logistique urbaine durable - promouvoir les carburants alternatifs (électrique batterie, bioGNV, hydrogène renouvelable) et l’hippomobilité, développer l’offre d’infrastructures de recharge - rendre accessible la mobilité pour tous et sur l’ensemble du territoire - promouvoir/étendre les transports publics - lutter contre la pollution sonore et l’étalement urbain - organiser les conditions d’approvisionnement de l’agglomération - réglementer la localisation des équipements et aménagements générateurs de trafic (centres commerciaux, écoles …) en fonction de leur desserte en transport en commun, modes actifs... - limiter les émissions de polluants atmosphériques liés aux déplacements - préserver la biodiversité..."
+  },
+  {
+   "id": 12627,
+   "titre": "Disposer d'un plan d'action d'adaptation au changement climatique",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 21 148 habitants\nContexte : Plan impact > Actions en cours\nTitre : Disposer d'un plan d'action d'adaptation au changement climatique\nDescription : S'engager dans une démarche d'adaptation au changement climatique pour anticiper les impacts prévisibles du changement climatique, limiter leurs dégâts éventuels sur les activités socio-économiques et sur la nature, en intervenant sur les facteurs qui contrôlent leur ampleur (par exemple, l’urbanisation des zones à risques) et profiter des opportunités potentielles. Identifier explicitement les actions de la collecivité qui contribuent à l'adaptation au changement climatique"
+  },
+  {
+   "id": 12628,
+   "titre": "Augmenter la production d'électricité issue d'énergies renouvelables sur le territoire",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 21 148 habitants\nContexte : Plan impact > Actions en cours\nTitre : Augmenter la production d'électricité issue d'énergies renouvelables sur le territoire\nDescription : Mettre en oeuvre l'ensemble du potentiel de production d'électricité renouvelable locale"
+  },
+  {
+   "id": 12629,
+   "titre": "Désigner une (ou plusieurs personnes) chef de projet transition écologique",
+   "statut": "Réalisé",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 21 148 habitants\nContexte : Plan impact > Actions déjà réalisées\nTitre : Désigner une (ou plusieurs personnes) chef de projet transition écologique\nDescription : - Designer un personne référente en charge de la planification écologique (ou dénominations équivalentes). Les responsabilités peuvent être réparties entre plusieurs personnes en fonction de l'organisation de la collectivité Autres éléments de descriptions (superflu pour la description courte correspond à d'autres actions) : - Aménager le(s) poste(s) pour permettre de se consacrer pleinement à la mission et de travailler en transversalité et de manière légitime avec les autres services - Positionner cette personne de façon stratégique dans l'organigramme ou lui confier une lettre de mission"
+  },
+  {
+   "id": 12630,
+   "titre": "Identifier un⸱e élu⸱e référent⸱e",
+   "statut": "Réalisé",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 21 148 habitants\nContexte : Plan impact > Actions déjà réalisées\nTitre : Identifier un⸱e élu⸱e référent⸱e\nDescription : Identifier la personne élue référente (ou les élus référents) en charge de la planification écologique"
+  }
+ ]
+}

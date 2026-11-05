@@ -1,0 +1,522 @@
+{
+ "collectivite": {
+  "id": 6030,
+  "nom": "SM du SCoT Sambre Avesnois",
+  "type_code": "epci",
+  "type_label": "epci",
+  "population": 226108
+ },
+ "fiches": [
+  {
+   "id": 126653,
+   "titre": "0.1. Mettre en œuvre les actions du PCAET au sein des EPCI",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : epci, 226 108 habitants\nContexte : PCAET > 0. SUIVI DU PCAET - S'assurer du bon suivi du PCAET au cours des 6 années et la réalisation des actions.\nTitre : 0.1. Mettre en œuvre les actions du PCAET au sein des EPCI\nDescription : Le SM SCOT Sambre Avesnois, avec le soutien en ingénierie de l’Agence de Développement et d’urbanisme (ADU), assure l’animation et le suivi général du PCAET. Mais un suivi est nécessaire au sein des EPCI car ce sont ces derniers qui assurent la réalisation de la majorité des actions. Le comité de suivi du PCAET vise à regrouper les élus et techniciens référents sur ces questions à l'échelle du SCOT afin de suivre la mise en œuvre des actions."
+  },
+  {
+   "id": 126654,
+   "titre": "0.2. Suivre l'évolution des indicateurs et mettre à jour les diagnostics réglementaires",
+   "statut": "En retard",
+   "n_sous_actions": 0,
+   "message": "Collectivité : epci, 226 108 habitants\nContexte : PCAET > 0. SUIVI DU PCAET - S'assurer du bon suivi du PCAET au cours des 6 années et la réalisation des actions.\nTitre : 0.2. Suivre l'évolution des indicateurs et mettre à jour les diagnostics réglementaires\nDescription : Un suivi rigoureux des indicateurs des actions du PCAET permet la réalisation du bilan à mi-parcours (après 3 ans), puis du bilan en fin du PCAET. Une mise à jour régulière des diagnostics réglementaires du PCAET est réalisée afin de suivre l'impact des actions mises en œuvre sur le territoire. Cette action vise également la préparation du prochain PCAET sur le territoire pour la période 2031-2036."
+  },
+  {
+   "id": 126655,
+   "titre": "0.3. Sensibiliser les entreprises, collectivités et particuliers aux enjeux du PCAET",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : epci, 226 108 habitants\nContexte : PCAET > 0. SUIVI DU PCAET - S'assurer du bon suivi du PCAET au cours des 6 années et la réalisation des actions.\nTitre : 0.3. Sensibiliser les entreprises, collectivités et particuliers aux enjeux du PCAET\nDescription : Le PCAET est un document de planification territorial, peu connu du grand public. Une communication spécifique est à mettre en place afin de faire connaitre le document, les enjeux soulevés et les objectifs à atteindre. Une mobilisation de tous les acteurs (collectivités, entreprises, particuliers) est nécessaire pour que toutes les actions du PCAET soient mises en œuvre."
+  },
+  {
+   "id": 126656,
+   "titre": "1.1.1. Mettre en œuvre le Programme Local de l'Habitat 2025-2030",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : epci, 226 108 habitants\nContexte : PCAET > 1. RESIDENTIEL - Agir pour lutter contre la précarité énergétique des ménages et garantir la performance thermique des constructions nouvelles et anciennes > 1.1. Stratégie locale pour l'habitat\nTitre : 1.1.1. Mettre en œuvre le Programme Local de l'Habitat 2025-2030\nDescription : Elaboré pour 6 ans, le PLH est un document réglementaire définissant la stratégie et les actions à mener dans le cadre de la politique de l’habitat. Le PLH porte des objectifs ambitieux sur les thématiques de rénovation et de lutte contre la précarité énergétique."
+  },
+  {
+   "id": 126657,
+   "titre": "1.1.2. Mise en œuvre du POA Habitat (PLUi-H), incluant la lutte contre la précarité énergétique, l'adaptation de l'offre, … (2023-2029)",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : epci, 226 108 habitants\nContexte : PCAET > 1. RESIDENTIEL - Agir pour lutter contre la précarité énergétique des ménages et garantir la performance thermique des constructions nouvelles et anciennes > 1.1. Stratégie locale pour l'habitat\nTitre : 1.1.2. Mise en œuvre du POA Habitat (PLUi-H), incluant la lutte contre la précarité énergétique, l'adaptation de l'offre, … (2023-2029)\nDescription : La CC Cœur de l'Avesnois a souhaité intégrer des dispositions habitat au sein de son PLUi tenant lieu de Programme Local pour l’Habitat (PLH) à travers la rédaction d’un Programme d’Orientations et d’Actions Habitat. Elaboré pour 6 ans, le PLH est un document réglementaire définissant la stratégie et les actions à mener dans le cadre de la politique de l’habitat. Le POA Habitat de la CC Cœur de l'Avesnois porte des objectifs ambitieux sur les questions de lutte contre la vacance, contre l’insalubrité et les passoires thermiques, et un accompagnement des publics fragiles.."
+  },
+  {
+   "id": 126658,
+   "titre": "1.2.1. Améliorer l’efficacité énergétique et thermique des habitations",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : epci, 226 108 habitants\nContexte : PCAET > 1. RESIDENTIEL - Agir pour lutter contre la précarité énergétique des ménages et garantir la performance thermique des constructions nouvelles et anciennes > 1.2. Rénover énergétiquement les logements et lutter contre la précarité énergétique\nTitre : 1.2.1. Améliorer l’efficacité énergétique et thermique des habitations\nDescription : <div class=\"bn-block-group\" data-node-type=\"blockGroup\"><div class=\"bn-block-outer\" data-node-type=\"blockOuter\" data-id=\"4568bd70-7978-4e5b-b4bb-ff8a3a2324c8\"><div class=\"bn-block\" data-node-type=\"blockContainer\" data-id=\"4568bd70-7978-4e5b-b4bb-ff8a3a2324c8\"><div class=\"bn-block-content !p-0\" data-content-type=\"paragraph\"><p class=\"bn-inline-content !text-sm !text-primary-9 font-[Marianne]\">Un nombre important d'habitations sont considérées comme des passoires thermiques, avec une étiquettes énergétiques E, F ou G. Ces habitations sont responsables de la forte précarité énergétique sur le territoire.</p></div></div></div><div class=\"bn-block-outer\" data-node-type=\"blockOuter\" data-id=\"564d81d6-9686-4847-a68f-a0c5e51b9be1\"><div class=\"bn-block\" data-node-type=\"blockContainer\" data-id=\"564d81d6-9686-4847-a68f-a0c5e51b9be1\"><div class=\"bn-block-content !p-0\" data-content-type=\"paragraph\"><p class=\"bn-inline-content !text-sm !text-primary-9 font-[Marianne]\">De nombreux ménages disposent toujours d'anciennes chaudières au fioul, onéreuses et particulièrement émettrices de gaz à effet de serre et de polluants atmosphériques. De même, les systèmes de chauffage au bois dans des foyers ouverts ne permettent pas de chauffer correctement et entraine des émissions de particules fines, nocives pour la santé.</p></div></div></div></div>"
+  },
+  {
+   "id": 126659,
+   "titre": "1.2.2. Lutter contre la précarité énergétique des ménages",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : epci, 226 108 habitants\nContexte : PCAET > 1. RESIDENTIEL - Agir pour lutter contre la précarité énergétique des ménages et garantir la performance thermique des constructions nouvelles et anciennes > 1.2. Rénover énergétiquement les logements et lutter contre la précarité énergétique\nTitre : 1.2.2. Lutter contre la précarité énergétique des ménages\nDescription : La précarité énergétique des ménages désigne la difficulté, voire l'incapacité, à chauffer correctement le logement, en raison de revenus insuffisants et/ou d'une mauvaise performance énergétique du bâti. La Sambre-Avesnois est particulièrement sensible à ce phénomène du fait d'un bâti ancien et d'une population à faible revenu médiant. Des dispositifs existent, comme l'espace info énergie, porté par le PNR de l'Avenois, le PIG \"Habiter mieux\" ou encore le dispositif CEE précarité, afin d'accompagner les ménages ne disposant pas des ressources et connaissances nécessaires."
+  },
+  {
+   "id": 126660,
+   "titre": "1.2.3. Lutter contre la précarité énergétique des ménages (PLH 2025-2030)",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : epci, 226 108 habitants\nContexte : PCAET > 1. RESIDENTIEL - Agir pour lutter contre la précarité énergétique des ménages et garantir la performance thermique des constructions nouvelles et anciennes > 1.2. Rénover énergétiquement les logements et lutter contre la précarité énergétique\nTitre : 1.2.3. Lutter contre la précarité énergétique des ménages (PLH 2025-2030)\nDescription : La précarité énergétique des ménages désigne la difficulté, voire l'incapacité, à chauffer correctement le logement, en raison de revenus insuffisants et/ou d'une mauvaise performance énergétique du bâti. Le Programme Local de l’Habitat 2025-2030 de la CA Maubeuge Val-de-Sambre inclut plusieurs actions pour agir contre la précarité énergétique et qui sont reprises dans le PCAET.."
+  },
+  {
+   "id": 126661,
+   "titre": "1.3.1. Accompagner le développement des quartiers résilients",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : epci, 226 108 habitants\nContexte : PCAET > 1. RESIDENTIEL - Agir pour lutter contre la précarité énergétique des ménages et garantir la performance thermique des constructions nouvelles et anciennes > 1.3.  Améliorer le cadre de vie et les environnements intérieurs\nTitre : 1.3.1. Accompagner le développement des quartiers résilients\nDescription : <div class=\"bn-block-group\" data-node-type=\"blockGroup\"><div class=\"bn-block-outer\" data-node-type=\"blockOuter\" data-id=\"6f2571c1-4bd5-40d9-97cc-04faf78c38f4\"><div class=\"bn-block\" data-node-type=\"blockContainer\" data-id=\"6f2571c1-4bd5-40d9-97cc-04faf78c38f4\"><div class=\"bn-block-content !p-0\" data-content-type=\"paragraph\"><p class=\"bn-inline-content !text-sm !text-primary-9 font-[Marianne]\">Dans un contexte de réchauffement climatique et de dérèglement météorologique, l'adaptation des villes devient un enjeu primordial. </p></div></div></div><div class=\"bn-block-outer\" data-node-type=\"blockOuter\" data-id=\"5f1cb95e-6ad3-4e92-8fad-b1427f663b58\"><div class=\"bn-block\" data-node-type=\"blockContainer\" data-id=\"5f1cb95e-6ad3-4e92-8fad-b1427f663b58\"><div class=\"bn-block-content !p-0\" data-content-type=\"paragraph\"><p class=\"bn-inline-content !text-sm !text-primary-9 font-[Marianne]\">Le développement d'espaces verts, la plantation d'arbustes, la suppression des enrobés sont des solutions de lutte contre l'effet d'ilot de fraicheur au profit de la biodiversité et d'une gestion durable des eaux de pluie.</p></div></div></div><div class=\"bn-block-outer\" data-node-type=\"blockOuter\" data-id=\"38b2924f-9dbb-4c11-bbb4-a3f96254a548\"><div class=\"bn-block\" data-node-type=\"blockContainer\" data-id=\"38b2924f-9dbb-4c11-bbb4-a3f96254a548\"><div class=\"bn-block-content !p-0\" data-content-type=\"paragraph\"><p class=\"bn-inline-content !text-sm !text-primary-9 font-[Marianne]\">Des actions existent déjà au sein du contrat de ville 2024-2030 de la CAMVS, qui sont reprises dans le PCAET.</p></div></div></div></div>"
+  },
+  {
+   "id": 126662,
+   "titre": "1.3.2. Améliorer la qualité de l’air intérieur des logements",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : epci, 226 108 habitants\nContexte : PCAET > 1. RESIDENTIEL - Agir pour lutter contre la précarité énergétique des ménages et garantir la performance thermique des constructions nouvelles et anciennes > 1.3.  Améliorer le cadre de vie et les environnements intérieurs\nTitre : 1.3.2. Améliorer la qualité de l’air intérieur des logements\nDescription : Une bonne qualité de l'air réduit les risques de maladies respiratoires, d'allergies et d'autres problèmes de santé liés à la pollution intérieure. Pour cela, il convient d'installer des systèmes de ventilation efficaces, d'utiliser des matériaux non polluants et en entretenant régulièrement les systèmes de chauffage et de ventilation."
+  },
+  {
+   "id": 126663,
+   "titre": "1.4.1. Former les professionnels des métiers du bâtiment et les porteurs de projets aux dernières règles thermiques et aux éco-matériaux",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : epci, 226 108 habitants\nContexte : PCAET > 1. RESIDENTIEL - Agir pour lutter contre la précarité énergétique des ménages et garantir la performance thermique des constructions nouvelles et anciennes > 1.4. Promouvoir et massifier la rénovation énergétique\nTitre : 1.4.1. Former les professionnels des métiers du bâtiment et les porteurs de projets aux dernières règles thermiques et aux éco-matériaux\nDescription : <div class=\"bn-block-group\" data-node-type=\"blockGroup\"><div class=\"bn-block-outer\" data-node-type=\"blockOuter\" data-id=\"c40bce75-53f2-4731-9856-50ae89fb20f5\"><div class=\"bn-block\" data-node-type=\"blockContainer\" data-id=\"c40bce75-53f2-4731-9856-50ae89fb20f5\"><div class=\"bn-block-content !p-0\" data-content-type=\"paragraph\"><p class=\"bn-inline-content !text-sm !text-primary-9 font-[Marianne]\">Les éco-matériaux sont des matériaux de construction respectueux de l'environnement, conçus pour minimiser leur impact écologique tout au long du cycle de vie. Former les professionnels à ces matériaux permet d'amplifier leur usage et de faire émerger des projets exemplaires sur le territoire. </p></div></div></div><div class=\"bn-block-outer\" data-node-type=\"blockOuter\" data-id=\"2a6ce32c-9d4a-42ac-a8c6-4e4734aa5ce8\"><div class=\"bn-block\" data-node-type=\"blockContainer\" data-id=\"2a6ce32c-9d4a-42ac-a8c6-4e4734aa5ce8\"><div class=\"bn-block-content !p-0\" data-content-type=\"paragraph\"><p class=\"bn-inline-content !text-sm !text-primary-9 font-[Marianne]\">Les acteurs du bâtiments, ainsi que les porteurs de projets du territoire (collectivités, bailleurs, entreprises) ont besoin d'être formés à ces nouvelles pratiques de construction afin de permettre l'émergence de projets ambitieux et respectueux de l'environnement.</p></div></div></div><div class=\"bn-block-outer\" data-node-type=\"blockOuter\" data-id=\"58550bcb-849a-4df2-b71b-a1bf91317d25\"><div class=\"bn-block\" data-node-type=\"blockContainer\" data-id=\"58550bcb-849a-4df2-b71b-a1bf91317d25\"><div class=\"bn-block-content !p-0\" data-content-type=\"paragraph\"><p class=\"bn-inline-content !text-sm !text-primary-9 font-[Marianne]\">Le projet INTERREG REnversC a pour objectifs de répondre à ce besoin à l’échelle du territoire transfrontalier.</p></div></div></div></div>"
+  },
+  {
+   "id": 126664,
+   "titre": "1.4.2. Promouvoir les rénovations et constructions vertueuses",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : epci, 226 108 habitants\nContexte : PCAET > 1. RESIDENTIEL - Agir pour lutter contre la précarité énergétique des ménages et garantir la performance thermique des constructions nouvelles et anciennes > 1.4. Promouvoir et massifier la rénovation énergétique\nTitre : 1.4.2. Promouvoir les rénovations et constructions vertueuses\nDescription : <div class=\"bn-block-group\" data-node-type=\"blockGroup\"><div class=\"bn-block-outer\" data-node-type=\"blockOuter\" data-id=\"a217bbb3-d1c9-4ad3-becd-a61fcda80536\"><div class=\"bn-block\" data-node-type=\"blockContainer\" data-id=\"a217bbb3-d1c9-4ad3-becd-a61fcda80536\"><div class=\"bn-block-content !p-0\" data-content-type=\"paragraph\"><p class=\"bn-inline-content !text-sm !text-primary-9 font-[Marianne]\">Un projet à forte ambition environnemental comprend notamment l'utilisation d'éco-matériaux, la mise en œuvre de techniques de construction à faible impact environnemental, l'amélioration de l'efficacité énergétique des bâtiments, et la réduction des émissions de carbone tout au long du cycle de vie des bâtiments.</p></div></div></div><div class=\"bn-block-outer\" data-node-type=\"blockOuter\" data-id=\"81c60a38-e67d-458f-b203-0324e6e66454\"><div class=\"bn-block\" data-node-type=\"blockContainer\" data-id=\"81c60a38-e67d-458f-b203-0324e6e66454\"><div class=\"bn-block-content !p-0\" data-content-type=\"paragraph\"><p class=\"bn-inline-content !text-sm !text-primary-9 font-[Marianne]\">Mettre en œuvre de tels projets permet de faire monter en compétence les artisans locaux, promouvoir le territoire et ses matériaux, ou encore de massifier les rénovations performantes</p></div></div></div></div>"
+  },
+  {
+   "id": 126665,
+   "titre": "1.4.3. Accompagner les particuliers sur le remplacement des systèmes de chauffage polluants par des systèmes performants alimentés en énergie renouvelable",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : epci, 226 108 habitants\nContexte : PCAET > 1. RESIDENTIEL - Agir pour lutter contre la précarité énergétique des ménages et garantir la performance thermique des constructions nouvelles et anciennes > 1.4. Promouvoir et massifier la rénovation énergétique\nTitre : 1.4.3. Accompagner les particuliers sur le remplacement des systèmes de chauffage polluants par des systèmes performants alimentés en énergie renouvelable\nDescription : L'une des causes principales d'émissions de gaz à effet de serre, d'émissions de polluants comme les PM2,5, et de précarité enrgétique provient du nombre importants de logements se chauffant avec des systèmes énergétiques vétustes. Ces systèmes sont les cheminées traditionnelles en foyer ouvert ou fermé, les chaudières au fioul ou encore les chaudières au charbon. Tous ses systèmes peuvent etre remplacés par des poeles à bois à haute performante environnementale, ou bien des pompes à chaleur air/eau, air/air ou géothermique selon la configuration. Ces changements de systèmes de chauffage doivent aussi s'accompagner de la mise en oeuvre de travaux de rénovation dans les habitations énergivores."
+  },
+  {
+   "id": 126666,
+   "titre": "2.1.1. Renforcer l’ingénierie et l’assistance conseil en énergies au travers de la SIRPP Sambre-Avesnois",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : epci, 226 108 habitants\nContexte : PCAET > 2. TERTIAIRE - Adapter et développer des bâtiments publics et tertiaires « sobres » et « producteurs » en énergies > 2.1. Renforcer l'Ingénierie locale\nTitre : 2.1.1. Renforcer l’ingénierie et l’assistance conseil en énergies au travers de la SIRPP Sambre-Avesnois\nDescription : La Stratégie d’Intervention et de Réhabilitation du patrimoine Public (SIRPP) Sambre-Avesnois met à disposition auprès des communes du territoire des conseillers en énergies partagés (CEP) depuis 2019. Ils accompagnent le suivi des consommations, réalisent des prédiagnostics et assurent le montage de projets de rénovation ou de déploiement des énergies renouvelables au sein des communes. La SIRPP est co-animée par le PNR de l’Avesnois et l’ADU."
+  },
+  {
+   "id": 126667,
+   "titre": "2.1.2. Planifier la rénovation énergétique des bâtiments publics (communes/EPCI)",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : epci, 226 108 habitants\nContexte : PCAET > 2. TERTIAIRE - Adapter et développer des bâtiments publics et tertiaires « sobres » et « producteurs » en énergies > 2.1. Renforcer l'Ingénierie locale\nTitre : 2.1.2. Planifier la rénovation énergétique des bâtiments publics (communes/EPCI)\nDescription : Les collectivités disposent d’un patrimoine important, pour lequel il est parfois difficile de savoir par où commencer les travaux de rénovations. Les schémas directeur immobilier énergétique (SDIE) permettent de planifier au sein des collectivités la gestion et la rénovation des bâtiments, et ils peuvent faire l'objet d'un soutien financier de l'ADEME. Pour les communes de moins de 5000 habitants, où un SDIE n’est pas toujours l’outil le plus adapté du fait d’un patrimoine moins conséquent, la définition d’un plan pluriannuel d’investissement « bâtiments publics » permettrait d’atteindre le même objectif qu’avec un SDIE."
+  },
+  {
+   "id": 126668,
+   "titre": "2.2.1. Conditionner les financements intercommunaux et renforcer les mutualisations de projets afin de massifier la rénovation énergétique avec des projets ambitieux",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : epci, 226 108 habitants\nContexte : PCAET > 2. TERTIAIRE - Adapter et développer des bâtiments publics et tertiaires « sobres » et « producteurs » en énergies > 2.2. Massifier la rénovation des équipements publics\nTitre : 2.2.1. Conditionner les financements intercommunaux et renforcer les mutualisations de projets afin de massifier la rénovation énergétique avec des projets ambitieux\nDescription : Dès la phase de programmation des opérations de réhabilitation ou de construction, imposer une règle de conditionnalité des fonds de concours intercommunaux, en s'inspirant des critères du cadre de référence REV3. Un accompagnement par le CD2E est possible pour définir au mieux les critères à prioriser sur le territoire. Les collectivités peuvent être accompagnées par le programme ACTEE de la FNCCR pour la réalisation d'audits, suivis de travaux de rénovation énergétiques du bâti. Pour répondre aux appels à projets du programme ACTEE, les collectivités doivent se rassembler en groupement."
+  },
+  {
+   "id": 126669,
+   "titre": "2.2.2. Poursuivre la mise en œuvre des projets de rénovations et de recours aux énergies renouvelables des collectivités",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : epci, 226 108 habitants\nContexte : PCAET > 2. TERTIAIRE - Adapter et développer des bâtiments publics et tertiaires « sobres » et « producteurs » en énergies > 2.2. Massifier la rénovation des équipements publics\nTitre : 2.2.2. Poursuivre la mise en œuvre des projets de rénovations et de recours aux énergies renouvelables des collectivités\nDescription : Le décret tertiaire ambitionne une forte baisse des consommations énergétique du patrimoine public avec pour première échéance 2030. Pour y arriver, une rénovation énergétique de chaque bâtiment ancien, en priorisant les plus consommateurs, doit être mise en œuvre."
+  },
+  {
+   "id": 126670,
+   "titre": "2.3.1. Accompagner les communes SIRPP dans le suivi des consommations",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : epci, 226 108 habitants\nContexte : PCAET > 2. TERTIAIRE - Adapter et développer des bâtiments publics et tertiaires « sobres » et « producteurs » en énergies > 2.3. Mettre en avant la sobriété énergétique\nTitre : 2.3.1. Accompagner les communes SIRPP dans le suivi des consommations\nDescription : Un suivi des consommations et des dépenses du patrimoine public permet aux collectivités de prendre conscience de l’impact des énergies sur les budgets, et d’identifier rapidement les bâtiments où des dépenses anormales sont relevées. Aussi, le décret tertiaire oblige les bâtiments assujettis à effectuer une remontée annuelle des consommations sur la plateforme OPERAT."
+  },
+  {
+   "id": 126671,
+   "titre": "2.3.2. Développer des bâtiments publics « producteurs » et « sobres » en énergies",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : epci, 226 108 habitants\nContexte : PCAET > 2. TERTIAIRE - Adapter et développer des bâtiments publics et tertiaires « sobres » et « producteurs » en énergies > 2.3. Mettre en avant la sobriété énergétique\nTitre : 2.3.2. Développer des bâtiments publics « producteurs » et « sobres » en énergies\nDescription : Les bâtiments publics représentent un potentiel important de toiture non exploité pour la production d'énergie ou la récupération des eaux pluviales. Une réflexion est à porter sur le développement des énergies renouvelables au sein des bâtiments publics existants et futurs et les possibilités de stockage."
+  },
+  {
+   "id": 126672,
+   "titre": "2.3.3. Assurer la mise en œuvre du décret BACS",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : epci, 226 108 habitants\nContexte : PCAET > 2. TERTIAIRE - Adapter et développer des bâtiments publics et tertiaires « sobres » et « producteurs » en énergies > 2.3. Mettre en avant la sobriété énergétique\nTitre : 2.3.3. Assurer la mise en œuvre du décret BACS\nDescription : <div class=\"bn-block-group\" data-node-type=\"blockGroup\"><div class=\"bn-block-outer\" data-node-type=\"blockOuter\" data-id=\"ace98292-5297-4d21-bc07-405f8a390c88\"><div class=\"bn-block\" data-node-type=\"blockContainer\" data-id=\"ace98292-5297-4d21-bc07-405f8a390c88\"><div class=\"bn-block-content !p-0\" data-content-type=\"paragraph\"><p class=\"bn-inline-content !text-sm !text-primary-9 font-[Marianne]\">Pour réduire la consommation énergétique des équipements intercommunaux et communaux, il est essentiel de mettre en place un dispositif de suivi précis des consommations via des compteurs intelligents et une plateforme dédiée. Cette action inclut l'optimisation des paramètres et des horaires de fonctionnement des équipements selon les besoins réels, la formation du personnel et la sensibilisation des usagers aux bonnes pratiques énergétiques. </p></div></div></div><div class=\"bn-block-outer\" data-node-type=\"blockOuter\" data-id=\"a588a223-a02c-4013-81bb-906d073ba4e2\"><div class=\"bn-block\" data-node-type=\"blockContainer\" data-id=\"a588a223-a02c-4013-81bb-906d073ba4e2\"><div class=\"bn-block-content !p-0\" data-content-type=\"paragraph\"><p class=\"bn-inline-content !text-sm !text-primary-9 font-[Marianne]\">Le décret BACS oblige la mise en œuvre d’une gestion technique pour tous bâtiments comprenant des systèmes de chauffage ou électrique de puissances importantes.</p></div></div></div></div>"
+  },
+  {
+   "id": 126673,
+   "titre": "2.4.1. Améliorer la qualité de l’air intérieur (bâtiments publics)",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : epci, 226 108 habitants\nContexte : PCAET > 2. TERTIAIRE - Adapter et développer des bâtiments publics et tertiaires « sobres » et « producteurs » en énergies > 2.4. Améliorer la qualité des environnements intérieurs\nTitre : 2.4.1. Améliorer la qualité de l’air intérieur (bâtiments publics)\nDescription : Une bonne qualité de l'air réduit les risques de maladies respiratoires, d'allergies et d'autres problèmes de santé liés à la pollution intérieure. En installant des systèmes de ventilation efficaces, en utilisant des matériaux non polluants et en entretenant régulièrement les systèmes de chauffage et de climatisation, les collectivités peuvent assurer un environnement plus sain, favorisant la concentration, la productivité et le confort des occupants."
+  },
+  {
+   "id": 126674,
+   "titre": "2.4.2. Adapter les équipements aux conditions estivales",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : epci, 226 108 habitants\nContexte : PCAET > 2. TERTIAIRE - Adapter et développer des bâtiments publics et tertiaires « sobres » et « producteurs » en énergies > 2.4. Améliorer la qualité des environnements intérieurs\nTitre : 2.4.2. Adapter les équipements aux conditions estivales\nDescription : Pour de nombreux équipements publics, le confort thermique en période estivale est un enjeu majeur du fait de l’accueil de publics sensibles (écoles, EHPAD,…). La question du confort d'été est encore trop peu prise en compte même sur des projets de rénovations globales. Les vagues de chaleur vont devenir de plus en plus fréquentes, l'adaptation des bâtiments doit être pris en compte lors des projets de rénovations."
+  },
+  {
+   "id": 126675,
+   "titre": "3.1.1. Ecrire une stratégie partagée à l'échelle de l'arrondissement",
+   "statut": "A discuter",
+   "n_sous_actions": 0,
+   "message": "Collectivité : epci, 226 108 habitants\nContexte : PCAET > 3. MOBILITE - Connecter, adapter et aménager les territoires par une offre de mobilité accessible à tous, active et décarbonée > 3.1. Mettre en œuvre des stratégies locales de mobilité\nTitre : 3.1.1. Ecrire une stratégie partagée à l'échelle de l'arrondissement\nDescription : <div class=\"bn-block-group\" data-node-type=\"blockGroup\"><div class=\"bn-block-outer\" data-node-type=\"blockOuter\" data-id=\"d621758c-9e86-4894-bac1-10cd01b5bc5a\"><div class=\"bn-block\" data-node-type=\"blockContainer\" data-id=\"d621758c-9e86-4894-bac1-10cd01b5bc5a\"><div class=\"bn-block-content !p-0\" data-content-type=\"paragraph\"><p class=\"bn-inline-content !text-sm !text-primary-9 font-[Marianne]\">Historiquement centré sur les transports urbain, Sambre-Mobilités (ex SMTUS) agit désormais en tant qu’AOM (Autorité Organisatrice de Mobilité) en intégrant :</p></div></div></div><div class=\"bn-block-outer\" data-node-type=\"blockOuter\" data-id=\"00fe5a68-3688-4bca-a2b0-56f397ff8fcb\"><div class=\"bn-block\" data-node-type=\"blockContainer\" data-id=\"00fe5a68-3688-4bca-a2b0-56f397ff8fcb\"><div class=\"bn-block-content !p-0\" data-content-type=\"paragraph\"><p class=\"bn-inline-content !text-sm !text-primary-9 font-[Marianne]\">Mobilités actives : vélo et marche, Mobilités partagées : covoiturage, autopartage, etc., Mobilités solidaires et inclusives.</p></div></div></div><div class=\"bn-block-outer\" data-node-type=\"blockOuter\" data-id=\"84a360e7-7fad-47de-a9b5-7b46e9333cb2\"><div class=\"bn-block\" data-node-type=\"blockContainer\" data-id=\"84a360e7-7fad-47de-a9b5-7b46e9333cb2\"><div class=\"bn-block-content !p-0\" data-content-type=\"paragraph\"><p class=\"bn-inline-content !text-sm !text-primary-9 font-[Marianne]\">Les priorités incluent les intermodalités et interconnexions, via :</p></div></div></div><div class=\"bn-block-outer\" data-node-type=\"blockOuter\" data-id=\"328d08d4-0622-432b-95b5-c3f5f98557de\"><div class=\"bn-block\" data-node-type=\"blockContainer\" data-id=\"328d08d4-0622-432b-95b5-c3f5f98557de\"><div class=\"bn-block-content !p-0\" data-content-type=\"paragraph\"><p class=\"bn-inline-content !text-sm !text-primary-9 font-[Marianne]\">La billettique et l’intégration tarifaire, L’aménagement des pôles d’échanges multimodaux (PEM), Le développement du covoiturage et du transport à la demande (TAD).</p></div></div></div><div class=\"bn-block-outer\" data-node-type=\"blockOuter\" data-id=\"ec200d82-64df-42e7-8acb-530aeac6a8f3\"><div class=\"bn-block\" data-node-type=\"blockContainer\" data-id=\"ec200d82-64df-42e7-8acb-530aeac6a8f3\"><div class=\"bn-block-content !p-0\" data-content-type=\"paragraph\"><p class=\"bn-inline-content !text-sm !text-primary-9 font-[Marianne]\">Une étude sera menée en 2025 pour évaluer l'opportunité d'élargir le périmètre de compétence de SMSM, jusqu’à prendre éventuellement en compte l’ensemble de l’arrondissement d’Avesnes-sur-Helpe.</p></div></div></div></div>"
+  },
+  {
+   "id": 126676,
+   "titre": "3.1.2. Accompagner la mise en œuvre de plans de mobilité intercommunaux",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : epci, 226 108 habitants\nContexte : PCAET > 3. MOBILITE - Connecter, adapter et aménager les territoires par une offre de mobilité accessible à tous, active et décarbonée > 3.1. Mettre en œuvre des stratégies locales de mobilité\nTitre : 3.1.2. Accompagner la mise en œuvre de plans de mobilité intercommunaux\nDescription : <div class=\"bn-block-group\" data-node-type=\"blockGroup\"><div class=\"bn-block-outer\" data-node-type=\"blockOuter\" data-id=\"efe16c93-87da-41ad-bd77-d3ed165004f8\"><div class=\"bn-block\" data-node-type=\"blockContainer\" data-id=\"efe16c93-87da-41ad-bd77-d3ed165004f8\"><div class=\"bn-block-content !p-0\" data-content-type=\"paragraph\"><p class=\"bn-inline-content !text-sm !text-primary-9 font-[Marianne]\">Le Plan de Déplacements Urbains (PDU) est un outil de planification qui a été créé par la Loi d’Orientation des Transports Intérieurs (LOTI) en 1982. Il définit les principes d’organisation des transports et du stationnement des personnes et des marchandises, tous modes confondus.</p></div></div></div><div class=\"bn-block-outer\" data-node-type=\"blockOuter\" data-id=\"3841ce84-97d4-425e-8e97-636a59bd3883\"><div class=\"bn-block\" data-node-type=\"blockContainer\" data-id=\"3841ce84-97d4-425e-8e97-636a59bd3883\"><div class=\"bn-block-content !p-0\" data-content-type=\"paragraph\"><p class=\"bn-inline-content !text-sm !text-primary-9 font-[Marianne]\">Sambre-Mobilités est l’Autorité Organisatrice de la Mobilité sur le Val de Sambre (CA Maubeuge Val-de-Sambre et les communes de Hargnies et La Longueville) et pilote du PDU sur son territoire d'action. </p></div></div></div><div class=\"bn-block-outer\" data-node-type=\"blockOuter\" data-id=\"b3ac1784-d3cb-4c83-934e-fcf6bc5591a2\"><div class=\"bn-block\" data-node-type=\"blockContainer\" data-id=\"b3ac1784-d3cb-4c83-934e-fcf6bc5591a2\"><div class=\"bn-block-content !p-0\" data-content-type=\"paragraph\"><p class=\"bn-inline-content !text-sm !text-primary-9 font-[Marianne]\">Depuis la loi d'orientation des mobilités (LOM) n° 2019-1428 du 24 décembre 2019, les plans de déplacements urbains ont été remplacés par les plans de mobilité à compter du 1er janvier 2021.</p></div></div></div></div>"
+  },
+  {
+   "id": 126677,
+   "titre": "3.1.3. Inciter le monde économique à déployer des actions de mobilité décarbonée",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : epci, 226 108 habitants\nContexte : PCAET > 3. MOBILITE - Connecter, adapter et aménager les territoires par une offre de mobilité accessible à tous, active et décarbonée > 3.1. Mettre en œuvre des stratégies locales de mobilité\nTitre : 3.1.3. Inciter le monde économique à déployer des actions de mobilité décarbonée\nDescription : <div class=\"bn-block-group\" data-node-type=\"blockGroup\"><div class=\"bn-block-outer\" data-node-type=\"blockOuter\" data-id=\"75f0f0bb-2464-4b5d-b34e-9d8923721dd3\"><div class=\"bn-block\" data-node-type=\"blockContainer\" data-id=\"75f0f0bb-2464-4b5d-b34e-9d8923721dd3\"><div class=\"bn-block-content !p-0\" data-content-type=\"paragraph\"><p class=\"bn-inline-content !text-sm !text-primary-9 font-[Marianne]\">La voiture est prépondérante dans les trajets domicile - travail sur le territoire. La mise en place de plans de mobilité \"entreprise\" vise à optimiser les déplacements des employés, réduire l'empreinte carbone et améliorer l'efficacité des trajets liés au travail.</p></div></div></div><div class=\"bn-block-outer\" data-node-type=\"blockOuter\" data-id=\"e070e7db-796a-499d-94ed-67a93d29b4a2\"><div class=\"bn-block\" data-node-type=\"blockContainer\" data-id=\"e070e7db-796a-499d-94ed-67a93d29b4a2\"><div class=\"bn-block-content !p-0\" data-content-type=\"paragraph\"><p class=\"bn-inline-content !text-sm !text-primary-9 font-[Marianne]\">Les collectivités se doivent d’être exemplaire, les 4 EPCI du territoire mettront en œuvre l’élaboration de « plan de mobilité interne », qui vise une meilleure organisation des déplacements professionnels et domicile-travail des employés.</p></div></div></div></div>"
+  },
+  {
+   "id": 126678,
+   "titre": "3.2.1. Provoquer un changement de comportement",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : epci, 226 108 habitants\nContexte : PCAET > 3. MOBILITE - Connecter, adapter et aménager les territoires par une offre de mobilité accessible à tous, active et décarbonée > 3.2. Promouvoir une mobilité sociale et durable\nTitre : 3.2.1. Provoquer un changement de comportement\nDescription : Il existe sur le territoire des moyens de se déplacer sans recourir à la voiture mais qui sont trop peu connu du grand public. Pour accompagner le développement massif des mobilités douces et des transports en commun, une communication auprès du grand public doit se faire pour informer et inciter les habitants et entreprises à changer leurs habitudes de déplacement."
+  },
+  {
+   "id": 126679,
+   "titre": "3.2.2. Développer les mobilités douces, notamment le vélo",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : epci, 226 108 habitants\nContexte : PCAET > 3. MOBILITE - Connecter, adapter et aménager les territoires par une offre de mobilité accessible à tous, active et décarbonée > 3.2. Promouvoir une mobilité sociale et durable\nTitre : 3.2.2. Développer les mobilités douces, notamment le vélo\nDescription : Sur le territoire, les ménages sont fortement dépendant de la voiture individuelle pour les déplacements du quotidien. Un enjeu important porte sur la réduction des déplacements en voiture individuelle (covoiturage), le développement des autres moyens de déplacements et l'accompagnement des ménages sur l'adoption de véhicules plus propres. Les mobilités douces sont essentielles pour créer des environnements urbains plus durables, sûrs et agréables. Elles englobent principalement la marche à pied et le vélo, ainsi que d'autres modes de déplacement non motorisés tels que la trottinette électrique ou le skate. Promouvoir ces modes de transport offre de nombreux avantages : réduire la congestion routière, diminuer les émissions de gaz à effet de serre et améliorer la qualité de l'air en réduisant la dépendance aux véhicules motorisés."
+  },
+  {
+   "id": 126680,
+   "titre": "3.2.3. Développer l’usage des transports en commun",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : epci, 226 108 habitants\nContexte : PCAET > 3. MOBILITE - Connecter, adapter et aménager les territoires par une offre de mobilité accessible à tous, active et décarbonée > 3.2. Promouvoir une mobilité sociale et durable\nTitre : 3.2.3. Développer l’usage des transports en commun\nDescription : Les transports en commun, tels que les bus, tramways et trains, offrent une alternative efficace et durable à la voiture individuelle, permettant de transporter un grand nombre de personnes tout en réduisant l'empreinte carbone par passager. En investissant dans des infrastructures modernes et accessibles, en améliorant la fréquence et la fiabilité des services, et en offrant des tarifs attractifs, les collectivités peuvent encourager davantage de citoyens à opter pour les transports en commun."
+  },
+  {
+   "id": 126681,
+   "titre": "3.2.4. Renforcer la motorisation « durable » des ménages",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : epci, 226 108 habitants\nContexte : PCAET > 3. MOBILITE - Connecter, adapter et aménager les territoires par une offre de mobilité accessible à tous, active et décarbonée > 3.2. Promouvoir une mobilité sociale et durable\nTitre : 3.2.4. Renforcer la motorisation « durable » des ménages\nDescription : Sur le territoire, les ménages sont fortement dépendant de la voiture individuelle pour les déplacements du quotidien. Un accompagnement des ménages est nécessaire pour engager une conversion des véhicules thermiques, cause d'émissions de gaz à effet de serre, de particules fines et de pollution sonore, vers des véhicules plus propres comme les véhicules électriques."
+  },
+  {
+   "id": 126682,
+   "titre": "3.2.5. Reconversion des flottes de véhicules thermiques",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : epci, 226 108 habitants\nContexte : PCAET > 3. MOBILITE - Connecter, adapter et aménager les territoires par une offre de mobilité accessible à tous, active et décarbonée > 3.2. Promouvoir une mobilité sociale et durable\nTitre : 3.2.5. Reconversion des flottes de véhicules thermiques\nDescription : <div class=\"bn-block-group\" data-node-type=\"blockGroup\"><div class=\"bn-block-outer\" data-node-type=\"blockOuter\" data-id=\"9d811b7d-1e96-4d79-8dcf-31ad51a43b66\"><div class=\"bn-block\" data-node-type=\"blockContainer\" data-id=\"9d811b7d-1e96-4d79-8dcf-31ad51a43b66\"><div class=\"bn-block-content !p-0\" data-content-type=\"paragraph\"><p class=\"bn-inline-content !text-sm !text-primary-9 font-[Marianne]\">Les entreprises et les collectivités disposent de flottes de véhicules conséquents. La reconversion des flottes de véhicules thermiques par des véhicules plus propres comme les véhicules hybrides, électriques ou encore à hydrogène est nécessaire.</p></div></div></div><div class=\"bn-block-outer\" data-node-type=\"blockOuter\" data-id=\"dbf3c5ad-09bb-4aeb-9045-2cde3fb91b9c\"><div class=\"bn-block\" data-node-type=\"blockContainer\" data-id=\"dbf3c5ad-09bb-4aeb-9045-2cde3fb91b9c\"><div class=\"bn-block-content !p-0\" data-content-type=\"paragraph\"><p class=\"bn-inline-content !text-sm !text-primary-9 font-[Marianne]\">Les collectivités ont l’obligation d’incorporer des véhicules à faible émission dans leur flotte. A partir du 1 er janvier 2026, 37,4% des véhicules légers renouvelés devront être électriques ou hydrogènes.</p></div></div></div></div>"
+  },
+  {
+   "id": 126683,
+   "titre": "3.3.1. Repenser la place de la voiture dans les centres-villes",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : epci, 226 108 habitants\nContexte : PCAET > 3. MOBILITE - Connecter, adapter et aménager les territoires par une offre de mobilité accessible à tous, active et décarbonée > 3.3. Réduire la part modale des véhicules thermiques individuels\nTitre : 3.3.1. Repenser la place de la voiture dans les centres-villes\nDescription : <div class=\"bn-block-group\" data-node-type=\"blockGroup\"><div class=\"bn-block-outer\" data-node-type=\"blockOuter\" data-id=\"27e980a3-341e-4ecf-8d80-09e5af8ee251\"><div class=\"bn-block\" data-node-type=\"blockContainer\" data-id=\"27e980a3-341e-4ecf-8d80-09e5af8ee251\"><div class=\"bn-block-content !p-0\" data-content-type=\"paragraph\"><p class=\"bn-inline-content !text-sm !text-primary-9 font-[Marianne]\">Repenser la place de la voiture dans les centres-villes est crucial pour créer des espaces urbains plus vivables et durables. Cette action vise à réduire la dépendance automobile en favorisant les modes de déplacement alternatifs tels que la marche, le vélo, et les transports en commun. En réaménageant les espaces publics, en créant des zones piétonnes et des pistes cyclables sécurisées, et en limitant l'accès des voitures dans certaines zones, les villes peuvent diminuer la pollution, le bruit et la congestion. </p></div></div></div></div>"
+  },
+  {
+   "id": 126684,
+   "titre": "3.3.2. Réduire l’usage individuel de la voiture",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : epci, 226 108 habitants\nContexte : PCAET > 3. MOBILITE - Connecter, adapter et aménager les territoires par une offre de mobilité accessible à tous, active et décarbonée > 3.3. Réduire la part modale des véhicules thermiques individuels\nTitre : 3.3.2. Réduire l’usage individuel de la voiture\nDescription : Les véhicules électriques, hybrides, et autres véhicules à faibles émissions offrent une alternative durable aux véhicules traditionnels à combustion, diminuant ainsi la pollution atmosphérique et sonore. En promouvant l'adoption de ces véhicules, les collectivités peuvent contribuer significativement à la lutte contre le changement climatique et à la protection de la santé publique."
+  },
+  {
+   "id": 126685,
+   "titre": "4.1.1. Développer et mettre en œuvre les PLPDMA (programme local de déchets ménagers et assimilés) à l'échelle des EPCI",
+   "statut": "A discuter",
+   "n_sous_actions": 0,
+   "message": "Collectivité : epci, 226 108 habitants\nContexte : PCAET > 4.DECHETS - Engager une démarche globale de prévention et de valorisation des déchets au sein du territoire > 4.1. Mettre en œuvre des stratégies locales\nTitre : 4.1.1. Développer et mettre en œuvre les PLPDMA (programme local de déchets ménagers et assimilés) à l'échelle des EPCI\nDescription : Le PLPDMA (programme local de déchets ménagers et assimilés) vise à réduire la quantité de déchets produits, à encourager le tri séléctif et le recyclage, ainsi qu'à optimiser la collecte et le traitement des déchets. Un PLPDMA bien conçu contribue non seulement à préserver les ressources naturelles et à réduire les émissions de gaz à effet de serre, mais aussi à créer des communautés plus durables et résilientes."
+  },
+  {
+   "id": 126686,
+   "titre": "4.1.2. Mise en place d'une démarche d'écologie industrielle territoriale (EIT)",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : epci, 226 108 habitants\nContexte : PCAET > 4.DECHETS - Engager une démarche globale de prévention et de valorisation des déchets au sein du territoire > 4.1. Mettre en œuvre des stratégies locales\nTitre : 4.1.2. Mise en place d'une démarche d'écologie industrielle territoriale (EIT)\nDescription : L'écologie industrielle territoriale (EIT) consiste en une quantification des flux de ressources utilisées et produites au sein d'un territoire, permettant de faire émerger des logiques de mutualisation et d'économie circulaire."
+  },
+  {
+   "id": 126687,
+   "titre": "4.1.3. Mettre en place une tarification incitative pour réduire les déchets dans les poubelles d'ordures ménagères",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : epci, 226 108 habitants\nContexte : PCAET > 4.DECHETS - Engager une démarche globale de prévention et de valorisation des déchets au sein du territoire > 4.1. Mettre en œuvre des stratégies locales\nTitre : 4.1.3. Mettre en place une tarification incitative pour réduire les déchets dans les poubelles d'ordures ménagères\nDescription : Le bac d’ordures ménagères pèse presque 6 fois plus par habitant par an que le bac de tri. En cause une quantité non négligeable de petits objets, déchets verts, déchets de cuisine et emballages restant dans ces sacs poubelle. Une tarification incitative, combinée avec une campagne de sensibilisation, à pour objectif de réduire significativement la part des déchets finissant dans les ordures ménagères en mettant en place un meilleur tri."
+  },
+  {
+   "id": 126688,
+   "titre": "4.2.1. Sensibiliser et éduquer dès le plus jeune âge",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : epci, 226 108 habitants\nContexte : PCAET > 4.DECHETS - Engager une démarche globale de prévention et de valorisation des déchets au sein du territoire > 4.2. Sensibiliser aux bonnes pratiques et à la prévention des déchets\nTitre : 4.2.1. Sensibiliser et éduquer dès le plus jeune âge\nDescription : Les enjeux liés au tri et au gaspillage alimentaire s'apprennent dès le plus jeune âge. Le développement du tri, du compost et des potagers dans les cours d'école en complément de campagne de sensibilisation spécifiques vise à permettre aux enfants de comprendre et mettre en œuvre par eux-mêmes les bonnes pratiques."
+  },
+  {
+   "id": 126689,
+   "titre": "4.2.2. Former les collectivités et professionels à la prévention des déchets",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : epci, 226 108 habitants\nContexte : PCAET > 4.DECHETS - Engager une démarche globale de prévention et de valorisation des déchets au sein du territoire > 4.2. Sensibiliser aux bonnes pratiques et à la prévention des déchets\nTitre : 4.2.2. Former les collectivités et professionels à la prévention des déchets\nDescription : Le compostage et les solutions de réduction des déchets sont encore trop peu présentes dans les établissements publics et privés. Seul le tri des papiers reste majoritairement appliqué, avec des lacunes sur la gestion des emballages et des déchets produits pendant le repas et les pauses. Une sensibilisation et une formation spécifique d’agents « référents » au sein de ces établissements a pour objectif de rendre automatique le tri des déchets."
+  },
+  {
+   "id": 126690,
+   "titre": "4.2.3. Réduire les déchets dans la poubelle",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : epci, 226 108 habitants\nContexte : PCAET > 4.DECHETS - Engager une démarche globale de prévention et de valorisation des déchets au sein du territoire > 4.2. Sensibiliser aux bonnes pratiques et à la prévention des déchets\nTitre : 4.2.3. Réduire les déchets dans la poubelle\nDescription : La réduction des déchets dans la poubelle est une initiative cruciale pour minimiser l'empreinte environnementale et promouvoir une gestion durable des déchets. Elle passe par la sensibilisation et l'adoption de comportements tels que le compostage des déchets organiques, l'utilisation de sacs réutilisables et de contenants durables, ainsi que la réduction de l'emballage superflu."
+  },
+  {
+   "id": 126691,
+   "titre": "4.2.4. Développer le réemploi et la réutilisation",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : epci, 226 108 habitants\nContexte : PCAET > 4.DECHETS - Engager une démarche globale de prévention et de valorisation des déchets au sein du territoire > 4.2. Sensibiliser aux bonnes pratiques et à la prévention des déchets\nTitre : 4.2.4. Développer le réemploi et la réutilisation\nDescription : Le réemploi consiste à réutiliser des objets ou matériaux pour leur donner une seconde vie, cela permettant notamment une réduction de la production de déchets et une économie de ressources. Les territoires peuvent s'appuyer sur le Réseau National des Ressourceries et Recycleries (RNRR) pour la mise en place de projets de ressourceries sur le territoire."
+  },
+  {
+   "id": 126692,
+   "titre": "4.3.1. Développer le compostage pour tous",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : epci, 226 108 habitants\nContexte : PCAET > 4.DECHETS - Engager une démarche globale de prévention et de valorisation des déchets au sein du territoire > 4.3. Composter et valoriser énergétiquement les déchets produits\nTitre : 4.3.1. Développer le compostage pour tous\nDescription : Les biodéchets constituent environ 30% des ordures ménagères, actuellement incinérées. Les habitants de logements collectifs n’ont actuellement pas possibilité de trier en composteur cette ressource. Les particuliers ont aussi besoin d'être guidés dans la pratique et d'être informés pour éviter les aprioris sur le compostage."
+  },
+  {
+   "id": 126693,
+   "titre": "4.3.2. Valoriser les déchets du BTP et des industriels",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : epci, 226 108 habitants\nContexte : PCAET > 4.DECHETS - Engager une démarche globale de prévention et de valorisation des déchets au sein du territoire > 4.3. Composter et valoriser énergétiquement les déchets produits\nTitre : 4.3.2. Valoriser les déchets du BTP et des industriels\nDescription : Le recyclage et réutilisation des déchets des industries permet la mise en place de démarches vertueuses au sein du territoire, tout en limitant la consommation de ressources. Des démarches comme l'écologie industrielle territorial (EIT), et la représentation écosystémique par les Toiles, sont des outils à disposition des territoires permettant d'engager des échanges et des mises en relation des acteurs industriels sur leurs besoins."
+  },
+  {
+   "id": 126694,
+   "titre": "4.4.3. Valoriser énergétiquement les déchets produits sur le territoire",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : epci, 226 108 habitants\nContexte : PCAET > 4.DECHETS - Engager une démarche globale de prévention et de valorisation des déchets au sein du territoire > 4.3. Composter et valoriser énergétiquement les déchets produits\nTitre : 4.4.3. Valoriser énergétiquement les déchets produits sur le territoire\nDescription : Les déchets produits sur le territoire sont une ressource qu'il est possible d'exploiter. Les déchets agro-alimentaires en particulier, peuvent être utilisés en compost, ou encore dans une unité de méthanisation, permettant de produire du gaz renouvelable localement."
+  },
+  {
+   "id": 126695,
+   "titre": "5.1.1. Concilier développement économique et transition écologique",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : epci, 226 108 habitants\nContexte : PCAET > 5.DEVELOPPEMENT ECONOMIQUE - Développer des démarches d’économie circulaire et d’écologie industrielle territoriale (fluides notamment) à travers un dialogue multi-acteurs > 5.1. Mettre en œuvre des stratégies locales\nTitre : 5.1.1. Concilier développement économique et transition écologique\nDescription : La transition écologique ne doit pas être un frein mais une opportunité pour le développement économique du territoire. Cette action s'inscrit dans une démarche de transformation durable, favorisant l'émergence d'activités respectueuses de l'environnement tout en garantissant un dynamisme économique local."
+  },
+  {
+   "id": 126696,
+   "titre": "5.1.2. Engager une démarche d’exemplarité environnementale des zones d’activités économiques",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : epci, 226 108 habitants\nContexte : PCAET > 5.DEVELOPPEMENT ECONOMIQUE - Développer des démarches d’économie circulaire et d’écologie industrielle territoriale (fluides notamment) à travers un dialogue multi-acteurs > 5.1. Mettre en œuvre des stratégies locales\nTitre : 5.1.2. Engager une démarche d’exemplarité environnementale des zones d’activités économiques\nDescription : Le territoire souhaite poursuivre son développement économique en proposant des zones d’activités pour l’implantation de nouvelles entreprises. A l’aune de la loi Zéro artificialisation nette (ZAN) et du besoin d’adaptation du territoire au changement climatique, il est nécessaire de mettre en place une démarche d’exemplarité sur les ZAE afin de concilier le développement du territoire et la lutte contre le changement climatique."
+  },
+  {
+   "id": 126697,
+   "titre": "5.1.3. Accompagner le développement du tourisme durable",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : epci, 226 108 habitants\nContexte : PCAET > 5.DEVELOPPEMENT ECONOMIQUE - Développer des démarches d’économie circulaire et d’écologie industrielle territoriale (fluides notamment) à travers un dialogue multi-acteurs > 5.1. Mettre en œuvre des stratégies locales\nTitre : 5.1.3. Accompagner le développement du tourisme durable\nDescription : Le tourisme est un vecteur d’activité important, et la Sambre-Avesnois dispose de nombreux atouts en ce sens. Une vigilance doit porter sur le développement d’un tourisme durable, afin de préserver les paysages et la biodiversité du territoire, tout en participant à l’adaptation du territoire au climat futur."
+  },
+  {
+   "id": 126698,
+   "titre": "5.2.1. Identifier et soutenir les filières  de matières premières existantes sur le territoire",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : epci, 226 108 habitants\nContexte : PCAET > 5.DEVELOPPEMENT ECONOMIQUE - Développer des démarches d’économie circulaire et d’écologie industrielle territoriale (fluides notamment) à travers un dialogue multi-acteurs > 5.2. Soutien aux filières locales\nTitre : 5.2.1. Identifier et soutenir les filières de matières premières existantes sur le territoire\nDescription : <div class=\"bn-block-group\" data-node-type=\"blockGroup\"><div class=\"bn-block-outer\" data-node-type=\"blockOuter\" data-id=\"8fc4fdec-242a-44fd-9ba6-7340ace0c8f2\"><div class=\"bn-block\" data-node-type=\"blockContainer\" data-id=\"8fc4fdec-242a-44fd-9ba6-7340ace0c8f2\"><div class=\"bn-block-content !p-0\" data-content-type=\"paragraph\"><p class=\"bn-inline-content !text-sm !text-primary-9 font-[Marianne]\">Consommer local permet de soutenir l'économie locale, réduire l'empreinte carbone des produits, proposer des produits frais et des matériaux locaux et de bonne qualité.</p></div></div></div><div class=\"bn-block-outer\" data-node-type=\"blockOuter\" data-id=\"f373b230-e4a4-42d6-9dd6-919bff74f1b4\"><div class=\"bn-block\" data-node-type=\"blockContainer\" data-id=\"f373b230-e4a4-42d6-9dd6-919bff74f1b4\"><div class=\"bn-block-content !p-0\" data-content-type=\"paragraph\"><p class=\"bn-inline-content !text-sm !text-primary-9 font-[Marianne]\">En achetant local, les consommateurs contribuent à la préservation des emplois et à l'activité des communes. </p></div></div></div><div class=\"bn-block-outer\" data-node-type=\"blockOuter\" data-id=\"ace8f58a-0a17-435e-a6d8-c1c58a52ab3f\"><div class=\"bn-block\" data-node-type=\"blockContainer\" data-id=\"ace8f58a-0a17-435e-a6d8-c1c58a52ab3f\"><div class=\"bn-block-content !p-0\" data-content-type=\"paragraph\"><p class=\"bn-inline-content !text-sm !text-primary-9 font-[Marianne]\"> Cela encourage également une production plus durable et éthique, en favorisant des circuits courts avec des mises en relation directes entre les producteurs et les consommateurs.</p></div></div></div><div class=\"bn-block-outer\" data-node-type=\"blockOuter\" data-id=\"5cca7200-e651-4640-b1c2-378352857b58\"><div class=\"bn-block\" data-node-type=\"blockContainer\" data-id=\"5cca7200-e651-4640-b1c2-378352857b58\"><div class=\"bn-block-content !p-0\" data-content-type=\"paragraph\"><p class=\"bn-inline-content !text-sm !text-primary-9 font-[Marianne]\"></p></div></div></div><div class=\"bn-block-outer\" data-node-type=\"blockOuter\" data-id=\"ecee0b2a-e550-4490-bb70-125fe1dbdbc3\"><div class=\"bn-block\" data-node-type=\"blockContainer\" data-id=\"ecee0b2a-e550-4490-bb70-125fe1dbdbc3\"><div class=\"bn-block-content !p-0\" data-content-type=\"paragraph\"><p class=\"bn-inline-content !text-sm !text-primary-9 font-[Marianne]\">Le territoire a pour objectif de développer les filières locales. Il est cependant essentiel de s’assurer de la durabilité de ces filières et de minimiser les impacts environnementaux. Une mesure de réduction MR5 \" Veiller à la durabilité des filières locales\" a été intégrée à cette action.</p></div></div></div></div>"
+  },
+  {
+   "id": 126699,
+   "titre": "5.2.2. Favoriser le rapprochement entre producteurs et consommateurs, notamment en développant les circuits courts Mesure 32 de la charte du PNR de l’Avesnois",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : epci, 226 108 habitants\nContexte : PCAET > 5.DEVELOPPEMENT ECONOMIQUE - Développer des démarches d’économie circulaire et d’écologie industrielle territoriale (fluides notamment) à travers un dialogue multi-acteurs > 5.2. Soutien aux filières locales\nTitre : 5.2.2. Favoriser le rapprochement entre producteurs et consommateurs, notamment en développant les circuits courts Mesure 32 de la charte du PNR de l’Avesnois\nDescription : <div class=\"bn-block-group\" data-node-type=\"blockGroup\"><div class=\"bn-block-outer\" data-node-type=\"blockOuter\" data-id=\"0836816e-f0ba-46a9-9010-79bc82e4d4eb\"><div class=\"bn-block\" data-node-type=\"blockContainer\" data-id=\"0836816e-f0ba-46a9-9010-79bc82e4d4eb\"><div class=\"bn-block-content !p-0\" data-content-type=\"paragraph\"><p class=\"bn-inline-content !text-sm !text-primary-9 font-[Marianne]\">La Sambre Avesnois a la chance de disposer de nombreux producteurs locaux. Pour soutenir cette activité, les collectivités peuvent utiliser la production locale dans les cantines scolaires, et encourager les circuits courts.</p></div></div></div></div>"
+  },
+  {
+   "id": 126700,
+   "titre": "5.2.3. Développer la formation  et les filières sur les métiers du bois et de la construction hors-site",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : epci, 226 108 habitants\nContexte : PCAET > 5.DEVELOPPEMENT ECONOMIQUE - Développer des démarches d’économie circulaire et d’écologie industrielle territoriale (fluides notamment) à travers un dialogue multi-acteurs > 5.2. Soutien aux filières locales\nTitre : 5.2.3. Développer la formation et les filières sur les métiers du bois et de la construction hors-site\nDescription : La CC Pays de Mormal souhaite mettre en place un pôle territorial de coopération économique (PTCE) autour des métiers du bois et de la construction hors site. Le territoire dispose d’une grande ressource mais qui n’est pas exploité, en tout cas pas sur le territoire. La mise en place d’un PTCE permettra à la CC Pays de Mormal de disposer d’un atout non négligeable pour valoriser les filières locales et de former aux métiers du développement durable"
+  },
+  {
+   "id": 126701,
+   "titre": "6.1.1. Accompagner la mise en œuvre de la loi APER",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : epci, 226 108 habitants\nContexte : PCAET > 6. ENERGIES - Amplifier et adapter la production énergétique renouvelable et de récupération du territoire, en s’appuyant sur les ressources locales > 6.1. Mettre en œuvre des stratégies locales\nTitre : 6.1.1. Accompagner la mise en œuvre de la loi APER\nDescription : La loi APER (Accélération de la Production des Énergies Renouvelables) vise à renforcer le développement des énergies renouvelables en France en identifiant et en aménageant des zones d’accélération dédiées. L’action vise a un accompagnement des communes dans la définition des ZAEnR et des porteurs de projets dans la mise en œuvre de projets ambitieux sur les zones définies."
+  },
+  {
+   "id": 126702,
+   "titre": "6.1.2. Utiliser l'Outil Toiles dans l'accompagnement de la transition énergétique du territoire",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : epci, 226 108 habitants\nContexte : PCAET > 6. ENERGIES - Amplifier et adapter la production énergétique renouvelable et de récupération du territoire, en s’appuyant sur les ressources locales > 6.1. Mettre en œuvre des stratégies locales\nTitre : 6.1.2. Utiliser l'Outil Toiles dans l'accompagnement de la transition énergétique du territoire\nDescription : Les « TOILES® » sont un outil d’aide à la décision en matière de stratégie économique créé en 2009 par l’Agence de Développement et d’Urbanisme de la Région Hauts-de-France Flandre Dunkerque (AGUR). Il s’agit d’une représentation des principaux échanges et relations qu’ont développés des acteurs locaux implantées sur un bassin d’emploi. L’objectif est de disposer d’un état des lieux sur la thématique en question et de pouvoir travailler avec les acteurs locaux sur l’émergence de projets et de synergie."
+  },
+  {
+   "id": 126703,
+   "titre": "6.1.3. Renforcer les partenariats avec les gestionnaires des réseaux",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : epci, 226 108 habitants\nContexte : PCAET > 6. ENERGIES - Amplifier et adapter la production énergétique renouvelable et de récupération du territoire, en s’appuyant sur les ressources locales > 6.1. Mettre en œuvre des stratégies locales\nTitre : 6.1.3. Renforcer les partenariats avec les gestionnaires des réseaux\nDescription : Le réseau d'électricité ne dispose plus de beaucoup de capacité disponible en injection. L'implantation de grosses centrales de productions d'électricité risque donc d'être freinée sans travaux sur les réseaux et postes du territoire. La localisation frontalière du territoire interroge sur les possibilités de mutualiser les réseaux dans une logique de rationalisation des coûts et des installations."
+  },
+  {
+   "id": 126704,
+   "titre": "6.2.1. Mise en œuvre du projet INTERREG VI LUNéfil (2025-2028)",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : epci, 226 108 habitants\nContexte : PCAET > 6. ENERGIES - Amplifier et adapter la production énergétique renouvelable et de récupération du territoire, en s’appuyant sur les ressources locales > 6.2. Lutter contre la pollution lumineuse au travers de la trame noire\nTitre : 6.2.1. Mise en œuvre du projet INTERREG VI LUNéfil (2025-2028)\nDescription : Le projet LUNéfil vise à réduire la pollution lumineuse et à promouvoir un éclairage urbain naturel et économe dans la Région Hauts-de-France transfrontalière de la Sambre. Son objectif est de minimiser les effets néfastes de l'éclairage excessif sur la biodiversité, l'environnement, la santé et l'énergie, tout en renforçant la résilience des territoires face au changement climatique."
+  },
+  {
+   "id": 126705,
+   "titre": "6.2.2. Lutter contre la pollution lumineuse",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : epci, 226 108 habitants\nContexte : PCAET > 6. ENERGIES - Amplifier et adapter la production énergétique renouvelable et de récupération du territoire, en s’appuyant sur les ressources locales > 6.2. Lutter contre la pollution lumineuse au travers de la trame noire\nTitre : 6.2.2. Lutter contre la pollution lumineuse\nDescription : La trame noire est un concept visant à protéger les écosystèmes nocturnes en réduisant la pollution lumineuse artificielle. En identifiant et en préservant des corridors et des zones où l'obscurité naturelle est maintenue, la trame noire permet de préserver les espèces qui sont perturbés par l'éclairage artificiel. Elle contribue également à la santé humaine en améliorant le sommeil et en réduisant les nuisances lumineuses."
+  },
+  {
+   "id": 126706,
+   "titre": "6.3.1. Développer l’énergie solaire thermique et photovoltaïque",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : epci, 226 108 habitants\nContexte : PCAET > 6. ENERGIES - Amplifier et adapter la production énergétique renouvelable et de récupération du territoire, en s’appuyant sur les ressources locales > 6.3. Amplifier le développement des énergies renouvelables\nTitre : 6.3.1. Développer l’énergie solaire thermique et photovoltaïque\nDescription : Le PCAET porte de fortes ambitions sur le déploiement de la filière photovoltaïque sur le territoire. Pour la filière solaire thermique, il n'existe que très peu de sites installées sur le territoire. Une communication spécifique et la mise en œuvre de projets démonstrateurs pour alimenter des bâtiments à forte consommation d'eau chaude (piscine municipale, EHPAD, hôpital, ...) permettra de mettre en œuvre cette technologie."
+  },
+  {
+   "id": 126707,
+   "titre": "6.3.2. Poursuivre le développement de la filière bois énergie",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : epci, 226 108 habitants\nContexte : PCAET > 6. ENERGIES - Amplifier et adapter la production énergétique renouvelable et de récupération du territoire, en s’appuyant sur les ressources locales > 6.3. Amplifier le développement des énergies renouvelables\nTitre : 6.3.2. Poursuivre le développement de la filière bois énergie\nDescription : En Sambre-Avesnois, la filière bois-énergie est animée par le PNR de l'Avesnois et son chargé de mission bois-énergie. En 2024, il existe 58 chaufferies à bois déchiqueté sur le territoire pour alimenter des exploitations agricoles ou des réseaux de chaleur technique de collectivités. Le PNR de l’Avesnois veille à la bonne gestion de la ressource bocagère et au respect des normes environnementales avec par exemple des filtres à particules efficaces. La Sambre-Avesnois compte des surfaces forestières importantes qui ne sont pas valorisées sur le territoire, la relocalisation des industries de production de bois pellets et buches permettrait de bénéficier aux habitants de bénéficier d'une ressource locale et pérenne."
+  },
+  {
+   "id": 126708,
+   "titre": "6.3.3. Développer la géothermie basse énergie et très basse énergie",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : epci, 226 108 habitants\nContexte : PCAET > 6. ENERGIES - Amplifier et adapter la production énergétique renouvelable et de récupération du territoire, en s’appuyant sur les ressources locales > 6.3. Amplifier le développement des énergies renouvelables\nTitre : 6.3.3. Développer la géothermie basse énergie et très basse énergie\nDescription : La géothermie basse énergie permet de récupérer les calories présentes dans le sous-sol afin d'alimenter une pompe à chaleur et ainsi chauffer des bâtiments à bas cout. Ces systèmes sont très peu développés sur le territoire malgré les avantages de cette technologie. La promotion de ces dispositifs et la mise en œuvre de projets démonstrateur visent à engager une dynamique vertueuse afin d'atteindre les objectifs fixés dans le PCAET."
+  },
+  {
+   "id": 126709,
+   "titre": "6.3.4. Mettre en œuvre des projets de méthanisation",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : epci, 226 108 habitants\nContexte : PCAET > 6. ENERGIES - Amplifier et adapter la production énergétique renouvelable et de récupération du territoire, en s’appuyant sur les ressources locales > 6.3. Amplifier le développement des énergies renouvelables\nTitre : 6.3.4. Mettre en œuvre des projets de méthanisation\nDescription : La Sambre-Avesnois compte 9 unités de méthanisation, dont une seule unité réalisant de l'injection de gaz dans le réseau. Le potentiel sur le territoire est important du fait d'une activité agricole et agroalimentaire importante. L'intéret de la méthanisation est multiple : valorisation des déchets, limitations de la pollution agricole, production de digestat pouvant se substituer aux engrais minéraux, production de biogaz renforçant l'indépendance énergétique de la Sambre-Avesnois, apporter une source de revenue complémentaire aux agriculteurs. La promotion de ces systèmes et la mise en œuvre de projets démonstrateurs visent à engager une dynamique vertueuse afin d'atteindre les objectifs fixés dans le PCAET."
+  },
+  {
+   "id": 126710,
+   "titre": "6.4.1. MR 1  - Réduire les impacts des projets de méthanisation",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : epci, 226 108 habitants\nContexte : PCAET > 6. ENERGIES - Amplifier et adapter la production énergétique renouvelable et de récupération du territoire, en s’appuyant sur les ressources locales > 6.4. Limiter les impacts négatifs engendrés par la production locale d'énergie\nTitre : 6.4.1. MR 1 - Réduire les impacts des projets de méthanisation\nDescription : La méthanisation présente un intérêt certain pour l’environnement, le dévelepommeent énergétique et économique locale comme présenté dans l'action 6,3,4. Des impacts environnementaux sont cependant possibles à l’échelle locale : artificialisation des sols, risque de pollution des eaux. Les nuisances pour les riverains doivent être prises en considération en amont des projets (risque de nuisances olfactives, nuisances sonores via le flux de camions…). Il s'agira pour le territoire de limiter ces risques en mettant en place un ensemble d'actions et de bonnes pratiques."
+  },
+  {
+   "id": 126711,
+   "titre": "6.4.2. MR2 - Qualité de l’air et chauffage au bois",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : epci, 226 108 habitants\nContexte : PCAET > 6. ENERGIES - Amplifier et adapter la production énergétique renouvelable et de récupération du territoire, en s’appuyant sur les ressources locales > 6.4. Limiter les impacts négatifs engendrés par la production locale d'énergie\nTitre : 6.4.2. MR2 - Qualité de l’air et chauffage au bois\nDescription : Le territoire de la Sambre Avesnois porte plusieurs objectifs de développement de la filière bois énergie. Cette filière présente de très nombreux avantages : Production d’énergie renouvelable Production d’énergie locale / autonomie énergétique Source de revenus non délocalisable, économie circulaire Mais comme toute combustion, le chauffage au bois est à l'origine d'émissions : de polluants de l'air, c'est-à-dire de substances contribuant à dégrader directement la qualité de l'air. On parle de polluants primaires. de précurseurs de polluants, c'est-à-dire de substances qui, une fois émises dans l'air, vont subir des transformations physico-chimiques et former des polluants secondaires. Les émissions sont majoritairement issues du parc domestique (foyers ouverts, appareils vétustes). Les chaudières de plus grande taille sont soumises à des normes contraignantes et l'accompagnement du PNR de l'Avesnois sur la fillière bocagère assure la bonne mise en oeuvre des normes."
+  },
+  {
+   "id": 126712,
+   "titre": "6.4.3. MR3 - Planification du développement des énergies renouvelables",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : epci, 226 108 habitants\nContexte : PCAET > 6. ENERGIES - Amplifier et adapter la production énergétique renouvelable et de récupération du territoire, en s’appuyant sur les ressources locales > 6.4. Limiter les impacts négatifs engendrés par la production locale d'énergie\nTitre : 6.4.3. MR3 - Planification du développement des énergies renouvelables\nDescription : Le territoire prévoit un soutien au développement des énergies renouvelables, avec notamment l’aide à la diversification des activités agricoles. En complément des mesures MR1 pour la méthanisation et MR2 pour le chauffage au bois, il s’agira de porter une attention particulière au développement de toutes les énergies renouvelables de manière à limiter les impacts sur le paysage et le milieu naturel. Il faudra veiller à la bonne intégration des enjeux dans les études d'impact et à l'application de la démarche ERC pour réduire ces impacts. Les projets devront, conformément à la réglementation, comporter une étude d’incidence Natura 2000."
+  },
+  {
+   "id": 126713,
+   "titre": "7.1.1. Améliorer la séquestration du carbone en préservant les haies bocagères",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : epci, 226 108 habitants\nContexte : PCAET > 7. AGRICULTURE - Miser sur une adaptation des pratiques agricoles au regard des vulnérabilités territoriales en favorisant des démarches agro-écologiques > 7.1. Agir pour une préservation du bocage\nTitre : 7.1.1. Améliorer la séquestration du carbone en préservant les haies bocagères\nDescription : La séquestration du carbone consiste en un captage du CO2 présent dans l'air dans de la biomasse ou des produits bois. Il est nécessaire de la renforcer afin d'atteindre la neutralité carbone en 2050. Sur les terres agricoles, cela comprend la préservation et le développement du bocage."
+  },
+  {
+   "id": 126714,
+   "titre": "7.1.2. Œuvrer pour la préservation du parcellaire herbager",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : epci, 226 108 habitants\nContexte : PCAET > 7. AGRICULTURE - Miser sur une adaptation des pratiques agricoles au regard des vulnérabilités territoriales en favorisant des démarches agro-écologiques > 7.1. Agir pour une préservation du bocage\nTitre : 7.1.2. Œuvrer pour la préservation du parcellaire herbager\nDescription : Maintenir et restaurer les prairies est essentiel pour préserver leur rôle écologique. Cela implique de soutenir les pratiques agricoles durables, de fournir des aides pour l'entretien et la restauration des prairies, et de réguler leur conversion en d'autres usages."
+  },
+  {
+   "id": 126715,
+   "titre": "7.2.1. Encourager et soutenir les changements de pratiques agricoles",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : epci, 226 108 habitants\nContexte : PCAET > 7. AGRICULTURE - Miser sur une adaptation des pratiques agricoles au regard des vulnérabilités territoriales en favorisant des démarches agro-écologiques > 7.2. Accompagner l'évolution des pratiques agricoles\nTitre : 7.2.1. Encourager et soutenir les changements de pratiques agricoles\nDescription : L’agriculture, comme de nombreux secteurs d’activité, doit évoluer afin de réduire son impact environnemental et d’adapter au changement climatique. Les territoires, en proposant des formations, des moments d’échange et de sensibilisations, peuvent accompagner le changement des pratiques agricoles vers des méthodes plus respectueuses de l’environnement et apte à supporter les changements climatiques à venir."
+  },
+  {
+   "id": 126716,
+   "titre": "7.2.2. Adapter les espaces agricoles au changement climatique",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : epci, 226 108 habitants\nContexte : PCAET > 7. AGRICULTURE - Miser sur une adaptation des pratiques agricoles au regard des vulnérabilités territoriales en favorisant des démarches agro-écologiques > 7.2. Accompagner l'évolution des pratiques agricoles\nTitre : 7.2.2. Adapter les espaces agricoles au changement climatique\nDescription : Le déreglement climatique a des impacts forts sur les pratiques agricoles et amplifie les problèmatiques liées à l'eau (sécheresse, inondation, coulée de boue). Une adaptation est nécessaire pour prévenir de ces risques et limiter l'impact sur les activités et les écosystèmes locaux du changement climatique."
+  },
+  {
+   "id": 126717,
+   "titre": "7.2.3. Accompagner la diversification des activités",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : epci, 226 108 habitants\nContexte : PCAET > 7. AGRICULTURE - Miser sur une adaptation des pratiques agricoles au regard des vulnérabilités territoriales en favorisant des démarches agro-écologiques > 7.2. Accompagner l'évolution des pratiques agricoles\nTitre : 7.2.3. Accompagner la diversification des activités\nDescription : Les agriculteurs peuvent mettre en place des activités annexes de productions et de valorisations énergétiques sur leur terrain. De la méthanisation à la production de bois déchiqueté de bocage pour les chaufferies, ces activités participent à la valorisation des ressources du territoire et apportent aux agriculteurs un complément de revenu non négligeable. Porter une attention particulière au développement de toutes les énergies renouvelables et en particulier à l’éolien et à l’agrivoltaïsme, de manière à limiter les impacts sur le paysage et le milieu naturel. Il faudra veiller à la bonne intégration des enjeux dans les études d'impact et à l'application de la démarche ERC pour réduire ces impacts. Les projets devront, conformément à la réglementation, comporter une étude d’incidence Natura 2000."
+  },
+  {
+   "id": 126718,
+   "titre": "8.1.1. Communiquer au grand public sur les documents d'urbanisme et les enjeux du ZAN",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : epci, 226 108 habitants\nContexte : PCAET > 8. URBANISME - Favoriser la résilience des territoires (notamment des espaces publics et des quartiers) et inscrire la Sambre-Avesnois dans une dynamique de sobriété foncière > 8.1. Mettre en œuvre des stratégies de planification à l'aune du ZAN\nTitre : 8.1.1. Communiquer au grand public sur les documents d'urbanisme et les enjeux du ZAN\nDescription : Les documents d'urbanisme comme le SCOT, les PLUi et PLH sont bien souvent inconnus du grand public. Une communication sous la forme de journée de présentation et d'ateliers permettrait au plus grand monde de prendre conscience des enjeux (sobriété foncière) et des travaux réalisés par les collectivités."
+  },
+  {
+   "id": 126719,
+   "titre": "8.1.2. Renforcer les documents d'urbanisme en faveur de l'adaptation au changement climatique et de la protection de la biodiversité",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : epci, 226 108 habitants\nContexte : PCAET > 8. URBANISME - Favoriser la résilience des territoires (notamment des espaces publics et des quartiers) et inscrire la Sambre-Avesnois dans une dynamique de sobriété foncière > 8.1. Mettre en œuvre des stratégies de planification à l'aune du ZAN\nTitre : 8.1.2. Renforcer les documents d'urbanisme en faveur de l'adaptation au changement climatique et de la protection de la biodiversité\nDescription : Renforcer les documents d'urbanisme en faveur de l'adaptation au changement climatique et de la protection de la biodiversité est essentiel pour assurer un développement durable et résilient des territoires."
+  },
+  {
+   "id": 126720,
+   "titre": "8.2.1; Accompagner les projets de lutte contre les inondations autour d'un PAPI Sambre et de la stratégie Locale de Gestion des Risques d'Inondations (SLGRI) Mesure M32 Charte du PNR de l’Avesnois",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : epci, 226 108 habitants\nContexte : PCAET > 8. URBANISME - Favoriser la résilience des territoires (notamment des espaces publics et des quartiers) et inscrire la Sambre-Avesnois dans une dynamique de sobriété foncière > 8.2. Mettre en œuvre des stratégies de protection de l'environnement\nTitre : 8.2.1; Accompagner les projets de lutte contre les inondations autour d'un PAPI Sambre et de la stratégie Locale de Gestion des Risques d'Inondations (SLGRI) Mesure M32 Charte du PNR de l’Avesnois\nDescription : Le bassin versant de la Sambre est régulièrement touché par des inondations liées au débordement des cours d’eau ou au ruissellement. Depuis 1850, 7 événements majeurs d’inondation ont été recensés, dont le dernier en 2016. Ainsi, de nombreux enjeux sont périodiquement impactés. Le Programme d’Action et de Prévention des inondations (PAPI) de la Sambre a pour objet la promotion d’une gestion globale des risques d’inondation à l’échelle du bassin de la Sambre."
+  },
+  {
+   "id": 126721,
+   "titre": "8.2.2. Elaborer le Document d'Objectifs du site Natura 2000 \"Vallée de la Sambre\") Mesure M02 Charte du PNR de l’Avesnois",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : epci, 226 108 habitants\nContexte : PCAET > 8. URBANISME - Favoriser la résilience des territoires (notamment des espaces publics et des quartiers) et inscrire la Sambre-Avesnois dans une dynamique de sobriété foncière > 8.2. Mettre en œuvre des stratégies de protection de l'environnement\nTitre : 8.2.2. Elaborer le Document d'Objectifs du site Natura 2000 \"Vallée de la Sambre\") Mesure M02 Charte du PNR de l’Avesnois\nDescription : Les sites Natura 2000 visent une meilleure prise en compte des enjeux de biodiversité dans les activités humaines. Ils sont désignés pour protéger un certain nombre d’habitats et d’espèces représentatifs de la biodiversité."
+  },
+  {
+   "id": 126722,
+   "titre": "8.3.1. Se doter d'une culture commune en matière d'aménagement et d'urbanisme pour une meilleure prise en compte de l'environnement et des patrimoines Mesure M15 Charte du PNR de l’Avesnois",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : epci, 226 108 habitants\nContexte : PCAET > 8. URBANISME - Favoriser la résilience des territoires (notamment des espaces publics et des quartiers) et inscrire la Sambre-Avesnois dans une dynamique de sobriété foncière > 8.3. Mettre en place des aménagements d'adaptation au changement climatique et d'amélioration du cadre de vie\nTitre : 8.3.1. Se doter d'une culture commune en matière d'aménagement et d'urbanisme pour une meilleure prise en compte de l'environnement et des patrimoines Mesure M15 Charte du PNR de l’Avesnois\nDescription : La prise en compte de l’environnement, de l’agriculture, des paysages et des patrimoines doit devenir un objectif partagé par les acteurs de la planification, de l’urbanisme et de l’aménagement. Cela implique de renforcer la concertation entre les acteurs locaux (élus, habitants, professionnels de l'urbanisme et de l'environnement) pour établir une politique d'aménagement du territoire qui respecte et valorise les spécificités du territoire."
+  },
+  {
+   "id": 126723,
+   "titre": "8.3.2. Déminéraliser, végétaliser des espaces dans les communes (trame verte et bleue)",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : epci, 226 108 habitants\nContexte : PCAET > 8. URBANISME - Favoriser la résilience des territoires (notamment des espaces publics et des quartiers) et inscrire la Sambre-Avesnois dans une dynamique de sobriété foncière > 8.3. Mettre en place des aménagements d'adaptation au changement climatique et d'amélioration du cadre de vie\nTitre : 8.3.2. Déminéraliser, végétaliser des espaces dans les communes (trame verte et bleue)\nDescription : Les centre-ville sont souvent fortement imperméables, avec l'emploi d'enrobé et de béton. Déminéraliser et végétaliser les espaces publics comme les places et les cours d'écoles permet de réduire les effets d' îlots de chaleur urbains, d'améliorer la gestion des eaux pluviales, et de favoriser la biodiversité."
+  },
+  {
+   "id": 126724,
+   "titre": "8.3.3. Expérimenter l’urbanisme favorable à la santé (UFS)",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : epci, 226 108 habitants\nContexte : PCAET > 8. URBANISME - Favoriser la résilience des territoires (notamment des espaces publics et des quartiers) et inscrire la Sambre-Avesnois dans une dynamique de sobriété foncière > 8.3. Mettre en place des aménagements d'adaptation au changement climatique et d'amélioration du cadre de vie\nTitre : 8.3.3. Expérimenter l’urbanisme favorable à la santé (UFS)\nDescription : L'urbanisme favorable à la santé (UFS) vise à concevoir et organiser les espaces urbains de manière à promouvoir le bien-être physique et mental des habitants. Cela inclut la création de zones végétalisés, l'amélioration des infrastructures pour les piétons et les mobilités douces, la réduction de la pollution de l'air et du bruit, et l'accès facilité aux services de santé et aux activités de loisirs."
+  },
+  {
+   "id": 126725,
+   "titre": "8.3.4. Viser la sobriété foncière au sein du territoire intercommunal",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : epci, 226 108 habitants\nContexte : PCAET > 8. URBANISME - Favoriser la résilience des territoires (notamment des espaces publics et des quartiers) et inscrire la Sambre-Avesnois dans une dynamique de sobriété foncière > 8.3. Mettre en place des aménagements d'adaptation au changement climatique et d'amélioration du cadre de vie\nTitre : 8.3.4. Viser la sobriété foncière au sein du territoire intercommunal\nDescription : La sobriété foncière vise à réduire la consommation d'espaces naturels et agricoles pour des projets de développement urbain, en favorisant la densification urbaine et la réhabilitation des friches industrielles. Le territoire dispose par son histoire de nombreuses friches industrielles, pour certaines en plein centre-ville. La reconversion de ces friches permet entre autres de développer l'attractivité, réduire la consommation d'espace naturelle et de réduire l'étalement urbain."
+  }
+ ]
+}

@@ -1,0 +1,592 @@
+{
+ "collectivite": {
+  "id": 4707,
+  "nom": "CC du Pays de Colombey et du Sud Toulois",
+  "type_code": "CC",
+  "type_label": "communauté de communes",
+  "population": 11436
+ },
+ "fiches": [
+  {
+   "id": 51802,
+   "titre": "Promouvoir les équipements économes en énergie et l’extinction nocturne",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 11 436 habitants\nContexte : PCAET > 1. Habitat / Aménagement > Axe 1 Rendre exemplaire les bâtiments publics et l’éclairage public\nTitre : Promouvoir les équipements économes en énergie et l’extinction nocturne\nDescription : les Communes remplacent progressivement leurs réseaux d'éclairage public et restaurent leurs bâtiments en terme d'équipement économe et isolation"
+  },
+  {
+   "id": 51803,
+   "titre": "Promouvoir la VMC double flux",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 11 436 habitants\nContexte : PCAET > 1. Habitat / Aménagement > Axe 2 : Sécuriser le parcours de rénovation des particuliers et sensibiliser sur les dispositifs existants > Proposer un service de conseil neutre et gratuit , d'information sur la rénovation énergétique\nTitre : Promouvoir la VMC double flux\nDescription : aucune"
+  },
+  {
+   "id": 51804,
+   "titre": "Développer, promouvoir la géothermie auprès des particuliers",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 11 436 habitants\nContexte : PCAET > 1. Habitat / Aménagement > Axe 2 : Sécuriser le parcours de rénovation des particuliers et sensibiliser sur les dispositifs existants > Proposer un service de conseil neutre et gratuit , d'information sur la rénovation énergétique\nTitre : Développer, promouvoir la géothermie auprès des particuliers\nDescription : aucune"
+  },
+  {
+   "id": 51805,
+   "titre": "Communiquer sur les moyens d'isolation",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 11 436 habitants\nContexte : PCAET > 1. Habitat / Aménagement > Axe 2 : Sécuriser le parcours de rénovation des particuliers et sensibiliser sur les dispositifs existants > Proposer un service de conseil neutre et gratuit , d'information sur la rénovation énergétique\nTitre : Communiquer sur les moyens d'isolation\nDescription : aucune"
+  },
+  {
+   "id": 51806,
+   "titre": "(panneaux solaires notamment) Proposer un accompagnement de proximité et sécurisé pour les particuliers dans leur projet de rénovation et de chauffage ainsi que les énergies renouvelables, via le cadastre solaire, l'AMI parc solaire au sol, ….",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 11 436 habitants\nContexte : PCAET > 1. Habitat / Aménagement > Axe 2 : Sécuriser le parcours de rénovation des particuliers et sensibiliser sur les dispositifs existants > Proposer un service de conseil neutre et gratuit , d'information sur la rénovation énergétique\nTitre : (panneaux solaires notamment) Proposer un accompagnement de proximité et sécurisé pour les particuliers dans leur projet de rénovation et de chauffage ainsi que les énergies renouvelables, via le cadastre solaire, l'AMI parc solaire au sol, ….\nDescription : aucune"
+  },
+  {
+   "id": 51807,
+   "titre": "Promouvoir les matériaux biosourcés (laine de bois, laine de mouton …) garantissant à la fois un confort d’été",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 11 436 habitants\nContexte : PCAET > 1. Habitat / Aménagement > Axe 2 : Sécuriser le parcours de rénovation des particuliers et sensibiliser sur les dispositifs existants > Proposer un service de conseil neutre et gratuit , d'information sur la rénovation énergétique\nTitre : Promouvoir les matériaux biosourcés (laine de bois, laine de mouton …) garantissant à la fois un confort d’été\nDescription : aucune"
+  },
+  {
+   "id": 51808,
+   "titre": "Agir spécifiquement en direction des copropriétés sur la rénovation énergétique",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 11 436 habitants\nContexte : PCAET > 1. Habitat / Aménagement > Axe 2 : Sécuriser le parcours de rénovation des particuliers et sensibiliser sur les dispositifs existants > Proposer un service de conseil neutre et gratuit , d'information sur la rénovation énergétique\nTitre : Agir spécifiquement en direction des copropriétés sur la rénovation énergétique\nDescription : aucune"
+  },
+  {
+   "id": 51809,
+   "titre": "Donner la priorité à la rénovation énergétique chez les particuliers",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 11 436 habitants\nContexte : PCAET > 1. Habitat / Aménagement > Axe 2 : Sécuriser le parcours de rénovation des particuliers et sensibiliser sur les dispositifs existants > Améliorer les performance énergétique des logements des propriétaires occupants et bailleurs\nTitre : Donner la priorité à la rénovation énergétique chez les particuliers\nDescription : aucune"
+  },
+  {
+   "id": 51810,
+   "titre": "Responsabiliser les propriétaires à effectuer des travaux efficaces",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 11 436 habitants\nContexte : PCAET > 1. Habitat / Aménagement > Axe 2 : Sécuriser le parcours de rénovation des particuliers et sensibiliser sur les dispositifs existants > Améliorer les performance énergétique des logements des propriétaires occupants et bailleurs\nTitre : Responsabiliser les propriétaires à effectuer des travaux efficaces\nDescription : aucune"
+  },
+  {
+   "id": 51811,
+   "titre": "Sensibiliser les décideurs locaux (élus et pétitionnaire lors des dépôts de permis de construire) aux économies d’énergies et énergies renouvelables.",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 11 436 habitants\nContexte : PCAET > 1. Habitat / Aménagement > Axe 2 : Sécuriser le parcours de rénovation des particuliers et sensibiliser sur les dispositifs existants > Améliorer les performance énergétique des logements des propriétaires occupants et bailleurs\nTitre : Sensibiliser les décideurs locaux (élus et pétitionnaire lors des dépôts de permis de construire) aux économies d’énergies et énergies renouvelables.\nDescription : aucune"
+  },
+  {
+   "id": 51812,
+   "titre": "Développer la domotique au niveau de l'habitat : volets, moyens d'actionner les instruments à distance",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 11 436 habitants\nContexte : PCAET > 1. Habitat / Aménagement > Axe 2 : Sécuriser le parcours de rénovation des particuliers et sensibiliser sur les dispositifs existants > Améliorer les performance énergétique des logements des propriétaires occupants et bailleurs\nTitre : Développer la domotique au niveau de l'habitat : volets, moyens d'actionner les instruments à distance\nDescription : aucune"
+  },
+  {
+   "id": 51813,
+   "titre": "Elargir la mission du conseiller Energie Collectivité sur l'accompagnement global air - climat - énergie des collectivités locales (dont l'adaptation aux changements climatiques)",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 11 436 habitants\nContexte : PCAET > 1. Habitat / Aménagement > Axe 3: Adapter les bâtiments aux conséquences du changement climatique\nTitre : Elargir la mission du conseiller Energie Collectivité sur l'accompagnement global air - climat - énergie des collectivités locales (dont l'adaptation aux changements climatiques)\nDescription : Rendre accessible l’information sur le confort d’été et les techniques permettant d’améliorer le confort d’été ; communiquer sur des actions simples à mettre en œuvre, promouvoir les isolants biosourcés. Cibles : collectivités et particuliers"
+  },
+  {
+   "id": 51814,
+   "titre": "Initier une réflexion sur l'élaboration d'un DEFI DECLICS d'éducation à la sobriété multithématique en s'appuyant sur un réseau de partenaires:",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 11 436 habitants\nContexte : PCAET > 1. Habitat / Aménagement > Axe 4 : Agir sur les comportements au quotidien (sobriété)\nTitre : Initier une réflexion sur l'élaboration d'un DEFI DECLICS d'éducation à la sobriété multithématique en s'appuyant sur un réseau de partenaires:\nDescription : la cc fera le lien sur l'application et communiquera sur ses supports intercommunaux"
+  },
+  {
+   "id": 51815,
+   "titre": "Mettre en place un PLUI qui intègre les enjeux de l'adaptation et l'atténuation au changement climatique",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 11 436 habitants\nContexte : PCAET > 1. Habitat / Aménagement > Axe 5 : Favoriser la densification urbaine\nTitre : Mettre en place un PLUI qui intègre les enjeux de l'adaptation et l'atténuation au changement climatique\nDescription : Prioriser les construction neuves dans les dents creuses et notamment dans le sud du territoire. croiser et coordonner les axes air climat énergie du PADD et le PCAET"
+  },
+  {
+   "id": 51816,
+   "titre": "Intégrer les enjeux liés à l’eau dans les PLUi",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 11 436 habitants\nContexte : PCAET > 1. Habitat / Aménagement > Axe 6 : Limiter l'artificialisation et préserver la ressources en eau > Mettre en place un PLUI qui intègre les enjeux de l'adaptation et l'atténuation au changement climatique\nTitre : Intégrer les enjeux liés à l’eau dans les PLUi\nDescription : plantation de haies, protection des zones humides, drainage et assainissement des sols, rétablir la dynamique des cours d'eau …"
+  },
+  {
+   "id": 51817,
+   "titre": "Explorer les possibilités réglementaires (PLUI) pour encourager les plantations",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 11 436 habitants\nContexte : PCAET > 1. Habitat / Aménagement > Axe 6 : Limiter l'artificialisation et préserver la ressources en eau > Mettre en place un PLUI qui intègre les enjeux de l'adaptation et l'atténuation au changement climatique\nTitre : Explorer les possibilités réglementaires (PLUI) pour encourager les plantations\nDescription : dans les espaces constructibles, les zones commerciales, industrielles (végétalisation, arbres..). Sanctuariser certains secteurs de forêts"
+  },
+  {
+   "id": 51818,
+   "titre": "Développer la végétalisation des espaces urbains (villes et villages)  pour limiter l'effet des îlots de chaleur",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 11 436 habitants\nContexte : PCAET > 1. Habitat / Aménagement > Axe 6 : Limiter l'artificialisation et préserver la ressources en eau > Mettre en place un PLUI qui intègre les enjeux de l'adaptation et l'atténuation au changement climatique\nTitre : Développer la végétalisation des espaces urbains (villes et villages) pour limiter l'effet des îlots de chaleur\nDescription : Plantation d’arbres, toitures végétalisées dans les zones d’activités, perméabilité des parkings, façades végétalisées, noues d'infiltrations, écoles/périscolaires, crèches, espaces sans construction dans les lotissements, ....\""
+  },
+  {
+   "id": 51819,
+   "titre": "Connaître et protéger les terres agricoles et les espaces naturels de l’artificialisation des sols via les documents d’urbanisme et la politique foncière associée",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 11 436 habitants\nContexte : PCAET > 1. Habitat / Aménagement > Axe 6 : Limiter l'artificialisation et préserver la ressources en eau > Mettre en place un PLUI qui intègre les enjeux de l'adaptation et l'atténuation au changement climatique\nTitre : Connaître et protéger les terres agricoles et les espaces naturels de l’artificialisation des sols via les documents d’urbanisme et la politique foncière associée\nDescription : aucune"
+  },
+  {
+   "id": 51820,
+   "titre": "Développer un réseau de pistes cyclables sécurisées en site propre.",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 11 436 habitants\nContexte : PCAET > 2. Mobilité > Axe 1 : Encourager l’usage des transports « doux » (vélo, marche) et sécuriser certains itinéraires > Expérimenter des démarches de  \"Mobilité alternative\" en milieu peu dense\nTitre : Développer un réseau de pistes cyclables sécurisées en site propre.\nDescription : Développer un réseau de pistes cyclables sécurisées en site propre pour un usage utilitaire au quotidien, sur les routes départementales et nationales entre les communes mais aussi dans les centre-ville"
+  },
+  {
+   "id": 51821,
+   "titre": "Mettre en place certaines voies vertes (en réflexion avec le département)",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 11 436 habitants\nContexte : PCAET > 2. Mobilité > Axe 1 : Encourager l’usage des transports « doux » (vélo, marche) et sécuriser certains itinéraires > Expérimenter des démarches de  \"Mobilité alternative\" en milieu peu dense\nTitre : Mettre en place certaines voies vertes (en réflexion avec le département)\nDescription : aucune"
+  },
+  {
+   "id": 51822,
+   "titre": "Mise à jour de la \"Mobilité\", dans le PLUi",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 11 436 habitants\nContexte : PCAET > 2. Mobilité > Axe 3: Développer les usages sobres en voiture : covoiturage, mutualisation, éco-conduite… > Expérimenter des démarches de  \"Mobilité alternative\" en milieu peu dense\nTitre : Mise à jour de la \"Mobilité\", dans le PLUi\nDescription : aucune"
+  },
+  {
+   "id": 51823,
+   "titre": "Promouvoir le covoiturage sur des axes passants (ligne de covoiturage)",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 11 436 habitants\nContexte : PCAET > 2. Mobilité > Axe 3: Développer les usages sobres en voiture : covoiturage, mutualisation, éco-conduite… > Expérimenter des démarches de  \"Mobilité alternative\" en milieu peu dense\nTitre : Promouvoir le covoiturage sur des axes passants (ligne de covoiturage)\nDescription : aucune"
+  },
+  {
+   "id": 51824,
+   "titre": "Covoiturage de proximité",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 11 436 habitants\nContexte : PCAET > 2. Mobilité > Axe 3: Développer les usages sobres en voiture : covoiturage, mutualisation, éco-conduite… > Expérimenter des démarches de  \"Mobilité alternative\" en milieu peu dense\nTitre : Covoiturage de proximité\nDescription : : essaimer la démarché initiée dans la commune de Courcelles en proposant aux habitants de partager une boite mail covoiturage.[nomdelacommune]@_____.fr : chaque habitant peut proposer un trajet ponctuel ou régulier sur la boite mail."
+  },
+  {
+   "id": 51825,
+   "titre": "Créer un groupe d'ambassadeurs qui informe la population sur les offres de mobilité dans chaque village",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 11 436 habitants\nContexte : PCAET > 2. Mobilité > Axe 3: Développer les usages sobres en voiture : covoiturage, mutualisation, éco-conduite… > Expérimenter des démarches de  \"Mobilité alternative\" en milieu peu dense\nTitre : Créer un groupe d'ambassadeurs qui informe la population sur les offres de mobilité dans chaque village\nDescription : aucune"
+  },
+  {
+   "id": 51826,
+   "titre": "Positionner la gare de Barisey la Côte comme gare de ferroutage (en lien avec la sortie de l’A31 à Allain)",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 11 436 habitants\nContexte : PCAET > 2. Mobilité > Axe 5 : Diminuer les émissions de GES (Gaz à effet de serre) liées au transport\nTitre : Positionner la gare de Barisey la Côte comme gare de ferroutage (en lien avec la sortie de l’A31 à Allain)\nDescription : aucune"
+  },
+  {
+   "id": 51827,
+   "titre": "Collecter les déchets et biodéchets avec des véhicules à faibles émissions",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 11 436 habitants\nContexte : PCAET > 2. Mobilité > Axe 5 : Diminuer les émissions de GES (Gaz à effet de serre) liées au transport\nTitre : Collecter les déchets et biodéchets avec des véhicules à faibles émissions\nDescription : aucune"
+  },
+  {
+   "id": 51828,
+   "titre": "Quid du contexte COVID19 et de l'arrivée de la fibre optique sur le territoire, les habitants se lancent dans le télétravail, coworking, etc.",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 11 436 habitants\nContexte : PCAET > 2. Mobilité > Axe 5 : Diminuer les émissions de GES (Gaz à effet de serre) liées au transport\nTitre : Quid du contexte COVID19 et de l'arrivée de la fibre optique sur le territoire, les habitants se lancent dans le télétravail, coworking, etc.\nDescription : aucune"
+  },
+  {
+   "id": 51829,
+   "titre": "Favoriser et accompagner le développement de parcs solaires au sol dans le cadre d'un AMI photovoltaïque participatif",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 11 436 habitants\nContexte : PCAET > 3. EnR > Axe 1 : Développer l'énergie solaire\nTitre : Favoriser et accompagner le développement de parcs solaires au sol dans le cadre d'un AMI photovoltaïque participatif\nDescription : <div class=\"bn-block-group\" data-node-type=\"blockGroup\"><div class=\"bn-block-outer\" data-node-type=\"blockOuter\" data-id=\"bee41327-d1b9-4e91-ae35-1e4de3cfcdf9\"><div class=\"bn-block\" data-node-type=\"blockContainer\" data-id=\"bee41327-d1b9-4e91-ae35-1e4de3cfcdf9\"><div class=\"bn-block-content !p-0\" data-content-type=\"paragraph\"><p class=\"bn-inline-content !text-sm !text-primary-9 font-[Marianne]\">Inciter des collectivités à l'investissement dans des parcs solaires, sur des surfaces toitures, friches, en solaire</p></div></div></div></div>"
+  },
+  {
+   "id": 51830,
+   "titre": "Développer des projets collectifs d'installations photovoltaïques en autoconsommation collective notamment sur les zones d'activités du territoire (4 zones en expérimentation : zone en Prave)",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 11 436 habitants\nContexte : PCAET > 3. EnR > Axe 1 : Développer l'énergie solaire\nTitre : Développer des projets collectifs d'installations photovoltaïques en autoconsommation collective notamment sur les zones d'activités du territoire (4 zones en expérimentation : zone en Prave)\nDescription : <div class=\"bn-block-group\" data-node-type=\"blockGroup\"><div class=\"bn-block-outer\" data-node-type=\"blockOuter\" data-id=\"d910f251-69de-4bac-a065-3701983298e8\"><div class=\"bn-block\" data-node-type=\"blockContainer\" data-id=\"d910f251-69de-4bac-a065-3701983298e8\"><div class=\"bn-block-content !p-0\" data-content-type=\"paragraph\"><p class=\"bn-inline-content !text-sm !text-primary-9 font-[Marianne]\">4 zones en expérimentation : Zone en Prave sur la Communauté de Communes</p></div></div></div></div>"
+  },
+  {
+   "id": 51831,
+   "titre": "Conseiller, accompagner les projets photovoltaïques portés par des entreprises du territoire",
+   "statut": "À venir",
+   "n_sous_actions": 1,
+   "message": "Collectivité : communauté de communes, 11 436 habitants\nContexte : PCAET > 3. EnR > Axe 1 : Développer l'énergie solaire\nTitre : Conseiller, accompagner les projets photovoltaïques portés par des entreprises du territoire\nDescription : Encourager les toitures agricoles, pour créer de l'électricité verte localisée\nSous-actions : Mettre en avant les atouts du solaire thermique"
+  },
+  {
+   "id": 51832,
+   "titre": "Conseiller, accompagner les projets solaires thermiques portés par des acteurs privés (entreprises, agriculteurs, établissements médico-sociaux …) du territoire",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 11 436 habitants\nContexte : PCAET > 3. EnR > Axe 1 : Développer l'énergie solaire\nTitre : Conseiller, accompagner les projets solaires thermiques portés par des acteurs privés (entreprises, agriculteurs, établissements médico-sociaux …) du territoire\nDescription : Mettre en avant les atouts du solaire thermique (communication, prestataire, via cadastre solaire, etc.)"
+  },
+  {
+   "id": 51833,
+   "titre": "Conseiller, accompagner les projets solaires",
+   "statut": "À venir",
+   "n_sous_actions": 2,
+   "message": "Collectivité : communauté de communes, 11 436 habitants\nContexte : PCAET > 3. EnR > Axe 1 : Développer l'énergie solaire\nTitre : Conseiller, accompagner les projets solaires\nDescription : <div class=\"bn-block-group\" data-node-type=\"blockGroup\"><div class=\"bn-block-outer\" data-node-type=\"blockOuter\" data-id=\"a36800c5-f56f-4fb4-b84c-3ff9ed05a827\"><div class=\"bn-block\" data-node-type=\"blockContainer\" data-id=\"a36800c5-f56f-4fb4-b84c-3ff9ed05a827\"><div class=\"bn-block-content !p-0\" data-content-type=\"paragraph\"><p class=\"bn-inline-content !text-sm !text-primary-9 font-[Marianne]\">Proposer un accompagnement de proximité et sécurisé pour les particuliers sur les panneaux solaires photovoltaïques pour sécuriser et orienter les habitants sur leurs préoccupations avec le Cadastre solaire Terres de Lorraine</p></div></div></div></div>\nSous-actions : Développer les PV solaire en toiture pour les collectivités ; Développer les PV solaire en toiture pour les collectivités en autoconsommation patrimoniale"
+  },
+  {
+   "id": 51834,
+   "titre": "Conseiller, accompagner des projets de géothermie",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 11 436 habitants\nContexte : PCAET > 3. EnR > Axe 2: Développer le potentiel de géothermie\nTitre : Conseiller, accompagner des projets de géothermie\nDescription : Développer, promouvoir la géothermie dans les communes"
+  },
+  {
+   "id": 51835,
+   "titre": "Initier une réflexion territoriale sur la méthanisation",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 11 436 habitants\nContexte : PCAET > 3. EnR > Axe 3 : Développer la méthanisation\nTitre : Initier une réflexion territoriale sur la méthanisation\nDescription : Organiser une collecte des biodéchets pour la méthanisation du territoire : déchets de cantine, … Valoriser la chaleur des unité de méthanisation en cogénération"
+  },
+  {
+   "id": 51836,
+   "titre": "Développer un réseau de chaleur bois énergie sur la commune de Colombey les Belles",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 11 436 habitants\nContexte : PCAET > 3. EnR > Axe 4 : Développer le bois énergie\nTitre : Développer un réseau de chaleur bois énergie sur la commune de Colombey les Belles\nDescription : plusieurs bâtiments collectifs (collège, écoles, siège de la communauté de communes...)"
+  },
+  {
+   "id": 51837,
+   "titre": "Mettre en place (ou accompagner la mise en place) une filière locale bois énergie",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 11 436 habitants\nContexte : PCAET > 3. EnR > Axe 4 : Développer le bois énergie\nTitre : Mettre en place (ou accompagner la mise en place) une filière locale bois énergie\nDescription : ...de la forêt à la chaufferie bois. Création d'une usine de production de plaquette, pellet, ressource forestière : stockage de ressource territoire. Bois bûche, pellet, plaquette, bois broyé, etc. Favoriser le déploiement de réseaux de chaleur biomasse dans les communes « compactes » (village rue « lorrain ») forestières pour l’entretien des forêts communales"
+  },
+  {
+   "id": 51838,
+   "titre": "Explorer le potentiel éolien",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 11 436 habitants\nContexte : PCAET > 3. EnR > Axe 6 : Développer l'éolien\nTitre : Explorer le potentiel éolien\nDescription : Réfléchir aux solution de l'éolien innovant : taille, zone pertinente, exploiter des vents de couloir routier, ... L'éolien verticale ; l'éolienne autoroutière sur une partie de l'autoroute qui traverse le territoire"
+  },
+  {
+   "id": 51839,
+   "titre": "Saisir les opportunités d'énergie verte et de stockage",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 11 436 habitants\nContexte : PCAET > 3. EnR > Axe 5 : Développer l'hydrogène\nTitre : Saisir les opportunités d'énergie verte et de stockage\nDescription : Créer de l'énergie verte avec les ENRs afin de fabriquer de l'hydrogène, Installation d'une petite unité de production d'hydrogène"
+  },
+  {
+   "id": 51840,
+   "titre": "Coordonner les documents d'urbanisme et la transition écologique",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 11 436 habitants\nContexte : PCAET > 3. EnR > Axe 7 : Favoriser les énergies renouvelables dans les documents d'urbanisme\nTitre : Coordonner les documents d'urbanisme et la transition écologique\nDescription : Concilier Transition écologique et autorisation des EnR dans \"l'architecture\" et dans \"l'aménagement\" du territoire / SCOT, PLUi, PLU…"
+  },
+  {
+   "id": 51841,
+   "titre": "Accompagner les démarches de plantation et de gestion de l’arbre agricole",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 11 436 habitants\nContexte : PCAET > 4. Agriculture / Forêt > Axe 1 : Massifier les bonnes pratiques de gestion des sols > Faire émerger et accompagner des pratiques agroécologiques auprès des agriculteurs du territoire intégrant les enjeux climat\nTitre : Accompagner les démarches de plantation et de gestion de l’arbre agricole\nDescription : aucune"
+  },
+  {
+   "id": 51842,
+   "titre": "Travailler au développement d’une agriculture alternative favorisant la préservation des sols",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 11 436 habitants\nContexte : PCAET > 4. Agriculture / Forêt > Axe 1 : Massifier les bonnes pratiques de gestion des sols > Faire émerger et accompagner des pratiques agroécologiques auprès des agriculteurs du territoire intégrant les enjeux climat\nTitre : Travailler au développement d’une agriculture alternative favorisant la préservation des sols\nDescription : aucune"
+  },
+  {
+   "id": 51843,
+   "titre": "Accompagner le secteur agricole sur les questions climatique",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 11 436 habitants\nContexte : PCAET > 4. Agriculture / Forêt > Axe 1 : Massifier les bonnes pratiques de gestion des sols > Faire émerger et accompagner des pratiques agroécologiques auprès des agriculteurs du territoire intégrant les enjeux climat\nTitre : Accompagner le secteur agricole sur les questions climatique\nDescription : aucune"
+  },
+  {
+   "id": 51844,
+   "titre": "Elaborer et mettre en oeuvre un Plan d'Approvisionnement Territorial Bois (PAT)",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 11 436 habitants\nContexte : PCAET > 4. Agriculture / Forêt > Axe 1 : Massifier les bonnes pratiques de gestion des sols > Faire émerger et accompagner des pratiques agroécologiques auprès des agriculteurs du territoire intégrant les enjeux climat\nTitre : Elaborer et mettre en oeuvre un Plan d'Approvisionnement Territorial Bois (PAT)\nDescription : aucune"
+  },
+  {
+   "id": 51845,
+   "titre": "Mobiliser les propriétaires forestiers pour un développement de la filière forêt-bois locale",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 11 436 habitants\nContexte : PCAET > 4. Agriculture / Forêt > Axe 1 : Massifier les bonnes pratiques de gestion des sols > Faire émerger et accompagner des pratiques agroécologiques auprès des agriculteurs du territoire intégrant les enjeux climat\nTitre : Mobiliser les propriétaires forestiers pour un développement de la filière forêt-bois locale\nDescription : aucune"
+  },
+  {
+   "id": 51846,
+   "titre": "Développer les cultures mellifères : Présence d’abeilles : augmentation de 15% des rendements)",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 11 436 habitants\nContexte : PCAET > 4. Agriculture / Forêt > Axe 1 : Massifier les bonnes pratiques de gestion des sols > Faire émerger et accompagner des pratiques agroécologiques auprès des agriculteurs du territoire intégrant les enjeux climat\nTitre : Développer les cultures mellifères : Présence d’abeilles : augmentation de 15% des rendements)\nDescription : aucune"
+  },
+  {
+   "id": 51847,
+   "titre": "Développer l'agroforesterie sur le territoire , favoriser la plantation de haies. Rendre l'entretien des haies gratuit pour les agriculteurs",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 11 436 habitants\nContexte : PCAET > 4. Agriculture / Forêt > Axe 1 : Massifier les bonnes pratiques de gestion des sols > Réaliser une étude action de développement de l’agroforesterie\nTitre : Développer l'agroforesterie sur le territoire , favoriser la plantation de haies. Rendre l'entretien des haies gratuit pour les agriculteurs\nDescription : aucune"
+  },
+  {
+   "id": 51848,
+   "titre": "Les surplus de broyage des plates-formes sont proposés en apport carbone pour épandage.",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 11 436 habitants\nContexte : PCAET > 4. Agriculture / Forêt > Axe 1 : Massifier les bonnes pratiques de gestion des sols > Réaliser une étude action de développement de l’agroforesterie\nTitre : Les surplus de broyage des plates-formes sont proposés en apport carbone pour épandage.\nDescription : aucune"
+  },
+  {
+   "id": 51849,
+   "titre": "Recenser le foncier agricole communal disponible",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 11 436 habitants\nContexte : PCAET > 4. Agriculture / Forêt > Axe 2 : Encourager une consommation responsable et renforcer les circuits courts\nTitre : Recenser le foncier agricole communal disponible\nDescription : Aider à l'implantation de producteurs locaux « cultures végétales » (mobilisation du foncier disponible, subvention à l’installation …) dont les productions sont destinées au marché local"
+  },
+  {
+   "id": 51850,
+   "titre": "Engager l'opération jeter moins, manger mieux",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 11 436 habitants\nContexte : PCAET > 4. Agriculture / Forêt > Axe 2 : Encourager une consommation responsable et renforcer les circuits courts\nTitre : Engager l'opération jeter moins, manger mieux\nDescription : Lutter contre le gaspillage alimentaire (sensibilisation, valorisation des initiatives en cours"
+  },
+  {
+   "id": 51851,
+   "titre": "Accompagner des structures éducatives  autour de projets de promotion d’une alimentation saine et durable",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 11 436 habitants\nContexte : PCAET > 4. Agriculture / Forêt > Axe 2 : Encourager une consommation responsable et renforcer les circuits courts\nTitre : Accompagner des structures éducatives autour de projets de promotion d’une alimentation saine et durable\nDescription : Généraliser les partenariats entre cantines et agriculteurs locaux avec des prix convenables"
+  },
+  {
+   "id": 51852,
+   "titre": "Mettre en place (ou accompagner la mise en place) une filière locale bois énergie",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 11 436 habitants\nContexte : PCAET > 4. Agriculture / Forêt > Axe 3 : Optimiser la gestion de la ressource en bois du territoire\nTitre : Mettre en place (ou accompagner la mise en place) une filière locale bois énergie\nDescription : ...de la forêt à la chaufferie bois. Création d'une usine de production de plaquette, pellet, ressource forestière : stockage de ressource territoire. Bois bûche, pellet, plaquette, bois broyé, etc. Favoriser le déploiement de réseaux de chaleur biomasse dans les communes « compactes » (village rue « lorrain ») forestières pour l’entretien des forêts communales"
+  },
+  {
+   "id": 51853,
+   "titre": "Développer un plan « Haies",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 11 436 habitants\nContexte : PCAET > 4. Agriculture / Forêt > Axe 4 : Favoriser une gestion durable de la forêt > Faire émerger et accompagner des pratiques agroécologiques\nTitre : Développer un plan « Haies\nDescription : aucune"
+  },
+  {
+   "id": 51854,
+   "titre": "Favoriser l’arbre dans les politiques d’entretien des cours d’eau (ripisylve)",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 11 436 habitants\nContexte : PCAET > 4. Agriculture / Forêt > Axe 4 : Favoriser une gestion durable de la forêt > Faire émerger et accompagner des pratiques agroécologiques\nTitre : Favoriser l’arbre dans les politiques d’entretien des cours d’eau (ripisylve)\nDescription : aucune"
+  },
+  {
+   "id": 51855,
+   "titre": "Mobiliser les enfants et les enseignants : politiques de plantation par les écoles, associer les enfants à la démarche de plantation de la commune, Instaurer un seuil minimal de plantations dans les villages",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 11 436 habitants\nContexte : PCAET > 4. Agriculture / Forêt > Axe 4 : Favoriser une gestion durable de la forêt > Faire émerger et accompagner des pratiques agroécologiques\nTitre : Mobiliser les enfants et les enseignants : politiques de plantation par les écoles, associer les enfants à la démarche de plantation de la commune, Instaurer un seuil minimal de plantations dans les villages\nDescription : aucune"
+  },
+  {
+   "id": 51856,
+   "titre": "Remettre l’arbre en ville…et dans les villages !",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 11 436 habitants\nContexte : PCAET > 4. Agriculture / Forêt > Axe 4 : Favoriser une gestion durable de la forêt > Faire émerger et accompagner des pratiques agroécologiques\nTitre : Remettre l’arbre en ville…et dans les villages !\nDescription : aucune"
+  },
+  {
+   "id": 51857,
+   "titre": "Engager une démarche d'Ecologie Industrielle Territoriale",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 11 436 habitants\nContexte : PCAET > 5. Economie > Axe 1 : Mobiliser et accompagner les entreprises du territoire sur la transition énergétique\nTitre : Engager une démarche d'Ecologie Industrielle Territoriale\nDescription : aucune"
+  },
+  {
+   "id": 51858,
+   "titre": "Développer des projets collectifs d'installations photovoltaïques",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 11 436 habitants\nContexte : PCAET > 5. Economie > Axe 1 : Mobiliser et accompagner les entreprises du territoire sur la transition énergétique\nTitre : Développer des projets collectifs d'installations photovoltaïques\nDescription : aucune"
+  },
+  {
+   "id": 51859,
+   "titre": "Mettre en place une station de lavage et de location de gobelets réutilisables à destination des acteurs culturels, entreprises",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 11 436 habitants\nContexte : PCAET > 5. Economie > Axe 1 : Mobiliser et accompagner les entreprises du territoire sur la transition énergétique\nTitre : Mettre en place une station de lavage et de location de gobelets réutilisables à destination des acteurs culturels, entreprises\nDescription : aucune"
+  },
+  {
+   "id": 51860,
+   "titre": "Espace télétravail, coworking, tier-lieux",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 11 436 habitants\nContexte : PCAET > 5. Economie > Axe 1 : Mobiliser et accompagner les entreprises du territoire sur la transition énergétique\nTitre : Espace télétravail, coworking, tier-lieux\nDescription : Quid du contexte COVID19 et de l'arrivée de la fibre optique sur le territoire, les habitants se lancent dans le télétravail, coworking, etc."
+  },
+  {
+   "id": 51861,
+   "titre": "Adaptation entreprises du territoire par rapport au COVID 19 : création de gel.",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 11 436 habitants\nContexte : PCAET > 5. Economie > Axe 2 : Développer l’économie locale et les mutualisations entre les entreprises du territoire > Développer les circuits courts, re-localisation\nTitre : Adaptation entreprises du territoire par rapport au COVID 19 : création de gel.\nDescription : aucune"
+  },
+  {
+   "id": 51862,
+   "titre": "lavage de laine, re localisation et mutualisation d'un outil de lavage",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 11 436 habitants\nContexte : PCAET > 5. Economie > Axe 2 : Développer l’économie locale et les mutualisations entre les entreprises du territoire > Développer les circuits courts, re-localisation\nTitre : lavage de laine, re localisation et mutualisation d'un outil de lavage\nDescription : aucune"
+  },
+  {
+   "id": 51863,
+   "titre": "création d'une concerverie",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 11 436 habitants\nContexte : PCAET > 5. Economie > Axe 2 : Développer l’économie locale et les mutualisations entre les entreprises du territoire > Développer les circuits courts, re-localisation\nTitre : création d'une concerverie\nDescription : aucune"
+  },
+  {
+   "id": 51864,
+   "titre": "limiter la production de déchets et le gaspillage alimentaire auprès des artisans des métiers de bouche et des commerçants du territoire Terres de Lorraine",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 11 436 habitants\nContexte : PCAET > 5. Economie > Axe 3 : Réduire l'impact environnemental des zones d'activités > Mettre en place une charte verte-entreprises\nTitre : limiter la production de déchets et le gaspillage alimentaire auprès des artisans des métiers de bouche et des commerçants du territoire Terres de Lorraine\nDescription : aucune"
+  },
+  {
+   "id": 51865,
+   "titre": "Favoriser l'aménagement durable des Zones d'Activités",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 11 436 habitants\nContexte : PCAET > 5. Economie > Axe 3 : Réduire l'impact environnemental des zones d'activités\nTitre : Favoriser l'aménagement durable des Zones d'Activités\nDescription : aucune"
+  },
+  {
+   "id": 51866,
+   "titre": "flux de déchets autres (ex : filière carton ?)",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 11 436 habitants\nContexte : PCAET > 5. Economie > Axe 3 : Réduire l'impact environnemental des zones d'activités\nTitre : flux de déchets autres (ex : filière carton ?)\nDescription : aucune"
+  },
+  {
+   "id": 51867,
+   "titre": "Promouvoir les métiers et activités de la transition énergétique",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 11 436 habitants\nContexte : PCAET > 5. Economie > Axe 4 : Développer les filières locales et la montée en compétences des entreprises > Engager une démarche territoriale « Economie et Emploi » dans la transition énergétique\nTitre : Promouvoir les métiers et activités de la transition énergétique\nDescription : Promouvoir les métiers et activités de la transition énergétique notamment auprès des jeunes / notamment les métiers sur la rénovation énergétique de l'habitat / formation demandeur d'emploi (chantier école/formation sur le territoire), \"lieux chantiers\""
+  },
+  {
+   "id": 51868,
+   "titre": "Favoriser l’accès aux marchés de travaux, de maintenance et d’exploitation des entreprises du territoire",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 11 436 habitants\nContexte : PCAET > 5. Economie > Axe 4 : Développer les filières locales et la montée en compétences des entreprises > Engager une démarche territoriale « Economie et Emploi » dans la transition énergétique\nTitre : Favoriser l’accès aux marchés de travaux, de maintenance et d’exploitation des entreprises du territoire\nDescription : aucune"
+  },
+  {
+   "id": 51869,
+   "titre": "Accueillir, faire émerger des entreprises dans le champ de la transition énergétique sur le territoire",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 11 436 habitants\nContexte : PCAET > 5. Economie > Axe 4 : Développer les filières locales et la montée en compétences des entreprises > Engager une démarche territoriale « Economie et Emploi » dans la transition énergétique\nTitre : Accueillir, faire émerger des entreprises dans le champ de la transition énergétique sur le territoire\nDescription : aucune"
+  },
+  {
+   "id": 51870,
+   "titre": "Former aux metiers de la transition energétique",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 11 436 habitants\nContexte : PCAET > 5. Economie > Axe 4 : Développer les filières locales et la montée en compétences des entreprises > Engager une démarche territoriale « Economie et Emploi » dans la transition énergétique\nTitre : Former aux metiers de la transition energétique\nDescription : des jeunes, des salariés d’entreprises, des demandeurs d’emploi du territoire… aux métiers de la transition énergétique (exemple, lors du forum des métiers dans les collèges)"
+  },
+  {
+   "id": 51871,
+   "titre": "Initier une réflexion sur l'élaboration d'un DEFI DECLICS d'éducation à la sobriété multithématique",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 11 436 habitants\nContexte : PCAET > 6. Eco-responsabilité > Axe 1 : Sensibiliser au changement climatique et notamment le public scolaire\nTitre : Initier une réflexion sur l'élaboration d'un DEFI DECLICS d'éducation à la sobriété multithématique\nDescription : S'appuyer sur un réseau de partenaires : sensibilisation sur les thématiques environnementales du territoire (biodiversité, énergie, déchets."
+  },
+  {
+   "id": 51872,
+   "titre": "Développer des outils de communication grand publics, Radio Tepos",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 11 436 habitants\nContexte : PCAET > 6. Eco-responsabilité > Axe 1 : Sensibiliser au changement climatique et notamment le public scolaire\nTitre : Développer des outils de communication grand publics, Radio Tepos\nDescription : RADIOI TEPOS (Radio Déclics), page FACEBOOK TEPos, Augmenter la communication entre les agriculteurs et les collectivités, les citoyens…"
+  },
+  {
+   "id": 51873,
+   "titre": "Participer aux programmes pédagogiques des écoles sur les économies d'énergies et de ressources naturelles, ex : Watty à l'école.",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 11 436 habitants\nContexte : PCAET > 6. Eco-responsabilité > Axe 1 : Sensibiliser au changement climatique et notamment le public scolaire > Déployer un programme d'éducation à l'énergie auprès du public scolaire\nTitre : Participer aux programmes pédagogiques des écoles sur les économies d'énergies et de ressources naturelles, ex : Watty à l'école.\nDescription : aucune"
+  },
+  {
+   "id": 51874,
+   "titre": "Encourager la pratique du vélo dès l'école primaire",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 11 436 habitants\nContexte : PCAET > 6. Eco-responsabilité > Axe 1 : Sensibiliser au changement climatique et notamment le public scolaire > Déployer un programme d'éducation à l'énergie auprès du public scolaire\nTitre : Encourager la pratique du vélo dès l'école primaire\nDescription : aucune"
+  },
+  {
+   "id": 51875,
+   "titre": "Créer des projets d'ouverture sur le climat avec les établissements scolaires",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 11 436 habitants\nContexte : PCAET > 6. Eco-responsabilité > Axe 1 : Sensibiliser au changement climatique et notamment le public scolaire > Déployer un programme d'éducation à l'énergie auprès du public scolaire\nTitre : Créer des projets d'ouverture sur le climat avec les établissements scolaires\nDescription : aucune"
+  },
+  {
+   "id": 51876,
+   "titre": "[object Object]",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 11 436 habitants\nContexte : PCAET > 6. Eco-responsabilité > Axe 1 : Sensibiliser au changement climatique et notamment le public scolaire > Déployer un programme d'éducation à l'énergie auprès du public scolaire\nTitre : [object Object]\nDescription : aucune"
+  },
+  {
+   "id": 51877,
+   "titre": "Mener des actions de sensibilisation et de prévention des déchets",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 11 436 habitants\nContexte : PCAET > 6. Eco-responsabilité > Axe 2 :  Favoriser des pratiques écoresponsables (économie d'eau, réduction des déchets, biodiversité …)\nTitre : Mener des actions de sensibilisation et de prévention des déchets\nDescription : aucune"
+  },
+  {
+   "id": 51878,
+   "titre": "Réduire les déchets à la source en déchetterie et mettre en place une recyclerie",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 11 436 habitants\nContexte : PCAET > 6. Eco-responsabilité > Axe 2 :  Favoriser des pratiques écoresponsables (économie d'eau, réduction des déchets, biodiversité …)\nTitre : Réduire les déchets à la source en déchetterie et mettre en place une recyclerie\nDescription : Mise en place d'une recyclerie sur la ccpcst"
+  },
+  {
+   "id": 51879,
+   "titre": "Favoriser un compostage et paillage de qualité afin de réduire les Gaz à Effet de Serre",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 11 436 habitants\nContexte : PCAET > 6. Eco-responsabilité > Axe 2 :  Favoriser des pratiques écoresponsables (économie d'eau, réduction des déchets, biodiversité …) > Développer une politique de prévention et de gestion des biodéchets\nTitre : Favoriser un compostage et paillage de qualité afin de réduire les Gaz à Effet de Serre\nDescription : aucune"
+  },
+  {
+   "id": 51880,
+   "titre": "Action de sensibilisation à destination des particuliers et des services espaces verts                                                               Compostage ou paillage, quelle solution pour réduire les émissions de Gaz à Effet de Serre ?",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 11 436 habitants\nContexte : PCAET > 6. Eco-responsabilité > Axe 2 :  Favoriser des pratiques écoresponsables (économie d'eau, réduction des déchets, biodiversité …)\nTitre : Action de sensibilisation à destination des particuliers et des services espaces verts Compostage ou paillage, quelle solution pour réduire les émissions de Gaz à Effet de Serre ?\nDescription : aucune"
+  },
+  {
+   "id": 51881,
+   "titre": "Développer une politique d’« économie de l’eau » en s’inspirant des politiques de prévention des déchets",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 11 436 habitants\nContexte : PCAET > 6. Eco-responsabilité > Axe 2 :  Favoriser des pratiques écoresponsables (économie d'eau, réduction des déchets, biodiversité …)\nTitre : Développer une politique d’« économie de l’eau » en s’inspirant des politiques de prévention des déchets\nDescription : Instaurer une culture de sobriété dans l'utilisation de l'eau (atelier « économie d’eau, défi DECLICS, ambassadeur ‘eau » …) Mettre en place une tarification incitative favorisant les économies d’eau : prix progressifs de l'eau potable en tenant compte du nombre de ménages Avoir une culture d'économie de l'eau au sein des collectivités et dans la gestion de leurs compétences (espaces publics, arrosage…) \" Ambassadeurs du tri <-> Ambassadeurs de l’eau ; Agent prévention eau ; … Tarification incitative <-> Tarification progressive de l’eau en fonction des usages\" Aide à l’achat de système de récupération de l’eau de pluie"
+  },
+  {
+   "id": 51882,
+   "titre": "Développer une offre de recyclage bureautique",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 11 436 habitants\nContexte : PCAET > 6. Eco-responsabilité > Axe 2 :  Favoriser des pratiques écoresponsables (économie d'eau, réduction des déchets, biodiversité …)\nTitre : Développer une offre de recyclage bureautique\nDescription : aucune"
+  },
+  {
+   "id": 51883,
+   "titre": "Recyclage sur l'ensemble des flux : bureautiques, biodéchets,",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 11 436 habitants\nContexte : PCAET > 6. Eco-responsabilité > Axe 3 : Engager la communauté de communes dans une démarche écoreponsable en interne\nTitre : Recyclage sur l'ensemble des flux : bureautiques, biodéchets,\nDescription : collecte papier et recto/verso, collecte biodéchets compostage, tri des emballages,"
+  },
+  {
+   "id": 140199,
+   "titre": "Prioriser les construction neuves dans les dents creuses et notamment dans le sud du territoire. Croiser et coordonner les axes air climat énergie du PADD et le PCAET",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 11 436 habitants\nContexte : PCAET > 1. Habitat / Aménagement > Axe 6 : Limiter l'artificialisation et préserver la ressources en eau > Mettre en place un PLUI qui intègre les enjeux de l'adaptation et l'atténuation au changement climatique\nTitre : Prioriser les construction neuves dans les dents creuses et notamment dans le sud du territoire. Croiser et coordonner les axes air climat énergie du PADD et le PCAET\nDescription : aucune"
+  }
+ ]
+}

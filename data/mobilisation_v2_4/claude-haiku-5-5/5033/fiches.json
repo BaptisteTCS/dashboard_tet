@@ -1,0 +1,788 @@
+{
+ "collectivite": {
+  "id": 5033,
+  "nom": "CC Brionnais Sud Bourgogne",
+  "type_code": "CC",
+  "type_label": "communauté de communes",
+  "population": 15370
+ },
+ "fiches": [
+  {
+   "id": 42573,
+   "titre": "",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 15 370 habitants\nContexte : Test\nTitre : (sans titre)\nDescription : aucune"
+  },
+  {
+   "id": 57534,
+   "titre": "1.1.1 Former les élus et agents sur les thématiques climat air énergie et économie circulaire",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 15 370 habitants\nContexte : Plan d'actions COT du Brionnais > Axe 1 : Créer une culture commune autour de la transition écologique > 1.1 Auprès des élus et des agents\nTitre : 1.1.1 Former les élus et agents sur les thématiques climat air énergie et économie circulaire\nDescription : A compléter"
+  },
+  {
+   "id": 57535,
+   "titre": "1.1.2 Porter les plans d’actions dans chaque collectivité",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 15 370 habitants\nContexte : Plan d'actions COT du Brionnais > Axe 1 : Créer une culture commune autour de la transition écologique > 1.1 Auprès des élus et des agents\nTitre : 1.1.2 Porter les plans d’actions dans chaque collectivité\nDescription : A compléter"
+  },
+  {
+   "id": 57536,
+   "titre": "1.1.3 Agir en transversalité avec les autres documents stratégiques (CTG, projets de territoire, PLUi)",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 15 370 habitants\nContexte : Plan d'actions COT du Brionnais > Axe 1 : Créer une culture commune autour de la transition écologique > 1.1 Auprès des élus et des agents\nTitre : 1.1.3 Agir en transversalité avec les autres documents stratégiques (CTG, projets de territoire, PLUi)\nDescription : A compléter"
+  },
+  {
+   "id": 57537,
+   "titre": "1.2.1 Diffuser un outil ludique permettant de calculer son empreinte carbone",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 15 370 habitants\nContexte : Plan d'actions COT du Brionnais > Axe 1 : Créer une culture commune autour de la transition écologique > 1.2 Auprès des habitants\nTitre : 1.2.1 Diffuser un outil ludique permettant de calculer son empreinte carbone\nDescription : A compléter"
+  },
+  {
+   "id": 57538,
+   "titre": "1.2.2 Communiquer sur les initiatives citoyennes déjà en place",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 15 370 habitants\nContexte : Plan d'actions COT du Brionnais > Axe 1 : Créer une culture commune autour de la transition écologique > 1.2 Auprès des habitants\nTitre : 1.2.2 Communiquer sur les initiatives citoyennes déjà en place\nDescription : A compléter"
+  },
+  {
+   "id": 57539,
+   "titre": "1.2.3 Communiquer sur les initiatives des entreprises des territoires",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 15 370 habitants\nContexte : Plan d'actions COT du Brionnais > Axe 1 : Créer une culture commune autour de la transition écologique > 1.2 Auprès des habitants\nTitre : 1.2.3 Communiquer sur les initiatives des entreprises des territoires\nDescription : A compléter"
+  },
+  {
+   "id": 57540,
+   "titre": "1.2.4 Idée à creuser : \"les pires idées reçues\", \"Quizz Vrai/Faux\", mini video info/intox",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 15 370 habitants\nContexte : Plan d'actions COT du Brionnais > Axe 1 : Créer une culture commune autour de la transition écologique > 1.2 Auprès des habitants\nTitre : 1.2.4 Idée à creuser : \"les pires idées reçues\", \"Quizz Vrai/Faux\", mini video info/intox\nDescription : A compléter"
+  },
+  {
+   "id": 57541,
+   "titre": "1.2.5 Mener des actions de sensibilisation en milieu scolaire",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 15 370 habitants\nContexte : Plan d'actions COT du Brionnais > Axe 1 : Créer une culture commune autour de la transition écologique > 1.2 Auprès des habitants\nTitre : 1.2.5 Mener des actions de sensibilisation en milieu scolaire\nDescription : aucune"
+  },
+  {
+   "id": 57542,
+   "titre": "1.2.6 Être plus présent sur certains évènements",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 15 370 habitants\nContexte : Plan d'actions COT du Brionnais > Axe 1 : Créer une culture commune autour de la transition écologique > 1.2 Auprès des habitants\nTitre : 1.2.6 Être plus présent sur certains évènements\nDescription : aucune"
+  },
+  {
+   "id": 57543,
+   "titre": "1.2.7 Communiquer/sensibiliser (faire notamment le lien avec la santé)",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 15 370 habitants\nContexte : Plan d'actions COT du Brionnais > Axe 1 : Créer une culture commune autour de la transition écologique > 1.2 Auprès des habitants\nTitre : 1.2.7 Communiquer/sensibiliser (faire notamment le lien avec la santé)\nDescription : aucune"
+  },
+  {
+   "id": 57544,
+   "titre": "1.2.8 Organiser des « défis famille » ou des challenges inter-écoles",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 15 370 habitants\nContexte : Plan d'actions COT du Brionnais > Axe 1 : Créer une culture commune autour de la transition écologique > 1.2 Auprès des habitants\nTitre : 1.2.8 Organiser des « défis famille » ou des challenges inter-écoles\nDescription : aucune"
+  },
+  {
+   "id": 57545,
+   "titre": "2.1.1 Mise en place de navettes",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 15 370 habitants\nContexte : Plan d'actions COT du Brionnais > Axe 2 : Réduire l’utilisation de la voiture individuelle en développant les solutions alternatives > 2.1 Développer les transports collectifs à la demande et les transports solidaires\nTitre : 2.1.1 Mise en place de navettes\nDescription : aucune"
+  },
+  {
+   "id": 57546,
+   "titre": "2.2.1 Communication",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 15 370 habitants\nContexte : Plan d'actions COT du Brionnais > Axe 2 : Réduire l’utilisation de la voiture individuelle en développant les solutions alternatives > 2.2 Accroître l’utilisation du vélo\nTitre : 2.2.1 Communication\nDescription : aucune"
+  },
+  {
+   "id": 57547,
+   "titre": "2.2.2 Mise à disposition de vélo",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 15 370 habitants\nContexte : Plan d'actions COT du Brionnais > Axe 2 : Réduire l’utilisation de la voiture individuelle en développant les solutions alternatives > 2.2 Accroître l’utilisation du vélo\nTitre : 2.2.2 Mise à disposition de vélo\nDescription : aucune"
+  },
+  {
+   "id": 57548,
+   "titre": "2.2.3 Aménagement/signalétique",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 15 370 habitants\nContexte : Plan d'actions COT du Brionnais > Axe 2 : Réduire l’utilisation de la voiture individuelle en développant les solutions alternatives > 2.2 Accroître l’utilisation du vélo\nTitre : 2.2.3 Aménagement/signalétique\nDescription : aucune"
+  },
+  {
+   "id": 57549,
+   "titre": "2.2.4 Intégrer les aménagements à chaque travaux de voirie",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 15 370 habitants\nContexte : Plan d'actions COT du Brionnais > Axe 2 : Réduire l’utilisation de la voiture individuelle en développant les solutions alternatives > 2.2 Accroître l’utilisation du vélo\nTitre : 2.2.4 Intégrer les aménagements à chaque travaux de voirie\nDescription : aucune"
+  },
+  {
+   "id": 57550,
+   "titre": "2.2.5 Développer des « services vélo » (bornes, réparation…)",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 15 370 habitants\nContexte : Plan d'actions COT du Brionnais > Axe 2 : Réduire l’utilisation de la voiture individuelle en développant les solutions alternatives > 2.2 Accroître l’utilisation du vélo\nTitre : 2.2.5 Développer des « services vélo » (bornes, réparation…)\nDescription : aucune"
+  },
+  {
+   "id": 57551,
+   "titre": "2.2.6 Réaliser une chronomap vélo (en lien avec SDMA de CCBSB)",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 15 370 habitants\nContexte : Plan d'actions COT du Brionnais > Axe 2 : Réduire l’utilisation de la voiture individuelle en développant les solutions alternatives > 2.2 Accroître l’utilisation du vélo\nTitre : 2.2.6 Réaliser une chronomap vélo (en lien avec SDMA de CCBSB)\nDescription : aucune"
+  },
+  {
+   "id": 57552,
+   "titre": "2.3.1 Mise en place de bornes de recharge",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 15 370 habitants\nContexte : Plan d'actions COT du Brionnais > Axe 2 : Réduire l’utilisation de la voiture individuelle en développant les solutions alternatives > 2.3 Développer l’utilisation des véhicules électriques\nTitre : 2.3.1 Mise en place de bornes de recharge\nDescription : aucune"
+  },
+  {
+   "id": 57553,
+   "titre": "2.3.2 Travailler en collaboration avec le SYDESL sur leur SDIRVE",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 15 370 habitants\nContexte : Plan d'actions COT du Brionnais > Axe 2 : Réduire l’utilisation de la voiture individuelle en développant les solutions alternatives > 2.3 Développer l’utilisation des véhicules électriques\nTitre : 2.3.2 Travailler en collaboration avec le SYDESL sur leur SDIRVE\nDescription : aucune"
+  },
+  {
+   "id": 57554,
+   "titre": "2.3.3 Être exemplaire au niveau des collectivités",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 15 370 habitants\nContexte : Plan d'actions COT du Brionnais > Axe 2 : Réduire l’utilisation de la voiture individuelle en développant les solutions alternatives > 2.3 Développer l’utilisation des véhicules électriques\nTitre : 2.3.3 Être exemplaire au niveau des collectivités\nDescription : aucune"
+  },
+  {
+   "id": 57555,
+   "titre": "2.3.4 Améliorer la mise à dispo de vélo électrique pour le tourisme",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 15 370 habitants\nContexte : Plan d'actions COT du Brionnais > Axe 2 : Réduire l’utilisation de la voiture individuelle en développant les solutions alternatives > 2.3 Développer l’utilisation des véhicules électriques\nTitre : 2.3.4 Améliorer la mise à dispo de vélo électrique pour le tourisme\nDescription : aucune"
+  },
+  {
+   "id": 57556,
+   "titre": "2.3.5 Développer l'autopartage de véhicule électrique pour des trajets du quotidien ou occasionnels",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 15 370 habitants\nContexte : Plan d'actions COT du Brionnais > Axe 2 : Réduire l’utilisation de la voiture individuelle en développant les solutions alternatives > 2.3 Développer l’utilisation des véhicules électriques\nTitre : 2.3.5 Développer l'autopartage de véhicule électrique pour des trajets du quotidien ou occasionnels\nDescription : aucune"
+  },
+  {
+   "id": 57557,
+   "titre": "2.4.1 Continuer le partenariat avec BlaBlaCar Daily",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 15 370 habitants\nContexte : Plan d'actions COT du Brionnais > Axe 2 : Réduire l’utilisation de la voiture individuelle en développant les solutions alternatives > 2.4 Développer le covoiturage\nTitre : 2.4.1 Continuer le partenariat avec BlaBlaCar Daily\nDescription : aucune"
+  },
+  {
+   "id": 57558,
+   "titre": "2.4.2 Identification et aménagement d’aires de covoiturage",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 15 370 habitants\nContexte : Plan d'actions COT du Brionnais > Axe 2 : Réduire l’utilisation de la voiture individuelle en développant les solutions alternatives > 2.4 Développer le covoiturage\nTitre : 2.4.2 Identification et aménagement d’aires de covoiturage\nDescription : aucune"
+  },
+  {
+   "id": 57559,
+   "titre": "2.4.3 Inciter au covoiturage dans les collectivités",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 15 370 habitants\nContexte : Plan d'actions COT du Brionnais > Axe 2 : Réduire l’utilisation de la voiture individuelle en développant les solutions alternatives > 2.4 Développer le covoiturage\nTitre : 2.4.3 Inciter au covoiturage dans les collectivités\nDescription : aucune"
+  },
+  {
+   "id": 57560,
+   "titre": "3.1.1 Rénover de façon exemplaire les bâtiments publics",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 15 370 habitants\nContexte : Plan d'actions COT du Brionnais > Axe 3 : Avoir un bâti plus économe en énergie > 3.1 Réduire les dépenses énergétiques des bâtiments publics\nTitre : 3.1.1 Rénover de façon exemplaire les bâtiments publics\nDescription : aucune"
+  },
+  {
+   "id": 57561,
+   "titre": "3.1.2 Instaurer une démarche éco-responsable auprès des acteurs utilisant les bâtiments publics",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 15 370 habitants\nContexte : Plan d'actions COT du Brionnais > Axe 3 : Avoir un bâti plus économe en énergie > 3.1 Réduire les dépenses énergétiques des bâtiments publics\nTitre : 3.1.2 Instaurer une démarche éco-responsable auprès des acteurs utilisant les bâtiments publics\nDescription : aucune"
+  },
+  {
+   "id": 57562,
+   "titre": "3.1.3 Inciter les communes qui ne l'ont pas fait à réaliser un diagnostic énergétique de leurs bâtiments publics",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 15 370 habitants\nContexte : Plan d'actions COT du Brionnais > Axe 3 : Avoir un bâti plus économe en énergie > 3.1 Réduire les dépenses énergétiques des bâtiments publics\nTitre : 3.1.3 Inciter les communes qui ne l'ont pas fait à réaliser un diagnostic énergétique de leurs bâtiments publics\nDescription : aucune"
+  },
+  {
+   "id": 57563,
+   "titre": "3.1.4 Inciter les communes à faire appel à un \"Conseiller en Energie partagée\"",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 15 370 habitants\nContexte : Plan d'actions COT du Brionnais > Axe 3 : Avoir un bâti plus économe en énergie > 3.1 Réduire les dépenses énergétiques des bâtiments publics\nTitre : 3.1.4 Inciter les communes à faire appel à un \"Conseiller en Energie partagée\"\nDescription : aucune"
+  },
+  {
+   "id": 57564,
+   "titre": "3.1.5 Réaliser un groupement de commandes pour les DPE manquants",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 15 370 habitants\nContexte : Plan d'actions COT du Brionnais > Axe 3 : Avoir un bâti plus économe en énergie > 3.1 Réduire les dépenses énergétiques des bâtiments publics\nTitre : 3.1.5 Réaliser un groupement de commandes pour les DPE manquants\nDescription : aucune"
+  },
+  {
+   "id": 57565,
+   "titre": "3.1.6 Mettre en place un suivi des consommations énergétiques",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 15 370 habitants\nContexte : Plan d'actions COT du Brionnais > Axe 3 : Avoir un bâti plus économe en énergie > 3.1 Réduire les dépenses énergétiques des bâtiments publics\nTitre : 3.1.6 Mettre en place un suivi des consommations énergétiques\nDescription : aucune"
+  },
+  {
+   "id": 57566,
+   "titre": "3.1.7 Etudier la possibilité de grouper les achats de combustibles des 3 CC",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 15 370 habitants\nContexte : Plan d'actions COT du Brionnais > Axe 3 : Avoir un bâti plus économe en énergie > 3.1 Réduire les dépenses énergétiques des bâtiments publics\nTitre : 3.1.7 Etudier la possibilité de grouper les achats de combustibles des 3 CC\nDescription : aucune"
+  },
+  {
+   "id": 57567,
+   "titre": "3.2.1 Compiler les bonnes pratiques de chaque commune, les résultats obtenus en termes de baisse des consommations et d'impact sur le budget de toutes les communes",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 15 370 habitants\nContexte : Plan d'actions COT du Brionnais > Axe 3 : Avoir un bâti plus économe en énergie > 3.2 Réaliser des économies sur l’éclairage public\nTitre : 3.2.1 Compiler les bonnes pratiques de chaque commune, les résultats obtenus en termes de baisse des consommations et d'impact sur le budget de toutes les communes\nDescription : aucune"
+  },
+  {
+   "id": 57568,
+   "titre": "3.2.2 Proposer une charte des bonnes pratiques aux communes",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 15 370 habitants\nContexte : Plan d'actions COT du Brionnais > Axe 3 : Avoir un bâti plus économe en énergie > 3.2 Réaliser des économies sur l’éclairage public\nTitre : 3.2.2 Proposer une charte des bonnes pratiques aux communes\nDescription : aucune"
+  },
+  {
+   "id": 57569,
+   "titre": "3.2.3 Etudier le coût des technologies d'éclairage intelligent dans certains secteurs",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 15 370 habitants\nContexte : Plan d'actions COT du Brionnais > Axe 3 : Avoir un bâti plus économe en énergie > 3.2 Réaliser des économies sur l’éclairage public\nTitre : 3.2.3 Etudier le coût des technologies d'éclairage intelligent dans certains secteurs\nDescription : aucune"
+  },
+  {
+   "id": 57570,
+   "titre": "3.2.4 Analyser le cas de la déchetterie de la CC de Semur allumée toute la nuit par sécurité (voir des exemples)",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 15 370 habitants\nContexte : Plan d'actions COT du Brionnais > Axe 3 : Avoir un bâti plus économe en énergie > 3.2 Réaliser des économies sur l’éclairage public\nTitre : 3.2.4 Analyser le cas de la déchetterie de la CC de Semur allumée toute la nuit par sécurité (voir des exemples)\nDescription : aucune"
+  },
+  {
+   "id": 57571,
+   "titre": "3.3.1 Poursuivre et soutenir la rénovation énergétique de l’habitat (continuité des OPAH -> Pacte Territorial)",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 15 370 habitants\nContexte : Plan d'actions COT du Brionnais > Axe 3 : Avoir un bâti plus économe en énergie > 3.3 Inciter à la rénovation énergétique du bâti résidentiel\nTitre : 3.3.1 Poursuivre et soutenir la rénovation énergétique de l’habitat (continuité des OPAH -> Pacte Territorial)\nDescription : aucune"
+  },
+  {
+   "id": 57572,
+   "titre": "3.3.2 Communiquer sur les aides existantes",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 15 370 habitants\nContexte : Plan d'actions COT du Brionnais > Axe 3 : Avoir un bâti plus économe en énergie > 3.3 Inciter à la rénovation énergétique du bâti résidentiel\nTitre : 3.3.2 Communiquer sur les aides existantes\nDescription : aucune"
+  },
+  {
+   "id": 57573,
+   "titre": "3.3.3 Etudier la possibilité de grouper les achats de combustibles entre habitants et collectivités",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 15 370 habitants\nContexte : Plan d'actions COT du Brionnais > Axe 3 : Avoir un bâti plus économe en énergie > 3.3 Inciter à la rénovation énergétique du bâti résidentiel\nTitre : 3.3.3 Etudier la possibilité de grouper les achats de combustibles entre habitants et collectivités\nDescription : aucune"
+  },
+  {
+   "id": 57574,
+   "titre": "3.3.4 Organiser des réunions publiques avec des spécialistes de la rénovation énergétique",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 15 370 habitants\nContexte : Plan d'actions COT du Brionnais > Axe 3 : Avoir un bâti plus économe en énergie > 3.3 Inciter à la rénovation énergétique du bâti résidentiel\nTitre : 3.3.4 Organiser des réunions publiques avec des spécialistes de la rénovation énergétique\nDescription : aucune"
+  },
+  {
+   "id": 57575,
+   "titre": "3.3.5 Informer les habitants sur des éco-conceptions exemplaires de la région, des retours d'expériences avant/après rénovation, visites",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 15 370 habitants\nContexte : Plan d'actions COT du Brionnais > Axe 3 : Avoir un bâti plus économe en énergie > 3.3 Inciter à la rénovation énergétique du bâti résidentiel\nTitre : 3.3.5 Informer les habitants sur des éco-conceptions exemplaires de la région, des retours d'expériences avant/après rénovation, visites\nDescription : aucune"
+  },
+  {
+   "id": 57576,
+   "titre": "3.3.6 Organiser des formations sur la thématique \"rénovation énergétique\" (chantiers exemples, ateliers, constructions éco-conçues…)",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 15 370 habitants\nContexte : Plan d'actions COT du Brionnais > Axe 3 : Avoir un bâti plus économe en énergie > 3.3 Inciter à la rénovation énergétique du bâti résidentiel\nTitre : 3.3.6 Organiser des formations sur la thématique \"rénovation énergétique\" (chantiers exemples, ateliers, constructions éco-conçues…)\nDescription : aucune"
+  },
+  {
+   "id": 57577,
+   "titre": "3.3.7 Organiser un Salon de l'Habitat",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 15 370 habitants\nContexte : Plan d'actions COT du Brionnais > Axe 3 : Avoir un bâti plus économe en énergie > 3.3 Inciter à la rénovation énergétique du bâti résidentiel\nTitre : 3.3.7 Organiser un Salon de l'Habitat\nDescription : aucune"
+  },
+  {
+   "id": 57578,
+   "titre": "3.4.1 Dans le cadre du Pacte territorial, accompagner les propriétaires du début à la fin de leurs démarches",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 15 370 habitants\nContexte : Plan d'actions COT du Brionnais > Axe 3 : Avoir un bâti plus économe en énergie > 3.4 Organiser le conseil aux habitants et aux collectivités\nTitre : 3.4.1 Dans le cadre du Pacte territorial, accompagner les propriétaires du début à la fin de leurs démarches\nDescription : (démarches administratives, obtention d’aides financières, simulations...) => avoir une personne dédiée /!\\ Que la personne soit formée à la fois pour les particuliers mais aussi pour les collectivités (pas les mêmes dispositifs d'aide, pas les mêmes démarches)"
+  },
+  {
+   "id": 57579,
+   "titre": "3.4.2 Travailler avec les artisans pour la formation et l'information",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 15 370 habitants\nContexte : Plan d'actions COT du Brionnais > Axe 3 : Avoir un bâti plus économe en énergie > 3.4 Organiser le conseil aux habitants et aux collectivités\nTitre : 3.4.2 Travailler avec les artisans pour la formation et l'information\nDescription : aucune"
+  },
+  {
+   "id": 57580,
+   "titre": "3.4.3 Créer un Espace Info Energie",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 15 370 habitants\nContexte : Plan d'actions COT du Brionnais > Axe 3 : Avoir un bâti plus économe en énergie > 3.4 Organiser le conseil aux habitants et aux collectivités\nTitre : 3.4.3 Créer un Espace Info Energie\nDescription : aucune"
+  },
+  {
+   "id": 57581,
+   "titre": "4.1.1 Collaborer avec les syndicats de rivières",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 15 370 habitants\nContexte : Plan d'actions COT du Brionnais > Axe 4 : Préserver la ressource en eau > 4.1 Restaurer les cours d’eau et les zones humides\nTitre : 4.1.1 Collaborer avec les syndicats de rivières\nDescription : aucune"
+  },
+  {
+   "id": 57582,
+   "titre": "4.1.2 Animation du DOCOB de la Vallée de la Belaine",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 15 370 habitants\nContexte : Plan d'actions COT du Brionnais > Axe 4 : Préserver la ressource en eau > 4.1 Restaurer les cours d’eau et les zones humides\nTitre : 4.1.2 Animation du DOCOB de la Vallée de la Belaine\nDescription : aucune"
+  },
+  {
+   "id": 57583,
+   "titre": "4.2.1 Mettre en place un suivi des consommations dans les bâtiments publics",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 15 370 habitants\nContexte : Plan d'actions COT du Brionnais > Axe 4 : Préserver la ressource en eau > 4.2 Réduire la consommation d’eau\nTitre : 4.2.1 Mettre en place un suivi des consommations dans les bâtiments publics\nDescription : aucune"
+  },
+  {
+   "id": 57584,
+   "titre": "4.2.2 Mettre en place des systèmes plus économes",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 15 370 habitants\nContexte : Plan d'actions COT du Brionnais > Axe 4 : Préserver la ressource en eau > 4.2 Réduire la consommation d’eau\nTitre : 4.2.2 Mettre en place des systèmes plus économes\nDescription : aucune"
+  },
+  {
+   "id": 57585,
+   "titre": "4.2.3 Sensibiliser les habitants",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 15 370 habitants\nContexte : Plan d'actions COT du Brionnais > Axe 4 : Préserver la ressource en eau > 4.2 Réduire la consommation d’eau\nTitre : 4.2.3 Sensibiliser les habitants\nDescription : aucune"
+  },
+  {
+   "id": 57586,
+   "titre": "4.2.4 Mettre en place une tarification incitant à la réduction de la consommation d'eau",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 15 370 habitants\nContexte : Plan d'actions COT du Brionnais > Axe 4 : Préserver la ressource en eau > 4.2 Réduire la consommation d’eau\nTitre : 4.2.4 Mettre en place une tarification incitant à la réduction de la consommation d'eau\nDescription : -> action à porter par les élus au niveau des syndicats de gestion des eaux potables"
+  },
+  {
+   "id": 57587,
+   "titre": "4.3.1 Désimperméabiliser lorsque cela est possible",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 15 370 habitants\nContexte : Plan d'actions COT du Brionnais > Axe 4 : Préserver la ressource en eau > 4.3 Favoriser l’infiltration des eaux pluviales\nTitre : 4.3.1 Désimperméabiliser lorsque cela est possible\nDescription : aucune"
+  },
+  {
+   "id": 57588,
+   "titre": "4.3.2 Intégrer les aménagements nécessaires pour chaque construction ou rénovation",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 15 370 habitants\nContexte : Plan d'actions COT du Brionnais > Axe 4 : Préserver la ressource en eau > 4.3 Favoriser l’infiltration des eaux pluviales\nTitre : 4.3.2 Intégrer les aménagements nécessaires pour chaque construction ou rénovation\nDescription : aucune"
+  },
+  {
+   "id": 57589,
+   "titre": "4.4.1 Intégrer les aménagements nécessaires pour chaque construction ou rénovation",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 15 370 habitants\nContexte : Plan d'actions COT du Brionnais > Axe 4 : Préserver la ressource en eau > 4.4 Favoriser la récupération des eaux pluviales et leur utilisation\nTitre : 4.4.1 Intégrer les aménagements nécessaires pour chaque construction ou rénovation\nDescription : aucune"
+  },
+  {
+   "id": 57590,
+   "titre": "4.4.2 Inciter financièrement les habitants à la récupération des eaux de pluie",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 15 370 habitants\nContexte : Plan d'actions COT du Brionnais > Axe 4 : Préserver la ressource en eau > 4.4 Favoriser la récupération des eaux pluviales et leur utilisation\nTitre : 4.4.2 Inciter financièrement les habitants à la récupération des eaux de pluie\nDescription : aucune"
+  },
+  {
+   "id": 57591,
+   "titre": "4.4.3 Aider financièrement les agriculteurs à la récupération des eaux de pluie",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 15 370 habitants\nContexte : Plan d'actions COT du Brionnais > Axe 4 : Préserver la ressource en eau > 4.4 Favoriser la récupération des eaux pluviales et leur utilisation\nTitre : 4.4.3 Aider financièrement les agriculteurs à la récupération des eaux de pluie\nDescription : aucune"
+  },
+  {
+   "id": 57592,
+   "titre": "4.4.4 Utiliser les eaux grises et de récupération pour les sanitaires",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 15 370 habitants\nContexte : Plan d'actions COT du Brionnais > Axe 4 : Préserver la ressource en eau > 4.4 Favoriser la récupération des eaux pluviales et leur utilisation\nTitre : 4.4.4 Utiliser les eaux grises et de récupération pour les sanitaires\nDescription : aucune"
+  },
+  {
+   "id": 57593,
+   "titre": "5.1.1 Augmenter la part de bâtiments publics équipés de panneaux solaires",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 15 370 habitants\nContexte : Plan d'actions COT du Brionnais > Axe 5 : Développer les énergies renouvelables > 5.1 Développer le solaire photovoltaïque\nTitre : 5.1.1 Augmenter la part de bâtiments publics équipés de panneaux solaires\nDescription : aucune"
+  },
+  {
+   "id": 57594,
+   "titre": "5.1.2 Systématiser le photovoltaïque en toiture sur les constructions (voire rénovation) de bâtiments publics",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 15 370 habitants\nContexte : Plan d'actions COT du Brionnais > Axe 5 : Développer les énergies renouvelables > 5.1 Développer le solaire photovoltaïque\nTitre : 5.1.2 Systématiser le photovoltaïque en toiture sur les constructions (voire rénovation) de bâtiments publics\nDescription : aucune"
+  },
+  {
+   "id": 57595,
+   "titre": "5.1.3 Mettre en compatibilité urbanisme, projet de territoire et développement photovoltaïque",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 15 370 habitants\nContexte : Plan d'actions COT du Brionnais > Axe 5 : Développer les énergies renouvelables > 5.1 Développer le solaire photovoltaïque\nTitre : 5.1.3 Mettre en compatibilité urbanisme, projet de territoire et développement photovoltaïque\nDescription : aucune"
+  },
+  {
+   "id": 57596,
+   "titre": "5.1.4 Développer le solaire photovoltaïque sur les bâtiments industriels et agricoles",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 15 370 habitants\nContexte : Plan d'actions COT du Brionnais > Axe 5 : Développer les énergies renouvelables > 5.1 Développer le solaire photovoltaïque\nTitre : 5.1.4 Développer le solaire photovoltaïque sur les bâtiments industriels et agricoles\nDescription : aucune"
+  },
+  {
+   "id": 57597,
+   "titre": "5.1.5 Respecter l'obligation de solarisation des parkings > 1500 m²",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 15 370 habitants\nContexte : Plan d'actions COT du Brionnais > Axe 5 : Développer les énergies renouvelables > 5.1 Développer le solaire photovoltaïque\nTitre : 5.1.5 Respecter l'obligation de solarisation des parkings > 1500 m²\nDescription : aucune"
+  },
+  {
+   "id": 57598,
+   "titre": "5.1.6 Communiquer sur le cadastre solaire du SYDESL",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 15 370 habitants\nContexte : Plan d'actions COT du Brionnais > Axe 5 : Développer les énergies renouvelables > 5.1 Développer le solaire photovoltaïque\nTitre : 5.1.6 Communiquer sur le cadastre solaire du SYDESL\nDescription : aucune"
+  },
+  {
+   "id": 57599,
+   "titre": "5.1.7 Etudier les risques et impacts des installations agrivoltaïques",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 15 370 habitants\nContexte : Plan d'actions COT du Brionnais > Axe 5 : Développer les énergies renouvelables > 5.1 Développer le solaire photovoltaïque\nTitre : 5.1.7 Etudier les risques et impacts des installations agrivoltaïques\nDescription : aucune"
+  },
+  {
+   "id": 57600,
+   "titre": "5.1.8 Recenser et cartographier les terrains potentiels pour l'installation de centrales photovoltaïques",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 15 370 habitants\nContexte : Plan d'actions COT du Brionnais > Axe 5 : Développer les énergies renouvelables > 5.1 Développer le solaire photovoltaïque\nTitre : 5.1.8 Recenser et cartographier les terrains potentiels pour l'installation de centrales photovoltaïques\nDescription : aucune"
+  },
+  {
+   "id": 57601,
+   "titre": "5.1.9 Développer des projets d'autoconsommation collective",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 15 370 habitants\nContexte : Plan d'actions COT du Brionnais > Axe 5 : Développer les énergies renouvelables > 5.1 Développer le solaire photovoltaïque\nTitre : 5.1.9 Développer des projets d'autoconsommation collective\nDescription : aucune"
+  },
+  {
+   "id": 57602,
+   "titre": "5.2.1 Etudier l'optimisation et la valorisation des haies bocagères",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 15 370 habitants\nContexte : Plan d'actions COT du Brionnais > Axe 5 : Développer les énergies renouvelables > 5.2 Développer une filière locale de bois-énergie\nTitre : 5.2.1 Etudier l'optimisation et la valorisation des haies bocagères\nDescription : aucune"
+  },
+  {
+   "id": 57603,
+   "titre": "5.2.2 Organiser une réunion entre tous les acteurs et soutiens potentiels sur le thème de la filière bois-énergie",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 15 370 habitants\nContexte : Plan d'actions COT du Brionnais > Axe 5 : Développer les énergies renouvelables > 5.2 Développer une filière locale de bois-énergie\nTitre : 5.2.2 Organiser une réunion entre tous les acteurs et soutiens potentiels sur le thème de la filière bois-énergie\nDescription : Ou Appel à Manifestation d’Intérêt Ou Atelier/groupe de travail spécifique"
+  },
+  {
+   "id": 57604,
+   "titre": "5.2.3 Trouver un modèle économique viable",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 15 370 habitants\nContexte : Plan d'actions COT du Brionnais > Axe 5 : Développer les énergies renouvelables > 5.2 Développer une filière locale de bois-énergie\nTitre : 5.2.3 Trouver un modèle économique viable\nDescription : aucune"
+  },
+  {
+   "id": 57605,
+   "titre": "5.2.4 Organiser des rencontres/visites sur des exploitations existantes",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 15 370 habitants\nContexte : Plan d'actions COT du Brionnais > Axe 5 : Développer les énergies renouvelables > 5.2 Développer une filière locale de bois-énergie\nTitre : 5.2.4 Organiser des rencontres/visites sur des exploitations existantes\nDescription : aucune"
+  },
+  {
+   "id": 57606,
+   "titre": "5.2.5 Communiquer les aides possibles pour le bois",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 15 370 habitants\nContexte : Plan d'actions COT du Brionnais > Axe 5 : Développer les énergies renouvelables > 5.2 Développer une filière locale de bois-énergie\nTitre : 5.2.5 Communiquer les aides possibles pour le bois\nDescription : aucune"
+  },
+  {
+   "id": 57607,
+   "titre": "5.2.6 Développer des projets de chaufferies bois locales",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 15 370 habitants\nContexte : Plan d'actions COT du Brionnais > Axe 5 : Développer les énergies renouvelables > 5.2 Développer une filière locale de bois-énergie\nTitre : 5.2.6 Développer des projets de chaufferies bois locales\nDescription : aucune"
+  },
+  {
+   "id": 57608,
+   "titre": "5.3.1 Etudier la faisabilité et la rentabilité d'un méthaniseur sur les territoires",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 15 370 habitants\nContexte : Plan d'actions COT du Brionnais > Axe 5 : Développer les énergies renouvelables > 5.3 Etudier la faisabilité et la rentabilité d'un méthaniseur sur les territoires\nTitre : 5.3.1 Etudier la faisabilité et la rentabilité d'un méthaniseur sur les territoires\nDescription : aucune"
+  },
+  {
+   "id": 57609,
+   "titre": "5.4.1 Etudier la faisabilité et la rentabilité d'installations éoliennes sur les territoires",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 15 370 habitants\nContexte : Plan d'actions COT du Brionnais > Axe 5 : Développer les énergies renouvelables > 5.4 Etudier la faisabilité et la rentabilité d'installations éoliennes sur les territoires\nTitre : 5.4.1 Etudier la faisabilité et la rentabilité d'installations éoliennes sur les territoires\nDescription : aucune"
+  },
+  {
+   "id": 57610,
+   "titre": "5.5.1 Etudier la faisabilité et la rentabilité de (micro)centrales hydrauliques sur les territoires",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 15 370 habitants\nContexte : Plan d'actions COT du Brionnais > Axe 5 : Développer les énergies renouvelables > 5.5 Etudier la faisabilité et la rentabilité de (micro)centrales hydrauliques sur les territoires\nTitre : 5.5.1 Etudier la faisabilité et la rentabilité de (micro)centrales hydrauliques sur les territoires\nDescription : aucune"
+  },
+  {
+   "id": 57611,
+   "titre": "5.6.1 Acheter de l’électricité verte",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 15 370 habitants\nContexte : Plan d'actions COT du Brionnais > Axe 5 : Développer les énergies renouvelables > 5.6 Acheter de l’électricité verte\nTitre : 5.6.1 Acheter de l’électricité verte\nDescription : aucune"
+  },
+  {
+   "id": 57612,
+   "titre": "5.7.1  Disposer d'une bibliographie et de formations sur les énergies renouvelables",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 15 370 habitants\nContexte : Plan d'actions COT du Brionnais > Axe 5 : Développer les énergies renouvelables > 5.7 Disposer d'une bibliographie et de formations sur les énergies renouvelables\nTitre : 5.7.1 Disposer d'une bibliographie et de formations sur les énergies renouvelables\nDescription : aucune"
+  },
+  {
+   "id": 57613,
+   "titre": "5.8.1 Organiser le conseil aux particuliers et aux collectivités (lien avec 3.4)",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 15 370 habitants\nContexte : Plan d'actions COT du Brionnais > Axe 5 : Développer les énergies renouvelables > 5.8 Organiser le conseil aux particuliers et aux collectivités (lien avec 3.4)\nTitre : 5.8.1 Organiser le conseil aux particuliers et aux collectivités (lien avec 3.4)\nDescription : aucune"
+  },
+  {
+   "id": 57614,
+   "titre": "6.1.1 Elaborer un PLPDMA",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 15 370 habitants\nContexte : Plan d'actions COT du Brionnais > Axe 6 : Continuer à diminuer les déchets pour maitriser les coûts > 6.1 Elaborer un PLPDMA\nTitre : 6.1.1 Elaborer un PLPDMA\nDescription : En collaboration avec les autres EPCI et le SMEVOM"
+  },
+  {
+   "id": 57615,
+   "titre": "6.2.1 Organiser ou contribuer à un Repair Café",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 15 370 habitants\nContexte : Plan d'actions COT du Brionnais > Axe 6 : Continuer à diminuer les déchets pour maitriser les coûts > 6.2 Développer les filières de ré-emploi ou d’allongement de la durée de vie\nTitre : 6.2.1 Organiser ou contribuer à un Repair Café\nDescription : -> organisé en avril 2025 par CCBSB"
+  },
+  {
+   "id": 57616,
+   "titre": "6.2.2 Développer des espaces ressourceries dans les déchetteries non équipées",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 15 370 habitants\nContexte : Plan d'actions COT du Brionnais > Axe 6 : Continuer à diminuer les déchets pour maitriser les coûts > 6.2 Développer les filières de ré-emploi ou d’allongement de la durée de vie\nTitre : 6.2.2 Développer des espaces ressourceries dans les déchetteries non équipées\nDescription : aucune"
+  },
+  {
+   "id": 57617,
+   "titre": "6.2.3 Développer des services de réparation de petits matériels",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 15 370 habitants\nContexte : Plan d'actions COT du Brionnais > Axe 6 : Continuer à diminuer les déchets pour maitriser les coûts > 6.2 Développer les filières de ré-emploi ou d’allongement de la durée de vie\nTitre : 6.2.3 Développer des services de réparation de petits matériels\nDescription : -> En réflexion sur CC Semur dans le nouveau conventionnement ACI"
+  },
+  {
+   "id": 57618,
+   "titre": "6.2.4 Promouvoir les acteurs de l’économie circulaire",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 15 370 habitants\nContexte : Plan d'actions COT du Brionnais > Axe 6 : Continuer à diminuer les déchets pour maitriser les coûts > 6.2 Développer les filières de ré-emploi ou d’allongement de la durée de vie\nTitre : 6.2.4 Promouvoir les acteurs de l’économie circulaire\nDescription : -> Ex : Diffuser la carte ADEME « Longue Vie aux objets » (réparation, réemploi, seconde main, don)"
+  },
+  {
+   "id": 57619,
+   "titre": "6.2.5 Actions envers les entreprises pour récupération et réutilisation des matériaux",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 15 370 habitants\nContexte : Plan d'actions COT du Brionnais > Axe 6 : Continuer à diminuer les déchets pour maitriser les coûts > 6.2 Développer les filières de ré-emploi ou d’allongement de la durée de vie\nTitre : 6.2.5 Actions envers les entreprises pour récupération et réutilisation des matériaux\nDescription : aucune"
+  },
+  {
+   "id": 57620,
+   "titre": "6.3.1 Actions de prévention et d'incitation",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 15 370 habitants\nContexte : Plan d'actions COT du Brionnais > Axe 6 : Continuer à diminuer les déchets pour maitriser les coûts > 6.3 Améliorer la qualité du tri\nTitre : 6.3.1 Actions de prévention et d'incitation\nDescription : aucune"
+  },
+  {
+   "id": 57621,
+   "titre": "6.3.2 Généraliser des actions permettant de réduire les tonnages produits (réduction des bacs de regroupement, fermeture des bacs d'ordures ménagères, fréquence de collecte…)",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 15 370 habitants\nContexte : Plan d'actions COT du Brionnais > Axe 6 : Continuer à diminuer les déchets pour maitriser les coûts > 6.3 Améliorer la qualité du tri\nTitre : 6.3.2 Généraliser des actions permettant de réduire les tonnages produits (réduction des bacs de regroupement, fermeture des bacs d'ordures ménagères, fréquence de collecte…)\nDescription : aucune"
+  },
+  {
+   "id": 57622,
+   "titre": "6.3.3 Analyser les biodéchets dans les poubelles du territoire",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 15 370 habitants\nContexte : Plan d'actions COT du Brionnais > Axe 6 : Continuer à diminuer les déchets pour maitriser les coûts > 6.3 Améliorer la qualité du tri\nTitre : 6.3.3 Analyser les biodéchets dans les poubelles du territoire\nDescription : aucune"
+  },
+  {
+   "id": 57623,
+   "titre": "6.4.1 Mettre à disposition un broyeur",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 15 370 habitants\nContexte : Plan d'actions COT du Brionnais > Axe 6 : Continuer à diminuer les déchets pour maitriser les coûts > 6.4 Favoriser le broyage des déchets verts\nTitre : 6.4.1 Mettre à disposition un broyeur\nDescription : aucune"
+  },
+  {
+   "id": 57624,
+   "titre": "6.5.1 Relancer le \"STOP PUB\"",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 15 370 habitants\nContexte : Plan d'actions COT du Brionnais > Axe 6 : Continuer à diminuer les déchets pour maitriser les coûts > 6.5 Sensibiliser les habitants\nTitre : 6.5.1 Relancer le \"STOP PUB\"\nDescription : aucune"
+  },
+  {
+   "id": 57625,
+   "titre": "6.5.2 Organiser des ramassages annuels des déchets sauvages",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 15 370 habitants\nContexte : Plan d'actions COT du Brionnais > Axe 6 : Continuer à diminuer les déchets pour maitriser les coûts > 6.5 Sensibiliser les habitants\nTitre : 6.5.2 Organiser des ramassages annuels des déchets sauvages\nDescription : aucune"
+  },
+  {
+   "id": 57626,
+   "titre": "6.5.3 Organiser des journées \"Nettoyons la nature\"",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 15 370 habitants\nContexte : Plan d'actions COT du Brionnais > Axe 6 : Continuer à diminuer les déchets pour maitriser les coûts > 6.5 Sensibiliser les habitants\nTitre : 6.5.3 Organiser des journées \"Nettoyons la nature\"\nDescription : aucune"
+  },
+  {
+   "id": 57627,
+   "titre": "7.0.1 Revégétaliser les centres bourgs",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 15 370 habitants\nContexte : Plan d'actions COT du Brionnais > Axe 7 : Préserver l'agriculture et les paysages > 7.0 Autres\nTitre : 7.0.1 Revégétaliser les centres bourgs\nDescription : aucune"
+  },
+  {
+   "id": 57628,
+   "titre": "7.0.2 Organiser des journées d'arrachage de l'ambroisie + sensibilisation",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 15 370 habitants\nContexte : Plan d'actions COT du Brionnais > Axe 7 : Préserver l'agriculture et les paysages > 7.0 Autres\nTitre : 7.0.2 Organiser des journées d'arrachage de l'ambroisie + sensibilisation\nDescription : Egalement en lien avec les déchets sauvages car l'ambroisie pousse aux endroits où il y a eu des apports de terre"
+  },
+  {
+   "id": 57629,
+   "titre": "7.0.3 Aider à l'installation des agriculteurs (solutions foncières, solutions économiques)",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 15 370 habitants\nContexte : Plan d'actions COT du Brionnais > Axe 7 : Préserver l'agriculture et les paysages > 7.0 Autres\nTitre : 7.0.3 Aider à l'installation des agriculteurs (solutions foncières, solutions économiques)\nDescription : aucune"
+  },
+  {
+   "id": 57630,
+   "titre": "7.1.1 Replanter des arbres dans les haies et les prés",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 15 370 habitants\nContexte : Plan d'actions COT du Brionnais > Axe 7 : Préserver l'agriculture et les paysages > 7.1 Les arbres\nTitre : 7.1.1 Replanter des arbres dans les haies et les prés\nDescription : aucune"
+  },
+  {
+   "id": 57631,
+   "titre": "7.1.2 Créer des vergers conservatoires",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 15 370 habitants\nContexte : Plan d'actions COT du Brionnais > Axe 7 : Préserver l'agriculture et les paysages > 7.1 Les arbres\nTitre : 7.1.2 Créer des vergers conservatoires\nDescription : aucune"
+  },
+  {
+   "id": 57632,
+   "titre": "7.1.3 Reboiser des terrains communaux avec potentiellement des projets participatifs",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 15 370 habitants\nContexte : Plan d'actions COT du Brionnais > Axe 7 : Préserver l'agriculture et les paysages > 7.1 Les arbres\nTitre : 7.1.3 Reboiser des terrains communaux avec potentiellement des projets participatifs\nDescription : aucune"
+  },
+  {
+   "id": 57633,
+   "titre": "7.2.1 Planter des haies et des arbres",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 15 370 habitants\nContexte : Plan d'actions COT du Brionnais > Axe 7 : Préserver l'agriculture et les paysages > 7.2 Les haies\nTitre : 7.2.1 Planter des haies et des arbres\nDescription : aucune"
+  },
+  {
+   "id": 57634,
+   "titre": "7.2.2 Avoir une gestion plus durable des haies",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 15 370 habitants\nContexte : Plan d'actions COT du Brionnais > Axe 7 : Préserver l'agriculture et les paysages > 7.2 Les haies\nTitre : 7.2.2 Avoir une gestion plus durable des haies\nDescription : Se renseigner sur des exemples d'entretien et valorisation des haies délégués à un tiers"
+  },
+  {
+   "id": 57635,
+   "titre": "7.3.1 Créer des jardins partagés",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 15 370 habitants\nContexte : Plan d'actions COT du Brionnais > Axe 7 : Préserver l'agriculture et les paysages > 7.3 L'alimentation\nTitre : 7.3.1 Créer des jardins partagés\nDescription : aucune"
+  },
+  {
+   "id": 57636,
+   "titre": "7.3.2 Valoriser/promouvoir les producteurs locaux et leurs productions",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 15 370 habitants\nContexte : Plan d'actions COT du Brionnais > Axe 7 : Préserver l'agriculture et les paysages > 7.3 L'alimentation\nTitre : 7.3.2 Valoriser/promouvoir les producteurs locaux et leurs productions\nDescription : aucune"
+  },
+  {
+   "id": 57637,
+   "titre": "7.3.3 Déclinaison locale d’actions du PAT départemental",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 15 370 habitants\nContexte : Plan d'actions COT du Brionnais > Axe 7 : Préserver l'agriculture et les paysages > 7.3 L'alimentation\nTitre : 7.3.3 Déclinaison locale d’actions du PAT départemental\nDescription : aucune"
+  },
+  {
+   "id": 57638,
+   "titre": "7.3.4 Créer une conserverie collective dans les anciens locaux Baligand à La Clayette",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 15 370 habitants\nContexte : Plan d'actions COT du Brionnais > Axe 7 : Préserver l'agriculture et les paysages > 7.3 L'alimentation\nTitre : 7.3.4 Créer une conserverie collective dans les anciens locaux Baligand à La Clayette\nDescription : aucune"
+  },
+  {
+   "id": 57639,
+   "titre": "7.3.5 Mise en avant des commerces éco-responsables",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 15 370 habitants\nContexte : Plan d'actions COT du Brionnais > Axe 7 : Préserver l'agriculture et les paysages > 7.3 L'alimentation\nTitre : 7.3.5 Mise en avant des commerces éco-responsables\nDescription : aucune"
+  },
+  {
+   "id": 57640,
+   "titre": "7.3.6 Organiser des ateliers (compostage, Do it yourself, cuisine éco-responable…)",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 15 370 habitants\nContexte : Plan d'actions COT du Brionnais > Axe 7 : Préserver l'agriculture et les paysages > 7.3 L'alimentation\nTitre : 7.3.6 Organiser des ateliers (compostage, Do it yourself, cuisine éco-responable…)\nDescription : aucune"
+  },
+  {
+   "id": 57641,
+   "titre": "7.3.7 Inciter à une consommation plus durable (locale, circuits courts, bio, vrac…)",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 15 370 habitants\nContexte : Plan d'actions COT du Brionnais > Axe 7 : Préserver l'agriculture et les paysages > 7.3 L'alimentation\nTitre : 7.3.7 Inciter à une consommation plus durable (locale, circuits courts, bio, vrac…)\nDescription : aucune"
+  },
+  {
+   "id": 57964,
+   "titre": "Créer une \"lettre info COT\" ",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 15 370 habitants\nContexte : Plan d'actions COT du Brionnais > Axe 1 : Créer une culture commune autour de la transition écologique > 1.1 Auprès des élus et des agents\nTitre : Créer une \"lettre info COT\"\nDescription : aucune"
+  },
+  {
+   "id": 57966,
+   "titre": "Faire une convention avec la presse pour diffuser de l'info régulièrement",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 15 370 habitants\nContexte : Plan d'actions COT du Brionnais > Axe 1 : Créer une culture commune autour de la transition écologique > 1.2 Auprès des habitants\nTitre : Faire une convention avec la presse pour diffuser de l'info régulièrement\nDescription : aucune"
+  }
+ ]
+}

@@ -1,0 +1,1950 @@
+﻿collectivite_id,levier,categorie,n_struct_run1,n_peu_run1,n_struct_run2,n_peu_run2,n_struct_run3,n_peu_run3,note_run1,note_run2,note_run3,stable,ecart_runs,note,structurantes,peu_importantes,note_prod,fiche_ids_prod
+13693,Changements de pratiques de fertilisation azotée,6,0,1,0,1,0,1,1,1,1,True,0,1,[],[143327],,
+13693,Efficacité et sobriété logistique,5,1,0,1,0,1,0,2,2,2,True,0,2,[143324],[],,
+13693,Efficacité et sobriété logistique,6,0,2,0,2,0,2,2,2,2,True,0,2,[],"[143326, 143330]",,
+13693,Electricité renouvelable,1,0,1,0,1,0,1,1,1,1,True,0,1,[],[143348],,
+13693,Electricité renouvelable,4,1,0,1,0,1,0,2,2,2,True,0,2,[143344],[],,
+13693,Electricité renouvelable,5,0,1,0,1,0,1,1,1,1,True,0,1,[],[143346],,
+13693,Gestion des forêts et produits bois,1,0,1,0,1,0,1,1,1,1,True,0,1,[],[143382],,
+13693,Pratiques stockantes,1,1,0,1,0,1,0,2,2,2,True,0,2,[143375],[],,
+13693,Prévention des déchets,5,2,0,1,1,2,0,3,2,3,False,1,3,"[143325, 143356]",[],,
+13693,Réduction des déplacements,1,1,1,1,1,1,1,2,2,2,True,0,2,[143338],[143333],,
+13693,Réduction des déplacements,2,1,0,0,0,1,0,2,0,2,False,2,2,[143332],[],,
+13693,Réseaux de chaleur décarbonés,1,0,1,0,1,0,1,1,1,1,True,0,1,[],[143345],,
+13693,Sobriété des bâtiments (résidentiel),3,1,0,1,0,1,0,2,2,2,True,0,2,[143350],[],,
+13693,Sobriété des bâtiments (résidentiel),6,0,1,0,1,0,1,1,1,1,True,0,1,[],[143322],,
+13693,Sobriété et isolation des bâtiments (tertiaire),1,1,2,1,2,1,3,2,2,2,True,0,2,[143349],"[143353, 143354]",,
+13693,Sobriété et isolation des bâtiments (tertiaire),4,1,0,1,0,1,0,2,2,2,True,0,2,[143349],[],,
+13693,Sobriété et isolation des bâtiments (tertiaire),5,2,1,2,1,2,0,3,3,3,True,0,3,"[143317, 143349]",[143351],,
+13693,Sobriété foncière,2,0,2,0,2,0,2,2,2,2,True,0,2,[],"[143328, 143365]",,
+13693,Sobriété foncière,4,0,1,0,1,0,1,1,1,1,True,0,1,[],[143323],,
+13693,Valorisation matière des déchets,1,0,1,0,1,0,1,1,1,1,True,0,1,[],[143362],,
+13693,Valorisation matière des déchets,5,1,0,0,1,1,0,2,1,2,False,1,2,[143325],[],,
+13693,Véhicules électriques,1,0,1,0,1,0,1,1,1,1,True,0,1,[],[143336],,
+13693,Véhicules électriques,5,0,1,0,1,0,1,1,1,1,True,0,1,[],[143343],,
+13693,Vélo et transport en commun,1,1,0,1,0,1,0,2,2,2,True,0,2,[143338],[],,
+13693,Vélo et transport en commun,2,0,0,0,1,0,0,0,1,0,False,1,0,[],[],,
+13693,Vélo et transport en commun,5,0,2,0,2,0,2,2,2,2,True,0,2,[],"[143342, 143343]",,
+1609,Changements de pratiques de fertilisation azotée,6,0,1,0,1,0,0,1,1,0,False,1,1,[],[16423],,
+1609,Efficacité et sobriété logistique,5,1,1,2,0,1,0,2,3,2,False,1,2,[16445],[16423],,
+1609,Efficacité et sobriété logistique,6,0,0,0,0,0,1,0,0,1,False,1,0,[],[],,
+1609,Electricité renouvelable,1,1,0,1,0,0,0,2,2,0,False,2,2,[16448],[],,
+1609,Electricité renouvelable,2,2,0,1,0,2,0,3,2,3,False,1,2,[16432],[],,
+1609,Electricité renouvelable,4,0,0,0,1,0,1,0,1,1,False,1,1,[],[16444],,
+1609,Gestion des forêts et produits bois,2,0,0,0,0,0,1,0,0,1,False,1,0,[],[],,
+1609,Gestion des forêts et produits bois,6,0,1,0,1,0,1,1,1,1,True,0,1,[],[16427],,
+1609,Réduction des déplacements,1,1,0,1,0,1,0,2,2,2,True,0,2,[16434],[],,
+1609,Réduction des déplacements,2,3,0,3,0,3,0,3,3,3,True,0,3,"[16433, 16443, 16449]",[],,
+1609,Réseaux de chaleur décarbonés,1,0,1,0,1,0,1,1,1,1,True,0,1,[],[16420],,
+1609,Réseaux de chaleur décarbonés,2,1,0,1,0,1,0,2,2,2,True,0,2,[16432],[],,
+1609,Sobriété des bâtiments (résidentiel),2,1,0,1,0,1,0,2,2,2,True,0,2,[16426],[],,
+1609,Sobriété des bâtiments (résidentiel),3,1,0,1,0,1,0,2,2,2,True,0,2,[16440],[],,
+1609,Sobriété des bâtiments (résidentiel),4,1,0,1,0,1,0,2,2,2,True,0,2,[16440],[],,
+1609,Sobriété des bâtiments (résidentiel),6,2,0,2,0,2,0,3,3,3,True,0,3,"[16431, 16440]",[],,
+1609,Sobriété et isolation des bâtiments (tertiaire),1,0,1,0,1,0,1,1,1,1,True,0,1,[],[16436],,
+1609,Sobriété et isolation des bâtiments (tertiaire),2,1,0,1,0,1,0,2,2,2,True,0,2,[16428],[],,
+1609,Sobriété et isolation des bâtiments (tertiaire),4,1,0,1,0,1,0,2,2,2,True,0,2,[16453],[],,
+1609,Sobriété et isolation des bâtiments (tertiaire),5,0,0,0,0,1,0,0,0,2,False,2,0,[],[],,
+1609,Sobriété foncière,2,1,0,1,0,1,0,2,2,2,True,0,2,[16439],[],,
+1609,Véhicules électriques,2,1,0,1,0,1,0,2,2,2,True,0,2,[16433],[],,
+1609,Vélo et transport en commun,1,1,0,1,0,1,0,2,2,2,True,0,2,[16435],[],,
+1609,Vélo et transport en commun,2,1,0,1,0,1,0,2,2,2,True,0,2,[16433],[],,
+3893,Biogaz,1,0,2,0,2,0,2,2,2,2,True,0,2,[],"[78914, 78936]",3.0,"[78914, 78936]"
+3893,Biogaz,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+3893,Biogaz,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],2.0,[78914]
+3893,Biogaz,4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+3893,Biogaz,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+3893,Biogaz,6,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+3893,Bâtiments & Machines agricoles,1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+3893,Bâtiments & Machines agricoles,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+3893,Bâtiments & Machines agricoles,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+3893,Bâtiments & Machines agricoles,4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+3893,Bâtiments & Machines agricoles,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+3893,Bâtiments & Machines agricoles,6,0,0,0,0,0,0,0,0,0,True,0,0,[],[],1.0,[78945]
+3893,Changement chaudières fioul + rénovation (résidentiel),1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+3893,Changement chaudières fioul + rénovation (résidentiel),2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+3893,Changement chaudières fioul + rénovation (résidentiel),3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],3.0,"[78908, 78910]"
+3893,Changement chaudières fioul + rénovation (résidentiel),4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+3893,Changement chaudières fioul + rénovation (résidentiel),5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+3893,Changement chaudières fioul + rénovation (résidentiel),6,0,1,0,1,0,1,1,1,1,True,0,1,[],[82521],3.0,"[78905, 78907, 78910, 78912]"
+3893,Changement chaudières gaz + rénovation (résidentiel),1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+3893,Changement chaudières gaz + rénovation (résidentiel),2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+3893,Changement chaudières gaz + rénovation (résidentiel),3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+3893,Changement chaudières gaz + rénovation (résidentiel),4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+3893,Changement chaudières gaz + rénovation (résidentiel),5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+3893,Changement chaudières gaz + rénovation (résidentiel),6,0,1,0,1,0,1,1,1,1,True,0,1,[],[82521],2.0,"[78905, 78912]"
+3893,Changements de pratiques de fertilisation azotée,1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+3893,Changements de pratiques de fertilisation azotée,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+3893,Changements de pratiques de fertilisation azotée,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+3893,Changements de pratiques de fertilisation azotée,4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+3893,Changements de pratiques de fertilisation azotée,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+3893,Changements de pratiques de fertilisation azotée,6,0,1,0,1,0,1,1,1,1,True,0,1,[],[78945],2.0,[78945]
+3893,Covoiturage,1,1,2,1,2,1,2,2,2,2,True,0,2,[78933],"[78923, 78929]",2.0,"[78923, 78933]"
+3893,Covoiturage,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],1.0,[78933]
+3893,Covoiturage,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+3893,Covoiturage,4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],1.0,[78923]
+3893,Covoiturage,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+3893,Covoiturage,6,0,1,0,2,0,1,1,2,1,False,1,1,[],[78923],2.0,[78929]
+3893,Efficacité et carburants décarbonés des véhicules privés,1,0,1,0,1,0,1,1,1,1,True,0,1,[],[78914],,
+3893,Efficacité et carburants décarbonés des véhicules privés,5,0,0,1,0,0,0,0,2,0,False,2,0,[],[],,
+3893,Efficacité et sobriété logistique,1,1,0,1,0,2,0,2,2,3,False,1,2,[78921],[],1.0,[78921]
+3893,Efficacité et sobriété logistique,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+3893,Efficacité et sobriété logistique,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+3893,Efficacité et sobriété logistique,4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],1.0,[78921]
+3893,Efficacité et sobriété logistique,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+3893,Efficacité et sobriété logistique,6,1,1,1,1,1,1,2,2,2,True,0,2,[78938],[78935],0.0,[]
+3893,Electricité renouvelable,1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+3893,Electricité renouvelable,2,1,0,2,0,1,0,2,3,2,False,1,2,[82515],[],2.0,"[78918, 82515]"
+3893,Electricité renouvelable,3,1,0,1,0,1,0,2,2,2,True,0,2,[78917],[],1.0,[78917]
+3893,Electricité renouvelable,4,4,0,4,0,4,0,3,3,3,True,0,3,"[78917, 78918, 78919, 82517]",[],2.0,"[78918, 78919, 82516, 82517]"
+3893,Electricité renouvelable,5,1,0,1,0,1,0,2,2,2,True,0,2,[78903],[],1.0,[78903]
+3893,Electricité renouvelable,6,0,2,0,2,0,2,2,2,2,True,0,2,[],"[78915, 82525]",1.0,[78917]
+3893,Gestion des forêts et produits bois,1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+3893,Gestion des forêts et produits bois,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+3893,Gestion des forêts et produits bois,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+3893,Gestion des forêts et produits bois,4,0,3,0,3,0,3,2,2,2,True,0,2,[],"[78915, 82520, 82524]",2.0,[82524]
+3893,Gestion des forêts et produits bois,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+3893,Gestion des forêts et produits bois,6,0,1,0,1,0,1,1,1,1,True,0,1,[],[82523],1.0,[82523]
+3893,Pratiques stockantes,4,0,1,0,0,0,0,1,0,0,False,1,0,[],[],,
+3893,Pratiques stockantes,6,0,1,0,1,0,1,1,1,1,True,0,1,[],[78944],,
+3893,Production Industrielle,1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+3893,Production Industrielle,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+3893,Production Industrielle,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+3893,Production Industrielle,4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],2.0,[78939]
+3893,Production Industrielle,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+3893,Production Industrielle,6,0,1,0,1,0,1,1,1,1,True,0,1,[],[78939],2.0,[78939]
+3893,Prévention des déchets,1,1,0,1,0,1,0,2,2,2,True,0,2,[78935],[],0.0,[]
+3893,Prévention des déchets,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+3893,Prévention des déchets,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+3893,Prévention des déchets,4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],2.0,"[78934, 78935]"
+3893,Prévention des déchets,5,1,1,1,1,1,1,2,2,2,True,0,2,[78940],[78942],0.0,[]
+3893,Prévention des déchets,6,1,1,2,0,2,0,2,3,3,False,1,3,"[78934, 78935]",[],2.0,"[78934, 78935]"
+3893,Réduction des déplacements,1,1,2,3,0,3,0,2,3,3,False,1,3,"[78922, 78924, 78930]",[],2.0,"[78920, 78922]"
+3893,Réduction des déplacements,2,1,0,1,0,1,0,2,2,2,True,0,2,[78931],[],1.0,[78920]
+3893,Réduction des déplacements,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+3893,Réduction des déplacements,4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],2.0,"[78922, 78930]"
+3893,Réduction des déplacements,5,1,0,1,0,1,0,2,2,2,True,0,2,[78931],[],2.0,[78931]
+3893,Réduction des déplacements,6,1,1,1,1,1,1,2,2,2,True,0,2,[78931],[78927],0.0,[]
+3893,Réseaux de chaleur décarbonés,1,1,0,1,0,1,0,2,2,2,True,0,2,[78904],[],2.0,[78904]
+3893,Réseaux de chaleur décarbonés,2,1,0,1,0,1,0,2,2,2,True,0,2,[78904],[],0.0,[]
+3893,Réseaux de chaleur décarbonés,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+3893,Réseaux de chaleur décarbonés,4,0,0,1,0,1,0,0,2,2,False,2,2,[78904],[],0.0,[]
+3893,Réseaux de chaleur décarbonés,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+3893,Réseaux de chaleur décarbonés,6,2,1,1,2,2,1,3,2,3,False,1,3,"[78915, 78916]",[82522],0.0,[]
+3893,Sobriété des bâtiments (résidentiel),1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+3893,Sobriété des bâtiments (résidentiel),2,1,0,1,0,1,0,2,2,2,True,0,2,[78910],[],0.0,[]
+3893,Sobriété des bâtiments (résidentiel),3,3,0,3,0,3,0,3,3,3,True,0,3,"[78908, 78910, 78913]",[],0.0,[]
+3893,Sobriété des bâtiments (résidentiel),4,1,0,1,0,1,0,2,2,2,True,0,2,[78905],[],0.0,[]
+3893,Sobriété des bâtiments (résidentiel),5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+3893,Sobriété des bâtiments (résidentiel),6,4,2,4,2,4,2,3,3,3,True,0,3,"[78905, 78909, 78910, 78911]","[78907, 78912]",2.0,"[78905, 78909]"
+3893,Sobriété et isolation des bâtiments (tertiaire),1,0,1,0,1,0,1,1,1,1,True,0,1,[],[78906],0.0,[]
+3893,Sobriété et isolation des bâtiments (tertiaire),2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+3893,Sobriété et isolation des bâtiments (tertiaire),3,1,0,1,0,1,0,2,2,2,True,0,2,[78913],[],0.0,[]
+3893,Sobriété et isolation des bâtiments (tertiaire),4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+3893,Sobriété et isolation des bâtiments (tertiaire),5,1,0,1,0,1,0,2,2,2,True,0,2,[78903],[],2.0,[78903]
+3893,Sobriété et isolation des bâtiments (tertiaire),6,1,0,1,0,1,0,2,2,2,True,0,2,[78903],[],0.0,[]
+3893,Sobriété foncière,1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],1.0,[78949]
+3893,Sobriété foncière,2,3,0,3,0,3,0,3,3,3,True,0,3,"[78920, 78937, 78949]",[],3.0,"[78920, 78937, 78949]"
+3893,Sobriété foncière,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+3893,Sobriété foncière,4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+3893,Sobriété foncière,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+3893,Sobriété foncière,6,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+3893,Valorisation matière des déchets,1,1,0,1,0,1,0,2,2,2,True,0,2,[78941],[],2.0,"[78941, 78943]"
+3893,Valorisation matière des déchets,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+3893,Valorisation matière des déchets,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+3893,Valorisation matière des déchets,4,0,1,1,0,1,0,1,2,2,False,1,2,[78934],[],2.0,"[78934, 78935, 78941]"
+3893,Valorisation matière des déchets,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+3893,Valorisation matière des déchets,6,0,1,1,0,1,0,1,2,2,False,1,2,[78934],[],2.0,"[78934, 78935, 78943]"
+3893,Véhicules électriques,1,0,1,1,0,1,0,1,2,2,False,1,2,[78924],[],0.0,[]
+3893,Véhicules électriques,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+3893,Véhicules électriques,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+3893,Véhicules électriques,4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],2.0,[78924]
+3893,Véhicules électriques,5,0,1,1,0,1,0,1,2,2,False,1,2,[78931],[],0.0,[]
+3893,Véhicules électriques,6,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+3893,Vélo et transport en commun,1,2,1,2,1,2,1,3,3,3,True,0,3,"[78926, 78932]",[78928],3.0,"[78926, 78928, 78932]"
+3893,Vélo et transport en commun,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+3893,Vélo et transport en commun,3,1,0,1,0,1,0,2,2,2,True,0,2,[78926],[],2.0,"[78925, 78926]"
+3893,Vélo et transport en commun,4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],1.0,[78932]
+3893,Vélo et transport en commun,5,0,1,0,0,0,1,1,0,1,False,1,1,[],[78931],0.0,[]
+3893,Vélo et transport en commun,6,0,1,0,1,0,1,1,1,1,True,0,1,[],[78925],2.0,"[78925, 78927]"
+3914,Biogaz,1,1,0,1,0,1,0,2,2,2,True,0,2,[76384],[],3.0,[76384]
+3914,Biogaz,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],2.0,[76370]
+3914,Biogaz,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],2.0,[76384]
+3914,Biogaz,4,0,1,0,1,0,1,1,1,1,True,0,1,[],[76370],2.0,"[76370, 76384]"
+3914,Biogaz,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+3914,Biogaz,6,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+3914,Bus et cars décarbonés,1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+3914,Bus et cars décarbonés,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+3914,Bus et cars décarbonés,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+3914,Bus et cars décarbonés,4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],2.0,[76370]
+3914,Bus et cars décarbonés,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+3914,Bus et cars décarbonés,6,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+3914,Captage de méthane dans les ISDND,1,1,0,1,0,1,0,2,2,2,True,0,2,[76384],[],3.0,[76384]
+3914,Captage de méthane dans les ISDND,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+3914,Captage de méthane dans les ISDND,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[76384]
+3914,Captage de méthane dans les ISDND,4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[76384]
+3914,Captage de méthane dans les ISDND,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+3914,Captage de méthane dans les ISDND,6,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+3914,Changement chaudières fioul + rénovation (résidentiel),1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+3914,Changement chaudières fioul + rénovation (résidentiel),2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],2.0,"[76364, 76367, 76578]"
+3914,Changement chaudières fioul + rénovation (résidentiel),3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],2.0,[76365]
+3914,Changement chaudières fioul + rénovation (résidentiel),4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],2.0,"[76363, 76365, 76366]"
+3914,Changement chaudières fioul + rénovation (résidentiel),5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+3914,Changement chaudières fioul + rénovation (résidentiel),6,1,0,1,0,1,0,2,2,2,True,0,2,[76366],[],3.0,"[76363, 76364, 76365, 76366]"
+3914,Changement chaudières gaz + rénovation (résidentiel),1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+3914,Changement chaudières gaz + rénovation (résidentiel),2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],2.0,"[76364, 76367, 76578]"
+3914,Changement chaudières gaz + rénovation (résidentiel),3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],2.0,[76365]
+3914,Changement chaudières gaz + rénovation (résidentiel),4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],2.0,"[76363, 76365, 76366]"
+3914,Changement chaudières gaz + rénovation (résidentiel),5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+3914,Changement chaudières gaz + rénovation (résidentiel),6,1,0,1,0,1,0,2,2,2,True,0,2,[76366],[],3.0,"[76363, 76364, 76365, 76366]"
+3914,Changement de chaudière à fioul (tertiaire),1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+3914,Changement de chaudière à fioul (tertiaire),2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+3914,Changement de chaudière à fioul (tertiaire),3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[76392]
+3914,Changement de chaudière à fioul (tertiaire),4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+3914,Changement de chaudière à fioul (tertiaire),5,1,0,1,0,1,0,2,2,2,True,0,2,[76392],[],2.0,"[76369, 76392]"
+3914,Changement de chaudière à fioul (tertiaire),6,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+3914,Changement de chaudière à gaz (tertiaire),1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+3914,Changement de chaudière à gaz (tertiaire),2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+3914,Changement de chaudière à gaz (tertiaire),3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],1.0,[76392]
+3914,Changement de chaudière à gaz (tertiaire),4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+3914,Changement de chaudière à gaz (tertiaire),5,1,0,1,0,1,0,2,2,2,True,0,2,[76392],[],2.0,"[76369, 76392]"
+3914,Changement de chaudière à gaz (tertiaire),6,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+3914,Changements de pratiques de fertilisation azotée,1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+3914,Changements de pratiques de fertilisation azotée,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+3914,Changements de pratiques de fertilisation azotée,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],1.0,[76387]
+3914,Changements de pratiques de fertilisation azotée,4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+3914,Changements de pratiques de fertilisation azotée,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+3914,Changements de pratiques de fertilisation azotée,6,0,0,0,0,0,0,0,0,0,True,0,0,[],[],2.0,[76387]
+3914,Covoiturage,1,2,2,2,2,2,1,3,3,3,True,0,3,"[76373, 76594]","[76383, 76593]",2.0,"[76373, 76382, 76593, 76595]"
+3914,Covoiturage,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+3914,Covoiturage,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],1.0,[76373]
+3914,Covoiturage,4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],2.0,"[76373, 76394, 76395, 76594, 76595]"
+3914,Covoiturage,5,1,0,1,1,1,1,2,2,2,True,0,2,[76394],[76395],1.0,"[76394, 76395]"
+3914,Covoiturage,6,0,0,0,0,0,0,0,0,0,True,0,0,[],[],1.0,[76594]
+3914,Efficacité et carburants décarbonés des véhicules privés,4,0,1,0,1,0,1,1,1,1,True,0,1,[],[76370],,
+3914,Efficacité et sobriété logistique,1,1,4,1,3,1,3,2,2,2,True,0,2,[76397],"[76387, 76557, 76561, 76567]",,
+3914,Efficacité et sobriété logistique,4,1,3,1,2,1,3,2,2,2,True,0,2,[76386],"[76381, 76385, 76419]",,
+3914,Efficacité et sobriété logistique,5,1,0,1,1,1,0,2,2,2,True,0,2,[76397],[],,
+3914,Efficacité et sobriété logistique,6,0,1,0,2,0,2,1,2,2,False,1,1,[],[76385],,
+3914,Electricité renouvelable,1,1,1,1,1,1,1,2,2,2,True,0,2,[76384],[76390],2.0,[76390]
+3914,Electricité renouvelable,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],1.0,[76576]
+3914,Electricité renouvelable,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+3914,Electricité renouvelable,4,0,1,0,1,0,1,1,1,1,True,0,1,[],[76576],2.0,"[76390, 76391]"
+3914,Electricité renouvelable,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+3914,Electricité renouvelable,6,1,1,0,2,0,2,2,2,2,True,0,2,[],"[76389, 76391]",2.0,[76391]
+3914,Elevage durable,1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+3914,Elevage durable,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+3914,Elevage durable,3,0,1,0,1,0,1,1,1,1,True,0,1,[],[76387],2.0,[76387]
+3914,Elevage durable,4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],2.0,[76387]
+3914,Elevage durable,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+3914,Elevage durable,6,0,1,0,1,0,1,1,1,1,True,0,1,[],[76387],2.0,[76387]
+3914,Fret décarboné et multimodalité,1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+3914,Fret décarboné et multimodalité,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+3914,Fret décarboné et multimodalité,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+3914,Fret décarboné et multimodalité,4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],1.0,[76370]
+3914,Fret décarboné et multimodalité,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+3914,Fret décarboné et multimodalité,6,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+3914,Gestion des forêts et produits bois,1,0,0,1,0,1,0,0,2,2,False,2,2,[76388],[],2.0,[76388]
+3914,Gestion des forêts et produits bois,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+3914,Gestion des forêts et produits bois,3,1,0,1,0,1,0,2,2,2,True,0,2,[76388],[],1.0,[76388]
+3914,Gestion des forêts et produits bois,4,2,0,2,0,2,0,3,3,3,True,0,3,"[76379, 76388]",[],2.0,"[76379, 76388]"
+3914,Gestion des forêts et produits bois,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+3914,Gestion des forêts et produits bois,6,1,0,1,0,1,0,2,2,2,True,0,2,[76379],[],1.0,[76379]
+3914,Gestion des haies,1,0,0,0,0,0,1,0,0,1,False,1,0,[],[],2.0,[76377]
+3914,Gestion des haies,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],2.0,[76377]
+3914,Gestion des haies,3,0,0,0,0,0,1,0,0,1,False,1,0,[],[],0.0,[]
+3914,Gestion des haies,4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+3914,Gestion des haies,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+3914,Gestion des haies,6,0,1,0,1,0,1,1,1,1,True,0,1,[],[76377],1.0,[76377]
+3914,Gestion des prairies,1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],2.0,[76377]
+3914,Gestion des prairies,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],2.0,[76377]
+3914,Gestion des prairies,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+3914,Gestion des prairies,4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+3914,Gestion des prairies,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+3914,Gestion des prairies,6,0,1,0,1,0,2,1,1,2,False,1,1,[],[76419],0.0,[]
+3914,Pratiques stockantes,1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],2.0,[76377]
+3914,Pratiques stockantes,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+3914,Pratiques stockantes,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+3914,Pratiques stockantes,4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+3914,Pratiques stockantes,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+3914,Pratiques stockantes,6,0,0,0,0,0,0,0,0,0,True,0,0,[],[],2.0,[76387]
+3914,Prévention des déchets,1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],1.0,[76580]
+3914,Prévention des déchets,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],1.0,[76382]
+3914,Prévention des déchets,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[76397]
+3914,Prévention des déchets,4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],1.0,[76382]
+3914,Prévention des déchets,5,2,0,2,0,2,0,3,3,3,True,0,3,"[76396, 76397]",[],0.0,[76397]
+3914,Prévention des déchets,6,1,0,1,0,1,0,2,2,2,True,0,2,[76397],[],0.0,[76397]
+3914,Réduction des déplacements,1,1,4,1,3,1,4,2,2,2,True,0,2,[76376],"[76373, 76382, 76569, 76595]",2.0,"[76376, 76382, 76383]"
+3914,Réduction des déplacements,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],2.0,"[76367, 76382, 76383]"
+3914,Réduction des déplacements,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+3914,Réduction des déplacements,4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],2.0,"[76376, 76382, 76394, 76395]"
+3914,Réduction des déplacements,5,1,0,0,0,1,0,2,0,2,False,2,2,[76395],[],1.0,"[76394, 76395]"
+3914,Réduction des déplacements,6,0,0,0,0,0,1,0,0,1,False,1,0,[],[],0.0,[]
+3914,Réseaux de chaleur décarbonés,4,0,1,0,1,0,1,1,1,1,True,0,1,[],[76391],,
+3914,Réseaux de chaleur décarbonés,6,0,1,0,0,0,0,1,0,0,False,1,0,[],[],,
+3914,Sobriété des bâtiments (résidentiel),1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+3914,Sobriété des bâtiments (résidentiel),2,2,1,1,2,2,1,3,2,3,False,1,3,"[76365, 76367]",[76364],2.0,[76367]
+3914,Sobriété des bâtiments (résidentiel),3,4,0,3,0,3,0,3,3,3,True,0,3,"[76365, 76382, 76577]",[],0.0,[]
+3914,Sobriété des bâtiments (résidentiel),4,1,1,1,1,1,1,2,2,2,True,0,2,[76363],[76578],0.0,[]
+3914,Sobriété des bâtiments (résidentiel),5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+3914,Sobriété des bâtiments (résidentiel),6,5,0,5,1,5,1,3,3,3,True,0,3,"[76363, 76365, 76366, 76382, 76383]",[76364],2.0,"[76363, 76366]"
+3914,Sobriété et isolation des bâtiments (tertiaire),1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+3914,Sobriété et isolation des bâtiments (tertiaire),2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+3914,Sobriété et isolation des bâtiments (tertiaire),3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+3914,Sobriété et isolation des bâtiments (tertiaire),4,0,1,0,1,0,1,1,1,1,True,0,1,[],[76369],0.0,[]
+3914,Sobriété et isolation des bâtiments (tertiaire),5,2,1,2,1,2,1,3,3,3,True,0,3,"[76392, 76393]",[76560],2.0,"[76369, 76392, 76560]"
+3914,Sobriété et isolation des bâtiments (tertiaire),6,0,1,0,1,0,1,1,1,1,True,0,1,[],[76368],1.0,[76392]
+3914,Sobriété foncière,1,2,3,2,3,1,3,3,3,2,False,1,3,"[76382, 76383]","[76564, 76565, 76626]",1.0,[76632]
+3914,Sobriété foncière,2,3,0,3,0,3,0,3,3,3,True,0,3,"[76367, 76546, 76549]",[],2.0,"[76367, 76377]"
+3914,Sobriété foncière,3,1,0,1,0,0,0,2,2,0,False,2,2,[76382],[],0.0,[]
+3914,Sobriété foncière,4,1,0,1,0,1,0,2,2,2,True,0,2,[76362],[],0.0,[]
+3914,Sobriété foncière,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+3914,Sobriété foncière,6,2,1,2,1,2,1,3,3,3,True,0,3,"[76382, 76383]",[76629],0.0,[]
+3914,Valorisation matière des déchets,1,1,1,1,1,1,1,2,2,2,True,0,2,[76575],[76579],2.0,[76575]
+3914,Valorisation matière des déchets,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+3914,Valorisation matière des déchets,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+3914,Valorisation matière des déchets,4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+3914,Valorisation matière des déchets,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+3914,Valorisation matière des déchets,6,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+3914,Véhicules électriques,1,1,3,1,3,1,3,2,2,2,True,0,2,[76371],"[76373, 76595, 76596]",2.0,"[76372, 76374, 76382, 76595, 76596]"
+3914,Véhicules électriques,2,0,0,0,0,1,0,0,0,2,False,2,0,[],[],1.0,[76371]
+3914,Véhicules électriques,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],1.0,"[76371, 76374]"
+3914,Véhicules électriques,4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],1.0,"[76371, 76394, 76395]"
+3914,Véhicules électriques,5,1,1,2,0,1,0,2,3,2,False,1,2,[76394],[76395],1.0,"[76394, 76395]"
+3914,Véhicules électriques,6,1,0,1,0,1,0,2,2,2,True,0,2,[76371],[],1.0,"[76371, 76372]"
+3914,Vélo et transport en commun,1,3,2,3,2,3,2,3,3,3,True,0,3,"[76372, 76374, 76375]","[76589, 76590]",3.0,"[76372, 76374, 76375, 76382, 76394, 76395, 76589, 76590]"
+3914,Vélo et transport en commun,2,1,0,1,0,1,0,2,2,2,True,0,2,[76592],[],2.0,"[76367, 76372, 76375, 76591, 76592]"
+3914,Vélo et transport en commun,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],1.0,[76374]
+3914,Vélo et transport en commun,4,0,1,0,1,0,1,1,1,1,True,0,1,[],[76591],1.0,"[76374, 76375]"
+3914,Vélo et transport en commun,5,2,0,1,1,1,1,3,2,2,False,1,2,[76394],[76395],2.0,"[76394, 76395]"
+3914,Vélo et transport en commun,6,1,1,1,1,1,1,2,2,2,True,0,2,[76372],[76381],1.0,[76372]
+4026,Bus et cars décarbonés,1,0,1,0,1,0,0,1,1,0,False,1,1,[],[87270],0.0,[]
+4026,Bus et cars décarbonés,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4026,Bus et cars décarbonés,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4026,Bus et cars décarbonés,4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4026,Bus et cars décarbonés,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],1.0,[87270]
+4026,Bus et cars décarbonés,6,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4026,Changement chaudières fioul + rénovation (résidentiel),1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4026,Changement chaudières fioul + rénovation (résidentiel),2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4026,Changement chaudières fioul + rénovation (résidentiel),3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4026,Changement chaudières fioul + rénovation (résidentiel),4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4026,Changement chaudières fioul + rénovation (résidentiel),5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4026,Changement chaudières fioul + rénovation (résidentiel),6,0,0,0,0,0,0,0,0,0,True,0,0,[],[],2.0,[87261]
+4026,Covoiturage,1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[87273]
+4026,Covoiturage,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4026,Covoiturage,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4026,Covoiturage,4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4026,Covoiturage,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4026,Covoiturage,6,0,1,0,2,0,2,1,2,2,False,1,2,[],"[87268, 87273]",1.0,"[87269, 87273]"
+4026,Efficacité et carburants décarbonés des véhicules privés,1,0,1,0,1,0,1,1,1,1,True,0,1,[],[87270],0.0,[]
+4026,Efficacité et carburants décarbonés des véhicules privés,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4026,Efficacité et carburants décarbonés des véhicules privés,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4026,Efficacité et carburants décarbonés des véhicules privés,4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4026,Efficacité et carburants décarbonés des véhicules privés,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],1.0,[87270]
+4026,Efficacité et carburants décarbonés des véhicules privés,6,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4026,Efficacité et sobriété logistique,1,1,0,1,0,1,0,2,2,2,True,0,2,[87254],[],,
+4026,Efficacité et sobriété logistique,6,0,2,0,1,0,1,2,1,1,False,1,1,[],[87252],,
+4026,Electricité renouvelable,1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],1.0,[87265]
+4026,Electricité renouvelable,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4026,Electricité renouvelable,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4026,Electricité renouvelable,4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4026,Electricité renouvelable,5,0,1,0,1,0,1,1,1,1,True,0,1,[],[87265],1.0,[87265]
+4026,Electricité renouvelable,6,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4026,Prévention des déchets,1,1,1,1,2,2,1,2,2,3,False,1,2,[87250],"[87224, 87227]",3.0,"[87221, 87222, 87227, 87250]"
+4026,Prévention des déchets,2,1,0,1,0,1,0,2,2,2,True,0,2,[87276],[],2.0,[87276]
+4026,Prévention des déchets,3,0,1,0,1,0,1,1,1,1,True,0,1,[],[87228],1.0,[87228]
+4026,Prévention des déchets,4,1,1,1,1,1,2,2,2,2,True,0,2,[87231],[87251],2.0,[87250]
+4026,Prévention des déchets,5,4,1,4,1,3,1,3,3,3,True,0,3,"[87231, 87235, 87238, 87283]",[87237],1.0,[87231]
+4026,Prévention des déchets,6,10,16,9,14,8,15,3,3,3,True,0,3,"[87216, 87217, 87220, 87225, 87231, 87239, 87240, 87241, 87280]","[87218, 87219, 87222, 87223, 87228, 87229, 87230, 87236, 87242, 87243, 87244, 87245, 87246, 87247, 87281]",3.0,"[87216, 87217, 87218, 87219, 87220, 87223, 87224, 87225, 87229, 87231, 87239, 87240, 87241, 87242, 87243, 87244, 87245, 87246, 87247, 87250, 87281]"
+4026,Réduction des déplacements,6,0,2,0,1,0,1,2,1,1,False,1,1,[],[87272],,
+4026,Réseaux de chaleur décarbonés,1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4026,Réseaux de chaleur décarbonés,2,0,1,1,0,0,0,1,2,0,False,2,1,[],[87259],2.0,[87259]
+4026,Réseaux de chaleur décarbonés,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4026,Réseaux de chaleur décarbonés,4,0,0,0,0,0,1,0,0,1,False,1,0,[],[],0.0,[]
+4026,Réseaux de chaleur décarbonés,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4026,Réseaux de chaleur décarbonés,6,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4026,Sobriété des bâtiments (résidentiel),6,1,0,1,0,1,0,2,2,2,True,0,2,[87261],[],,
+4026,Sobriété et isolation des bâtiments (tertiaire),2,1,0,1,0,1,0,2,2,2,True,0,2,[87264],[],,
+4026,Sobriété et isolation des bâtiments (tertiaire),4,1,0,1,0,1,0,2,2,2,True,0,2,[87266],[],,
+4026,Valorisation matière des déchets,1,4,1,5,1,3,1,3,3,3,True,0,3,"[87221, 87248, 87249, 87250]",[87282],3.0,"[87233, 87248, 87282]"
+4026,Valorisation matière des déchets,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4026,Valorisation matière des déchets,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],1.0,[87232]
+4026,Valorisation matière des déchets,4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4026,Valorisation matière des déchets,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],1.0,[87248]
+4026,Valorisation matière des déchets,6,1,0,2,0,2,0,2,3,3,False,1,3,"[87248, 87249]",[],2.0,"[87232, 87234]"
+4026,Véhicules électriques,1,0,1,0,1,0,1,1,1,1,True,0,1,[],[87270],0.0,[]
+4026,Véhicules électriques,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4026,Véhicules électriques,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4026,Véhicules électriques,4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4026,Véhicules électriques,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],1.0,[87270]
+4026,Véhicules électriques,6,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4026,Vélo et transport en commun,1,1,0,1,0,1,0,2,2,2,True,0,2,[87271],[],1.0,[87271]
+4026,Vélo et transport en commun,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4026,Vélo et transport en commun,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4026,Vélo et transport en commun,4,0,2,0,2,0,2,2,2,2,True,0,2,[],"[87274, 87275]",0.0,[]
+4026,Vélo et transport en commun,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],1.0,[87268]
+4026,Vélo et transport en commun,6,0,1,0,2,0,2,1,2,2,False,1,2,[],"[87268, 87269]",2.0,"[87268, 87269, 87272]"
+4097,Biogaz,1,1,0,0,0,1,0,2,0,2,False,2,2,[31813],[],0.0,[]
+4097,Biogaz,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4097,Biogaz,3,0,1,0,1,0,1,1,1,1,True,0,1,[],[4080],1.0,[4080]
+4097,Biogaz,4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4097,Biogaz,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4097,Biogaz,6,0,1,0,1,0,1,1,1,1,True,0,1,[],[4080],0.0,[]
+4097,Bâtiments & Machines agricoles,1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4097,Bâtiments & Machines agricoles,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4097,Bâtiments & Machines agricoles,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],1.0,[4080]
+4097,Bâtiments & Machines agricoles,4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],1.0,[31884]
+4097,Bâtiments & Machines agricoles,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4097,Bâtiments & Machines agricoles,6,1,0,1,0,1,0,2,2,2,True,0,2,[2345],[],1.0,[31884]
+4097,Changement chaudières fioul + rénovation (résidentiel),1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],1.0,[2339]
+4097,Changement chaudières fioul + rénovation (résidentiel),2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],2.0,[2336]
+4097,Changement chaudières fioul + rénovation (résidentiel),3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],2.0,"[2336, 2339, 21920, 31816]"
+4097,Changement chaudières fioul + rénovation (résidentiel),4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4097,Changement chaudières fioul + rénovation (résidentiel),5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4097,Changement chaudières fioul + rénovation (résidentiel),6,0,0,0,0,0,0,0,0,0,True,0,0,[],[],3.0,"[2336, 2338, 21920, 21921, 31816]"
+4097,Changement chaudières gaz + rénovation (résidentiel),1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],1.0,[2339]
+4097,Changement chaudières gaz + rénovation (résidentiel),2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],2.0,[2336]
+4097,Changement chaudières gaz + rénovation (résidentiel),3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],2.0,"[2336, 2339, 21920, 31816]"
+4097,Changement chaudières gaz + rénovation (résidentiel),4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4097,Changement chaudières gaz + rénovation (résidentiel),5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4097,Changement chaudières gaz + rénovation (résidentiel),6,0,0,0,0,0,0,0,0,0,True,0,0,[],[],3.0,"[2336, 2338, 21920, 21921, 31816]"
+4097,Changement de chaudière à fioul (tertiaire),1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4097,Changement de chaudière à fioul (tertiaire),2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4097,Changement de chaudière à fioul (tertiaire),3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[2219]
+4097,Changement de chaudière à fioul (tertiaire),4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],1.0,[2219]
+4097,Changement de chaudière à fioul (tertiaire),5,1,0,1,0,0,1,2,2,1,False,1,2,[2219],[],1.0,"[2219, 31810]"
+4097,Changement de chaudière à fioul (tertiaire),6,0,0,0,0,0,0,0,0,0,True,0,0,[],[],1.0,"[2219, 2340, 31816]"
+4097,Changement de chaudière à gaz (tertiaire),1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4097,Changement de chaudière à gaz (tertiaire),2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4097,Changement de chaudière à gaz (tertiaire),3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],1.0,[2219]
+4097,Changement de chaudière à gaz (tertiaire),4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],2.0,[2219]
+4097,Changement de chaudière à gaz (tertiaire),5,1,0,1,0,0,1,2,2,1,False,1,2,[2219],[],2.0,"[2219, 31810]"
+4097,Changement de chaudière à gaz (tertiaire),6,0,0,0,0,0,0,0,0,0,True,0,0,[],[],2.0,"[2219, 2340, 31816]"
+4097,Changements de pratiques de fertilisation azotée,1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4097,Changements de pratiques de fertilisation azotée,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4097,Changements de pratiques de fertilisation azotée,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4097,Changements de pratiques de fertilisation azotée,4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],2.0,[31884]
+4097,Changements de pratiques de fertilisation azotée,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4097,Changements de pratiques de fertilisation azotée,6,0,1,0,1,0,1,1,1,1,True,0,1,[],[31884],3.0,"[21889, 31884]"
+4097,Covoiturage,1,1,0,1,0,1,0,2,2,2,True,0,2,[2334],[],1.0,[2334]
+4097,Covoiturage,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],1.0,[2334]
+4097,Covoiturage,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4097,Covoiturage,4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4097,Covoiturage,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4097,Covoiturage,6,0,1,0,1,0,1,1,1,1,True,0,1,[],[21932],2.0,[21932]
+4097,Efficacité et carburants décarbonés des véhicules privés,1,0,1,0,1,0,1,1,1,1,True,0,1,[],[4083],2.0,[4083]
+4097,Efficacité et carburants décarbonés des véhicules privés,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4097,Efficacité et carburants décarbonés des véhicules privés,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4097,Efficacité et carburants décarbonés des véhicules privés,4,0,1,0,1,0,1,1,1,1,True,0,1,[],[2343],0.0,[]
+4097,Efficacité et carburants décarbonés des véhicules privés,5,0,1,0,1,1,0,1,1,2,False,1,1,[],[2220],0.0,[]
+4097,Efficacité et carburants décarbonés des véhicules privés,6,0,0,0,0,0,1,0,0,1,False,1,0,[],[],0.0,[]
+4097,Efficacité et sobriété logistique,1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],1.0,[31887]
+4097,Efficacité et sobriété logistique,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4097,Efficacité et sobriété logistique,3,1,0,1,0,1,0,2,2,2,True,0,2,[21888],[],0.0,[]
+4097,Efficacité et sobriété logistique,4,0,1,0,0,0,0,1,0,0,False,1,0,[],[],0.0,[]
+4097,Efficacité et sobriété logistique,5,0,0,1,0,1,0,0,2,2,False,2,2,[31884],[],0.0,[]
+4097,Efficacité et sobriété logistique,6,1,3,0,3,0,3,2,2,2,True,0,2,[],"[2340, 21890, 21932]",1.0,[31887]
+4097,Electricité renouvelable,1,1,1,1,2,0,2,2,2,2,True,0,2,[2346],"[2339, 4073]",0.0,[]
+4097,Electricité renouvelable,2,2,0,2,0,1,0,3,3,2,False,1,3,"[2346, 31807]",[],3.0,"[2239, 2346, 31807, 31809]"
+4097,Electricité renouvelable,3,0,1,0,1,0,1,1,1,1,True,0,1,[],[4080],1.0,[4080]
+4097,Electricité renouvelable,4,2,0,2,0,2,0,3,3,3,True,0,3,"[2346, 4078]",[],2.0,"[2346, 4078, 31812]"
+4097,Electricité renouvelable,5,1,0,1,0,1,0,2,2,2,True,0,2,[31811],[],2.0,[31811]
+4097,Electricité renouvelable,6,1,1,1,1,1,2,2,2,2,True,0,2,[31812],[4080],2.0,"[4078, 31812]"
+4097,Elevage durable,1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4097,Elevage durable,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4097,Elevage durable,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4097,Elevage durable,4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],2.0,[31884]
+4097,Elevage durable,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4097,Elevage durable,6,0,0,0,0,0,0,0,0,0,True,0,0,[],[],3.0,"[21889, 31884]"
+4097,Fret décarboné et multimodalité,1,0,1,0,1,0,1,1,1,1,True,0,1,[],[2335],1.0,[2335]
+4097,Fret décarboné et multimodalité,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],1.0,[2335]
+4097,Fret décarboné et multimodalité,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4097,Fret décarboné et multimodalité,4,0,1,0,1,0,1,1,1,1,True,0,1,[],[2335],0.0,[]
+4097,Fret décarboné et multimodalité,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4097,Fret décarboné et multimodalité,6,0,1,0,1,0,0,1,1,0,False,1,1,[],[2335],0.0,[]
+4097,Gestion des forêts et produits bois,1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],3.0,[21892]
+4097,Gestion des forêts et produits bois,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4097,Gestion des forêts et produits bois,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4097,Gestion des forêts et produits bois,4,0,0,0,0,0,1,0,0,1,False,1,0,[],[],2.0,[21892]
+4097,Gestion des forêts et produits bois,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4097,Gestion des forêts et produits bois,6,0,1,0,1,0,0,1,1,0,False,1,1,[],[2240],0.0,[]
+4097,Gestion des haies,1,1,0,1,0,1,0,2,2,2,True,0,2,[21892],[],3.0,[21892]
+4097,Gestion des haies,2,0,0,0,0,1,0,0,0,2,False,2,0,[],[],2.0,[21892]
+4097,Gestion des haies,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4097,Gestion des haies,4,2,0,2,0,2,0,3,3,3,True,0,3,"[4079, 21892]",[],2.0,"[4079, 21892]"
+4097,Gestion des haies,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4097,Gestion des haies,6,1,0,2,0,2,0,2,3,3,False,1,3,"[2240, 2345]",[],2.0,[21889]
+4097,Gestion des prairies,1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4097,Gestion des prairies,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4097,Gestion des prairies,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4097,Gestion des prairies,4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4097,Gestion des prairies,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4097,Gestion des prairies,6,0,0,0,0,0,0,0,0,0,True,0,0,[],[],2.0,[21889]
+4097,Pratiques stockantes,1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4097,Pratiques stockantes,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4097,Pratiques stockantes,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4097,Pratiques stockantes,4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],2.0,[31884]
+4097,Pratiques stockantes,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4097,Pratiques stockantes,6,1,2,2,1,2,1,2,3,3,False,1,3,"[2345, 21889]",[21931],2.0,"[21889, 31884]"
+4097,Production Industrielle,1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4097,Production Industrielle,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4097,Production Industrielle,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4097,Production Industrielle,4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4097,Production Industrielle,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4097,Production Industrielle,6,1,2,1,1,1,1,2,2,2,True,0,2,[2340],[21932],1.0,[21932]
+4097,Prévention des déchets,1,1,0,1,0,1,0,2,2,2,True,0,2,[31887],[],2.0,[21897]
+4097,Prévention des déchets,2,1,0,1,0,1,0,2,2,2,True,0,2,[2217],[],2.0,[2217]
+4097,Prévention des déchets,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4097,Prévention des déchets,4,1,0,0,1,1,0,2,1,2,False,1,2,[31891],[],2.0,[2217]
+4097,Prévention des déchets,5,2,0,2,0,2,0,3,3,3,True,0,3,"[2214, 31888]",[],1.0,"[2217, 31884]"
+4097,Prévention des déchets,6,0,2,0,3,0,2,2,2,2,True,0,2,[],"[2341, 31889]",2.0,"[2217, 2340, 31884]"
+4097,Réduction des déplacements,1,1,1,1,1,1,2,2,2,2,True,0,2,[2334],[4083],2.0,[2248]
+4097,Réduction des déplacements,2,1,0,1,0,1,0,2,2,2,True,0,2,[2239],[],2.0,"[2239, 2248, 31809]"
+4097,Réduction des déplacements,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4097,Réduction des déplacements,4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4097,Réduction des déplacements,5,0,1,1,0,1,0,1,2,2,False,1,2,[2220],[],1.0,[2220]
+4097,Réduction des déplacements,6,2,1,1,2,1,2,3,2,2,False,1,2,[2334],"[2216, 2344]",0.0,[]
+4097,Réseaux de chaleur décarbonés,1,2,0,2,0,1,0,3,3,2,False,1,3,"[2346, 31813]",[],2.0,[4071]
+4097,Réseaux de chaleur décarbonés,2,3,0,2,0,2,0,3,3,3,True,0,3,"[31807, 31809, 31813]",[],3.0,"[31807, 31809]"
+4097,Réseaux de chaleur décarbonés,3,1,0,1,0,1,0,2,2,2,True,0,2,[21894],[],2.0,[21894]
+4097,Réseaux de chaleur décarbonés,4,2,0,2,0,2,0,3,3,3,True,0,3,"[2346, 4079]",[],2.0,"[4071, 4079]"
+4097,Réseaux de chaleur décarbonés,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[31813]
+4097,Réseaux de chaleur décarbonés,6,2,0,2,0,2,0,3,3,3,True,0,3,"[4079, 21894]",[],1.0,[21894]
+4097,Sobriété des bâtiments (résidentiel),1,0,1,0,1,0,1,1,1,1,True,0,1,[],[2339],1.0,[2339]
+4097,Sobriété des bâtiments (résidentiel),2,2,0,3,0,3,0,3,3,3,True,0,3,"[2239, 2336, 31809]",[],2.0,[2336]
+4097,Sobriété des bâtiments (résidentiel),3,4,0,4,0,4,0,3,3,3,True,0,3,"[2248, 2336, 21920, 31816]",[],1.0,"[2336, 2339]"
+4097,Sobriété des bâtiments (résidentiel),4,1,0,1,0,1,0,2,2,2,True,0,2,[2338],[],0.0,[]
+4097,Sobriété des bâtiments (résidentiel),5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4097,Sobriété des bâtiments (résidentiel),6,6,2,6,2,6,3,3,3,3,True,0,3,"[2216, 2336, 2338, 21920, 21921, 31816]","[2247, 21893]",2.0,"[2336, 21921]"
+4097,Sobriété et isolation des bâtiments (tertiaire),1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4097,Sobriété et isolation des bâtiments (tertiaire),2,1,0,0,0,1,0,2,0,2,False,2,2,[2219],[],0.0,[]
+4097,Sobriété et isolation des bâtiments (tertiaire),3,1,0,1,0,1,0,2,2,2,True,0,2,[2219],[],1.0,[2219]
+4097,Sobriété et isolation des bâtiments (tertiaire),4,2,1,2,1,2,1,3,3,3,True,0,3,"[2219, 31810]",[21915],2.0,[2219]
+4097,Sobriété et isolation des bâtiments (tertiaire),5,3,1,3,1,3,0,3,3,3,True,0,3,"[2219, 31810, 31811]",[2214],2.0,"[2219, 31810, 31811]"
+4097,Sobriété et isolation des bâtiments (tertiaire),6,2,0,2,0,2,0,3,3,3,True,0,3,"[2218, 21895]",[],2.0,"[2219, 2340, 21895, 31816]"
+4097,Sobriété foncière,1,1,0,1,0,1,0,2,2,2,True,0,2,[21899],[],2.0,[2248]
+4097,Sobriété foncière,2,3,0,2,0,2,0,3,3,3,True,0,3,"[2239, 31809]",[],2.0,"[2239, 2248, 31809]"
+4097,Sobriété foncière,3,3,0,2,0,3,0,3,3,3,True,0,3,"[21918, 21919, 21920]",[],2.0,"[21919, 21920]"
+4097,Sobriété foncière,4,2,0,2,1,2,2,3,3,3,True,0,3,"[2248, 21899]",[21916],0.0,[]
+4097,Sobriété foncière,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4097,Sobriété foncière,6,1,0,1,0,1,0,2,2,2,True,0,2,[21920],[],1.0,[21920]
+4097,Valorisation matière des déchets,1,0,2,0,1,0,2,2,1,2,False,1,2,[],"[2343, 21897]",3.0,"[4071, 21897, 31887]"
+4097,Valorisation matière des déchets,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4097,Valorisation matière des déchets,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4097,Valorisation matière des déchets,4,0,1,0,2,0,1,1,2,1,False,1,2,[],"[2343, 31882]",0.0,[]
+4097,Valorisation matière des déchets,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4097,Valorisation matière des déchets,6,0,0,0,0,0,0,0,0,0,True,0,0,[],[],1.0,[31887]
+4097,Véhicules électriques,1,2,0,1,0,1,0,3,2,2,False,1,2,[4083],[],2.0,[4083]
+4097,Véhicules électriques,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4097,Véhicules électriques,3,1,0,0,0,0,0,2,0,0,False,2,0,[],[],0.0,[]
+4097,Véhicules électriques,4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4097,Véhicules électriques,5,1,0,1,0,1,0,2,2,2,True,0,2,[2220],[],1.0,[2220]
+4097,Véhicules électriques,6,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4097,Vélo et transport en commun,1,5,2,6,2,5,3,3,3,3,True,0,3,"[2248, 2334, 21910, 21922, 21924, 31814]","[2335, 21923]",3.0,"[2334, 21910, 21923, 21924, 31814]"
+4097,Vélo et transport en commun,2,1,0,0,0,0,0,2,0,0,False,2,2,[2248],[],2.0,"[2334, 21922]"
+4097,Vélo et transport en commun,3,1,0,1,0,1,0,2,2,2,True,0,2,[2334],[],0.0,[]
+4097,Vélo et transport en commun,4,0,1,0,1,0,0,1,1,0,False,1,1,[],[2335],1.0,[2334]
+4097,Vélo et transport en commun,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4097,Vélo et transport en commun,6,3,0,2,2,2,3,3,3,3,True,0,3,"[2334, 21924]","[2218, 2344]",1.0,[21924]
+4111,Biogaz,1,0,1,0,1,0,1,1,1,1,True,0,1,[],[63971],,
+4111,Covoiturage,1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],1.0,[63985]
+4111,Covoiturage,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4111,Covoiturage,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4111,Covoiturage,4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4111,Covoiturage,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4111,Covoiturage,6,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4111,Efficacité et sobriété logistique,6,1,0,1,0,1,0,2,2,2,True,0,2,[64580],[],,
+4111,Electricité renouvelable,1,0,1,0,1,0,1,1,1,1,True,0,1,[],[63928],0.0,[]
+4111,Electricité renouvelable,2,1,0,1,0,1,0,2,2,2,True,0,2,[46721],[],1.0,"[46721, 63928]"
+4111,Electricité renouvelable,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4111,Electricité renouvelable,4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],1.0,"[46721, 63928]"
+4111,Electricité renouvelable,5,1,0,1,0,1,0,2,2,2,True,0,2,[63918],[],1.0,[63918]
+4111,Electricité renouvelable,6,0,1,0,1,0,1,1,1,1,True,0,1,[],[63927],0.0,[]
+4111,Gestion des forêts et produits bois,1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4111,Gestion des forêts et produits bois,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4111,Gestion des forêts et produits bois,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4111,Gestion des forêts et produits bois,4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4111,Gestion des forêts et produits bois,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],1.0,[63972]
+4111,Gestion des forêts et produits bois,6,0,1,0,1,0,1,1,1,1,True,0,1,[],[63972],0.0,[]
+4111,Prévention des déchets,1,1,0,1,0,1,0,2,2,2,True,0,2,[63965],[],0.0,[]
+4111,Prévention des déchets,2,1,0,1,0,1,0,2,2,2,True,0,2,[63968],[],2.0,"[63965, 63968]"
+4111,Prévention des déchets,3,1,0,1,0,1,0,2,2,2,True,0,2,[63966],[],1.0,"[63965, 63966]"
+4111,Prévention des déchets,4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],2.0,"[63968, 63973]"
+4111,Prévention des déchets,5,1,0,1,0,1,0,2,2,2,True,0,2,[63974],[],0.0,[]
+4111,Prévention des déchets,6,1,1,0,1,0,1,2,1,1,False,1,1,[],[64561],1.0,[63973]
+4111,Réduction des déplacements,1,1,0,1,1,1,1,2,2,2,True,0,2,[63986],[64551],1.0,[63984]
+4111,Réduction des déplacements,2,0,1,0,0,0,0,1,0,0,False,1,0,[],[],1.0,[63984]
+4111,Réduction des déplacements,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4111,Réduction des déplacements,4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],1.0,[63973]
+4111,Réduction des déplacements,5,0,1,0,0,0,0,1,0,0,False,1,0,[],[],0.0,[]
+4111,Réduction des déplacements,6,0,1,0,1,0,1,1,1,1,True,0,1,[],[63984],1.0,[63973]
+4111,Sobriété des bâtiments (résidentiel),3,1,0,1,0,1,0,2,2,2,True,0,2,[64526],[],,
+4111,Sobriété des bâtiments (résidentiel),5,0,0,0,0,0,1,0,0,1,False,1,0,[],[],,
+4111,Sobriété et isolation des bâtiments (tertiaire),1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4111,Sobriété et isolation des bâtiments (tertiaire),2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4111,Sobriété et isolation des bâtiments (tertiaire),3,0,1,0,1,0,1,1,1,1,True,0,1,[],[64545],1.0,[64545]
+4111,Sobriété et isolation des bâtiments (tertiaire),4,1,1,1,1,1,1,2,2,2,True,0,2,[63981],[63975],0.0,[]
+4111,Sobriété et isolation des bâtiments (tertiaire),5,2,1,2,1,2,1,3,3,3,True,0,3,"[63978, 63979]",[63973],1.0,[63979]
+4111,Sobriété et isolation des bâtiments (tertiaire),6,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4111,Sobriété foncière,1,2,0,2,0,2,0,3,3,3,True,0,3,"[64525, 64535]",[],,
+4111,Sobriété foncière,2,1,0,2,0,1,0,2,3,2,False,1,2,[64549],[],,
+4111,Sobriété foncière,4,1,1,1,1,1,1,2,2,2,True,0,2,[64527],[64536],,
+4111,Valorisation matière des déchets,1,2,1,2,1,2,1,3,3,3,True,0,3,"[63967, 63969]",[63971],2.0,"[63967, 63971]"
+4111,Valorisation matière des déchets,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],2.0,"[63965, 63968]"
+4111,Valorisation matière des déchets,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],1.0,"[63965, 63967]"
+4111,Valorisation matière des déchets,4,2,2,1,3,1,2,3,2,2,False,1,2,[63969],"[63971, 64534, 64546]",2.0,"[63968, 63971]"
+4111,Valorisation matière des déchets,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4111,Valorisation matière des déchets,6,1,0,1,1,0,2,2,2,2,True,0,2,[63969],[64534],0.0,[]
+4111,Vélo et transport en commun,1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],1.0,[63985]
+4111,Vélo et transport en commun,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],1.0,[63983]
+4111,Vélo et transport en commun,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4111,Vélo et transport en commun,4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4111,Vélo et transport en commun,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4111,Vélo et transport en commun,6,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4322,Biogaz,1,1,0,1,0,1,0,2,2,2,True,0,2,[34946],[],3.0,[34946]
+4322,Biogaz,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4322,Biogaz,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4322,Biogaz,4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],2.0,[34946]
+4322,Biogaz,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4322,Biogaz,6,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4322,Bus et cars décarbonés,1,1,0,1,0,1,0,2,2,2,True,0,2,[34964],[],3.0,[34964]
+4322,Bus et cars décarbonés,2,1,0,0,0,1,0,2,0,2,False,2,2,[34964],[],0.0,[]
+4322,Bus et cars décarbonés,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4322,Bus et cars décarbonés,4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4322,Bus et cars décarbonés,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4322,Bus et cars décarbonés,6,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4322,Changement chaudières fioul + rénovation (résidentiel),1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],1.0,[34958]
+4322,Changement chaudières fioul + rénovation (résidentiel),2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],2.0,"[34958, 34968]"
+4322,Changement chaudières fioul + rénovation (résidentiel),3,1,0,1,0,1,0,2,2,2,True,0,2,[34943],[],2.0,"[34943, 34968]"
+4322,Changement chaudières fioul + rénovation (résidentiel),4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4322,Changement chaudières fioul + rénovation (résidentiel),5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4322,Changement chaudières fioul + rénovation (résidentiel),6,2,0,2,0,2,0,3,3,3,True,0,3,"[34943, 34968]",[],2.0,"[34943, 34958, 34968]"
+4322,Changement chaudières gaz + rénovation (résidentiel),1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],1.0,[34958]
+4322,Changement chaudières gaz + rénovation (résidentiel),2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],2.0,"[34958, 34968]"
+4322,Changement chaudières gaz + rénovation (résidentiel),3,0,0,1,0,1,0,0,2,2,False,2,2,[34943],[],1.0,"[34943, 34968]"
+4322,Changement chaudières gaz + rénovation (résidentiel),4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4322,Changement chaudières gaz + rénovation (résidentiel),5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4322,Changement chaudières gaz + rénovation (résidentiel),6,1,1,2,0,2,0,2,3,3,False,1,3,"[34943, 34968]",[],2.0,"[34943, 34958, 34968]"
+4322,Changement de chaudière à fioul (tertiaire),1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4322,Changement de chaudière à fioul (tertiaire),2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4322,Changement de chaudière à fioul (tertiaire),3,1,0,0,0,0,0,2,0,0,False,2,0,[],[],2.0,[34943]
+4322,Changement de chaudière à fioul (tertiaire),4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4322,Changement de chaudière à fioul (tertiaire),5,1,0,1,0,1,0,2,2,2,True,0,2,[34969],[],3.0,[34969]
+4322,Changement de chaudière à fioul (tertiaire),6,0,0,0,0,0,0,0,0,0,True,0,0,[],[],2.0,[34943]
+4322,Changement de chaudière à gaz (tertiaire),1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4322,Changement de chaudière à gaz (tertiaire),2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4322,Changement de chaudière à gaz (tertiaire),3,1,0,0,0,0,0,2,0,0,False,2,0,[],[],2.0,[34943]
+4322,Changement de chaudière à gaz (tertiaire),4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4322,Changement de chaudière à gaz (tertiaire),5,1,0,1,0,1,0,2,2,2,True,0,2,[34969],[],0.0,[]
+4322,Changement de chaudière à gaz (tertiaire),6,0,0,0,0,0,0,0,0,0,True,0,0,[],[],1.0,[34943]
+4322,Covoiturage,1,1,0,1,0,1,0,2,2,2,True,0,2,[34963],[],2.0,[34963]
+4322,Covoiturage,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4322,Covoiturage,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4322,Covoiturage,4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],2.0,[34963]
+4322,Covoiturage,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4322,Covoiturage,6,0,0,0,0,0,0,0,0,0,True,0,0,[],[],1.0,[34963]
+4322,Efficacité et carburants décarbonés des véhicules privés,1,1,0,1,0,1,0,2,2,2,True,0,2,[34964],[],0.0,[]
+4322,Efficacité et carburants décarbonés des véhicules privés,2,2,0,1,0,2,0,3,2,3,False,1,3,"[34964, 34966]",[],3.0,[34966]
+4322,Efficacité et carburants décarbonés des véhicules privés,3,1,0,1,0,1,0,2,2,2,True,0,2,[34966],[],2.0,[34966]
+4322,Efficacité et carburants décarbonés des véhicules privés,4,1,0,1,0,1,0,2,2,2,True,0,2,[34966],[],0.0,[]
+4322,Efficacité et carburants décarbonés des véhicules privés,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],2.0,[34964]
+4322,Efficacité et carburants décarbonés des véhicules privés,6,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4322,Efficacité et sobriété logistique,1,1,0,1,0,0,0,2,2,0,False,2,0,[],[],3.0,[34965]
+4322,Efficacité et sobriété logistique,2,1,0,1,0,1,0,2,2,2,True,0,2,[34965],[],2.0,[34965]
+4322,Efficacité et sobriété logistique,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4322,Efficacité et sobriété logistique,4,2,0,1,0,1,0,3,2,2,False,1,2,[34972],[],2.0,[34965]
+4322,Efficacité et sobriété logistique,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4322,Efficacité et sobriété logistique,6,3,0,3,0,3,0,3,3,3,True,0,3,"[34948, 34954, 34972]",[],1.0,[34972]
+4322,Electricité renouvelable,1,1,0,1,0,1,0,2,2,2,True,0,2,[34944],[],3.0,[34944]
+4322,Electricité renouvelable,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4322,Electricité renouvelable,3,1,0,1,0,2,0,2,2,3,False,1,2,[34944],[],2.0,[34947]
+4322,Electricité renouvelable,4,1,1,1,1,2,0,2,2,3,False,1,2,[34947],[34933],2.0,[34947]
+4322,Electricité renouvelable,5,0,0,1,0,0,0,0,2,0,False,2,0,[],[],2.0,"[34944, 34959]"
+4322,Electricité renouvelable,6,1,0,1,0,1,0,2,2,2,True,0,2,[34947],[],1.0,"[34944, 34947]"
+4322,Fret décarboné et multimodalité,1,0,1,0,0,0,1,1,0,1,False,1,1,[],[34965],0.0,[]
+4322,Fret décarboné et multimodalité,2,0,1,1,0,0,0,1,2,0,False,2,1,[],[34965],0.0,[]
+4322,Fret décarboné et multimodalité,3,0,0,0,1,0,0,0,1,0,False,1,0,[],[],0.0,[]
+4322,Fret décarboné et multimodalité,4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],2.0,[34965]
+4322,Fret décarboné et multimodalité,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4322,Fret décarboné et multimodalité,6,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4322,Gestion des forêts et produits bois,1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],2.0,[34950]
+4322,Gestion des forêts et produits bois,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],2.0,[34950]
+4322,Gestion des forêts et produits bois,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4322,Gestion des forêts et produits bois,4,1,0,1,0,1,0,2,2,2,True,0,2,[34950],[],2.0,[34950]
+4322,Gestion des forêts et produits bois,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4322,Gestion des forêts et produits bois,6,1,0,1,0,1,0,2,2,2,True,0,2,[34950],[],1.0,[34950]
+4322,Gestion des haies,1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],2.0,"[34950, 34979]"
+4322,Gestion des haies,2,1,0,1,0,1,0,2,2,2,True,0,2,[34979],[],2.0,"[34950, 34979]"
+4322,Gestion des haies,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],1.0,[34948]
+4322,Gestion des haies,4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],2.0,"[34948, 34950]"
+4322,Gestion des haies,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4322,Gestion des haies,6,0,1,0,1,1,0,1,1,2,False,1,1,[],[34948],1.0,"[34948, 34950]"
+4322,Pratiques stockantes,1,2,0,2,0,2,0,3,3,3,True,0,3,"[34950, 34951]",[],3.0,[34979]
+4322,Pratiques stockantes,2,2,1,2,1,2,1,3,3,3,True,0,3,"[34951, 34979]",[34977],0.0,[]
+4322,Pratiques stockantes,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],2.0,[34948]
+4322,Pratiques stockantes,4,1,0,1,0,1,0,2,2,2,True,0,2,[34935],[],2.0,[34948]
+4322,Pratiques stockantes,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4322,Pratiques stockantes,6,2,1,2,1,3,1,3,3,3,True,0,3,"[34948, 34951]",[34949],2.0,[34948]
+4322,Production Industrielle,1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4322,Production Industrielle,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4322,Production Industrielle,3,1,0,1,0,1,0,2,2,2,True,0,2,[34955],[],1.0,[34955]
+4322,Production Industrielle,4,1,0,2,0,1,0,2,3,2,False,1,2,[34955],[],1.0,[34955]
+4322,Production Industrielle,5,1,0,0,0,1,0,2,0,2,False,2,2,[34959],[],0.0,[]
+4322,Production Industrielle,6,2,1,2,1,2,1,3,3,3,True,0,3,"[34955, 34956]",[34958],1.0,[34955]
+4322,Prévention des déchets,1,2,0,1,0,1,0,3,2,2,False,1,2,[34976],[],3.0,"[34973, 34974, 34976]"
+4322,Prévention des déchets,2,1,0,1,0,1,0,2,2,2,True,0,2,[34974],[],2.0,"[34957, 34974]"
+4322,Prévention des déchets,3,2,0,2,0,2,0,3,3,3,True,0,3,"[34952, 34976]",[],2.0,"[34953, 34957, 34976]"
+4322,Prévention des déchets,4,1,0,1,0,0,0,2,2,0,False,2,0,[],[],2.0,[34953]
+4322,Prévention des déchets,5,3,0,3,0,3,0,3,3,3,True,0,3,"[34959, 34975, 34976]",[],2.0,"[34973, 34974, 34975, 34976]"
+4322,Prévention des déchets,6,5,0,5,0,5,0,3,3,3,True,0,3,"[34957, 34973, 34974, 34975, 34976]",[],3.0,"[34957, 34973, 34974, 34975, 34976]"
+4322,Réduction des déplacements,1,2,0,2,0,2,0,3,3,3,True,0,3,"[34962, 34963]",[],1.0,[34967]
+4322,Réduction des déplacements,2,2,0,2,0,2,0,3,3,3,True,0,3,"[34962, 34977]",[],2.0,[34977]
+4322,Réduction des déplacements,3,0,1,0,0,0,1,1,0,1,False,1,1,[],[34952],0.0,[]
+4322,Réduction des déplacements,4,0,2,0,2,0,1,2,2,1,False,1,2,[],"[34933, 34967]",1.0,[34967]
+4322,Réduction des déplacements,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4322,Réduction des déplacements,6,1,0,1,0,1,0,2,2,2,True,0,2,[34962],[],1.0,[34967]
+4322,Réseaux de chaleur décarbonés,1,1,0,1,0,1,0,2,2,2,True,0,2,[34943],[],3.0,"[34943, 34945]"
+4322,Réseaux de chaleur décarbonés,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4322,Réseaux de chaleur décarbonés,3,1,0,1,0,1,0,2,2,2,True,0,2,[34943],[],2.0,[34943]
+4322,Réseaux de chaleur décarbonés,4,2,0,2,0,2,0,3,3,3,True,0,3,"[34943, 34945]",[],2.0,[34945]
+4322,Réseaux de chaleur décarbonés,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4322,Réseaux de chaleur décarbonés,6,1,0,1,0,1,0,2,2,2,True,0,2,[34943],[],0.0,[]
+4322,Sobriété des bâtiments (résidentiel),1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],1.0,[34971]
+4322,Sobriété des bâtiments (résidentiel),2,1,0,1,0,0,0,2,2,0,False,2,2,[34951],[],0.0,[]
+4322,Sobriété des bâtiments (résidentiel),3,1,1,1,0,1,0,2,2,2,True,0,2,[34968],[],0.0,[]
+4322,Sobriété des bâtiments (résidentiel),4,2,0,2,0,2,1,3,3,3,True,0,3,"[34940, 34970]",[],0.0,[]
+4322,Sobriété des bâtiments (résidentiel),5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],1.0,[34971]
+4322,Sobriété des bâtiments (résidentiel),6,3,2,3,2,2,4,3,3,3,True,0,3,"[34951, 34968, 34970]","[34933, 34938]",2.0,"[34970, 34971]"
+4322,Sobriété et isolation des bâtiments (tertiaire),1,1,0,1,1,1,1,2,2,2,True,0,2,[34958],[34978],2.0,"[34958, 34971]"
+4322,Sobriété et isolation des bâtiments (tertiaire),2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],2.0,[34958]
+4322,Sobriété et isolation des bâtiments (tertiaire),3,1,0,1,0,1,0,2,2,2,True,0,2,[34969],[],1.0,[34969]
+4322,Sobriété et isolation des bâtiments (tertiaire),4,1,1,1,0,1,1,2,2,2,True,0,2,[34969],[34956],0.0,[]
+4322,Sobriété et isolation des bâtiments (tertiaire),5,2,0,2,0,2,0,3,3,3,True,0,3,"[34959, 34969]",[],3.0,"[34958, 34959, 34969, 34971]"
+4322,Sobriété et isolation des bâtiments (tertiaire),6,1,0,1,0,1,0,2,2,2,True,0,2,[34969],[],2.0,"[34958, 34969, 34970, 34971]"
+4322,Sobriété foncière,1,1,0,1,0,1,0,2,2,2,True,0,2,[34971],[],3.0,"[34951, 34971, 34979, 34980]"
+4322,Sobriété foncière,2,5,0,6,0,5,0,3,3,3,True,0,3,"[34958, 34971, 34977, 34978, 34979]",[],3.0,"[34948, 34951, 34977, 34979]"
+4322,Sobriété foncière,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4322,Sobriété foncière,4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4322,Sobriété foncière,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],2.0,[34971]
+4322,Sobriété foncière,6,1,0,1,0,1,0,2,2,2,True,0,2,[34971],[],1.0,[34951]
+4322,Valorisation matière des déchets,1,2,0,2,0,2,0,3,3,3,True,0,3,"[34946, 34976]",[],0.0,[]
+4322,Valorisation matière des déchets,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],1.0,[34956]
+4322,Valorisation matière des déchets,3,3,0,3,0,1,0,3,3,2,False,1,3,"[34952, 34953, 34976]",[],2.0,[34953]
+4322,Valorisation matière des déchets,4,1,0,1,0,1,0,2,2,2,True,0,2,[34953],[],2.0,[34953]
+4322,Valorisation matière des déchets,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],1.0,[34956]
+4322,Valorisation matière des déchets,6,1,0,1,0,1,0,2,2,2,True,0,2,[34953],[],2.0,"[34956, 34957]"
+4322,Véhicules électriques,1,1,1,1,1,1,1,2,2,2,True,0,2,[34964],[34954],2.0,"[34954, 34964]"
+4322,Véhicules électriques,2,1,0,1,0,1,0,2,2,2,True,0,2,[34964],[],3.0,[34966]
+4322,Véhicules électriques,3,1,0,0,0,0,0,2,0,0,False,2,0,[],[],1.0,[34966]
+4322,Véhicules électriques,4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4322,Véhicules électriques,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4322,Véhicules électriques,6,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4322,Vélo et transport en commun,1,2,0,2,0,2,0,3,3,3,True,0,3,"[34960, 34961]",[],3.0,"[34960, 34961, 34962, 34966]"
+4322,Vélo et transport en commun,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],2.0,"[34962, 34964, 34966]"
+4322,Vélo et transport en commun,3,2,0,2,0,2,0,3,3,3,True,0,3,"[34960, 34961]",[],2.0,"[34960, 34961]"
+4322,Vélo et transport en commun,4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4322,Vélo et transport en commun,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],1.0,[34961]
+4322,Vélo et transport en commun,6,1,1,1,1,1,1,2,2,2,True,0,2,[34961],[34954],2.0,"[34961, 34962]"
+4576,Biogaz,1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],1.0,[40483]
+4576,Biogaz,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4576,Biogaz,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4576,Biogaz,4,0,2,0,2,0,2,2,2,2,True,0,2,[],"[40483, 40557]",1.0,[40483]
+4576,Biogaz,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4576,Biogaz,6,0,1,0,1,0,1,1,1,1,True,0,1,[],[40483],2.0,[40483]
+4576,Changement chaudières fioul + rénovation (résidentiel),1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4576,Changement chaudières fioul + rénovation (résidentiel),2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4576,Changement chaudières fioul + rénovation (résidentiel),3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4576,Changement chaudières fioul + rénovation (résidentiel),4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],1.0,[40579]
+4576,Changement chaudières fioul + rénovation (résidentiel),5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4576,Changement chaudières fioul + rénovation (résidentiel),6,0,0,0,0,0,0,0,0,0,True,0,0,[],[],2.0,"[40451, 40452]"
+4576,Changement chaudières gaz + rénovation (résidentiel),1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4576,Changement chaudières gaz + rénovation (résidentiel),2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4576,Changement chaudières gaz + rénovation (résidentiel),3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4576,Changement chaudières gaz + rénovation (résidentiel),4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],1.0,[40579]
+4576,Changement chaudières gaz + rénovation (résidentiel),5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4576,Changement chaudières gaz + rénovation (résidentiel),6,0,0,0,0,0,0,0,0,0,True,0,0,[],[],2.0,"[40451, 40452]"
+4576,Changement de chaudière à fioul (tertiaire),1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4576,Changement de chaudière à fioul (tertiaire),2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4576,Changement de chaudière à fioul (tertiaire),3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4576,Changement de chaudière à fioul (tertiaire),4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4576,Changement de chaudière à fioul (tertiaire),5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],1.0,[40487]
+4576,Changement de chaudière à fioul (tertiaire),6,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4576,Changement de chaudière à gaz (tertiaire),1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4576,Changement de chaudière à gaz (tertiaire),2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4576,Changement de chaudière à gaz (tertiaire),3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4576,Changement de chaudière à gaz (tertiaire),4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4576,Changement de chaudière à gaz (tertiaire),5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],1.0,[40487]
+4576,Changement de chaudière à gaz (tertiaire),6,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4576,Covoiturage,1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],1.0,[40571]
+4576,Covoiturage,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4576,Covoiturage,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4576,Covoiturage,4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],2.0,[40463]
+4576,Covoiturage,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4576,Covoiturage,6,1,3,0,4,0,4,2,2,2,True,0,2,[],"[40461, 40463, 40488, 40575]",2.0,"[40461, 40463]"
+4576,Efficacité et carburants décarbonés des véhicules privés,1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4576,Efficacité et carburants décarbonés des véhicules privés,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4576,Efficacité et carburants décarbonés des véhicules privés,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4576,Efficacité et carburants décarbonés des véhicules privés,4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4576,Efficacité et carburants décarbonés des véhicules privés,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4576,Efficacité et carburants décarbonés des véhicules privés,6,0,1,0,1,0,1,1,1,1,True,0,1,[],[40460],1.0,[40460]
+4576,Efficacité et sobriété logistique,1,1,0,1,0,0,0,2,2,0,False,2,2,[40467],[],0.0,[]
+4576,Efficacité et sobriété logistique,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4576,Efficacité et sobriété logistique,3,0,1,0,1,0,1,1,1,1,True,0,1,[],[40595],1.0,[40595]
+4576,Efficacité et sobriété logistique,4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],2.0,"[40591, 40595]"
+4576,Efficacité et sobriété logistique,5,0,0,0,0,1,0,0,0,2,False,2,0,[],[],0.0,[]
+4576,Efficacité et sobriété logistique,6,1,0,1,0,1,0,2,2,2,True,0,2,[40467],[],1.0,[40591]
+4576,Electricité renouvelable,1,1,1,1,1,1,1,2,2,2,True,0,2,[40480],[40481],0.0,[]
+4576,Electricité renouvelable,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4576,Electricité renouvelable,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4576,Electricité renouvelable,4,0,1,0,1,0,1,1,1,1,True,0,1,[],[40555],2.0,[40482]
+4576,Electricité renouvelable,5,0,1,0,1,0,1,1,1,1,True,0,1,[],[40563],2.0,"[40480, 40563]"
+4576,Electricité renouvelable,6,1,1,1,1,1,1,2,2,2,True,0,2,[40480],[40482],2.0,"[40480, 40482]"
+4576,Elevage durable,6,0,1,0,1,0,1,1,1,1,True,0,1,[],[40466],,
+4576,Gestion des forêts et produits bois,1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4576,Gestion des forêts et produits bois,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4576,Gestion des forêts et produits bois,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4576,Gestion des forêts et produits bois,4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4576,Gestion des forêts et produits bois,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],1.0,[40585]
+4576,Gestion des forêts et produits bois,6,0,1,0,1,0,1,1,1,1,True,0,1,[],[40469],0.0,[]
+4576,Gestion des haies,1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4576,Gestion des haies,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4576,Gestion des haies,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4576,Gestion des haies,4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4576,Gestion des haies,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4576,Gestion des haies,6,0,2,0,2,0,2,2,2,2,True,0,2,[],"[40465, 40468]",1.0,[40468]
+4576,Pratiques stockantes,1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4576,Pratiques stockantes,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4576,Pratiques stockantes,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],2.0,[40465]
+4576,Pratiques stockantes,4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4576,Pratiques stockantes,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4576,Pratiques stockantes,6,0,0,0,0,0,0,0,0,0,True,0,0,[],[],2.0,[40465]
+4576,Production Industrielle,2,1,0,1,0,1,0,2,2,2,True,0,2,[40581],[],,
+4576,Production Industrielle,5,0,1,0,1,0,1,1,1,1,True,0,1,[],[40585],,
+4576,Production Industrielle,6,0,1,0,1,0,0,1,1,0,False,1,1,[],[40593],,
+4576,Prévention des déchets,1,0,1,0,1,0,1,1,1,1,True,0,1,[],[40597],1.0,[40597]
+4576,Prévention des déchets,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],1.0,[40588]
+4576,Prévention des déchets,3,0,1,0,1,0,1,1,1,1,True,0,1,[],[40589],2.0,"[40589, 40598, 40599]"
+4576,Prévention des déchets,4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],2.0,"[40594, 40598, 40599]"
+4576,Prévention des déchets,5,4,0,4,0,4,0,3,3,3,True,0,3,"[40490, 40570, 40582, 40583]",[],0.0,[]
+4576,Prévention des déchets,6,2,4,2,4,2,4,3,3,3,True,0,3,"[40592, 40594]","[40477, 40588, 40597, 40598]",3.0,"[40473, 40475, 40477, 40588, 40592, 40594, 40596, 40597]"
+4576,Réduction des déplacements,1,0,1,0,1,0,1,1,1,1,True,0,1,[],[40571],1.0,[40456]
+4576,Réduction des déplacements,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4576,Réduction des déplacements,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4576,Réduction des déplacements,4,0,1,0,1,0,1,1,1,1,True,0,1,[],[40455],1.0,[40456]
+4576,Réduction des déplacements,5,1,0,0,1,1,0,2,1,2,False,1,2,[40488],[],0.0,[]
+4576,Réduction des déplacements,6,0,3,0,3,0,3,2,2,2,True,0,2,[],"[40456, 40461, 40462]",2.0,"[40456, 40461]"
+4576,Réseaux de chaleur décarbonés,1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4576,Réseaux de chaleur décarbonés,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4576,Réseaux de chaleur décarbonés,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4576,Réseaux de chaleur décarbonés,4,0,1,0,1,0,1,1,1,1,True,0,1,[],[40554],2.0,[40479]
+4576,Réseaux de chaleur décarbonés,5,0,1,0,1,0,1,1,1,1,True,0,1,[],[40563],0.0,[]
+4576,Réseaux de chaleur décarbonés,6,0,1,0,1,0,1,1,1,1,True,0,1,[],[40479],2.0,[40479]
+4576,Sobriété des bâtiments (résidentiel),2,1,0,1,0,1,0,2,2,2,True,0,2,[40452],[],,
+4576,Sobriété des bâtiments (résidentiel),4,1,0,1,0,1,0,2,2,2,True,0,2,[40579],[],,
+4576,Sobriété des bâtiments (résidentiel),6,1,2,1,2,1,2,2,2,2,True,0,2,[40452],"[40451, 40453]",,
+4576,Sobriété et isolation des bâtiments (tertiaire),1,0,0,1,0,0,0,0,2,0,False,2,0,[],[],0.0,[]
+4576,Sobriété et isolation des bâtiments (tertiaire),2,1,0,1,0,1,0,2,2,2,True,0,2,[40562],[],0.0,[]
+4576,Sobriété et isolation des bâtiments (tertiaire),3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4576,Sobriété et isolation des bâtiments (tertiaire),4,1,1,1,1,1,1,2,2,2,True,0,2,[40487],[40561],0.0,[]
+4576,Sobriété et isolation des bâtiments (tertiaire),5,1,0,0,0,1,0,2,0,2,False,2,2,[40487],[],1.0,[40487]
+4576,Sobriété et isolation des bâtiments (tertiaire),6,1,0,1,0,1,0,2,2,2,True,0,2,[40487],[],0.0,[]
+4576,Sobriété foncière,1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],2.0,"[40586, 40587]"
+4576,Sobriété foncière,2,0,1,0,1,0,1,1,1,1,True,0,1,[],[40586],2.0,"[40468, 40586, 40587]"
+4576,Sobriété foncière,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4576,Sobriété foncière,4,0,1,0,1,0,1,1,1,1,True,0,1,[],[40587],0.0,[]
+4576,Sobriété foncière,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],1.0,[40563]
+4576,Sobriété foncière,6,0,0,0,0,0,0,0,0,0,True,0,0,[],[],1.0,[40604]
+4576,Valorisation matière des déchets,1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4576,Valorisation matière des déchets,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],1.0,[40588]
+4576,Valorisation matière des déchets,3,0,1,0,1,0,1,1,1,1,True,0,1,[],[40599],1.0,[40600]
+4576,Valorisation matière des déchets,4,0,2,0,2,0,2,2,2,2,True,0,2,[],"[40557, 40590]",2.0,"[40591, 40600]"
+4576,Valorisation matière des déchets,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4576,Valorisation matière des déchets,6,1,4,1,4,1,4,2,2,2,True,0,2,[40477],"[40473, 40475, 40591, 40600]",2.0,"[40477, 40588, 40591, 40592]"
+4576,Véhicules électriques,1,0,1,0,1,0,1,1,1,1,True,0,1,[],[40459],1.0,[40459]
+4576,Véhicules électriques,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4576,Véhicules électriques,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4576,Véhicules électriques,4,0,2,0,2,0,2,2,2,2,True,0,2,[],"[40464, 40574]",0.0,[]
+4576,Véhicules électriques,5,1,0,1,0,1,0,2,2,2,True,0,2,[40488],[],0.0,[]
+4576,Véhicules électriques,6,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4576,Vélo et transport en commun,1,1,1,1,1,1,1,2,2,2,True,0,2,[40462],[40576],2.0,"[40462, 40576]"
+4576,Vélo et transport en commun,2,1,0,1,0,1,0,2,2,2,True,0,2,[40462],[],2.0,[40462]
+4576,Vélo et transport en commun,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4576,Vélo et transport en commun,4,0,1,0,2,0,2,1,2,2,False,1,2,[],"[40558, 40572]",2.0,"[40457, 40458]"
+4576,Vélo et transport en commun,5,0,1,0,1,0,1,1,1,1,True,0,1,[],[40577],1.0,[40577]
+4576,Vélo et transport en commun,6,1,3,1,3,1,3,2,2,2,True,0,2,[40462],"[40457, 40458, 40474]",1.0,"[40457, 40462]"
+4637,Biogaz,1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4637,Biogaz,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],2.0,[72501]
+4637,Biogaz,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4637,Biogaz,4,1,0,1,0,1,0,2,2,2,True,0,2,[72501],[],2.0,[72501]
+4637,Biogaz,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4637,Biogaz,6,1,0,0,0,0,0,2,0,0,False,2,0,[],[],0.0,[]
+4637,Bâtiments & Machines agricoles,1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4637,Bâtiments & Machines agricoles,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4637,Bâtiments & Machines agricoles,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4637,Bâtiments & Machines agricoles,4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4637,Bâtiments & Machines agricoles,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4637,Bâtiments & Machines agricoles,6,0,0,0,1,0,1,0,1,1,False,1,1,[],[72512],1.0,[72512]
+4637,Changement chaudières fioul + rénovation (résidentiel),1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4637,Changement chaudières fioul + rénovation (résidentiel),2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4637,Changement chaudières fioul + rénovation (résidentiel),3,0,1,0,0,0,0,1,0,0,False,1,0,[],[],0.0,[]
+4637,Changement chaudières fioul + rénovation (résidentiel),4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4637,Changement chaudières fioul + rénovation (résidentiel),5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4637,Changement chaudières fioul + rénovation (résidentiel),6,0,1,0,0,0,0,1,0,0,False,1,0,[],[],2.0,[32291]
+4637,Changement chaudières gaz + rénovation (résidentiel),1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4637,Changement chaudières gaz + rénovation (résidentiel),2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4637,Changement chaudières gaz + rénovation (résidentiel),3,0,1,0,1,0,1,1,1,1,True,0,1,[],[72500],0.0,[]
+4637,Changement chaudières gaz + rénovation (résidentiel),4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4637,Changement chaudières gaz + rénovation (résidentiel),5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4637,Changement chaudières gaz + rénovation (résidentiel),6,0,1,0,1,0,1,1,1,1,True,0,1,[],[72500],2.0,[32291]
+4637,Changements de pratiques de fertilisation azotée,1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4637,Changements de pratiques de fertilisation azotée,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4637,Changements de pratiques de fertilisation azotée,3,1,0,0,0,0,0,2,0,0,False,2,0,[],[],0.0,[]
+4637,Changements de pratiques de fertilisation azotée,4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4637,Changements de pratiques de fertilisation azotée,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4637,Changements de pratiques de fertilisation azotée,6,1,0,2,0,2,0,2,3,3,False,1,3,"[32311, 72509]",[],1.0,[72509]
+4637,Covoiturage,1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4637,Covoiturage,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4637,Covoiturage,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4637,Covoiturage,4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4637,Covoiturage,5,1,0,1,0,1,0,2,2,2,True,0,2,[32296],[],2.0,[32296]
+4637,Covoiturage,6,2,0,1,1,2,0,3,2,3,False,1,3,"[72496, 72498]",[],0.0,[]
+4637,Efficacité et carburants décarbonés des véhicules privés,1,0,1,0,1,0,1,1,1,1,True,0,1,[],[144002],,
+4637,Efficacité et sobriété logistique,6,2,1,2,1,2,1,3,3,3,True,0,3,"[32293, 72493]",[32294],,
+4637,Electricité renouvelable,1,1,0,1,0,1,0,2,2,2,True,0,2,[72503],[],0.0,[]
+4637,Electricité renouvelable,2,1,0,1,0,1,0,2,2,2,True,0,2,[72502],[],2.0,"[72502, 72504]"
+4637,Electricité renouvelable,3,1,0,1,0,1,0,2,2,2,True,0,2,[72503],[],0.0,[]
+4637,Electricité renouvelable,4,5,1,4,2,5,1,3,3,3,True,0,3,"[32303, 32304, 72502, 72503, 72504]",[72506],0.0,[]
+4637,Electricité renouvelable,5,0,1,0,0,0,1,1,0,1,False,1,1,[],[72479],2.0,"[72479, 72503]"
+4637,Electricité renouvelable,6,4,1,3,3,4,1,3,3,3,True,0,3,"[32304, 72502, 72503, 72504]",[72506],1.0,"[72502, 72503, 72504]"
+4637,Gestion des forêts et produits bois,2,0,1,0,1,0,1,1,1,1,True,0,1,[],[32310],,
+4637,Gestion des forêts et produits bois,3,0,0,1,0,1,0,0,2,2,False,2,2,[72500],[],,
+4637,Gestion des forêts et produits bois,4,1,0,1,0,1,0,2,2,2,True,0,2,[72500],[],,
+4637,Gestion des forêts et produits bois,6,1,0,1,0,1,0,2,2,2,True,0,2,[72500],[],,
+4637,Gestion des haies,1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],1.0,[72508]
+4637,Gestion des haies,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],2.0,[72507]
+4637,Gestion des haies,3,1,0,1,0,1,0,2,2,2,True,0,2,[72507],[],1.0,[72507]
+4637,Gestion des haies,4,1,0,1,0,1,0,2,2,2,True,0,2,[72507],[],0.0,[]
+4637,Gestion des haies,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4637,Gestion des haies,6,1,1,1,1,1,2,2,2,2,True,0,2,[72507],[32311],2.0,"[72507, 72509, 72512]"
+4637,Gestion des prairies,1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],1.0,[72508]
+4637,Gestion des prairies,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4637,Gestion des prairies,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4637,Gestion des prairies,4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4637,Gestion des prairies,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4637,Gestion des prairies,6,0,0,0,0,0,0,0,0,0,True,0,0,[],[],1.0,[72509]
+4637,Pratiques stockantes,1,0,2,0,2,0,2,2,2,2,True,0,2,[],"[72483, 72510]",1.0,[72508]
+4637,Pratiques stockantes,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4637,Pratiques stockantes,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],2.0,"[72507, 72508, 72509]"
+4637,Pratiques stockantes,4,0,1,0,1,0,1,1,1,1,True,0,1,[],[72483],0.0,[]
+4637,Pratiques stockantes,5,0,1,0,1,0,1,1,1,1,True,0,1,[],[72483],0.0,[]
+4637,Pratiques stockantes,6,1,1,1,1,1,1,2,2,2,True,0,2,[72509],[72508],2.0,"[72507, 72509, 72512]"
+4637,Production Industrielle,1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4637,Production Industrielle,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4637,Production Industrielle,3,1,0,1,0,1,0,2,2,2,True,0,2,[32298],[],1.0,[32298]
+4637,Production Industrielle,4,1,0,1,0,1,0,2,2,2,True,0,2,[32298],[],0.0,[]
+4637,Production Industrielle,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4637,Production Industrielle,6,0,1,0,0,0,1,1,0,1,False,1,1,[],[32297],1.0,[32298]
+4637,Prévention des déchets,1,0,0,0,0,0,1,0,0,1,False,1,0,[],[],1.0,[144019]
+4637,Prévention des déchets,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4637,Prévention des déchets,3,4,0,4,0,4,0,3,3,3,True,0,3,"[32307, 144002, 144008, 144009]",[],2.0,"[144008, 144009, 144022, 144023, 144025]"
+4637,Prévention des déchets,4,1,1,1,1,1,1,2,2,2,True,0,2,[32306],[144012],2.0,"[144014, 144020, 144022]"
+4637,Prévention des déchets,5,2,1,2,1,2,1,3,3,3,True,0,3,"[31808, 144003]",[32289],2.0,[144003]
+4637,Prévention des déchets,6,14,7,12,7,13,8,3,3,3,True,0,3,"[32293, 32307, 72493, 72494, 144004, 144005, 144006, 144008, 144021, 144023, 144024, 144026, 144027, 144029]","[32294, 144011, 144012, 144013, 144018, 144028]",3.0,"[32293, 32294, 32297, 32307, 144007, 144008, 144012, 144014, 144020, 144021, 144022, 144023, 144024, 144025, 144027]"
+4637,Réduction des déplacements,1,1,0,1,0,1,0,2,2,2,True,0,2,[72495],[],0.0,[]
+4637,Réduction des déplacements,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4637,Réduction des déplacements,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4637,Réduction des déplacements,4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4637,Réduction des déplacements,5,1,0,1,0,1,0,2,2,2,True,0,2,[32296],[],2.0,[32296]
+4637,Réduction des déplacements,6,2,0,2,1,2,1,3,3,3,True,0,3,"[72495, 72498]",[32301],0.0,[]
+4637,Réseaux de chaleur décarbonés,1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],2.0,[72499]
+4637,Réseaux de chaleur décarbonés,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4637,Réseaux de chaleur décarbonés,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4637,Réseaux de chaleur décarbonés,4,0,1,0,1,0,1,1,1,1,True,0,1,[],[72499],0.0,[]
+4637,Réseaux de chaleur décarbonés,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4637,Réseaux de chaleur décarbonés,6,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4637,Sobriété des bâtiments (résidentiel),1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4637,Sobriété des bâtiments (résidentiel),2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4637,Sobriété des bâtiments (résidentiel),3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4637,Sobriété des bâtiments (résidentiel),4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4637,Sobriété des bâtiments (résidentiel),5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4637,Sobriété des bâtiments (résidentiel),6,3,2,2,2,3,1,3,3,3,True,0,3,"[32291, 72241, 72491]",[72492],2.0,[32291]
+4637,Sobriété et isolation des bâtiments (tertiaire),1,0,1,1,0,0,1,1,2,1,False,1,1,[],[32300],0.0,[]
+4637,Sobriété et isolation des bâtiments (tertiaire),2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4637,Sobriété et isolation des bâtiments (tertiaire),3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4637,Sobriété et isolation des bâtiments (tertiaire),4,1,0,0,0,0,0,2,0,0,False,2,0,[],[],0.0,[]
+4637,Sobriété et isolation des bâtiments (tertiaire),5,2,2,3,2,3,2,3,3,3,True,0,3,"[32288, 32289, 72479]","[72491, 72511]",2.0,"[32289, 72479]"
+4637,Sobriété et isolation des bâtiments (tertiaire),6,0,0,1,0,0,0,0,2,0,False,2,0,[],[],0.0,[]
+4637,Sobriété foncière,1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],1.0,[32300]
+4637,Sobriété foncière,2,1,0,1,0,1,0,2,2,2,True,0,2,[72475],[],2.0,[72475]
+4637,Sobriété foncière,3,2,0,2,0,1,1,3,3,2,False,1,3,"[32290, 72490]",[],0.0,[]
+4637,Sobriété foncière,4,1,0,1,0,1,0,2,2,2,True,0,2,[72475],[],0.0,[]
+4637,Sobriété foncière,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4637,Sobriété foncière,6,2,1,2,1,1,2,3,3,2,False,1,3,"[32290, 72490]",[32292],0.0,[]
+4637,Valorisation matière des déchets,1,4,3,3,4,4,2,3,3,3,True,0,3,"[144002, 144019, 144023, 144027]","[72494, 144012, 144030]",2.0,"[144016, 144017, 144019]"
+4637,Valorisation matière des déchets,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4637,Valorisation matière des déchets,3,1,0,1,0,1,0,2,2,2,True,0,2,[144015],[],2.0,"[144009, 144010, 144015, 144016, 144018, 144023]"
+4637,Valorisation matière des déchets,4,0,1,0,0,0,0,1,0,0,False,1,0,[],[],1.0,[144027]
+4637,Valorisation matière des déchets,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],1.0,[144017]
+4637,Valorisation matière des déchets,6,1,2,2,3,1,1,2,3,2,False,1,2,[144015],"[144012, 144030]",2.0,"[32297, 144015, 144017, 144018, 144023, 144027]"
+4637,Vélo et transport en commun,1,1,2,2,0,1,1,2,3,2,False,1,2,[72495],[32300],2.0,"[32300, 72495]"
+4637,Vélo et transport en commun,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4637,Vélo et transport en commun,3,1,0,1,0,1,0,2,2,2,True,0,2,[72497],[],1.0,[32296]
+4637,Vélo et transport en commun,4,2,1,2,0,2,1,3,3,3,True,0,3,"[32295, 32313]",[32302],0.0,[]
+4637,Vélo et transport en commun,5,1,0,1,0,1,0,2,2,2,True,0,2,[32296],[],2.0,[32296]
+4637,Vélo et transport en commun,6,3,1,3,1,3,1,3,3,3,True,0,3,"[72495, 72497, 72498]",[32302],0.0,[]
+4707,Biogaz,1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4707,Biogaz,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4707,Biogaz,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4707,Biogaz,4,0,1,0,1,0,1,1,1,1,True,0,1,[],[51835],1.0,[51835]
+4707,Biogaz,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4707,Biogaz,6,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4707,Changement chaudières fioul + rénovation (résidentiel),1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4707,Changement chaudières fioul + rénovation (résidentiel),2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4707,Changement chaudières fioul + rénovation (résidentiel),3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4707,Changement chaudières fioul + rénovation (résidentiel),4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4707,Changement chaudières fioul + rénovation (résidentiel),5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4707,Changement chaudières fioul + rénovation (résidentiel),6,0,0,0,0,0,0,0,0,0,True,0,0,[],[],1.0,[51806]
+4707,Changement chaudières gaz + rénovation (résidentiel),1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4707,Changement chaudières gaz + rénovation (résidentiel),2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4707,Changement chaudières gaz + rénovation (résidentiel),3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4707,Changement chaudières gaz + rénovation (résidentiel),4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4707,Changement chaudières gaz + rénovation (résidentiel),5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4707,Changement chaudières gaz + rénovation (résidentiel),6,0,0,0,0,0,0,0,0,0,True,0,0,[],[],1.0,[51806]
+4707,Covoiturage,1,0,2,0,2,0,2,2,2,2,True,0,2,[],"[51823, 51824]",0.0,[]
+4707,Covoiturage,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4707,Covoiturage,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4707,Covoiturage,4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],1.0,[51824]
+4707,Covoiturage,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4707,Covoiturage,6,0,0,0,0,0,0,0,0,0,True,0,0,[],[],1.0,[51823]
+4707,Efficacité et carburants décarbonés des véhicules privés,1,0,1,0,1,0,1,1,1,1,True,0,1,[],[51839],,
+4707,Efficacité et sobriété logistique,1,0,1,0,0,0,1,1,0,1,False,1,0,[],[],0.0,[]
+4707,Efficacité et sobriété logistique,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4707,Efficacité et sobriété logistique,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4707,Efficacité et sobriété logistique,4,0,1,0,1,0,0,1,1,0,False,1,1,[],[51862],1.0,[51857]
+4707,Efficacité et sobriété logistique,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4707,Efficacité et sobriété logistique,6,1,1,1,1,1,1,2,2,2,True,0,2,[51851],[51849],0.0,[]
+4707,Electricité renouvelable,1,0,2,0,2,0,1,2,2,1,False,1,2,[],"[51830, 51839]",2.0,"[51839, 51858]"
+4707,Electricité renouvelable,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4707,Electricité renouvelable,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4707,Electricité renouvelable,4,0,2,0,2,0,2,2,2,2,True,0,2,[],"[51838, 51858]",2.0,"[51829, 51830, 51858]"
+4707,Electricité renouvelable,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4707,Electricité renouvelable,6,2,3,1,4,2,2,3,2,3,False,1,3,"[51806, 51833]","[51829, 51831, 51832]",2.0,"[51806, 51831, 51833]"
+4707,Fret décarboné et multimodalité,1,0,1,0,1,0,1,1,1,1,True,0,1,[],[51826],0.0,[]
+4707,Fret décarboné et multimodalité,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4707,Fret décarboné et multimodalité,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4707,Fret décarboné et multimodalité,4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],1.0,[51826]
+4707,Fret décarboné et multimodalité,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4707,Fret décarboné et multimodalité,6,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4707,Gestion des forêts et produits bois,1,1,1,1,1,1,1,2,2,2,True,0,2,[51852],[51837],2.0,"[51852, 51854, 51855]"
+4707,Gestion des forêts et produits bois,2,1,0,1,0,1,0,2,2,2,True,0,2,[51844],[],1.0,[51817]
+4707,Gestion des forêts et produits bois,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4707,Gestion des forêts et produits bois,4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],2.0,"[51837, 51845, 51852]"
+4707,Gestion des forêts et produits bois,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4707,Gestion des forêts et produits bois,6,0,1,0,1,0,1,1,1,1,True,0,1,[],[51845],1.0,[51855]
+4707,Gestion des haies,1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],1.0,[51854]
+4707,Gestion des haies,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],2.0,"[51816, 51853]"
+4707,Gestion des haies,3,1,0,1,0,1,0,2,2,2,True,0,2,[51847],[],2.0,[51847]
+4707,Gestion des haies,4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4707,Gestion des haies,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4707,Gestion des haies,6,0,2,0,2,0,2,2,2,2,True,0,2,[],"[51841, 51853]",1.0,[51847]
+4707,Pratiques stockantes,1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4707,Pratiques stockantes,2,0,1,0,1,0,0,1,1,0,False,1,1,[],[51817],0.0,[]
+4707,Pratiques stockantes,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],2.0,[51847]
+4707,Pratiques stockantes,4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4707,Pratiques stockantes,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4707,Pratiques stockantes,6,0,1,0,1,0,3,1,1,2,False,1,1,[],[51855],2.0,"[51841, 51847, 51848]"
+4707,Production Industrielle,1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4707,Production Industrielle,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4707,Production Industrielle,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4707,Production Industrielle,4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],1.0,[51857]
+4707,Production Industrielle,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4707,Production Industrielle,6,0,1,0,1,0,1,1,1,1,True,0,1,[],[51869],0.0,[]
+4707,Prévention des déchets,1,1,2,1,3,1,3,2,2,2,True,0,2,[51827],"[51859, 51863, 51878]",2.0,"[51859, 51878]"
+4707,Prévention des déchets,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4707,Prévention des déchets,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4707,Prévention des déchets,4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4707,Prévention des déchets,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4707,Prévention des déchets,6,0,3,0,3,0,3,2,2,2,True,0,2,[],"[51850, 51864, 51877]",2.0,"[51850, 51864, 51877]"
+4707,Réduction des déplacements,1,0,1,0,1,0,1,1,1,1,True,0,1,[],[51860],1.0,[51860]
+4707,Réduction des déplacements,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],2.0,[51815]
+4707,Réduction des déplacements,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4707,Réduction des déplacements,4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4707,Réduction des déplacements,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4707,Réduction des déplacements,6,0,1,0,1,0,1,1,1,1,True,0,1,[],[51828],0.0,[]
+4707,Réseaux de chaleur décarbonés,1,1,2,0,4,0,3,2,2,2,True,0,2,[],"[51836, 51837, 51852]",3.0,"[51836, 51837, 51852]"
+4707,Réseaux de chaleur décarbonés,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4707,Réseaux de chaleur décarbonés,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4707,Réseaux de chaleur décarbonés,4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],1.0,"[51835, 51852]"
+4707,Réseaux de chaleur décarbonés,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4707,Réseaux de chaleur décarbonés,6,0,2,0,2,0,3,2,2,2,True,0,2,[],"[51804, 51834]",0.0,[]
+4707,Sobriété des bâtiments (résidentiel),1,0,1,0,1,0,1,1,1,1,True,0,1,[],[51812],0.0,[]
+4707,Sobriété des bâtiments (résidentiel),2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4707,Sobriété des bâtiments (résidentiel),3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4707,Sobriété des bâtiments (résidentiel),4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4707,Sobriété des bâtiments (résidentiel),5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4707,Sobriété des bâtiments (résidentiel),6,1,10,2,9,1,10,2,3,2,False,1,2,[51806],"[51803, 51805, 51807, 51808, 51809, 51810, 51811, 51813, 51867, 51873]",2.0,[51813]
+4707,Sobriété et isolation des bâtiments (tertiaire),1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4707,Sobriété et isolation des bâtiments (tertiaire),2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4707,Sobriété et isolation des bâtiments (tertiaire),3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4707,Sobriété et isolation des bâtiments (tertiaire),4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4707,Sobriété et isolation des bâtiments (tertiaire),5,0,1,0,1,0,1,1,1,1,True,0,1,[],[51802],1.0,[51802]
+4707,Sobriété et isolation des bâtiments (tertiaire),6,0,0,0,0,0,0,0,0,0,True,0,0,[],[],2.0,[51813]
+4707,Sobriété foncière,1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4707,Sobriété foncière,2,3,0,3,0,3,0,3,3,3,True,0,3,"[51815, 51819, 140199]",[],3.0,"[51815, 51819, 140199]"
+4707,Sobriété foncière,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4707,Sobriété foncière,4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4707,Sobriété foncière,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4707,Sobriété foncière,6,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4707,Valorisation matière des déchets,1,0,3,0,3,0,3,2,2,2,True,0,2,[],"[51835, 51878, 51882]",2.0,"[51878, 51883]"
+4707,Valorisation matière des déchets,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4707,Valorisation matière des déchets,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4707,Valorisation matière des déchets,4,0,2,0,2,0,2,2,2,2,True,0,2,[],"[51857, 51866]",0.0,[]
+4707,Valorisation matière des déchets,5,1,0,1,0,1,1,2,2,2,True,0,2,[51883],[],0.0,[]
+4707,Valorisation matière des déchets,6,0,0,0,0,0,0,0,0,0,True,0,0,[],[],2.0,"[51879, 51880, 51882]"
+4707,Vélo et transport en commun,1,1,1,1,1,1,1,2,2,2,True,0,2,[51820],[51821],2.0,[51820]
+4707,Vélo et transport en commun,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4707,Vélo et transport en commun,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4707,Vélo et transport en commun,4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4707,Vélo et transport en commun,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4707,Vélo et transport en commun,6,0,2,0,2,0,2,2,2,2,True,0,2,[],"[51825, 51874]",0.0,[]
+4939,Covoiturage,1,0,1,0,1,0,1,1,1,1,True,0,1,[],[130824],1.0,[130825]
+4939,Covoiturage,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4939,Covoiturage,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4939,Covoiturage,4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],1.0,"[130824, 130825]"
+4939,Covoiturage,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4939,Covoiturage,6,1,0,1,0,1,0,2,2,2,True,0,2,[88666],[],0.0,[]
+4939,Réduction des déplacements,1,0,2,0,2,2,1,2,2,3,False,1,2,[],"[130317, 130825]",2.0,[130317]
+4939,Réduction des déplacements,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4939,Réduction des déplacements,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4939,Réduction des déplacements,4,1,1,1,1,1,1,2,2,2,True,0,2,[130870],[88373],0.0,[]
+4939,Réduction des déplacements,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4939,Réduction des déplacements,6,2,2,2,2,2,2,3,3,3,True,0,3,"[130822, 130869]","[88373, 130281]",1.0,[88373]
+4939,Véhicules électriques,1,1,1,1,1,1,1,2,2,2,True,0,2,[130849],[130825],2.0,[130849]
+4939,Véhicules électriques,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4939,Véhicules électriques,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4939,Véhicules électriques,4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4939,Véhicules électriques,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4939,Véhicules électriques,6,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4939,Vélo et transport en commun,1,7,4,7,4,8,3,3,3,3,True,0,3,"[88597, 88599, 130307, 130326, 130778, 130821, 130823]","[88638, 130313, 130317, 130820]",3.0,"[88597, 88599, 88638, 130307, 130317, 130326, 130820, 130821, 130823]"
+4939,Vélo et transport en commun,2,1,0,1,0,1,0,2,2,2,True,0,2,[130321],[],2.0,[130321]
+4939,Vélo et transport en commun,3,2,0,2,0,2,0,3,3,3,True,0,3,"[88634, 130819]",[],2.0,"[88634, 130819]"
+4939,Vélo et transport en commun,4,1,2,1,2,1,2,2,2,2,True,0,2,[130855],"[88641, 130314]",2.0,"[88612, 130313, 130806]"
+4939,Vélo et transport en commun,5,0,2,0,2,0,2,2,2,2,True,0,2,[],"[88652, 130868]",1.0,[130778]
+4939,Vélo et transport en commun,6,7,8,7,8,7,8,3,3,3,True,0,3,"[88308, 88612, 88632, 88666, 130784, 130806, 130869]","[88305, 88594, 88596, 88637, 130247, 130290, 130303, 130809]",3.0,"[88308, 88373, 88594, 88596, 88632, 88652, 88666, 130784, 130822, 130868, 130869]"
+4973,Efficacité et carburants décarbonés des véhicules privés,5,1,0,1,0,1,0,2,2,2,True,0,2,[42050],[],,
+4973,Efficacité et sobriété logistique,5,1,0,1,0,1,0,2,2,2,True,0,2,[42053],[],,
+4973,Efficacité et sobriété logistique,6,0,1,0,1,0,1,1,1,1,True,0,1,[],[42049],,
+4973,Pratiques stockantes,5,1,0,1,0,1,1,2,2,2,True,0,2,[53171],[],,
+4973,Pratiques stockantes,6,0,1,0,1,0,1,1,1,1,True,0,1,[],[53167],,
+4973,Prévention des déchets,1,1,3,1,3,1,2,2,2,2,True,0,2,[42052],"[61675, 61676, 61682]",,
+4973,Prévention des déchets,3,0,1,0,1,0,1,1,1,1,True,0,1,[],[61654],,
+4973,Prévention des déchets,4,0,0,1,0,2,0,0,2,3,False,3,2,[42056],[],,
+4973,Prévention des déchets,5,1,0,1,0,1,0,2,2,2,True,0,2,[42053],[],,
+4973,Prévention des déchets,6,2,17,2,15,2,16,3,3,3,True,0,3,"[42052, 42054]","[17138, 17145, 53161, 53163, 53164, 61656, 61657, 61677, 61679, 61680, 61681, 61683, 61684, 61685, 61686, 61687]",,
+4973,Réduction des déplacements,5,1,0,1,0,1,0,2,2,2,True,0,2,[42050],[],,
+4973,Réduction des déplacements,6,3,0,3,0,3,0,3,3,3,True,0,3,"[42050, 42051, 42054]",[],,
+4973,Sobriété des bâtiments (résidentiel),4,0,1,0,0,0,0,1,0,0,False,1,0,[],[],,
+4973,Sobriété des bâtiments (résidentiel),6,1,0,1,0,1,0,2,2,2,True,0,2,[42054],[],,
+4973,Valorisation matière des déchets,1,0,1,0,1,0,1,1,1,1,True,0,1,[],[61678],,
+4973,Valorisation matière des déchets,6,0,0,0,1,0,0,0,1,0,False,1,0,[],[],,
+4973,Vélo et transport en commun,5,1,0,1,0,1,0,2,2,2,True,0,2,[42050],[],,
+4973,Vélo et transport en commun,6,2,0,2,0,2,0,3,3,3,True,0,3,"[42050, 42051]",[],,
+4994,Biogaz,6,0,1,0,1,0,1,1,1,1,True,0,1,[],[62318],,
+4994,Changement chaudières fioul + rénovation (résidentiel),1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4994,Changement chaudières fioul + rénovation (résidentiel),2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4994,Changement chaudières fioul + rénovation (résidentiel),3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],3.0,"[62294, 62295]"
+4994,Changement chaudières fioul + rénovation (résidentiel),4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4994,Changement chaudières fioul + rénovation (résidentiel),5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4994,Changement chaudières fioul + rénovation (résidentiel),6,0,0,0,0,0,0,0,0,0,True,0,0,[],[],2.0,"[62294, 62295, 62296]"
+4994,Changements de pratiques de fertilisation azotée,4,0,0,0,1,0,0,0,1,0,False,1,0,[],[],,
+4994,Covoiturage,4,0,1,0,1,0,1,1,1,1,True,0,1,[],[62270],,
+4994,Efficacité et sobriété logistique,1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4994,Efficacité et sobriété logistique,2,0,1,0,1,0,1,1,1,1,True,0,1,[],[62336],2.0,[129722]
+4994,Efficacité et sobriété logistique,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4994,Efficacité et sobriété logistique,4,0,1,0,1,0,1,1,1,1,True,0,1,[],[62330],0.0,[]
+4994,Efficacité et sobriété logistique,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4994,Efficacité et sobriété logistique,6,1,1,1,1,1,1,2,2,2,True,0,2,[61669],[62335],0.0,[]
+4994,Electricité renouvelable,1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4994,Electricité renouvelable,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],1.0,[62307]
+4994,Electricité renouvelable,3,0,1,0,1,0,1,1,1,1,True,0,1,[],[62311],2.0,"[62311, 62313, 62317]"
+4994,Electricité renouvelable,4,0,2,0,2,0,2,2,2,2,True,0,2,[],"[62313, 62314]",0.0,[]
+4994,Electricité renouvelable,5,0,2,0,2,0,2,2,2,2,True,0,2,[],"[62308, 62312]",1.0,[62314]
+4994,Electricité renouvelable,6,0,3,0,3,0,3,2,2,2,True,0,2,[],"[62307, 62311, 62317]",2.0,"[62307, 62311, 62317]"
+4994,Gestion des forêts et produits bois,1,0,1,1,0,1,0,1,2,2,False,1,2,[62334],[],1.0,[62334]
+4994,Gestion des forêts et produits bois,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4994,Gestion des forêts et produits bois,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4994,Gestion des forêts et produits bois,4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],1.0,[62334]
+4994,Gestion des forêts et produits bois,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4994,Gestion des forêts et produits bois,6,0,3,1,2,1,2,2,2,2,True,0,2,[62334],"[62310, 62335]",2.0,[62334]
+4994,Gestion des haies,1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4994,Gestion des haies,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4994,Gestion des haies,3,1,0,1,0,1,0,2,2,2,True,0,2,[62332],[],2.0,[62332]
+4994,Gestion des haies,4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4994,Gestion des haies,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4994,Gestion des haies,6,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4994,Prévention des déchets,1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4994,Prévention des déchets,2,2,0,2,0,2,0,3,3,3,True,0,3,"[61661, 129722]",[],0.0,[]
+4994,Prévention des déchets,3,0,1,0,1,0,1,1,1,1,True,0,1,[],[62326],2.0,"[62325, 62326]"
+4994,Prévention des déchets,4,1,0,1,0,1,0,2,2,2,True,0,2,[88771],[],0.0,[]
+4994,Prévention des déchets,5,3,1,3,1,3,1,3,3,3,True,0,3,"[61649, 61650, 62361]",[61651],0.0,[]
+4994,Prévention des déchets,6,0,6,1,5,2,5,2,2,3,False,1,2,[62321],"[61668, 62265, 62325, 62326, 62335]",2.0,"[61664, 61668, 62325, 62326]"
+4994,Réduction des déplacements,1,1,1,1,1,1,1,2,2,2,True,0,2,[62282],[62278],0.0,[]
+4994,Réduction des déplacements,2,1,1,1,1,1,1,2,2,2,True,0,2,[62280],[62291],0.0,[]
+4994,Réduction des déplacements,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4994,Réduction des déplacements,4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4994,Réduction des déplacements,5,1,0,1,0,1,0,2,2,2,True,0,2,[62262],[],2.0,[62291]
+4994,Réduction des déplacements,6,2,2,2,3,3,2,3,3,3,True,0,3,"[62262, 62281]","[62264, 62289, 90303]",0.0,[]
+4994,Réseaux de chaleur décarbonés,1,1,1,1,1,1,1,2,2,2,True,0,2,[62309],[62319],2.0,[62309]
+4994,Réseaux de chaleur décarbonés,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],2.0,[62309]
+4994,Réseaux de chaleur décarbonés,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4994,Réseaux de chaleur décarbonés,4,0,0,0,1,0,0,0,1,0,False,1,0,[],[],2.0,"[62319, 62320]"
+4994,Réseaux de chaleur décarbonés,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4994,Réseaux de chaleur décarbonés,6,1,0,1,0,1,0,2,2,2,True,0,2,[62309],[],1.0,[62309]
+4994,Sobriété des bâtiments (résidentiel),2,2,0,2,0,2,0,3,3,3,True,0,3,"[62294, 62295]",[],,
+4994,Sobriété des bâtiments (résidentiel),3,2,1,2,1,2,1,3,3,3,True,0,3,"[62294, 62295]",[62356],,
+4994,Sobriété des bâtiments (résidentiel),6,4,1,4,1,4,2,3,3,3,True,0,3,"[62294, 62295, 62296, 62297]",[62264],,
+4994,Sobriété et isolation des bâtiments (tertiaire),1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4994,Sobriété et isolation des bâtiments (tertiaire),2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4994,Sobriété et isolation des bâtiments (tertiaire),3,2,0,2,0,1,0,3,3,2,False,1,3,"[62304, 62305]",[],0.0,[]
+4994,Sobriété et isolation des bâtiments (tertiaire),4,1,0,1,0,2,0,2,2,3,False,1,2,[62300],[],0.0,[]
+4994,Sobriété et isolation des bâtiments (tertiaire),5,2,0,2,0,2,0,3,3,3,True,0,3,"[61655, 62262]",[],2.0,"[61651, 62304]"
+4994,Sobriété et isolation des bâtiments (tertiaire),6,1,3,1,3,1,3,2,2,2,True,0,2,[62262],"[62264, 62298, 62303]",2.0,"[62298, 62303]"
+4994,Sobriété foncière,1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4994,Sobriété foncière,2,0,1,0,1,0,1,1,1,1,True,0,1,[],[62336],0.0,[]
+4994,Sobriété foncière,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4994,Sobriété foncière,4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],1.0,[91563]
+4994,Sobriété foncière,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4994,Sobriété foncière,6,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4994,Valorisation matière des déchets,1,3,0,3,0,3,0,3,3,3,True,0,3,"[61663, 62322, 62327]",[],2.0,"[62322, 62327]"
+4994,Valorisation matière des déchets,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4994,Valorisation matière des déchets,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4994,Valorisation matière des déchets,4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],1.0,[61663]
+4994,Valorisation matière des déchets,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4994,Valorisation matière des déchets,6,1,0,1,0,1,0,2,2,2,True,0,2,[62322],[],2.0,[62322]
+4994,Véhicules électriques,5,1,0,1,0,1,0,2,2,2,True,0,2,[62292],[],,
+4994,Véhicules électriques,6,0,1,0,1,0,1,1,1,1,True,0,1,[],[62283],,
+4994,Vélo et transport en commun,1,7,2,7,2,7,2,3,3,3,True,0,3,"[62274, 62275, 62276, 62279, 62284, 62285, 62288]","[62286, 62290]",3.0,"[62275, 62276, 62278, 62279, 62284, 62285, 62286, 62288, 62290]"
+4994,Vélo et transport en commun,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],2.0,"[62274, 62280, 62288]"
+4994,Vélo et transport en commun,3,1,0,1,0,1,0,2,2,2,True,0,2,[62279],[],0.0,[]
+4994,Vélo et transport en commun,4,0,1,0,1,0,1,1,1,1,True,0,1,[],[62287],1.0,[62287]
+4994,Vélo et transport en commun,5,0,2,0,2,0,2,2,2,2,True,0,2,[],"[62262, 91446]",0.0,[]
+4994,Vélo et transport en commun,6,1,3,0,3,0,3,2,2,2,True,0,2,[],"[62265, 62269, 62290]",2.0,"[62289, 62290]"
+4999,Biogaz,1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4999,Biogaz,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],2.0,[65613]
+4999,Biogaz,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4999,Biogaz,4,0,1,0,1,0,1,1,1,1,True,0,1,[],[65613],0.0,[]
+4999,Biogaz,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],1.0,[65632]
+4999,Biogaz,6,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4999,Changement chaudières fioul + rénovation (résidentiel),1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4999,Changement chaudières fioul + rénovation (résidentiel),2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4999,Changement chaudières fioul + rénovation (résidentiel),3,1,1,1,0,1,0,2,2,2,True,0,2,[90540],[65594],2.0,[65602]
+4999,Changement chaudières fioul + rénovation (résidentiel),4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4999,Changement chaudières fioul + rénovation (résidentiel),5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4999,Changement chaudières fioul + rénovation (résidentiel),6,0,0,0,0,0,1,0,0,1,False,1,1,[],[65594],1.0,[90540]
+4999,Changement chaudières gaz + rénovation (résidentiel),1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4999,Changement chaudières gaz + rénovation (résidentiel),2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4999,Changement chaudières gaz + rénovation (résidentiel),3,1,0,1,0,1,0,2,2,2,True,0,2,[90540],[],2.0,[65602]
+4999,Changement chaudières gaz + rénovation (résidentiel),4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4999,Changement chaudières gaz + rénovation (résidentiel),5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4999,Changement chaudières gaz + rénovation (résidentiel),6,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4999,Changements de pratiques de fertilisation azotée,6,0,1,0,1,0,1,1,1,1,True,0,1,[],[65592],,
+4999,Efficacité et sobriété logistique,1,0,1,0,1,0,1,1,1,1,True,0,1,[],[65606],1.0,[65606]
+4999,Efficacité et sobriété logistique,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4999,Efficacité et sobriété logistique,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4999,Efficacité et sobriété logistique,4,1,2,1,2,1,3,2,2,2,True,0,2,[90534],"[90533, 90541]",2.0,"[65606, 90533]"
+4999,Efficacité et sobriété logistique,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4999,Efficacité et sobriété logistique,6,1,0,1,1,0,1,2,2,1,False,1,2,[65623],[],1.0,[65606]
+4999,Electricité renouvelable,1,0,1,0,2,0,1,1,2,1,False,1,1,[],[65600],2.0,[65600]
+4999,Electricité renouvelable,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],2.0,[65614]
+4999,Electricité renouvelable,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4999,Electricité renouvelable,4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],1.0,[65614]
+4999,Electricité renouvelable,5,1,0,0,0,1,0,2,0,2,False,2,2,[65632],[],0.0,[]
+4999,Electricité renouvelable,6,1,0,1,0,1,0,2,2,2,True,0,2,[65614],[],1.0,[65614]
+4999,Fret décarboné et multimodalité,1,1,0,1,0,1,0,2,2,2,True,0,2,[90532],[],1.0,[65606]
+4999,Fret décarboné et multimodalité,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4999,Fret décarboné et multimodalité,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4999,Fret décarboné et multimodalité,4,1,0,1,0,1,0,2,2,2,True,0,2,[90534],[],2.0,"[65606, 90532, 90534]"
+4999,Fret décarboné et multimodalité,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4999,Fret décarboné et multimodalité,6,0,0,0,0,0,0,0,0,0,True,0,0,[],[],1.0,[65606]
+4999,Gestion des forêts et produits bois,1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],2.0,[65622]
+4999,Gestion des forêts et produits bois,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4999,Gestion des forêts et produits bois,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4999,Gestion des forêts et produits bois,4,2,1,0,3,1,3,3,2,2,False,1,2,[90522],"[65613, 65622, 90538]",0.0,[]
+4999,Gestion des forêts et produits bois,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4999,Gestion des forêts et produits bois,6,0,0,0,0,0,0,0,0,0,True,0,0,[],[],1.0,[90538]
+4999,Gestion des haies,1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],2.0,[65622]
+4999,Gestion des haies,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4999,Gestion des haies,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4999,Gestion des haies,4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4999,Gestion des haies,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4999,Gestion des haies,6,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4999,Pratiques stockantes,1,2,0,1,0,1,0,3,2,2,False,1,2,[65621],[],0.0,[]
+4999,Pratiques stockantes,2,1,0,1,0,1,0,2,2,2,True,0,2,[65622],[],0.0,[]
+4999,Pratiques stockantes,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4999,Pratiques stockantes,4,0,1,0,1,0,1,1,1,1,True,0,1,[],[90547],1.0,[90547]
+4999,Pratiques stockantes,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4999,Pratiques stockantes,6,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4999,Production Industrielle,1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4999,Production Industrielle,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4999,Production Industrielle,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4999,Production Industrielle,4,2,0,2,0,2,0,3,3,3,True,0,3,"[65610, 90539]",[],2.0,"[65608, 65610]"
+4999,Production Industrielle,5,0,0,0,0,1,0,0,0,2,False,2,0,[],[],0.0,[]
+4999,Production Industrielle,6,1,1,1,1,1,1,2,2,2,True,0,2,[65608],[90536],1.0,"[65608, 90536]"
+4999,Prévention des déchets,1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4999,Prévention des déchets,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4999,Prévention des déchets,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],2.0,[65609]
+4999,Prévention des déchets,4,0,1,0,0,0,0,1,0,0,False,1,0,[],[],0.0,[]
+4999,Prévention des déchets,5,4,0,2,1,1,1,3,3,2,False,1,3,"[65592, 65630]",[90535],0.0,[]
+4999,Prévention des déchets,6,2,2,3,1,2,2,3,3,3,True,0,3,"[65609, 65616]","[65599, 90557]",2.0,"[65609, 65616, 90557]"
+4999,Réduction des déplacements,1,1,1,1,0,0,1,2,2,1,False,1,2,[65594],[65600],0.0,[]
+4999,Réduction des déplacements,2,1,0,1,0,1,0,2,2,2,True,0,2,[65594],[],0.0,[]
+4999,Réduction des déplacements,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4999,Réduction des déplacements,4,0,0,0,1,0,0,0,1,0,False,1,0,[],[],0.0,[]
+4999,Réduction des déplacements,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4999,Réduction des déplacements,6,2,1,2,1,2,1,3,3,3,True,0,3,"[65594, 65605]",[90557],2.0,"[65605, 90557]"
+4999,Réseaux de chaleur décarbonés,1,2,0,2,1,2,0,3,3,3,True,0,3,"[65611, 65631]",[],3.0,[65611]
+4999,Réseaux de chaleur décarbonés,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],2.0,[65613]
+4999,Réseaux de chaleur décarbonés,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],2.0,[65611]
+4999,Réseaux de chaleur décarbonés,4,0,1,0,0,0,0,1,0,0,False,1,0,[],[],2.0,[65611]
+4999,Réseaux de chaleur décarbonés,5,0,1,0,0,1,0,1,0,2,False,2,1,[],[65632],2.0,"[65631, 65632]"
+4999,Réseaux de chaleur décarbonés,6,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4999,Sobriété des bâtiments (résidentiel),1,0,1,0,1,0,1,1,1,1,True,0,1,[],[65600],0.0,[]
+4999,Sobriété des bâtiments (résidentiel),2,1,0,1,0,1,0,2,2,2,True,0,2,[90524],[],0.0,[]
+4999,Sobriété des bâtiments (résidentiel),3,2,0,2,1,2,0,3,3,3,True,0,3,"[65596, 65602]",[],0.0,[]
+4999,Sobriété des bâtiments (résidentiel),4,1,2,2,1,1,1,2,3,2,False,1,2,[111906],[90527],0.0,[]
+4999,Sobriété des bâtiments (résidentiel),5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4999,Sobriété des bâtiments (résidentiel),6,4,3,4,3,4,3,3,3,3,True,0,3,"[65596, 65612, 65620, 90540]","[65591, 65594, 90557]",2.0,"[65596, 65612, 90557]"
+4999,Sobriété et isolation des bâtiments (tertiaire),1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],1.0,[65600]
+4999,Sobriété et isolation des bâtiments (tertiaire),2,2,0,2,0,2,0,3,3,3,True,0,3,"[90524, 90525]",[],0.0,[]
+4999,Sobriété et isolation des bâtiments (tertiaire),3,1,0,1,0,1,0,2,2,2,True,0,2,[65595],[],0.0,[]
+4999,Sobriété et isolation des bâtiments (tertiaire),4,2,1,1,1,1,0,3,2,2,False,1,2,[90525],[65599],0.0,[]
+4999,Sobriété et isolation des bâtiments (tertiaire),5,2,0,3,0,3,0,3,3,3,True,0,3,"[65595, 65629, 65632]",[],2.0,[90525]
+4999,Sobriété et isolation des bâtiments (tertiaire),6,1,2,1,1,1,1,2,2,2,True,0,2,[65612],"[65599, 65618]",2.0,[65612]
+4999,Sobriété foncière,1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],1.0,[65624]
+4999,Sobriété foncière,2,3,0,3,0,3,0,3,3,3,True,0,3,"[65599, 65601, 65624]",[],2.0,"[65601, 65624, 90554]"
+4999,Sobriété foncière,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4999,Sobriété foncière,4,2,2,2,2,2,2,3,3,3,True,0,3,"[65601, 90554]","[90552, 90553]",0.0,[]
+4999,Sobriété foncière,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4999,Sobriété foncière,6,2,0,2,0,2,0,3,3,3,True,0,3,"[65599, 65601]",[],1.0,[65624]
+4999,Valorisation matière des déchets,1,1,1,1,0,1,0,2,2,2,True,0,2,[65631],[],0.0,[65609]
+4999,Valorisation matière des déchets,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4999,Valorisation matière des déchets,3,1,0,1,0,1,0,2,2,2,True,0,2,[65609],[],1.0,[65609]
+4999,Valorisation matière des déchets,4,1,0,1,0,1,0,2,2,2,True,0,2,[65609],[],0.0,[]
+4999,Valorisation matière des déchets,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],2.0,"[65609, 65631]"
+4999,Valorisation matière des déchets,6,1,0,1,1,1,1,2,2,2,True,0,2,[65609],[90550],2.0,"[65609, 65616, 90550]"
+4999,Vélo et transport en commun,1,1,0,1,0,1,0,2,2,2,True,0,2,[65604],[],3.0,"[65603, 65604]"
+4999,Vélo et transport en commun,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4999,Vélo et transport en commun,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4999,Vélo et transport en commun,4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4999,Vélo et transport en commun,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+4999,Vélo et transport en commun,6,2,0,1,0,1,0,3,2,2,False,1,2,[65603],[],2.0,[65605]
+5005,Changements de pratiques de fertilisation azotée,6,0,1,0,1,0,1,1,1,1,True,0,1,[],[12594],,
+5005,Efficacité et sobriété logistique,5,1,0,1,0,1,0,2,2,2,True,0,2,[12594],[],,
+5005,Electricité renouvelable,1,1,0,1,0,1,0,2,2,2,True,0,2,[12628],[],,
+5005,Electricité renouvelable,2,1,0,1,0,2,0,2,2,3,False,1,2,[12615],[],,
+5005,Electricité renouvelable,4,0,1,0,1,0,0,1,1,0,False,1,1,[],[12613],,
+5005,Gestion des forêts et produits bois,2,0,1,0,1,0,1,1,1,1,True,0,1,[],[12619],,
+5005,Gestion des forêts et produits bois,6,0,1,0,1,0,1,1,1,1,True,0,1,[],[12619],,
+5005,Prévention des déchets,5,2,0,2,0,2,0,3,3,3,True,0,3,"[12592, 12604]",[],,
+5005,Réduction des déplacements,1,1,0,1,0,1,0,2,2,2,True,0,2,[12599],[],,
+5005,Réduction des déplacements,2,2,0,2,0,2,0,3,3,3,True,0,3,"[12591, 12626]",[],,
+5005,Réduction des déplacements,5,1,0,1,0,1,0,2,2,2,True,0,2,[12592],[],,
+5005,Réseaux de chaleur décarbonés,1,2,0,2,0,2,0,3,3,3,True,0,3,"[12596, 12597]",[],,
+5005,Réseaux de chaleur décarbonés,2,1,0,2,0,2,0,2,3,3,False,1,3,"[12615, 12621]",[],,
+5005,Réseaux de chaleur décarbonés,4,1,0,0,0,0,0,2,0,0,False,2,0,[],[],,
+5005,Sobriété des bâtiments (résidentiel),2,1,0,1,0,1,0,2,2,2,True,0,2,[12606],[],,
+5005,Sobriété des bâtiments (résidentiel),3,1,0,1,0,1,0,2,2,2,True,0,2,[12623],[],,
+5005,Sobriété des bâtiments (résidentiel),4,2,1,2,1,2,0,3,3,3,True,0,3,"[12610, 12623]",[12601],,
+5005,Sobriété des bâtiments (résidentiel),6,2,0,2,0,2,0,3,3,3,True,0,3,"[12610, 12623]",[],,
+5005,Sobriété et isolation des bâtiments (tertiaire),1,1,0,1,0,1,0,2,2,2,True,0,2,[12612],[],,
+5005,Sobriété et isolation des bâtiments (tertiaire),2,1,0,1,0,1,0,2,2,2,True,0,2,[12622],[],,
+5005,Sobriété et isolation des bâtiments (tertiaire),4,1,0,1,0,1,0,2,2,2,True,0,2,[12595],[],,
+5005,Sobriété et isolation des bâtiments (tertiaire),5,1,0,1,0,1,0,2,2,2,True,0,2,[12592],[],,
+5005,Sobriété foncière,2,1,0,1,0,1,0,2,2,2,True,0,2,[12607],[],,
+5005,Valorisation matière des déchets,4,1,0,1,0,1,0,2,2,2,True,0,2,[12605],[],,
+5005,Véhicules électriques,2,1,0,1,0,1,0,2,2,2,True,0,2,[12626],[],,
+5005,Vélo et transport en commun,1,2,0,2,0,2,0,3,3,3,True,0,3,"[12603, 12616]",[],,
+5005,Vélo et transport en commun,2,1,0,1,0,1,0,2,2,2,True,0,2,[12626],[],,
+5033,Biogaz,4,0,1,0,1,0,1,1,1,1,True,0,1,[],[57608],,
+5033,Changement chaudières fioul + rénovation (résidentiel),1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5033,Changement chaudières fioul + rénovation (résidentiel),2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5033,Changement chaudières fioul + rénovation (résidentiel),3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],2.0,[57571]
+5033,Changement chaudières fioul + rénovation (résidentiel),4,0,1,0,1,0,1,1,1,1,True,0,1,[],[57573],1.0,[57579]
+5033,Changement chaudières fioul + rénovation (résidentiel),5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5033,Changement chaudières fioul + rénovation (résidentiel),6,0,0,0,0,0,0,0,0,0,True,0,0,[],[],3.0,"[57574, 57575, 57576, 57578]"
+5033,Changement chaudières gaz + rénovation (résidentiel),1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5033,Changement chaudières gaz + rénovation (résidentiel),2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5033,Changement chaudières gaz + rénovation (résidentiel),3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],2.0,[57571]
+5033,Changement chaudières gaz + rénovation (résidentiel),4,0,1,0,1,0,1,1,1,1,True,0,1,[],[57573],1.0,[57579]
+5033,Changement chaudières gaz + rénovation (résidentiel),5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5033,Changement chaudières gaz + rénovation (résidentiel),6,0,0,0,0,0,0,0,0,0,True,0,0,[],[],3.0,"[57574, 57575, 57576, 57578]"
+5033,Covoiturage,1,0,1,0,1,0,1,1,1,1,True,0,1,[],[57558],1.0,[57558]
+5033,Covoiturage,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5033,Covoiturage,3,1,0,1,0,1,0,2,2,2,True,0,2,[57557],[],0.0,[]
+5033,Covoiturage,4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],1.0,[57557]
+5033,Covoiturage,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],1.0,[57559]
+5033,Covoiturage,6,0,1,0,1,0,1,1,1,1,True,0,1,[],[57559],0.0,[]
+5033,Efficacité et sobriété logistique,1,0,1,0,1,0,1,1,1,1,True,0,1,[],[57638],,
+5033,Efficacité et sobriété logistique,4,0,1,0,0,0,0,1,0,0,False,1,0,[],[],,
+5033,Efficacité et sobriété logistique,6,0,2,0,2,0,2,2,2,2,True,0,2,[],"[57636, 57641]",,
+5033,Electricité renouvelable,1,0,2,0,2,0,2,2,2,2,True,0,2,[],"[57596, 57601]",2.0,[57601]
+5033,Electricité renouvelable,2,2,0,2,0,2,0,3,3,3,True,0,3,"[57595, 57597]",[],2.0,"[57595, 57597]"
+5033,Electricité renouvelable,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],2.0,[57601]
+5033,Electricité renouvelable,4,0,4,0,4,0,4,2,2,2,True,0,2,[],"[57599, 57600, 57609, 57610]",0.0,[]
+5033,Electricité renouvelable,5,2,1,2,1,2,1,3,3,3,True,0,3,"[57594, 57611]",[57593],3.0,"[57593, 57594]"
+5033,Electricité renouvelable,6,0,1,0,1,0,1,1,1,1,True,0,1,[],[57598],0.0,[]
+5033,Gestion des forêts et produits bois,1,0,1,0,1,0,1,1,1,1,True,0,1,[],[57632],2.0,"[57631, 57632, 57633]"
+5033,Gestion des forêts et produits bois,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5033,Gestion des forêts et produits bois,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5033,Gestion des forêts et produits bois,4,0,2,0,2,0,2,2,2,2,True,0,2,[],"[57603, 57604]",0.0,[]
+5033,Gestion des forêts et produits bois,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5033,Gestion des forêts et produits bois,6,0,2,0,2,0,2,2,2,2,True,0,2,[],"[57605, 57606]",0.0,[]
+5033,Gestion des haies,1,0,2,0,1,0,1,2,1,1,False,1,1,[],[57633],2.0,"[57630, 57633, 57634]"
+5033,Gestion des haies,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5033,Gestion des haies,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5033,Gestion des haies,4,0,1,0,1,0,1,1,1,1,True,0,1,[],[57602],0.0,[]
+5033,Gestion des haies,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5033,Gestion des haies,6,0,1,0,2,0,2,1,2,2,False,1,2,[],"[57630, 57634]",0.0,[]
+5033,Production Industrielle,4,0,0,0,1,0,1,0,1,1,False,1,1,[],[57566],,
+5033,Prévention des déchets,1,1,2,1,2,1,2,2,2,2,True,0,2,[57621],"[57617, 57623]",2.0,"[57616, 57623]"
+5033,Prévention des déchets,2,0,0,1,0,1,0,0,2,2,False,2,2,[57614],[],2.0,"[57621, 57624]"
+5033,Prévention des déchets,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5033,Prévention des déchets,4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],1.0,[57617]
+5033,Prévention des déchets,5,0,1,0,1,0,1,1,1,1,True,0,1,[],[57534],0.0,[]
+5033,Prévention des déchets,6,0,5,0,5,0,5,2,2,2,True,0,2,[],"[57615, 57618, 57619, 57620, 57624]",2.0,"[57615, 57618, 57619, 57624, 57640]"
+5033,Réduction des déplacements,1,0,1,0,1,0,1,1,1,1,True,0,1,[],[57556],1.0,[57556]
+5033,Réduction des déplacements,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5033,Réduction des déplacements,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5033,Réduction des déplacements,4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5033,Réduction des déplacements,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5033,Réduction des déplacements,6,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5033,Réseaux de chaleur décarbonés,1,0,1,0,1,0,1,1,1,1,True,0,1,[],[57607],1.0,[57607]
+5033,Réseaux de chaleur décarbonés,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5033,Réseaux de chaleur décarbonés,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],1.0,[57607]
+5033,Réseaux de chaleur décarbonés,4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5033,Réseaux de chaleur décarbonés,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5033,Réseaux de chaleur décarbonés,6,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5033,Sobriété des bâtiments (résidentiel),3,1,0,1,0,1,0,2,2,2,True,0,2,[57571],[],,
+5033,Sobriété des bâtiments (résidentiel),4,0,1,0,1,0,0,1,1,0,False,1,1,[],[57579],,
+5033,Sobriété des bâtiments (résidentiel),6,3,5,3,5,3,6,3,3,3,True,0,3,"[57578, 57580, 57613]","[57572, 57574, 57575, 57576, 57577]",,
+5033,Sobriété et isolation des bâtiments (tertiaire),1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5033,Sobriété et isolation des bâtiments (tertiaire),2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5033,Sobriété et isolation des bâtiments (tertiaire),3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5033,Sobriété et isolation des bâtiments (tertiaire),4,1,4,0,4,0,4,2,2,2,True,0,2,[],"[57564, 57567, 57569, 57570]",0.0,[]
+5033,Sobriété et isolation des bâtiments (tertiaire),5,2,2,1,3,2,1,3,2,3,False,1,3,"[57560, 57565]","[57534, 57583]",2.0,"[57560, 57584]"
+5033,Sobriété et isolation des bâtiments (tertiaire),6,0,3,1,3,1,3,2,2,2,True,0,2,[57563],"[57561, 57562, 57568]",1.0,[57561]
+5033,Sobriété foncière,1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],1.0,[57587]
+5033,Sobriété foncière,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5033,Sobriété foncière,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5033,Sobriété foncière,4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5033,Sobriété foncière,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5033,Sobriété foncière,6,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5033,Valorisation matière des déchets,1,1,0,1,0,1,0,2,2,2,True,0,2,[57616],[],0.0,[]
+5033,Valorisation matière des déchets,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5033,Valorisation matière des déchets,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5033,Valorisation matière des déchets,4,0,1,0,1,0,1,1,1,1,True,0,1,[],[57622],0.0,[]
+5033,Valorisation matière des déchets,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5033,Valorisation matière des déchets,6,0,0,0,0,0,0,0,0,0,True,0,0,[],[],1.0,[57640]
+5033,Véhicules électriques,1,0,2,0,2,0,2,2,2,2,True,0,2,[],"[57552, 57556]",2.0,"[57552, 57556]"
+5033,Véhicules électriques,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5033,Véhicules électriques,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5033,Véhicules électriques,4,0,1,0,1,0,1,1,1,1,True,0,1,[],[57553],0.0,[]
+5033,Véhicules électriques,5,0,1,0,1,0,1,1,1,1,True,0,1,[],[57554],0.0,[]
+5033,Véhicules électriques,6,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5033,Vélo et transport en commun,1,1,5,1,5,1,5,2,2,2,True,0,2,[57549],"[57545, 57547, 57548, 57550, 57555]",2.0,"[57545, 57547, 57550, 57555]"
+5033,Vélo et transport en commun,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5033,Vélo et transport en commun,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5033,Vélo et transport en commun,4,0,1,0,1,0,1,1,1,1,True,0,1,[],[57551],0.0,[]
+5033,Vélo et transport en commun,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5033,Vélo et transport en commun,6,0,1,0,1,0,1,1,1,1,True,0,1,[],[57546],1.0,[57551]
+5119,Biogaz,1,0,1,0,0,0,0,1,0,0,False,1,0,[],[],0.0,[]
+5119,Biogaz,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5119,Biogaz,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],1.0,[26704]
+5119,Biogaz,4,1,1,1,1,1,1,2,2,2,True,0,2,[26704],[26726],1.0,[26704]
+5119,Biogaz,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5119,Biogaz,6,1,0,1,0,1,0,2,2,2,True,0,2,[26704],[],1.0,[26704]
+5119,Bus et cars décarbonés,1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5119,Bus et cars décarbonés,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5119,Bus et cars décarbonés,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5119,Bus et cars décarbonés,4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5119,Bus et cars décarbonés,5,1,0,1,0,1,0,2,2,2,True,0,2,[26109],[],2.0,[26109]
+5119,Bus et cars décarbonés,6,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5119,Changement chaudières fioul + rénovation (résidentiel),1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5119,Changement chaudières fioul + rénovation (résidentiel),2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5119,Changement chaudières fioul + rénovation (résidentiel),3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],3.0,"[26004, 26007]"
+5119,Changement chaudières fioul + rénovation (résidentiel),4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5119,Changement chaudières fioul + rénovation (résidentiel),5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],1.0,[37542]
+5119,Changement chaudières fioul + rénovation (résidentiel),6,0,0,0,0,0,0,0,0,0,True,0,0,[],[],3.0,[26004]
+5119,Changement chaudières gaz + rénovation (résidentiel),1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5119,Changement chaudières gaz + rénovation (résidentiel),2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5119,Changement chaudières gaz + rénovation (résidentiel),3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],3.0,"[26004, 26007]"
+5119,Changement chaudières gaz + rénovation (résidentiel),4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5119,Changement chaudières gaz + rénovation (résidentiel),5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5119,Changement chaudières gaz + rénovation (résidentiel),6,0,0,0,0,0,0,0,0,0,True,0,0,[],[],3.0,[26004]
+5119,Changements de pratiques de fertilisation azotée,2,1,0,1,0,1,0,2,2,2,True,0,2,[27279],[],,
+5119,Changements de pratiques de fertilisation azotée,3,2,0,2,0,2,0,3,3,3,True,0,3,"[27273, 27279]",[],,
+5119,Changements de pratiques de fertilisation azotée,6,2,0,2,0,2,0,3,3,3,True,0,3,"[27273, 27279]",[],,
+5119,Covoiturage,1,1,0,1,0,1,0,2,2,2,True,0,2,[26107],[],1.0,[26107]
+5119,Covoiturage,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5119,Covoiturage,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5119,Covoiturage,4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5119,Covoiturage,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5119,Covoiturage,6,0,0,0,0,0,0,0,0,0,True,0,0,[],[],1.0,[26107]
+5119,Efficacité et carburants décarbonés des véhicules privés,1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5119,Efficacité et carburants décarbonés des véhicules privés,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5119,Efficacité et carburants décarbonés des véhicules privés,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5119,Efficacité et carburants décarbonés des véhicules privés,4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5119,Efficacité et carburants décarbonés des véhicules privés,5,1,0,1,0,1,0,2,2,2,True,0,2,[26109],[],2.0,[26109]
+5119,Efficacité et carburants décarbonés des véhicules privés,6,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5119,Efficacité et sobriété logistique,1,1,1,1,1,1,0,2,2,2,True,0,2,[26121],[26125],0.0,[]
+5119,Efficacité et sobriété logistique,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],1.0,[26121]
+5119,Efficacité et sobriété logistique,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5119,Efficacité et sobriété logistique,4,2,0,2,1,2,0,3,3,3,True,0,3,"[26121, 27356]",[],0.0,[]
+5119,Efficacité et sobriété logistique,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5119,Efficacité et sobriété logistique,6,2,0,2,0,3,0,3,3,3,True,0,3,"[26121, 27277]",[],1.0,[26121]
+5119,Electricité renouvelable,1,1,2,1,2,1,2,2,2,2,True,0,2,[26727],"[37499, 39207]",2.0,"[26727, 39207]"
+5119,Electricité renouvelable,2,0,0,0,0,0,1,0,0,1,False,1,0,[],[],2.0,[26727]
+5119,Electricité renouvelable,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5119,Electricité renouvelable,4,3,0,3,0,2,0,3,3,3,True,0,3,"[26076, 26727, 26730]",[],2.0,[26727]
+5119,Electricité renouvelable,5,0,0,0,0,1,0,0,0,2,False,2,0,[],[],1.0,[37499]
+5119,Electricité renouvelable,6,2,2,2,2,2,2,3,3,3,True,0,3,"[26076, 26727]","[26728, 29289]",2.0,[26727]
+5119,Elevage durable,3,1,0,1,0,1,0,2,2,2,True,0,2,[27273],[],,
+5119,Elevage durable,6,1,0,1,0,1,0,2,2,2,True,0,2,[27273],[],,
+5119,Fret décarboné et multimodalité,1,1,0,0,0,1,0,2,0,2,False,2,2,[26121],[],0.0,[]
+5119,Fret décarboné et multimodalité,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],1.0,[26121]
+5119,Fret décarboné et multimodalité,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5119,Fret décarboné et multimodalité,4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5119,Fret décarboné et multimodalité,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5119,Fret décarboné et multimodalité,6,1,0,0,1,1,0,2,1,2,False,1,2,[26121],[],1.0,[26121]
+5119,Gestion des forêts et produits bois,1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5119,Gestion des forêts et produits bois,2,0,0,1,0,0,0,0,2,0,False,2,0,[],[],2.0,[27319]
+5119,Gestion des forêts et produits bois,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],2.0,[27318]
+5119,Gestion des forêts et produits bois,4,1,1,1,1,1,1,2,2,2,True,0,2,[27319],[26725],2.0,"[27318, 27319]"
+5119,Gestion des forêts et produits bois,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5119,Gestion des forêts et produits bois,6,0,0,1,0,0,0,0,2,0,False,2,0,[],[],1.0,[27319]
+5119,Gestion des haies,1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5119,Gestion des haies,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],1.0,[27319]
+5119,Gestion des haies,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],2.0,"[27278, 27318]"
+5119,Gestion des haies,4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],2.0,"[27318, 27319]"
+5119,Gestion des haies,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5119,Gestion des haies,6,1,0,1,0,1,0,2,2,2,True,0,2,[27318],[],1.0,[27319]
+5119,Gestion des prairies,1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5119,Gestion des prairies,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5119,Gestion des prairies,3,1,0,1,0,1,0,2,2,2,True,0,2,[27278],[],2.0,[27278]
+5119,Gestion des prairies,4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5119,Gestion des prairies,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5119,Gestion des prairies,6,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5119,Pratiques stockantes,1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5119,Pratiques stockantes,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5119,Pratiques stockantes,3,0,1,0,1,0,1,1,1,1,True,0,1,[],[27278],1.0,[27278]
+5119,Pratiques stockantes,4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5119,Pratiques stockantes,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5119,Pratiques stockantes,6,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5119,Production Industrielle,1,0,0,0,0,0,1,0,0,1,False,1,0,[],[],0.0,[]
+5119,Production Industrielle,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5119,Production Industrielle,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5119,Production Industrielle,4,1,0,1,0,1,0,2,2,2,True,0,2,[27356],[],2.0,[27356]
+5119,Production Industrielle,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5119,Production Industrielle,6,0,0,0,0,1,0,0,0,2,False,2,0,[],[],1.0,[27356]
+5119,Prévention des déchets,1,1,0,1,0,0,0,2,2,0,False,2,2,[27362],[],2.0,[27362]
+5119,Prévention des déchets,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5119,Prévention des déchets,3,2,0,1,0,1,0,3,2,2,False,1,2,[27360],[],2.0,"[27360, 27362]"
+5119,Prévention des déchets,4,5,2,3,2,4,2,3,3,3,True,0,3,"[27360, 29280, 29293, 39078, 39082]","[39072, 39075]",1.0,[27360]
+5119,Prévention des déchets,5,3,2,5,2,4,2,3,3,3,True,0,3,"[39055, 39057, 39074]","[29295, 39070]",0.0,[]
+5119,Prévention des déchets,6,3,0,2,0,2,1,3,3,3,True,0,3,"[27357, 27360, 27362]",[],2.0,"[27357, 27360, 27362]"
+5119,Réduction des déplacements,1,1,0,1,0,1,0,2,2,2,True,0,2,[26107],[],0.0,[]
+5119,Réduction des déplacements,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],2.0,[27414]
+5119,Réduction des déplacements,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5119,Réduction des déplacements,4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5119,Réduction des déplacements,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],1.0,[26109]
+5119,Réduction des déplacements,6,0,1,0,1,0,1,1,1,1,True,0,1,[],[26109],0.0,[]
+5119,Réseaux de chaleur décarbonés,1,4,0,4,0,4,0,3,3,3,True,0,3,"[26699, 37544, 37562, 37613]",[],3.0,"[26699, 26703, 37544, 37562, 37613, 37622]"
+5119,Réseaux de chaleur décarbonés,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],1.0,[26703]
+5119,Réseaux de chaleur décarbonés,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5119,Réseaux de chaleur décarbonés,4,0,2,0,2,0,2,2,2,2,True,0,2,[],"[26703, 37622]",2.0,"[26699, 37623]"
+5119,Réseaux de chaleur décarbonés,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5119,Réseaux de chaleur décarbonés,6,0,2,0,2,0,2,2,2,2,True,0,2,[],"[29289, 37623]",2.0,[37623]
+5119,Sobriété des bâtiments (résidentiel),1,0,1,0,0,0,0,1,0,0,False,1,0,[],[],,
+5119,Sobriété des bâtiments (résidentiel),3,2,0,2,0,2,0,3,3,3,True,0,3,"[26004, 26007]",[],,
+5119,Sobriété des bâtiments (résidentiel),4,2,0,1,0,2,0,3,2,3,False,1,3,"[26004, 27355]",[],,
+5119,Sobriété des bâtiments (résidentiel),5,0,0,0,1,0,1,0,1,1,False,1,1,[],[37542],,
+5119,Sobriété des bâtiments (résidentiel),6,1,0,1,0,1,0,2,2,2,True,0,2,[26004],[],,
+5119,Sobriété et isolation des bâtiments (tertiaire),1,1,0,1,0,1,0,2,2,2,True,0,2,[26082],[],0.0,[]
+5119,Sobriété et isolation des bâtiments (tertiaire),2,1,0,1,0,1,0,2,2,2,True,0,2,[37494],[],0.0,[]
+5119,Sobriété et isolation des bâtiments (tertiaire),3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5119,Sobriété et isolation des bâtiments (tertiaire),4,1,1,1,0,2,0,2,2,3,False,1,2,[29278],[],2.0,"[26070, 37494]"
+5119,Sobriété et isolation des bâtiments (tertiaire),5,5,5,6,5,6,5,3,3,3,True,0,3,"[26008, 26070, 37484, 37624, 37626, 37628]","[37499, 37503, 37514, 37526, 37530]",3.0,"[26008, 26070, 37499, 37503, 37514, 37526, 37530, 37624, 37626]"
+5119,Sobriété et isolation des bâtiments (tertiaire),6,1,0,1,0,1,0,2,2,2,True,0,2,[26067],[],1.0,[26067]
+5119,Sobriété foncière,1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5119,Sobriété foncière,2,1,0,1,0,1,0,2,2,2,True,0,2,[27414],[],2.0,"[27318, 27319, 27414]"
+5119,Sobriété foncière,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5119,Sobriété foncière,4,1,0,1,0,1,0,2,2,2,True,0,2,[27318],[],1.0,"[27318, 27319]"
+5119,Sobriété foncière,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5119,Sobriété foncière,6,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5119,Valorisation matière des déchets,1,1,0,1,0,1,0,2,2,2,True,0,2,[27362],[],2.0,[27362]
+5119,Valorisation matière des déchets,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5119,Valorisation matière des déchets,3,0,0,1,0,1,0,0,2,2,False,2,2,[27362],[],1.0,[27362]
+5119,Valorisation matière des déchets,4,1,0,1,0,1,0,2,2,2,True,0,2,[27356],[],0.0,[]
+5119,Valorisation matière des déchets,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5119,Valorisation matière des déchets,6,1,0,1,0,2,0,2,2,3,False,1,2,[27362],[],1.0,[27362]
+5119,Véhicules électriques,1,1,0,1,0,1,0,2,2,2,True,0,2,[26115],[],3.0,[26115]
+5119,Véhicules électriques,2,1,0,1,0,1,0,2,2,2,True,0,2,[26108],[],2.0,[26108]
+5119,Véhicules électriques,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],2.0,[26115]
+5119,Véhicules électriques,4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5119,Véhicules électriques,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5119,Véhicules électriques,6,1,0,1,0,1,0,2,2,2,True,0,2,[26115],[],0.0,[]
+5119,Vélo et transport en commun,1,2,0,2,0,2,0,3,3,3,True,0,3,"[26093, 26106]",[],3.0,"[26093, 26106]"
+5119,Vélo et transport en commun,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],2.0,[26108]
+5119,Vélo et transport en commun,3,1,0,1,0,1,0,2,2,2,True,0,2,[26106],[],0.0,[]
+5119,Vélo et transport en commun,4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5119,Vélo et transport en commun,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5119,Vélo et transport en commun,6,0,1,0,1,0,1,1,1,1,True,0,1,[],[29289],0.0,[]
+5300,Biogaz,1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5300,Biogaz,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5300,Biogaz,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5300,Biogaz,4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],1.0,[23028]
+5300,Biogaz,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5300,Biogaz,6,0,1,0,1,1,0,1,1,2,False,1,1,[],[23028],1.0,[23028]
+5300,Bâtiments & Machines agricoles,1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5300,Bâtiments & Machines agricoles,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5300,Bâtiments & Machines agricoles,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5300,Bâtiments & Machines agricoles,4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5300,Bâtiments & Machines agricoles,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5300,Bâtiments & Machines agricoles,6,0,0,0,0,0,0,0,0,0,True,0,0,[],[],1.0,[23040]
+5300,Changement chaudières fioul + rénovation (résidentiel),1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5300,Changement chaudières fioul + rénovation (résidentiel),2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5300,Changement chaudières fioul + rénovation (résidentiel),3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],2.0,[23025]
+5300,Changement chaudières fioul + rénovation (résidentiel),4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],2.0,[23025]
+5300,Changement chaudières fioul + rénovation (résidentiel),5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5300,Changement chaudières fioul + rénovation (résidentiel),6,1,0,1,0,1,0,2,2,2,True,0,2,[23026],[],2.0,[23025]
+5300,Changement chaudières gaz + rénovation (résidentiel),1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5300,Changement chaudières gaz + rénovation (résidentiel),2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5300,Changement chaudières gaz + rénovation (résidentiel),3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],2.0,[23025]
+5300,Changement chaudières gaz + rénovation (résidentiel),4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],2.0,[23025]
+5300,Changement chaudières gaz + rénovation (résidentiel),5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5300,Changement chaudières gaz + rénovation (résidentiel),6,1,0,1,0,1,0,2,2,2,True,0,2,[23026],[],2.0,[23025]
+5300,Changement de chaudière à fioul (tertiaire),1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5300,Changement de chaudière à fioul (tertiaire),2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5300,Changement de chaudière à fioul (tertiaire),3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5300,Changement de chaudière à fioul (tertiaire),4,0,1,1,0,0,0,1,2,0,False,2,1,[],[23026],0.0,[]
+5300,Changement de chaudière à fioul (tertiaire),5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],1.0,"[23026, 23029]"
+5300,Changement de chaudière à fioul (tertiaire),6,0,0,0,0,0,1,0,0,1,False,1,0,[],[],1.0,[23043]
+5300,Changement de chaudière à gaz (tertiaire),1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5300,Changement de chaudière à gaz (tertiaire),2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5300,Changement de chaudière à gaz (tertiaire),3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5300,Changement de chaudière à gaz (tertiaire),4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5300,Changement de chaudière à gaz (tertiaire),5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],1.0,[23029]
+5300,Changement de chaudière à gaz (tertiaire),6,0,0,0,0,0,0,0,0,0,True,0,0,[],[],2.0,[23043]
+5300,Changements de pratiques de fertilisation azotée,6,1,0,0,1,0,1,2,1,1,False,1,1,[],[23040],,
+5300,Covoiturage,1,2,1,3,0,3,0,3,3,3,True,0,3,"[23033, 85731, 85984]",[],2.0,"[23033, 85731, 85984]"
+5300,Covoiturage,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5300,Covoiturage,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5300,Covoiturage,4,0,1,1,1,0,1,1,2,1,False,1,1,[],[85684],2.0,"[23035, 85731]"
+5300,Covoiturage,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5300,Covoiturage,6,1,0,1,0,1,0,2,2,2,True,0,2,[85731],[],2.0,"[23033, 23035, 85991]"
+5300,Efficacité et carburants décarbonés des véhicules privés,1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[23034]
+5300,Efficacité et carburants décarbonés des véhicules privés,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5300,Efficacité et carburants décarbonés des véhicules privés,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5300,Efficacité et carburants décarbonés des véhicules privés,4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5300,Efficacité et carburants décarbonés des véhicules privés,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],1.0,[23029]
+5300,Efficacité et carburants décarbonés des véhicules privés,6,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5300,Efficacité et sobriété logistique,4,1,0,0,0,0,0,2,0,0,False,2,0,[],[],,
+5300,Efficacité et sobriété logistique,6,2,0,2,0,2,0,3,3,3,True,0,3,"[23040, 23042]",[],,
+5300,Electricité renouvelable,1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5300,Electricité renouvelable,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5300,Electricité renouvelable,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5300,Electricité renouvelable,4,0,1,0,1,0,1,1,1,1,True,0,1,[],[23027],2.0,[23028]
+5300,Electricité renouvelable,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5300,Electricité renouvelable,6,0,1,0,1,1,0,1,1,2,False,1,1,[],[23028],2.0,"[23024, 23028]"
+5300,Fret décarboné et multimodalité,1,0,1,0,1,0,1,1,1,1,True,0,1,[],[23034],1.0,[23034]
+5300,Fret décarboné et multimodalité,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5300,Fret décarboné et multimodalité,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5300,Fret décarboné et multimodalité,4,0,1,0,1,0,1,1,1,1,True,0,1,[],[23034],1.0,[23034]
+5300,Fret décarboné et multimodalité,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5300,Fret décarboné et multimodalité,6,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5300,Gestion des forêts et produits bois,1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5300,Gestion des forêts et produits bois,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5300,Gestion des forêts et produits bois,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],1.0,[23037]
+5300,Gestion des forêts et produits bois,4,1,1,1,1,1,1,2,2,2,True,0,2,[23027],[23037],2.0,"[23027, 23037]"
+5300,Gestion des forêts et produits bois,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5300,Gestion des forêts et produits bois,6,0,0,0,0,0,0,0,0,0,True,0,0,[],[],1.0,[23027]
+5300,Gestion des haies,1,0,0,0,1,0,0,0,1,0,False,1,0,[],[],1.0,[80556]
+5300,Gestion des haies,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5300,Gestion des haies,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],2.0,[80574]
+5300,Gestion des haies,4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],1.0,[23037]
+5300,Gestion des haies,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5300,Gestion des haies,6,0,2,0,2,0,2,2,2,2,True,0,2,[],"[23037, 80542]",2.0,"[23037, 80542, 80574]"
+5300,Gestion des prairies,1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5300,Gestion des prairies,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5300,Gestion des prairies,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5300,Gestion des prairies,4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],1.0,[23037]
+5300,Gestion des prairies,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5300,Gestion des prairies,6,0,0,0,0,0,0,0,0,0,True,0,0,[],[],1.0,[23037]
+5300,Pratiques stockantes,1,0,1,0,1,0,0,1,1,0,False,1,1,[],[80556],0.0,[]
+5300,Pratiques stockantes,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5300,Pratiques stockantes,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5300,Pratiques stockantes,4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5300,Pratiques stockantes,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5300,Pratiques stockantes,6,1,1,1,0,1,1,2,2,2,True,0,2,[23040],[23037],2.0,"[23040, 80542]"
+5300,Production Industrielle,6,1,0,1,0,1,0,2,2,2,True,0,2,[23043],[],,
+5300,Prévention des déchets,1,0,0,1,0,1,1,0,2,2,False,2,2,[23032],[],0.0,[]
+5300,Prévention des déchets,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5300,Prévention des déchets,3,1,1,1,1,1,1,2,2,2,True,0,2,[23032],[80577],2.0,"[23032, 80577]"
+5300,Prévention des déchets,4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],1.0,[23042]
+5300,Prévention des déchets,5,2,1,2,1,2,1,3,3,3,True,0,3,"[23030, 88897]",[88609],2.0,"[23030, 23042, 80559, 88609, 88897]"
+5300,Prévention des déchets,6,2,6,3,5,3,5,3,3,3,True,0,3,"[23032, 80559, 80561]","[23042, 80542, 80560, 80562, 88827]",3.0,"[23032, 80559, 80560, 80561, 80562, 80578]"
+5300,Réduction des déplacements,1,1,1,1,1,1,1,2,2,2,True,0,2,[23033],[85991],1.0,"[23035, 23041]"
+5300,Réduction des déplacements,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5300,Réduction des déplacements,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5300,Réduction des déplacements,4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],1.0,[23035]
+5300,Réduction des déplacements,5,1,0,1,0,1,0,2,2,2,True,0,2,[23029],[],0.0,[]
+5300,Réduction des déplacements,6,1,2,1,2,0,3,2,2,2,True,0,2,[23041],"[23035, 85992]",2.0,"[23035, 23041]"
+5300,Sobriété des bâtiments (résidentiel),1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5300,Sobriété des bâtiments (résidentiel),2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5300,Sobriété des bâtiments (résidentiel),3,1,0,1,1,1,0,2,2,2,True,0,2,[23025],[],2.0,[23025]
+5300,Sobriété des bâtiments (résidentiel),4,1,0,1,0,1,0,2,2,2,True,0,2,[23025],[],2.0,[23025]
+5300,Sobriété des bâtiments (résidentiel),5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5300,Sobriété des bâtiments (résidentiel),6,2,1,2,1,2,1,3,3,3,True,0,3,"[23025, 23031]",[23024],2.0,"[23025, 23026]"
+5300,Sobriété et isolation des bâtiments (tertiaire),1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5300,Sobriété et isolation des bâtiments (tertiaire),2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5300,Sobriété et isolation des bâtiments (tertiaire),3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5300,Sobriété et isolation des bâtiments (tertiaire),4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5300,Sobriété et isolation des bâtiments (tertiaire),5,1,0,1,0,1,0,2,2,2,True,0,2,[23029],[],2.0,"[23029, 23030]"
+5300,Sobriété et isolation des bâtiments (tertiaire),6,1,0,0,0,0,0,2,0,0,False,2,0,[],[],1.0,[23043]
+5300,Sobriété foncière,1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5300,Sobriété foncière,2,1,0,1,0,1,0,2,2,2,True,0,2,[23036],[],1.0,[23036]
+5300,Sobriété foncière,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5300,Sobriété foncière,4,1,0,1,0,1,0,2,2,2,True,0,2,[23036],[],0.0,[]
+5300,Sobriété foncière,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5300,Sobriété foncière,6,1,0,1,0,1,0,2,2,2,True,0,2,[23036],[],0.0,[23036]
+5300,Valorisation matière des déchets,1,0,5,0,5,0,5,2,2,2,True,0,2,[],"[23024, 23032, 23042, 80578, 80579]",2.0,"[23032, 80556]"
+5300,Valorisation matière des déchets,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5300,Valorisation matière des déchets,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],1.0,[80553]
+5300,Valorisation matière des déchets,4,1,1,1,1,1,1,2,2,2,True,0,2,[80555],[80554],1.0,[23042]
+5300,Valorisation matière des déchets,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],1.0,"[23042, 80542]"
+5300,Valorisation matière des déchets,6,0,0,0,0,0,0,0,0,0,True,0,0,[],[],2.0,"[23024, 23032, 80542, 80553, 80557, 80561]"
+5300,Véhicules électriques,1,1,0,1,0,1,0,2,2,2,True,0,2,[23034],[],0.0,[23034]
+5300,Véhicules électriques,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5300,Véhicules électriques,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5300,Véhicules électriques,4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5300,Véhicules électriques,5,0,1,0,1,0,1,1,1,1,True,0,1,[],[23029],0.0,[]
+5300,Véhicules électriques,6,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5300,Vélo et transport en commun,1,5,3,6,2,7,2,3,3,3,True,0,3,"[23033, 23034, 85984, 85985, 85987, 85995]","[85999, 87963]",3.0,"[23033, 23034, 85984, 85985, 85995, 85997, 85999]"
+5300,Vélo et transport en commun,2,2,1,2,0,1,1,3,3,2,False,1,3,"[23034, 85988]",[85996],2.0,"[23034, 85988]"
+5300,Vélo et transport en commun,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5300,Vélo et transport en commun,4,0,2,0,2,0,3,2,2,2,True,0,2,[],"[85990, 87965]",2.0,"[85987, 85990]"
+5300,Vélo et transport en commun,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5300,Vélo et transport en commun,6,2,2,2,2,2,0,3,3,3,True,0,3,"[23034, 85987]","[85989, 85997]",2.0,"[23033, 23034, 85991, 85999]"
+5390,Biogaz,4,0,1,0,1,0,1,1,1,1,True,0,1,[],[85676],,
+5390,Biogaz,6,0,1,0,1,0,1,1,1,1,True,0,1,[],[85677],,
+5390,Bus et cars décarbonés,1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5390,Bus et cars décarbonés,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],2.0,"[85369, 85370]"
+5390,Bus et cars décarbonés,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5390,Bus et cars décarbonés,4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5390,Bus et cars décarbonés,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5390,Bus et cars décarbonés,6,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5390,Changement chaudières fioul + rénovation (résidentiel),1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5390,Changement chaudières fioul + rénovation (résidentiel),2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5390,Changement chaudières fioul + rénovation (résidentiel),3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],2.0,"[85376, 85379]"
+5390,Changement chaudières fioul + rénovation (résidentiel),4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],1.0,[85374]
+5390,Changement chaudières fioul + rénovation (résidentiel),5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5390,Changement chaudières fioul + rénovation (résidentiel),6,0,0,0,0,0,0,0,0,0,True,0,0,[],[],2.0,"[85374, 85375, 85377]"
+5390,Changement chaudières gaz + rénovation (résidentiel),1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5390,Changement chaudières gaz + rénovation (résidentiel),2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5390,Changement chaudières gaz + rénovation (résidentiel),3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],2.0,[85376]
+5390,Changement chaudières gaz + rénovation (résidentiel),4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],1.0,[85374]
+5390,Changement chaudières gaz + rénovation (résidentiel),5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5390,Changement chaudières gaz + rénovation (résidentiel),6,0,0,0,0,0,0,0,0,0,True,0,0,[],[],2.0,"[85374, 85375, 85377]"
+5390,Covoiturage,1,1,0,1,0,1,0,2,2,2,True,0,2,[85344],[],2.0,"[85344, 85345]"
+5390,Covoiturage,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],2.0,"[85369, 85370]"
+5390,Covoiturage,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5390,Covoiturage,4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5390,Covoiturage,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5390,Covoiturage,6,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5390,Efficacité et carburants décarbonés des véhicules privés,1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5390,Efficacité et carburants décarbonés des véhicules privés,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5390,Efficacité et carburants décarbonés des véhicules privés,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5390,Efficacité et carburants décarbonés des véhicules privés,4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5390,Efficacité et carburants décarbonés des véhicules privés,5,0,3,0,3,0,3,2,2,2,True,0,2,[],"[85691, 85721, 85722]",1.0,[85721]
+5390,Efficacité et carburants décarbonés des véhicules privés,6,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5390,Efficacité et sobriété logistique,1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],1.0,[85693]
+5390,Efficacité et sobriété logistique,2,0,1,0,1,0,0,1,1,0,False,1,1,[],[85360],0.0,[]
+5390,Efficacité et sobriété logistique,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5390,Efficacité et sobriété logistique,4,0,0,0,0,0,1,0,0,1,False,1,0,[],[],1.0,[85692]
+5390,Efficacité et sobriété logistique,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5390,Efficacité et sobriété logistique,6,0,1,0,1,0,1,1,1,1,True,0,1,[],[85359],0.0,[]
+5390,Electricité renouvelable,1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5390,Electricité renouvelable,2,1,0,1,0,1,0,2,2,2,True,0,2,[85681],[],1.0,[85681]
+5390,Electricité renouvelable,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5390,Electricité renouvelable,4,0,1,0,1,0,1,1,1,1,True,0,1,[],[85679],0.0,[]
+5390,Electricité renouvelable,5,0,1,0,1,0,1,1,1,1,True,0,1,[],[85727],0.0,[]
+5390,Electricité renouvelable,6,0,1,0,1,0,1,1,1,1,True,0,1,[],[85680],0.0,[]
+5390,Pratiques stockantes,1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5390,Pratiques stockantes,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5390,Pratiques stockantes,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5390,Pratiques stockantes,4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5390,Pratiques stockantes,5,0,1,0,1,0,1,1,1,1,True,0,1,[],[120921],0.0,[]
+5390,Pratiques stockantes,6,0,0,0,0,0,0,0,0,0,True,0,0,[],[],1.0,[84975]
+5390,Production Industrielle,4,0,1,0,0,0,0,1,0,0,False,1,0,[],[],,
+5390,Production Industrielle,6,0,1,0,0,0,0,1,0,0,False,1,0,[],[],,
+5390,Prévention des déchets,1,1,1,1,1,1,1,2,2,2,True,0,2,[85692],[85693],1.0,[84973]
+5390,Prévention des déchets,2,1,0,1,0,1,0,2,2,2,True,0,2,[85685],[],2.0,"[84973, 85685]"
+5390,Prévention des déchets,3,1,0,1,0,1,0,2,2,2,True,0,2,[85687],[],2.0,[85687]
+5390,Prévention des déchets,4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],2.0,[85689]
+5390,Prévention des déchets,5,2,0,2,0,2,0,3,3,3,True,0,3,"[85717, 85719]",[],1.0,[85719]
+5390,Prévention des déchets,6,0,2,0,3,0,3,2,2,2,True,0,2,[],"[85683, 85697, 85710]",2.0,"[85683, 85710]"
+5390,Réduction des déplacements,1,2,1,2,1,2,1,3,3,3,True,0,3,"[84849, 85344]",[85345],1.0,[85699]
+5390,Réduction des déplacements,2,0,1,0,2,1,1,1,2,2,False,1,2,[],"[85724, 120930]",2.0,"[85369, 85370, 120930]"
+5390,Réduction des déplacements,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5390,Réduction des déplacements,4,0,2,0,2,0,2,2,2,2,True,0,2,[],"[85364, 85373]",0.0,[]
+5390,Réduction des déplacements,5,1,1,1,0,1,0,2,2,2,True,0,2,[85723],[],2.0,"[85723, 85724]"
+5390,Réduction des déplacements,6,1,2,1,2,1,2,2,2,2,True,0,2,[84849],"[85362, 85696]",0.0,[]
+5390,Réseaux de chaleur décarbonés,1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5390,Réseaux de chaleur décarbonés,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5390,Réseaux de chaleur décarbonés,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5390,Réseaux de chaleur décarbonés,4,0,1,0,1,0,2,1,1,2,False,1,1,[],[85673],0.0,[]
+5390,Réseaux de chaleur décarbonés,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5390,Réseaux de chaleur décarbonés,6,0,2,0,2,0,2,2,2,2,True,0,2,[],"[85674, 85675]",1.0,[85675]
+5390,Sobriété des bâtiments (résidentiel),1,1,0,1,0,1,0,2,2,2,True,0,2,[85671],[],0.0,[]
+5390,Sobriété des bâtiments (résidentiel),2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5390,Sobriété des bâtiments (résidentiel),3,1,0,1,0,1,0,2,2,2,True,0,2,[85376],[],2.0,[85376]
+5390,Sobriété des bâtiments (résidentiel),4,3,0,3,1,3,0,3,3,3,True,0,3,"[85374, 85378, 85672]",[],1.0,[85374]
+5390,Sobriété des bâtiments (résidentiel),5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5390,Sobriété des bâtiments (résidentiel),6,0,2,0,2,0,2,2,2,2,True,0,2,[],"[85375, 85379]",2.0,"[85374, 85375, 85377]"
+5390,Sobriété et isolation des bâtiments (tertiaire),1,1,0,1,0,1,0,2,2,2,True,0,2,[120926],[],0.0,[]
+5390,Sobriété et isolation des bâtiments (tertiaire),2,2,0,2,0,2,0,3,3,3,True,0,3,"[84974, 120925]",[],0.0,[]
+5390,Sobriété et isolation des bâtiments (tertiaire),3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5390,Sobriété et isolation des bâtiments (tertiaire),4,2,1,2,1,2,1,3,3,3,True,0,3,"[85725, 85726]",[85377],0.0,[]
+5390,Sobriété et isolation des bâtiments (tertiaire),5,1,0,1,0,1,0,2,2,2,True,0,2,[85728],[],2.0,[85726]
+5390,Sobriété et isolation des bâtiments (tertiaire),6,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5390,Sobriété foncière,1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],2.0,"[120940, 120941]"
+5390,Sobriété foncière,2,1,0,1,0,1,0,2,2,2,True,0,2,[84970],[],2.0,"[84960, 84969]"
+5390,Sobriété foncière,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5390,Sobriété foncière,4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5390,Sobriété foncière,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5390,Sobriété foncière,6,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5390,Valorisation matière des déchets,1,2,1,2,1,2,1,3,3,3,True,0,3,"[85686, 85688]",[85690],2.0,"[85682, 85686, 85688]"
+5390,Valorisation matière des déchets,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5390,Valorisation matière des déchets,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5390,Valorisation matière des déchets,4,1,0,1,0,1,0,2,2,2,True,0,2,[85689],[],0.0,[]
+5390,Valorisation matière des déchets,5,1,0,1,0,1,0,2,2,2,True,0,2,[85719],[],1.0,[85719]
+5390,Valorisation matière des déchets,6,0,0,0,0,0,0,0,0,0,True,0,0,[],[],1.0,[85682]
+5390,Véhicules électriques,1,1,0,1,0,1,0,2,2,2,True,0,2,[85347],[],2.0,[85347]
+5390,Véhicules électriques,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5390,Véhicules électriques,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5390,Véhicules électriques,4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5390,Véhicules électriques,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5390,Véhicules électriques,6,0,1,0,1,0,1,1,1,1,True,0,1,[],[85346],0.0,[]
+5390,Vélo et transport en commun,1,1,2,1,2,1,2,2,2,2,True,0,2,[85352],"[85353, 85357]",3.0,"[85352, 85353, 85357]"
+5390,Vélo et transport en commun,2,1,0,1,0,1,0,2,2,2,True,0,2,[85368],[],2.0,"[85369, 85370]"
+5390,Vélo et transport en commun,3,0,1,0,1,0,1,1,1,1,True,0,1,[],[85349],1.0,[85349]
+5390,Vélo et transport en commun,4,1,4,1,4,1,4,2,2,2,True,0,2,[85361],"[85354, 85355, 85356, 85358]",0.0,[]
+5390,Vélo et transport en commun,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+5390,Vélo et transport en commun,6,0,1,0,2,0,2,1,2,2,False,1,2,[],"[85363, 85705]",1.0,[85705]
+6030,Biogaz,1,0,1,0,1,0,1,1,1,1,True,0,1,[],[126694],2.0,"[126694, 126709]"
+6030,Biogaz,2,0,1,1,0,0,1,1,2,1,False,1,1,[],[126710],2.0,[126712]
+6030,Biogaz,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+6030,Biogaz,4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+6030,Biogaz,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+6030,Biogaz,6,0,2,0,2,0,2,2,2,2,True,0,2,[],"[126709, 126717]",1.0,[126717]
+6030,Changement chaudières fioul + rénovation (résidentiel),1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+6030,Changement chaudières fioul + rénovation (résidentiel),2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],2.0,"[126656, 126657, 126660]"
+6030,Changement chaudières fioul + rénovation (résidentiel),3,1,0,0,1,1,0,2,1,2,False,1,2,[126658],[],0.0,[]
+6030,Changement chaudières fioul + rénovation (résidentiel),4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+6030,Changement chaudières fioul + rénovation (résidentiel),5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+6030,Changement chaudières fioul + rénovation (résidentiel),6,2,0,1,1,1,0,3,2,2,False,1,3,"[126658, 126665]",[],2.0,"[126658, 126659, 126665]"
+6030,Changement chaudières gaz + rénovation (résidentiel),1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+6030,Changement chaudières gaz + rénovation (résidentiel),2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],2.0,"[126656, 126657, 126660]"
+6030,Changement chaudières gaz + rénovation (résidentiel),3,1,0,0,0,1,0,2,0,2,False,2,2,[126658],[],0.0,[]
+6030,Changement chaudières gaz + rénovation (résidentiel),4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+6030,Changement chaudières gaz + rénovation (résidentiel),5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+6030,Changement chaudières gaz + rénovation (résidentiel),6,2,0,1,0,1,0,3,2,2,False,1,3,"[126658, 126665]",[],2.0,"[126659, 126665]"
+6030,Covoiturage,1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+6030,Covoiturage,2,0,1,0,1,0,0,1,1,0,False,1,1,[],[126675],0.0,[]
+6030,Covoiturage,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+6030,Covoiturage,4,0,0,0,0,0,1,0,0,1,False,1,0,[],[],1.0,[126675]
+6030,Covoiturage,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+6030,Covoiturage,6,0,0,0,0,0,0,0,0,0,True,0,0,[],[],1.0,[126679]
+6030,Efficacité et carburants décarbonés des véhicules privés,1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+6030,Efficacité et carburants décarbonés des véhicules privés,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+6030,Efficacité et carburants décarbonés des véhicules privés,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+6030,Efficacité et carburants décarbonés des véhicules privés,4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+6030,Efficacité et carburants décarbonés des véhicules privés,5,1,0,1,0,1,0,2,2,2,True,0,2,[126682],[],1.0,[126682]
+6030,Efficacité et carburants décarbonés des véhicules privés,6,0,0,0,0,0,0,0,0,0,True,0,0,[],[],1.0,"[126682, 126684]"
+6030,Efficacité et sobriété logistique,1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+6030,Efficacité et sobriété logistique,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+6030,Efficacité et sobriété logistique,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+6030,Efficacité et sobriété logistique,4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+6030,Efficacité et sobriété logistique,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],1.0,[126699]
+6030,Efficacité et sobriété logistique,6,0,0,0,1,0,2,0,1,2,False,2,1,[],[126698],1.0,[126699]
+6030,Electricité renouvelable,1,0,1,0,1,0,1,1,1,1,True,0,1,[],[126706],0.0,[]
+6030,Electricité renouvelable,2,1,0,1,0,1,0,2,2,2,True,0,2,[126712],[],1.0,[126712]
+6030,Electricité renouvelable,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+6030,Electricité renouvelable,4,0,1,0,1,0,1,1,1,1,True,0,1,[],[126703],0.0,[]
+6030,Electricité renouvelable,5,0,1,0,1,0,1,1,1,1,True,0,1,[],[126671],2.0,"[126666, 126669, 126671]"
+6030,Electricité renouvelable,6,1,2,1,2,1,2,2,2,2,True,0,2,[126701],"[126706, 126717]",2.0,"[126701, 126706, 126717]"
+6030,Gestion des forêts et produits bois,4,1,0,1,0,1,1,2,2,2,True,0,2,[126700],[],,
+6030,Gestion des forêts et produits bois,6,0,2,0,1,0,0,2,1,0,False,2,1,[],[126707],,
+6030,Gestion des haies,1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],1.0,[126713]
+6030,Gestion des haies,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+6030,Gestion des haies,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+6030,Gestion des haies,4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+6030,Gestion des haies,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+6030,Gestion des haies,6,0,1,0,1,0,1,1,1,1,True,0,1,[],[126713],0.0,[]
+6030,Gestion des prairies,1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+6030,Gestion des prairies,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+6030,Gestion des prairies,3,1,0,1,0,1,0,2,2,2,True,0,2,[126714],[],1.0,[126714]
+6030,Gestion des prairies,4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+6030,Gestion des prairies,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+6030,Gestion des prairies,6,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+6030,Prévention des déchets,1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+6030,Prévention des déchets,2,1,0,1,0,1,0,2,2,2,True,0,2,[126685],[],2.0,[126685]
+6030,Prévention des déchets,3,1,0,1,0,1,0,2,2,2,True,0,2,[126687],[],2.0,[126687]
+6030,Prévention des déchets,4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],1.0,[126691]
+6030,Prévention des déchets,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+6030,Prévention des déchets,6,0,4,0,4,0,4,2,2,2,True,0,2,[],"[126688, 126689, 126690, 126691]",2.0,"[126687, 126688, 126690, 126691]"
+6030,Réduction des déplacements,1,0,1,0,1,1,0,1,1,2,False,1,1,[],[126683],1.0,[126683]
+6030,Réduction des déplacements,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+6030,Réduction des déplacements,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+6030,Réduction des déplacements,4,0,0,0,0,0,1,0,0,1,False,1,0,[],[],1.0,[126677]
+6030,Réduction des déplacements,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],1.0,[126677]
+6030,Réduction des déplacements,6,0,1,0,2,0,0,1,2,0,False,2,1,[],[126677],1.0,[126677]
+6030,Réseaux de chaleur décarbonés,1,0,1,0,1,0,1,1,1,1,True,0,1,[],[126708],0.0,[]
+6030,Réseaux de chaleur décarbonés,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+6030,Réseaux de chaleur décarbonés,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+6030,Réseaux de chaleur décarbonés,4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],2.0,[126707]
+6030,Réseaux de chaleur décarbonés,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+6030,Réseaux de chaleur décarbonés,6,0,1,0,2,0,2,1,2,2,False,1,2,[],"[126708, 126711]",0.0,[]
+6030,Sobriété des bâtiments (résidentiel),2,3,0,3,0,3,0,3,3,3,True,0,3,"[126656, 126657, 126660]",[],,
+6030,Sobriété des bâtiments (résidentiel),3,2,0,1,0,1,0,3,2,2,False,1,2,[126658],[],,
+6030,Sobriété des bâtiments (résidentiel),6,3,1,3,1,2,1,3,3,3,True,0,3,"[126658, 126659, 126665]",[126663],,
+6030,Sobriété et isolation des bâtiments (tertiaire),1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+6030,Sobriété et isolation des bâtiments (tertiaire),2,2,0,2,0,2,0,3,3,3,True,0,3,"[126667, 126668]",[],1.0,[126667]
+6030,Sobriété et isolation des bâtiments (tertiaire),3,1,0,0,0,1,0,2,0,2,False,2,2,[126668],[],2.0,[126668]
+6030,Sobriété et isolation des bâtiments (tertiaire),4,2,0,2,0,2,0,3,3,3,True,0,3,"[126666, 126668]",[],2.0,[126668]
+6030,Sobriété et isolation des bâtiments (tertiaire),5,3,0,2,1,2,1,3,3,3,True,0,3,"[126669, 126672]",[126674],3.0,"[126666, 126669, 126672]"
+6030,Sobriété et isolation des bâtiments (tertiaire),6,1,1,1,1,1,1,2,2,2,True,0,2,[126670],[126704],0.0,[]
+6030,Sobriété foncière,1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+6030,Sobriété foncière,2,1,0,1,0,1,0,2,2,2,True,0,2,[126725],[],2.0,[126725]
+6030,Sobriété foncière,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+6030,Sobriété foncière,4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+6030,Sobriété foncière,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+6030,Sobriété foncière,6,0,1,0,1,0,1,1,1,1,True,0,1,[],[126718],0.0,[]
+6030,Valorisation matière des déchets,1,1,0,1,0,1,0,2,2,2,True,0,2,[126692],[],2.0,"[126692, 126694, 126709]"
+6030,Valorisation matière des déchets,2,1,0,1,0,1,0,2,2,2,True,0,2,[126685],[],2.0,[126685]
+6030,Valorisation matière des déchets,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],1.0,[126687]
+6030,Valorisation matière des déchets,4,0,2,0,2,0,2,2,2,2,True,0,2,[],"[126686, 126693]",1.0,[126693]
+6030,Valorisation matière des déchets,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+6030,Valorisation matière des déchets,6,1,0,1,0,1,0,2,2,2,True,0,2,[126692],[],2.0,"[126687, 126688, 126689, 126692]"
+6030,Véhicules électriques,1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+6030,Véhicules électriques,2,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+6030,Véhicules électriques,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+6030,Véhicules électriques,4,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+6030,Véhicules électriques,5,1,0,1,0,1,0,2,2,2,True,0,2,[126682],[],1.0,[126682]
+6030,Véhicules électriques,6,0,1,0,1,0,1,1,1,1,True,0,1,[],[126681],1.0,"[126681, 126682, 126684]"
+6030,Vélo et transport en commun,1,0,0,0,0,0,0,0,0,0,True,0,0,[],[],1.0,"[126679, 126680, 126683]"
+6030,Vélo et transport en commun,2,0,1,0,1,0,0,1,1,0,False,1,1,[],[126675],0.0,[]
+6030,Vélo et transport en commun,3,0,0,0,0,0,0,0,0,0,True,0,0,[],[],1.0,[126680]
+6030,Vélo et transport en commun,4,0,0,0,0,0,1,0,0,1,False,1,0,[],[],2.0,[126675]
+6030,Vélo et transport en commun,5,0,0,0,0,0,0,0,0,0,True,0,0,[],[],0.0,[]
+6030,Vélo et transport en commun,6,0,3,0,3,0,3,2,2,2,True,0,2,[],"[126678, 126679, 126680]",1.0,"[126678, 126679]"

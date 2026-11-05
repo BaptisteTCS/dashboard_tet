@@ -1,0 +1,711 @@
+{
+ "collectivite": {
+  "id": 3914,
+  "nom": "CC Ardennes Thiérache",
+  "type_code": "CC",
+  "type_label": "communauté de communes",
+  "population": 9843
+ },
+ "fiches": [
+  {
+   "id": 76362,
+   "titre": "Mise en œuvre d'un observatoire sur le logement vacant",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 9 843 habitants\nContexte : PCAET > Axe 1 : Habitat et urbanisme > Sous-axe 1 : Lutter contre le logement vacant et le mal-logement\nTitre : Mise en œuvre d'un observatoire sur le logement vacant\nDescription : <p><strong>Diagnostic et recensement des logements vacants dans les 37 communes</strong></p><p>•Méthode : enquête auprès des propriétaires</p><p>•S'appuyer sur la connaissance du terrain par les Maires</p><p>•</p><p><strong>Réaliser un atlas de la vacance des logements</strong></p><p>•Prise de rendez-vous avec les propriétaires et orientation de ces derniers vers les dispositifs d’aides appropriés</p><p>•Mettre en place une opération programmée de l’amélioration de l’habitat avec des dispositifs spécifiques «&nbsp;sortis de vacances&nbsp;»</p><p>•Intégrer cet atlas dans la démarche d’élaboration du P.L.U.I.</p>"
+  },
+  {
+   "id": 76363,
+   "titre": "Améliorer la performance énergétique des logements sociaux",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 9 843 habitants\nContexte : PCAET > Axe 1 : Habitat et urbanisme > Sous-axe 2 : Améliorer la qualité du bâti, notamment énergétique\nTitre : Améliorer la performance énergétique des logements sociaux\nDescription : <p><strong>Bailleurs sociaux : Espace Habitat, Habitat 08</strong></p><p>Un des objectifs principaux est l'amélioration des performances thermiques des logements (c'est le cas pour Habitat08 sur tout le périmètre du SCoT)</p><p>•Organiser des réunions entre le PNR des Ardennes, la CCAT, Espace Habitat et Habitat 08 pour coordonner les démarches de rénovation portant sur les logements sociaux</p><p>&nbsp;</p><p>•Travailler avec les bailleurs sociaux en vue de l’amélioration des performances thermiques des logements en les incitant à lancer des programmes de rénovation</p><p>&nbsp;</p><p>•Recenser les personnes en précarité et ayant des difficultés à assurer leurs dépenses liées à leur consommation énergétique et travailler avec les bailleurs sur des communications ciblées pour l’optimisation de cette consommation</p>"
+  },
+  {
+   "id": 76364,
+   "titre": "Etudier la mise en place d'un Permis de louer",
+   "statut": "A discuter",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 9 843 habitants\nContexte : PCAET > Axe 1 : Habitat et urbanisme > Sous-axe 1 : Lutter contre le logement vacant et le mal-logement\nTitre : Etudier la mise en place d'un Permis de louer\nDescription : <p><strong><em>Le permis de louer visera notamment à contraindre les bailleurs privés à rénover leurs biens.</em></strong></p><p><strong>Etape 0 : Communiquer auprès des propriétaires bailleurs </strong>l'interdiction<strong> </strong>à venir de la mise en location des passoires thermiques (G en 2025, F en 2028) pour les inciter à les rénover</p><p><strong>Etape 1: mise en place d’un Label Qualité Logement à l’échelle EPCI</strong></p><p>La CCAT souhaite mettre en place un LQL dans le cadre de son PLUi</p><p>Conditions d’éligibilité pour obtenir le permis de louer.</p><p><strong>Etape 2 : mise en place d’un Permis de louer</strong></p><p>Objectif : garantir que les logements mis à la location soient dignes et présentent des performances thermiques supérieure à un certain seuil</p><p>Le permis de louer pourrait être porté également par d’autre territoire du SCoT Risque de contraindre les locataires les plus précaires à se déplacer</p>"
+  },
+  {
+   "id": 76365,
+   "titre": "Mettre en place une Opération Programmée d’Amélioration de l’Habitat (OPAH)",
+   "statut": "Réalisé",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 9 843 habitants\nContexte : PCAET > Axe 1 : Habitat et urbanisme > Sous-axe 2 : Améliorer la qualité du bâti, notamment énergétique | PTRTE > Transition écologique et énergétique\nTitre : Mettre en place une Opération Programmée d’Amélioration de l’Habitat (OPAH)\nDescription : <p><strong>Opération Programmée d’Amélioration de l’Habitat </strong>dont l’animation est confiée au PNR des Ardennes. La démarche s’inscrit dans la continuité du PIG «&nbsp;Habiter mieux en Ardennes&nbsp;» ayant pris fin en 2022</p><p>•Accompagner les ménages dans leurs projets de rénovation (énergétique, accessibilité et décence) en lien avec les aides de l’ANAH</p><p>•Les aides volontaires : les EPCI ont la possibilité de compléter leurs interventions d’aides volontaires : façade, toiture, logements communaux,</p><p>•Le dispositif «&nbsp;points noirs&nbsp;» de la Région Grand Est, est également un fond d’accompagnement mobilisable par les EPCI engagés</p>"
+  },
+  {
+   "id": 76366,
+   "titre": "Poursuivre l’accompagnement France Rénov’ auprès des particuliers / OKTAVE",
+   "statut": "Réalisé",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 9 843 habitants\nContexte : PCAET > Axe 1 : Habitat et urbanisme > Sous-axe 2 : Améliorer la qualité du bâti, notamment énergétique\nTitre : Poursuivre l’accompagnement France Rénov’ auprès des particuliers / OKTAVE\nDescription : <p><strong>Espace France Rénov’ </strong>: <em>les Communautés de communes,&nbsp;&nbsp;Ardennes Thiérache&nbsp;Ardenne Rives de Meuse et&nbsp;Vallées et plateau d’Ardenne&nbsp;ont décidé de mutualiser leur action et de simplifier le parcours de rénovation énergétique des ménages. Pour cela, elles ont confié l’animation du SARE (service d’accompagnement à la rénovation énergétique) au Parc Naturel Régional des Ardennes.</em></p><p>•Assurer des permanences sur le territoire</p><p>•Accompagner les porteurs de projet sur les 4 familles de travaux que sont : isolation de l’enveloppe (murs, toiture, planchers bas, menuiseries), ventilation, chauffage, production d’eau chaude sanitaire,</p><p>•Communiquer largement sur ce point d’entrée unique (tant sur la rénovation que sur le remplacement des chauffages), les EPCI concernés sont en charges de diffuser&nbsp; le guide des aides disponibles pour la rénovation énergétique dans les Ardennes ainsi que l’accompagnement réalisé par OKTAVE pour les publics non éligibles aux aides à l’habitat.</p><p><strong>Communication et organisation d’événements</strong></p><p>•Communiquer et organiser des évènements (journées de formation et/ou de sensibilisation aux matériaux bio-sourcés, à l’éco-construction et/ou l’autorénovation ; communication auprès du grand public ; organiser des témoignages, des retours d’expérience, des visites de maisons rénovées, d’installations EnR performantes, matinales bailleurs …)</p>"
+  },
+  {
+   "id": 76367,
+   "titre": "Intégrer les enjeux climat-énergie-biodiversité dans les documents d’urbanisme",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 9 843 habitants\nContexte : PCAET > Axe 1 : Habitat et urbanisme > Sous-axe 3 : Agir sur l'urbanisme\nTitre : Intégrer les enjeux climat-énergie-biodiversité dans les documents d’urbanisme\nDescription : <p>•<strong>Réaliser un guide de bonnes pratiques sur la façon d'intégrer les enjeux climat-énergie dans les documents d'urbanisme</strong></p><p>•Fourniture d’une note d'intégration des enjeux climat-énergie</p><p>•Etudier la conciliation entre architecture climatique et préservation du patrimoine, les solutions de végétalisation&nbsp; et de désimperméabilisation les plus vertueuses et les plus faciles à mettre en œuvre.</p><p>•<strong>Intégrer les enjeux du PCAET au Schéma de Cohérence Territoriale</strong></p><p>•<strong>Intégrer dans le PLUi en cours d’élaboration les recommandations issues de la Note d'intégration des enjeux climat-énergie</strong></p><p>•Evaluer les contraintes urbanistiques et travailler avec les services de l’Etat pour adapter les constructions et rénovation aux contraintes réglementaires et climatiques (Exemple toitures en secteur protégé)</p><p>•Végétaliser et désimperméabiliser progressivement les centres-villes et communes en suivant les préconisations du guide : cibler en priorité les cours d'écoles, les places de villes/villages, les ilots de chaleur, la voirie</p><p>•Faciliter/encourager l’installation de récupérateurs d’eau de pluie : s'appuyer sur les leviers urbanistiques (lever les contraintes, encourager ou imposer la récupération d'eau, etc.)</p><p>•<strong>Accompagner la production de logements et d'activités économiques sur la ville (dents creuses) et le développement de nouvelles façons d'habiter et de construire en vue d'intégrer les contraintes de la Zéro Artificialisation Nette (ZAN)</strong></p><p>•<strong>Intégrer le principe d’un urbanisme favorable à la santé (accès aux soins, bruit, espaces verts, luminosité etc.</strong></p>"
+  },
+  {
+   "id": 76368,
+   "titre": "Lutter contre la pollution lumineuse et visuelle",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 9 843 habitants\nContexte : PCAET > Axe 1 : Habitat et urbanisme > Sous-axe 3 : Agir sur l'urbanisme\nTitre : Lutter contre la pollution lumineuse et visuelle\nDescription : <p><strong>Trame noire</strong></p><p>•Sensibiliser les communes à la modification de l’éclairage public : orientation des éclairages, niveau d’intensité, extinction durant une tranche horaire</p><p>•Organiser les Evènements «&nbsp;Jour de la Nuit&nbsp;»</p><p>•Sensibilisation les entreprises et les particuliers au bon usage de l’éclairage extérieur</p><p>•Mise en place d’actions exemplaires sur des communes pilotes pour la préservation de la Trame noire : sensibilisation, connaissance du mobilier d’éclairage, gestion raisonnée de l’éclairage public.</p><p><strong>Encadrement de la publicité</strong></p><p>•Recenser les signalisations (encadrement de la publicité) et informer sur leur installation. Projet porté par le PNR et réalisé sur l’ensemble du département des Ardennes - Action en cours - conseil auprès des collectivités territoriales</p><p>•Aider à l’animation auprès des communes en vue d’une harmonisation des bonnes pratiques d’extinction nocturne</p><p><strong>Pollution visuelle</strong></p><p>•Travailler sur les points noirs comme les friches, maisons abandonnées et les entrées de ville pour une amélioration du cadre de vie, l’image (Fonds Patrimoine Bati Ancien)</p>"
+  },
+  {
+   "id": 76369,
+   "titre": "Mettre en place des rénovations énergétiques sur le bâti public",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 9 843 habitants\nContexte : PCAET > Axe 1 : Habitat et urbanisme > Sous-axe 2 : Améliorer la qualité du bâti, notamment énergétique\nTitre : Mettre en place des rénovations énergétiques sur le bâti public\nDescription : <p>La communauté de communes dispose d’un parc de bâtiment de 26 000 m² dont de nombreux bâtiments publics et logements. Les 37 communes qui component Ardennes Thiérache possèdent environ 200 bâtiments publics (logements, mairies, salles communales, …) qui ont pour la plupart plus de 20 ans et sont de gros consommateurs d'énergies fossiles.</p><p>L'objectif est de pouvoir accompagner les communes dans leurs études et travaux de rénovation.</p><p><strong>Avancement de l’action :</strong></p><p>Engagement à venir d'un marché de prestation avec un B.E. Thermique pour l'étude des bâtiments.</p>"
+  },
+  {
+   "id": 76370,
+   "titre": "Etudier et soutenir le développement des filières locales hydrogène et bioGNV",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 9 843 habitants\nContexte : PCAET > Axe 2 : Mobilité > Sous-axe 2 : décarbonner la mobilité\nTitre : Etudier et soutenir le développement des filières locales hydrogène et bioGNV\nDescription : <p><strong>Hydrogène</strong></p><p>Le gisement de consommation actuel est insuffisant pour avoir une unité hydrogène sur le territoire</p><p>•Etudier les gisements de consommation possibles : demande industrielle, TER, etc.</p><p>•Etudier le potentiel de développement d’une filière hydrogène (partenaire : SEM EnR)</p><p>•Point de vigilance : veiller à un approvisionnement en hydrogène bas-carbone (hydrogène vert, jaune)</p><p>•</p><p><strong>Biogaz</strong></p><p>Une filière peut voir le jour à l'échelle du SCoT ou des Ardennes : déchets agricoles méthanisables, gisement de consommation pour les flottes de bus/de camions</p><p>•Réaliser une étude sur les gisements de production de biogaz à l’échelle départementale et les potentiels de consommation</p><p>•S’appuyer sur les démarches de décarbonation des flottes de véhicules de transports en commun et de collecte des déchets</p><p>&nbsp;</p><p><strong>Propositions GRDF (partenaires : GRDF, EPCI)</strong></p><p>•Lancer une étude territoriale des flux de transport de marchandise</p><p>•Organiser des réunions de restitution auprès des transporteurs</p><p>•Etablir un schéma d’orientation de stations multi énergie</p><p>•Lancer une étude de rétrofit sur du transport fluvial</p><p>•Prêt de compresseurs et mise en relations pour tests de véhicule</p>"
+  },
+  {
+   "id": 76371,
+   "titre": "Soutenir le déploiement des véhicules électriques et des installations de recharge",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 9 843 habitants\nContexte : PCAET > Axe 2 : Mobilité > Sous-axe 2 : décarbonner la mobilité\nTitre : Soutenir le déploiement des véhicules électriques et des installations de recharge\nDescription : <p><em>En 2023, moins de 1% du parc automobile est électrifié sur le territoire d’Ardennes Thiérache. Le territoire ne dispose pas de bornes de recharge pour véhicules électriques</em></p><p>•Elaboration d’un Schéma Directeur IRVE à l’échelle départementale (SDIRVE)</p><p>•Evaluer les besoins en accès aux nouvelles énergies pour voitures (hydrogène, essences nouvelles, électricité etc.) ;</p><p>•Inciter les exploitants à installer et exploiter des bornes de recharge ;</p><p>•Informer les bailleurs sur les obligations, pour tous bâtiments neufs, de pré-équiper pour l’installation de bornes de recharge pour véhicules électriques dans les immeubles résidentiels (cf. loi \"LOM\") ;</p><p>•Réfléchir à la mise en place de montages financiers adaptés, y compris pour les petites communes</p><p>•Action à articuler avec le potentiel déploiement d’ombrières photovoltaïques sur les parkings (possibilité de recharge directe des véhicules)</p><p>•</p><p><em>Point de vigilance : veiller à favoriser les véhicules électriques de petite taille et de faible puissance</em></p><p>Cf. normes issues de la Loi Climat et Résilience</p>"
+  },
+  {
+   "id": 76372,
+   "titre": "Soutenir le développement des mobilités actives",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 9 843 habitants\nContexte : PCAET > Axe 2 : Mobilité > Sous-axe 1 : Repenser la mobilité\nTitre : Soutenir le développement des mobilités actives\nDescription : <p><strong>Mettre en place un Schéma Directeur Cyclable à l'échelle de la CCAT</strong></p><p><em>Action engagée dans le cadre de l'Appel à Projet AVELO2 : la CCAT est lauréate</em></p><p>Travailler en particulier :</p><p>-au raccordement à la voie verte départementale (Eurovéloroute 19) à Hirson (Eurovéloroute 3) (doit constituer l'axe dorsal du réseau cyclable du territoire)</p><p>-à la desserte des écoles, services publics, médecins, commerces, pharmacies, etc.</p><p>-à la reconversion de la voie ferrée</p><p><strong>Faciliter l'acquisition et l'utilisation de Vélos à Assistance Electrique pour les habitants</strong></p><p>•Mettre en place des bornes de recharge des Vélos à Assistance Electrique (en cours à Signy-le-Petit et Liart)</p><p>•Communiquer sur les aides existantes à l'achat de Vélos à Assistance Electriques (VAE) : aides de la Région, de l'Etat ; et les solutions de location de VAE</p><p>•Elaboration d’un Schéma Directeur Cyclable (SDC)</p>"
+  },
+  {
+   "id": 76373,
+   "titre": "Lutter contre l’autosolisme",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 9 843 habitants\nContexte : PCAET > Axe 2 : Mobilité > Sous-axe 1 : Repenser la mobilité\nTitre : Lutter contre l’autosolisme\nDescription : <p><strong>Mettre à disposition des véhicules électriques en autopartage</strong></p><p><strong>Création d’une aire de covoiture sur le territoire (mon Idée)</strong></p><p><strong>Créer une plateforme/un réseau de mise en relation des habitants qui souhaiteraient partager leur véhicule</strong></p><p><strong>Mettre en place une application de covoiturage à l'échelle de la CC</strong></p><p><em>Action engagée : mise en relation pour du covoiturage sur l'application de la CCAT (pas de paiement dans l'application)</em></p><p><strong>Etudier les résultats du Rézo Pouce sur d’autres territoires</strong></p><p>cf. Argonne Ardennaise</p>"
+  },
+  {
+   "id": 76374,
+   "titre": "Mettre en place un service de transports à la demande",
+   "statut": "Réalisé",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 9 843 habitants\nContexte : PCAET > Axe 2 : Mobilité > Sous-axe 1 : Repenser la mobilité | PTRTE > Mobilité\nTitre : Mettre en place un service de transports à la demande\nDescription : <p><strong>Mettre en place un service de Transports à la Demande</strong></p><p><strong>Action en réflexion avancée :</strong></p><p>-le service visera à apporter une solution de mobilités aux personnes en incapacité de se déplacer et/ou qui justifient d'un isolement. Les principales dessertes seront les services de santé, les marchés, les activités culturelles de proximité</p><p>-la CCAT est en train de déposer un dossier pour un minibus électrique</p><p>-réfléchir à ce qui peut être mutualisé avec le TAD qui est lancé sur CCPL (Dans le cadre de l'AMI santé de la Région, la Fédération ardennaise famille rurale monte un système de TAD sur CCPL (la CCPL paie de coût de fonctionnement) - le standard téléphonique pourrait être mutualisé</p><p>-</p><p><strong>Lancement de l’opération en septembre 2023</strong></p>"
+  },
+  {
+   "id": 76375,
+   "titre": "Renforcer l’attractivité et la qualité des services de transports en commun",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 9 843 habitants\nContexte : PCAET > Axe 2 : Mobilité > Sous-axe 1 : Repenser la mobilité\nTitre : Renforcer l’attractivité et la qualité des services de transports en commun\nDescription : <p><strong>1. Améliorer la desserte du territoire en transports en commun en ajoutant des arrêts sur les lignes traversant le territoire</strong></p><p>Un arrêt a été réalisé à Auvillers-les-Forges (hameau de Mon Idée) sur la ligne de bus Charleville - Hirson (gérée par la SNCF)</p><p><strong>2. Améliorer la flexibilité des bus qui traversent le territoire sans s'y arrêter.</strong></p><p>Un passager devrait pouvoir descendre du car/bus même en dehors des arrêts lorsque celui-ci est peu emprunté</p><p><strong>3. Renforcer la fréquence et améliorer les horaires de la ligne 23 à destination de Charleville-Mézières</strong></p><p>Adapter en particulier pour les besoins des jeunes et des étudiants qui n'ont pas d'autres solutions de mobilité</p>"
+  },
+  {
+   "id": 76376,
+   "titre": "Réduire les besoins de déplacements en développant des services de proximité",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 9 843 habitants\nContexte : PCAET > Axe 2 : Mobilité > Sous-axe 1 : Repenser la mobilité\nTitre : Réduire les besoins de déplacements en développant des services de proximité\nDescription : <p><em>Avoir accès à plus de services de proximité permet de réduire les déplacements des habitants du territoire et ainsi de réduire la consommation d’énergie et les émissions de gaz à effet de serre associées.</em></p><p><strong>Mesures initiées et perspectives :</strong></p><p>•Développer des services en ligne pour les habitants liés aux compétences (urbanisme, eau-assainissement, etc.…)</p><p>•Aménager une nouvelle Maison France Service en lien avec les services de la Communauté de Communes - <em>Rachat et aménagement de l'ancien LIDL de Carignan pour intégrer la Maison France Services et les services de la CCPL au sein d'une même structure.</em></p><p>•Faciliter l’exercice des professionnels de santé et favoriser de nouvelles installations – développement de la télémédecine</p><p>•Développer le réseau de bibliothèques du territoire avec un système de navette - inscription gratuite, possibilité de rendre les ouvrages dans tous les établissements</p>"
+  },
+  {
+   "id": 76377,
+   "titre": "Mettre en place la Trame Verte et Bleue",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 9 843 habitants\nContexte : PCAET > Axe 3 : Espaces naturels, eau\nTitre : Mettre en place la Trame Verte et Bleue\nDescription : <p>Objectif : Protéger les continuités écologiques grâce aux documents d’urbanisme à travers notamment la Trame Verte et Bleue du SCOT et l’intégration dans le PLUi en cours de finalisation Le SCOT a pour but de décliner la Trame Verte et Bleue (TVB) régionale du SRADDET, à travers 4 sous-trames : Milieux humides, Milieux aquatiques, Milieux ouverts, Milieux boisés.</p><p>Le PNR des Ardennes porte également des actions en faveur du maintien et du développement des continuités écologiques dans le cadre du pilotage de l’AAP Trame Verte et Bleue Travaux de plantation (haies, bosquets, vergers, prairies fleuries, etc.) Restauration des zones humides ordinaires Maintien des prairies naturelles – Collectif agriculteurs Etude de faisabilité pour la création de passages à faune sur le territoire du PNR Communication et sensibilisation</p><p>Restauration de cours d’eau en lien avec l’UDASA</p><ul><li><p>Sur le Bassin Rhin-Meuse : La Sormonne et ses principaux affluents - le ruisseau de la Ville Basse et le ruisseau de Wagny,</p></li><li><p>Sur le Bassin Seine-Normandie : Le ruisseau des Grosses Pierres, Le Ton, L’Aube et le Gandlu.</p></li></ul>"
+  },
+  {
+   "id": 76378,
+   "titre": "Renforcer le lien et la proximité des habitants à la nature et la biodiversité",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 9 843 habitants\nContexte : PCAET > Axe 3 : Espaces naturels, eau\nTitre : Renforcer le lien et la proximité des habitants à la nature et la biodiversité\nDescription : <p><strong>Sensibilisation et information des publics Natura 2000</strong></p><p>•Conception, diffusion d’un bulletin d’information annuel (l’Arduinna)</p><p>•Conception, réalisation et pose de panneaux d'information</p><p>•Animations grand public (sorties nature, animations canoë, ciné-débats…) et scolaires</p><p>•Réédition de documents et outils pédagogiques (guides pédagogiques, jeu de 7 familles…)</p><p>•Outils de sensibilisation Quiétude attitude (banderoles de matérialisation des zones, affiches, posters,…)</p><p><strong>Animations de découverte - Rendez-vous du Parc</strong></p><p>•Coordonner les animations de découverte</p><p>•Organiser, coordonner, éditer un support de promotion des rendez-vous avec le Parc</p><p><strong>Interventions en milieu scolaire</strong></p><p>•Stratégie éducative à destination des scolaires</p><p>•Mise en place des animations en coordination avec l'inspection d'académie</p><p>Créer des jardins partagés</p><p>Soutenir les projets d’écologie participative (vergers, conservatoires, arboretum)</p><p>Projets de renaturation de friches</p>"
+  },
+  {
+   "id": 76379,
+   "titre": "Mettre en oeuvre une gestion durable et un plan de diversification de la ressource forestière",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 9 843 habitants\nContexte : PCAET > Axe 3 : Espaces naturels, eau\nTitre : Mettre en oeuvre une gestion durable et un plan de diversification de la ressource forestière\nDescription : <p><strong>Enjeu de diversifier les essences en parallèle du plan de gestion</strong></p><p>•Suivre et accompagner les actions de l’ONF en matière de gestion durable de la ressource forestière</p><p>•Renforcer la communication entre l’ONF et les collectivités</p><p>•Mettre en place, renforcer ou pérenniser des rencontres entre la CCAT, l’ONF, le PNR, et d’autres acteurs impliqués dans la gestion de la ressource forestière</p><p>•Travailler avec la Fédération de chasse pour réduire le déséquilibre forêt-gibier – développer des plans de chasse moins locaux</p><p>•Renforcer de manière commune et concertée la communication à destination du grand public pour expliquer comment la forêt est gérée (exemple : les gens ne comprennent pas pourquoi les coupes rases dues aux scolytes sont faites)</p>"
+  },
+  {
+   "id": 76380,
+   "titre": "Améliorer la gestion de l’eau potable et de l’assainissement",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 9 843 habitants\nContexte : PCAET > Axe 3 : Espaces naturels, eau\nTitre : Améliorer la gestion de l’eau potable et de l’assainissement\nDescription : <p><strong>1 - Restaurer le réseau d’eau potable et d’assainissement de SIGNY LE PETIT</strong></p><p>Etude commune (CCAT et SIEAP) afin de désigner un maitre d’œuvre unique pour assurer le suivi des travaux de réfection du réseau AEP et du système d’assainissement dont la station d’épuration.</p><p><strong>2 – Préparation à la prise de compétence Eau Potable par la Communauté de communes :</strong></p><p>•Réaliser un Schéma Directeur d’eau potable et une étude de diagnostic des réseaux</p><p>•Communiquer sur la sobriété et les économies d’eau</p><p>•Créer des aides pour l'installation de récupérateurs d'eau de pluie ?</p><p><strong>3- P.L.U.I. </strong>– Réfléchir et inciter à un changement de pratique dans le cadre de l’élaboration du PLUI.</p>"
+  },
+  {
+   "id": 76381,
+   "titre": "Faire du tourisme durable un nouvel axe de développement économique",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 9 843 habitants\nContexte : PCAET > Axe 4 : Economie locale\nTitre : Faire du tourisme durable un nouvel axe de développement économique\nDescription : <p><em>Cette action vise à faire du territoire une destination verte.</em></p><p>•Mener une politique de marketing territorial avec la création d’outils de communication pour concilier sports nature et patrimoine naturel tout en développant l’image touristique de la destination : carte VTT FFC, carte enduro VTT, carte VTT transfrontalier, guide touristique, Eductour</p><p>•Organiser les activités de pleine nature sur le territoire (hors nouveau Schéma)</p><p>•Evaluer la création d’un observatoire de l’itinérance douce (licence, provision matériel)</p><p>•Gestion espace VTT FFC N°136</p><p>Quiétude Attitude : maintenance du site web dont évolution du calendrier des dates de chasse</p><p>•Promouvoir la vente et la consommation de produits locaux : identifier les producteurs, les produits et les clients cibles en vue d’organiser une chaine de distribution</p>"
+  },
+  {
+   "id": 76382,
+   "titre": "Soutenir le développement des filières de l’économie circulaire",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 9 843 habitants\nContexte : PCAET > Axe 4 : Economie locale\nTitre : Soutenir le développement des filières de l’économie circulaire\nDescription : <p><strong>Mettre en place des projets de revitalisation dans le cadre des ORT (5 communes) et du dispositif Petites Villes de Demain (Signy-le-Petit)</strong></p><p>Exemples d'actions</p><p>-Fédérer les commerçants</p><p>-Développer des cafés multiservices</p><p>-Mettre en place des IRVE, des stationnements vélos, des aires de covoiturage,</p><p>-Maintenir le commerce existant</p><p>-Vitrophanie</p><p>-Lutter contre le logement vacant</p><p>-OPAH</p><p>-THLV</p><p>-Rénovation du bâti ancien</p><p>-Suivi des commercants</p><p><strong>Développer des tiers-lieux autour de l'économie sociale et solidaire</strong></p><p>-Tiers-lieu existant à Auvillers-les-Forges, entièrement meublé avec du mobilier remanufacturé par Bell'Occas</p><p>-Projet de tiers-lieu itinérant et de micro-folies itinérantes : lieu multi-activités mutualisé avec la médiathèque (SIGNY, MAUBERT…)</p>"
+  },
+  {
+   "id": 76383,
+   "titre": "Revitaliser les centres de villages et développer des services de proximité",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 9 843 habitants\nContexte : PCAET > Axe 4 : Economie locale\nTitre : Revitaliser les centres de villages et développer des services de proximité\nDescription : <p><strong>Mettre en place des projets de revitalisation dans le cadre des ORT (5 communes) et du dispositif Petites Villes de Demain (Signy-le-Petit)</strong></p><p>Exemples d'actions</p><p>-Fédérer les commerçants</p><p>-Développer des cafés multiservices</p><p>-Mettre en place des IRVE, des stationnements vélos, des aires de covoiturage,</p><p>-Maintenir le commerce existant</p><p>-Vitrophanie</p><p>-Lutter contre le logement vacant</p><p>-OPAH</p><p>-THLV</p><p>-Rénovation du bâti ancien</p><p>-Suivi des commercants</p><p><strong>Développer des tiers-lieux autour de l'économie sociale et solidaire</strong></p><p>-Tiers-lieu existant à Auvillers-les-Forges, entièrement meublé avec du mobilier remanufacturé par Bell'Occas</p><p>-Projet de tiers-lieu itinérant et de micro-folies itinérantes : lieu multi-activités mutualisé avec la médiathèque (SIGNY, MAUBERT…)</p>"
+  },
+  {
+   "id": 76384,
+   "titre": "Réduire les émissions de GES liées au centre de traitement des déchets",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 9 843 habitants\nContexte : PCAET > Axe 4 : Economie locale\nTitre : Réduire les émissions de GES liées au centre de traitement des déchets\nDescription : <p><strong>IVEDA d'Eteignières</strong></p><p><strong>Valorisation énergétique du biogaz capté :</strong></p><p>•Production Electricité via deux moteurs de COGENERATION&nbsp;: Revente sur le marché libre</p><p>•Production de chaleur via &nbsp;deux moteurs de COGENERATION et utilisation de celle-ci ( Bassin biologique, Tour de désulfuration, Chauffage des serres)</p><p>•Améliorations techniques&nbsp;: Mise en place d’un système bioréacteur afin de maîtriser la fermentation des déchets et notamment la production de biogaz</p><p>•Mise en place de couvertures étanches afin d’augmenter la captation du Biogaz</p><p>•Mise en place de plusieurs systèmes de captage du biogaz (Puits à l’avancement, drains à l’avancement et forages post exploitation)</p><p>•Mise en place d’un nouvel outil industriel au dernier trimestre 2023&nbsp;: WAGA . Le principe est de récupérer du BIOGAZ, de le transformer en BIOMETHANE et de le réinjecter dans le réseau GRDF</p>"
+  },
+  {
+   "id": 76385,
+   "titre": "Relocaliser la production alimentaire et soutenir les circuits courts",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 9 843 habitants\nContexte : PCAET > Axe 5 : Agriculture et alimentation | PTRTE > Transition écologique et énergétique\nTitre : Relocaliser la production alimentaire et soutenir les circuits courts\nDescription : <p><strong>Actions PNR </strong>:</p><p>•Analyse et étude de la logistique des produits locaux entre producteurs, professionnels, restauration collective, commerces/points de vente... et éventuellement structure d'aides alimentaires en vue de la création d'un outils numérique et/ou d'investissement sur le territoire</p><p>•Formation auprès des producteurs sur la détermination des prix de vente</p><p>•Outils de sensibilisation et de communication autour des produits locaux (affiches explicatives pour les producteurs sur leur prix de vente et décomposition...)</p><p>•Organiser la mise en réseaux avec les structures d’aide alimentaire</p><p><strong>Mieux structurer les filières en circuit court :</strong></p><p>•une filière \"courte\" (échelle départementale) sur les produits viande et lait par exemple</p><p>•une filière \"moyenne\" (Reims, Paris) autour de produits plus raffinés</p><p><strong>Revaloriser le prix de la viande via des circuits courts</strong></p><p>Co-bénéfice : permet de maintenir de l'élevage donc de l’herbe pour limiter l’érosion des sols</p>"
+  },
+  {
+   "id": 76386,
+   "titre": "Renforcer le lien entre les producteurs, les transformateurs, les distributeurs",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 9 843 habitants\nContexte : PCAET > Axe 5 : Agriculture et alimentation\nTitre : Renforcer le lien entre les producteurs, les transformateurs, les distributeurs\nDescription : <p>•Mutualiser des installations qui pourraient bénéficier à plusieurs acteurs (exemple : Albatros 08 possèdent un autoclave qui permet de valoriser les invendus des maraîchers)</p><p>•</p><p><strong>Association L’Environnement D’Abord (LEDA)</strong></p><p>•Agrandir le réseau des producteurs impliqués, devenir la structure coordinatrice de la distribution en circuit court sur le territoire</p><p>•Chambre d’Agriculture : les accompagner et les aider à associer le plus possible de producteurs locaux</p><p>•Communes, CCAT : communiquer sur cette initiative</p><p>•Faire le lien avec la légumerie départementale lancée dans le cadre du Pacte Ardennes</p><p>•Distributeurs libre-service pour produits locaux</p>"
+  },
+  {
+   "id": 76387,
+   "titre": "Soutenir les démarches vers l'agroécologie",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 9 843 habitants\nContexte : PCAET > Axe 5 : Agriculture et alimentation\nTitre : Soutenir les démarches vers l'agroécologie\nDescription : <p><strong>Action PNR </strong>:</p><p>•Réaliser des évènements (ciné débat/séminaire/visite...) incitant à réfléchir ensemble à travailler autrement, vers des pratiques agro-environnementales, élevage à l'herbe, autonomie alimentaire sur la ferme, adaptation au changement climatique, soin des animaux allopathiques...</p><p><strong>Actions CCAT</strong></p><p>•Apporter des conseils et des aides aux éleveurs qui s'engagent dans des démarches de réduction des émissions de GES de leur cheptel</p><p>•Organiser des visites et témoignages d'installations pionnières</p><p>•Soutenir la diversification de la production agricole</p><p>•<em>Action engagée : la CCAT fournit une aide à la diversification</em></p><p>•Permettre aux producteurs locaux en agroécologie de distribuer leur production sur les marchés et les points de vente directe du territoire</p>"
+  },
+  {
+   "id": 76388,
+   "titre": "Structurer une filière de valorisation du bois",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 9 843 habitants\nContexte : PCAET > Axe 6 : Energies renouvelables\nTitre : Structurer une filière de valorisation du bois\nDescription : <p><em>Dans les 6 prochaines années, des volumes très importants seront à traiter sachant que la forêt ne pourra produire davantage notamment avec le changement climatique au-delà de 10 - 20 ans.</em></p><p>•Relocaliser la filière via contrats d’approvisionnement avec l’ONF</p><p>•Soutenir l’installation d’ETF (Entreprises de Travaux Forestiers) sur le territoire pour répondre au besoin de main d’œuvre de l’ONF (si ces entreprises sont prêtes à s’installer, l’ONF peut leur garantir de l’activité/une visibilité pluriannuelle)</p><p>•Evaluer un dispositif de soutien administratif au montage de projets</p><p>•Créer ou maintenir un maillage permettant l’accès aux parcelles forestières en vue de soutenir la filière forêt-bois-papier</p><p>•Valoriser le chauffage bois&nbsp; tout en maintenant une vigilance sur la ressource</p><p>•Soutenir les investissements des entreprises de la filière bois</p><p>•Structurer les Communes dans leur dialogue avec l’ONF</p>"
+  },
+  {
+   "id": 76389,
+   "titre": "Soutenir les projets citoyens et participatifs",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 9 843 habitants\nContexte : PCAET > Axe 6 : Energies renouvelables\nTitre : Soutenir les projets citoyens et participatifs\nDescription : <p><em>La démarche PCAET portée nécessite d’être menée avec les différents acteurs (institutionnels, associatifs, économiques, …). Certains de ces partenaires et plusieurs citoyens se sont investis dans la phase d’élaboration du plan, en étant présents aux réunions de concertation. Néanmoins, la faible participation citoyenne constatée lors des réunions publiques montre une faible implication des habitants dans l’élaboration du PCAET. Forte de ce constat, les Communautés entendent renforcer l’animation territoriale, de manière à inclure tous les acteurs locaux dans sa démarche Plan Climat, par une animation territoriale large et impliquante.</em></p><p>•Communiquer sur le souhait des EPCI d’accompagner des projets, faire du lien avec les acteurs techniques, …</p><p>•Communiquer sur les projets réalisés ailleurs dans le département des Ardennes comme le réseau de chaleur bois de Clavy-Warby.</p><p><strong>Travailler avec l’ALE 08 pour faire émerger une dynamique citoyenne sur le territoire (convention) :</strong></p><p>L'ALE 08 dispose d'ingénieurs spécialisés en énergie, environnement, bâtiment, concertation citoyenne...</p><p>•L'ALE 08 peut accompagner l’émergence d’un collectif citoyen, animer le collectif et lui permettre de monter en compétences pour maîtriser ensuite le projet.</p><p>•L’ALE 08 peut animer toute une gamme de campagnes de sensibilisation sur les énergies renouvelables.</p>"
+  },
+  {
+   "id": 76390,
+   "titre": "Développer une centrale photovoltaïque",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 9 843 habitants\nContexte : PCAET > Axe 6 : Energies renouvelables\nTitre : Développer une centrale photovoltaïque\nDescription : <p><em>Le Département des Ardennes équipe le site de l‘ancienne base de OTAN à Regniowez avec une centrale photovoltaïque au sol (28,6 MWc, 23 ha de pistes).</em></p><p><em>L'entreprise CVE Groupe a été retenue suite à un appel à projets en 2020 pour une durée de 40 ans.</em></p><p><strong>Intégration de critères environnementaux et sociaux :</strong></p><p>•Pas de changement de nature de sol (uniquement sur les pistes),</p><p>•Gestion des zones naturelle sera confiée au Conservatoire d'espaces naturels de Champagne-Ardenne par CVE (55 ha),</p><p>•Clause sociale et insertion assurée par GES COPELIS et de la SCOT OTC ,</p><p>•Participation et information aux habitants assurées par l’ALE08,</p><p>•Partenariat CVE/SEM ENR Ardennes dans la future société de projet.</p><p>Organisation d’ateliers de concertation à l’automne 2022 avec échanges sur les retombées économiques locales, l’environnement et l'intégration des habitants au projet.</p>"
+  },
+  {
+   "id": 76391,
+   "titre": "Accompagner les communes et la CCAT sur le développement des EnR (évaluation d’opportunités sur leur patrimoine et évaluation des projets photovoltaïques portés par des développeurs privés )",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 9 843 habitants\nContexte : PCAET > Axe 6 : Energies renouvelables\nTitre : Accompagner les communes et la CCAT sur le développement des EnR (évaluation d’opportunités sur leur patrimoine et évaluation des projets photovoltaïques portés par des développeurs privés )\nDescription : <p><strong>Hypothèse 1 : Création d’une structure intercommunale participative pour la mise en œuvre d’un réseau de chaleur sur la commune de Maubert Fontaine</strong></p><p><strong>Hypothèse 2 : Travailler avec l’ALE 08 à travers le dispositif Générateurs (solaire photovoltaïque) :</strong></p><p>L'ALE 08 fait partie du dispositif Les GÉnÉRATEURS :</p><p>Ce dispositif co-finance des acteurs qui peuvent intervenir auprès des communes dès l’émergence d’un projet photovoltaïque, que la commune soit à l’origine ou qu’il s’agisse d’une sollicitation d’un opérateur privé ou d’une association de citoyens. L’ALE 08 peut accompagner la commune jusqu’à la désignation d’un bureau d’études, prélude à sa concrétisation.</p><p>•Accompagnement des communes pour l’évaluation des projets photovoltaïques portés par des développeurs privés</p><p><strong>Se faire conseiller par l’ALE sur d’autres type d’installations :</strong></p><p>L’ALE 08 peut réaliser des études sur le patrimoine des communes du territoire et de la CCAT</p><p>•Étude de potentiel simple sur le patrimoine public <em>2 jours / commune</em></p><p>•Note d’opportunité bois-énergie / géothermie sur un projet identifié <em>3 à 5 jours</em></p>"
+  },
+  {
+   "id": 76392,
+   "titre": "Être exemplaire dans la gestion de l'énergie des bâtiments de la collectivité",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 9 843 habitants\nContexte : PCAET > Axe 7 : Exemplarité de la collectivité\nTitre : Être exemplaire dans la gestion de l'énergie des bâtiments de la collectivité\nDescription : <p>Pistes de travail :</p><p>-Ne plus avoir de bâtiments ou de pièces surchauffés</p><p>-En cours dans les bâtiments scolaires et les COSEC</p><p>-Installer des robinets thermostatique (dispositif CEE, financé)</p><p>-Fournir aux agents des vestes pour permettre de baisser la température de consigne dans les bâtiments (fait)</p><p>-Remplacer les systèmes de chauffage gaz/fioul des bâtiments les plus énergivores</p><p>-Installer des chauffages mutualisés sur plusieurs équipements, alimentés par exemple par une chaufferie bois</p><p><strong>Objectif :</strong></p><p><strong>Former l'ensemble des agents et des utilisateurs des bâtiments de la collectivité aux \"bonnes pratiques\" d'économie d'énergie</strong></p><p>-Action engagée auprès des directeurs d'écoles, des agents d'entretien, ...</p><p>-Régler les températures des radiateurs</p><p>-Aérer et renouveler l'air en minimisant les pertes de chaleur</p><p><strong>Mise en place d’une Gestion Technique des Bâtiments</strong></p>"
+  },
+  {
+   "id": 76393,
+   "titre": "Minimiser l'impact environnemental lié aux travaux de la collectivité",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 9 843 habitants\nContexte : PCAET > Axe 7 : Exemplarité de la collectivité\nTitre : Minimiser l'impact environnemental lié aux travaux de la collectivité\nDescription : <p><strong>Garantir que les bâtiments neufs soient performants énergétiquement</strong></p><p>-Réglementation RE2020</p><p>-Intégrer des critères sur la conception bioclimatique (en réflexion pour la construction de l'école à Maubert ?)</p><p><strong>Inclure dans les marchés publics des critères sur l'empreinte carbone des travaux</strong></p><p>-Privilégier des matériaux bio-sourcés (bois, chanvre, liège, paille, …)</p><p>-Faire appel à des artisans certifiés RGE</p><p><strong>A minima, demander la réalisation par le prestataire le bilan des émissions de GES des opérations</strong></p>"
+  },
+  {
+   "id": 76394,
+   "titre": "Réduire l'impact environnemental lié aux déplacements des agents",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 9 843 habitants\nContexte : PCAET > Axe 7 : Exemplarité de la collectivité\nTitre : Réduire l'impact environnemental lié aux déplacements des agents\nDescription : <p>Optimiser la flotte de véhicules de la collectivité Prolonger la durée de vie des véhicules Interroger les besoins pour réduire au minimum la taille de la flotte nécessaire Lors de l'achat de véhicules, privilégier des véhicules électriques, d'occasion, de faible puissance</p><p>Mise en place d’une étude territoriale sur le verdissement de la flotte de véhicules des EPCI. Combien de véhicules électriques dans la flotte de la CCAT aujourd’hui ? 2 Quels objectifs ?</p><p>Mettre en place un Plan de Mobilité Exemple de mesures</p><ul><li><p>Mettre en place des stationnements vélo sécurisés</p></li><li><p>Proposer des vélos à assistance électriques aux agents</p></li><li><p>Aménager les horaires de travail pour faciliter l'organisation de covoiturage</p></li></ul><p>Réduire l'utilisation de la voiture dans les déplacements professionnels</p><ul><li><p>Mettre en place des mesures facilitant la mutualisation des trajets</p></li></ul>"
+  },
+  {
+   "id": 76395,
+   "titre": "Réduire la production de déchets et optimiser leur collecte",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 9 843 habitants\nContexte : PCAET > Axe 7 : Exemplarité de la collectivité\nTitre : Réduire la production de déchets et optimiser leur collecte\nDescription : <p>Optimiser la flotte de véhicules de la collectivité Prolonger la durée de vie des véhicules Interroger les besoins pour réduire au minimum la taille de la flotte nécessaire Lors de l'achat de véhicules, privilégier des véhicules électriques, d'occasion, de faible puissance</p><p>Mise en place d’une étude territoriale sur le verdissement de la flotte de véhicules des EPCI. Combien de véhicules électriques dans la flotte de la CCAT aujourd’hui ? 2 Quels objectifs ?</p><p>Mettre en place un Plan de Mobilité Exemple de mesures</p><ul><li><p>Mettre en place des stationnements vélo sécurisés</p></li><li><p>Proposer des vélos à assistance électriques aux agents</p></li><li><p>Aménager les horaires de travail pour faciliter l'organisation de covoiturage</p></li></ul><p>Réduire l'utilisation de la voiture dans les déplacements professionnels</p><ul><li><p>Mettre en place des mesures facilitant la mutualisation des trajets</p></li></ul>"
+  },
+  {
+   "id": 76396,
+   "titre": "Réduire l’impact environnemental lié au numérique",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 9 843 habitants\nContexte : PCAET > Axe 7 : Exemplarité de la collectivité\nTitre : Réduire l’impact environnemental lié au numérique\nDescription : <p><strong>Prolonger la durée de vie du parc informatique</strong></p><p>Charte d’utilisation / bonnes pratiques</p><p><strong>Mettre en place des critères exigeants sur la part de produits reconditionnés et/ou de seconde main dans les équipements informatiques et numériques</strong></p><p>-Définir des critères plus exigeants que la réglementation ?</p><p><strong>Donner une seconde vie au matériel et équipements informatiques obsolètes</strong></p><p>-Ordinateurs vieillissants donnés à Bell'Occas, qui leur donne une seconde vie et les revend aux plus précaires</p><p>-Tableaux Blanc Interactifs (TBI) : les donner à une association</p><p>-</p>"
+  },
+  {
+   "id": 76397,
+   "titre": "Soutenir une alimentation locale et à faible empreinte carbone dans la restauration collective",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 9 843 habitants\nContexte : PCAET > Axe 7 : Exemplarité de la collectivité\nTitre : Soutenir une alimentation locale et à faible empreinte carbone dans la restauration collective\nDescription : <p><strong>Mettre en place une cuisine centrale approvisionnée en circuit-court (PAT)</strong></p><p>-Projet validé, sera réalisé à Auvillers-les-Forges</p><p>-Fournir les établissements scolaires, les maisons de retraite, les personnes isolées (700 repas/jour)</p><p>-</p><p><strong>Mettre en place des critères sur l'empreinte carbone des repas servis dans la restauration collective</strong></p><p>-Compter et afficher systématique le \"contenu carbone\" des repas servis</p><p>-Réduire la quantité de produits carnés/d'origine animale dans les repas (aller au-delà de la réglementation de la loi EGAlim de 1 repas végétarien par semaine ?)</p><p>-</p><p><strong>Organiser des actions de lutte contre le gaspillage alimentaire dans les cantines</strong></p><p>-Pesées des déchets, organisation de défis, …</p><p>-Pédagogie et éduction à l’alimentation responsable&nbsp;</p><p>-</p>"
+  },
+  {
+   "id": 76419,
+   "titre": "Développer de nouvelles filières agricoles locales",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 9 843 habitants\nContexte : PCAET > Axe 5 : Agriculture et alimentation\nTitre : Développer de nouvelles filières agricoles locales\nDescription : <p><strong>Actions PNR </strong>:</p><p>•Initier la réflexion pour le développement de production de fruits et légumes sur le territoire (analyse des producteurs existants, étude sur le foncier (enquêtes auprès des communes/EPCI/SAFER/Terres de lien…), les outils de transformation et les points de vente)</p><p>•Identifier une/des filières prioritaires et mettre en place un programme de développement de cette/ces filières (AMI filière ? Lait de pâturage ?) - 2e session ?</p><p><strong>Actions CCAT :</strong></p><p>•Développer la filière maraîchère destinée à une alimentation locale</p><p>•En lien avec l'entretien des pâtures, favoriser et valoriser les produits issus de leur maintien ;</p><p>•Engager un travail avec les structures locales de distribution : acceptent-elles un \"partenariat\" pour distribuer en priorité la production locale ?</p><p>•Développer la culture du jardin partagé et des jardins communaux en vue de mettre en œuvre la mise en valeur du compost</p><p>•Sensibiliser les élèves et personnes en reconversion aux professions agricoles et aux pratiques de jardinages</p>"
+  },
+  {
+   "id": 76480,
+   "titre": "Mise en place d'un contrat local de santé",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 9 843 habitants\nContexte : PTRTE > Accès aux services et aux soins\nTitre : Mise en place d'un contrat local de santé\nDescription : aucune"
+  },
+  {
+   "id": 76481,
+   "titre": "Création d'une gendarmerie à Mon-Idée",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 9 843 habitants\nContexte : PTRTE > Accès aux services et aux soins\nTitre : Création d'une gendarmerie à Mon-Idée\nDescription : aucune"
+  },
+  {
+   "id": 76485,
+   "titre": "Mise aux normes et extension de 13 à 20 places pour la crèche d'Auvillers-les-Forges",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 9 843 habitants\nContexte : PTRTE > Accès aux services et aux soins\nTitre : Mise aux normes et extension de 13 à 20 places pour la crèche d'Auvillers-les-Forges\nDescription : aucune"
+  },
+  {
+   "id": 76486,
+   "titre": "Mise en place d'un espace muséal Micro-Folie",
+   "statut": "Réalisé",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 9 843 habitants\nContexte : PTRTE > Accès aux services et aux soins\nTitre : Mise en place d'un espace muséal Micro-Folie\nDescription : aucune"
+  },
+  {
+   "id": 76487,
+   "titre": "Travaux d'extension de la médiathèque de Maubert-Fontaine",
+   "statut": "Réalisé",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 9 843 habitants\nContexte : PTRTE > Accès aux services et aux soins\nTitre : Travaux d'extension de la médiathèque de Maubert-Fontaine\nDescription : aucune"
+  },
+  {
+   "id": 76489,
+   "titre": "Mise en place d'un relais sénior",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 9 843 habitants\nContexte : PTRTE > Accès aux services et aux soins\nTitre : Mise en place d'un relais sénior\nDescription : aucune"
+  },
+  {
+   "id": 76490,
+   "titre": "Mise en place d'une MSP multisite Rouvroy sur Audry / Liart",
+   "statut": "A discuter",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 9 843 habitants\nContexte : PTRTE > Accès aux services et aux soins\nTitre : Mise en place d'une MSP multisite Rouvroy sur Audry / Liart\nDescription : aucune"
+  },
+  {
+   "id": 76491,
+   "titre": "Extension de la MSPU de Signy-le-Petit",
+   "statut": "Réalisé",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 9 843 habitants\nContexte : PTRTE > Accès aux services et aux soins\nTitre : Extension de la MSPU de Signy-le-Petit\nDescription : aucune"
+  },
+  {
+   "id": 76546,
+   "titre": "Mise en place d'un PLUi",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 9 843 habitants\nContexte : PTRTE > Revitalisation des centres bourgs\nTitre : Mise en place d'un PLUi\nDescription : aucune"
+  },
+  {
+   "id": 76547,
+   "titre": "Création et animation d'une Union commerciale industrielle et artisanale (UCIA)",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 9 843 habitants\nContexte : PTRTE > Revitalisation des centres bourgs\nTitre : Création et animation d'une Union commerciale industrielle et artisanale (UCIA)\nDescription : aucune"
+  },
+  {
+   "id": 76548,
+   "titre": "Poursuite et développement des services mutualisés",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 9 843 habitants\nContexte : PTRTE > Revitalisation des centres bourgs\nTitre : Poursuite et développement des services mutualisés\nDescription : aucune"
+  },
+  {
+   "id": 76549,
+   "titre": "Mise en place d'une ORT",
+   "statut": "Réalisé",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 9 843 habitants\nContexte : PTRTE > Revitalisation des centres bourgs\nTitre : Mise en place d'une ORT\nDescription : aucune"
+  },
+  {
+   "id": 76550,
+   "titre": "Etude sur la création d'un habitat inclusif à Signy-le-Petit",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 9 843 habitants\nContexte : PTRTE > Revitalisation des centres bourgs\nTitre : Etude sur la création d'un habitat inclusif à Signy-le-Petit\nDescription : aucune"
+  },
+  {
+   "id": 76551,
+   "titre": "Actions en faveur du maintien et de la création des commerces",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 9 843 habitants\nContexte : PTRTE > Revitalisation des centres bourgs\nTitre : Actions en faveur du maintien et de la création des commerces\nDescription : aucune"
+  },
+  {
+   "id": 76553,
+   "titre": "Recrutement d'un chef de projet PVD",
+   "statut": "Réalisé",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 9 843 habitants\nContexte : PTRTE > Revitalisation des centres bourgs\nTitre : Recrutement d'un chef de projet PVD\nDescription : aucune"
+  },
+  {
+   "id": 76554,
+   "titre": "Déploiement du Très Haut Débit",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 9 843 habitants\nContexte : PTRTE > Attractivité du territoire\nTitre : Déploiement du Très Haut Débit\nDescription : aucune"
+  },
+  {
+   "id": 76555,
+   "titre": "Aménagement de l'étang de la Motte",
+   "statut": "A discuter",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 9 843 habitants\nContexte : PTRTE > Attractivité du territoire\nTitre : Aménagement de l'étang de la Motte\nDescription : aucune"
+  },
+  {
+   "id": 76556,
+   "titre": "Valorisation du patrimoine touristique",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 9 843 habitants\nContexte : PTRTE > Attractivité du territoire\nTitre : Valorisation du patrimoine touristique\nDescription : aucune"
+  },
+  {
+   "id": 76557,
+   "titre": "Création d'une restauration scolaire à Liart",
+   "statut": "Réalisé",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 9 843 habitants\nContexte : PTRTE > Attractivité du territoire\nTitre : Création d'une restauration scolaire à Liart\nDescription : aucune"
+  },
+  {
+   "id": 76558,
+   "titre": "Animation culturelle du territoire",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 9 843 habitants\nContexte : PTRTE > Attractivité du territoire\nTitre : Animation culturelle du territoire\nDescription : aucune"
+  },
+  {
+   "id": 76559,
+   "titre": "Valorisation du cadre de vie",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 9 843 habitants\nContexte : PTRTE > Attractivité du territoire\nTitre : Valorisation du cadre de vie\nDescription : aucune"
+  },
+  {
+   "id": 76560,
+   "titre": "Réhabilitation du pole scolaire de Signy-le-Petit",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 9 843 habitants\nContexte : PTRTE > Attractivité du territoire\nTitre : Réhabilitation du pole scolaire de Signy-le-Petit\nDescription : aucune"
+  },
+  {
+   "id": 76561,
+   "titre": "Création d'une restauration scolaire à Signy-le-Petit",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 9 843 habitants\nContexte : PTRTE > Attractivité du territoire\nTitre : Création d'une restauration scolaire à Signy-le-Petit\nDescription : aucune"
+  },
+  {
+   "id": 76562,
+   "titre": "Réimplantation du pôle scolaire de Maubert-Fontaine",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 9 843 habitants\nContexte : PTRTE > Attractivité du territoire\nTitre : Réimplantation du pôle scolaire de Maubert-Fontaine\nDescription : aucune"
+  },
+  {
+   "id": 76563,
+   "titre": "Investissement / remplacement de matériel informatique",
+   "statut": "Réalisé",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 9 843 habitants\nContexte : PTRTE > Attractivité du territoire\nTitre : Investissement / remplacement de matériel informatique\nDescription : aucune"
+  },
+  {
+   "id": 76564,
+   "titre": "Réaménagement des Broises Basses en gîte de groupe",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 9 843 habitants\nContexte : PTRTE > Attractivité du territoire\nTitre : Réaménagement des Broises Basses en gîte de groupe\nDescription : aucune"
+  },
+  {
+   "id": 76565,
+   "titre": "Réaménagement des Broises Basses en Brasserie",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 9 843 habitants\nContexte : PTRTE > Attractivité du territoire\nTitre : Réaménagement des Broises Basses en Brasserie\nDescription : aucune"
+  },
+  {
+   "id": 76566,
+   "titre": "Réaménagement des Broises-Basses en salle de spectacle",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 9 843 habitants\nContexte : PTRTE > Attractivité du territoire\nTitre : Réaménagement des Broises-Basses en salle de spectacle\nDescription : aucune"
+  },
+  {
+   "id": 76567,
+   "titre": "Construction d'une cuisine centrale à Auvillers-les-Forges",
+   "statut": "Réalisé",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 9 843 habitants\nContexte : PTRTE > Attractivité du territoire\nTitre : Construction d'une cuisine centrale à Auvillers-les-Forges\nDescription : aucune"
+  },
+  {
+   "id": 76568,
+   "titre": "Mise en oeuvre d'une concertation territoriale pour la définition du projet de territoire",
+   "statut": "Réalisé",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 9 843 habitants\nContexte : PTRTE > Cohésion sociale\nTitre : Mise en oeuvre d'une concertation territoriale pour la définition du projet de territoire\nDescription : aucune"
+  },
+  {
+   "id": 76569,
+   "titre": "Création de tiers-lieux",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 9 843 habitants\nContexte : PTRTE > Cohésion sociale\nTitre : Création de tiers-lieux\nDescription : aucune"
+  },
+  {
+   "id": 76570,
+   "titre": "Mise en place d'une bourse étudiante communautaire",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 9 843 habitants\nContexte : PTRTE > Cohésion sociale\nTitre : Mise en place d'une bourse étudiante communautaire\nDescription : aucune"
+  },
+  {
+   "id": 76571,
+   "titre": "Renouvellement de la CTG",
+   "statut": "Réalisé",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 9 843 habitants\nContexte : PTRTE > Cohésion sociale\nTitre : Renouvellement de la CTG\nDescription : aucune"
+  },
+  {
+   "id": 76572,
+   "titre": "Mise en place d'un Lieu d'Accueil Enfant Parent (LAEP)",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 9 843 habitants\nContexte : PTRTE > Cohésion sociale\nTitre : Mise en place d'un Lieu d'Accueil Enfant Parent (LAEP)\nDescription : aucune"
+  },
+  {
+   "id": 76573,
+   "titre": "Expérimentation du service public de l'insertion et de l'emploi",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 9 843 habitants\nContexte : PTRTE > Cohésion sociale\nTitre : Expérimentation du service public de l'insertion et de l'emploi\nDescription : aucune"
+  },
+  {
+   "id": 76574,
+   "titre": "Réhabilitations groupées d'installations ANC",
+   "statut": null,
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 9 843 habitants\nContexte : PTRTE > Transition écologique et énergétique\nTitre : Réhabilitations groupées d'installations ANC\nDescription : aucune"
+  },
+  {
+   "id": 76575,
+   "titre": "Mise en place du tri des biodéchets",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 9 843 habitants\nContexte : PTRTE > Transition écologique et énergétique\nTitre : Mise en place du tri des biodéchets\nDescription : aucune"
+  },
+  {
+   "id": 76576,
+   "titre": "Création d'un cadastre solaire",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 9 843 habitants\nContexte : PTRTE > Transition écologique et énergétique\nTitre : Création d'un cadastre solaire\nDescription : aucune"
+  },
+  {
+   "id": 76577,
+   "titre": "PIG",
+   "statut": "Réalisé",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 9 843 habitants\nContexte : PTRTE > Transition écologique et énergétique\nTitre : PIG\nDescription : aucune"
+  },
+  {
+   "id": 76578,
+   "titre": "Etude pré opérationnelle OPAH",
+   "statut": "Réalisé",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 9 843 habitants\nContexte : PTRTE > Transition écologique et énergétique\nTitre : Etude pré opérationnelle OPAH\nDescription : aucune"
+  },
+  {
+   "id": 76579,
+   "titre": "Réhabilitation / extension déchèterie Neuville-lez-Beaulieu",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 9 843 habitants\nContexte : PTRTE > Transition écologique et énergétique\nTitre : Réhabilitation / extension déchèterie Neuville-lez-Beaulieu\nDescription : aucune"
+  },
+  {
+   "id": 76581,
+   "titre": "Etude sur les coulées de boue",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 9 843 habitants\nContexte : PTRTE > Transition écologique et énergétique\nTitre : Etude sur les coulées de boue\nDescription : aucune"
+  },
+  {
+   "id": 76583,
+   "titre": "Assainissement collectif Maubert-Fontaine",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 9 843 habitants\nContexte : PTRTE > Transition écologique et énergétique\nTitre : Assainissement collectif Maubert-Fontaine\nDescription : aucune"
+  },
+  {
+   "id": 76584,
+   "titre": "Assainissement collectif Signy-le-Petit",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 9 843 habitants\nContexte : PTRTE > Transition écologique et énergétique\nTitre : Assainissement collectif Signy-le-Petit\nDescription : aucune"
+  },
+  {
+   "id": 76585,
+   "titre": "Diagnostics \"Ponts\"",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 9 843 habitants\nContexte : PTRTE > Transition écologique et énergétique\nTitre : Diagnostics \"Ponts\"\nDescription : aucune"
+  },
+  {
+   "id": 76586,
+   "titre": "Mise en place d'un PCAET",
+   "statut": "Réalisé",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 9 843 habitants\nContexte : PTRTE > Transition écologique et énergétique\nTitre : Mise en place d'un PCAET\nDescription : aucune"
+  },
+  {
+   "id": 76588,
+   "titre": "Réalisation d'un diagnostic de vulnérabilité du territoire aux changements climatiques",
+   "statut": "Réalisé",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 9 843 habitants\nContexte : PTRTE > Transition écologique et énergétique\nTitre : Réalisation d'un diagnostic de vulnérabilité du territoire aux changements climatiques\nDescription : aucune"
+  },
+  {
+   "id": 76589,
+   "titre": "Bornes de recharge VAE",
+   "statut": "Réalisé",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 9 843 habitants\nContexte : PTRTE > Mobilité\nTitre : Bornes de recharge VAE\nDescription : aucune"
+  },
+  {
+   "id": 76590,
+   "titre": "Mise en place d'un arrêt TER \"Bus\" à Mon-Idée",
+   "statut": "Réalisé",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 9 843 habitants\nContexte : PTRTE > Mobilité\nTitre : Mise en place d'un arrêt TER \"Bus\" à Mon-Idée\nDescription : aucune"
+  },
+  {
+   "id": 76591,
+   "titre": "Etude en vue de la création d'une voie cyclable entre Hirson et Ham-les-Moines",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 9 843 habitants\nContexte : PTRTE > Mobilité\nTitre : Etude en vue de la création d'une voie cyclable entre Hirson et Ham-les-Moines\nDescription : aucune"
+  },
+  {
+   "id": 76592,
+   "titre": "Création d'un schéma directeur cyclable",
+   "statut": "Réalisé",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 9 843 habitants\nContexte : PTRTE > Mobilité\nTitre : Création d'un schéma directeur cyclable\nDescription : aucune"
+  },
+  {
+   "id": 76593,
+   "titre": "Mise en place d'une aire de covoiturage à Mon-Idée",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 9 843 habitants\nContexte : PTRTE > Mobilité\nTitre : Mise en place d'une aire de covoiturage à Mon-Idée\nDescription : aucune"
+  },
+  {
+   "id": 76594,
+   "titre": "Création et mise en place de l'application de co-voiturage",
+   "statut": "Réalisé",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 9 843 habitants\nContexte : PTRTE > Mobilité\nTitre : Création et mise en place de l'application de co-voiturage\nDescription : aucune"
+  },
+  {
+   "id": 76595,
+   "titre": "Borne de recharge avec véhicule en autopartage",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 9 843 habitants\nContexte : PTRTE > Mobilité\nTitre : Borne de recharge avec véhicule en autopartage\nDescription : aucune"
+  },
+  {
+   "id": 76596,
+   "titre": "Borne de recharge pour véhicules électriques",
+   "statut": "Réalisé",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 9 843 habitants\nContexte : PTRTE > Mobilité\nTitre : Borne de recharge pour véhicules électriques\nDescription : aucune"
+  },
+  {
+   "id": 76624,
+   "titre": "Création de bâtiments \"blancs\"",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 9 843 habitants\nContexte : PTRTE > Attractivité du territoire\nTitre : Création de bâtiments \"blancs\"\nDescription : aucune"
+  },
+  {
+   "id": 76626,
+   "titre": "Création d'une ZA à Maubert-Fontaine",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 9 843 habitants\nContexte : PTRTE > Attractivité du territoire\nTitre : Création d'une ZA à Maubert-Fontaine\nDescription : aucune"
+  },
+  {
+   "id": 76627,
+   "titre": "Mise en service du gîte de groupe 60 lits \"Aux lits ardennais\"",
+   "statut": "Réalisé",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 9 843 habitants\nContexte : PTRTE > Attractivité du territoire\nTitre : Mise en service du gîte de groupe 60 lits \"Aux lits ardennais\"\nDescription : aucune"
+  },
+  {
+   "id": 76628,
+   "titre": "Territoires Educatifs Ruraux",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 9 843 habitants\nContexte : PTRTE > Attractivité du territoire\nTitre : Territoires Educatifs Ruraux\nDescription : aucune"
+  },
+  {
+   "id": 76629,
+   "titre": "Travail sur les logements vacants et indignes",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 9 843 habitants\nContexte : PTRTE > Attractivité du territoire\nTitre : Travail sur les logements vacants et indignes\nDescription : aucune"
+  },
+  {
+   "id": 76631,
+   "titre": "Accompagnement à la structuration d'un réseau intercommunal de lecture publique",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 9 843 habitants\nContexte : PTRTE > Attractivité du territoire\nTitre : Accompagnement à la structuration d'un réseau intercommunal de lecture publique\nDescription : aucune"
+  },
+  {
+   "id": 76632,
+   "titre": "Désimperméabilisation des cours d'école",
+   "statut": "À venir",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 9 843 habitants\nContexte : PTRTE > Attractivité du territoire\nTitre : Désimperméabilisation des cours d'école\nDescription : aucune"
+  },
+  {
+   "id": 76633,
+   "titre": "Education artistique et culturelle",
+   "statut": "En cours",
+   "n_sous_actions": 0,
+   "message": "Collectivité : communauté de communes, 9 843 habitants\nContexte : PTRTE > Attractivité du territoire\nTitre : Education artistique et culturelle\nDescription : aucune"
+  }
+ ]
+}

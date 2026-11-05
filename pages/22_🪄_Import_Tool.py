@@ -964,16 +964,17 @@ def max_output_tokens_for(model: str) -> int:
 
 
 def format_run_cost(model: str | None, tokens) -> str:
-    """Coût indicatif. Gemini reste en euros (grille historique de l'outil), Mistral en dollars."""
+    """Coût indicatif et volume de tokens. Gemini en euros, Mistral en dollars."""
     out_tok = int((tokens or [0, 0])[0] or 0)
     in_tok = int((tokens or [0, 0])[1] or 0)
+    volume = f"Entrée : {in_tok:,} tokens · Sortie : {out_tok:,} tokens"
     if model == MISTRAL_MODEL:
         amount = (MISTRAL_PRICE_PER_M["output"] * out_tok + MISTRAL_PRICE_PER_M["input"] * in_tok) / 1_000_000
-        return f"✅ Import prêt pour un coût d'environ {amount:.2f} $ (tarif Mistral Large 4)"
+        return f"✅ Import prêt pour un coût d'environ {amount:.2f} $ (tarif Mistral Large 4) · {volume}"
     if model == ALBERT_MODEL:
-        return "✅ Import prêt. Albert API n'est pas facturée au token."
+        return f"✅ Import prêt. Albert API n'est pas facturée au token. · {volume}"
     amount = (10 * out_tok + 2 * in_tok) / 1_000_000
-    return f"✅ Import prêt pour un coût d'environ {amount:.2f} €"
+    return f"✅ Import prêt pour un coût d'environ {amount:.2f} € · {volume}"
 
 
 def _mistral_api_key() -> str:
