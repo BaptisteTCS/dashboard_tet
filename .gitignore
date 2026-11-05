@@ -28,3 +28,6 @@ data/test_run_impact/*.json.tmp
 # Rapports locaux de vérification de classification (GPT vs prod)
 data/verify_classification_volet_ges/
 
+# Reprises d'analyse de l'import tool (texte source + résultats intermédiaires)
+data/import_tool_cache/
+

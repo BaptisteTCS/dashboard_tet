@@ -1,0 +1,462 @@
+﻿collectivite_id,collectivite,fiche_id,titre,description,haiku,n_leviers,stable
+13693,Hélette,143336,4.1.6 - Favoriser l’installation d’infrastructures de recharge,"Cette action devra être menée en cohérence avec le SDIRVE et en lien avec TE64
+Infrastructure existante mais très peu utilisée",{'Véhicules électriques': [1]},1,True
+4576,CC de la Forêt,40480,5.30 Développer le solaire photovoltaïque et le solaire thermique sur les bâtiments,"Faire réaliser un cadastre solaire pour identifier les zones les plus propices au développement du solaire PV et thermique
+Contacter les entreprises dont les bâtiments peuvent héberger des équipements PV et solaires et leur proposer des solutions adaptées
+Travailler avec les agriculteurs pour développer le solaire sur les bâtiments agricoles
+Promouvoir le solaire thermique dans le cadre du COT EnR
+Porter des projets d’énergies renouvelables sur les bâtiments (CCL, CCF)","{'Electricité renouvelable': [1, 6]}",1,True
+4994,CC du Pays de l'Arbresle (CCPA),62318,Methanisation : Rester en veille pour accompagner d'éventuels porteurs de projets,"Mettre en place une communication autour des projets (si il y en ) pour en faciliter l'acceptation
+Suivre le développement à l'echelle départemental",{'Biogaz': [6]},1,True
+4576,CC de la Forêt,40466,3.16 Faciliter l'adaptation au changement climatique en soutenant les expérimentations et les nouvelles initiatives,"Accompagner les agriculteurs désireux de réaliser un diagnostic permettant d’identifier les vulnérabilités et atouts de leur exploitation
+Dégager des pistes pour modifier les pratiques, réduire les consommations, notamment à travers l’outil CAP’2ER pour les éleveurs
+Informer les agriculteurs sur les études réalisées sur les conduites de culture et sur le changement d’espèces permettant une meilleure adaptation au changement climatique
+Soutenir les expérimentations agricoles, notamment dans le cadre du PAT et des contrats du PETR
+Favoriser des expérimentations sur les friches agricoles communales en anticipant le changement climatique",{},0,False
+6030,SM du SCoT Sambre Avesnois,126709,6.3.4. Mettre en œuvre des projets de méthanisation,"La Sambre-Avesnois compte 9 unités de méthanisation, dont une seule unité réalisant de l'injection de gaz dans le réseau. 
+ Le potentiel sur le territoire est important du fait d'une activité agricole et agroalimentaire importante. L'intéret de la méthanisation est multiple : valorisation des déchets, limitations de la pollution agricole, production de digestat pouvant se substituer aux engrais minéraux, production de biogaz renforçant l'indépendance énergétique de la Sambre-Avesnois, apporter une source de revenue complémentaire aux agriculteurs.
+La promotion de ces systèmes et la mise en œuvre de projets démonstrateurs visent à engager une dynamique vertueuse afin d'atteindre les objectifs fixés dans le PCAET.",{'Biogaz': [1]},1,True
+4999,Métropole de Lyon,65606,Action n°17 - Préfigurer un modèle de logistique de chantier et de logistique urbaine sobre et décarbonée,"Une immense majorité des activités urbaines sont génératrices de flux de marchandises. Les volumes traités sont très importants : ils représentent sur la Métropole de Lyon en moyenne 35 tonnes de marchandises par an par habitant. Sur les 200 000 livraisons quotidiennes réalisées sur le territoire de la Métropole de Lyon, 80% sont à destination des établissements économiques et 20% à destination des ménages. Aujourd’hui, le fonctionnement des chaînes logistiques s’appuie encore de manière hégémonique sur le mode routier (près de 90% du transport terrestre de marchandise). À l’avenir ce mode restera dominant mais il est nécessaire d’opérer et d’accompagner sur le territoire une décarbonation du transport de marchandises, notamment par le développement de la cyclo logistique et également par l’optimisation des flux de transport de marchandises.
+Parmi les flux à réguler et optimiser pour réduire leurs impacts sur l’espace public, il y a :
+• Les flux liés aux chantiers portés par la Métropole. Parmi les actions déjà en place, le quartier de la Part-Dieu bénéficie depuis 2019 d’un dispositif innovant de régulation des chantiers mis en place par la SPL Lyon Part-Dieu, du fait de sa position centrale traversée par de nombreux flux. Ce dispositif, dénommé Réguly, a engendré de substantiels gains carbone, et a ainsi été prolongé et étendu au projet Gratte-Ciel fin 2024.
+• Les flux liés aux actes d’achats des habitants/commerçants pour lesquels des systèmes de mutualisation des marchandises sont mis en œuvre. Parmi les actions déjà mise en place, on peut par exemple citer les espaces logistiques qui aujourd’hui sont proposés dans des parkings du centre-ville lyonnais (Cordeliers, les Halles...), qui engendre des réductions de kms parcourus. Ce concept va être décliné dans le cadre du projet Gratte-ciel.
+Afin de réduire l’impact carbone des aménagements dans le cadre du projet Gratte-Ciel à Villeurbanne, tant en phase construction qu’une fois livrés, la préfiguration d’un modèle de logistique de chantier et de logistique urbaine sobre et décarbonée est engagée, en vue de réplicabilité à l’échelle du territoire métropolitain. Ce projet porté par la Métropole de Lyon, mis en œuvre par le Groupe SERL et mené en lien avec la Ville de Villeurbanne, a remporté la deuxième vague de l’Appel à Manifestation d’Intérêt (AMI) Démonstrateurs de la Ville Durable (DVD) en 2021. Depuis le 3ème trimestre 2024, le Démonstrateur est entré en phase de réalisation c’est à dire de mise en œuvre du plan d’actions.","{'Efficacité et sobriété logistique': [1], 'Fret décarboné et multimodalité': [1]}",2,False
+4322,Bordeaux Métropole,34956,"Action 30. Privilégier les matériaux moins polluants (biosourcés, issus du réemploi, bas carbone), pour toutes les filières économiques","1. Lancer une étude pour caractériser les ressources pouvant être considérées comme matériaux moins polluants et identifier les besoins en développement de filières. Pour ce faire, Bordeaux Métropole évaluera sur ses constructions et dans le cadre des opérations d’aménagement à venir, ses consommations en matériaux de manière à offrir aux entreprises des potentiels de développement de ces marchés
+2. Sensibiliser les entreprises sur le recours aux matériaux moins polluants dans leur process au travers de la plateforme RSE, les doter d’outils de mesures d’impact environnemental et carbone de leur activité, apporter une ingénierie pour améliorer leurs pratiques et diffuser une cartographie des producteurs de matériaux biosourcés, géosourcés et recyclés pour faciliter les échanges commerciaux de proximité en circuit court
+3. Inciter les entreprises du BTP à recycler leurs matériaux et encourager l’économie circulaire et le réemploi de ces derniers. Pour faciliter le stockage des matériaux et leur recyclage, définir une stratégie foncière et porter un engagement fort en faveur de l’évolution réglementaire pour faciliter le recyclage et réemploi au travers de la stratégie économie circulaire à adopter en 2023
+4. Soutenir les entreprises utilisant des matériaux à faible impact environnemental et biosourcés locaux au travers des achats métropolitains (clauses environnementales) et inviter les communes à faire de même
+5. Définir un plan zéro perturbateur endocrinien et le diffuser auprès des acteurs du territoire
+6. Poursuivre la lutte contre les micropolluants pour préserver le milieu naturel","{'Sobriété et isolation des bâtiments (tertiaire)': [5], 'Production Industrielle': [6]}",2,False
+4026,CA Rochefort Océan,87270,Action 19 - Développer les biocarburants pour les bus et les véhicules électriques sur les transports à la demande,Proposer une flotte de véhicules qui roule à l'électrique ou aux biocarburants,"{'Efficacité et carburants décarbonés des véhicules privés': [1], 'Véhicules électriques': [1]}",2,True
+1609,Saint-Jean-de-Braye,16434,Développer le réseau piétonnier,Le réseau piétonnier et la marchabilité est priorisée dans tous les aménagements du territoire,{'Réduction des déplacements': [1]},1,True
+5033,CC Brionnais Sud Bourgogne,57617,6.2.3 Développer des services de réparation de petits matériels,-> En réflexion sur CC Semur dans le nouveau conventionnement ACI,{'Prévention des déchets': [1]},1,True
+4637,CC Baugeois Vallée,72512,29. Optimiser l’irrigation agricole,"Le territoire de la CCBV est fortement concerné par les effets du changement climatique sur la ressource en eau. L’agriculture, très présente localement, représente un poste majeur de consommation, et sa résilience dépend d’une gestion plus économe et partagée de cette ressource. Cette action s’inscrit dans les objectifs du PCAET, renforcés par les dynamiques régionales portées par la Chambre d’agriculture et les SAGE Loir et Authion.
+· Promouvoir des systèmes d’irrigation plus efficients : accompagnement technique des exploitants dans la mise en place de dispositifs comme le goutte-à-goutte, la micro-aspersion ou le pilotage par sondes tensiométriques ou capacitives.
+· Soutenir la diversification vers des cultures moins gourmandes en eau (chanvre, luzerne, lin, céréales d’hiver, etc.), en favorisant les filières locales existantes.
+· Sensibiliser les agriculteurs à l’optimisation de la ressource : diffusion de fiches pratiques, organisation de démonstrations et de visites de fermes pilotes pour partager les retours d’expérience (cf. action 26).
+· Favoriser le stockage passif et les solutions naturelles de rétention d’eau : infiltration des eaux vers les nappes, accompagnement à l’aménagement de mares agricoles, haies et couverts végétaux pour maintenir l’humidité des sols.","{'Bâtiments & Machines agricoles': [6], 'Pratiques stockantes': [6]}",2,True
+5300,CC du Pays des Achards,87962,3.1.1. Amorcer une réflexion territoriale sur les transports solidaires et leur rôle clé dans l’accès aux soins et à la prévention.,"Initier une réflexion collective sur la question des transports solidaires dont le coût peut constituer un frein dans l’accès aux soins et aux actions de prévention pour les publics fragiles, et entrainer des situations d’isolement.",{},0,True
+5300,CC du Pays des Achards,88082,4.3.1. Engager une réflexion autour de l’élaboration d’actions visant à améliorer la qualité de l’air intérieur dans les bâtiments et logements du territoire.,Réflexion à engager autour de mesures préventives et d’aménagements visant à améliorer la qualité de l’air intérieur et à réduire l’exposition au radon.,{},0,True
+5300,CC du Pays des Achards,88066,4.1.3. Etablir un plan d’action local de santé environnementale,"Suite à la mise en évidence des leviers d’action et des marges de progression autour de la santé environnementale, élaboration d’un plan d’action.",{},0,True
+4999,Métropole de Lyon,65596,Action n°7 - Lutter contre la précarité énergétique,"Selon la loi du 12 juillet 2010 relative à « l’engagement national pour l’environnement », une personne est considérée en situation de précarité énergétique lorsqu’elle « éprouve dans son logement des difficultés particulières à disposer de la fourniture d’énergie nécessaire à la satisfaction de ses besoins élémentaires en raison de l’inadaptation de ses ressources ou de ses conditions d’habitat ».
+En 2019, le Schéma Directeur des Énergies (SDE) de la Métropole de Lyon estimait entre 50 000 et 90 000 le nombre de ménages en situation de précarité énergétique sur le territoire, des chiffres qui pourraient facilement être réévalués à la hausse. En effet, depuis 2020, la France a fait face à différentes crises (crise sanitaire, guerre en Ukraine) qui ont eu pour conséquences une augmentation significative des prix à la consommation du gaz, des carburants et de l’électricité, mettant en difficulté les ménages les plus modestes et faisant parfois basculer dans la précarité des ménages qui n’étaient pas considérés comme tels. Sur la Métropole, les situations de précarité énergétique sont particulièrement présentes dans les quartiers « politique de la ville » mais on en retrouve également sur tout le reste du territoire. Des actions de repérage, d’accompagnement, de travaux, sont mises en œuvre en faveur de la lutte contre la précarité énergétique.
+En janvier 2023, la mise en place du SLIME – Service Local d’Informations sur la Maîtrise de l’Energie - à destination des ménages très modestes en situation de précarité énergétique, permet la montée en charge des outils et des partenariats. Le SLIME consiste en un repérage des ménages précaires, un diagnostic sociotechnique lors d'une visite à domicile réalisée par SOLIHA (conseils sur les usages et les comportements, fourniture de petits équipements) puis un accompagnement vers une solution durable et adaptée à chaque situation.
+En lien avec le SLIME et dans le cadre de sa mission de responsabilité sociale et environnementale, l’entreprise ENEDIS, concessionnaire du réseau de distribution d’électricité sur la Métropole de Lyon, finance un « fonds petits travaux et équipements » à destination des ménages. SOLIHA accompagne les ménages sélectionnés lors d’une visite pour bénéficier de ces subventions dont l’objet est de financer des travaux urgents ou non couverts par d’autres subventions, ou des équipements pour pallier des difficultés liées au logement ou aux consommations d’énergie. Le fonds est créé dans le cadre de la Convention RSE ENEDIS signée en juillet 2023 avec la Métropole de Lyon pour la période allant d’avril 2023 à mars 2027. L’enveloppe prévue est de 15 000 € pour 2023, 35 000 € pour 2024 puis 50 000 € pour 2025 et 50 000 € en 2026.
+Ces deux dispositifs devront être maintenus dans le temps.
+Par ailleurs, la Métropole de Lyon est délégataire des aides de l’Agence Nationale de l’Habitat (Anah) et conduit sous sa maîtrise d’ouvrage différents dispositifs programmés en faveur de la lutte contre l’habitat indigne, le redressement des copropriétés fragiles et dégradées, qui participent à la lutte contre la précarité énergétique.
+La Métropole porte également le dispositif ECORENO’V, service destiné à conseiller et accompagner les projets d’éco-rénovation de l'habitat, qu'il soit privé ou social (cf. fiche action n°13 : Amplifier la rénovation énergétique globale et performante du parc de logements pour le confort d’été et d’hiver).
+De plus, elle est en charge du Fonds Solidarité Logement (FSL), et notamment du FSL Énergie, qui permet d’accorder des aides financières aux ménages en difficulté pour régler leurs factures d’électricité et/ou de gaz et de contribuer à l’apurement des dettes contractées par des ménages en difficulté pour la fourniture d’autres formes d’énergie (fioul, bois, gaz en citerne, etc.).
+Enfin, l’offre de raccordement aux réseaux de chaleur urbain suscite généralement des économies financières, et permet une stabilité en s’affranchissant des contraintes liées aux énergies importées (cf. fiche action n°22 : Poursuivre le développement de la production de chaleur et de froid renouvelable).","{'Sobriété des bâtiments (résidentiel)': [3, 6]}",1,True
+4707,CC du Pays de Colombey et du Sud Toulois,51817,Explorer les possibilités réglementaires (PLUI) pour encourager les plantations,"dans les espaces constructibles, les zones commerciales, industrielles (végétalisation, arbres..). Sanctuariser certains secteurs de forêts",{'Pratiques stockantes': [2]},1,True
+4322,Bordeaux Métropole,34970,Action 44. Accompagner la transition vers des usages plus sobres en énergie,"1. Réaliser une vaste étude d’identification et d’évaluation des principaux postes de consommations d’énergie au sein des ménages et des entreprises.
+2. Concevoir un panel de solutions permettant de réduire les consommations identifiées
+3. Définir une feuille de route sobriété en rappelant les postes de consommations identifiés, les leviers comportementaux envisagés pour les réduire et détaillant l’ensemble des dispositifs d’accompagnement à bâtir pour accompagner ces changements
+4. Réaliser une campagne de sensibilisation et d’accompagnement sur les principes de sobriété des usages en recherchant des synergies avec les autres leviers de communication en matière de transitions écologiques
+5. Accompagner les ménages en situation de précarité énergétique : choix des fournisseurs d’énergie, gestion des consommations d’énergie et de leur facture, identification des leviers et des dispositifs d’aides (médiateur de l’énergie etc.), recherche de synergies avec les réseaux de chaleur.",{'Sobriété des bâtiments (résidentiel)': [6]},1,True
+4939,CC du Pays de Barr,130820,3.8. Equiper le territoire d'un Pump Track intercommunal,"Diagnostic et constats
+Sur le territoire du Pays de Barr, on ne retrouve aucun équipement qui permette l’apprentissage du vélo.
+Or l’ancrage du vélo dans les pratiques modales des individus est favorisé par l’usage du vélo dès le plus jeune âge.
+L’initiation au vélo chez l’enfant est donc un levier pertinent en vue d’un report modal futur puisque c’est un moyen de créer des habitudes de déplacements douces et actives.
+Résumé de l’action
+Le Pump Track est une activité accessible à tous, et ce depuis le plus jeune âge (dès 5 ans).
+Elle permet de développer de nombreuses capacités physiques, telle que la motricité, la coordination, la force musculaire, …
+Elle constitue une activité sécurisée et s’adapte à tous les niveaux puisqu’elle peut présenter plusieurs niveaux de difficulté.
+Les Pump Track sont des lieux de rencontres et d’interactions pour les jeunes dans la mesure où on y retrouve différentes générations et cultures.
+L’installation d’un Pump Track ne nécessite pas une surface énorme puisque 300m² suffisent pour créer une piste. Néanmoins, plus l’espace disponible est important plus il sera possible de créer des variantes et de les adapter à tous les niveaux et tous les âges.
+L’installation est rapide, soit environ quelques semaines, et simple à mettre en place.",{'Vélo et transport en commun': [1]},1,True
+4939,CC du Pays de Barr,130870,6.4. Recruter un chargé de mission mobilités pour conduire la mise en oeuvre du plan de mobilité,"Diagnostic et constats
+Le Plan de Mobilité du Pays de Barr vise à mettre en œuvre plusieurs nouveaux dispositifs de mobilité à destination des habitants du territoire.
+Pour mener à bien les actions identifiées dans ce Plan de Mobilité, il est alors indispensable d’acquérir les ressources humaines nécessaires.
+Résumé de l’action
+Il s’agit de recruter un Chargé de Mission mobilité qui aura la charge de coordonner la mise en œuvre du Plan de Mobilité simplifié dans son intégralité.
+Le chargé de mission sera alors recruté pour une période minimale de 3 ans",{'Réduction des déplacements': [4]},1,False
+4994,CC du Pays de l'Arbresle (CCPA),62336,Travailler sur un cahier des charges pour encadrer les ZAE (pour les bâtiments neufs),"Gestion de l'espace sur les zones d'activité de manière globale et durable :
+- proposition de travail sur une zone test à Fleurieux sur l'Arbresle
+- refonte du cahier des charges de cession sur les ZAE
+- accompagnement du CAUE sur les projets de construction en ZAE
+- mutualisation des espaces logistiques, espaces verts plus vastes
+- prescription environnementales
+- étude de faisabilité en 2025","{'Efficacité et sobriété logistique': [2], 'Sobriété foncière': [2]}",2,True
+5390,Paris Est Marne & Bois,120915,1-1 Créer un comité de partenaires / renforcer les relations avec les partenaires,"Réunir les acteurs du territoire pour échanger sur les pratiques, le projets en cours et les réflexions futures en matière d'aménagement du territoire.
+Il s'agit de mettre à l'honneur un sujet d'actualité ou un sujet qui nécessité d'être débattu afin d'apporter des éléments de langage et de méthode pour une meilleure intégration à la stratégie territoriale d'adaptation et de résilience.",{},0,True
+5119,Le Havre Seine Métropole,26728,3.3.3 Structurer la filière énergie et améliorer l'intégration des ENR&R au territoire,"Cette action vise à :
+- Faire connaître les énergies renouvelables au grand public afin d’améliorer l’acceptabilité indispensable à la mise en œuvre des projets
+- Former les jeunes du territoire aux énergies de demain afin d’en garantir la continuité et l’acceptabilité",{},0,True
+4111,CC Creuse Sud Ouest,64559,3.1.5 Créer un guide de la petite enfance et de la jeunesse,"Contexte : Creuse Sud-Ouest souhaite développer la visibilité de la compétence enfance-jeunesse sur le territoire par le biais de la création de support.
+Éléments de calendrier : - 2026 / 2027 : Création du guide
+- 2028 puis tous les deux ans : correction du guide",{},0,True
+13693,Hélette,143380,6.3.3 - Mettre à jour le Plan Communal de Sauvegarde,Le Plan de Sauvegarde Communal peut être mis à jour dans le cadre de cette action en prenant en compte dans la gestion des risques leur accentuation par les changements climatiques et en garantissant la continuité des services essentiels.,{},0,True
+4973,CC Sundgau,17138,Accompagnement de la lutte contre le gaspillage alimentaire dans les périscolaires,"existe une initiative de pesées des restes alimentaires
+encourager la démarche et identifier les leviers qui permettront de réduire les quantités de restes
+Éléments de calendrier : début : octobre 2023, pesées des restes alimentaires au périscolaire de Spechbach",{'Prévention des déchets': [6]},1,True
+4097,CA Guingamp-Paimpol Agglomération de l'Armor à l'Argoat,21905,Chemins de culture : notre projet culturel de territoire,"Affirmer l’ambition de l’agglomération à œuvre dans le champ culturel, en se dotant d’une feuille de route à horizon 2030 : 
+- Axes stratégiques : coopérer en réseaux, soutenir des lieux de culture et amplifier leur fréquentation, faciliter la mise en œuvre de parcours d’éducation artistique et culturelle, accompagner la mobilité culturelle, rendre visible et accompagner des économies culturelles et créatives.
+- Des champs prioritaires : lecture-livre-medias, image et arts plastiques, patrimoine-identité et tourisme culturel, arts vivants, artisanat-métiers d’art.
+Éléments de calendrier : * 2022/2023 : diagnostic culturel de territoire
+* 2023/2024 : conception collective du projet culturel de territoire
+* automne 2024 : vote du projet culturel de territoire
+* Hiver 2024 : premières rencontres locales de la culture
+* 2025 : début de la mise en œuvre des chantiers
+* 2026, bilan et perspectives intermédiaire",{},0,True
+4097,CA Guingamp-Paimpol Agglomération de l'Armor à l'Argoat,2335,3.3 Explorer les intermodalités rail-route,"Le territoire est traversé par deux voies ferroviaires qui se croisent à Guingamp. L'axe Paimpol-Carhaix relie le Nord au Sud du territoire et l'axe Rennes-Brest relie l'Est et l'Ouest. Une offre de TER circule régulièrement sur les deux axes. Guingamp, au centre de ce dispositif ferroviaire, est intégrée au réseau des gares accueillent le TGV. 
+La production agricole et agroalimentaire du territoire, très largement supérieur aux besoins des habitants, est principalement à vocation d'exportation. Entre 2010 et 2013, la territoire a porté, avec les producteurs légumiers du nord du territoire, une étude de faisabilité pour une plateforme logistique combiné rail-route sur la commune de Saint-Agathon, dans le coeur de la zone d'activité de Bellevue. La plateforme devait pouvoir s'inscrire à termes dans le projet régional qui intégrait deux plateformes identiques sur Rennes et Morlaix. Le dépôt de bilan de l'opérateur de transport combiné Combiwest a conduit Guingamp Communauté à suspendre le projet. 
+Depuis, le plan de relance économique gouvernemental à pris des dispositions favorables à la relance du fret ferroviaire et l'utilisation de ""wagon isolés"" serait à nouveau une solution envisageable. Ces derniers sont adaptés à une offre de transport qui ne correspond pas necessairement à de gros volumes et leur usage ne requière pasd de grandes infrastructures de transbordement ou de triage (dans le cas où ils viennent compléter des trains intermodaux).
+3.3.1 Poursuivre la réflexion sur une plateforme logistique combiné rail-route 
+- Maintenir le projet de plateforme de transport combiné rail-route de fret dans le PLUi : les deux sites identifiés (site Uniroute à Grâces et site Bellevue sur Saint Agathon) pour l’installation d’une telle plateforme sont clairement destinées à cet usage dans le PLUi. Le SCOT entérine la possibilité du projet sur ce secteur. La gare de Guingamp, voire celle de Paimpol, pourrait également accueillir un projet de logistique par wagon isolé. 
+- Travailler avec les entreprises de l’agroalimentaire sur la livraison de proximité : en lien avec le développement d’un Projet Alimentaire Territorial (fiche 4.5), il s’agira d’explorer les possibilités de la livraison moyenne distance par le chemin de fer avec la ligne Paimpol-Guingamp-Carhaix, dans la continuité de l’étude « De la fourche à la fourchette ». 
+- Positionner le territoire comme terrain d’expérimentation dans le cadre du Plan régional d’actions logistique du Conseil Régional qui soutient le développement de nouvelles offres de transport multimodales dans une perspective plus durable. Ce plan a vocation à :
+• développer de nouvelles offres plus durables, car multimodales de transport de marchandises.
+• accompagner l’amélioration de la performance de la chaîne logistique des entreprises.
+• structurer la logistique avec des équipements multimodaux, dans une logique d’aménagement équilibrée du territoire.
+3.3.2 Accompagner l’expérimentation du Taxirail 
+La start-up Exid Concept et Développement, localisée à Plusquellec, développe un module sans conducteur ultraléger pouvant transporter jusqu’à 40 personnes sur les rails : le Taxirail. Ce projet d’autorail autonome cible les petites lignes dont la rentabilité est difficile à atteindre. L’objectif est de maintenir les petites lignes en maitrisant les couts d’exploitation et en utilisant l’intelligence artificielle pour déterminer, en fonction des besoins des usagers, les horaires les plus pertinents de circulation. Le module prévoit également l’exploitation possible en transport à la demande en heures creuses. La phase de conception et d’études est en cours, le développement d’un prototype est programmé en 2021 et la commercialisation en 2023, c’est à dire au moment de l’ouverture à la concurrence des lignes TER. L’expérimentation du prototype pourrait se faire sur l’installation terminale embranchée reliant la ZI de Bellevue à la gare de Guingamp. Ce module qui pourrait circuler sur le réseau ferré disposera d’une autonomie de 600 kilomètres. Véhicule hybride, fonctionnant avec des batteries et du biogaz ou de l’hydrogène, sa légèreté contribuera a réduire l’entretien des voies. Des panneaux photovoltaïques permettront de produire l’énergie nécessaire pour l’éclairage, le chauffage et la climatisation, le divertissement comme le WIFI et le multimédia.","{'Fret décarboné et multimodalité': [1], 'Vélo et transport en commun': [1]}",2,False
+13693,Hélette,143314,1.1.1 - Planifier et mettre en œuvre un plan climat communal,"Etapes :
+1) Désigner un référent Klima en charge du pilotage du plan
+2) Mettre en place une instance de pilotage en lien avec le SG TEPE
+3) Réaliser le suivi annuel du plan d'actions et le présenter aux personnes impliquées
+4) Communiquer plus largement sur l'avancement des actions auprès des habitants notamment",{},0,True
+4973,CC Sundgau,42056,Identifier les personnes référentes sur les principaux sujets de la planification écologique,Les personnes référentes sur les sujets prioritaires (sur lesquels la collectivité dispose des compétences) sont identifiés et constituent une équipe projet qui échange facilement et régulièrement de façon transversale pour mener à bien les actions programmées.\n,{},0,True
+4322,Bordeaux Métropole,34952,Action 26. Anticiper les emplois de demain et accompagner les filières économiques émergeantes nécessaires à l’atteinte des objectifs du plan climat,"1. Lancer une étude « état des lieux et perspectives de développement des emplois verts » dans le cadre de la convention entre Bordeaux Métropole et l’A’urba pour anticiper la création des emplois de demain et la formation initiale et continue en lien avec la transition écologique du tissu économique. Coordonner avec la Région Nouvelle-Aquitaine, les ambitions métropolitaine de développement économique et de formation.
+2. Massifier les clauses d’insertion dans la commande publique métropolitaine pour accompagner la formation sur les métiers de la transition, des personnes éloignées de l’emploi dans le cadre du SPASER
+3. Accompagner le développement de filières répondant aux enjeux du Plan climat en cohérence avec la stratégie métropolitaine de développement économique et en lien étroit avec la Région et les territoires voisins :
+(1)En matière de déplacements décarbonés notamment dans le contexte de mise en place d’une ZFE-m : encourager les filières du retrofit, de la cyclo logistique, de la logistique fluviale et des déplacements fluviomaritimes
+(2)Définir un plan économie circulaire pour développer et soutenir la filière. A titre d’exemple, accompagner financièrement les structures développant la consigne du verre sur le territoire de Bordeaux Métropole 
+(3)Soutenir les filières de l’économie sociale et solidaire et de l’économie circulaire
+(4)Soutenir l’innovation notamment via les start-up
+(5)Aider à développer l'économie agroalimentaire locale notamment par le soutien à l’organisation d’un évènement de niveau international (pour remplacer Vinexpo) autour de la promotion de la filière vitivinicole bio et responsable et faire du MIN de Bordeaux Brienne, un pôle d’excellence alimentaire
+(6)Sur le volet énergétique et du stockage de carbone, pérenniser la décarbonation de l’industrie de la construction en mobilisant les acteurs de la filière bois, des matériaux biosourcés et des matériaux issus du réemploi, encourager la filière hydrogène et accompagner les métiers de l’artisanat par le développement de la formation à la rénovation énergétique y compris dans le centre historique en lien avec le programme européen Violet porté par l’ALEC
+(7)Etudier la création d'un pôle de compétence sur la transition énergétique""
+4. Soutenir des manifestations de mise en relation employeurs/jeunes sur les métiers de la transition, par exemple au sein du carrefour des métiers organisé dans le cadre des Assises européennes de la transition énergétique.","{'Production Industrielle': [6], 'Réduction des déplacements': [6]}",2,False
+4637,CC Baugeois Vallée,32287,COT 5. Etablir et dérouler un plan de communication sur la transition écologique,"Définir un plan de communication sur la transition écologique :
+- Lister les thèmes relevant de la transition écologique
+- Recenser les actions et supports de communication existants : magazine, site internet, réseaux sociaux, flyers/brochures, animations, réunions, factures…
+- Identifier les éventuels thèmes manquants ou peu traités
+- Visualiser sur un planning annuel l’occurrence de ces actions et de la publication des supports, en précisant les thèmes, les formats, les cibles et les budgets associés (le cas échéant)
+- Définir les objectifs : les thèmes à prioriser et les messages à faire passer, les publics cibles à atteindre, les formats à développer
+- Planifier pour l’année suivante, avec les services, des actions et supports de communication permettant de répondre à ces objectifs
+- A l’issue de l’année écoulée, établir un bilan avant de définir la planification sur l’année suivante
+ S’appuyer sur le fichier « rétroplanning » déjà mis en place par le service communication
+ Utiliser l’agenda partagé « animations CCBV » (demande de création à faire auprès du service informatique) pour avoir une vision globale des animations portées par les services
+ Partager des contenus existants (partenaires, communes, autres) pour aborder des thèmes où on n’a pas le temps, la compétence vidéo ou la connaissance du sujet pour le produire
+Questionner et réduire si possible l’empreinte environnementale de nos supports et actions :
+- A l’occasion de la déclinaison de la nouvelle marque territoriale « Anjou Vert », avec des supports sobres en ressources et énergie (notamment si refonte du site internet)
+- Documenter les améliorations faites par le service communication et les faire savoir aux autres services : papier recyclé pour les publications de la CCBV, réduction de la base de données photo du site internet, logo en basse définition pour les supports numériques…
+- Accompagner les services pour estimer au plus juste les volumes à imprimer, selon les besoins et selon l’obsolescence des informations données
+- Prévoir un « mémo » interne de l’événementiel durable (en lien avec le service tourisme qui va développer ce sujet auprès des acteurs culturels et associatifs du territoire) : pot/buffet local et zéro déchet, utilisation de gobelets réutilisables, covoiturage pour les participants, signalétique réutilisable, badges réutilisables…",{'Sobriété des bâtiments (résidentiel)': [6]},1,True
+5033,CC Brionnais Sud Bourgogne,57586,4.2.4 Mettre en place une tarification incitant à la réduction de la consommation d'eau,-> action à porter par les élus au niveau des syndicats de gestion des eaux potables,{},0,True
+1609,Saint-Jean-de-Braye,16427,Soutenir l'utilisation durable des forêts et des espaces boisés,"- Prendre en compte la forêt et les espaces boisés dans ses documents d’urbanisme, dans un objectif d’identification, de préservation, d’utilisation rationnelle ou de développement. 
+- Inciter aux pratiques sylvicoles durables et au développement des pratiques de gestion raisonnée des forêts et espaces boisés, en interne et auprès des particuliers et des professionnels. 
+- Contribuer à structurer et développer des filières bois-énergie et bois-construction.",{'Gestion des forêts et produits bois': [6]},1,True
+4637,CC Baugeois Vallée,32286,"COT 4. Réaliser une évaluation ""climat"" du budget","2024 
+Juillet : Nommer une équipe transversale sur le budget vert : Guillaume, Nicolas et Anaïs (+ Maxime - achats durables ?)
+Août : Définir en interne, à partir des ressources et doctrines existantes, une grille d’analyse des dépenses d’investissement (pour savoir ce qui favorable/indéterminé/défavorable) qui sera diffusé aux services en amont de la préparation budgétaire 
+Août : Ajouter une colonne dans la matrice budgétaire pour renseigner cette approche « budget vert »
+Août : Intégration dans la lettre de cadrage budgétaire et le calendrier de préparation budgétaire 
+Septembre : Information au bureau communautaire d’août/septembre + information en CODIR de septembre (+Léonie + Frédéric) + information dans chaque commission au moment de la présentation du budget (octobre). Temps d’échange entre l’équipe transversale et les responsables des services du budget de chaque service pour savoir si les projets sont bien renseignés dans le budget vert et/ou possibilité d’améliorer les choses.
+Novembre-décembre : Former le service finances et les assistantes de service qui font les engagements et le suivi budgétaire.
+Décembre : Acter un document donnant une lecture transversale de l’ensemble des recettes et dépenses (programmées et réalisées) qui concourent aux objectifs de la politique climat-air-énergie (= annexe budget vert) 
+2025 
+- Lors des points bimensuels avec les services, rappel et suivi des engagements « verts »
+- Suivre annuellement le budget total (CFU) pour la politique climat-air-énergie par un indicateur en euros/an/habitant
+- Orienter les dépenses budgétaires grâce à l’analyse des marges de manœuvre tirée de l’évaluation climat du budget
+- Prévoir une étape de relecture + analyse des marges de manœuvre (pour être plus « vert ») du budget prévisionnel par l’équipe transversale « budget vert » et un élu de la commission TEE (éventuellement accompagné d’un prestataire externe), avant présentation dans chaque commission
+- Diffuser la grille d’analyse de la CCBV aux entreprises quand ils proposent leurs devis/offres, pour que leur offre financière soit détaillée en fonction des critères vert/rouge/gris",{},0,True
+4994,CC du Pays de l'Arbresle (CCPA),62343,"Mise en place de formations pour la lutte contre les moutiques tigres, financement de pièges contre les frelons asiatiques",Formations à destination des agents techniques des communes et aux élus pour la lutte contre le moustique tigre comme pour l efrel,{},0,True
+3914,CC Ardennes Thiérache,76384,Réduire les émissions de GES liées au centre de traitement des déchets,"IVEDA d'Eteignières
+Valorisation énergétique du biogaz capté :
+•Production Electricité via deux moteurs de COGENERATION : Revente sur le marché libre
+•Production de chaleur via deux moteurs de COGENERATION et utilisation de celle-ci ( Bassin biologique, Tour de désulfuration, Chauffage des serres)
+•Améliorations techniques : Mise en place d’un système bioréacteur afin de maîtriser la fermentation des déchets et notamment la production de biogaz
+•Mise en place de couvertures étanches afin d’augmenter la captation du Biogaz
+•Mise en place de plusieurs systèmes de captage du biogaz (Puits à l’avancement, drains à l’avancement et forages post exploitation)
+•Mise en place d’un nouvel outil industriel au dernier trimestre 2023 : WAGA . Le principe est de récupérer du BIOGAZ, de le transformer en BIOMETHANE et de le réinjecter dans le réseau GRDF","{'Electricité renouvelable': [1], 'Biogaz': [1], 'Captage de méthane dans les ISDND': [1]}",3,True
+4999,Métropole de Lyon,65625,Action n°36 - Coopérer et accompagner les communes dans le déploiement du PCAET,"Les communes sont les maillons privilégiés de la mise en œuvre de la transition écologique sur le territoire :
+• Elles disposent de nombreuses compétences leur permettant d’agir face au dérèglement climatique à l’échelle locale ;
+• Elles constituent le premier relais de proximité pour informer, sensibiliser et accompagner les habitants à agir sur ce sujet ;
+• Enfin, elles peuvent agir en coopération avec d’autres acteurs, et notamment la Métropole, lorsqu’elles ont des compétences partagées ou complémentaires.
+Interrogées sur leurs attentes à l’aune du nouveau plan climat, les communes sollicitent la mise à disposition d’outils, une dynamique partenariale, et des objectifs déclinés à l’échelle locale. Les objectifs de cette action sont de :
+• Développer la coopération : entre communes, entre communes et Métropole, avec d’autres acteurs du territoire, pour créer des synergies et optimiser les moyens (techniques, financiers) ;
+• Améliorer l’appropriation du plan climat par les communes ;
+• Consolider la palette d’outils à disposition des communes : données de suivi, géomatique, communication, etc.
+Cette action nécessitera de capitaliser sur l’existant concernant les outils, dispositifs, instances, etc. car beaucoup d’éléments existent déjà et nécessitent d’être mieux valorisés, complétés ou ré adaptés.",{},0,True
+5119,Le Havre Seine Métropole,26707,3.2.2 Développer la filière de production d'hydrogène,"La Communauté urbaine Le Havre Seine Métropole s’inscrit dans la démarche « Normandie hydrogène » portée par la Région Normandie, qui vise à accélérer la transition énergétique normande et la décarbonation de l’économie et à constituer une filière 
+industrielle d’avenir. En effet, la Normandie, région industrielle de premier plan, souhaite capitaliser sur ses potentiels (tissu industriel dense, projets fluviaux nombreux et forts enjeux de mobilité) afin d’être pionnière dans le développement de cette filière sur son territoire et d'envisager l'atteinte d'un équilibre économique favorable à une transition énergétique rapide.
+L’objectif est : 
+- D’identifier les besoins sur le territoire (notamment via ZIBAC) ;
+- D’identifier les acteurs potentiels (notamment via ZIBAC) ;
+- De structurer la filière énergie pour produire de l’hydrogène vert ;
+- Alimenter les stations multi énergies et contribuer à la conversion des motorisations.
+Éléments de calendrier : En raison d’un contexte économique tendu et de difficultés techniques anticipées sur la mise en service de bus à hydrogène, le projet Hynamics est mis en standby pendant 3 ans. Le budget d’investissement total sera ainsi précisé si le projet est repris.",{'Efficacité et carburants décarbonés des véhicules privés': [4]},1,True
+5005,CC Val de Gray,12595,Mettre en place une comptabilité énergétique et des émissions de GES des bâtiments publics,"Disposer d’un bilan énergétique et technique de tous les bâtiments et équipements publics significatifs, incluant des éléments sur les consommations d’énergie, les gaz à effet de serre, les énergies renouvelables, la qualité de l’air intérieur. 
+Limiter les besoins en chauffage / rafraichissement dans les bâtiments municipaux.",{'Sobriété et isolation des bâtiments (tertiaire)': [4]},1,True
+5300,CC du Pays des Achards,80574,"Dispositif ""Ma Haie Bocagère""","Aide financière et Technique sur la plantation de haies bocagères sur sol nu ou suite à l'arrachage de haies dites ""invasives"" (cyprès, lauriers palme, thuyas, bambous)","{'Gestion des haies': [3, 6]}",1,True
+5390,Paris Est Marne & Bois,84849,Créer un maillage de zones de ressourcement,"• Études sur le gisement disponible de zones de ressourcement. 
+• Aménagement de zones de ressourcement. 
+• Information et communication sur ces zones.","{'Réduction des déplacements': [1, 6]}",1,True
+4999,Métropole de Lyon,65610,Action n°21 - Décarboner la vallée de la chimie,"Territoire industriel historique, Lyon Vallée de la Chimie s’affirme comme un bassin de R&D et de production exemplaire à travers ses filières chimie, énergie, environnement et cleantech. 
+Ses moteurs : la décarbonation de l’industrie, la sobriété et la mutualisation des ressources, dans la continuité des engagements portés par la Métropole de Lyon. 
+La Vallée de la Chimie concentre environ un quart des émissions de la métropole de Lyon, et un quart des émissions industrielles de la région Auvergne-Rhône-Alpes. 
+Elle compte 500 entreprises, 7 centres de R&D et 50 000 emplois, soit 17 % de l’emploi productif de l’aire métropolitaine. 
+Ce territoire concentre également plusieurs activités humaines à l’origine de pollutions atmosphériques : présence d’établissements de la chimie, d’une raffinerie de pétrole, d’un trafic routier dense...
+Le Pacte pour l’Impact 2023-2030 comporte trois axes. En particulier, les deux premiers sont :
+• Réduire l’empreinte environnementale des activités industrielles ;
+• Augmenter l'impact territorial en tournant l’offre de d’accueil vers des filières vertueuses.",{'Production Industrielle': [6]},1,True
+4973,CC Sundgau,42055,Mobiliser les citoyen.ne.s dans le processus de décision sur les sujets de planification écologique,Organiser de façon régulière des groupes de travail et des dispositifs participatifs variés faisant participer les citoyen.ne.s sur les sujets de la planification écologique locale.\n,{},0,True
+13693,Hélette,143356,5.4.1 - Repenser les achats de la commune sous l'angle de la sobriété et de l'éco-responsabilité,"Cette action peut par exemple consister à :
+Instaurer de clauses environnementales dans les marchés publics
+Acheter des produits recyclés ou issu du réémploi, notamment pour le mobilier et les équipements municipaux",{'Prévention des déchets': [5]},1,True
+4026,CA Rochefort Océan,87268,Action 17 - Poursuivre le plan de déplacement des agents,Sensibiliser et inciter les agents aux déplacements alternatifs à l'autosolisme,"{'Covoiturage': [6], 'Vélo et transport en commun': [6]}",2,True
+4026,CA Rochefort Océan,87266,Action 15 - Etablir les étiquettes énergétiques de l’ensemble du patrimoine bâti,Réalisation d'audits énergétiques qui permettent d'avoir les étiquettes,{'Sobriété et isolation des bâtiments (tertiaire)': [4]},1,True
+6030,SM du SCoT Sambre Avesnois,126720,8.2.1; Accompagner les projets de lutte contre les inondations autour d'un PAPI Sambre et de la stratégie Locale de Gestion des Risques d'Inondations (SLGRI) Mesure M32 Charte du PNR de l’Avesnois,"Le bassin versant de la Sambre est régulièrement touché par des inondations liées au débordement des cours d’eau ou au ruissellement. Depuis 1850, 7 événements majeurs d’inondation ont été recensés, dont le dernier en 2016. Ainsi, de nombreux enjeux sont périodiquement impactés.
+Le Programme d’Action et de Prévention des inondations (PAPI) de la Sambre a pour objet la promotion d’une gestion globale des risques d’inondation à l’échelle du bassin de la Sambre.",{},0,True
+5005,CC Val de Gray,12607,Stopper l'artificialisation,"Utiliser les documents d'urbanisme pour lutter contre l'artificialisation des sols, assurer le maintien des espaces naturels, agricoles et forestiers et favoriser la restauration de ces espaces quand cela est possible.",{'Sobriété foncière': [2]},1,True
+5005,CC Val de Gray,12627,Disposer d'un plan d'action d'adaptation au changement climatique,"S'engager dans une démarche d'adaptation au changement climatique pour anticiper les impacts prévisibles du changement climatique, limiter leurs dégâts éventuels sur les activités socio-économiques et sur la nature, en intervenant sur les facteurs qui contrôlent leur ampleur (par exemple, l’urbanisation des zones à risques) et profiter des opportunités potentielles. Identifier explicitement les actions de la collecivité qui contribuent à l'adaptation au changement climatique",{},0,True
+4707,CC du Pays de Colombey et du Sud Toulois,51850,"Engager l'opération jeter moins, manger mieux","Lutter contre le gaspillage alimentaire (sensibilisation, valorisation des initiatives en cours",{'Prévention des déchets': [6]},1,True
+4939,CC du Pays de Barr,130819,3.7. Mettre en place une aide à l'achat de vélos à destination des habitants,"Diagnostic et constats 
+L’usage du vélo au quotidien est en plein essor, boosté par les politiques nationales de promotion du vélo. L’Etat a mis en place en 2017 un bonus pour l’achat d’un VAE, réservé depuis 2018, aux ménages modestes ayant bénéficié au préalable d’une aide locale. 
+Aujourd’hui sur le territoire du Pays de Barr, 4 communes proposent une aide à l’achat vélos pour leurs administrés : Barr, Mittelbergheim, Saint-Pierre et Gertwiller. 
+La Communauté de Communes des Portes de Rosheim et celle du Pays de Sainte-Odile, proposent une aide à l’achat de vélos, octroyées sans condition de revenus et limitée à une aide par bénéficiaire. 
+Résumé de l’action 
+L’action consiste à proposer aux habitants du territoire, une aide à l’achat de vélos. 
+Il est proposé que les modalités de l’aide proposée par la CCPB (plafonds et pourcentage) soient égales aux aides allouées dans les collectivités voisines, notamment celles du PETR du Piémont des Vosges, à savoir : 
+Vélo mécanique : 20% plafonné à 60 €
+VAE : 10% plafonné à 120 €
+Vélo cargo : 10% plafonné à 180 €
+Bénéficiaires éligibles :
+Les bénéficiaires de l’aide devront résider sur le territoire de la CCPB.
+L’aide à l’achat de VAE est accessible à partir de 18 ans.
+Les aides sont octroyées sans conditions de ressource / sans critères de revenus",{'Vélo et transport en commun': [3]},1,True
+4026,CA Rochefort Océan,87277,Action 26 - Réaliser un diagnostic économie circulaire du territoire et définir la stratégie ECi du territoire,Diagnostic de territoire réalisé en partie par le diagnotic PLPDMA. Volet entreprises à compléter.,{},0,True
+4637,CC Baugeois Vallée,32311,COT 29. Préserver l'aire de captage de Beaufort,"Fiabiliser la délimitation de l’aire d’alimentation de captage
+Mettre en place un comité de suivi
+Déployer le programme agro environnemental et climatique :
+- Diagnostic agricole
+- Dossier de demande auprès de la DRAFF
+- Communication sur le dispositif
+- Sollicitation d’agriculteurs volontaires
+- Accompagnement des agriculteurs
+Sensibiliser à des pratiques vertueuses (changement de pratique, rotation des cultures…)
+Réfléchir à une politique foncière autour des captages, maîtrise foncière avec baux environnementaux
+Réfléchir à une politique de gestion forestière, plan d’action haies, restauration/création de mares
+Selon résultats du dispositifs PAEC, démarche plus coercitive avec l’Etat sur un périmètre plus petit (zone de vulnérabilité)
+ Instance de gouvernance : COTECH avec partenaires, COPIL avec partenaires et élus
+Éléments de calendrier : Première contractualisation 2023-2025. Projet 2026-2028 à construire avec les partenaires.","{'Gestion des haies': [6], 'Changements de pratiques de fertilisation azotée': [6]}",2,True
+5005,CC Val de Gray,12593,Optimiser la gestion des eaux pluviales,Privilégier l'infiltration à la parcelle et réduire les surfaces imperméabilisées afin de réduire les risques et la fréquence des pollution des milieux aquatiques lors des épisodes de forte pluie,{},0,True
+4111,CC Creuse Sud Ouest,63973,"2.3.4 Réduire les déplacements, la consommation des flux : énergie, eau, déchets","Contexte : Cette action en complète d’autres déjà engagées sur la rénovation énergétique ou l’optimisation des équipements en mettant l’accent sur le facteur humain : la sobriété repose en grande partie sur les usages, les arbitrages du quotidien et les comportements individuels et collectifs.
+Éléments de calendrier : 2026 : Réalisation du diagnostic par service et type d'usagers
+2027 : Préconisations et sensibilisations
+2028 - 2045 : Déploiement et révision","{'Sobriété des bâtiments (résidentiel)': [6], 'Prévention des déchets': [6], 'Réduction des déplacements': [6]}",3,False
+5300,CC du Pays des Achards,23043,6.3 Promouvoir la culture environnementale auprès des acteurs économiques,"Les filières économiques sont d’autant plus vulnérables aux enjeux énergie-climat que ces derniers impactent leur compétitivité.
+Dans le cadre du PCAET, la CCPA souhaite déployer un dispositif d’accompagnement au service de ses entreprises.
+En lien avec les partenaires (ORACE, CCI, CMA) un travail ciblé sur les entreprises les plus consommatrices (industriels) ainsi que sur le commerce de proximité sera engagé.
+Des actions de sensibilisation grand public seront également menées, dans le but d’inciter à des modes de consommation plus durables.
+DETAILS DE L'ACTION
+Proposer un accompagnement des entreprises tertiaires et industrielles sur les économies d’énergie :
+> Lancer le dispositif ORACE, déployer un accompagnement avec la CCI et la CMA
+> Valoriser les expériences exemplaires
+Sensibiliser le grand public à modifier leurs comportements et modes de consommation :
+> Construire un programme de sensibilisation
+> Mener les actions de sensibilisation
+Éléments de calendrier : 2020 : Construire un programme de sensibilisation
+2020-2026 : Proposer un accompagnement des entreprises tertiaires et industrielles sur les économies d’énergie
+2021-2026 : Mener les actions de sensibilisation","{'Sobriété et isolation des bâtiments (tertiaire)': [6], 'Production Industrielle': [6]}",2,True
+4097,CA Guingamp-Paimpol Agglomération de l'Armor à l'Argoat,21888,Dispositif d’aides au conseil pour des projets d’investissement liés à la transformation et la commercialisation des productions locales,"Aide pouvant aller jusqu’à 2 000 € apportée à des entreprises agricoles ou des groupements d’agriculteurs qui souhaitent recourir à des prestations externes ayant trait à du conseil, de l’accompagnement, des études de faisabilité, des études d’opportunité ou des expérimentations en vue de réaliser des investissements visant un ou plusieurs des objectifs suivants :
+* la diversification par la transformation de produits de l’exploitation,
+* l’élargissement des gammes de produits finis,
+* la recherche de nouvelles clientèles ou de nouveaux marchés,
+* le développement de la vente directe,
+* l’innovation des produits, des process ou des modes de commercialisation.",{'Efficacité et sobriété logistique': [3]},1,True
+4026,CA Rochefort Océan,87255,Action 4 - Faciliter et aider à l'installation de nouvelles exploitations pour augmenter l'autonomie alimentaire du territoire,Faciliter et aider à l'installation de nouvelles exploitations pour augmenter l'autonomie alimentaire du territoire,{},0,True
+1609,Saint-Jean-de-Braye,16431,Prévenir et lutter contre la précarité énergétique,"Engager une politique de prévention et de lutte contre la précarité énergétique (liée au logement et à la mobilité) et l'inscrire dans ses documents stratégiques.
+Réaliser un travail d’inventaire des acteurs de la précarité énergétique et des actions existantes, sur lesquelles construire le dispositif.
+Utiliser au mieux les moyens humains à disposition pour identifier des situations de précarité énergétique du logement et orienter les familles directement vers les dispositifs existants ou indirectement vers des associations spécialisées.",{'Sobriété des bâtiments (résidentiel)': [6]},1,True
+6030,SM du SCoT Sambre Avesnois,126714,7.1.2. Œuvrer pour la préservation du parcellaire herbager,"Maintenir et restaurer les prairies est essentiel pour préserver leur rôle écologique. Cela implique de soutenir les pratiques agricoles durables, de fournir des aides pour l'entretien et la restauration des prairies, et de réguler leur conversion en d'autres usages.",{'Gestion des prairies': [3]},1,True
+3893,CA Privas Centre Ardèche,78915,Fiche action 2.2 - Développer les énergies renouvelables pour le chauffage et l’eau-chaude des bâtiments publics et privés,"Action nouvelle
+• Réduire la facture énergétique
+• Tendre vers plus d’autonomie énergétique
+• Développer la géothermie
+- Production de chaud et de froid (climatisation)
+- Amélioration des connaissances et sensibilisation sur cette technologie
+- Promouvoir les artisans locaux
+• Améliorer l’utilisation du chauffage au bois
+- Réduire la contribution du bois-énergie à la pollution de l’air
+- Réduire la consommation de combustible
+- Regrouper la filière autour d’une plateforme intercommunale pour stocker et sécher le bois énergie
+• Améliorer le fonctionnement des installation d’ECS solaires déjà installées dans le cadre du plan solaire
+Éléments de calendrier : Année 1 : diagnostics, études et mise en place des dispositifs
+Années suivantes : gestion des dossiers et des attributions","{'Gestion des forêts et produits bois': [4], 'Réseaux de chaleur décarbonés': [6]}",2,True
+5119,Le Havre Seine Métropole,27280,4.2.2 Améliorer la performance des réseaux de distribution d’eau et réduire les prélèvements,"La stratégie d’adaptation au changement climatique du bassin Seine Normandie préconise une diminution des prélèvements d’eau pour l’alimentation en eau potable de 14 %.
+L’amélioration de la performance des réseaux de distribution d’eau et le travail de sensibilisation à la réduction des consommations visent à diminuer les prélèvements et adopter une consommation plus sobre de la ressource en eau.
+Action 1. Réduction des fuites sur le réseau d’eau potable
+- Amélioration de la connaissance du réseau et des pertes :
+Amélioration de la connaissance du patrimoine, Amélioration de la connaissance des volumes vendus avec le maintien d’un âge moyen des compteurs de 6 à 7 ans et généralisation du dispositif de télérelève) ;
+- Recherche active de fuites et réparation : Mise en place de 400 pré localisateurs de fuite couplés aux quelques 300 compteurs de 
+sectorisation déjà en place ;
+- Remplacement et rénovation des réseaux : Le schéma directeur d’alimentation en eau en cours comporte un volet sur la construction de stratégies de renouvellement des réseaux d’eau pour trouver la performance optimale tant d’un point de vue technique que financier.
+Action 2 : Sensibilisation des usagers aux économies d’eau par la mise en place de kits d’économiseur d’eau
+Action 3 : Réflexion sur une tarification progressive de l’eau",{},0,True
+5033,CC Brionnais Sud Bourgogne,57634,7.2.2 Avoir une gestion plus durable des haies,Se renseigner sur des exemples d'entretien et valorisation des haies délégués à un tiers,{'Gestion des haies': [6]},1,True
+3893,CA Privas Centre Ardèche,117838,2.1.2 Restauration de la continuité écologique Seuil du Gaucher [travaux],Code action PTGE: B9. Références: Feuille de route des Assises de l'Eau 07 (2023) - 15; Défi 11; SCOT - R 54.,{},0,True
+4097,CA Guingamp-Paimpol Agglomération de l'Armor à l'Argoat,21932,Baie d'armor industrie,"• Mobilités : Coordination des mobilités multimodales et promotion du covoiturage inter-entreprises ; logistique durable.
+• Habitat : Accessibilité de l’offre de logement pour les travailleurs permanents et saisonniers 
+• Emploi & formation : Impulsion d'une dynamique commune sur l'attractivité des métiers de l'industrie et renforcement des compétences du secteur avec une ouverture à l’insertion des personnes éloignées de l’emploi
+• Innovation : Développement des filières d’excellence avec un effort de communication ambitieux sur les entreprises innovantes de « Baie d’Armor Industrie » 
+• Transitions : Accompagnement à la décarbonation en favorisant l’écologie industrielle & territoriale
+• Foncier : Constitution d’un « hub » des bonnes pratiques en matière de gestion raisonnée du foncier et travail sur les friches industrielles & agricoles du territoire
+Éléments de calendrier : 2024-2026","{'Covoiturage': [6], 'Efficacité et sobriété logistique': [6], 'Production Industrielle': [6]}",3,False
+4097,CA Guingamp-Paimpol Agglomération de l'Armor à l'Argoat,21900,Projet d’établissement de l’école de musique communautaire,"Pour répondre aux objectifs fixés dans le schéma départemental des enseignements artistiques, l’école de musique communautaire se dote d’un projet d’établissement, affirmant son positionnement, ses ambitions et les moyens mis en œuvre pour les atteindre : 
+- Construction de cursus d’étude adaptés (amateur et diplômant) intégrant la pratique collective et la formation musicale
+- Développement de l’offre d’enseignement, création d’un département cordes et d’un département musiques actuelles et amplifiées, création d’un parcours de découverte jeunes enfants
+- Programme d’action culturelle 
+- Développement du partenariat avec l’Education nationale : renforcement des interventions en milieu scolaire, orchestre à l’école
+Éléments de calendrier : * Juin 2024 : vote du projet d’établissement
+* Septembre 2024 : début de la mise en œuvre 
+* Septembre 2024 : début des travaux du groupe de travail « Mobilité scolaire culture & sport »
+* Janvier 2025 : lancement appel à projet parcours EAC pour la rentrée 2025-26
+* Février 2025 : lancement du réseau EAC",{},0,True
+5119,Le Havre Seine Métropole,27278,4.1.3 Valoriser les services écosystémiques rendus par l'agriculture,"L’objectif est de valoriser, d’un point de vue économique, les externalités positives de certaines mesures agricoles afin d’impulser le changement de pratiques sur le territoire. 
+L'action se décompose en sous-actions :
+1. Développer un système de Paiements pour services environnementaux (PSE)
+Développer des dispositifs de type paiements pour services environnementaux en faveur des systèmes herbagers, pour soutenir 
+le maintien voire la remise en herbe sur le territoire comme mesure agricole permettant d’assurer la ressource en eau potable du 
+territoire en amont des captages. Actuellement, grâce à un dispositif financier de l’Agence de l’Eau Seine Normandie, le déploiement de cette solution est effectif sur les territoires BAC mais pour une période donnée. Il conviendrait de travailler sur la pérennisation du dispositif en trouvant des sources de financement des agriculteurs, ainsi que de l’étendre à l’échelle de l’ensemble du territoire de la CU. Mise en place d’un PSE pour pérenniser le dispositif actuel déployé grâce à un financement Agence de l’Eau, sur le maintien des 
+surfaces en herbe.
+2. Diversifier les possibilités d'intervention de l'outil Carbolocal
+Diversifier les possibilités d’intervention de l’outil Carbolocal (plateforme de marché carbone local pour la transition agroécologique) en vue de soutenir d’autres mesures agroécologiques que la haie (valorisation des prairies) ayant une action intéressante sur la séquestration de carbone, mais aussi réfléchir au moyen de valoriser d’autres externalités positives environnementales de l’agriculture que la seule capacité de séquestration carbone (maintien et développement de la biodiversité par exemple). Recenser la diversification vers d’autres mesures agroécologiques que la haie.","{'Gestion des prairies': [3], 'Pratiques stockantes': [3]}",2,True
+3893,CA Privas Centre Ardèche,117841,2.1.5 Restauration espace de mobilité Bayonne [Etude],Code action PTGE: B12. Coût: Temps agent. Références: Feuille de route des Assises de l'Eau 07 (2023) - 15; Défi 21.,{},0,True
+4973,CC Sundgau,42050,Mettre en place une politique de mobilité alternative des agents et des élu.e.s,"Mettre en place une politique de mobilité alternative des agents et des élu.e.s, visant le changement de comportement, en adoptant une approche diversifiée pour couvrir tant les déplacements professionnels que ceux domicile-travail.
+Cette politique devrait inclure l'optimisation et le renouvellement de la flotte de véhicules, une gestion optimisée des déplacements, le développement de l'usage du vélo, des campagnes de communication et de sensibilisation, ainsi que la promotion des transports collectifs
+\n- Etablir une charte des déplacements en interne en encourageant au changement de pratiques de mobilité, en accord avec les objectifs environnementaux
+- Promouvoir et mettre en place le forfait mobilité durable (300€/an)
+- Promouvoir les déplacements à vélo en déployant services, communications et équipements dédiés (via la démarche Objectif Employeur Prio Vélo (OEPV) de la FUB)
+- Sensibiliser pour encourager au partage des véhicules (covoiturage, autopartage)
+- Renouveler la flotte de véhicules de la collectivités pour les déplacements qui peuvent être réalisés avec des véhicules utilisant des carburants alternatifs adaptés au territoire (électrique, hydrogène, bioGNV..)
+- Former à l'éco-conduite","{'Covoiturage': [6], 'Réduction des déplacements': [5, 6], 'Vélo et transport en commun': [3, 5, 6]}",3,True
+4576,CC de la Forêt,40582,1. Définir une politique d'achats responsables,"La CCF élabore et met en place une politique et un clausier d'achats responsables et les partage avec les communes. La politique achats définit les objectifs à atteindre, en lien avec la réglementation, ainsi que le processus achats mis en place pour atteindre ces objectifs",{'Prévention des déchets': [5]},1,True
+1609,Saint-Jean-de-Braye,16442,Economiser l'eau dans les bâtiments publics et les activités de la collectivité,"La consommation d'eau potable ainsi que les prélèvements dans les milieux sont suivis au moyen de compteurs et des actions sont mises en place qui permettent de réduire la consommation d'eau. 
+Les principaux postes de consommation sont identifiés et munis de compteurs en télérelève relevés à intervalle réguliers permettant la détection rapide d'anomalies.
+La collectivité respecte les arrêtés sécheresse et ne sollicite pas de dérogations pour des usages non prioritaires.",{},0,True
+3914,CC Ardennes Thiérache,76419,Développer de nouvelles filières agricoles locales,"Actions PNR :
+•Initier la réflexion pour le développement de production de fruits et légumes sur le territoire (analyse des producteurs existants, étude sur le foncier (enquêtes auprès des communes/EPCI/SAFER/Terres de lien…), les outils de transformation et les points de vente)
+•Identifier une/des filières prioritaires et mettre en place un programme de développement de cette/ces filières (AMI filière ? Lait de pâturage ?) - 2e session ?
+Actions CCAT :
+•Développer la filière maraîchère destinée à une alimentation locale
+•En lien avec l'entretien des pâtures, favoriser et valoriser les produits issus de leur maintien ;
+•Engager un travail avec les structures locales de distribution : acceptent-elles un ""partenariat"" pour distribuer en priorité la production locale ?
+•Développer la culture du jardin partagé et des jardins communaux en vue de mettre en œuvre la mise en valeur du compost
+•Sensibiliser les élèves et personnes en reconversion aux professions agricoles et aux pratiques de jardinages","{'Gestion des prairies': [6], 'Efficacité et sobriété logistique': [6]}",2,True
+3893,CA Privas Centre Ardèche,78923,Fiche action 3.4 - Mettre en place l’autostop organisé en milieu rural,"Nouvelle.
+• Sécuriser la pratique de stop en créant un réseau d'usagers
+• Matérialiser des arrêts pour sécuriser la prise ou de la dépose de l'autostoppeur.
+• Recréer du lien social en se rendant service
+• Apporter une réponse aux besoins de mobilité des habitants.
+• Appuyer sur un logiciel facilitant la mise en relation, créé en interne ou de faire appel à un opérateur privé
+Éléments de calendrier : Décembre 2019 : rencontre des communes et travail sur le choix des points d’arrêt
+2020 : installation des points d’arrêts, définition de la communauté, communication",{'Covoiturage': [1]},1,True
+4999,Métropole de Lyon,65598,Action n°9 - Renforcer et diffuser une culture du risque climatique,"Dans un contexte d’aggravation des risques existants et d’émergence de nouveaux risques liés au changement climatique, le développement de la culture du risque chez les citoyens constitue un axe essentiel de renforcement de la résilience face aux événements extrêmes, tels que les inondations, les vagues de chaleur ou les tempêtes. La sensibilisation de la population aux risques, à travers des informations claires et adaptées et à travers leur implication dans la gestion des risques, favorise une meilleure anticipation et une réactivité accrue. In fine, elle permet de diminuer les impacts humains, sociaux et économiques des catastrophes.
+La Métropole de Lyon, consciente des enjeux liés au changement climatique, a ainsi mis en place une série d’actions concrètes pour développer la culture du risque auprès de ses habitants, des acteurs économiques et des collectivités locales selon deux axes : prévention et sensibilisation des habitants et des acteurs d’une part, et mise en situation et gestion de crise d’autre part.
+Dans le cadre du PCAET 2026-2031, la Métropole souhaite aller plus loin et rendre cette culture du risque encore plus accessible, inclusive et pérenne, pour que chaque habitant, chaque acteur, puisse se préparer et réagir de manière appropriée face aux menaces climatiques.",{},0,True
+1609,Saint-Jean-de-Braye,16447,Disposer d'un plan d'action d'adaptation au changement climatique,"S'engager dans une démarche d'adaptation au changement climatique pour anticiper les impacts prévisibles du changement climatique, limiter leurs dégâts éventuels sur les activités socio-économiques et sur la nature, en intervenant sur les facteurs qui contrôlent leur ampleur (par exemple, l’urbanisation des zones à risques) et profiter des opportunités potentielles. Identifier explicitement les actions de la collecivité qui contribuent à l'adaptation au changement climatique",{},0,True
+4939,CC du Pays de Barr,130849,5.3. Déployer des bornes de recharge électrique,"Diagnostic et constats
+Le Plan Climat du Pays de Barr préconise le déploiement de service de mobilité électrique visant à diminuer la consommation de pétrole et les émissions de CO2.
+Le Pays de Barr est le premier consommateur de pétrole du Piémont et la voiture responsable de plus de la moitié des émissions de CO2.
+A l’horizon 2030, la vente de véhicules à moteurs thermiques sera interdite en France à il est important d’anticiper l’augmentation de la mise en circulation de véhicules hybrides et électriques.
+Résumé de l’action
+L’action consiste à déployer dans le temps, des bornes de recharge électrique sur le territoire du Pays de Barr.
+Les premières concernées par ce déploiement : Andlau, Barr, Bourgheim, Dambach-la-Ville, Epfig, Mittelbergheim, Saint-Pierre, Valff.",{'Véhicules électriques': [1]},1,True
+5005,CC Val de Gray,12622,Elaborer une stratégie patrimoniale incluant un programme de rénovation,"Formuler une stratégie patrimoniale permettant de planifier et de phaser son évolution à 5 ou 10 ans (extension, réhabilitation, démolition, réaffectation, vente...), en cohérence avec des objectifs de réduction des émissions GES et de consommation énergétique de ses bâtiments",{'Sobriété et isolation des bâtiments (tertiaire)': [2]},1,True
+4322,Bordeaux Métropole,34946,Action 20. Développer la production locale de gaz renouvelable,"1. Développer des projets de méthanisation sur les stations d'épuration de Bordeaux Métropole pour injecter a minima 50 GWh de biogaz d’ici 2026
+2. Valoriser 50% a minima de la collecte des biodéchets en production de biogaz à 2028
+3. Développer un méthaniseur industriel de 30 GWh d’ici 2026 : projet Cap vert énergie sur le port avec du biogaz injecté dans le réseau
+4. Etudier et engager le développement de deux projets de méthaniseurs de 30GWh à l’horizon 2032 et 2038 avec les territoires voisins, faciliter les débats autour de la méthanisation et la concertation en vue de renforcer les informations préalables et l’adhésion sur les projets étudiés 
+5. Evaluer les freins au développement de projets d’injection de biométhane dans le réseau et y apporter des solutions, dans un rôle de facilitateur, en influençant, via des réseaux nationaux, la législation relative au dispositif du « droit à l’injection » (loi Egalim) en dehors des zones de raccordement","{'Biogaz': [1], 'Valorisation matière des déchets': [1]}",2,True
+4322,Bordeaux Métropole,34951,"Action 25. Créer des îlots de fraîcheur urbains en déminéralisant, désimperméabilisant et végétalisant la ville, et lutter simultanément contre les îlots de chaleur urbains","1. Intégrer les recommandations et résultats des études stratégiques : 
+ (1)Définir et territorialiser précisément les îlots de fraicheur urbains ainsi que les quartiers à haut risque d’îlots de chaleur urbains, et identifier ceux où les populations sont les plus vulnérables et les plus précaires 
+ (2)Etablir et diffuser des préconisations pratiques par type de bâtiments et d’usages du territoire afin de réduire le besoin en refroidissement, inspirées du label du bâtiment frugal bordelais
+ (3)Continuer à quantifier les effets rafraîchissant des IFU avec des mesures sur le territoire ""
+""Prendre des mesures d’adaptation dans tous les projets d’aménagement urbain, de conception d’espaces publics et de construction :
+ (1) Intégrer systématiquement dans tous les nouveaux projets un volet ICU (prise en compte de l’albédo, surfaces perméables, )
+ (2) Identifier, évaluer et enrichir les outils du guide de conception des espaces publics métropolitain pour améliorer leur contribution à l’adaptation au changement climatique 
+ (3) Continuer à former les agents chargés d’accompagner les maîtres d’ouvrage et maîtres d’œuvre publics et privés pour développer des « îlots de fraîcheur » (IFU) et supprimer les « îlots de chaleur » (ICU) dans tous les projets 
+ (4)Accompagner tous les projets d'aménagement pour lutter contre les îlots de chaleur à l'instar de la ZAC Bastide Niel
+ (5) Prioriser les travaux d’adaptation au changement climatique et de rénovation dans les quartiers les plus précaires et vulnérables 
+""
+2.Promouvoir et expérimenter des solutions fondées sur la nature dites « sans regrets » avec co-bénéfices, et développer l’ombre :
+(1)imposer dans les documents réglementaires comme le PLU de 25 à 30% de pleine terre minimum dans les projets, ainsi qu'une rétention ambitieuse des eaux pluviales à la parcelle (0 à 1 l/s/ha maximum)
+(2)Accompagner quelques sites expérimentaux et développer des outils de sensibilisation et d'aide à la mise en place de solutions fondées sur la nature par les services 
+(3)Végétaliser et désimperméabiliser les trottoirs, massifier le permis de végétaliser 
+(4)Végétaliser les bâtiments privés et publics, les cours d’écoles et les crèches, ainsi que les EHPAD 
+(5)Débitumer la voirie 
+(6)Créer des forêts urbaines et des micro-forêts
+(7)Intégrer du mobilier urbain adapté aux ICU (voiles d’ombrages, pergolas végétalisées …)
+(8)Planter des bosquets à proximité des bâtiments publics se trouvant en secteur fortement minéralisés 
+(9)Inciter par réglementation urbaine la préservation et la plantation d’arbres dans les espaces privés
+""
+3. Recréer des cycles de l’eau à l’échelle locale et utiliser ponctuellement le phénomène d’évaporation de l’eau pour diminuer localement la température de l’espace urbain. Prévoir une gestion de l’eau inter saisonnière avec le développement de stockage de l’eau pour pouvoir arroser la végétation en période estivale. [lien action 55]
+""Préparer les périodes de crises :
+(1)Mobiliser l'outil du Plan intercommunal de sauvegarde pour en faire une stratégie de mutualisation pour la prévention des risques et la gestion de crise 
+(2)Créer des centres d’accueil d'urgence sur les territoires et EPCI voisins en cas d'îlot de chaleur urbain durable 
+(3)Mettre en place des protocoles de fonctionnement dégradé qui maintiennent le lien social et le soutien aux plus vulnérables 
+(4)Etablir des protocoles de continuité des activités culturelles et sportives avec les professionnels et les associations 
+(5)Renforcer la communication auprès des usagers sur les bonnes pratiques et sur les solutions proposées par la métropole 
+(6)Lancer une étude de faisabilité et d’opportunité en vue de définir par la suite avec chaque direction et établissement de Bordeaux Métropole un mode d’organisation spécifique aux périodes de fortes chaleurs 
+(7)Définir une procédure de gestion des espaces publics en période de canicule pour créer des espaces de fraîcheur accessibles en cas de crise""","{'Pratiques stockantes': [1], 'Sobriété foncière': [1]}",2,False
+4707,CC du Pays de Colombey et du Sud Toulois,51870,Former aux metiers de la transition energétique,"des jeunes, des salariés d’entreprises, des demandeurs d’emploi du territoire… aux métiers de la transition énergétique (exemple, lors du forum des métiers dans les collèges)",{},0,True
+4707,CC du Pays de Colombey et du Sud Toulois,51829,Favoriser et accompagner le développement de parcs solaires au sol dans le cadre d'un AMI photovoltaïque participatif,"Inciter des collectivités à l'investissement dans des parcs solaires, sur des surfaces toitures, friches, en solaire",{'Electricité renouvelable': [6]},1,True
+4111,CC Creuse Sud Ouest,64522,1.1.4 Attirer de nouveaux acteurs économiques,"Contexte :
+Les actions de communication et de prospection sont insuffisantes et ne mettent pas suffisamment en avant les avantages concurrentiels des opportunités entrepreneuriales et du territoire de rattachement.
+Éléments de calendrier : 2026 : Diagnostic et cartographie",{},0,True
+4576,CC de la Forêt,40587,6. Recenser et caractériser les friches industrielles et tertiaires,La CCF recense les friches industrielles et tertiaires du territoire avec l'intention de créer de nouveaux espaces de construction sans augmenter le taux d'artificialisation des sols. Le PETR FOLS aide au recensement et agrège ces informations;,{'Sobriété foncière': [4]},1,True
+5390,Paris Est Marne & Bois,84858,Participer aux instances compétentes en matière de bruit dans l'environnement et de suivi de la qualité de l'air en Île-de-France,Membre des différents réseaux et représentation des élus de PEMB,{},0,True
+4994,CC du Pays de l'Arbresle (CCPA),62294,Programme d’intérêt Général (CCPA hors communes de L’Arbresle et Sain Bel) 2023-2028,"Dispositif visant à accompagner les ménages à revenus modestes ou très modestes et les propriétaires bailleurs privés éligibles aux aides de l'Anah dans leur projet de rénovation de l'habitat (rénovation énergétique, adaptation à l'âge, habitat indigne) - L'accompagnement technique et administratif est assuré par l'association SOLIHA (prestation d'accompagnement prise en charge par la CCPA via marché public) et la CCPA accorde des subventions en complément de celles de l'Anah aux ménages/bailleurs).
+Inclus un volet sensibilisation/mobilisation des particuliers et professionnels","{'Sobriété des bâtiments (résidentiel)': [3, 6]}",1,True
+6030,SM du SCoT Sambre Avesnois,126653,0.1. Mettre en œuvre les actions du PCAET au sein des EPCI,"Le SM SCOT Sambre Avesnois, avec le soutien en ingénierie de l’Agence de Développement et d’urbanisme (ADU), assure l’animation et le suivi général du PCAET. 
+Mais un suivi est nécessaire au sein des EPCI car ce sont ces derniers qui assurent la réalisation de la majorité des actions. Le comité de suivi du PCAET vise à regrouper les élus et techniciens référents sur ces questions à l'échelle du SCOT afin de suivre la mise en œuvre des actions.",{},0,True
+3914,CC Ardennes Thiérache,76385,Relocaliser la production alimentaire et soutenir les circuits courts,"Actions PNR :
+•Analyse et étude de la logistique des produits locaux entre producteurs, professionnels, restauration collective, commerces/points de vente... et éventuellement structure d'aides alimentaires en vue de la création d'un outils numérique et/ou d'investissement sur le territoire
+•Formation auprès des producteurs sur la détermination des prix de vente
+•Outils de sensibilisation et de communication autour des produits locaux (affiches explicatives pour les producteurs sur leur prix de vente et décomposition...)
+•Organiser la mise en réseaux avec les structures d’aide alimentaire
+Mieux structurer les filières en circuit court :
+•une filière ""courte"" (échelle départementale) sur les produits viande et lait par exemple
+•une filière ""moyenne"" (Reims, Paris) autour de produits plus raffinés
+Revaloriser le prix de la viande via des circuits courts
+Co-bénéfice : permet de maintenir de l'élevage donc de l’herbe pour limiter l’érosion des sols","{'Efficacité et sobriété logistique': [4, 6]}",1,False
+4111,CC Creuse Sud Ouest,63971,"2.3.2 Impulser la valorisation locale des biodéchets (végétaux, alimentaires…)","Contexte : Si le compostage fait l’objet de fiches actions spécifiques du PLPDMA, la présente action s’attache à développer les exutoires de valorisation des biodéchets sur le territoire.
+La réalisation du diagnostic territorial d’économie circulaire (objet d’une fiche action) est un prérequis.
+Éléments de calendrier : 2027 : Identification des besoins, acteurs, constitution du groupe de travail, évaluation des filières
+2028 : choix de projets pilotes et montage des dossiers - expérimentation",{'Valorisation matière des déchets': [4]},1,True
+4111,CC Creuse Sud Ouest,63967,2.2.3 Déployer une déchèterie mobile,"Contexte : Le territoire couvert par la régie Creuse Sud-ouest couvre 27 communes et plus de 630 Km2. La collectivité ne dispose que d'une déchèterie dont la position n'est pas centrale. Une proportion importante des habitants est située à plus 20 minutes en voiture de ce service.
+Éléments de calendrier : 2025 : travail préliminaire sur besoin du territoire et matériel
+2026 : acquisition de l'équipement et déploiement
+Années suivantes : suivi et ajustements",{'Valorisation matière des déchets': [1]},1,True
+4576,CC de la Forêt,40581,6.1.2 Mettre en place un PPI,Mettre en place un PPI pour mettre en œuvre des mesures concrètes visant l'amélioration et l'optimisation de l'efficacité énergétique des installations d'eau potable,{'Production Industrielle': [2]},1,True
+3914,CC Ardennes Thiérache,76397,Soutenir une alimentation locale et à faible empreinte carbone dans la restauration collective,"Mettre en place une cuisine centrale approvisionnée en circuit-court (PAT)
+-Projet validé, sera réalisé à Auvillers-les-Forges
+-Fournir les établissements scolaires, les maisons de retraite, les personnes isolées (700 repas/jour)
+-
+Mettre en place des critères sur l'empreinte carbone des repas servis dans la restauration collective
+-Compter et afficher systématique le ""contenu carbone"" des repas servis
+-Réduire la quantité de produits carnés/d'origine animale dans les repas (aller au-delà de la réglementation de la loi EGAlim de 1 repas végétarien par semaine ?)
+-
+Organiser des actions de lutte contre le gaspillage alimentaire dans les cantines
+-Pesées des déchets, organisation de défis, …
+-Pédagogie et éduction à l’alimentation responsable 
+-","{'Efficacité et sobriété logistique': [1, 5], 'Prévention des déchets': [5, 6]}",2,True
+6030,SM du SCoT Sambre Avesnois,126682,3.2.5. Reconversion des flottes de véhicules thermiques,"Les entreprises et les collectivités disposent de flottes de véhicules conséquents. La reconversion des flottes de véhicules thermiques par des véhicules plus propres comme les véhicules hybrides, électriques ou encore à hydrogène est nécessaire.
+Les collectivités ont l’obligation d’incorporer des véhicules à faible émission dans leur flotte. A partir du 1 er janvier 2026, 37,4% des véhicules légers renouvelés devront être électriques ou hydrogènes.","{'Véhicules électriques': [5], 'Efficacité et carburants décarbonés des véhicules privés': [5]}",2,True
+3893,CA Privas Centre Ardèche,117854,2.2.9 Aménagements paysagers d'infiltration de l'eau dans les sols en milieu agricole,"Code action PTGE: B25. Références: Feuille de route des Assises de l'Eau 07 (2023) - 2, 9; Défis 10, 16 et 19; SCOT - P 114, 115, R 58.",{},0,True
+4637,CC Baugeois Vallée,72499,17. Poursuivre la valorisation de l’énergie produite par l’UVE du SIVERT de l’Anjou,"L’Unité de Valorisation Énergétique (UVE) du SIVERT de l’Anjou constitue un atout stratégique pour la production de chaleur fatale issue de l’incinération des déchets ménagers. Pour rappel, la valorisation énergétique des déchets collectés en 2023 a permis de produire 3 400 MWh d’électricité et 960 MWh d’énergie thermique. Le projet d’agrandissement de l’UVE permet d’envisager un développement plus ambitieux de la valorisation énergétique, notamment à proximité de la ZAC de la Salamandre, en cohérence avec les objectifs du PCAET de réduction des consommations fossiles.
+· Valoriser la chaleur pour les entreprises de la ZAC de la Salamandre : étudier les besoins thermiques des entreprises actuelles et futures pour concevoir un réseau adapté (chauffage, process industriels, etc.). Une étude est actuellement en cours pour déterminer les possibilités de financements européens (LEADER).
+· Favoriser l’implantation de nouvelles entreprises éco-compatibles : mettre en avant la disponibilité d’une énergie verte locale comme levier d’attractivité économique.
+· Étudier la faisabilité d’une réinjection dans un réseau d’énergie : envisager la production de chaleur ou d’électricité renouvelable par la chaleur fatale pour le territoire, y compris pour des bâtiments publics ou des logements.
+· Poursuivre la réflexion sur la réinjection de la chaleur de l’UVE dans un réseau d’énergie, sachant que l’étude de faisabilité d’un réseau de chaleur à partir de l’UVE jusqu’à Baugé, restituée en juillet 2025, a confirmé le potentiel important de chaleur disponible mais a montré que la création d’un réseau jusqu’à Baugé serait trop onéreuse en raison de la distance. Il s’agira donc d’identifier les scénarios plus réalistes, tels que le raccordement des entreprises de la ZAC, des bâtiments publics voire des logements situés à proximité. L’objectif est d’optimiser l’utilisation de la chaleur existante et de sécuriser de nouveaux usages sans générer de coûts disproportionnés.",{'Réseaux de chaleur décarbonés': [4]},1,True
+5119,Le Havre Seine Métropole,37544,Extension RCU SDCMG,"Extension du réseau de chaleur du Mont-Gaillard - Le Havre
+ Instance de gouvernance : COPIL et COTECH avec élus et services communautaires
+Éléments de calendrier : Etudes en cours. Avenant à la DSP nécessaire avant le lancement des travaux.",{'Réseaux de chaleur décarbonés': [1]},1,True
+5390,Paris Est Marne & Bois,84867,Contribuer à l'amélioration de la qualité écologique de la Marne et de ses affluents,"• S’engager sur l’objectif baignade en 2022
+• Réaménagement des berges de la Marne en faveur de la biodiversité et du bien-être des populations",{},0,True
+4994,CC du Pays de l'Arbresle (CCPA),90303,communication sensibilisation et animation en mobilité,Mise en place d'un programme d'actions de sensibilisation à la mobilité dura,{},0,False
+13693,Hélette,143354,5.3.2 - Réaliser un audit et optimiser le pilotage de l'éclairage public,"Cette action peut être par exemple remplacer l'éclairage avec du matériel plus performant, par exemple LED.",{'Sobriété et isolation des bâtiments (tertiaire)': [1]},1,True
+4707,CC du Pays de Colombey et du Sud Toulois,51837,Mettre en place (ou accompagner la mise en place) une filière locale bois énergie,"...de la forêt à la chaufferie bois. Création d'une usine de production de plaquette, pellet, ressource forestière : stockage de ressource territoire. Bois bûche, pellet, plaquette, bois broyé, etc. Favoriser le déploiement de réseaux de chaleur biomasse dans les communes « compactes » (village rue « lorrain ») forestières pour l’entretien des forêts communales","{'Réseaux de chaleur décarbonés': [1], 'Gestion des forêts et produits bois': [1]}",2,True
+5033,CC Brionnais Sud Bourgogne,57628,7.0.2 Organiser des journées d'arrachage de l'ambroisie + sensibilisation,Egalement en lien avec les déchets sauvages car l'ambroisie pousse aux endroits où il y a eu des apports de terre,{},0,True

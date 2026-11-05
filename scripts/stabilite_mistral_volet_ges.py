@@ -14,8 +14,9 @@ Exemples :
 
 --prompt v2 : prompt de prompts/classification_volet_ges_v2.md, une fiche par appel,
 codes de leviers et JSON contraint (utils/classification_volet_ges_v2.py). Sorties dans
-data/stabilite_volet_ges_v2_1/<modèle>/ (le dossier data/stabilite_mistral_volet_ges_v2/
-garde le premier test v2, fait avec la version précédente du prompt).
+data/stabilite_volet_ges_v2_2/<modèle>/. Les versions précédentes du prompt gardent leurs
+résultats : data/stabilite_mistral_volet_ges_v2/ (v2.0) et data/stabilite_volet_ges_v2_1/ (v2.1),
+avec le prompt exact dans prompt_utilise.md.
 --model : mistral-large-4 (défaut), mistral-small-2603 ou claude-haiku-5-5 (v2 seulement).
 
 Sorties (cumulatives) dans data/stabilite_mistral_volet_ges/ :
@@ -718,7 +719,7 @@ def main() -> int:
     PROMPT_VERSION = args.prompt
     V2_MODEL = args.model
     OUT = (
-        ROOT / "data" / "stabilite_volet_ges_v2_1" / V2_MODEL
+        ROOT / "data" / "stabilite_volet_ges_v2_2" / V2_MODEL
         if PROMPT_VERSION == "v2"
         else OUT_BY_PROMPT[PROMPT_VERSION]
     )

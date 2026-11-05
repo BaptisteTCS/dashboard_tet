@@ -6,16 +6,20 @@ from googleapiclient.discovery import build
 from googleapiclient.http import MediaIoBaseUpload
 from pypdf import PdfReader
 import asyncio
+import hashlib
 import os
 import io
 import time
+import traceback
 from datetime import datetime
+from pathlib import Path
 import json
 import pandas as pd
 import re
 import nest_asyncio
 import pandas as pd
 from openpyxl import load_workbook
+from openai import AsyncOpenAI
 nest_asyncio.apply()
 
 # ID du dossier Google Drive de destination pour les fichiers d'import générés
@@ -918,19 +922,105 @@ def display_df_markdown(df: pd.DataFrame):
     st.dataframe(df_a_afficher, use_container_width=True, height=600)
 
 
+MISTRAL_MODEL = "mistral-large-4"
+MISTRAL_BASE_URL = "https://api.mistral.ai/v1"
+# Plafond déjà utilisé avec ce modèle dans les scripts du projet.
+# "none" est refusé par l'API ; le raisonnement compte dans max_tokens.
+MISTRAL_MAX_OUTPUT_TOKENS = 40000
+MISTRAL_REASONING_EFFORT = "low"
+# USD / million de tokens, tarif promo (utils/test_run_impact.py).
+MISTRAL_PRICE_PER_M = {"input": 0.68, "output": 2.09}
+
+_mistral_client: AsyncOpenAI | None = None
+
+
 def max_output_tokens_for(model: str) -> int:
     """Plafond de sortie par modèle.
 
     gemini-2.5-pro, gemini-3-pro-preview et gemini-3.8-flash sont limités à
     65 536 tokens par l'API. gemini-4-argon accepte des sorties bien plus longues.
+    mistral-large-4 est plafonné plus bas : le raisonnement consomme ce budget.
     """
+    if model == MISTRAL_MODEL:
+        return MISTRAL_MAX_OUTPUT_TOKENS
     if model == "gemini-4-argon":
         return 262144
     return 65536
 
 
+def format_run_cost(model: str | None, tokens) -> str:
+    """Coût indicatif. Gemini reste en euros (grille historique de l'outil), Mistral en dollars."""
+    out_tok = int((tokens or [0, 0])[0] or 0)
+    in_tok = int((tokens or [0, 0])[1] or 0)
+    if model == MISTRAL_MODEL:
+        amount = (MISTRAL_PRICE_PER_M["output"] * out_tok + MISTRAL_PRICE_PER_M["input"] * in_tok) / 1_000_000
+        return f"✅ Import prêt pour un coût d'environ {amount:.2f} $ (tarif Mistral Large 4)"
+    amount = (10 * out_tok + 2 * in_tok) / 1_000_000
+    return f"✅ Import prêt pour un coût d'environ {amount:.2f} €"
+
+
+def _mistral_api_key() -> str:
+    key = os.environ.get("MISTRAL_API_KEY") or os.environ.get("mistral_api_key") or ""
+    if key:
+        return key
+    try:
+        return str(st.secrets.get("mistral_api_key") or "")
+    except Exception:
+        return ""
+
+
+def get_mistral_client() -> AsyncOpenAI:
+    global _mistral_client
+    if _mistral_client is None:
+        key = _mistral_api_key()
+        if not key:
+            raise RuntimeError("mistral_api_key absente (env ou .streamlit/secrets.toml).")
+        _mistral_client = AsyncOpenAI(base_url=MISTRAL_BASE_URL, api_key=key, timeout=900.0)
+    return _mistral_client
+
+
+def _mistral_message_text(response) -> str:
+    content = response.choices[0].message.content
+    if isinstance(content, list):
+        parts = []
+        for part in content:
+            get = part.get if isinstance(part, dict) else (lambda k, p=part: getattr(p, k, None))
+            if get("type") == "text":
+                parts.append(str(get("text") or ""))
+        return "".join(parts)
+    return str(content or "")
+
+
+async def query_mistral(user_prompt, model=MISTRAL_MODEL):
+    """Interroge Mistral. Le raisonnement est fixé à « low » : « none » est refusé sur Large 4."""
+    start_time = time.time()
+    output_token_limit = max_output_tokens_for(model)
+    print(f"[{datetime.now().strftime('%H:%M:%S.%f')[:-3]}] ✨ Mistral START ({model}, max {output_token_limit} tokens)")
+    try:
+        response = await get_mistral_client().chat.completions.create(
+            model=model,
+            messages=[{"role": "user", "content": user_prompt}],
+            max_tokens=output_token_limit,
+            extra_body={"reasoning_effort": MISTRAL_REASONING_EFFORT},
+        )
+        usage = getattr(response, "usage", None)
+        tokens = [
+            int(getattr(usage, "completion_tokens", 0) or 0),
+            int(getattr(usage, "prompt_tokens", 0) or 0),
+        ]
+        elapsed = time.time() - start_time
+        print(f"[{datetime.now().strftime('%H:%M:%S.%f')[:-3]}] ✅ Mistral END ({elapsed:.1f}s, {tokens} tokens)")
+        return _mistral_message_text(response), elapsed, tokens
+    except Exception as e:
+        elapsed = time.time() - start_time
+        print(f"[{datetime.now().strftime('%H:%M:%S.%f')[:-3]}] ❌ Mistral ERROR: {e}")
+        return f"Erreur Mistral: {e}", elapsed, [0, 0]
+
+
 async def query_gemini(user_prompt, model='gemini-3.1-pro-preview'):
-    """Interroge Gemini avec streaming asynchrone"""
+    """Interroge Gemini avec streaming asynchrone, ou Mistral si ce modèle est choisi."""
+    if model == MISTRAL_MODEL:
+        return await query_mistral(user_prompt, model)
     start_time = time.time()
     output_token_limit = max_output_tokens_for(model)
     print(f"[{datetime.now().strftime('%H:%M:%S.%f')[:-3]}] ✨ Gemini START ({model}, max {output_token_limit} tokens)")
@@ -992,6 +1082,1198 @@ async def query_gemini(user_prompt, model='gemini-3.1-pro-preview'):
 
 
 # ==========================
+# Découpage PDF, cache et fusion
+# ==========================
+
+IMPORT_CACHE_DIR = Path(__file__).resolve().parents[1] / "data" / "import_tool_cache"
+
+_STEP_LABELS = {
+    0: "texte extrait",
+    1: "fiches extraites",
+    2: "vérification faite",
+    3: "consolidation faite",
+    4: "sous-actions enrichies",
+    5: "analyse terminée",
+}
+
+
+def _atomic_write_text(path: Path, text: str) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    tmp = path.with_suffix(path.suffix + ".tmp")
+    tmp.write_text(text, encoding="utf-8")
+    tmp.replace(path)
+
+
+def cache_file_id(file_hash: str, split: bool) -> str:
+    mode = "split" if split else "full"
+    return f"{file_hash[:16]}_{mode}"
+
+
+def _first_half_page_count(n_pages: int) -> int:
+    """Nombre de pages de la première moitié. La seconde reçoit le reste."""
+    return max(1, (n_pages + 1) // 2)
+
+
+def _split_text_halfway(text: str) -> tuple[str, str]:
+    """Coupe un texte près du milieu, de préférence entre deux paragraphes."""
+    if not text:
+        return "", ""
+    mid = len(text) // 2
+    search_from = max(0, mid // 2)
+    search_to = min(len(text), mid + 2000)
+    cut = text.rfind("\n\n", search_from, search_to)
+    if cut == -1:
+        cut = text.rfind("\n", search_from, search_to)
+    if cut == -1:
+        cut = mid
+    left, right = text[:cut].strip(), text[cut:].strip()
+    if not left or not right:
+        left, right = text[:mid].strip(), text[mid:].strip()
+    return left, right
+
+
+def _split_note(which: str, detail: str) -> str:
+    return (
+        "NOTE IMPORTANTE SUR LE DÉCOUPAGE\n"
+        f"Le texte fourni est la {which} d’un document plus long ({detail}).\n"
+        "Extrais uniquement les actions présentes dans ce texte. "
+        "N’invente pas d’actions situées dans les pages absentes.\n"
+        "Si le document source porte déjà une numérotation, conserve-la exactement.\n\n"
+    )
+
+
+def build_text_parts(file_bytes: bytes, filename: str, file_type: str, split: bool) -> tuple[list[dict], str | None]:
+    """Découpe le fichier en une ou deux parties de texte.
+
+    Pour un PDF, la coupe se fait au milieu du nombre de pages.
+    Un PDF d'une seule page est coupé dans le texte.
+    """
+    ext = filename.rsplit(".", 1)[-1].lower() if "." in filename else ""
+    if file_type == "PDF":
+        try:
+            reader = PdfReader(io.BytesIO(file_bytes))
+            pages = [(i, page.extract_text() or "") for i, page in enumerate(reader.pages, start=1)]
+        except Exception as e:
+            return [], f"Erreur lors de l'extraction du PDF : {e}"
+        if not pages:
+            return [], "Erreur lors de l'extraction du PDF : aucune page"
+
+        if not split:
+            text = "\n".join(t for _, t in pages)
+            label_pages = f"{len(pages)} page" + ("s" if len(pages) > 1 else "")
+            return [{"label": "Document", "detail": label_pages, "text": text, "split_note": ""}], None
+
+        if len(pages) == 1:
+            left, right = _split_text_halfway(pages[0][1])
+            raw_parts = [
+                ("Moitié 1", "page 1, début du texte", left, "PREMIÈRE MOITIÉ"),
+                ("Moitié 2", "page 1, suite du texte", right, "SECONDE MOITIÉ"),
+            ]
+        else:
+            mid = _first_half_page_count(len(pages))
+            slices = [pages[:mid], pages[mid:]]
+            raw_parts = []
+            for idx, sl in enumerate(slices):
+                which = "PREMIÈRE MOITIÉ" if idx == 0 else "SECONDE MOITIÉ"
+                label = "Moitié 1" if idx == 0 else "Moitié 2"
+                detail = f"pages {sl[0][0]}–{sl[-1][0]}"
+                text = "\n".join(t for _, t in sl)
+                raw_parts.append((label, detail, text, which))
+
+        parts = []
+        for label, detail, text, which in raw_parts:
+            parts.append({
+                "label": label,
+                "detail": detail,
+                "text": text,
+                "split_note": _split_note(which, detail),
+            })
+        return parts, None
+
+    bio = io.BytesIO(file_bytes)
+    if ext in ("xlsx", "xls"):
+        text = extract_text_from_excel(bio)
+    else:
+        text = extract_text_from_csv(bio)
+    if isinstance(text, str) and text.startswith("Erreur"):
+        return [], text
+    return [{"label": "Document", "detail": ext or "fichier", "text": text or "", "split_note": ""}], None
+
+
+def describe_pdf_split(file_bytes: bytes) -> str | None:
+    """Résumé de la coupe prévue, avant de lancer l'analyse."""
+    try:
+        reader = PdfReader(io.BytesIO(file_bytes))
+        n = len(reader.pages)
+    except Exception as e:
+        return f"Impossible de lire le nombre de pages ({e})."
+    if n <= 1:
+        return "Ce PDF n'a qu'une page : le texte sera coupé en deux au milieu. Les deux analyses partiront en parallèle."
+    mid = _first_half_page_count(n)
+    return (
+        f"Découpe prévue : pages 1–{mid} et pages {mid + 1}–{n} ({n} pages). "
+        "Les deux analyses partiront en parallèle, puis les fiches seront fusionnées."
+    )
+
+
+def df_to_payload(df: pd.DataFrame | None) -> dict | None:
+    if df is None:
+        return None
+    records = json.loads(df.to_json(orient="records", force_ascii=False))
+    return {"columns": list(df.columns), "records": records}
+
+
+def df_from_payload(payload) -> pd.DataFrame | None:
+    if not payload:
+        return None
+    columns = payload.get("columns") or []
+    records = payload.get("records") or []
+    if not records:
+        return pd.DataFrame(columns=columns)
+    df = pd.DataFrame(records)
+    for col in columns:
+        if col not in df.columns:
+            df[col] = None
+    return df[columns]
+
+
+def compute_step(state: dict) -> int:
+    if state.get("final_done"):
+        return 5
+    parts = state.get("parts") or []
+    if parts and all(p.get("enrich_done") for p in parts):
+        return 4
+    if parts and all(p.get("upgrade_done") for p in parts):
+        return 3
+    if parts and all(p.get("verify_done") for p in parts):
+        return 2
+    if parts and all(p.get("extract_done") for p in parts):
+        return 1
+    return 0
+
+
+def _rows_of_saved(full: dict) -> int:
+    if full.get("final_done") and full.get("merged_df"):
+        return len(full["merged_df"].get("records") or [])
+    total = 0
+    for part in full.get("parts") or []:
+        payload = part.get("df")
+        if payload:
+            total += len(payload.get("records") or [])
+    return total
+
+
+def dehydrate_state(state: dict) -> dict:
+    parts_out = []
+    for part in state["parts"]:
+        parts_out.append({
+            "label": part.get("label"),
+            "detail": part.get("detail"),
+            "text": part.get("text") or "",
+            "split_note": part.get("split_note") or "",
+            "extract_done": bool(part.get("extract_done")),
+            "verify_done": bool(part.get("verify_done")),
+            "upgrade_done": bool(part.get("upgrade_done")),
+            "enrich_done": bool(part.get("enrich_done")),
+            "errors": list(part.get("errors") or [])[-8:],
+            "df": df_to_payload(part.get("df_obj")),
+        })
+    return {
+        "id": state["id"],
+        "filename": state.get("filename") or "import",
+        "file_hash": state.get("file_hash"),
+        "split": bool(state.get("split")),
+        "created_at": state.get("created_at"),
+        "updated_at": datetime.now().isoformat(timespec="seconds"),
+        "settings": state.get("settings") or {},
+        "parts": parts_out,
+        "tokens": [int((state.get("tokens") or [0, 0])[0]), int((state.get("tokens") or [0, 0])[1])],
+        "merged_df": df_to_payload(state.get("merged_obj")),
+        "quali_result": state.get("quali_result"),
+        "quali_done": bool(state.get("quali_done")),
+        "final_done": bool(state.get("final_done")),
+        "drive_link": state.get("drive_link"),
+        "drive_name": state.get("drive_name"),
+        "drive_error": state.get("drive_error"),
+        "export_filename": state.get("export_filename"),
+        "renumbered": bool(state.get("renumbered")),
+        "deduped_rows": int(state.get("deduped_rows") or 0),
+        "step_completed": compute_step(state),
+    }
+
+
+def cache_meta(full: dict) -> dict:
+    settings = full.get("settings") or {}
+    return {
+        "id": full.get("id"),
+        "filename": full.get("filename"),
+        "file_hash": full.get("file_hash"),
+        "split": bool(full.get("split")),
+        "created_at": full.get("created_at"),
+        "updated_at": full.get("updated_at"),
+        "model": settings.get("model"),
+        "final_done": bool(full.get("final_done")),
+        "step_completed": int(full.get("step_completed") or 0),
+        "rows": _rows_of_saved(full),
+        "part_details": [f"{p.get('label')} ({p.get('detail')})" for p in full.get("parts") or []],
+        "tokens": full.get("tokens") or [0, 0],
+        "errors": [
+            f"{p.get('label')}: {str(err)[:240]}"
+            for p in full.get("parts") or []
+            for err in (p.get("errors") or [])[:2]
+        ][:6],
+    }
+
+
+def save_import_cache(state: dict) -> None:
+    full = dehydrate_state(state)
+    cache_id = full["id"]
+    payload = json.dumps(full, ensure_ascii=False)
+    _atomic_write_text(IMPORT_CACHE_DIR / f"{cache_id}.json", payload)
+    _atomic_write_text(
+        IMPORT_CACHE_DIR / f"{cache_id}.meta.json",
+        json.dumps(cache_meta(full), ensure_ascii=False),
+    )
+    print(f"[cache] étape {full['step_completed']}/5 enregistrée ({cache_id})")
+
+
+def load_import_cache(cache_id: str) -> dict | None:
+    path = IMPORT_CACHE_DIR / f"{cache_id}.json"
+    if not path.exists():
+        return None
+    try:
+        full = json.loads(path.read_text(encoding="utf-8"))
+    except Exception as e:
+        print(f"[cache] lecture impossible {cache_id}: {e}")
+        return None
+    for part in full.get("parts") or []:
+        part["df_obj"] = df_from_payload(part.get("df"))
+        part.setdefault("errors", [])
+        part.setdefault("split_note", "")
+        part.setdefault("text", "")
+    full["merged_obj"] = df_from_payload(full.get("merged_df"))
+    tokens = full.get("tokens") or [0, 0]
+    full["tokens"] = [int(tokens[0] or 0), int(tokens[1] or 0)]
+    full.setdefault("settings", {})
+    return full
+
+
+def list_import_caches() -> list[dict]:
+    if not IMPORT_CACHE_DIR.exists():
+        return []
+    items = []
+    for meta_path in IMPORT_CACHE_DIR.glob("*.meta.json"):
+        try:
+            meta = json.loads(meta_path.read_text(encoding="utf-8"))
+        except Exception:
+            continue
+        if not meta.get("id") or not meta.get("file_hash"):
+            continue
+        items.append(meta)
+    items.sort(key=lambda m: m.get("updated_at") or "", reverse=True)
+    return items
+
+
+def delete_import_cache(cache_id: str) -> None:
+    for suffix in (".json", ".meta.json", ".json.tmp", ".meta.json.tmp"):
+        path = IMPORT_CACHE_DIR / f"{cache_id}{suffix}"
+        if path.exists():
+            path.unlink()
+
+
+def format_cache_time(value: str | None) -> str:
+    if not value:
+        return ""
+    try:
+        return datetime.fromisoformat(value).strftime("%d/%m/%Y %H:%M")
+    except ValueError:
+        return value
+
+
+def ensure_score_columns(df: pd.DataFrame) -> pd.DataFrame:
+    df = df.copy()
+    if "score" not in df.columns:
+        df["score"] = None
+    if "explication" not in df.columns:
+        df["explication"] = ""
+    if "amelioree" not in df.columns:
+        df["amelioree"] = False
+    return df
+
+
+def finalize_extracted_df(data, avec_sous_actions: bool, disabled_columns: list[str]) -> pd.DataFrame:
+    if not isinstance(data, list):
+        raise ValueError("La réponse n'est pas un tableau JSON")
+    if len(data) == 0:
+        df = pd.DataFrame(columns=[
+            "axe", "sous-axe", "titre", "description", "sous-actions",
+            "objectifs", "structure pilote", "direction ou service pilote",
+            "personne pilote", "budget", "statut",
+        ])
+    else:
+        df = pd.DataFrame(data)
+    if not avec_sous_actions:
+        df["sous-actions"] = [[] for _ in range(len(df))]
+    elif "sous-actions" not in df.columns:
+        df["sous-actions"] = [[] for _ in range(len(df))]
+    else:
+        df["sous-actions"] = df["sous-actions"].apply(normalize_sous_actions_value)
+    for col in ("objectifs", "structure pilote"):
+        if col not in df.columns:
+            df[col] = ""
+        else:
+            df[col] = df[col].fillna("")
+    for col in disabled_columns:
+        if col in df.columns:
+            df[col] = ""
+    return df.reset_index(drop=True)
+
+
+def _add_tokens(state: dict, tokens) -> None:
+    state["tokens"][0] += int((tokens or [0, 0])[0] or 0)
+    state["tokens"][1] += int((tokens or [0, 0])[1] or 0)
+
+
+def _prompt_with_note(part: dict, body: str) -> str:
+    return (part.get("split_note") or "") + body
+
+
+async def extract_one(part: dict, state: dict) -> dict:
+    settings = state["settings"]
+    try:
+        ignore = build_ignore_directive(settings.get("disabled_columns") or [])
+        prompt = _prompt_with_note(
+            part,
+            ignore + custom_prompt
+            .replace("{precisions}", settings.get("precisions") or "")
+            .replace("{texte_pdf_a_analyser}", part.get("text") or "")
+            .replace("{date_du_jour}", datetime.now().strftime("%d/%m/%Y")),
+        )
+        result, elapsed, tokens = await query_gemini(prompt, settings.get("model"))
+        _add_tokens(state, tokens)
+        if not result or str(result).startswith("Erreur"):
+            part["errors"].append(str(result or "Réponse vide"))
+            save_import_cache(state)
+            return {"ok": False, "elapsed": elapsed, "tokens": tokens, "error": result, "raw": result}
+        data = parse_json_response(result)
+        df = finalize_extracted_df(
+            data,
+            bool(settings.get("avec_sous_actions", True)),
+            settings.get("disabled_columns") or [],
+        )
+        part["df_obj"] = df
+        part["extract_done"] = True
+        part["errors"] = []
+        if len(df) == 0:
+            part["df_obj"] = ensure_score_columns(df)
+            part["verify_done"] = True
+            part["upgrade_done"] = True
+            part["enrich_done"] = True
+        save_import_cache(state)
+        return {"ok": True, "elapsed": elapsed, "tokens": tokens, "n": len(df), "detail_line": f"{len(df)} actions"}
+    except Exception as e:
+        traceback.print_exc()
+        part["errors"].append(f"Extraction : {e}")
+        save_import_cache(state)
+        raw = locals().get("result")
+        return {"ok": False, "elapsed": 0, "tokens": [0, 0], "error": str(e), "raw": raw if isinstance(raw, str) else None}
+
+
+async def verify_one(part: dict, state: dict) -> dict:
+    settings = state["settings"]
+    try:
+        df = part["df_obj"]
+        reponse_ia = df_to_compact_text(df)
+        prompt = _prompt_with_note(
+            part,
+            prompt_verif_1.replace("{texte_pdf_a_analyser}", part.get("text") or "").replace("{reponse_ia}", reponse_ia or ""),
+        )
+        result, elapsed, tokens = await query_gemini(prompt, settings.get("model"))
+        _add_tokens(state, tokens)
+        if not result or str(result).startswith("Erreur"):
+            part["errors"].append(str(result or "Réponse vide"))
+            save_import_cache(state)
+            return {"ok": False, "elapsed": elapsed, "tokens": tokens, "error": result, "raw": result}
+        scores = parse_json_response(result)
+        if not isinstance(scores, dict):
+            raise ValueError("La vérification n'a pas renvoyé un objet JSON indexé")
+        df = ensure_score_columns(df)
+        applied = 0
+        for idx_str, score_info in scores.items():
+            idx = int(idx_str)
+            if idx in df.index:
+                info = score_info if isinstance(score_info, dict) else {}
+                df.at[idx, "score"] = info.get("score")
+                df.at[idx, "explication"] = info.get("explication", "")
+                applied += 1
+        part["df_obj"] = df
+        part["verify_done"] = True
+        part["errors"] = []
+        save_import_cache(state)
+        return {"ok": True, "elapsed": elapsed, "tokens": tokens, "applied": applied, "detail_line": f"{applied} scores"}
+    except Exception as e:
+        traceback.print_exc()
+        part["errors"].append(f"Vérification : {e}")
+        save_import_cache(state)
+        raw = locals().get("result")
+        return {"ok": False, "elapsed": 0, "tokens": [0, 0], "error": str(e), "raw": raw if isinstance(raw, str) else None}
+
+
+async def upgrade_one(part: dict, state: dict) -> dict:
+    settings = state["settings"]
+    disabled_columns = settings.get("disabled_columns") or []
+    try:
+        df = part["df_obj"].copy()
+        if "score" not in df.columns:
+            part["df_obj"] = ensure_score_columns(df)
+            part["upgrade_done"] = True
+            save_import_cache(state)
+            return {"ok": True, "elapsed": 0, "tokens": [0, 0], "upgraded": 0, "low": 0, "skipped": True}
+        scores_num = pd.to_numeric(df["score"], errors="coerce")
+        low_indices = list(df.index[scores_num < 90])
+        if not low_indices:
+            part["df_obj"] = df
+            part["upgrade_done"] = True
+            save_import_cache(state)
+            return {"ok": True, "elapsed": 0, "tokens": [0, 0], "upgraded": 0, "low": 0, "skipped": True, "detail_line": "rien à consolider"}
+
+        batch_size = 5
+        batches = [low_indices[i:i + batch_size] for i in range(0, len(low_indices), batch_size)]
+        ignore = build_ignore_directive(disabled_columns)
+        prompts = []
+        for batch_indices in batches:
+            actions = ""
+            for idx in batch_indices:
+                row = df.loc[idx]
+                actions += f"|{idx}| {row['titre']}\n"
+            prompts.append(_prompt_with_note(
+                part,
+                ignore + prompt_upgrade_1.replace("{texte_pdf_a_analyser}", part.get("text") or "").replace("{actions_a_ameliorer}", actions),
+            ))
+
+        results = await asyncio.gather(
+            *[query_gemini(prompt, settings.get("model")) for prompt in prompts],
+            return_exceptions=True,
+        )
+        upgraded = 0
+        errors = []
+        max_time = 0.0
+        total_tokens = [0, 0]
+        for batch_idx, result in enumerate(results):
+            if isinstance(result, Exception):
+                errors.append(f"Batch {batch_idx + 1}: {result}")
+                continue
+            upgrade_result, elapsed, tokens = result
+            max_time = max(max_time, elapsed)
+            total_tokens[0] += int(tokens[0] or 0)
+            total_tokens[1] += int(tokens[1] or 0)
+            if upgrade_result and not str(upgrade_result).startswith("Erreur"):
+                try:
+                    upgrade_data = parse_json_response(upgrade_result)
+                    if not isinstance(upgrade_data, dict):
+                        raise ValueError("réponse non indexée")
+                    for idx_str, item in upgrade_data.items():
+                        idx = int(idx_str)
+                        if idx not in df.index or not isinstance(item, dict):
+                            continue
+                        if "titre" in item:
+                            df.at[idx, "titre"] = item["titre"]
+                        if "description" in item and "description" not in disabled_columns:
+                            df.at[idx, "description"] = item["description"]
+                        if "sous-actions" in item and settings.get("avec_sous_actions", True):
+                            df.at[idx, "sous-actions"] = normalize_sous_actions_value(item["sous-actions"])
+                        df.at[idx, "amelioree"] = True
+                        upgraded += 1
+                except Exception as e:
+                    errors.append(f"Batch {batch_idx + 1}: parsing {e}")
+            else:
+                errors.append(f"Batch {batch_idx + 1}: {upgrade_result}")
+
+        _add_tokens(state, total_tokens)
+        part["df_obj"] = df
+        part["upgrade_done"] = True
+        part["errors"] = errors
+        save_import_cache(state)
+        return {
+            "ok": True,
+            "elapsed": max_time,
+            "tokens": total_tokens,
+            "upgraded": upgraded,
+            "low": len(low_indices),
+            "batches": len(batches),
+            "errors": errors,
+            "detail_line": f"{upgraded} consolidées sur {len(low_indices)}",
+        }
+    except Exception as e:
+        traceback.print_exc()
+        part["errors"].append(f"Consolidation : {e}")
+        save_import_cache(state)
+        return {"ok": False, "elapsed": 0, "tokens": [0, 0], "error": str(e)}
+
+
+async def enrich_one(part: dict, state: dict) -> dict:
+    settings = state["settings"]
+    disabled_columns = settings.get("disabled_columns") or []
+    disabled_json_keys = settings.get("disabled_json_keys") or []
+    try:
+        df = part["df_obj"].copy()
+        if not settings.get("avec_sous_actions", True):
+            df["sous-actions"] = [[] for _ in range(len(df))]
+
+        all_sous_actions = []
+        sa_parent_map = {}
+        global_idx = 0
+        if "sous-actions" in df.columns:
+            for df_idx, row in df.iterrows():
+                sous_actions = normalize_sous_actions_value(row.get("sous-actions", None))
+                df.at[df_idx, "sous-actions"] = sous_actions
+                for sa_pos, sa_str in enumerate(sous_actions):
+                    if sa_str:
+                        all_sous_actions.append({
+                            "global_idx": global_idx,
+                            "parent_idx": df_idx,
+                            "parent_titre": row.get("titre", ""),
+                            "sa_titre": sa_str,
+                            "sa_pos": sa_pos,
+                        })
+                        sa_parent_map[(df_idx, sa_pos)] = global_idx
+                        global_idx += 1
+
+        enrichment_data = {}
+        max_time = 0.0
+        total_tokens = [0, 0]
+        errors = []
+        n_batches = 0
+
+        if all_sous_actions:
+            batch_size = 30
+            sa_batches = [all_sous_actions[i:i + batch_size] for i in range(0, len(all_sous_actions), batch_size)]
+            n_batches = len(sa_batches)
+            enrich_ignore = build_ignore_directive(disabled_json_keys)
+            prompts = []
+            for batch in sa_batches:
+                sous_actions_list = ""
+                for sa_info in batch:
+                    sous_actions_list += f"{sa_info['global_idx']} | [Action parente : {sa_info['parent_titre']}] {sa_info['sa_titre']}\n"
+                prompts.append(_prompt_with_note(
+                    part,
+                    enrich_ignore + prompt_enrich_sous_actions
+                    .replace("{sous_actions_list}", sous_actions_list)
+                    .replace("{texte_pdf_a_analyser}", part.get("text") or ""),
+                ))
+            results = await asyncio.gather(
+                *[query_gemini(prompt, settings.get("model")) for prompt in prompts],
+                return_exceptions=True,
+            )
+            for batch_idx, result in enumerate(results):
+                if isinstance(result, Exception):
+                    errors.append(f"Batch {batch_idx + 1}: {result}")
+                    continue
+                enrich_result, elapsed, tokens = result
+                max_time = max(max_time, elapsed)
+                total_tokens[0] += int(tokens[0] or 0)
+                total_tokens[1] += int(tokens[1] or 0)
+                if enrich_result and not str(enrich_result).startswith("Erreur"):
+                    try:
+                        parsed = parse_json_response(enrich_result)
+                        if not isinstance(parsed, dict):
+                            raise ValueError("réponse non indexée")
+                        for idx_str, fields in parsed.items():
+                            enrichment_data[int(idx_str)] = fields if isinstance(fields, dict) else {}
+                    except Exception as e:
+                        errors.append(f"Batch {batch_idx + 1}: parsing {e}")
+                else:
+                    errors.append(f"Batch {batch_idx + 1}: {enrich_result}")
+            _add_tokens(state, total_tokens)
+
+            def _sa_field(col_name: str, value: str) -> str:
+                return "" if col_name in disabled_columns else value
+
+            new_rows = []
+            for df_idx, row in df.iterrows():
+                action_row = row.to_dict()
+                action_row["titre de la sous-action"] = ""
+                action_row["date de début"] = ""
+                action_row["date de fin"] = ""
+                action_row.pop("sous-actions", None)
+                new_rows.append(action_row)
+
+                sous_actions_list_raw = row.get("sous-actions", [])
+                if isinstance(sous_actions_list_raw, (list, tuple)):
+                    for sa_pos, sa in enumerate(sous_actions_list_raw):
+                        sa_str = str(sa).strip()
+                        if not sa_str:
+                            continue
+                        gidx = sa_parent_map.get((df_idx, sa_pos))
+                        sa_enrichment = enrichment_data.get(gidx, {}) if gidx is not None else {}
+                        new_rows.append({
+                            "axe": row.get("axe", ""),
+                            "sous-axe": row.get("sous-axe", ""),
+                            "titre": row.get("titre", ""),
+                            "titre de la sous-action": sa_str,
+                            "description": _sa_field("description", sa_enrichment.get("description", "")),
+                            "objectifs": "",
+                            "structure pilote": "",
+                            "direction ou service pilote": "",
+                            "personne pilote": _sa_field("personne pilote", sa_enrichment.get("personne_pilote", "")),
+                            "budget": "",
+                            "statut": _sa_field("statut", sa_enrichment.get("statut", "")),
+                            "date de début": _sa_field("date de début", sa_enrichment.get("date_debut", "")),
+                            "date de fin": _sa_field("date de fin", sa_enrichment.get("date_fin", "")),
+                            "score": None,
+                            "explication": "",
+                            "amelioree": False,
+                        })
+            df = pd.DataFrame(new_rows).reset_index(drop=True)
+        else:
+            df["titre de la sous-action"] = ""
+            df["date de début"] = ""
+            df["date de fin"] = ""
+            if "sous-actions" in df.columns:
+                df = df.drop(columns=["sous-actions"])
+
+        for col in disabled_columns:
+            if col in df.columns:
+                df[col] = ""
+
+        enriched_count = sum(
+            1 for v in enrichment_data.values()
+            if any(v.get(k) for k in ("description", "personne_pilote", "statut", "date_debut", "date_fin"))
+        )
+        part["df_obj"] = df
+        part["enrich_done"] = True
+        part["errors"] = errors
+        save_import_cache(state)
+        return {
+            "ok": True,
+            "elapsed": max_time,
+            "tokens": total_tokens,
+            "sous_actions": len(all_sous_actions),
+            "enriched": enriched_count,
+            "batches": n_batches,
+            "rows": len(df),
+            "errors": errors,
+            "skipped_sous_actions": not settings.get("avec_sous_actions", True),
+            "detail_line": f"{enriched_count} sous-actions enrichies sur {len(all_sous_actions)}",
+        }
+    except Exception as e:
+        traceback.print_exc()
+        part["errors"].append(f"Enrichissement : {e}")
+        save_import_cache(state)
+        return {"ok": False, "elapsed": 0, "tokens": [0, 0], "error": str(e)}
+
+
+def _parse_axe(label: str) -> tuple[int | None, str]:
+    if not isinstance(label, str):
+        return None, ""
+    match = re.match(r"^\s*Axe\s+(\d+)\s*:\s*(.*)$", label, flags=re.IGNORECASE)
+    if not match:
+        return None, label.strip()
+    return int(match.group(1)), match.group(2).strip()
+
+
+def _axis_entries(df: pd.DataFrame) -> list[tuple[int | None, str]]:
+    if df is None or "axe" not in getattr(df, "columns", []):
+        return []
+    seen = set()
+    entries = []
+    for raw in df["axe"].tolist():
+        if not isinstance(raw, str) or raw in seen:
+            continue
+        seen.add(raw)
+        entries.append(_parse_axe(raw))
+    return entries
+
+
+def build_axis_map(df_first: pd.DataFrame, df_next: pd.DataFrame) -> dict[int, int]:
+    """Recolle la numérotation de la moitié suivante sur la première.
+
+    Un axe dont le titre existe déjà garde le numéro de la première moitié.
+    Un numéro déjà pris, ou qui redémarre au milieu de la plage déjà vue, est décalé à la suite.
+    """
+    title_to_num: dict[str, int] = {}
+    claimed: set[int] = set()
+    for num, title in _axis_entries(df_first):
+        if num is None:
+            continue
+        claimed.add(num)
+        key = title.lower()
+        if key and key not in title_to_num:
+            title_to_num[key] = num
+
+    next_title_by_num: dict[int, str] = {}
+    next_nums: list[int] = []
+    for num, title in _axis_entries(df_next):
+        if num is None or num in next_title_by_num:
+            continue
+        next_title_by_num[num] = title
+        next_nums.append(num)
+
+    mapping: dict[int, int] = {}
+    unmatched: list[int] = []
+    for num in next_nums:
+        key = (next_title_by_num.get(num) or "").lower()
+        if key and key in title_to_num:
+            mapping[num] = title_to_num[key]
+            claimed.add(mapping[num])
+        else:
+            unmatched.append(num)
+
+    for num in unmatched:
+        ceiling = max(claimed) if claimed else 0
+        if num not in claimed and num > ceiling:
+            mapping[num] = num
+            claimed.add(num)
+            continue
+        nxt = ceiling + 1
+        while nxt in claimed:
+            nxt += 1
+        mapping[num] = nxt
+        claimed.add(nxt)
+    return mapping
+
+
+def _rewrite_leading_number(value, mapping: dict[int, int]):
+    if not isinstance(value, str) or not mapping:
+        return value
+    match = re.match(r"^(\s*Axe\s+)(\d+)(\b.*)$", value, flags=re.IGNORECASE)
+    if match:
+        old = int(match.group(2))
+        if old in mapping and mapping[old] != old:
+            return f"{match.group(1)}{mapping[old]}{match.group(3)}"
+        return value
+    match = re.match(r"^(\s*)(\d+)(\.\d+.*)$", value)
+    if match:
+        old = int(match.group(2))
+        if old in mapping and mapping[old] != old:
+            return f"{match.group(1)}{mapping[old]}{match.group(3)}"
+    return value
+
+
+def apply_axis_map(df: pd.DataFrame, mapping: dict[int, int]) -> pd.DataFrame:
+    if not mapping or all(src == dst for src, dst in mapping.items()):
+        return df
+    df = df.copy()
+    for col in ("axe", "sous-axe", "titre", "titre de la sous-action"):
+        if col in df.columns:
+            df[col] = df[col].apply(lambda v, m=mapping: _rewrite_leading_number(v, m))
+    return df
+
+
+def merge_part_dataframes(frames: list[pd.DataFrame], split: bool) -> tuple[pd.DataFrame, dict]:
+    info = {"renumbered": False, "deduped": 0}
+    usable = [df for df in frames if df is not None]
+    if not usable:
+        return pd.DataFrame(), info
+    if len(usable) == 1:
+        return usable[0].reset_index(drop=True), info
+
+    ordered = [usable[0].copy()]
+    accumulated = usable[0]
+    for nxt in usable[1:]:
+        mapping = build_axis_map(accumulated, nxt)
+        if any(src != dst for src, dst in mapping.items()):
+            nxt = apply_axis_map(nxt, mapping)
+            info["renumbered"] = True
+        ordered.append(nxt)
+        accumulated = pd.concat([accumulated, nxt], ignore_index=True)
+
+    columns: list[str] = []
+    for df in ordered:
+        for col in df.columns:
+            if col not in columns:
+                columns.append(col)
+    aligned = []
+    for df in ordered:
+        copied = df.copy()
+        for col in columns:
+            if col not in copied.columns:
+                copied[col] = None
+        aligned.append(copied[columns])
+    merged = pd.concat(aligned, ignore_index=True)
+    if split:
+        keys = [c for c in ("axe", "sous-axe", "titre", "titre de la sous-action") if c in merged.columns]
+        if keys:
+            before = len(merged)
+            merged = merged.drop_duplicates(subset=keys, keep="first").reset_index(drop=True)
+            info["deduped"] = before - len(merged)
+    return merged, info
+
+
+def cleanup_final_df(df: pd.DataFrame, disabled_columns: list[str]) -> pd.DataFrame:
+    df = df.copy()
+    for col in disabled_columns:
+        if col in df.columns:
+            df[col] = ""
+    df = split_long_titles(df, description_enabled="description" not in disabled_columns)
+    for col in ("direction ou service pilote", "personne pilote"):
+        if col in df.columns:
+            df[col] = df[col].apply(lambda x: x.replace("/", ", ") if isinstance(x, str) else x)
+    for col in df.columns:
+        df[col] = df[col].apply(lambda x: re.sub(r" +", " ", x).strip() if isinstance(x, str) else x)
+    return df
+
+
+def _show_part_metrics(label: str, step_name: str, result: dict) -> None:
+    if not result or not result.get("ok"):
+        err = (result or {}).get("error") or "erreur"
+        st.error(f"❌ {label} — {step_name} : {err}")
+        raw = (result or {}).get("raw")
+        if isinstance(raw, str) and raw.strip():
+            st.text(raw[:8000])
+        return
+    tokens = result.get("tokens") or [0, 0]
+    extra = result.get("detail_line") or ""
+    suffix = f" | {extra}" if extra else ""
+    st.info(
+        f"✨ {label} — {step_name} : {float(result.get('elapsed') or 0):.1f}s | "
+        f"Entrée : {int(tokens[1]):,} tokens | Sortie : {int(tokens[0]):,} tokens{suffix}"
+    )
+
+
+def _run_parallel(parts: list[dict], factory) -> list:
+    async def _go():
+        return await asyncio.gather(*[factory(part) for part in parts], return_exceptions=True)
+
+    started = time.time()
+    raw_results = asyncio.run(_go())
+    wall = time.time() - started
+    results = []
+    for part, result in zip(parts, raw_results):
+        if isinstance(result, Exception):
+            traceback.print_exception(type(result), result, result.__traceback__)
+            part.setdefault("errors", []).append(str(result))
+            results.append({"ok": False, "elapsed": 0, "tokens": [0, 0], "error": str(result)})
+        else:
+            results.append(result)
+    return results, wall
+
+
+def _step_intro(title: str, state: dict) -> None:
+    st.markdown("---")
+    st.markdown(title)
+    if state.get("split") and len(state.get("parts") or []) > 1:
+        details = ", ".join(f"{p['label']} ({p['detail']})" for p in state["parts"])
+        st.caption(f"Traitement en parallèle — {details}")
+
+
+def run_import_pipeline(state: dict, resuming: bool = False) -> dict:
+    """Enchaîne les 5 étapes. Chaque partie est traitée en parallèle, puis fusionnée."""
+    if state.get("final_done"):
+        return state
+
+    parts = state["parts"]
+    settings = state.get("settings") or {}
+    if resuming:
+        st.info("Reprise du cache. Les parties et les étapes déjà terminées ne sont pas relancées.")
+
+    pending = [p for p in parts if not p.get("extract_done")]
+    if pending:
+        _step_intro("## 🪄 Étape 1 : Définition de la structure et créations des fiches actions", state)
+        if settings.get("disabled_columns"):
+            st.caption("🚫 Colonnes désactivées (ignorées par l'IA) : " + ", ".join(settings["disabled_columns"]))
+        already = [p["label"] for p in parts if p.get("extract_done")]
+        if already:
+            st.caption("Déjà en cache : " + ", ".join(already))
+        with st.spinner("🌀 Étape 1/5 : extraction des fiches actions..."):
+            results, wall = _run_parallel(pending, lambda part: extract_one(part, state))
+        for part, result in zip(pending, results):
+            _show_part_metrics(part["label"], "extraction", result)
+            if result.get("ok") and part.get("df_obj") is not None:
+                st.success(f"✅ {part['label']} : {len(part['df_obj'])} actions extraites")
+                st.dataframe(part["df_obj"], use_container_width=True, height=400)
+        if len(pending) > 1:
+            st.caption(f"Attente parallèle : {wall:.1f}s")
+        if any(not p.get("extract_done") for p in parts):
+            st.warning("L'extraction n'est pas complète. Le cache conserve les parties réussies : vous pouvez reprendre.")
+            return state
+
+    if not settings.get("avec_verifications", True):
+        changed = False
+        for part in parts:
+            if part.get("extract_done") and not part.get("upgrade_done"):
+                part["df_obj"] = ensure_score_columns(part["df_obj"])
+                part["verify_done"] = True
+                part["upgrade_done"] = True
+                changed = True
+        if changed:
+            st.markdown("---")
+            st.info("⏭️ Vérifications désactivées — étapes 2 et 3 ignorées.")
+            save_import_cache(state)
+    else:
+        pending = [p for p in parts if not p.get("verify_done")]
+        if pending:
+            _step_intro("## 🔍 Étape 2 : Vérification de la qualité des fiches actions", state)
+            already = [p["label"] for p in parts if p.get("verify_done")]
+            if already:
+                st.caption("Déjà en cache : " + ", ".join(already))
+            with st.spinner("🌀 Étape 2/5 : vérification de la qualité des fiches actions..."):
+                results, wall = _run_parallel(pending, lambda part: verify_one(part, state))
+            for part, result in zip(pending, results):
+                _show_part_metrics(part["label"], "vérification", result)
+                df = part.get("df_obj")
+                if result.get("ok") and df is not None and "score" in df.columns:
+                    cols = [c for c in ("titre", "score", "explication") if c in df.columns]
+                    st.dataframe(df[cols], use_container_width=True, height=300)
+            if len(pending) > 1:
+                st.caption(f"Attente parallèle : {wall:.1f}s")
+            if any(not p.get("verify_done") for p in parts):
+                st.warning("La vérification n'est pas complète. Le cache conserve les parties réussies : vous pouvez reprendre.")
+                return state
+
+        pending = [p for p in parts if not p.get("upgrade_done")]
+        if pending:
+            _step_intro("## 🔧 Étape 3/5 : Consolidation des fiches actions", state)
+            already = [p["label"] for p in parts if p.get("upgrade_done")]
+            if already:
+                st.caption("Déjà en cache : " + ", ".join(already))
+            with st.spinner("🌀 Étape 3/5 : consolidation des fiches actions..."):
+                results, wall = _run_parallel(pending, lambda part: upgrade_one(part, state))
+            for part, result in zip(pending, results):
+                if result.get("skipped"):
+                    st.success(f"✅ {part['label']} : toutes les actions ont un score suffisant")
+                else:
+                    _show_part_metrics(part["label"], "consolidation", result)
+                    if result.get("ok") and result.get("upgraded"):
+                        st.success(f"✅ {part['label']} : {result['upgraded']} actions consolidées")
+                for err in result.get("errors") or []:
+                    st.error(f"❌ {part['label']} — {err}")
+            if len(pending) > 1:
+                st.caption(f"Attente parallèle : {wall:.1f}s")
+            if any(not p.get("upgrade_done") for p in parts):
+                st.warning("La consolidation n'est pas complète. Vous pouvez reprendre depuis le cache.")
+                return state
+
+    pending = [p for p in parts if not p.get("enrich_done")]
+    if pending:
+        _step_intro("## 🔎 Étape 4/5 : Enrichissement des sous-actions", state)
+        if not settings.get("avec_sous_actions", True):
+            st.info("⏭️ Sous-actions désactivées par l'utilisateur.")
+        already = [p["label"] for p in parts if p.get("enrich_done")]
+        if already:
+            st.caption("Déjà en cache : " + ", ".join(already))
+        with st.spinner("🌀 Étape 4/5 : enrichissement des sous-actions..."):
+            results, wall = _run_parallel(pending, lambda part: enrich_one(part, state))
+        for part, result in zip(pending, results):
+            _show_part_metrics(part["label"], "enrichissement", result)
+            if result.get("ok"):
+                st.success(f"✅ {part['label']} : {result.get('rows', 0)} lignes (actions + sous-actions)")
+            for err in result.get("errors") or []:
+                st.error(f"❌ {part['label']} — {err}")
+        if len(pending) > 1:
+            st.caption(f"Attente parallèle : {wall:.1f}s")
+        if any(not p.get("enrich_done") for p in parts):
+            st.warning("L'enrichissement n'est pas complet. Vous pouvez reprendre depuis le cache.")
+            return state
+
+    if state.get("merged_obj") is None:
+        merged, info = merge_part_dataframes(
+            [p.get("df_obj") for p in parts],
+            split=bool(state.get("split")),
+        )
+        merged = cleanup_final_df(merged, settings.get("disabled_columns") or [])
+        state["merged_obj"] = merged
+        state["renumbered"] = info["renumbered"]
+        state["deduped_rows"] = info["deduped"]
+        save_import_cache(state)
+        if state.get("split") and len(parts) > 1:
+            st.success(f"✅ Moitiés fusionnées : {len(merged)} lignes")
+
+    if not state.get("quali_done"):
+        st.markdown("---")
+        st.markdown("## ✅ Étape 5/5 : Vérifications finales")
+        merged = state.get("merged_obj")
+        if merged is None or len(merged) == 0:
+            state["quali_result"] = "Aucune action extraite."
+            state["quali_done"] = True
+        else:
+            async def _quali():
+                text = df_to_compact_text(merged, show_index=False)
+                return await query_gemini(
+                    prompt_verif_quali.replace("{reponse_ia}", text or ""),
+                    settings.get("model"),
+                )
+
+            with st.spinner("🌀 Étape 5/5 : analyse qualitative finale..."):
+                try:
+                    quali_result, elapsed, tokens = asyncio.run(_quali())
+                except Exception as e:
+                    traceback.print_exc()
+                    quali_result, elapsed, tokens = f"Erreur lors de la vérification qualitative : {e}", 0, [0, 0]
+            _add_tokens(state, tokens)
+            state["quali_result"] = quali_result
+            state["quali_done"] = True
+            st.info(
+                f"✨ Vérifications finales : {float(elapsed):.1f}s | "
+                f"Entrée : {int(tokens[1] or 0):,} tokens | Sortie : {int(tokens[0] or 0):,} tokens"
+            )
+
+    state["final_done"] = True
+    if not state.get("export_filename"):
+        state["export_filename"] = build_drive_filename(state.get("filename") or "import")
+    save_import_cache(state)
+    return state
+
+
+def render_cache_card(meta: dict, primary: bool) -> tuple[str, str] | None:
+    cid = meta["id"]
+    step = int(meta.get("step_completed") or 0)
+    label = _STEP_LABELS.get(step, "en cours")
+    mode = "PDF coupé en deux" if meta.get("split") else "document entier"
+    when = format_cache_time(meta.get("updated_at"))
+    rows = int(meta.get("rows") or 0)
+    parts = ", ".join(meta.get("part_details") or [])
+    st.markdown(f"**Cache disponible — {meta.get('filename') or 'fichier'}**")
+    st.caption(
+        f"{mode} · {label} ({step}/5) · {rows} lignes · {when} · modèle {meta.get('model') or '—'}"
+        + (f" · {parts}" if parts else "")
+    )
+    if meta.get("final_done"):
+        st.caption("L'analyse est terminée. Vous pouvez réafficher le résultat et retélécharger le fichier.")
+    else:
+        st.caption("Reprendre relance uniquement les étapes qui ne sont pas encore dans le cache.")
+    for err in meta.get("errors") or []:
+        st.caption(f"Dernière erreur conservée : {err}")
+    left, right = st.columns(2)
+    button_type = "primary" if primary else "secondary"
+    action = None
+    if meta.get("final_done"):
+        if left.button("Afficher le résultat en cache", type=button_type, key=f"show_{cid}"):
+            action = ("show", cid)
+    elif left.button("Reprendre depuis le cache", type=button_type, key=f"resume_{cid}"):
+        action = ("resume", cid)
+    if right.button("Supprimer ce cache", key=f"del_{cid}"):
+        action = ("delete", cid)
+    return action
+
+
+def render_final_result(state: dict, upload_drive: bool = False, from_cache_view: bool = False) -> None:
+    df = state.get("merged_obj")
+    if df is None:
+        st.error("Le résultat en cache est vide.")
+        return
+
+    st.markdown("---")
+    st.markdown("## ✨ Plan final")
+    if from_cache_view:
+        st.caption(f"Résultat rechargé depuis le cache local ({format_cache_time(state.get('updated_at'))}).")
+    if state.get("split"):
+        details = ", ".join(f"{p.get('label')} ({p.get('detail')})" for p in state.get("parts") or [])
+        st.caption(f"Plan fusionné des deux moitiés — {details}")
+    if state.get("renumbered"):
+        st.caption("La numérotation de la seconde moitié a été recollée sur la première lorsque les axes se chevauchaient ou redémarraient à 1.")
+    if state.get("deduped_rows"):
+        st.caption(f"{int(state['deduped_rows'])} ligne(s) identiques à la jonction des deux moitiés ont été retirées.")
+    for part in state.get("parts") or []:
+        for err in (part.get("errors") or [])[:3]:
+            st.caption(f"{part.get('label')} : {err}")
+
+    st.markdown(f"**Avis de l'IA** \n\n {state.get('quali_result') or ''}")
+    tokens = state.get("tokens") or [0, 0]
+    model_name = (state.get("settings") or {}).get("model")
+    st.success(format_run_cost(model_name, tokens))
+    display_df_markdown(df)
+
+    try:
+        excel_data = remplir_fichier_import(df)
+        export_name = state.get("export_filename") or build_drive_filename(state.get("filename") or "import")
+        state["export_filename"] = export_name
+
+        do_upload = upload_drive and not state.get("drive_link")
+        if not state.get("drive_link") and not upload_drive:
+            do_upload = st.button("☁️ Envoyer sur Google Drive", key=f"drive_{state['id']}")
+
+        if do_upload and not state.get("drive_link"):
+            try:
+                with st.spinner("☁️ Sauvegarde sur Google Drive..."):
+                    drive_file = upload_excel_to_drive(excel_data, export_name)
+                state["drive_link"] = drive_file.get("webViewLink")
+                state["drive_name"] = drive_file.get("name", export_name)
+                state["drive_error"] = None
+                save_import_cache(state)
+            except Exception as drive_err:
+                state["drive_error"] = str(drive_err)
+                save_import_cache(state)
+
+        if state.get("drive_link"):
+            st.success(
+                f"✅ Fichier sauvegardé sur Google Drive : "
+                f"[{state.get('drive_name') or export_name}]({state['drive_link']})"
+            )
+        elif state.get("drive_error"):
+            st.warning(f"⚠️ Sauvegarde sur Google Drive impossible : {state['drive_error']}")
+
+        excel_data.seek(0)
+        excel_data_no_num = remplir_fichier_import(strip_numbering_from_df(df))
+        excel_data_no_num.seek(0)
+        dl_col1, dl_col2 = st.columns(2)
+        with dl_col1:
+            st.download_button(
+                label="📥 Télécharger le fichier d'import rempli au format Excel",
+                data=excel_data,
+                file_name=export_name,
+                mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                type="primary",
+                key=f"dl_{state['id']}",
+            )
+        with dl_col2:
+            st.download_button(
+                label="📥 Télécharger sans la numérotation des actions",
+                data=excel_data_no_num,
+                file_name=export_name,
+                mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                type="secondary",
+                key=f"dl_nonum_{state['id']}",
+            )
+    except Exception as e:
+        st.error(f"❌ Erreur lors du remplissage du fichier import : {e}")
+
+
+def new_analysis_state(file_bytes: bytes, filename: str, file_type: str, split: bool, settings: dict) -> tuple[dict | None, str | None]:
+    parts_raw, error = build_text_parts(file_bytes, filename, file_type, split)
+    if error:
+        return None, error
+    now = datetime.now().isoformat(timespec="seconds")
+    file_hash = hashlib.sha256(file_bytes).hexdigest()
+    parts = []
+    for raw in parts_raw:
+        parts.append({
+            "label": raw["label"],
+            "detail": raw["detail"],
+            "text": raw["text"],
+            "split_note": raw.get("split_note") or "",
+            "extract_done": False,
+            "verify_done": False,
+            "upgrade_done": False,
+            "enrich_done": False,
+            "errors": [],
+            "df_obj": None,
+        })
+    state = {
+        "id": cache_file_id(file_hash, split),
+        "filename": filename,
+        "file_hash": file_hash,
+        "split": split,
+        "created_at": now,
+        "updated_at": now,
+        "settings": settings,
+        "parts": parts,
+        "tokens": [0, 0],
+        "merged_obj": None,
+        "quali_result": None,
+        "quali_done": False,
+        "final_done": False,
+        "drive_link": None,
+        "drive_name": None,
+        "drive_error": None,
+        "export_filename": None,
+        "renumbered": False,
+        "deduped_rows": 0,
+    }
+    return state, None
+
+
+# ==========================
 # Interface utilisateur
 # ==========================
 
@@ -1017,16 +2299,32 @@ else:
         key="csv_excel_uploader"
     )
 
+split_pdf = False
+if file_type == "PDF":
+    split_pdf = st.toggle(
+        "Couper le PDF en deux",
+        value=False,
+        key="split_pdf_toggle",
+        help=(
+            "Découpe le PDF en deux moitiés (par nombre de pages), lance les deux analyses "
+            "en parallèle, puis fusionne les fiches. Utile quand le fichier est trop volumineux."
+        ),
+    )
+    if split_pdf and uploaded_file is not None:
+        st.caption(describe_pdf_split(uploaded_file.getvalue()))
+    elif uploaded_file is not None and getattr(uploaded_file, "size", 0) >= 3_000_000:
+        st.caption("Fichier volumineux : activez « Couper le PDF en deux » si une seule analyse est trop lourde pour le modèle.")
+
 precisions = st.text_area(
     "Précisions",
     height=300,
     placeholder="Ajoutez des précisions supplémentaires si nécessaire. Vous pouvez ici définir une strucutre spécifique, certaines règles à respecter, donner du contexte, etc. Cliquez sur Ctrl+Enter pour valider."
 )
 
-# Choix du modèle Gemini
+# Choix du modèle
 gemini_model = st.segmented_control(
-    "Modèle Gemini",
-    options=["gemini-4-argon", "gemini-3.8-flash", "gemini-3-pro-preview", "gemini-2.5-pro"],
+    "Modèle",
+    options=["gemini-4-argon", "gemini-3.8-flash", "gemini-3-pro-preview", "gemini-2.5-pro", MISTRAL_MODEL],
     default="gemini-2.5-pro"
 )
 
@@ -1053,476 +2351,138 @@ disabled_json_keys = [
     if json_key is not None and df_col in disabled_columns
 ]
 
-# Mode test (tronque le texte à 10 000 caractères)
-# mode_test = st.toggle("🧪 Mode test (30 000 caractères max)", value=False)
-mode_test = False
+analysis_settings = {
+    "model": gemini_model or "gemini-2.5-pro",
+    "precisions": precisions or "",
+    "avec_sous_actions": bool(avec_sous_actions),
+    "avec_verifications": bool(avec_verifications),
+    "disabled_columns": list(disabled_columns),
+    "disabled_json_keys": list(disabled_json_keys),
+    "file_type": file_type or "PDF",
+}
 
-total_tokens_consumed = [0, 0]
-
+file_hash = None
+file_bytes = None
 if uploaded_file is not None:
+    file_bytes = uploaded_file.getvalue()
+    file_hash = hashlib.sha256(file_bytes).hexdigest()
     st.success(f"✅ Fichier chargé : {uploaded_file.name}")
-    
-    start_button = st.button("🚀 Lancer l'analyse", type="primary")
-    
-    if start_button:
-        # Extraction selon le type de fichier
-        if file_type == "PDF":
-            with st.spinner("📖 Extraction du texte du PDF..."):
-                extracted_text = extract_text_from_pdf(uploaded_file)
-        else:
-            file_ext = uploaded_file.name.rsplit('.', 1)[-1].lower() if '.' in uploaded_file.name else ''
-            if file_ext in ('xlsx', 'xls'):
-                with st.spinner("🔍 Lecture du fichier Excel..."):
-                    extracted_text = extract_text_from_excel(uploaded_file)
-            else:
-                with st.spinner("🔍 Lecture du fichier CSV..."):
-                    extracted_text = extract_text_from_csv(uploaded_file)
-        
-        if extracted_text and not extracted_text.startswith("Erreur"):
-            st.success(f"✅ Texte extrait : {len(extracted_text)} caractères")
-            
-            # Tronquer le texte en mode test
-            if mode_test and len(extracted_text) > 30000:
-                extracted_text = extracted_text[:30000]
-                st.warning(f"🧪 Mode test activé : texte tronqué à 30 000 caractères")
 
-            # ========================================
-            # ÉTAPE 1 : Extraction initiale
-            # ========================================
-            st.markdown("---")
-            st.markdown("## 🪄 Étape 1 : Définition de la structure et créations des fiches actions")
-            
-            ignore_directive = build_ignore_directive(disabled_columns)
-            user_prompt = ignore_directive + custom_prompt.replace("{precisions}", precisions).replace("{texte_pdf_a_analyser}", extracted_text).replace("{date_du_jour}", datetime.now().strftime("%d/%m/%Y"))
-
-            with st.spinner("🌀 Étape 1/5 : Définition de la structure et créations des fiches actions..."):
-                gemini_result, elapsed_time, tokens_count = asyncio.run(query_gemini(user_prompt, gemini_model))
-                total_tokens_consumed[0] += tokens_count[0]
-                total_tokens_consumed[1] += tokens_count[1]
-                st.info(f"✨ Extraction : {elapsed_time:.1f}s | Entrée : {tokens_count[1]:,} tokens | Sortie : {tokens_count[0]:,} tokens")
-            
-            if gemini_result and not gemini_result.startswith("Erreur"):
-                try:
-                    # Parser le JSON et créer le dataframe
-                    data = parse_json_response(gemini_result)
-                    df_actions = pd.DataFrame(data)
-                    if not avec_sous_actions:
-                        df_actions["sous-actions"] = [[] for _ in range(len(df_actions))]
-                    elif "sous-actions" not in df_actions.columns:
-                        df_actions["sous-actions"] = [[] for _ in range(len(df_actions))]
-                    else:
-                        df_actions["sous-actions"] = df_actions["sous-actions"].apply(
-                            normalize_sous_actions_value
-                        )
-                    for _col_optional in ("objectifs", "structure pilote"):
-                        if _col_optional not in df_actions.columns:
-                            df_actions[_col_optional] = ""
-                        else:
-                            df_actions[_col_optional] = df_actions[_col_optional].fillna("")
-                    for _col_disabled in disabled_columns:
-                        if _col_disabled in df_actions.columns:
-                            df_actions[_col_disabled] = ""
-                    if disabled_columns:
-                        st.caption(
-                            "🚫 Colonnes désactivées (ignorées par l'IA) : "
-                            + ", ".join(disabled_columns)
-                        )
-                    st.success(f"✅ {len(df_actions)} actions extraites")
-                    st.dataframe(df_actions, use_container_width=True, height=400)
-                    
-                    if avec_verifications:
-                        # ========================================
-                        # ÉTAPE 2 : Vérification des scores
-                        # ========================================
-                        st.markdown("---")
-                        st.markdown("## 🔍 Étape 2 : Vérification de la qualité des fiches actions")
-                        
-                        reponse_ia = df_to_compact_text(df_actions)
-                        user_prompt_verif = prompt_verif_1.replace("{texte_pdf_a_analyser}", extracted_text).replace("{reponse_ia}", reponse_ia or "")
-                        
-                        with st.spinner("🌀 Étape 2/5 : Vérification de la qualité des fiches actions..."):
-                            verif_result, elapsed_time, tokens_count = asyncio.run(query_gemini(user_prompt_verif, gemini_model))
-                            total_tokens_consumed[0] += tokens_count[0]
-                            total_tokens_consumed[1] += tokens_count[1]
-                            st.info(f"✨ Vérification : {elapsed_time:.1f}s | Entrée : {tokens_count[1]:,} tokens | Sortie : {tokens_count[0]:,} tokens")
-                    else:
-                        st.markdown("---")
-                        st.info("⏭️ Vérifications désactivées — étapes 2 et 3 ignorées.")
-                        verif_result = "skip"
-
-                    if verif_result and not verif_result.startswith("Erreur"):
-                        try:
-                            if avec_verifications:
-                                # ========================================
-                                # ÉTAPE 3 : Ajout des scores au dataframe
-                                # ========================================
-                                scores_data = parse_json_response(verif_result)
-                                
-                                df_actions["score"] = None
-                                df_actions["explication"] = ""
-                                df_actions["amelioree"] = False
-                                
-                                for idx_str, score_info in scores_data.items():
-                                    idx = int(idx_str)
-                                    if idx < len(df_actions):
-                                        df_actions.at[idx, "score"] = score_info.get("score")
-                                        df_actions.at[idx, "explication"] = score_info.get("explication", "")
-                                
-                                st.success(f"✅ Scores ajoutés pour {len(scores_data)} actions")
-                                st.dataframe(df_actions[["titre", "score", "explication"]], use_container_width=True, height=300)
-                                
-                                # ========================================
-                                # ÉTAPE 4 : Amélioration des actions à faible score
-                                # ========================================
-                                st.markdown("---")
-                                st.markdown("## 🔧 Étape 3/5 : Consolidation des fiches actions")
-                                
-                                df_low_score = df_actions[df_actions["score"] < 90].copy()
-                                
-                                if len(df_low_score) > 0:
-                                    st.warning(f"⚠️ {len(df_low_score)} actions avec un score < 90 à améliorer")
-                                    
-                                    BATCH_SIZE = 5
-                                    low_score_indices = list(df_low_score.index)
-                                    batches = [low_score_indices[i:i + BATCH_SIZE] for i in range(0, len(low_score_indices), BATCH_SIZE)]
-                                    
-                                    if len(batches) > 1:
-                                        st.info(f"📦 Envoi de {len(batches)} batchs en parallèle à l'IA pour consolidation")
-                                    else:
-                                        st.info(f"📦 Envoi de {len(batches)} batch(s) en parallèle à l'IA pour consolidation")
-                                    
-                                    batch_prompts = []
-                                    for batch_indices in batches:
-                                        actions_a_ameliorer = ""
-                                        for idx in batch_indices:
-                                            row = df_actions.loc[idx]
-                                            actions_a_ameliorer += f"|{idx}| {row['titre']}\n"
-                                        
-                                        batch_prompt = ignore_directive + prompt_upgrade_1.replace("{texte_pdf_a_analyser}", extracted_text).replace("{actions_a_ameliorer}", actions_a_ameliorer)
-                                        batch_prompts.append(batch_prompt)
-                                    
-                                    async def run_upgrade_batches():
-                                        tasks = [query_gemini(prompt, gemini_model) for prompt in batch_prompts]
-                                        return await asyncio.gather(*tasks, return_exceptions=True)
-                                    
-                                    with st.spinner(f"🌀 Étape 3/5 : Consolidation des fiches actions ({len(batches)} batches en parallèle)..."):
-                                        batch_results = asyncio.run(run_upgrade_batches())
-                                    
-                                    total_upgraded = 0
-                                    max_time = 0
-                                    total_tokens = [0,0]
-                                    all_errors = []
-                                    
-                                    for batch_idx, result in enumerate(batch_results):
-                                        if isinstance(result, Exception):
-                                            all_errors.append(f"Batch {batch_idx + 1}: {str(result)}")
-                                            continue
-                                        
-                                        upgrade_result, elapsed_time, tokens_count = result
-                                        max_time = max(max_time, elapsed_time)
-                                        total_tokens[0] += tokens_count[0]
-                                        total_tokens[1] += tokens_count[1]
-                                        
-                                        if upgrade_result and not upgrade_result.startswith("Erreur"):
-                                            try:
-                                                upgrade_data = parse_json_response(upgrade_result)
-                                                
-                                                for idx_str, item in upgrade_data.items():
-                                                    idx = int(idx_str)
-                                                    if idx < len(df_actions):
-                                                        if "titre" in item:
-                                                            df_actions.at[idx, "titre"] = item["titre"]
-                                                        if "description" in item and "description" not in disabled_columns:
-                                                            df_actions.at[idx, "description"] = item["description"]
-                                                        if "sous-actions" in item and avec_sous_actions:
-                                                            df_actions.at[idx, "sous-actions"] = normalize_sous_actions_value(item["sous-actions"])
-                                                        df_actions.at[idx, "amelioree"] = True
-                                                        total_upgraded += 1
-                                            except Exception as e:
-                                                all_errors.append(f"Batch {batch_idx + 1}: Parsing error - {str(e)}")
-                                        else:
-                                            all_errors.append(f"Batch {batch_idx + 1}: {upgrade_result}")
-                                    
-                                    total_tokens_consumed[0] += total_tokens[0]
-                                    total_tokens_consumed[1] += total_tokens[1]
-                                    st.info(f"✨ Consolidation : {max_time:.1f}s total | Entrée : {total_tokens[1]:,} tokens | Sortie : {total_tokens[0]:,} tokens")
-                                    
-                                    if total_upgraded > 0:
-                                        st.success(f"✅ {total_upgraded} actions consolidées")
-                                    
-                                    if all_errors:
-                                        for error in all_errors:
-                                            st.error(f"❌ {error}")
-                                else:
-                                    st.success("✅ Toutes les actions ont un score > 90, pas de consolidation nécessaire")
-                            else:
-                                df_actions["score"] = None
-                                df_actions["explication"] = ""
-                                df_actions["amelioree"] = False
-                            
-                            # ========================================
-                            # ÉTAPE 4 : Enrichissement des sous-actions
-                            # ========================================
-                            st.markdown("---")
-                            st.markdown("## 🔎 Étape 4/5 : Enrichissement des sous-actions")
-
-                            if not avec_sous_actions:
-                                df_actions["sous-actions"] = [[] for _ in range(len(df_actions))]
-                                st.info("⏭️ Sous-actions désactivées par l'utilisateur, étape ignorée.")
-
-                            all_sous_actions = []
-                            sa_parent_map = {}
-                            global_idx = 0
-                            for df_idx, row in df_actions.iterrows():
-                                raw_val = row.get("sous-actions", None)
-                                sous_actions = normalize_sous_actions_value(raw_val)
-                                df_actions.at[df_idx, "sous-actions"] = sous_actions
-                                for sa_pos, sa_str in enumerate(sous_actions):
-                                    if sa_str:
-                                        all_sous_actions.append({
-                                            "global_idx": global_idx,
-                                            "parent_idx": df_idx,
-                                            "parent_titre": row["titre"],
-                                            "sa_titre": sa_str,
-                                            "sa_pos": sa_pos,
-                                        })
-                                        sa_parent_map[(df_idx, sa_pos)] = global_idx
-                                        global_idx += 1
-
-                            st.info(f"🔢 Sous-actions détectées : {len(all_sous_actions)}")
-
-                            if len(all_sous_actions) > 0:
-                                st.info(f"📋 {len(all_sous_actions)} sous-actions à enrichir")
-
-                                SA_BATCH_SIZE = 30
-                                sa_batches = [all_sous_actions[i:i + SA_BATCH_SIZE] for i in range(0, len(all_sous_actions), SA_BATCH_SIZE)]
-
-                                st.info(f"📦 Envoi de {len(sa_batches)} batch(s) à l'IA pour enrichissement des sous-actions")
-
-                                sa_batch_prompts = []
-                                for batch in sa_batches:
-                                    sous_actions_list = ""
-                                    for sa_info in batch:
-                                        sous_actions_list += f"{sa_info['global_idx']} | [Action parente : {sa_info['parent_titre']}] {sa_info['sa_titre']}\n"
-
-                                    enrich_ignore_directive = build_ignore_directive(disabled_json_keys)
-                                    batch_prompt = enrich_ignore_directive + prompt_enrich_sous_actions.replace("{sous_actions_list}", sous_actions_list).replace("{texte_pdf_a_analyser}", extracted_text)
-                                    sa_batch_prompts.append(batch_prompt)
-
-                                async def run_enrich_batches():
-                                    tasks = [query_gemini(prompt, gemini_model) for prompt in sa_batch_prompts]
-                                    return await asyncio.gather(*tasks, return_exceptions=True)
-
-                                with st.spinner(f"🌀 Étape 4/5 : Enrichissement des sous-actions ({len(sa_batches)} batch(s) en parallèle)..."):
-                                    sa_batch_results = asyncio.run(run_enrich_batches())
-
-                                enrichment_data = {}
-                                sa_max_time = 0
-                                sa_total_tokens = [0, 0]
-                                sa_errors = []
-
-                                for batch_idx, result in enumerate(sa_batch_results):
-                                    if isinstance(result, Exception):
-                                        sa_errors.append(f"Batch {batch_idx + 1}: {str(result)}")
-                                        continue
-
-                                    enrich_result, elapsed_time, tokens_count = result
-                                    sa_max_time = max(sa_max_time, elapsed_time)
-                                    sa_total_tokens[0] += tokens_count[0]
-                                    sa_total_tokens[1] += tokens_count[1]
-
-                                    if enrich_result and not enrich_result.startswith("Erreur"):
-                                        try:
-                                            parsed = parse_json_response(enrich_result)
-                                            for idx_str, fields in parsed.items():
-                                                enrichment_data[int(idx_str)] = fields
-                                        except Exception as e:
-                                            sa_errors.append(f"Batch {batch_idx + 1}: Parsing error - {str(e)}")
-                                    else:
-                                        sa_errors.append(f"Batch {batch_idx + 1}: {enrich_result}")
-
-                                total_tokens_consumed[0] += sa_total_tokens[0]
-                                total_tokens_consumed[1] += sa_total_tokens[1]
-                                st.info(f"✨ Enrichissement : {sa_max_time:.1f}s | Entrée : {sa_total_tokens[1]:,} tokens | Sortie : {sa_total_tokens[0]:,} tokens")
-
-                                enriched_count = sum(1 for v in enrichment_data.values() if any(v.get(k) for k in ("description", "personne_pilote", "statut", "date_debut", "date_fin")))
-                                if enriched_count > 0:
-                                    st.success(f"✅ {enriched_count} sous-actions enrichies sur {len(all_sous_actions)}")
-
-                                if sa_errors:
-                                    for error in sa_errors:
-                                        st.error(f"❌ {error}")
-
-                                new_rows = []
-                                for df_idx, row in df_actions.iterrows():
-                                    action_row = row.to_dict()
-                                    action_row["titre de la sous-action"] = ""
-                                    action_row["date de début"] = ""
-                                    action_row["date de fin"] = ""
-                                    action_row.pop("sous-actions", None)
-                                    new_rows.append(action_row)
-
-                                    sous_actions_list_raw = row.get("sous-actions", [])
-                                    if isinstance(sous_actions_list_raw, (list, tuple)):
-                                        for sa_pos, sa in enumerate(sous_actions_list_raw):
-                                            sa_str = str(sa).strip()
-                                            if sa_str:
-                                                gidx = sa_parent_map.get((df_idx, sa_pos))
-                                                sa_enrichment = enrichment_data.get(gidx, {}) if gidx is not None else {}
-
-                                                def _sa_field(col_name: str, value: str) -> str:
-                                                    return "" if col_name in disabled_columns else value
-
-                                                sa_row = {
-                                                    "axe": row["axe"],
-                                                    "sous-axe": row["sous-axe"],
-                                                    "titre": row["titre"],
-                                                    "titre de la sous-action": sa_str,
-                                                    "description": _sa_field("description", sa_enrichment.get("description", "")),
-                                                    "objectifs": "",
-                                                    "structure pilote": "",
-                                                    "direction ou service pilote": "",
-                                                    "personne pilote": _sa_field("personne pilote", sa_enrichment.get("personne_pilote", "")),
-                                                    "budget": "",
-                                                    "statut": _sa_field("statut", sa_enrichment.get("statut", "")),
-                                                    "date de début": _sa_field("date de début", sa_enrichment.get("date_debut", "")),
-                                                    "date de fin": _sa_field("date de fin", sa_enrichment.get("date_fin", "")),
-                                                    "score": None,
-                                                    "explication": "",
-                                                    "amelioree": False,
-                                                }
-                                                new_rows.append(sa_row)
-
-                                df_actions = pd.DataFrame(new_rows).reset_index(drop=True)
-                                for _col_disabled in disabled_columns:
-                                    if _col_disabled in df_actions.columns:
-                                        df_actions[_col_disabled] = ""
-                                st.success(f"✅ Dataframe restructuré : {len(df_actions)} lignes (actions + sous-actions)")
-                            else:
-                                df_actions["titre de la sous-action"] = ""
-                                df_actions["date de début"] = ""
-                                df_actions["date de fin"] = ""
-                                if "sous-actions" in df_actions.columns:
-                                    df_actions = df_actions.drop(columns=["sous-actions"])
-                                st.success("✅ Aucune sous-action à enrichir")
-
-                            # ========================================
-                            # ÉTAPE 5 : Vérification qualitative finale
-                            # ========================================
-                            st.markdown("---")
-                            st.markdown("## ✅ Étape 5/5 : Vérifications finales")
-
-                            for _col_disabled in disabled_columns:
-                                if _col_disabled in df_actions.columns:
-                                    df_actions[_col_disabled] = ""
-
-                            df_actions = split_long_titles(
-                                df_actions,
-                                description_enabled="description" not in disabled_columns,
-                            )
-
-                            for col in ["direction ou service pilote", "personne pilote"]:
-                                if col in df_actions.columns:
-                                    df_actions[col] = df_actions[col].apply(
-                                        lambda x: x.replace("/", ", ") if isinstance(x, str) else x
-                                    )
-
-                            for col in df_actions.columns:
-                                df_actions[col] = df_actions[col].apply(
-                                    lambda x: re.sub(r' +', ' ', x).strip() if isinstance(x, str) else x
-                                )
-
-                            st.success("✅ Nettoyage effectué des colonnes pilotes")
-
-                            reponse_ia_finale = df_to_compact_text(df_actions, show_index=False)
-                            user_prompt_quali = prompt_verif_quali.replace("{reponse_ia}", reponse_ia_finale or "")
-
-                            with st.spinner("🌀 Étape 5/5 : Analyse qualitative finale..."):
-                                quali_result, elapsed_time, tokens_count = asyncio.run(query_gemini(user_prompt_quali, gemini_model))
-                                total_tokens_consumed[0] += tokens_count[0]
-                                total_tokens_consumed[1] += tokens_count[1]
-                                st.info(f"✨ Vérifications finales : {elapsed_time:.1f}s | Entrée : {tokens_count[1]:,} tokens | Sortie : {tokens_count[0]:,} tokens")
-
-                            # ========================================
-                            # Affichage final
-                            # ========================================
-                            st.markdown("---")
-                            st.markdown("## ✨ Plan final")
-                            
-                            # Afficher le résultat de la vérification qualitative
-                            st.markdown(f"**Avis de l'IA** \n\n {quali_result}")
-
-                            st.success(f"✅ Import réussi pour un cout d'environ {(10*total_tokens_consumed[0] + 2*total_tokens_consumed[1])/1000000:.2f} €")
-                            
-                            # Afficher le dataframe final en markdown
-                            display_df_markdown(df_actions)
-
-                            # Remplir le fichier import et proposer le téléchargement
-                            try:
-                                excel_data = remplir_fichier_import(df_actions)
-
-                                drive_filename = build_drive_filename(uploaded_file.name)
-
-                                try:
-                                    with st.spinner("☁️ Sauvegarde sur Google Drive..."):
-                                        drive_file = upload_excel_to_drive(excel_data, drive_filename)
-                                    drive_link = drive_file.get("webViewLink")
-                                    if drive_link:
-                                        st.success(
-                                            f"✅ Fichier sauvegardé sur Google Drive : "
-                                            f"[{drive_file.get('name', drive_filename)}]({drive_link})"
-                                        )
-                                    else:
-                                        st.success(
-                                            f"✅ Fichier sauvegardé sur Google Drive : "
-                                            f"{drive_file.get('name', drive_filename)}"
-                                        )
-                                except Exception as drive_err:
-                                    st.warning(
-                                        f"⚠️ Sauvegarde sur Google Drive impossible : {str(drive_err)}"
-                                    )
-
-                                excel_data.seek(0)
-                                excel_data_no_num = remplir_fichier_import(strip_numbering_from_df(df_actions))
-                                excel_data_no_num.seek(0)
-
-                                dl_col1, dl_col2 = st.columns(2)
-                                with dl_col1:
-                                    st.download_button(
-                                        label="📥 Télécharger le fichier d'import rempli au format Excel",
-                                        data=excel_data,
-                                        file_name=drive_filename,
-                                        mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-                                        type="primary",
-                                    )
-                                with dl_col2:
-                                    st.download_button(
-                                        label="📥 Télécharger sans la numérotation des actions",
-                                        data=excel_data_no_num,
-                                        file_name=drive_filename,
-                                        mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-                                        type="secondary",
-                                    )
-                            except Exception as e:
-                                st.error(f"❌ Erreur lors du remplissage du fichier import : {str(e)}")
-                            
-                        except Exception as e:
-                            st.error(f"❌ Erreur lors du parsing des scores : {str(e)}")
-                            st.text(verif_result)
-                    else:
-                        st.error(f"❌ Erreur lors de la vérification : {verif_result}")
-                        
-                except Exception as e:
-                    st.error(f"❌ Erreur lors du parsing de l'extraction : {str(e)}")
-                    st.text(gemini_result)
-            else:
-                st.error(f"❌ Erreur lors de l'extraction : {gemini_result}")
-                
-        
-        else:
-            st.error(f"❌ Erreur lors de l'extraction du texte du fichier")
-            st.error(extracted_text)
+caches = list_import_caches()
+target_id = cache_file_id(file_hash, bool(split_pdf)) if file_hash else None
+if file_hash:
+    matched = [c for c in caches if c.get("file_hash") == file_hash]
+    others = [c for c in caches if c.get("file_hash") != file_hash]
+    visible = matched
+    hidden = others[:5]
 else:
+    visible = caches[:5]
+    hidden = []
+
+chosen = None
+if visible:
+    st.markdown("#### Analyses enregistrées")
+    for index, meta in enumerate(visible):
+        with st.container(border=True):
+            if target_id and meta.get("id") == target_id:
+                st.caption("Ce cache correspond au fichier et au mode de découpe actuellement choisis.")
+            hit = render_cache_card(meta, primary=(index == 0))
+            if hit:
+                chosen = hit
+
+if hidden:
+    with st.expander("Autres analyses en cache"):
+        for meta in hidden:
+            with st.container(border=True):
+                hit = render_cache_card(meta, primary=False)
+                if hit:
+                    chosen = hit
+
+start_button = False
+if uploaded_file is not None:
+    has_matching_cache = any(c.get("id") == target_id for c in caches)
+    if has_matching_cache:
+        start_button = st.button(
+            "Relancer depuis le début (remplace le cache)",
+            type="secondary",
+            key="start_analysis",
+        )
+    else:
+        start_button = st.button("🚀 Lancer l'analyse", type="primary", key="start_analysis")
+elif not visible:
     label = "PDF" if file_type == "PDF" else "CSV ou Excel"
     st.info(f"👆 Veuillez charger un fichier {label} pour commencer")
 
+shown_result = False
+
+if chosen and chosen[0] == "delete":
+    delete_import_cache(chosen[1])
+    if st.session_state.get("import_show_cache") == chosen[1]:
+        st.session_state.pop("import_show_cache", None)
+    st.rerun()
+elif chosen and chosen[0] == "show":
+    st.session_state["import_show_cache"] = chosen[1]
+    loaded = load_import_cache(chosen[1])
+    if loaded is None:
+        st.error("Ce cache est illisible ou a déjà été supprimé.")
+    else:
+        render_final_result(loaded, upload_drive=False, from_cache_view=True)
+        shown_result = True
+elif chosen and chosen[0] == "resume":
+    st.session_state.pop("import_show_cache", None)
+    loaded = load_import_cache(chosen[1])
+    if loaded is None:
+        st.error("Ce cache est illisible ou a déjà été supprimé.")
+    else:
+        cached_model = (loaded.get("settings") or {}).get("model")
+        if cached_model and cached_model != (gemini_model or "gemini-2.5-pro"):
+            st.caption(
+                f"Cette reprise utilise le modèle enregistré ({cached_model}) "
+                "et les réglages stockés avec le cache."
+            )
+        loaded = run_import_pipeline(loaded, resuming=True)
+        if loaded.get("final_done"):
+            st.session_state["import_show_cache"] = loaded["id"]
+            render_final_result(loaded, upload_drive=True, from_cache_view=False)
+            shown_result = True
+elif start_button:
+    st.session_state.pop("import_show_cache", None)
+    with st.spinner("📖 Lecture du fichier..."):
+        state, error = new_analysis_state(
+            file_bytes,
+            uploaded_file.name,
+            file_type or "PDF",
+            bool(split_pdf) if file_type == "PDF" else False,
+            analysis_settings,
+        )
+    if error or state is None:
+        st.error("❌ Erreur lors de l'extraction du texte du fichier")
+        st.error(error or "Texte vide")
+    else:
+        total_chars = sum(len(part.get("text") or "") for part in state["parts"])
+        if total_chars < 20:
+            st.error("Le texte extrait est vide ou trop court pour être analysé.")
+        else:
+            st.success(f"✅ Texte extrait : {total_chars:,} caractères")
+            for part in state["parts"]:
+                st.caption(f"{part['label']} ({part['detail']}) : {len(part.get('text') or ''):,} caractères")
+            save_import_cache(state)
+            state = run_import_pipeline(state, resuming=False)
+            if state.get("final_done"):
+                st.session_state["import_show_cache"] = state["id"]
+                render_final_result(state, upload_drive=True, from_cache_view=False)
+                shown_result = True
+
+if not shown_result:
+    show_id = st.session_state.get("import_show_cache")
+    if show_id and file_hash:
+        shown_meta = next((c for c in caches if c.get("id") == show_id), None)
+        if shown_meta and shown_meta.get("file_hash") != file_hash:
+            st.session_state.pop("import_show_cache", None)
+            show_id = None
+    if show_id and not (chosen and chosen[0] == "delete"):
+        loaded = load_import_cache(show_id)
+        if loaded and loaded.get("final_done"):
+            render_final_result(loaded, upload_drive=False, from_cache_view=True)
+        elif loaded is None:
+            st.session_state.pop("import_show_cache", None)

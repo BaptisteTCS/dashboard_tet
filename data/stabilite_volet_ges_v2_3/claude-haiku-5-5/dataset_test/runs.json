@@ -1,0 +1,4338 @@
+{
+ "143336:3": {
+  "classif": {
+   "Véhicules électriques": [
+    1
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13496,
+   "cached": 0,
+   "cache_write": 12613,
+   "output": 58
+  }
+ },
+ "143336:2": {
+  "classif": {
+   "Véhicules électriques": [
+    1
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13496,
+   "cached": 0,
+   "cache_write": 12613,
+   "output": 58
+  }
+ },
+ "143336:1": {
+  "classif": {
+   "Véhicules électriques": [
+    1
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13496,
+   "cached": 0,
+   "cache_write": 12613,
+   "output": 58
+  }
+ },
+ "40480:1": {
+  "classif": {
+   "Electricité renouvelable": [
+    1,
+    6
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13093,
+   "cached": 0,
+   "cache_write": 12613,
+   "output": 62
+  }
+ },
+ "40480:3": {
+  "classif": {
+   "Electricité renouvelable": [
+    1,
+    6
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13093,
+   "cached": 0,
+   "cache_write": 12613,
+   "output": 62
+  }
+ },
+ "40480:2": {
+  "classif": {
+   "Electricité renouvelable": [
+    1,
+    6
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13093,
+   "cached": 0,
+   "cache_write": 12613,
+   "output": 62
+  }
+ },
+ "40466:2": {
+  "classif": {
+   "Elevage durable": [
+    6
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13155,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 56
+  }
+ },
+ "40466:1": {
+  "classif": {},
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13155,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 35
+  }
+ },
+ "62318:2": {
+  "classif": {
+   "Biogaz": [
+    6
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 12971,
+   "cached": 0,
+   "cache_write": 12613,
+   "output": 54
+  }
+ },
+ "40466:3": {
+  "classif": {},
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13155,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 35
+  }
+ },
+ "62318:1": {
+  "classif": {
+   "Biogaz": [
+    6
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 12971,
+   "cached": 0,
+   "cache_write": 12613,
+   "output": 54
+  }
+ },
+ "126709:2": {
+  "classif": {
+   "Biogaz": [
+    1
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13212,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 54
+  }
+ },
+ "126709:1": {
+  "classif": {
+   "Biogaz": [
+    1
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13212,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 54
+  }
+ },
+ "126709:3": {
+  "classif": {
+   "Biogaz": [
+    1
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13212,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 54
+  }
+ },
+ "62318:3": {
+  "classif": {
+   "Biogaz": [
+    6
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 12971,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 54
+  }
+ },
+ "65606:1": {
+  "classif": {
+   "Efficacité et sobriété logistique": [
+    1
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 14145,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 63
+  }
+ },
+ "65606:2": {
+  "classif": {
+   "Efficacité et sobriété logistique": [
+    1
+   ],
+   "Fret décarboné et multimodalité": [
+    1
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 14145,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 92
+  }
+ },
+ "65606:3": {
+  "classif": {
+   "Efficacité et sobriété logistique": [
+    1
+   ],
+   "Fret décarboné et multimodalité": [
+    1
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 14145,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 92
+  }
+ },
+ "34956:1": {
+  "classif": {
+   "Production Industrielle": [
+    6
+   ],
+   "Sobriété et isolation des bâtiments (tertiaire)": [
+    5
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13521,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 90
+  }
+ },
+ "16434:1": {
+  "classif": {
+   "Réduction des déplacements": [
+    1
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 12890,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 58
+  }
+ },
+ "34956:2": {
+  "classif": {
+   "Production Industrielle": [
+    6
+   ],
+   "Sobriété et isolation des bâtiments (tertiaire)": [
+    5
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13521,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 90
+  }
+ },
+ "16434:2": {
+  "classif": {
+   "Réduction des déplacements": [
+    1
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 12890,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 58
+  }
+ },
+ "34956:3": {
+  "classif": {
+   "Production Industrielle": [
+    6
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13521,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 56
+  }
+ },
+ "87270:3": {
+  "classif": {
+   "Efficacité et carburants décarbonés des véhicules privés": [
+    1
+   ],
+   "Véhicules électriques": [
+    1
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 12928,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 95
+  }
+ },
+ "87270:1": {
+  "classif": {
+   "Efficacité et carburants décarbonés des véhicules privés": [
+    1
+   ],
+   "Véhicules électriques": [
+    1
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 12928,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 95
+  }
+ },
+ "87270:2": {
+  "classif": {
+   "Efficacité et carburants décarbonés des véhicules privés": [
+    1
+   ],
+   "Véhicules électriques": [
+    1
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 12928,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 95
+  }
+ },
+ "16434:3": {
+  "classif": {
+   "Réduction des déplacements": [
+    1
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 12890,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 58
+  }
+ },
+ "57617:1": {
+  "classif": {
+   "Prévention des déchets": [
+    1
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 12960,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 57
+  }
+ },
+ "57617:2": {
+  "classif": {
+   "Prévention des déchets": [
+    1
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 12960,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 57
+  }
+ },
+ "57617:3": {
+  "classif": {
+   "Prévention des déchets": [
+    1
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 12960,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 57
+  }
+ },
+ "72512:3": {
+  "classif": {
+   "Bâtiments & Machines agricoles": [
+    6
+   ],
+   "Pratiques stockantes": [
+    6
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13572,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 86
+  }
+ },
+ "72512:2": {
+  "classif": {
+   "Bâtiments & Machines agricoles": [
+    6
+   ],
+   "Pratiques stockantes": [
+    6
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13572,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 86
+  }
+ },
+ "72512:1": {
+  "classif": {
+   "Bâtiments & Machines agricoles": [
+    6
+   ],
+   "Pratiques stockantes": [
+    6
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13572,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 86
+  }
+ },
+ "87962:1": {
+  "classif": {},
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13029,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 35
+  }
+ },
+ "88082:1": {
+  "classif": {},
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13020,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 35
+  }
+ },
+ "87962:3": {
+  "classif": {},
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13029,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 35
+  }
+ },
+ "87962:2": {
+  "classif": {},
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13029,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 35
+  }
+ },
+ "88082:2": {
+  "classif": {},
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13020,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 35
+  }
+ },
+ "88082:3": {
+  "classif": {},
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13020,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 35
+  }
+ },
+ "88066:2": {
+  "classif": {},
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 12973,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 35
+  }
+ },
+ "88066:1": {
+  "classif": {},
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 12973,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 35
+  }
+ },
+ "88066:3": {
+  "classif": {},
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 12973,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 35
+  }
+ },
+ "51817:1": {
+  "classif": {
+   "Pratiques stockantes": [
+    2
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13001,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 59
+  }
+ },
+ "51817:2": {
+  "classif": {
+   "Pratiques stockantes": [
+    2
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13001,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 59
+  }
+ },
+ "51817:3": {
+  "classif": {
+   "Pratiques stockantes": [
+    2
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13001,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 59
+  }
+ },
+ "65596:2": {
+  "classif": {
+   "Sobriété des bâtiments (résidentiel)": [
+    3,
+    6
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 14914,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 66
+  }
+ },
+ "34970:1": {
+  "classif": {
+   "Sobriété des bâtiments (résidentiel)": [
+    6
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13240,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 63
+  }
+ },
+ "65596:1": {
+  "classif": {
+   "Sobriété des bâtiments (résidentiel)": [
+    3,
+    6
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 14914,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 66
+  }
+ },
+ "34970:2": {
+  "classif": {
+   "Sobriété des bâtiments (résidentiel)": [
+    6
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13240,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 63
+  }
+ },
+ "34970:3": {
+  "classif": {
+   "Sobriété des bâtiments (résidentiel)": [
+    6
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13240,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 63
+  }
+ },
+ "130820:1": {
+  "classif": {
+   "Vélo et transport en commun": [
+    1
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 17323,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 58
+  }
+ },
+ "130820:3": {
+  "classif": {
+   "Vélo et transport en commun": [
+    1
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 17323,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 58
+  }
+ },
+ "130820:2": {
+  "classif": {
+   "Vélo et transport en commun": [
+    1
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 17323,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 58
+  }
+ },
+ "130870:3": {
+  "classif": {},
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 14939,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 35
+  }
+ },
+ "130870:2": {
+  "classif": {
+   "Réduction des déplacements": [
+    4
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 14939,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 58
+  }
+ },
+ "130870:1": {
+  "classif": {
+   "Réduction des déplacements": [
+    4
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 14939,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 58
+  }
+ },
+ "62336:1": {
+  "classif": {
+   "Sobriété foncière": [
+    2
+   ],
+   "Efficacité et sobriété logistique": [
+    2
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13062,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 88
+  }
+ },
+ "65596:3": {
+  "classif": {
+   "Sobriété des bâtiments (résidentiel)": [
+    3,
+    6
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 14914,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 66
+  }
+ },
+ "62336:2": {
+  "classif": {
+   "Sobriété foncière": [
+    2
+   ],
+   "Efficacité et sobriété logistique": [
+    2
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13062,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 88
+  }
+ },
+ "120915:1": {
+  "classif": {},
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13449,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 35
+  }
+ },
+ "62336:3": {
+  "classif": {
+   "Sobriété foncière": [
+    2
+   ],
+   "Efficacité et sobriété logistique": [
+    2
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13062,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 88
+  }
+ },
+ "120915:2": {
+  "classif": {},
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13449,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 35
+  }
+ },
+ "26728:1": {
+  "classif": {},
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13058,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 35
+  }
+ },
+ "26728:3": {
+  "classif": {},
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13058,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 35
+  }
+ },
+ "26728:2": {
+  "classif": {},
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13058,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 35
+  }
+ },
+ "120915:3": {
+  "classif": {},
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13449,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 35
+  }
+ },
+ "64559:1": {
+  "classif": {},
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13013,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 35
+  }
+ },
+ "64559:3": {
+  "classif": {},
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13013,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 35
+  }
+ },
+ "64559:2": {
+  "classif": {},
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13013,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 35
+  }
+ },
+ "143380:1": {
+  "classif": {},
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13000,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 35
+  }
+ },
+ "143380:3": {
+  "classif": {},
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13000,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 35
+  }
+ },
+ "143380:2": {
+  "classif": {},
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13000,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 35
+  }
+ },
+ "21905:1": {
+  "classif": {},
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13353,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 35
+  }
+ },
+ "21905:3": {
+  "classif": {},
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13353,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 35
+  }
+ },
+ "17138:1": {
+  "classif": {
+   "Prévention des déchets": [
+    6
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13061,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 57
+  }
+ },
+ "17138:2": {
+  "classif": {
+   "Prévention des déchets": [
+    6
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13061,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 57
+  }
+ },
+ "17138:3": {
+  "classif": {
+   "Prévention des déchets": [
+    6
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13061,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 57
+  }
+ },
+ "21905:2": {
+  "classif": {},
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13353,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 35
+  }
+ },
+ "143314:1": {
+  "classif": {},
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 14794,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 35
+  }
+ },
+ "42056:1": {
+  "classif": {},
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 12956,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 35
+  }
+ },
+ "42056:2": {
+  "classif": {},
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 12956,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 35
+  }
+ },
+ "2335:1": {
+  "classif": {
+   "Fret décarboné et multimodalité": [
+    1
+   ],
+   "Vélo et transport en commun": [
+    1
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 14590,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 87
+  }
+ },
+ "2335:3": {
+  "classif": {
+   "Fret décarboné et multimodalité": [
+    1
+   ],
+   "Vélo et transport en commun": [
+    1
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 14590,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 87
+  }
+ },
+ "2335:2": {
+  "classif": {
+   "Fret décarboné et multimodalité": [
+    1,
+    4
+   ],
+   "Vélo et transport en commun": [
+    1
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 14590,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 90
+  }
+ },
+ "143314:2": {
+  "classif": {},
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 14794,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 35
+  }
+ },
+ "143314:3": {
+  "classif": {},
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 14794,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 35
+  }
+ },
+ "42056:3": {
+  "classif": {},
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 12956,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 35
+  }
+ },
+ "34952:1": {
+  "classif": {
+   "Production Industrielle": [
+    6
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13814,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 56
+  }
+ },
+ "34952:3": {
+  "classif": {
+   "Efficacité et sobriété logistique": [
+    3
+   ],
+   "Réduction des déplacements": [
+    6
+   ],
+   "Fret décarboné et multimodalité": [
+    3
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13814,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 116
+  }
+ },
+ "32287:2": {
+  "classif": {
+   "Sobriété des bâtiments (résidentiel)": [
+    6
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 16903,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 63
+  }
+ },
+ "32287:1": {
+  "classif": {
+   "Sobriété des bâtiments (résidentiel)": [
+    6
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 16903,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 63
+  }
+ },
+ "57586:1": {
+  "classif": {},
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 12945,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 35
+  }
+ },
+ "32287:3": {
+  "classif": {
+   "Sobriété des bâtiments (résidentiel)": [
+    6
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 16903,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 63
+  }
+ },
+ "57586:2": {
+  "classif": {},
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 12945,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 35
+  }
+ },
+ "57586:3": {
+  "classif": {},
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 12945,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 35
+  }
+ },
+ "16427:1": {
+  "classif": {
+   "Gestion des forêts et produits bois": [
+    6
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13033,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 62
+  }
+ },
+ "16427:2": {
+  "classif": {
+   "Gestion des forêts et produits bois": [
+    6
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13033,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 62
+  }
+ },
+ "16427:3": {
+  "classif": {
+   "Gestion des forêts et produits bois": [
+    6
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13033,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 62
+  }
+ },
+ "32286:1": {
+  "classif": {},
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13687,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 35
+  }
+ },
+ "34952:2": {
+  "classif": {
+   "Production Industrielle": [
+    6
+   ],
+   "Réduction des déplacements": [
+    6
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13814,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 80
+  }
+ },
+ "32286:2": {
+  "classif": {},
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13687,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 35
+  }
+ },
+ "32286:3": {
+  "classif": {},
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13687,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 35
+  }
+ },
+ "62343:1": {
+  "classif": {},
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 12993,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 35
+  }
+ },
+ "62343:2": {
+  "classif": {},
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 12993,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 35
+  }
+ },
+ "62343:3": {
+  "classif": {},
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 12993,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 35
+  }
+ },
+ "76384:1": {
+  "classif": {
+   "Captage de méthane dans les ISDND": [
+    1
+   ],
+   "Biogaz": [
+    1
+   ],
+   "Electricité renouvelable": [
+    1
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13293,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 105
+  }
+ },
+ "76384:2": {
+  "classif": {
+   "Captage de méthane dans les ISDND": [
+    1
+   ],
+   "Biogaz": [
+    1
+   ],
+   "Electricité renouvelable": [
+    1
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13293,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 105
+  }
+ },
+ "76384:3": {
+  "classif": {
+   "Captage de méthane dans les ISDND": [
+    1
+   ],
+   "Biogaz": [
+    1
+   ],
+   "Electricité renouvelable": [
+    1
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13293,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 105
+  }
+ },
+ "65625:2": {
+  "classif": {},
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13756,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 35
+  }
+ },
+ "65625:1": {
+  "classif": {},
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13756,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 35
+  }
+ },
+ "65625:3": {
+  "classif": {},
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13756,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 35
+  }
+ },
+ "26707:1": {
+  "classif": {
+   "Efficacité et carburants décarbonés des véhicules privés": [
+    4
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13428,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 71
+  }
+ },
+ "26707:2": {
+  "classif": {
+   "Efficacité et carburants décarbonés des véhicules privés": [
+    4
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13428,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 71
+  }
+ },
+ "26707:3": {
+  "classif": {
+   "Efficacité et carburants décarbonés des véhicules privés": [
+    4
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13428,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 71
+  }
+ },
+ "12595:1": {
+  "classif": {
+   "Sobriété et isolation des bâtiments (tertiaire)": [
+    4
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 12997,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 68
+  }
+ },
+ "12595:2": {
+  "classif": {
+   "Sobriété et isolation des bâtiments (tertiaire)": [
+    4
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 12997,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 68
+  }
+ },
+ "12595:3": {
+  "classif": {
+   "Sobriété et isolation des bâtiments (tertiaire)": [
+    4
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 12997,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 68
+  }
+ },
+ "80574:2": {
+  "classif": {
+   "Gestion des haies": [
+    3,
+    6
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 12983,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 59
+  }
+ },
+ "80574:1": {
+  "classif": {
+   "Gestion des haies": [
+    3,
+    6
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 12983,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 59
+  }
+ },
+ "84849:1": {
+  "classif": {
+   "Réduction des déplacements": [
+    1,
+    6
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13084,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 61
+  }
+ },
+ "80574:3": {
+  "classif": {
+   "Gestion des haies": [
+    3,
+    6
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 12983,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 59
+  }
+ },
+ "84849:2": {
+  "classif": {
+   "Réduction des déplacements": [
+    1,
+    6
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13084,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 61
+  }
+ },
+ "84849:3": {
+  "classif": {
+   "Réduction des déplacements": [
+    1,
+    6
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13084,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 61
+  }
+ },
+ "65610:1": {
+  "classif": {
+   "Production Industrielle": [
+    6
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13627,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 56
+  }
+ },
+ "42055:2": {
+  "classif": {},
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 12938,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 35
+  }
+ },
+ "65610:3": {
+  "classif": {
+   "Production Industrielle": [
+    6
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13627,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 56
+  }
+ },
+ "42055:1": {
+  "classif": {},
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 12938,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 35
+  }
+ },
+ "65610:2": {
+  "classif": {
+   "Production Industrielle": [
+    6
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13627,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 56
+  }
+ },
+ "42055:3": {
+  "classif": {},
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 12938,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 35
+  }
+ },
+ "143356:1": {
+  "classif": {
+   "Prévention des déchets": [
+    5
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 12991,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 57
+  }
+ },
+ "143356:2": {
+  "classif": {
+   "Prévention des déchets": [
+    5
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 12991,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 57
+  }
+ },
+ "143356:3": {
+  "classif": {
+   "Prévention des déchets": [
+    5
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 12991,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 57
+  }
+ },
+ "87268:2": {
+  "classif": {
+   "Covoiturage": [
+    6
+   ],
+   "Vélo et transport en commun": [
+    6
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 12914,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 79
+  }
+ },
+ "87268:1": {
+  "classif": {
+   "Covoiturage": [
+    6
+   ],
+   "Vélo et transport en commun": [
+    6
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 12914,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 79
+  }
+ },
+ "87268:3": {
+  "classif": {
+   "Covoiturage": [
+    6
+   ],
+   "Vélo et transport en commun": [
+    6
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 12914,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 79
+  }
+ },
+ "87266:3": {
+  "classif": {
+   "Sobriété et isolation des bâtiments (tertiaire)": [
+    4
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 12929,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 68
+  }
+ },
+ "87266:1": {
+  "classif": {
+   "Sobriété et isolation des bâtiments (tertiaire)": [
+    4
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 12929,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 68
+  }
+ },
+ "87266:2": {
+  "classif": {
+   "Sobriété et isolation des bâtiments (tertiaire)": [
+    4
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 12929,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 68
+  }
+ },
+ "12607:1": {
+  "classif": {
+   "Sobriété foncière": [
+    2
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 12933,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 59
+  }
+ },
+ "126720:1": {
+  "classif": {},
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13213,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 35
+  }
+ },
+ "126720:2": {
+  "classif": {},
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13213,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 35
+  }
+ },
+ "12607:2": {
+  "classif": {
+   "Sobriété foncière": [
+    2
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 12933,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 59
+  }
+ },
+ "126720:3": {
+  "classif": {},
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13213,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 35
+  }
+ },
+ "12607:3": {
+  "classif": {
+   "Sobriété foncière": [
+    2
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 12933,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 59
+  }
+ },
+ "12627:3": {
+  "classif": {},
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13037,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 35
+  }
+ },
+ "12627:2": {
+  "classif": {},
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13037,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 35
+  }
+ },
+ "12627:1": {
+  "classif": {},
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13037,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 35
+  }
+ },
+ "130819:1": {
+  "classif": {
+   "Vélo et transport en commun": [
+    3
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 17276,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 58
+  }
+ },
+ "51850:3": {
+  "classif": {
+   "Prévention des déchets": [
+    6
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 12933,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 57
+  }
+ },
+ "51850:2": {
+  "classif": {
+   "Prévention des déchets": [
+    6
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 12933,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 57
+  }
+ },
+ "51850:1": {
+  "classif": {
+   "Prévention des déchets": [
+    6
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 12933,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 57
+  }
+ },
+ "130819:2": {
+  "classif": {
+   "Vélo et transport en commun": [
+    3
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 17276,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 58
+  }
+ },
+ "130819:3": {
+  "classif": {
+   "Vélo et transport en commun": [
+    3
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 17276,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 58
+  }
+ },
+ "87277:2": {
+  "classif": {},
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 12942,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 35
+  }
+ },
+ "87277:1": {
+  "classif": {},
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 12942,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 35
+  }
+ },
+ "87277:3": {
+  "classif": {},
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 12942,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 35
+  }
+ },
+ "12593:2": {
+  "classif": {},
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 12933,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 35
+  }
+ },
+ "12593:3": {
+  "classif": {},
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 12933,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 35
+  }
+ },
+ "32311:2": {
+  "classif": {
+   "Changements de pratiques de fertilisation azotée": [
+    6
+   ],
+   "Gestion des haies": [
+    6
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13249,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 86
+  }
+ },
+ "32311:1": {
+  "classif": {
+   "Changements de pratiques de fertilisation azotée": [
+    6
+   ],
+   "Gestion des haies": [
+    6
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13249,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 86
+  }
+ },
+ "32311:3": {
+  "classif": {
+   "Changements de pratiques de fertilisation azotée": [
+    6
+   ],
+   "Gestion des haies": [
+    6
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13249,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 86
+  }
+ },
+ "12593:1": {
+  "classif": {},
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 12933,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 35
+  }
+ },
+ "63973:1": {
+  "classif": {
+   "Réduction des déplacements": [
+    6
+   ],
+   "Sobriété des bâtiments (résidentiel)": [
+    6
+   ],
+   "Prévention des déchets": [
+    6
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13095,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 110
+  }
+ },
+ "63973:3": {
+  "classif": {
+   "Réduction des déplacements": [
+    6
+   ],
+   "Sobriété des bâtiments (résidentiel)": [
+    6
+   ],
+   "Prévention des déchets": [
+    6
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13095,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 110
+  }
+ },
+ "23043:1": {
+  "classif": {
+   "Production Industrielle": [
+    6
+   ],
+   "Sobriété et isolation des bâtiments (tertiaire)": [
+    6
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13345,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 90
+  }
+ },
+ "63973:2": {
+  "classif": {
+   "Réduction des déplacements": [
+    6
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13095,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 58
+  }
+ },
+ "23043:2": {
+  "classif": {
+   "Production Industrielle": [
+    6
+   ],
+   "Sobriété et isolation des bâtiments (tertiaire)": [
+    6
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13345,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 90
+  }
+ },
+ "23043:3": {
+  "classif": {
+   "Production Industrielle": [
+    6
+   ],
+   "Sobriété et isolation des bâtiments (tertiaire)": [
+    6
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13345,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 90
+  }
+ },
+ "21888:2": {
+  "classif": {
+   "Efficacité et sobriété logistique": [
+    3
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13274,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 63
+  }
+ },
+ "21888:1": {
+  "classif": {
+   "Efficacité et sobriété logistique": [
+    3
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13274,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 63
+  }
+ },
+ "21888:3": {
+  "classif": {
+   "Efficacité et sobriété logistique": [
+    3
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13274,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 63
+  }
+ },
+ "87255:2": {
+  "classif": {},
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13151,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 35
+  }
+ },
+ "87255:3": {
+  "classif": {},
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13151,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 35
+  }
+ },
+ "87255:1": {
+  "classif": {},
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13151,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 35
+  }
+ },
+ "126714:2": {
+  "classif": {
+   "Gestion des prairies": [
+    3
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13041,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 57
+  }
+ },
+ "16431:2": {
+  "classif": {
+   "Sobriété des bâtiments (résidentiel)": [
+    6
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13045,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 63
+  }
+ },
+ "126714:1": {
+  "classif": {
+   "Gestion des prairies": [
+    3
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13041,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 57
+  }
+ },
+ "16431:1": {
+  "classif": {
+   "Sobriété des bâtiments (résidentiel)": [
+    6
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13045,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 63
+  }
+ },
+ "16431:3": {
+  "classif": {
+   "Sobriété des bâtiments (résidentiel)": [
+    6
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13045,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 63
+  }
+ },
+ "126714:3": {
+  "classif": {
+   "Gestion des prairies": [
+    3
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13041,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 57
+  }
+ },
+ "78915:2": {
+  "classif": {
+   "Réseaux de chaleur décarbonés": [
+    6
+   ],
+   "Gestion des forêts et produits bois": [
+    4
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13210,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 92
+  }
+ },
+ "27280:1": {
+  "classif": {},
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13428,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 35
+  }
+ },
+ "27280:2": {
+  "classif": {},
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13428,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 35
+  }
+ },
+ "78915:3": {
+  "classif": {
+   "Réseaux de chaleur décarbonés": [
+    6
+   ],
+   "Gestion des forêts et produits bois": [
+    4
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13210,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 92
+  }
+ },
+ "78915:1": {
+  "classif": {
+   "Réseaux de chaleur décarbonés": [
+    6
+   ],
+   "Gestion des forêts et produits bois": [
+    4
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13210,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 92
+  }
+ },
+ "57634:1": {
+  "classif": {
+   "Gestion des haies": [
+    6
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 12933,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 56
+  }
+ },
+ "27280:3": {
+  "classif": {},
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13428,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 35
+  }
+ },
+ "57634:3": {
+  "classif": {
+   "Gestion des haies": [
+    6
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 12933,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 56
+  }
+ },
+ "57634:2": {
+  "classif": {
+   "Gestion des haies": [
+    6
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 12933,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 56
+  }
+ },
+ "117838:1": {
+  "classif": {},
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 12995,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 35
+  }
+ },
+ "117838:3": {
+  "classif": {},
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 12995,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 35
+  }
+ },
+ "117838:2": {
+  "classif": {},
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 12995,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 35
+  }
+ },
+ "21932:1": {
+  "classif": {
+   "Covoiturage": [
+    6
+   ],
+   "Efficacité et sobriété logistique": [
+    6
+   ],
+   "Valorisation matière des déchets": [
+    4
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13313,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 137,
+   "tronque": 1
+  }
+ },
+ "21932:2": {
+  "classif": {
+   "Covoiturage": [
+    6
+   ],
+   "Efficacité et sobriété logistique": [
+    6
+   ],
+   "Production Industrielle": [
+    6
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13313,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 131,
+   "tronque": 1
+  }
+ },
+ "21900:1": {
+  "classif": {},
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13384,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 35
+  }
+ },
+ "21900:2": {
+  "classif": {},
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13384,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 35
+  }
+ },
+ "21932:3": {
+  "classif": {
+   "Covoiturage": [
+    6
+   ],
+   "Efficacité et sobriété logistique": [
+    6
+   ],
+   "Production Industrielle": [
+    6
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13313,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 131,
+   "tronque": 1
+  }
+ },
+ "21900:3": {
+  "classif": {},
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13384,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 35
+  }
+ },
+ "117841:1": {
+  "classif": {},
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 12990,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 35
+  }
+ },
+ "117841:3": {
+  "classif": {},
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 12990,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 35
+  }
+ },
+ "27278:1": {
+  "classif": {
+   "Gestion des prairies": [
+    3
+   ],
+   "Pratiques stockantes": [
+    3
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13566,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 82
+  }
+ },
+ "27278:2": {
+  "classif": {
+   "Gestion des prairies": [
+    3
+   ],
+   "Pratiques stockantes": [
+    3
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13566,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 82
+  }
+ },
+ "27278:3": {
+  "classif": {
+   "Gestion des prairies": [
+    3
+   ],
+   "Pratiques stockantes": [
+    3
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13566,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 82
+  }
+ },
+ "117841:2": {
+  "classif": {},
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 12990,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 35
+  }
+ },
+ "42050:1": {
+  "classif": {
+   "Réduction des déplacements": [
+    5,
+    6
+   ],
+   "Vélo et transport en commun": [
+    3,
+    5,
+    6
+   ],
+   "Covoiturage": [
+    6
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13318,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 136,
+   "tronque": 1
+  }
+ },
+ "40582:1": {
+  "classif": {
+   "Prévention des déchets": [
+    5
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 12952,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 57
+  }
+ },
+ "42050:2": {
+  "classif": {
+   "Réduction des déplacements": [
+    5,
+    6
+   ],
+   "Vélo et transport en commun": [
+    3,
+    5,
+    6
+   ],
+   "Covoiturage": [
+    6
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13318,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 149,
+   "tronque": 1
+  }
+ },
+ "42050:3": {
+  "classif": {
+   "Réduction des déplacements": [
+    5,
+    6
+   ],
+   "Vélo et transport en commun": [
+    3,
+    5,
+    6
+   ],
+   "Covoiturage": [
+    6
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13318,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 149,
+   "tronque": 1
+  }
+ },
+ "40582:3": {
+  "classif": {
+   "Prévention des déchets": [
+    5
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 12952,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 57
+  }
+ },
+ "40582:2": {
+  "classif": {
+   "Prévention des déchets": [
+    5
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 12952,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 57
+  }
+ },
+ "16442:2": {
+  "classif": {},
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13043,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 35
+  }
+ },
+ "16442:3": {
+  "classif": {},
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13043,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 35
+  }
+ },
+ "16442:1": {
+  "classif": {},
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13043,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 35
+  }
+ },
+ "76419:1": {
+  "classif": {
+   "Efficacité et sobriété logistique": [
+    6
+   ],
+   "Gestion des prairies": [
+    6
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13295,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 86
+  }
+ },
+ "78923:2": {
+  "classif": {
+   "Covoiturage": [
+    1
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13111,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 55
+  }
+ },
+ "78923:3": {
+  "classif": {
+   "Covoiturage": [
+    1
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13111,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 55
+  }
+ },
+ "76419:3": {
+  "classif": {
+   "Efficacité et sobriété logistique": [
+    6
+   ],
+   "Gestion des prairies": [
+    6
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13295,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 86
+  }
+ },
+ "78923:1": {
+  "classif": {
+   "Covoiturage": [
+    1
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13111,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 55
+  }
+ },
+ "76419:2": {
+  "classif": {
+   "Efficacité et sobriété logistique": [
+    6
+   ],
+   "Gestion des prairies": [
+    6
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13295,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 86
+  }
+ },
+ "65598:1": {
+  "classif": {},
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13506,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 35
+  }
+ },
+ "65598:2": {
+  "classif": {},
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13506,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 35
+  }
+ },
+ "65598:3": {
+  "classif": {},
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13506,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 35
+  }
+ },
+ "130849:1": {
+  "classif": {
+   "Véhicules électriques": [
+    1
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 15714,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 58
+  }
+ },
+ "16447:2": {
+  "classif": {},
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13038,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 35
+  }
+ },
+ "16447:1": {
+  "classif": {},
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13038,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 35
+  }
+ },
+ "130849:2": {
+  "classif": {
+   "Véhicules électriques": [
+    1
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 15714,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 58
+  }
+ },
+ "16447:3": {
+  "classif": {},
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13038,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 35
+  }
+ },
+ "130849:3": {
+  "classif": {
+   "Véhicules électriques": [
+    1
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 15714,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 58
+  }
+ },
+ "12622:1": {
+  "classif": {
+   "Sobriété et isolation des bâtiments (tertiaire)": [
+    2
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 12975,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 68
+  }
+ },
+ "12622:3": {
+  "classif": {
+   "Sobriété et isolation des bâtiments (tertiaire)": [
+    2
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 12975,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 68
+  }
+ },
+ "12622:2": {
+  "classif": {
+   "Sobriété et isolation des bâtiments (tertiaire)": [
+    2
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 12975,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 68
+  }
+ },
+ "34946:1": {
+  "classif": {
+   "Biogaz": [
+    1
+   ],
+   "Valorisation matière des déchets": [
+    1
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13272,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 82
+  }
+ },
+ "34951:1": {
+  "classif": {
+   "Sobriété foncière": [
+    1
+   ],
+   "Pratiques stockantes": [
+    1
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 14508,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 84
+  }
+ },
+ "34951:2": {
+  "classif": {
+   "Sobriété foncière": [
+    1
+   ],
+   "Pratiques stockantes": [
+    1
+   ],
+   "Sobriété des bâtiments (résidentiel)": [
+    6
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 14508,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 113
+  }
+ },
+ "34946:2": {
+  "classif": {
+   "Biogaz": [
+    1
+   ],
+   "Valorisation matière des déchets": [
+    1
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13272,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 82
+  }
+ },
+ "34946:3": {
+  "classif": {
+   "Biogaz": [
+    1
+   ],
+   "Valorisation matière des déchets": [
+    1
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13272,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 82
+  }
+ },
+ "34951:3": {
+  "classif": {
+   "Sobriété foncière": [
+    1
+   ],
+   "Pratiques stockantes": [
+    1
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 14508,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 84
+  }
+ },
+ "51870:2": {
+  "classif": {},
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 12982,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 35
+  }
+ },
+ "51870:1": {
+  "classif": {},
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 12982,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 35
+  }
+ },
+ "64522:1": {
+  "classif": {},
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13038,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 35
+  }
+ },
+ "51829:3": {
+  "classif": {
+   "Electricité renouvelable": [
+    6
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13154,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 59
+  }
+ },
+ "51870:3": {
+  "classif": {},
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 12982,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 35
+  }
+ },
+ "51829:1": {
+  "classif": {
+   "Electricité renouvelable": [
+    6
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13154,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 59
+  }
+ },
+ "51829:2": {
+  "classif": {
+   "Electricité renouvelable": [
+    6
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13154,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 59
+  }
+ },
+ "64522:2": {
+  "classif": {},
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13038,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 35
+  }
+ },
+ "64522:3": {
+  "classif": {},
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13038,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 35
+  }
+ },
+ "40587:1": {
+  "classif": {
+   "Sobriété foncière": [
+    4
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 12963,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 59
+  }
+ },
+ "84858:1": {
+  "classif": {},
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13060,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 35
+  }
+ },
+ "40587:2": {
+  "classif": {
+   "Sobriété foncière": [
+    4
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 12963,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 59
+  }
+ },
+ "62294:1": {
+  "classif": {
+   "Sobriété des bâtiments (résidentiel)": [
+    3,
+    6
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13210,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 66
+  }
+ },
+ "40587:3": {
+  "classif": {
+   "Sobriété foncière": [
+    4
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 12963,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 59
+  }
+ },
+ "62294:2": {
+  "classif": {
+   "Sobriété des bâtiments (résidentiel)": [
+    3,
+    6
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13210,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 66
+  }
+ },
+ "62294:3": {
+  "classif": {
+   "Sobriété des bâtiments (résidentiel)": [
+    3,
+    6
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13210,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 66
+  }
+ },
+ "84858:2": {
+  "classif": {},
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13060,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 35
+  }
+ },
+ "84858:3": {
+  "classif": {},
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13060,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 35
+  }
+ },
+ "126653:1": {
+  "classif": {},
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13100,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 35
+  }
+ },
+ "126653:2": {
+  "classif": {},
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13100,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 35
+  }
+ },
+ "76385:3": {
+  "classif": {
+   "Efficacité et sobriété logistique": [
+    4
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13307,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 63
+  }
+ },
+ "76385:1": {
+  "classif": {
+   "Efficacité et sobriété logistique": [
+    4,
+    6
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13307,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 66
+  }
+ },
+ "76385:2": {
+  "classif": {
+   "Efficacité et sobriété logistique": [
+    4,
+    6
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13307,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 66
+  }
+ },
+ "126653:3": {
+  "classif": {},
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13100,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 35
+  }
+ },
+ "63971:1": {
+  "classif": {
+   "Valorisation matière des déchets": [
+    4
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13106,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 62
+  }
+ },
+ "63971:2": {
+  "classif": {
+   "Valorisation matière des déchets": [
+    4
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13106,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 62
+  }
+ },
+ "63971:3": {
+  "classif": {
+   "Valorisation matière des déchets": [
+    4
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13106,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 62
+  }
+ },
+ "40581:2": {
+  "classif": {
+   "Production Industrielle": [
+    2
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 12949,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 56
+  }
+ },
+ "40581:3": {
+  "classif": {
+   "Production Industrielle": [
+    2
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 12949,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 56
+  }
+ },
+ "63967:2": {
+  "classif": {
+   "Valorisation matière des déchets": [
+    1
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13087,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 62
+  }
+ },
+ "76397:2": {
+  "classif": {
+   "Efficacité et sobriété logistique": [
+    1,
+    5
+   ],
+   "Prévention des déchets": [
+    5,
+    6
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13261,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 92
+  }
+ },
+ "76397:1": {
+  "classif": {
+   "Efficacité et sobriété logistique": [
+    1,
+    5
+   ],
+   "Prévention des déchets": [
+    5,
+    6
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13261,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 92
+  }
+ },
+ "63967:1": {
+  "classif": {
+   "Valorisation matière des déchets": [
+    1
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13087,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 62
+  }
+ },
+ "40581:1": {
+  "classif": {
+   "Production Industrielle": [
+    2
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 12949,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 56
+  }
+ },
+ "63967:3": {
+  "classif": {
+   "Valorisation matière des déchets": [
+    1
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13087,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 62
+  }
+ },
+ "126682:1": {
+  "classif": {
+   "Véhicules électriques": [
+    5
+   ],
+   "Efficacité et carburants décarbonés des véhicules privés": [
+    5
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13493,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 95
+  }
+ },
+ "126682:3": {
+  "classif": {
+   "Véhicules électriques": [
+    5
+   ],
+   "Efficacité et carburants décarbonés des véhicules privés": [
+    5
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13493,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 95
+  }
+ },
+ "126682:2": {
+  "classif": {
+   "Véhicules électriques": [
+    5
+   ],
+   "Efficacité et carburants décarbonés des véhicules privés": [
+    5
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13493,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 95
+  }
+ },
+ "76397:3": {
+  "classif": {
+   "Efficacité et sobriété logistique": [
+    1,
+    5
+   ],
+   "Prévention des déchets": [
+    5,
+    6
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13261,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 92
+  }
+ },
+ "72499:1": {
+  "classif": {
+   "Réseaux de chaleur décarbonés": [
+    4
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 14917,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 64
+  }
+ },
+ "117854:1": {
+  "classif": {},
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13013,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 35
+  }
+ },
+ "117854:3": {
+  "classif": {},
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13013,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 35
+  }
+ },
+ "117854:2": {
+  "classif": {},
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13013,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 35
+  }
+ },
+ "72499:3": {
+  "classif": {
+   "Réseaux de chaleur décarbonés": [
+    4
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 14917,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 64
+  }
+ },
+ "72499:2": {
+  "classif": {
+   "Réseaux de chaleur décarbonés": [
+    4
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 14917,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 64
+  }
+ },
+ "37544:1": {
+  "classif": {
+   "Réseaux de chaleur décarbonés": [
+    1
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 12980,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 64
+  }
+ },
+ "37544:3": {
+  "classif": {
+   "Réseaux de chaleur décarbonés": [
+    1
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 12980,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 64
+  }
+ },
+ "37544:2": {
+  "classif": {
+   "Réseaux de chaleur décarbonés": [
+    1
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 12980,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 64
+  }
+ },
+ "84867:1": {
+  "classif": {},
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13071,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 35
+  }
+ },
+ "84867:2": {
+  "classif": {},
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13071,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 35
+  }
+ },
+ "84867:3": {
+  "classif": {},
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13071,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 35
+  }
+ },
+ "90303:3": {
+  "classif": {
+   "Réduction des déplacements": [
+    6
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 12933,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 58
+  }
+ },
+ "90303:1": {
+  "classif": {},
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 12933,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 35
+  }
+ },
+ "143354:1": {
+  "classif": {
+   "Sobriété et isolation des bâtiments (tertiaire)": [
+    1
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 12947,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 68
+  }
+ },
+ "90303:2": {
+  "classif": {},
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 12933,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 35
+  }
+ },
+ "51837:1": {
+  "classif": {
+   "Gestion des forêts et produits bois": [
+    1
+   ],
+   "Réseaux de chaleur décarbonés": [
+    1
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13027,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 92
+  }
+ },
+ "51837:2": {
+  "classif": {
+   "Gestion des forêts et produits bois": [
+    1
+   ],
+   "Réseaux de chaleur décarbonés": [
+    1
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13027,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 92
+  }
+ },
+ "143354:2": {
+  "classif": {
+   "Sobriété et isolation des bâtiments (tertiaire)": [
+    1
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 12947,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 68
+  }
+ },
+ "143354:3": {
+  "classif": {
+   "Sobriété et isolation des bâtiments (tertiaire)": [
+    1
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 12947,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 68
+  }
+ },
+ "57628:1": {
+  "classif": {},
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 12957,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 35
+  }
+ },
+ "57628:2": {
+  "classif": {},
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 12957,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 35
+  }
+ },
+ "51837:3": {
+  "classif": {
+   "Gestion des forêts et produits bois": [
+    1
+   ],
+   "Réseaux de chaleur décarbonés": [
+    1
+   ]
+  },
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 13027,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 92
+  }
+ },
+ "57628:3": {
+  "classif": {},
+  "essais": 1,
+  "erreurs": [],
+  "tokens": {
+   "input": 12957,
+   "cached": 12613,
+   "cache_write": 0,
+   "output": 35
+  }
+ }
+}

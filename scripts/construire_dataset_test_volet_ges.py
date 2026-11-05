@@ -128,7 +128,7 @@ def sample(pool: pd.DataFrame) -> pd.DataFrame:
                 break
             chosen.append(best)
             per_coll[pool.at[best, "collectivite_id"]] += 1
-            lev_count.update(pool.at[best, "haiku"])
+            lev_count.update(list(pool.at[best, "haiku"]))  # les clés (leviers), pas les catégories
     out = pool.loc[chosen].copy()
     out["ordre_aleatoire"] = [rng.random() for _ in range(len(out))]
     return out.sort_values("ordre_aleatoire").drop(columns="ordre_aleatoire").reset_index(drop=True), q
@@ -170,7 +170,15 @@ def style_header(ws, row: int, ncols: int) -> None:
         cell.border = BORDER
 
 
-def write_excel(df: pd.DataFrame, pool: pd.DataFrame, q: dict[int, int], ctx: dict[int, str], path: Path) -> None:
+def write_excel(
+    df: pd.DataFrame,
+    pool: pd.DataFrame,
+    q: dict[int, int],
+    ctx: dict[int, str],
+    path: Path,
+    prefill_note: str = "Pré-remplissage : vote majoritaire de Claude Haiku 5.5 sur 3 runs "
+    "(prompt prompts/classification_volet_ges_v2.md, une fiche par appel).",
+) -> None:
     wb = Workbook()
 
     # --- Mode d'emploi
@@ -181,8 +189,7 @@ def write_excel(df: pd.DataFrame, pool: pd.DataFrame, q: dict[int, int], ctx: di
         ("", False),
         (f"{len(df)} fiches tirées parmi {len(pool)} fiches qui ont un titre et une description "
          f"(≥ {MIN_DESCRIPTION} caractères), dans {pool['collectivite_id'].nunique()} collectivités.", False),
-        ("Pré-remplissage : vote majoritaire de Claude Haiku 5.5 sur 3 runs "
-         "(prompt prompts/classification_volet_ges_v2.md, une fiche par appel).", False),
+        (prefill_note, False),
         ("", False),
         ("Ce qu'il faut faire (onglet « Fiches », cellules sur fond jaune)", True),
         ("1. Lire le titre, la description et le contexte.", False),
