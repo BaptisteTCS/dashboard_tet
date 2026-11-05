@@ -9,6 +9,7 @@ import asyncio
 import hashlib
 import os
 import io
+import threading
 import time
 import traceback
 from datetime import datetime
@@ -931,7 +932,19 @@ MISTRAL_REASONING_EFFORT = "low"
 # USD / million de tokens, tarif promo (utils/test_run_impact.py).
 MISTRAL_PRICE_PER_M = {"input": 0.68, "output": 2.09}
 
+# Plus grand modèle généraliste Albert (alias openweight-large).
+# mistral-medium-3-5 est réservé aux ministères partenaires.
+ALBERT_MODEL = "gpt-oss-120b"
+ALBERT_BASE_URL = "https://albert.api.etalab.gouv.fr/v1"
+ALBERT_MAX_OUTPUT_TOKENS = 32000
+# Le palier expérimentation est à 10 req/min. On vise 9 pour ne pas coller à la borne.
+ALBERT_RPM_LIMIT = 9
+ALBERT_WINDOW_S = 60.0
+
 _mistral_client: AsyncOpenAI | None = None
+_albert_client: AsyncOpenAI | None = None
+_albert_guard = threading.Lock()
+_albert_call_marks: list[float] = []
 
 
 def max_output_tokens_for(model: str) -> int:
@@ -939,10 +952,12 @@ def max_output_tokens_for(model: str) -> int:
 
     gemini-2.5-pro, gemini-3-pro-preview et gemini-3.8-flash sont limités à
     65 536 tokens par l'API. gemini-4-argon accepte des sorties bien plus longues.
-    mistral-large-4 est plafonné plus bas : le raisonnement consomme ce budget.
+    mistral-large-4 et gpt-oss-120b sont plafonnés plus bas : le raisonnement consomme ce budget.
     """
     if model == MISTRAL_MODEL:
         return MISTRAL_MAX_OUTPUT_TOKENS
+    if model == ALBERT_MODEL:
+        return ALBERT_MAX_OUTPUT_TOKENS
     if model == "gemini-4-argon":
         return 262144
     return 65536
@@ -955,6 +970,8 @@ def format_run_cost(model: str | None, tokens) -> str:
     if model == MISTRAL_MODEL:
         amount = (MISTRAL_PRICE_PER_M["output"] * out_tok + MISTRAL_PRICE_PER_M["input"] * in_tok) / 1_000_000
         return f"✅ Import prêt pour un coût d'environ {amount:.2f} $ (tarif Mistral Large 4)"
+    if model == ALBERT_MODEL:
+        return "✅ Import prêt. Albert API n'est pas facturée au token."
     amount = (10 * out_tok + 2 * in_tok) / 1_000_000
     return f"✅ Import prêt pour un coût d'environ {amount:.2f} €"
 
@@ -1017,10 +1034,87 @@ async def query_mistral(user_prompt, model=MISTRAL_MODEL):
         return f"Erreur Mistral: {e}", elapsed, [0, 0]
 
 
+def _albert_api_key() -> str:
+    key = os.environ.get("ALBERT_API_KEY") or ""
+    if key:
+        return key
+    try:
+        return str(st.secrets.get("ALBERT_API_KEY") or "")
+    except Exception:
+        return ""
+
+
+def get_albert_client() -> AsyncOpenAI:
+    global _albert_client
+    if _albert_client is None:
+        key = _albert_api_key()
+        if not key:
+            raise RuntimeError("ALBERT_API_KEY absente (env ou .streamlit/secrets.toml).")
+        _albert_client = AsyncOpenAI(base_url=ALBERT_BASE_URL, api_key=key, timeout=900.0)
+    return _albert_client
+
+
+async def _albert_acquire() -> None:
+    """Reste sous 9 requêtes par minute, y compris quand plusieurs appels partent ensemble."""
+    while True:
+        with _albert_guard:
+            now = time.monotonic()
+            cutoff = now - ALBERT_WINDOW_S
+            while _albert_call_marks and _albert_call_marks[0] <= cutoff:
+                _albert_call_marks.pop(0)
+            if len(_albert_call_marks) < ALBERT_RPM_LIMIT:
+                _albert_call_marks.append(now)
+                return
+            wait = ALBERT_WINDOW_S - (now - _albert_call_marks[0]) + 0.5
+        await asyncio.sleep(max(wait, 0.5))
+
+
+def _is_albert_rate_limit(exc: Exception) -> bool:
+    text = str(exc).lower()
+    return "429" in text or "rate limit" in text or "per minute" in text
+
+
+async def query_albert(user_prompt, model=ALBERT_MODEL):
+    """Interroge Albert. Les appels parallèles sont mis en file pour respecter le plafond."""
+    start_time = time.time()
+    output_token_limit = max_output_tokens_for(model)
+    print(f"[{datetime.now().strftime('%H:%M:%S.%f')[:-3]}] ✨ Albert START ({model}, max {output_token_limit} tokens)")
+    last_error: Exception | None = None
+    for attempt in range(1, 5):
+        await _albert_acquire()
+        try:
+            response = await get_albert_client().chat.completions.create(
+                model=model,
+                messages=[{"role": "user", "content": user_prompt}],
+                max_tokens=output_token_limit,
+            )
+            usage = getattr(response, "usage", None)
+            tokens = [
+                int(getattr(usage, "completion_tokens", 0) or 0),
+                int(getattr(usage, "prompt_tokens", 0) or 0),
+            ]
+            elapsed = time.time() - start_time
+            print(f"[{datetime.now().strftime('%H:%M:%S.%f')[:-3]}] ✅ Albert END ({elapsed:.1f}s, {tokens} tokens)")
+            return _mistral_message_text(response), elapsed, tokens
+        except Exception as e:
+            last_error = e
+            if not _is_albert_rate_limit(e) or attempt == 4:
+                break
+            print(f"[{datetime.now().strftime('%H:%M:%S.%f')[:-3]}] ⏳ Albert 429, nouvel essai {attempt}/4")
+            with _albert_guard:
+                _albert_call_marks.clear()
+            await asyncio.sleep(ALBERT_WINDOW_S)
+    elapsed = time.time() - start_time
+    print(f"[{datetime.now().strftime('%H:%M:%S.%f')[:-3]}] ❌ Albert ERROR: {last_error}")
+    return f"Erreur Albert: {last_error}", elapsed, [0, 0]
+
+
 async def query_gemini(user_prompt, model='gemini-3.1-pro-preview'):
-    """Interroge Gemini avec streaming asynchrone, ou Mistral si ce modèle est choisi."""
+    """Interroge Gemini avec streaming asynchrone, ou Mistral / Albert si ce modèle est choisi."""
     if model == MISTRAL_MODEL:
         return await query_mistral(user_prompt, model)
+    if model == ALBERT_MODEL:
+        return await query_albert(user_prompt, model)
     start_time = time.time()
     output_token_limit = max_output_tokens_for(model)
     print(f"[{datetime.now().strftime('%H:%M:%S.%f')[:-3]}] ✨ Gemini START ({model}, max {output_token_limit} tokens)")
@@ -2324,9 +2418,16 @@ precisions = st.text_area(
 # Choix du modèle
 gemini_model = st.segmented_control(
     "Modèle",
-    options=["gemini-4-argon", "gemini-3.8-flash", "gemini-3-pro-preview", "gemini-2.5-pro", MISTRAL_MODEL],
+    options=["gemini-4-argon", "gemini-3.8-flash", "gemini-3-pro-preview", "gemini-2.5-pro", MISTRAL_MODEL, ALBERT_MODEL],
     default="gemini-2.5-pro"
 )
+if gemini_model == ALBERT_MODEL:
+    st.caption(
+        "Albert — gpt-oss-120b, le plus grand modèle généraliste disponible "
+        "(Mistral Medium 3.5 est réservé aux ministères partenaires). "
+        "Les appels sont espacés pour rester sous 10 requêtes par minute. "
+        "Le service n'est pas facturé au token."
+    )
 
 avec_sous_actions = st.toggle("Avec sous-actions", value=True, help="Si désactivé, les sous-actions ne seront pas extraites ni enrichies.")
 avec_verifications = st.toggle("Vérifications", value=(file_type == "PDF"), help="Désactiver pour les fichiers simples (CSV, petits PDF). Ignore la vérification et la consolidation des fiches actions.")
