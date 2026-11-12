@@ -23,6 +23,11 @@ from openpyxl import load_workbook
 from openai import AsyncOpenAI
 nest_asyncio.apply()
 
+try:
+    from ecologits.tracers.utils import llm_impacts
+except Exception:
+    llm_impacts = None
+
 # ID du dossier Google Drive de destination pour les fichiers d'import générés
 DRIVE_FOLDER_ID = "1wu0jAgxrkPRUm3uDjcgZvCSVwgUVkbCG"
 
@@ -977,6 +982,175 @@ def format_run_cost(model: str | None, tokens) -> str:
     return f"✅ Import prêt pour un coût d'environ {amount:.2f} € · {volume}"
 
 
+# Modèles absents du référentiel EcoLogits, rapprochés du dernier équivalent publié.
+_ECOLOGITS_PROXY = {
+    "gemini-3-pro-preview": "gemini-3.1-pro-preview",
+    "gemini-4-argon": "gemini-3.1-pro-preview",
+}
+
+
+def _blank_co2() -> dict:
+    return {
+        "kg": 0.0,
+        "kg_min": 0.0,
+        "kg_max": 0.0,
+        "calls": 0,
+        "missing": 0,
+        "proxy": None,
+        "proxy_for": None,
+        "partial": False,
+    }
+
+
+def _normalize_co2(raw) -> dict:
+    base = _blank_co2()
+    if not isinstance(raw, dict):
+        return base
+    for key in ("kg", "kg_min", "kg_max"):
+        try:
+            base[key] = float(raw.get(key) or 0)
+        except (TypeError, ValueError):
+            base[key] = 0.0
+    base["calls"] = int(raw.get("calls") or 0)
+    base["missing"] = int(raw.get("missing") or 0)
+    base["proxy"] = raw.get("proxy") or None
+    base["proxy_for"] = raw.get("proxy_for") or None
+    base["partial"] = bool(raw.get("partial"))
+    return base
+
+
+def _merge_co2(total: dict, part: dict | None) -> dict:
+    part = _normalize_co2(part)
+    total["kg"] += part["kg"]
+    total["kg_min"] += part["kg_min"]
+    total["kg_max"] += part["kg_max"]
+    total["calls"] += part["calls"]
+    total["missing"] += part["missing"]
+    if part["proxy"]:
+        total["proxy"] = part["proxy"]
+        total["proxy_for"] = part["proxy_for"]
+    total["partial"] = bool(total.get("partial") or part["partial"])
+    return total
+
+
+def _add_co2(state: dict, part: dict | None) -> None:
+    state["co2"] = _merge_co2(_normalize_co2(state.get("co2")), part)
+
+
+def _ecologits_target(model: str | None) -> tuple[str, str, str | None, str | None]:
+    """Fournisseur EcoLogits, nom catalogue, zone électrique, modèle d'origine si proxy."""
+    name = model or ""
+    if name == MISTRAL_MODEL:
+        return "mistralai", name, None, None
+    if name == ALBERT_MODEL:
+        # Albert (DINUM) est hébergé en France. EcoLogits classe gpt-oss chez Hugging Face.
+        return "huggingface_hub", "openai/gpt-oss-120b", "FRA", None
+    proxy = _ECOLOGITS_PROXY.get(name)
+    if proxy:
+        return "google_genai", proxy, None, name
+    return "google_genai", name, None, None
+
+
+def _range_bounds(value) -> tuple[float, float]:
+    if value is None:
+        return 0.0, 0.0
+    if hasattr(value, "min") and hasattr(value, "max"):
+        return float(value.min), float(value.max)
+    number = float(value)
+    return number, number
+
+
+def estimate_import_co2(model: str | None, output_tokens: int, latency_s: float) -> dict:
+    """CO₂ d'un appel, via EcoLogits (usage + fabrication), à partir des tokens de sortie et de la latence."""
+    blank = _blank_co2()
+    if llm_impacts is None:
+        blank["missing"] = 1
+        return blank
+    provider, catalog, zone, proxy_for = _ecologits_target(model)
+    try:
+        impacts = llm_impacts(
+            provider=provider,
+            model_name=catalog,
+            output_token_count=max(int(output_tokens or 0), 0),
+            request_latency=max(float(latency_s or 0.0), 0.0),
+            electricity_mix_zone=zone,
+        )
+    except Exception as exc:
+        print(f"EcoLogits: {exc}")
+        blank["missing"] = 1
+        return blank
+    if impacts is None or getattr(impacts, "gwp", None) is None or impacts.has_errors:
+        blank["missing"] = 1
+        return blank
+    lo, hi = _range_bounds(impacts.gwp.value)
+    return {
+        "kg": (lo + hi) / 2,
+        "kg_min": lo,
+        "kg_max": hi,
+        "calls": 1,
+        "missing": 0,
+        "proxy": catalog if proxy_for else None,
+        "proxy_for": proxy_for,
+        "partial": False,
+    }
+
+
+def _format_co2_mass(kg: float) -> str:
+    grams = kg * 1000
+    if grams < 10:
+        return f"{grams:.2f} gCO₂eq"
+    if grams < 100:
+        return f"{grams:.1f} gCO₂eq"
+    if grams < 1000:
+        return f"{grams:.0f} gCO₂eq"
+    return f"{kg:.2f} kgCO₂eq"
+
+
+def _format_co2_span(kg_min: float, kg_max: float) -> str:
+    if kg_max < 1:
+        lo, hi = kg_min * 1000, kg_max * 1000
+        if hi < 10:
+            return f"{lo:.2f} – {hi:.2f} g"
+        if hi < 100:
+            return f"{lo:.1f} – {hi:.1f} g"
+        return f"{lo:.0f} – {hi:.0f} g"
+    return f"{kg_min:.2f} – {kg_max:.2f} kg"
+
+
+def _co2_mix_label(model: str | None) -> str:
+    if model == MISTRAL_MODEL:
+        return "mix électrique suédois (datacenter Mistral)"
+    if model == ALBERT_MODEL:
+        return "mix électrique français (API Albert)"
+    return "mix électrique américain (hypothèse EcoLogits pour Google)"
+
+
+def format_import_co2(model: str | None, co2) -> str:
+    """Phrase d'estimation pour le total d'un import. Vide si rien n'a été mesuré."""
+    data = _normalize_co2(co2)
+    if data["partial"] and not data["calls"]:
+        return "Estimation CO₂ EcoLogits indisponible : cet import a été calculé avant la mesure."
+    if not data["calls"] and not data["missing"]:
+        return ""
+    if not data["calls"]:
+        return "Estimation CO₂ EcoLogits indisponible pour ce modèle."
+    text = f"Estimation EcoLogits : {_format_co2_mass(data['kg'])}"
+    span = data["kg_max"] - data["kg_min"]
+    if data["kg"] > 0 and span / data["kg"] > 0.05:
+        text += f" (fourchette {_format_co2_span(data['kg_min'], data['kg_max'])})"
+    text += f" · {_co2_mix_label(model)} · usage et fabrication du matériel"
+    if data["proxy_for"]:
+        text += (
+            f" · ordre de grandeur : {data['proxy_for']} n'est pas dans le référentiel, "
+            f"calcul calé sur {data['proxy']}"
+        )
+    if data["missing"]:
+        text += f" · {data['missing']} appel(s) non estimé(s)"
+    if data["partial"]:
+        text += " · les étapes déjà en cache avant EcoLogits ne sont pas incluses"
+    return text
+
+
 def _mistral_api_key() -> str:
     key = os.environ.get("MISTRAL_API_KEY") or os.environ.get("mistral_api_key") or ""
     if key:
@@ -1027,12 +1201,13 @@ async def query_mistral(user_prompt, model=MISTRAL_MODEL):
             int(getattr(usage, "prompt_tokens", 0) or 0),
         ]
         elapsed = time.time() - start_time
-        print(f"[{datetime.now().strftime('%H:%M:%S.%f')[:-3]}] ✅ Mistral END ({elapsed:.1f}s, {tokens} tokens)")
-        return _mistral_message_text(response), elapsed, tokens
+        co2 = estimate_import_co2(model, tokens[0], elapsed)
+        print(f"[{datetime.now().strftime('%H:%M:%S.%f')[:-3]}] ✅ Mistral END ({elapsed:.1f}s, {tokens} tokens, {co2['kg'] * 1000:.2f} gCO₂eq)")
+        return _mistral_message_text(response), elapsed, tokens, co2
     except Exception as e:
         elapsed = time.time() - start_time
         print(f"[{datetime.now().strftime('%H:%M:%S.%f')[:-3]}] ❌ Mistral ERROR: {e}")
-        return f"Erreur Mistral: {e}", elapsed, [0, 0]
+        return f"Erreur Mistral: {e}", elapsed, [0, 0], _blank_co2()
 
 
 def _albert_api_key() -> str:
@@ -1095,8 +1270,9 @@ async def query_albert(user_prompt, model=ALBERT_MODEL):
                 int(getattr(usage, "prompt_tokens", 0) or 0),
             ]
             elapsed = time.time() - start_time
-            print(f"[{datetime.now().strftime('%H:%M:%S.%f')[:-3]}] ✅ Albert END ({elapsed:.1f}s, {tokens} tokens)")
-            return _mistral_message_text(response), elapsed, tokens
+            co2 = estimate_import_co2(model, tokens[0], elapsed)
+            print(f"[{datetime.now().strftime('%H:%M:%S.%f')[:-3]}] ✅ Albert END ({elapsed:.1f}s, {tokens} tokens, {co2['kg'] * 1000:.2f} gCO₂eq)")
+            return _mistral_message_text(response), elapsed, tokens, co2
         except Exception as e:
             last_error = e
             if not _is_albert_rate_limit(e) or attempt == 4:
@@ -1107,7 +1283,7 @@ async def query_albert(user_prompt, model=ALBERT_MODEL):
             await asyncio.sleep(ALBERT_WINDOW_S)
     elapsed = time.time() - start_time
     print(f"[{datetime.now().strftime('%H:%M:%S.%f')[:-3]}] ❌ Albert ERROR: {last_error}")
-    return f"Erreur Albert: {last_error}", elapsed, [0, 0]
+    return f"Erreur Albert: {last_error}", elapsed, [0, 0], _blank_co2()
 
 
 async def query_gemini(user_prompt, model='gemini-3.1-pro-preview'):
@@ -1131,7 +1307,8 @@ async def query_gemini(user_prompt, model='gemini-3.1-pro-preview'):
         )
         
         parts = []
-        tokens = [0,0]
+        tokens = [0, 0]
+        generated_tokens = 0
         last_chunk = None
 
         async for chunk in stream:
@@ -1139,16 +1316,19 @@ async def query_gemini(user_prompt, model='gemini-3.1-pro-preview'):
                 parts.append(chunk.text)
             last_chunk = chunk
         
-        # Récupérer les tokens du dernier chunk
-        if hasattr(last_chunk, 'usage_metadata') and hasattr(last_chunk.usage_metadata, 'candidates_token_count') and hasattr(last_chunk.usage_metadata, 'prompt_token_count'):
-            tokens = [last_chunk.usage_metadata.candidates_token_count, last_chunk.usage_metadata.prompt_token_count]
+        # Récupérer les tokens du dernier chunk. Le raisonnement compte dans le CO₂.
+        meta = getattr(last_chunk, "usage_metadata", None)
+        if meta is not None and getattr(meta, "candidates_token_count", None) is not None and getattr(meta, "prompt_token_count", None) is not None:
+            tokens = [meta.candidates_token_count, meta.prompt_token_count]
+            generated_tokens = int(meta.candidates_token_count or 0) + int(getattr(meta, "thoughts_token_count", 0) or 0)
         else:
             tokens = [0, 0]
         
         reponse = "".join(parts)
         elapsed = time.time() - start_time
-        print(f"[{datetime.now().strftime('%H:%M:%S.%f')[:-3]}] ✅ Gemini END ({elapsed:.1f}s, {tokens} tokens)")
-        return reponse, elapsed, tokens
+        co2 = estimate_import_co2(model, generated_tokens, elapsed)
+        print(f"[{datetime.now().strftime('%H:%M:%S.%f')[:-3]}] ✅ Gemini END ({elapsed:.1f}s, {tokens} tokens, {co2['kg'] * 1000:.2f} gCO₂eq)")
+        return reponse, elapsed, tokens, co2
 
     except Exception as e:
         print(f"[{datetime.now().strftime('%H:%M:%S.%f')[:-3]}] ❌ Gemini ERROR: {str(e)}")
@@ -1163,17 +1343,20 @@ async def query_gemini(user_prompt, model='gemini-3.1-pro-preview'):
                 )
             )
             elapsed = time.time() - start_time
-            #Calcul des tokens
-            if hasattr(response, 'usage_metadata') and hasattr(response.usage_metadata, 'candidates_token_count') and hasattr(response.usage_metadata, 'prompt_token_count'):
-                tokens = [response.usage_metadata.candidates_token_count, response.usage_metadata.prompt_token_count]
+            meta = getattr(response, "usage_metadata", None)
+            if meta is not None and getattr(meta, "candidates_token_count", None) is not None and getattr(meta, "prompt_token_count", None) is not None:
+                tokens = [meta.candidates_token_count, meta.prompt_token_count]
+                generated_tokens = int(meta.candidates_token_count or 0) + int(getattr(meta, "thoughts_token_count", 0) or 0)
             else:
                 tokens = [0, 0]
-            print(f"[{datetime.now().strftime('%H:%M:%S.%f')[:-3]}] ✅ Gemini END (fallback) ({elapsed:.1f}s, {tokens[0]} tokens, {tokens[1]} tokens)")
-            return str(response.text), elapsed, tokens
+                generated_tokens = 0
+            co2 = estimate_import_co2(model, generated_tokens, elapsed)
+            print(f"[{datetime.now().strftime('%H:%M:%S.%f')[:-3]}] ✅ Gemini END (fallback) ({elapsed:.1f}s, {tokens[0]} tokens, {tokens[1]} tokens, {co2['kg'] * 1000:.2f} gCO₂eq)")
+            return str(response.text), elapsed, tokens, co2
         
         except Exception as e2:
             elapsed = time.time() - start_time
-            return f"Erreur Gemini: {str(e2)}", elapsed, [0, 0]
+            return f"Erreur Gemini: {str(e2)}", elapsed, [0, 0], _blank_co2()
 
 
 # ==========================
@@ -1383,6 +1566,7 @@ def dehydrate_state(state: dict) -> dict:
         "settings": state.get("settings") or {},
         "parts": parts_out,
         "tokens": [int((state.get("tokens") or [0, 0])[0]), int((state.get("tokens") or [0, 0])[1])],
+        "co2": _normalize_co2(state.get("co2")),
         "merged_df": df_to_payload(state.get("merged_obj")),
         "quali_result": state.get("quali_result"),
         "quali_done": bool(state.get("quali_done")),
@@ -1449,6 +1633,11 @@ def load_import_cache(cache_id: str) -> dict | None:
     full["merged_obj"] = df_from_payload(full.get("merged_df"))
     tokens = full.get("tokens") or [0, 0]
     full["tokens"] = [int(tokens[0] or 0), int(tokens[1] or 0)]
+    had_co2 = isinstance(full.get("co2"), dict)
+    full["co2"] = _normalize_co2(full.get("co2"))
+    spent = int(full["tokens"][0] or 0) + int(full["tokens"][1] or 0)
+    if not had_co2 and spent:
+        full["co2"]["partial"] = True
     full.setdefault("settings", {})
     return full
 
@@ -1544,12 +1733,13 @@ async def extract_one(part: dict, state: dict) -> dict:
             .replace("{texte_pdf_a_analyser}", part.get("text") or "")
             .replace("{date_du_jour}", datetime.now().strftime("%d/%m/%Y")),
         )
-        result, elapsed, tokens = await query_gemini(prompt, settings.get("model"))
+        result, elapsed, tokens, co2 = await query_gemini(prompt, settings.get("model"))
         _add_tokens(state, tokens)
+        _add_co2(state, co2)
         if not result or str(result).startswith("Erreur"):
             part["errors"].append(str(result or "Réponse vide"))
             save_import_cache(state)
-            return {"ok": False, "elapsed": elapsed, "tokens": tokens, "error": result, "raw": result}
+            return {"ok": False, "elapsed": elapsed, "tokens": tokens, "co2": co2, "error": result, "raw": result}
         data = parse_json_response(result)
         df = finalize_extracted_df(
             data,
@@ -1565,7 +1755,7 @@ async def extract_one(part: dict, state: dict) -> dict:
             part["upgrade_done"] = True
             part["enrich_done"] = True
         save_import_cache(state)
-        return {"ok": True, "elapsed": elapsed, "tokens": tokens, "n": len(df), "detail_line": f"{len(df)} actions"}
+        return {"ok": True, "elapsed": elapsed, "tokens": tokens, "co2": co2, "n": len(df), "detail_line": f"{len(df)} actions"}
     except Exception as e:
         traceback.print_exc()
         part["errors"].append(f"Extraction : {e}")
@@ -1583,12 +1773,13 @@ async def verify_one(part: dict, state: dict) -> dict:
             part,
             prompt_verif_1.replace("{texte_pdf_a_analyser}", part.get("text") or "").replace("{reponse_ia}", reponse_ia or ""),
         )
-        result, elapsed, tokens = await query_gemini(prompt, settings.get("model"))
+        result, elapsed, tokens, co2 = await query_gemini(prompt, settings.get("model"))
         _add_tokens(state, tokens)
+        _add_co2(state, co2)
         if not result or str(result).startswith("Erreur"):
             part["errors"].append(str(result or "Réponse vide"))
             save_import_cache(state)
-            return {"ok": False, "elapsed": elapsed, "tokens": tokens, "error": result, "raw": result}
+            return {"ok": False, "elapsed": elapsed, "tokens": tokens, "co2": co2, "error": result, "raw": result}
         scores = parse_json_response(result)
         if not isinstance(scores, dict):
             raise ValueError("La vérification n'a pas renvoyé un objet JSON indexé")
@@ -1605,7 +1796,7 @@ async def verify_one(part: dict, state: dict) -> dict:
         part["verify_done"] = True
         part["errors"] = []
         save_import_cache(state)
-        return {"ok": True, "elapsed": elapsed, "tokens": tokens, "applied": applied, "detail_line": f"{applied} scores"}
+        return {"ok": True, "elapsed": elapsed, "tokens": tokens, "co2": co2, "applied": applied, "detail_line": f"{applied} scores"}
     except Exception as e:
         traceback.print_exc()
         part["errors"].append(f"Vérification : {e}")
@@ -1654,14 +1845,16 @@ async def upgrade_one(part: dict, state: dict) -> dict:
         errors = []
         max_time = 0.0
         total_tokens = [0, 0]
+        total_co2 = _blank_co2()
         for batch_idx, result in enumerate(results):
             if isinstance(result, Exception):
                 errors.append(f"Batch {batch_idx + 1}: {result}")
                 continue
-            upgrade_result, elapsed, tokens = result
+            upgrade_result, elapsed, tokens, co2 = result
             max_time = max(max_time, elapsed)
             total_tokens[0] += int(tokens[0] or 0)
             total_tokens[1] += int(tokens[1] or 0)
+            _merge_co2(total_co2, co2)
             if upgrade_result and not str(upgrade_result).startswith("Erreur"):
                 try:
                     upgrade_data = parse_json_response(upgrade_result)
@@ -1685,6 +1878,7 @@ async def upgrade_one(part: dict, state: dict) -> dict:
                 errors.append(f"Batch {batch_idx + 1}: {upgrade_result}")
 
         _add_tokens(state, total_tokens)
+        _add_co2(state, total_co2)
         part["df_obj"] = df
         part["upgrade_done"] = True
         part["errors"] = errors
@@ -1693,6 +1887,7 @@ async def upgrade_one(part: dict, state: dict) -> dict:
             "ok": True,
             "elapsed": max_time,
             "tokens": total_tokens,
+            "co2": total_co2,
             "upgraded": upgraded,
             "low": len(low_indices),
             "batches": len(batches),
@@ -1737,6 +1932,7 @@ async def enrich_one(part: dict, state: dict) -> dict:
         enrichment_data = {}
         max_time = 0.0
         total_tokens = [0, 0]
+        total_co2 = _blank_co2()
         errors = []
         n_batches = 0
 
@@ -1764,10 +1960,11 @@ async def enrich_one(part: dict, state: dict) -> dict:
                 if isinstance(result, Exception):
                     errors.append(f"Batch {batch_idx + 1}: {result}")
                     continue
-                enrich_result, elapsed, tokens = result
+                enrich_result, elapsed, tokens, co2 = result
                 max_time = max(max_time, elapsed)
                 total_tokens[0] += int(tokens[0] or 0)
                 total_tokens[1] += int(tokens[1] or 0)
+                _merge_co2(total_co2, co2)
                 if enrich_result and not str(enrich_result).startswith("Erreur"):
                     try:
                         parsed = parse_json_response(enrich_result)
@@ -1780,6 +1977,7 @@ async def enrich_one(part: dict, state: dict) -> dict:
                 else:
                     errors.append(f"Batch {batch_idx + 1}: {enrich_result}")
             _add_tokens(state, total_tokens)
+            _add_co2(state, total_co2)
 
             def _sa_field(col_name: str, value: str) -> str:
                 return "" if col_name in disabled_columns else value
@@ -1843,6 +2041,7 @@ async def enrich_one(part: dict, state: dict) -> dict:
             "ok": True,
             "elapsed": max_time,
             "tokens": total_tokens,
+            "co2": total_co2,
             "sous_actions": len(all_sous_actions),
             "enriched": enriched_count,
             "batches": n_batches,
@@ -2020,9 +2219,11 @@ def _show_part_metrics(label: str, step_name: str, result: dict) -> None:
     tokens = result.get("tokens") or [0, 0]
     extra = result.get("detail_line") or ""
     suffix = f" | {extra}" if extra else ""
+    co2 = _normalize_co2(result.get("co2"))
+    co2_bit = f" | {_format_co2_mass(co2['kg'])}" if co2["calls"] else ""
     st.info(
         f"✨ {label} — {step_name} : {float(result.get('elapsed') or 0):.1f}s | "
-        f"Entrée : {int(tokens[1]):,} tokens | Sortie : {int(tokens[0]):,} tokens{suffix}"
+        f"Entrée : {int(tokens[1]):,} tokens | Sortie : {int(tokens[0]):,} tokens{co2_bit}{suffix}"
     )
 
 
@@ -2191,16 +2392,18 @@ def run_import_pipeline(state: dict, resuming: bool = False) -> dict:
 
             with st.spinner("🌀 Étape 5/5 : analyse qualitative finale..."):
                 try:
-                    quali_result, elapsed, tokens = asyncio.run(_quali())
+                    quali_result, elapsed, tokens, co2 = asyncio.run(_quali())
                 except Exception as e:
                     traceback.print_exc()
-                    quali_result, elapsed, tokens = f"Erreur lors de la vérification qualitative : {e}", 0, [0, 0]
+                    quali_result, elapsed, tokens, co2 = f"Erreur lors de la vérification qualitative : {e}", 0, [0, 0], _blank_co2()
             _add_tokens(state, tokens)
+            _add_co2(state, co2)
             state["quali_result"] = quali_result
             state["quali_done"] = True
+            co2_bit = f" | {_format_co2_mass(co2['kg'])}" if co2.get("calls") else ""
             st.info(
                 f"✨ Vérifications finales : {float(elapsed):.1f}s | "
-                f"Entrée : {int(tokens[1] or 0):,} tokens | Sortie : {int(tokens[0] or 0):,} tokens"
+                f"Entrée : {int(tokens[1] or 0):,} tokens | Sortie : {int(tokens[0] or 0):,} tokens{co2_bit}"
             )
 
     state["final_done"] = True
@@ -2267,6 +2470,9 @@ def render_final_result(state: dict, upload_drive: bool = False, from_cache_view
     tokens = state.get("tokens") or [0, 0]
     model_name = (state.get("settings") or {}).get("model")
     st.success(format_run_cost(model_name, tokens))
+    co2_line = format_import_co2(model_name, state.get("co2"))
+    if co2_line:
+        st.info(co2_line)
     display_df_markdown(df)
 
     try:
@@ -2354,6 +2560,7 @@ def new_analysis_state(file_bytes: bytes, filename: str, file_type: str, split: 
         "settings": settings,
         "parts": parts,
         "tokens": [0, 0],
+        "co2": _blank_co2(),
         "merged_obj": None,
         "quali_result": None,
         "quali_done": False,
