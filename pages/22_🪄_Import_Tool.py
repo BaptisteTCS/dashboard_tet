@@ -18,7 +18,6 @@ import json
 import pandas as pd
 import re
 import nest_asyncio
-import pandas as pd
 from openpyxl import load_workbook
 from openai import AsyncOpenAI
 nest_asyncio.apply()
@@ -106,17 +105,7 @@ Définitions opérationnelles
 • Action. Mesure opérationnelle unique qui peut être mise en œuvre et suivie. Elle a un titre court et, uniquement si nécessaire, une description synthétique apportant des informations complémentaires au titre
 • Sous action. Etape ou brique concrète qui détaille la mise en œuvre d’une action. Les sous actions sont listées dans "sous-actions"
 
-Hiérarchie et numérotation
-1 Conserver strictement les libellés exacts du texte source lorsque la numérotation et les titres existent
-2 Lorsque le texte ne fournit pas de numérotation explicite, construire une numérotation stable et cohérente selon la règle suivante
-   On note les axes "n".
-   On note les sous axes "n.X".
-   On note les actions "n.X.Y"
-3 "axe" doit être formaté exactement "Axe n : Titre de l’axe"
-4 "sous-axe" doit être formaté exactement "n.X  Titre du sous-axe"
-6 "titre" doit être formaté "n.X.Y Titre de l’action"
-7 Un sous axe doit avoir un nom complet. Il ne peut pas être uniquement un nombre
-8 Pour un même identifiant hiérarchique le libellé doit être identique partout
+{bloc_numerotation}
 
 Tâches obligatoires et ordre d’exécution
 1 Normalisation du texte source
@@ -159,37 +148,25 @@ Règles générales
 9 Ne recopie pas les objectifs dans les descriptions. S'il n'y a pas de description et seulement des objectifs, les mettre dans le champ "objectifs"
 10 Ne jamais nommer un axe avec "plan d'action", si tu detected qu'un axe qui est a priori le titre du plan, alors tu passes les sous-axes comme axe.
 11 Ne pas remplir les sous-axes et les fiches actions avec le même titre. Et de meme ne pas remplir les axes et sous-axes avec le meme titre. Soit il y a un titre différent, soit il y a une hiérarchie à changer. Si vraiment on doit passer d'axe directement à action, il est préférable d'inventer des sous-axes cohérents, proche de la réalité, pour ne pas reprendre le titre de l'axe dans le sous-axe.
-12 Toujours numéroter dans l'ordre, même si le document original dévie.
-13 Les titres des sous-action (et actions) sont en général court, tous le reste va dans la description. Par exemple on ne liste pas les objectifs et la gouvernance dans le titre.
-14 Mettre les objectifs dans le champ "objectifs" et non dans la description. Si la description est vide, mettre "A compléter".
-15 Si le plan a sa propre numérotation et qu'elle est cohérente, utiliser cette numérotation pour les axes, sous-axes et actions.
+12 Les titres des sous-action (et actions) sont en général court, tous le reste va dans la description. Par exemple on ne liste pas les objectifs et la gouvernance dans le titre.
+13 Mettre les objectifs dans le champ "objectifs" et non dans la description. Si rien d'autre ne décrit l'action, laisser "description" à "".
 
-Exemples de bonne structure de plan
-Exemple de titres hiérarchiques attendus quand le texte les fournit
-Axe 1 : Une transition construite de manière transversale
-1.1 S’appuyer sur un pilotage et des coopérations stables
-1.1.1 Définir un portage politique fort
-1.2 Impliquer tous les publics dans les transitions
-Axe 2 : Vers un territoire rural affirmé aux multiples atouts en faveur du climat
-2.1 Soutenir une agriculture paysanne
-Axe 3 : Vers des équipements de qualité thermique et écologique
-3.1 Concevoir des bâtiments publics de qualité une normalité
-Axe 4 : Vers une mobilité vertueuse et réfléchie
-4.2 Mettre en œuvre les conditions favorables à des déplacements plus sobres
+{exemple_structure}
 
 Exemple de bonne extraction avec sous actions
 Texte source
+{exemple_contexte}
 "Réduire l’autosolisme. Développer la pratique du covoiturage en s’appuyant tout d’abord sur des services existants mais aussi en mettant en place des infrastructures permettant de diversifier les offres
 • S’appuyer sur l’offre existante proposée par Blablacar Daily pour le covoiturage domicile travail
 • Déployer des lignes de covoiturage à haut niveau de service et les aménagements associés
-• Réfléchir à des solutions d’autopartage en boucle. 
+• Réfléchir à des solutions d’autopartage en boucle.
 Budget de 24000€ pour cette action en cours menée par Jean Dupoint du Service mobilité, piloté par la DDT, qui a pour but de rendre la pratique du covoiturage plus courante."
 
-Extraction attendue pour une action située dans le sous axe "4.2 Mettre en œuvre les conditions favorables à des déplacements plus sobres"
+Extraction attendue
 {
- "axe": "Axe 4  Vers une mobilité vertueuse et réfléchie",
- "sous-axe": "4.2  Mettre en œuvre les conditions favorables à des déplacements plus sobres",
- "titre": "4.2.1 Réduire l’autosolisme",
+ "axe": "{exemple_axe}",
+ "sous-axe": "{exemple_sous_axe}",
+ "titre": "{exemple_titre}",
  "description": "Développer la pratique du covoiturage en s’appuyant sur des services existants et en mettant en place des infrastructures qui diversifient l’offre",
  "sous-actions": [
    "S’appuyer sur l’offre existante proposée par Blablacar Daily pour le covoiturage domicile travail",
@@ -217,8 +194,7 @@ Consignes de saisie de champs
 4 Si "statut" n’est pas exactement dans la liste autorisée, laisser ""
 
 Rappel de robustesse
-• Si le document fournit des numérotations et des titres, les réutiliser strictement
-• Si des titres existent sans numéro, générer des numéros cohérents et stables
+• {rappel_numerotation}
 • Si la position d’une action parmi plusieurs sous axes demeure ambiguë, laisser vides les champs d’appartenance incertains plutôt que de forcer un rattachement
 
 Jusqu’à présent, le prompt décrivait les règles générales d’extraction. Si le champ suivant n’est pas vide, vous devez impérativement tenir compte des précisions spécifiques ci-dessous.  
@@ -230,8 +206,87 @@ Elles peuvent modifier ou affiner l’interprétation de la structure du plan. E
 
 
 Voici le texte à analyser :
-{texte_pdf_a_analyser}  
+{texte_pdf_a_analyser}
 """
+
+# Deux façons de numéroter, choisies par le toggle « Numérotation auto ».
+# Chaque mode remplit les mêmes emplacements du prompt d'extraction, pour que
+# l'IA ne voie jamais les deux consignes à la fois.
+NUMEROTATION_PROMPTS = {
+    "auto": {
+        "bloc_numerotation": """Hiérarchie et numérotation (numérotation imposée)
+La numérotation du document source n'est PAS reprise. Tout le plan est renuméroté selon le système ci-dessous, que le document ait sa propre numérotation ou non.
+1 Les axes sont numérotés 1, 2, 3… dans leur ordre d'apparition. On les note "n"
+2 Les sous axes sont numérotés 1, 2, 3… à l'intérieur de chaque axe. On les note "n.X"
+3 Les actions sont numérotées 1, 2, 3… à l'intérieur de chaque sous axe. On les note "n.X.Y"
+4 "axe" doit être formaté exactement "Axe n : Titre de l’axe"
+5 "sous-axe" doit être formaté exactement "n.X Titre du sous-axe"
+6 "titre" doit être formaté exactement "n.X.Y Titre de l’action"
+7 Retirer des libellés toute numérotation propre au document (par exemple "Fiche action 12", "Orientation B", "II.", "A.3") : seule la numérotation ci-dessus apparaît
+8 Toujours numéroter dans l'ordre, sans trou ni doublon, même si le document original dévie
+9 Un sous axe doit avoir un nom complet. Il ne peut pas être uniquement un nombre
+10 Pour un même identifiant hiérarchique le libellé doit être identique partout""",
+        "exemple_structure": """Exemple de titres hiérarchiques attendus
+Axe 1 : Une transition construite de manière transversale
+1.1 S’appuyer sur un pilotage et des coopérations stables
+1.1.1 Définir un portage politique fort
+1.2 Impliquer tous les publics dans les transitions
+Axe 2 : Vers un territoire rural affirmé aux multiples atouts en faveur du climat
+2.1 Soutenir une agriculture paysanne""",
+        "exemple_contexte": "(action située dans le 4e axe « Vers une mobilité vertueuse et réfléchie », 2e sous axe « Mettre en œuvre les conditions favorables à des déplacements plus sobres », 1re action de ce sous axe)",
+        "exemple_axe": "Axe 4 : Vers une mobilité vertueuse et réfléchie",
+        "exemple_sous_axe": "4.2 Mettre en œuvre les conditions favorables à des déplacements plus sobres",
+        "exemple_titre": "4.2.1 Réduire l’autosolisme",
+        "rappel_numerotation": "Numéroter tout le plan selon le système imposé (Axe n : / n.X / n.X.Y), sans reprendre la numérotation du document",
+    },
+    "document": {
+        "bloc_numerotation": """Hiérarchie et numérotation (numérotation du document)
+1 Reprendre la numérotation des axes, sous axes et actions exactement telle qu'elle figure dans le document source : mêmes chiffres, mêmes lettres, mêmes chiffres romains, mêmes mots ("Axe", "Orientation", "Fiche action", "Action n°"…) et même ponctuation
+2 Chaque libellé ("axe", "sous-axe", "titre") est composé de la numérotation du document, s'il y en a une, suivie du titre
+3 Ne jamais créer, compléter, corriger ni réordonner une numérotation. Si un niveau n'est pas numéroté dans le document, le libellé contient uniquement le titre, sans aucun numéro. Si la numérotation du document a des trous, des doublons ou un ordre inhabituel, la conserver telle quelle
+4 Ne pas ajouter de préfixe ("Axe", "Action"…) que le document n'utilise pas
+5 Si la numérotation figure dans une colonne ou un champ séparé (fichier tableur), la placer en tête du libellé correspondant
+6 Un sous axe doit avoir un nom complet. Il ne peut pas être uniquement un nombre
+7 Pour un même axe ou sous axe, le libellé doit être identique partout""",
+        "exemple_structure": """Exemples de libellés attendus
+Document : "ORIENTATION B – Se déplacer autrement" → "axe" : "Orientation B – Se déplacer autrement"
+Document : "B.2 Développer les mobilités actives" → "sous-axe" : "B.2 Développer les mobilités actives"
+Document : "Fiche action n°12 : Créer un réseau de pistes cyclables" → "titre" : "Fiche action n°12 : Créer un réseau de pistes cyclables"
+Document sans numérotation : "Rénover les écoles" → "titre" : "Rénover les écoles\"""",
+        "exemple_contexte": "(dans le document, l'action est précédée des titres « Orientation 4 – Vers une mobilité vertueuse et réfléchie », puis « Objectif 4.b – Mettre en œuvre les conditions favorables à des déplacements plus sobres », et commence par « Fiche action n°17 : »)",
+        "exemple_axe": "Orientation 4 – Vers une mobilité vertueuse et réfléchie",
+        "exemple_sous_axe": "Objectif 4.b – Mettre en œuvre les conditions favorables à des déplacements plus sobres",
+        "exemple_titre": "Fiche action n°17 : Réduire l’autosolisme",
+        "rappel_numerotation": "Reprendre la numérotation du document telle quelle, et ne jamais en inventer quand elle est absente",
+    },
+}
+
+QUALI_NUMEROTATION = {
+    "auto": "que la numérotation suit le schéma \"Axe n :\" / \"n.X\" / \"n.X.Y\" sans trou ni doublon",
+    "document": "La numérotation reprend volontairement celle du document source : elle peut être absente, non standard ou irrégulière, ne la signalez pas comme un problème",
+}
+
+
+def numbering_mode(settings: dict | None) -> str:
+    """« auto » ou « document ».
+
+    Les caches créés avant le toggle n'ont pas la clé : ils ont été produits
+    avec la numérotation imposée, on garde donc ce comportement pour eux.
+    """
+    return "auto" if (settings or {}).get("numerotation_auto", True) else "document"
+
+
+def build_extraction_prompt(settings: dict, text: str) -> str:
+    prompt = custom_prompt
+    for key, value in NUMEROTATION_PROMPTS[numbering_mode(settings)].items():
+        prompt = prompt.replace("{" + key + "}", value)
+    return (
+        prompt
+        .replace("{precisions}", settings.get("precisions") or "")
+        .replace("{date_du_jour}", datetime.now().strftime("%d/%m/%Y"))
+        # En dernier : le texte du document peut lui-même contenir des accolades.
+        .replace("{texte_pdf_a_analyser}", text or "")
+    )
 
 # Prompt de vérification 1 : vérifie la qualité de l'extraction
 prompt_verif_1 = """
@@ -242,13 +297,14 @@ Le document source accessible plus bas est un plan d’action.
 Une première IA a déjà extrait une série d’actions. 
 
 Structure attendue des actions
-Les actions sont repérables car elles commencent par un identifiant numérique du type :
-1.1.1 Titre de l’action; Description; Sous actions; Direction ou service pilote; Statut; Budget; Personne pilote; etc.
-Tout ce qui suit une action appartient à cette action jusqu’au prochain identifiant du même type ou la fin du texte.
+Les actions sont repérables car elles commencent par un index entre barres verticales, du type :
+| 12 | Titre de l’action; Description; Sous actions; Direction ou service pilote; Statut; Budget; Personne pilote; etc.
+Tout ce qui suit une action appartient à cette action jusqu’au prochain index du même type ou la fin du texte.
+La numérotation éventuelle présente dans les titres ne fait pas partie de ce qui est évalué.
 
 Objectif
 1 Tu dois identifier chaque action dans le texte fourni
-2 Pour chaque action, parcourir le document source via le file search.
+2 Pour chaque action, parcourir le texte original fourni plus bas.
 3 Retrouver le passage correspondant à cette action dans le plan d’action.
 4 Vérifier la fidélité de l’extraction pour cette action.
 5 Attribuer un score de confiance entre 0 et 100 pour chaque identifiant d’action.
@@ -294,10 +350,10 @@ Exemples d’explications acceptables :
 "omissions + reformulation"
 
 Exemple de format attendu :
-{{
-  "1": {{ "score": 95, "explication": "" }},
-  "2": {{ "score": 82, "explication": "omissions partielles" }}
-}}
+{
+  "1": { "score": 95, "explication": "" },
+  "2": { "score": 82, "explication": "omissions partielles" }
+}
 
 Contraintes supplémentaires
 • Ne pas recopier de longs extraits du document source.
@@ -340,20 +396,20 @@ Objectif
 Pour chaque action présente dans la liste "Actions ciblées à traiter" :
 1) Parcourir le texte source.
 2) Retrouver l’action correspondante à partir de son titre.
-3) Extraire tous ses attributs en respectant strictement le schéma JSON décrit ci dessous.
+3) Extraire ses attributs en respectant strictement le schéma JSON décrit ci dessous.
 
-Schéma des objets du tableau
-La sortie doit être un tableau JSON. Chaque élément du tableau est un objet contenant exactement les champs suivants pour chaque index :
+Schéma de sortie
+La sortie est un objet JSON. Chaque clé est l'index d'une action (donné entre les | dans la liste en entrée), et chaque valeur est un objet contenant exactement les champs suivants :
 
-"titre"
 "description"
 "sous-actions"
+
+Le titre n'est pas à renvoyer : il est conservé tel quel, numérotation comprise.
 
 Exemple :
 
 {
   "12": {
-    "titre": "1.4.1 Animer et suivre le COT et la démarche de transition écologique",
     "description": "Assurer le suivi des actions pilotées par les collègues ou d'autres acteurs, animer le Comité de pilotage, et assurer la mobilisation des élus.",
     "sous-actions": [
       "sous_action_1",
@@ -363,11 +419,7 @@ Exemple :
   }
 }
 
-L'index est donnée entre les | dans la liste en entrée
-
-
 Types et formats attendus
-• "titre" est une chaîne de la forme "n.X.Y Titre de l'action" qui doit correspondre à l’une des actions listées. Le titre ne doit pas dépasser 300 caractères. Si le titre issu du texte source dépasse 300 caractères, conserver uniquement les 300 premiers caractères significatifs dans "titre" et reporter le reste dans "description"
 • "description" est une chaîne
 • "sous-actions" est une liste de chaînes. Si aucune sous action ne s’impose, mettre []
 
@@ -383,10 +435,10 @@ Nettoyage minimal
 • Ne pas réécrire le sens de la description, uniquement nettoyer les artefacts
 
 Sortie attendue
-1) Répondre uniquement avec un tableau JSON valide
+1) Répondre uniquement avec un objet JSON valide
 2) Ne rien ajouter avant ni après le JSON
 3) Ne pas utiliser de balises Markdown
-4) Le tableau ne doit contenir QUE les actions demandées qui ont pu être retrouvées dans le texte source
+4) L'objet ne doit contenir QUE les actions demandées qui ont pu être retrouvées dans le texte source
 """
 
 
@@ -409,7 +461,7 @@ Axes d’évaluation
 • Artefacts  vérifier qu’il ne subsiste pas d’artefacts évidents de conversion ou de mise en page comme "Unnamed", bouts de tableau, listes cassées, balises, répétitions absurdes, numérotations sans contenu.
 • Cohérence sémantique  vérifier que chaque "description" a du sens, est compréhensible, et correspond à une action ou sous-action concrète de plan d’actions.
 • Qualité des sous-actions  vérifier que les lignes marquées [SA] sont bien des sous-actions opérationnelles ou des étapes de mise en œuvre
-• Cohérence hiérarchique  vérifier que "axe", "sous-axe" et "titre" sont cohérents entre eux, que la numérotation est plausible et stable, et que le contenu de l’action correspond bien à son axe et sous-axe.
+• Cohérence hiérarchique  vérifier que "axe", "sous-axe" et "titre" sont cohérents entre eux et que le contenu de l’action correspond bien à son axe et sous-axe. Numérotation : {consigne_numerotation}.
 • Champs pilotage, budget, statut  vérifier que "objectifs", "structure pilote", "direction ou service pilote", "personne pilote", "budget" et "statut" ne semblent pas inventés, sont utilisés seulement lorsque l’information est explicitement plausible, et restent vides sinon. Pour "structure pilote" et "direction ou service pilote", vérifier que la distinction est respectée (structure = organisme englobant, direction/service = entité interne).
 • Doublons et éclatement inutile  vérifier qu’il n’y a pas de doublons évidents d’actions et que les actions ne sont pas artificiellement éclatées en plusieurs entrées identiques.
 • Vérifier que les directions ou service pilote et personnes pilotes, si pluriel, sont des listes séparées par une virgule et un espace. S'il y a des tirets qui semble séparer deux entités **distinctes**, le relever.
@@ -418,8 +470,8 @@ Format de réponse attendu
 • Répondre en français, sous forme de quelques lignes de texte libre.
 • Commencer par un court avis global sur la qualité de l’extraction, par exemple "Extraction globalement cohérente avec quelques points à surveiller".
 • Si tout est satisfaisant, le préciser explicitement, par exemple "Aucun problème majeur détecté".
-• S’il existe des problèmes manifestes, les mentionner de manière ciblée en citant systématiquement la numérotation de l’action concernée, c’est à dire la partie "n.x.y" du champ "titre".
-  Exemple  "1.2.4  description trop générale et peu opérationnelle" ou "4.1.3  présence probable d’artefacts de mise en page".
+• S’il existe des problèmes manifestes, les mentionner de manière ciblée en citant systématiquement l’action concernée : sa numérotation si le "titre" en porte une, sinon les premiers mots de son titre.
+  Exemple  "1.2.4  description trop générale et peu opérationnelle" ou "« Rénover les écoles »  présence probable d’artefacts de mise en page".
 • Ne pas réécrire les actions et ne pas proposer de nouvelle version en JSON.
 • Ne pas dépasser une dizaine de lignes.
 
@@ -477,10 +529,10 @@ Format de sortie
 4 Les clés sont les index numériques des sous-actions tels que fournis dans la liste
 
 Exemple de format attendu
-{{
-  "0": {{"description": "Description trouvée dans le texte", "personne_pilote": "Jean Dupont", "statut": "En cours", "date_debut": "01/01/2025", "date_fin": "31/12/2025"}},
-  "1": {{"description": "", "personne_pilote": "", "statut": "", "date_debut": "", "date_fin": ""}}
-}}
+{
+  "0": {"description": "Description trouvée dans le texte", "personne_pilote": "Jean Dupont", "statut": "En cours", "date_debut": "01/01/2025", "date_fin": "31/12/2025"},
+  "1": {"description": "", "personne_pilote": "", "statut": "", "date_debut": "", "date_fin": ""}
+}
 """
 
 def extract_text_from_pdf(pdf_file):
@@ -494,20 +546,44 @@ def extract_text_from_pdf(pdf_file):
     except Exception as e:
         return f"Erreur lors de l'extraction du PDF : {str(e)}"
 
+def _table_to_text(df: pd.DataFrame) -> str:
+    """Une ligne de texte par ligne du tableau, cellules séparées par « | ».
+
+    Les lignes restent distinctes, ce qui aide l'IA à suivre la hiérarchie,
+    et les espaces internes aux cellules sont compactés.
+    """
+    def clean(value) -> str:
+        return re.sub(r"\s+", " ", str(value)).strip()
+
+    lines = [" | ".join(clean(c) for c in df.columns)]
+    for row in df.itertuples(index=False):
+        cells = [clean(v) for v in row]
+        if any(cells):
+            lines.append(" | ".join(cells))
+    return "\n".join(lines)
+
+
 def extract_text_from_csv(csv_file):
     try:
-        df = pd.read_csv(csv_file, sep=';').fillna('')
+        raw_bytes = csv_file.read() if hasattr(csv_file, "read") else bytes(csv_file)
+        df = None
+        last_error = None
+        # Lu en texte pour garder les numérotations telles quelles (« 1.10 » ne devient pas 1.1).
+        for encoding in ("utf-8-sig", "cp1252"):
+            try:
+                df = pd.read_csv(io.BytesIO(raw_bytes), sep=None, engine="python", dtype=str, encoding=encoding)
+                break
+            except Exception as e:
+                last_error = e
+        if df is None:
+            raise last_error or ValueError("lecture impossible")
+        df = df.fillna('')
 
         text = "# Fichier CSV\n\n"
         text += f"**Dimensions :** {len(df)} lignes × {len(df.columns)} colonnes\n\n"
-        text += f"**Colonnes :** {', '.join(df.columns)}\n\n"
-        text += "**Contenu complet :**\n\n"
-
-        raw = df.to_string(index=False)
-        raw = re.sub(r'\s+', ' ', raw)
-
-        text += raw
-        
+        text += f"**Colonnes :** {', '.join(str(c) for c in df.columns)}\n\n"
+        text += "**Contenu complet (une ligne par ligne du tableau) :**\n\n"
+        text += _table_to_text(df)
         return text
 
     except Exception as e:
@@ -515,7 +591,8 @@ def extract_text_from_csv(csv_file):
 
 def extract_text_from_excel(excel_file):
     try:
-        sheets = pd.read_excel(excel_file, sheet_name=None, engine='openpyxl')
+        # dtype=str : une numérotation saisie en nombre reste lisible (« 1 » et non « 1.0 »).
+        sheets = pd.read_excel(excel_file, sheet_name=None, dtype=str)
 
         parts = []
         total_rows = 0
@@ -526,11 +603,8 @@ def extract_text_from_excel(excel_file):
             part = f"## Onglet : {sheet_name}\n\n"
             part += f"**Dimensions :** {len(df)} lignes × {len(df.columns)} colonnes\n\n"
             part += f"**Colonnes :** {', '.join(str(c) for c in df.columns)}\n\n"
-            part += "**Contenu :**\n\n"
-
-            raw = df.to_string(index=False)
-            raw = re.sub(r'\s+', ' ', raw)
-            part += raw
+            part += "**Contenu (une ligne par ligne du tableau) :**\n\n"
+            part += _table_to_text(df)
 
             parts.append(part)
 
@@ -551,8 +625,11 @@ def df_to_compact_text(df: pd.DataFrame, show_index: bool = True) -> str:
     has_sous_actions_list = "sous-actions" in df.columns
     has_sous_action_col = "titre de la sous-action" in df.columns
 
-    df_sorted = df.copy()
-    df_sorted = df_sorted.sort_values(by=["axe", "sous-axe"]).reset_index(drop=True)
+    # Pas de tri ni de reset_index : l'index affiché « | idx | » doit rester
+    # celui du DataFrame, c'est lui qui sert à rattacher scores et consolidations.
+    # L'ordre d'apparition est conservé (un tri alphabétique placerait « Axe 10 »
+    # avant « Axe 2 » et mélangerait les libellés issus du document).
+    df_sorted = df
 
     parts = []
 
@@ -721,11 +798,25 @@ def split_long_titles(df: pd.DataFrame, max_len: int = 300, description_enabled:
                 df.at[idx, "description"] = overflow
     return df
 
+# Numérotation en tête d'un titre d'action, dans les formes courantes :
+# « 1.1.2 », « A.3 », « 12. », « 12 - », « Action 4 : », « Fiche action n°12 – »…
+_ACTION_NUMBERING_RE = re.compile(
+    r"^(?:"
+    r"(?i:fiche[\s-]*action|fiche|action|mesure|FA)\s*(?i:n\s*°|no\.?)?\s*[A-Z]?\d+(?:[.\-]\d+)*[a-z]?\s*[.:)\-–—]*\s*"
+    r"|[A-Z]?\d{1,3}(?:\.\d{1,3})+\.?\s*[:)\-–—]?\s*"
+    r"|[A-Z](?:\.\d{1,3})+\.?\s*[:)\-–—]?\s*"
+    r"|\d{1,3}\s*[.):\-–—]\s+"
+    r")"
+)
+
+
 def strip_action_numbering(value):
-    """Retire la numérotation d'une action (ex. 1.1.2) en tête de libellé."""
+    """Retire la numérotation d'une action en tête de libellé."""
     if not isinstance(value, str) or not value.strip():
         return value
-    return re.sub(r"^\d+(\.\d+)+\.?\s+", "", value.strip()).strip()
+    s = value.strip()
+    out = _ACTION_NUMBERING_RE.sub("", s, count=1).strip()
+    return out or s
 
 
 def strip_numbering_from_df(df: pd.DataFrame) -> pd.DataFrame:
@@ -1410,17 +1501,27 @@ def _split_text_halfway(text: str) -> tuple[str, str]:
     return left, right
 
 
-def _split_note(which: str, detail: str) -> str:
+def _split_note(which: str, detail: str, auto_numbering: bool) -> str:
+    if auto_numbering:
+        numbering = (
+            "Numérote selon le système imposé décrit plus bas, en partant de 1 : "
+            "la numérotation sera recalculée après la fusion des deux moitiés. "
+            "Reprends à l’identique les titres d’axes et de sous-axes, pour qu’ils puissent être rapprochés.\n\n"
+        )
+    else:
+        numbering = (
+            "Conserve exactement la numérotation du document, même si cette moitié ne commence pas au début du plan.\n\n"
+        )
     return (
         "NOTE IMPORTANTE SUR LE DÉCOUPAGE\n"
         f"Le texte fourni est la {which} d’un document plus long ({detail}).\n"
         "Extrais uniquement les actions présentes dans ce texte. "
         "N’invente pas d’actions situées dans les pages absentes.\n"
-        "Si le document source porte déjà une numérotation, conserve-la exactement.\n\n"
+        + numbering
     )
 
 
-def build_text_parts(file_bytes: bytes, filename: str, file_type: str, split: bool) -> tuple[list[dict], str | None]:
+def build_text_parts(file_bytes: bytes, filename: str, file_type: str, split: bool, auto_numbering: bool = False) -> tuple[list[dict], str | None]:
     """Découpe le fichier en une ou deux parties de texte.
 
     Pour un PDF, la coupe se fait au milieu du nombre de pages.
@@ -1464,7 +1565,7 @@ def build_text_parts(file_bytes: bytes, filename: str, file_type: str, split: bo
                 "label": label,
                 "detail": detail,
                 "text": text,
-                "split_note": _split_note(which, detail),
+                "split_note": _split_note(which, detail, auto_numbering),
             })
         return parts, None
 
@@ -1591,6 +1692,7 @@ def cache_meta(full: dict) -> dict:
         "created_at": full.get("created_at"),
         "updated_at": full.get("updated_at"),
         "model": settings.get("model"),
+        "numbering": numbering_mode(settings),
         "final_done": bool(full.get("final_done")),
         "step_completed": int(full.get("step_completed") or 0),
         "rows": _rows_of_saved(full),
@@ -1722,16 +1824,19 @@ def _prompt_with_note(part: dict, body: str) -> str:
     return (part.get("split_note") or "") + body
 
 
+def _as_row_index(key) -> int | None:
+    """Clé renvoyée par l'IA (« 12 », « |12| », 12) → index entier, ou None."""
+    match = re.search(r"\d+", str(key))
+    return int(match.group()) if match else None
+
+
 async def extract_one(part: dict, state: dict) -> dict:
     settings = state["settings"]
     try:
         ignore = build_ignore_directive(settings.get("disabled_columns") or [])
         prompt = _prompt_with_note(
             part,
-            ignore + custom_prompt
-            .replace("{precisions}", settings.get("precisions") or "")
-            .replace("{texte_pdf_a_analyser}", part.get("text") or "")
-            .replace("{date_du_jour}", datetime.now().strftime("%d/%m/%Y")),
+            ignore + build_extraction_prompt(settings, part.get("text") or ""),
         )
         result, elapsed, tokens, co2 = await query_gemini(prompt, settings.get("model"))
         _add_tokens(state, tokens)
@@ -1786,8 +1891,8 @@ async def verify_one(part: dict, state: dict) -> dict:
         df = ensure_score_columns(df)
         applied = 0
         for idx_str, score_info in scores.items():
-            idx = int(idx_str)
-            if idx in df.index:
+            idx = _as_row_index(idx_str)
+            if idx is not None and idx in df.index:
                 info = score_info if isinstance(score_info, dict) else {}
                 df.at[idx, "score"] = info.get("score")
                 df.at[idx, "explication"] = info.get("explication", "")
@@ -1861,11 +1966,11 @@ async def upgrade_one(part: dict, state: dict) -> dict:
                     if not isinstance(upgrade_data, dict):
                         raise ValueError("réponse non indexée")
                     for idx_str, item in upgrade_data.items():
-                        idx = int(idx_str)
-                        if idx not in df.index or not isinstance(item, dict):
+                        idx = _as_row_index(idx_str)
+                        if idx is None or idx not in df.index or not isinstance(item, dict):
                             continue
-                        if "titre" in item:
-                            df.at[idx, "titre"] = item["titre"]
+                        # Le titre n'est jamais réécrit ici : il porte la numérotation
+                        # choisie à l'extraction, que la consolidation ne doit pas toucher.
                         if "description" in item and "description" not in disabled_columns:
                             df.at[idx, "description"] = item["description"]
                         if "sous-actions" in item and settings.get("avec_sous_actions", True):
@@ -1971,7 +2076,9 @@ async def enrich_one(part: dict, state: dict) -> dict:
                         if not isinstance(parsed, dict):
                             raise ValueError("réponse non indexée")
                         for idx_str, fields in parsed.items():
-                            enrichment_data[int(idx_str)] = fields if isinstance(fields, dict) else {}
+                            gidx = _as_row_index(idx_str)
+                            if gidx is not None:
+                                enrichment_data[gidx] = fields if isinstance(fields, dict) else {}
                     except Exception as e:
                         errors.append(f"Batch {batch_idx + 1}: parsing {e}")
                 else:
@@ -2057,141 +2164,115 @@ async def enrich_one(part: dict, state: dict) -> dict:
         return {"ok": False, "elapsed": 0, "tokens": [0, 0], "error": str(e)}
 
 
-def _parse_axe(label: str) -> tuple[int | None, str]:
-    if not isinstance(label, str):
-        return None, ""
-    match = re.match(r"^\s*Axe\s+(\d+)\s*:\s*(.*)$", label, flags=re.IGNORECASE)
-    if not match:
-        return None, label.strip()
-    return int(match.group(1)), match.group(2).strip()
+# Préfixes que la numérotation auto retire avant de renuméroter.
+# « Axe 3 : », « Axe 3 », « 3. », « 3 : » pour un axe.
+_AUTO_AXE_PREFIX_RE = re.compile(r"^\s*(?:(?i:axe)\s*\d+\s*[:.\-–—)]?|\d{1,2}\s*[:.)\-–—])\s*")
+# « 1.2 », « 1.2.3. », « 1.2.3 - » pour un sous-axe ou une action.
+_AUTO_LEVEL_PREFIX_RE = re.compile(r"^\s*\d+(?:\.\d+)+\.?\s*[:\-–—)]?\s*")
 
 
-def _axis_entries(df: pd.DataFrame) -> list[tuple[int | None, str]]:
-    if df is None or "axe" not in getattr(df, "columns", []):
-        return []
-    seen = set()
-    entries = []
-    for raw in df["axe"].tolist():
-        if not isinstance(raw, str) or raw in seen:
-            continue
-        seen.add(raw)
-        entries.append(_parse_axe(raw))
-    return entries
+def _strip_auto_prefix(value, pattern: re.Pattern):
+    if not isinstance(value, str):
+        return ""
+    s = value.strip()
+    out = pattern.sub("", s, count=1).strip()
+    return out or s
 
 
-def build_axis_map(df_first: pd.DataFrame, df_next: pd.DataFrame) -> dict[int, int]:
-    """Recolle la numérotation de la moitié suivante sur la première.
+def apply_auto_numbering(df: pd.DataFrame) -> tuple[pd.DataFrame, bool]:
+    """Impose « Axe n : » / « n.X » / « n.X.Y » dans l'ordre d'apparition.
 
-    Un axe dont le titre existe déjà garde le numéro de la première moitié.
-    Un numéro déjà pris, ou qui redémarre au milieu de la plage déjà vue, est décalé à la suite.
+    Fait en code plutôt que laissé à l'IA : la numérotation est garantie sans trou
+    ni doublon, y compris après la fusion de deux moitiés qui ont chacune
+    recommencé à 1. Les axes et sous-axes sont rapprochés par leur titre.
+    Les lignes de sous-actions partagent le titre de leur action, donc son numéro.
     """
-    title_to_num: dict[str, int] = {}
-    claimed: set[int] = set()
-    for num, title in _axis_entries(df_first):
-        if num is None:
-            continue
-        claimed.add(num)
-        key = title.lower()
-        if key and key not in title_to_num:
-            title_to_num[key] = num
-
-    next_title_by_num: dict[int, str] = {}
-    next_nums: list[int] = []
-    for num, title in _axis_entries(df_next):
-        if num is None or num in next_title_by_num:
-            continue
-        next_title_by_num[num] = title
-        next_nums.append(num)
-
-    mapping: dict[int, int] = {}
-    unmatched: list[int] = []
-    for num in next_nums:
-        key = (next_title_by_num.get(num) or "").lower()
-        if key and key in title_to_num:
-            mapping[num] = title_to_num[key]
-            claimed.add(mapping[num])
-        else:
-            unmatched.append(num)
-
-    for num in unmatched:
-        ceiling = max(claimed) if claimed else 0
-        if num not in claimed and num > ceiling:
-            mapping[num] = num
-            claimed.add(num)
-            continue
-        nxt = ceiling + 1
-        while nxt in claimed:
-            nxt += 1
-        mapping[num] = nxt
-        claimed.add(nxt)
-    return mapping
-
-
-def _rewrite_leading_number(value, mapping: dict[int, int]):
-    if not isinstance(value, str) or not mapping:
-        return value
-    match = re.match(r"^(\s*Axe\s+)(\d+)(\b.*)$", value, flags=re.IGNORECASE)
-    if match:
-        old = int(match.group(2))
-        if old in mapping and mapping[old] != old:
-            return f"{match.group(1)}{mapping[old]}{match.group(3)}"
-        return value
-    match = re.match(r"^(\s*)(\d+)(\.\d+.*)$", value)
-    if match:
-        old = int(match.group(2))
-        if old in mapping and mapping[old] != old:
-            return f"{match.group(1)}{mapping[old]}{match.group(3)}"
-    return value
-
-
-def apply_axis_map(df: pd.DataFrame, mapping: dict[int, int]) -> pd.DataFrame:
-    if not mapping or all(src == dst for src, dst in mapping.items()):
-        return df
+    if df is None or len(df) == 0 or "axe" not in df.columns:
+        return df, False
     df = df.copy()
-    for col in ("axe", "sous-axe", "titre", "titre de la sous-action"):
-        if col in df.columns:
-            df[col] = df[col].apply(lambda v, m=mapping: _rewrite_leading_number(v, m))
-    return df
+    has_sa = "sous-axe" in df.columns
+    has_titre = "titre" in df.columns
+
+    axe_num: dict[str, int] = {}
+    sous_axe_num: dict[tuple, str] = {}
+    action_num: dict[tuple, str] = {}
+    sous_axe_count: dict[str, int] = {}
+    action_count: dict[tuple, int] = {}
+    changed = False
+
+    for idx in df.index:
+        axe_title = _strip_auto_prefix(df.at[idx, "axe"], _AUTO_AXE_PREFIX_RE)
+        if not axe_title:
+            continue
+        axe_key = axe_title.lower()
+        if axe_key not in axe_num:
+            axe_num[axe_key] = len(axe_num) + 1
+        a = axe_num[axe_key]
+        updates = {"axe": f"Axe {a} : {axe_title}"}
+
+        prefix = str(a)
+        parent_key: tuple = (axe_key, "")
+        if has_sa:
+            sa_title = _strip_auto_prefix(df.at[idx, "sous-axe"], _AUTO_LEVEL_PREFIX_RE)
+            if sa_title:
+                parent_key = (axe_key, sa_title.lower())
+                if parent_key not in sous_axe_num:
+                    sous_axe_count[axe_key] = sous_axe_count.get(axe_key, 0) + 1
+                    sous_axe_num[parent_key] = f"{a}.{sous_axe_count[axe_key]}"
+                prefix = sous_axe_num[parent_key]
+                updates["sous-axe"] = f"{prefix} {sa_title}"
+
+        if has_titre:
+            titre = _strip_auto_prefix(df.at[idx, "titre"], _AUTO_LEVEL_PREFIX_RE)
+            if titre:
+                action_key = (parent_key, titre.lower())
+                if action_key not in action_num:
+                    action_count[parent_key] = action_count.get(parent_key, 0) + 1
+                    action_num[action_key] = f"{prefix}.{action_count[parent_key]}"
+                updates["titre"] = f"{action_num[action_key]} {titre}"
+
+        for col, new_value in updates.items():
+            if df.at[idx, col] != new_value:
+                df.at[idx, col] = new_value
+                changed = True
+    return df, changed
 
 
-def merge_part_dataframes(frames: list[pd.DataFrame], split: bool) -> tuple[pd.DataFrame, dict]:
+def merge_part_dataframes(frames: list[pd.DataFrame], split: bool, auto_numbering: bool) -> tuple[pd.DataFrame, dict]:
+    """Assemble les parties, renumérote si besoin, puis retire les doublons de la jonction.
+
+    En numérotation du document, les libellés sont laissés tels quels : aucune
+    renumérotation, même si les deux moitiés se chevauchent.
+    """
     info = {"renumbered": False, "deduped": 0}
     usable = [df for df in frames if df is not None]
     if not usable:
         return pd.DataFrame(), info
-    if len(usable) == 1:
-        return usable[0].reset_index(drop=True), info
-
-    ordered = [usable[0].copy()]
-    accumulated = usable[0]
-    for nxt in usable[1:]:
-        mapping = build_axis_map(accumulated, nxt)
-        if any(src != dst for src, dst in mapping.items()):
-            nxt = apply_axis_map(nxt, mapping)
-            info["renumbered"] = True
-        ordered.append(nxt)
-        accumulated = pd.concat([accumulated, nxt], ignore_index=True)
 
     columns: list[str] = []
-    for df in ordered:
+    for df in usable:
         for col in df.columns:
             if col not in columns:
                 columns.append(col)
     aligned = []
-    for df in ordered:
+    for df in usable:
         copied = df.copy()
         for col in columns:
             if col not in copied.columns:
                 copied[col] = None
         aligned.append(copied[columns])
     merged = pd.concat(aligned, ignore_index=True)
-    if split:
+
+    if auto_numbering:
+        merged, info["renumbered"] = apply_auto_numbering(merged)
+
+    if split and len(usable) > 1:
         keys = [c for c in ("axe", "sous-axe", "titre", "titre de la sous-action") if c in merged.columns]
         if keys:
             before = len(merged)
             merged = merged.drop_duplicates(subset=keys, keep="first").reset_index(drop=True)
             info["deduped"] = before - len(merged)
-    return merged, info
+    return merged.reset_index(drop=True), info
 
 
 def cleanup_final_df(df: pd.DataFrame, disabled_columns: list[str]) -> pd.DataFrame:
@@ -2366,6 +2447,7 @@ def run_import_pipeline(state: dict, resuming: bool = False) -> dict:
         merged, info = merge_part_dataframes(
             [p.get("df_obj") for p in parts],
             split=bool(state.get("split")),
+            auto_numbering=numbering_mode(settings) == "auto",
         )
         merged = cleanup_final_df(merged, settings.get("disabled_columns") or [])
         state["merged_obj"] = merged
@@ -2386,7 +2468,9 @@ def run_import_pipeline(state: dict, resuming: bool = False) -> dict:
             async def _quali():
                 text = df_to_compact_text(merged, show_index=False)
                 return await query_gemini(
-                    prompt_verif_quali.replace("{reponse_ia}", text or ""),
+                    prompt_verif_quali
+                    .replace("{consigne_numerotation}", QUALI_NUMEROTATION[numbering_mode(settings)])
+                    .replace("{reponse_ia}", text or ""),
                     settings.get("model"),
                 )
 
@@ -2421,9 +2505,10 @@ def render_cache_card(meta: dict, primary: bool) -> tuple[str, str] | None:
     when = format_cache_time(meta.get("updated_at"))
     rows = int(meta.get("rows") or 0)
     parts = ", ".join(meta.get("part_details") or [])
+    numbering = "numérotation auto" if meta.get("numbering", "auto") == "auto" else "numérotation du document"
     st.markdown(f"**Cache disponible — {meta.get('filename') or 'fichier'}**")
     st.caption(
-        f"{mode} · {label} ({step}/5) · {rows} lignes · {when} · modèle {meta.get('model') or '—'}"
+        f"{mode} · {label} ({step}/5) · {rows} lignes · {when} · modèle {meta.get('model') or '—'} · {numbering}"
         + (f" · {parts}" if parts else "")
     )
     if meta.get("final_done"):
@@ -2458,8 +2543,11 @@ def render_final_result(state: dict, upload_drive: bool = False, from_cache_view
     if state.get("split"):
         details = ", ".join(f"{p.get('label')} ({p.get('detail')})" for p in state.get("parts") or [])
         st.caption(f"Plan fusionné des deux moitiés — {details}")
-    if state.get("renumbered"):
-        st.caption("La numérotation de la seconde moitié a été recollée sur la première lorsque les axes se chevauchaient ou redémarraient à 1.")
+    if numbering_mode(state.get("settings")) == "auto":
+        if state.get("renumbered"):
+            st.caption("Numérotation auto : axes, sous-axes et actions ont été renumérotés dans l'ordre du plan (Axe n : / n.X / n.X.Y).")
+    else:
+        st.caption("Numérotation reprise du document, sans renumérotation.")
     if state.get("deduped_rows"):
         st.caption(f"{int(state['deduped_rows'])} ligne(s) identiques à la jonction des deux moitiés ont été retirées.")
     for part in state.get("parts") or []:
@@ -2531,7 +2619,10 @@ def render_final_result(state: dict, upload_drive: bool = False, from_cache_view
 
 
 def new_analysis_state(file_bytes: bytes, filename: str, file_type: str, split: bool, settings: dict) -> tuple[dict | None, str | None]:
-    parts_raw, error = build_text_parts(file_bytes, filename, file_type, split)
+    parts_raw, error = build_text_parts(
+        file_bytes, filename, file_type, split,
+        auto_numbering=numbering_mode(settings) == "auto",
+    )
     if error:
         return None, error
     now = datetime.now().isoformat(timespec="seconds")
@@ -2639,6 +2730,16 @@ if gemini_model == ALBERT_MODEL:
 
 avec_sous_actions = st.toggle("Avec sous-actions", value=True, help="Si désactivé, les sous-actions ne seront pas extraites ni enrichies.")
 avec_verifications = st.toggle("Vérifications", value=False, help="Active la vérification des fiches puis leur consolidation. Désactivé par défaut.")
+numerotation_auto = st.toggle(
+    "Numérotation auto",
+    value=False,
+    help=(
+        "Activé : tout le plan est renuméroté selon notre système (« Axe 1 : … », « 1.1 … », « 1.1.1 … »), "
+        "quelle que soit la numérotation du document. Elle est recalculée en fin d'analyse pour être sans trou ni doublon.\n\n"
+        "Désactivé : l'IA reprend la numérotation des axes, sous-axes et actions telle qu'elle existe dans le document, "
+        "et n'en ajoute aucune là où il n'y en a pas."
+    ),
+)
 
 with st.expander("⚙️ Colonnes à remplir", expanded=False):
     st.caption(
@@ -2665,6 +2766,7 @@ analysis_settings = {
     "precisions": precisions or "",
     "avec_sous_actions": bool(avec_sous_actions),
     "avec_verifications": bool(avec_verifications),
+    "numerotation_auto": bool(numerotation_auto),
     "disabled_columns": list(disabled_columns),
     "disabled_json_keys": list(disabled_json_keys),
     "file_type": file_type or "PDF",
@@ -2743,11 +2845,17 @@ elif chosen and chosen[0] == "resume":
     if loaded is None:
         st.error("Ce cache est illisible ou a déjà été supprimé.")
     else:
-        cached_model = (loaded.get("settings") or {}).get("model")
+        cached_settings = loaded.get("settings") or {}
+        cached_model = cached_settings.get("model")
         if cached_model and cached_model != (gemini_model or "gemini-2.5-pro"):
             st.caption(
                 f"Cette reprise utilise le modèle enregistré ({cached_model}) "
                 "et les réglages stockés avec le cache."
+            )
+        if numbering_mode(cached_settings) != numbering_mode(analysis_settings):
+            st.caption(
+                "Cette reprise garde le mode de numérotation enregistré avec le cache. "
+                "Pour changer de mode, relancez l'analyse depuis le début."
             )
         loaded = run_import_pipeline(loaded, resuming=True)
         if loaded.get("final_done"):
