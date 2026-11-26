@@ -461,7 +461,7 @@ Axes d’évaluation
 • Artefacts  vérifier qu’il ne subsiste pas d’artefacts évidents de conversion ou de mise en page comme "Unnamed", bouts de tableau, listes cassées, balises, répétitions absurdes, numérotations sans contenu.
 • Cohérence sémantique  vérifier que chaque "description" a du sens, est compréhensible, et correspond à une action ou sous-action concrète de plan d’actions.
 • Qualité des sous-actions  vérifier que les lignes marquées [SA] sont bien des sous-actions opérationnelles ou des étapes de mise en œuvre
-• Cohérence hiérarchique  vérifier que "axe", "sous-axe" et "titre" sont cohérents entre eux et que le contenu de l’action correspond bien à son axe et sous-axe. Numérotation : {consigne_numerotation}.
+• Cohérence hiérarchique  vérifier que "axe", "sous-axe" et "titre" sont cohérents entre eux et que le contenu de l’action correspond bien à son axe et sous-axe. Numérotation : {consigne_numerotation}.{consigne_sous_axes}
 • Champs pilotage, budget, statut  vérifier que "objectifs", "structure pilote", "direction ou service pilote", "personne pilote", "budget" et "statut" ne semblent pas inventés, sont utilisés seulement lorsque l’information est explicitement plausible, et restent vides sinon. Pour "structure pilote" et "direction ou service pilote", vérifier que la distinction est respectée (structure = organisme englobant, direction/service = entité interne).
 • Doublons et éclatement inutile  vérifier qu’il n’y a pas de doublons évidents d’actions et que les actions ne sont pas artificiellement éclatées en plusieurs entrées identiques.
 • Vérifier que les directions ou service pilote et personnes pilotes, si pluriel, sont des listes séparées par une virgule et un espace. S'il y a des tirets qui semble séparer deux entités **distinctes**, le relever.
@@ -644,7 +644,8 @@ def df_to_compact_text(df: pd.DataFrame, show_index: bool = True) -> str:
 
         for sous_axe in df_axe["sous-axe"].dropna().unique():
             df_sous_axe = df_axe[df_axe["sous-axe"] == sous_axe]
-            add_segment(f"Sous axe {sous_axe} :")
+            if str(sous_axe).strip():
+                add_segment(f"Sous axe {sous_axe} :")
 
             for index_row, row in df_sous_axe.iterrows():
                 champs_action = []
@@ -931,7 +932,8 @@ def display_df_markdown(df: pd.DataFrame):
         sous_axes = df_axe["sous-axe"].unique()
 
         for sous_axe in sous_axes:
-            with st.expander(f"{sous_axe}", expanded=False):
+            sous_axe_label = str(sous_axe).strip() if pd.notna(sous_axe) else ""
+            with st.expander(sous_axe_label or "Actions", expanded=False):
                 df_sous_axe = df_axe[df_axe["sous-axe"] == sous_axe]
 
                 for _, row in df_sous_axe.iterrows():
@@ -1693,6 +1695,7 @@ def cache_meta(full: dict) -> dict:
         "updated_at": full.get("updated_at"),
         "model": settings.get("model"),
         "numbering": numbering_mode(settings),
+        "sous_axes": bool(settings.get("avec_sous_axes", True)),
         "final_done": bool(full.get("final_done")),
         "step_completed": int(full.get("step_completed") or 0),
         "rows": _rows_of_saved(full),
@@ -1787,7 +1790,7 @@ def ensure_score_columns(df: pd.DataFrame) -> pd.DataFrame:
     return df
 
 
-def finalize_extracted_df(data, avec_sous_actions: bool, disabled_columns: list[str]) -> pd.DataFrame:
+def finalize_extracted_df(data, avec_sous_actions: bool, disabled_columns: list[str], avec_sous_axes: bool = True) -> pd.DataFrame:
     if not isinstance(data, list):
         raise ValueError("La réponse n'est pas un tableau JSON")
     if len(data) == 0:
@@ -1812,7 +1815,39 @@ def finalize_extracted_df(data, avec_sous_actions: bool, disabled_columns: list[
     for col in disabled_columns:
         if col in df.columns:
             df[col] = ""
+    if not avec_sous_axes:
+        # Filet de sécurité : même si l'IA a rempli des sous-axes, le plan n'en a pas.
+        df["sous-axe"] = ""
     return df.reset_index(drop=True)
+
+
+def build_no_sous_axe_directive(settings: dict) -> str:
+    """Consigne prioritaire quand le toggle « Avec sous-axes » est désactivé."""
+    if (settings or {}).get("avec_sous_axes", True):
+        return ""
+    if numbering_mode(settings) == "auto":
+        numbering = (
+            "Numérotation sans sous-axe : les actions sont numérotées \"n.Y\" à l'intérieur de chaque axe "
+            "(1.1, 1.2, 2.1…) et \"titre\" est formaté \"n.Y Titre de l'action\". "
+            "Les formats \"n.X\" et \"n.X.Y\" décrits plus bas ne s'appliquent pas.\n"
+        )
+    else:
+        numbering = (
+            "Les titres d'actions gardent la numérotation du document telle quelle, "
+            "même si elle fait référence à un sous-axe.\n"
+        )
+    return (
+        "================================================================\n"
+        "INSTRUCTION PRIORITAIRE — PAS DE SOUS-AXE\n"
+        "Le plan n'a que deux niveaux : axe puis action.\n"
+        "\"sous-axe\" est TOUJOURS la chaîne vide \"\" et aucun sous-axe n'est créé ni inventé.\n"
+        "Si le document contient un niveau intermédiaire entre l'axe et l'action, ne pas le reprendre : "
+        "rattacher directement ses actions à l'axe qui le contient.\n"
+        + numbering +
+        "Les règles plus bas qui demandent de remplir, nommer ou inventer des sous-axes sont IGNORÉES. "
+        "Cette consigne est PRIORITAIRE sur tout le reste.\n"
+        "================================================================\n\n"
+    )
 
 
 def _add_tokens(state: dict, tokens) -> None:
@@ -1836,7 +1871,7 @@ async def extract_one(part: dict, state: dict) -> dict:
         ignore = build_ignore_directive(settings.get("disabled_columns") or [])
         prompt = _prompt_with_note(
             part,
-            ignore + build_extraction_prompt(settings, part.get("text") or ""),
+            ignore + build_no_sous_axe_directive(settings) + build_extraction_prompt(settings, part.get("text") or ""),
         )
         result, elapsed, tokens, co2 = await query_gemini(prompt, settings.get("model"))
         _add_tokens(state, tokens)
@@ -1850,6 +1885,7 @@ async def extract_one(part: dict, state: dict) -> dict:
             data,
             bool(settings.get("avec_sous_actions", True)),
             settings.get("disabled_columns") or [],
+            avec_sous_axes=bool(settings.get("avec_sous_axes", True)),
         )
         part["df_obj"] = df
         part["extract_done"] = True
@@ -2470,6 +2506,11 @@ def run_import_pipeline(state: dict, resuming: bool = False) -> dict:
                 return await query_gemini(
                     prompt_verif_quali
                     .replace("{consigne_numerotation}", QUALI_NUMEROTATION[numbering_mode(settings)])
+                    .replace(
+                        "{consigne_sous_axes}",
+                        "" if settings.get("avec_sous_axes", True)
+                        else " Le plan n'a volontairement pas de sous-axes : \"sous-axe\" est toujours vide, ne le signalez pas.",
+                    )
                     .replace("{reponse_ia}", text or ""),
                     settings.get("model"),
                 )
@@ -2506,6 +2547,8 @@ def render_cache_card(meta: dict, primary: bool) -> tuple[str, str] | None:
     rows = int(meta.get("rows") or 0)
     parts = ", ".join(meta.get("part_details") or [])
     numbering = "numérotation auto" if meta.get("numbering", "auto") == "auto" else "numérotation du document"
+    if not meta.get("sous_axes", True):
+        numbering += " · sans sous-axes"
     st.markdown(f"**Cache disponible — {meta.get('filename') or 'fichier'}**")
     st.caption(
         f"{mode} · {label} ({step}/5) · {rows} lignes · {when} · modèle {meta.get('model') or '—'} · {numbering}"
@@ -2728,6 +2771,15 @@ if gemini_model == ALBERT_MODEL:
         "Le service n'est pas facturé au token."
     )
 
+avec_sous_axes = st.toggle(
+    "Avec sous-axes",
+    value=True,
+    help=(
+        "Si désactivé, le plan n'a que deux niveaux (axe puis action) : aucun sous-axe n'est créé, "
+        "et les actions d'un éventuel niveau intermédiaire du document sont rattachées directement à leur axe. "
+        "En numérotation auto, les actions sont numérotées n.Y."
+    ),
+)
 avec_sous_actions = st.toggle("Avec sous-actions", value=True, help="Si désactivé, les sous-actions ne seront pas extraites ni enrichies.")
 avec_verifications = st.toggle("Vérifications", value=False, help="Active la vérification des fiches puis leur consolidation. Désactivé par défaut.")
 numerotation_auto = st.toggle(
@@ -2764,6 +2816,7 @@ disabled_json_keys = [
 analysis_settings = {
     "model": gemini_model or "gemini-2.5-pro",
     "precisions": precisions or "",
+    "avec_sous_axes": bool(avec_sous_axes),
     "avec_sous_actions": bool(avec_sous_actions),
     "avec_verifications": bool(avec_verifications),
     "numerotation_auto": bool(numerotation_auto),
